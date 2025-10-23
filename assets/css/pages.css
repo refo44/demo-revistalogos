@@ -1086,6 +1086,14 @@
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
+.banner__link:hover .banner__title,
+.banner__link:hover .banner__description,
+.banner__link:hover .banner__subtitle,
+.banner__link:hover .banner__meta,
+.banner__link:hover .banner__cta-text {
+  color: var(--color-text-inverse);
+}
+
 .banner__cta {
   margin-top: var(--space-4);
   padding: var(--space-3);
