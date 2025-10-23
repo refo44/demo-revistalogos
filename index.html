@@ -154,28 +154,75 @@
                 </div>
             </section>
 
-            <!-- Banner Section -->
-            <section class="banner">
-                <a href="https://cenfiss.net/index.php/eventos/" class="banner__link" target="_blank" rel="noopener noreferrer">
-                    <div class="banner__content">
-                        <div class="banner__image">
-                            <img src="assets/img/flyer.jpg" alt="Flyer Diplomado en Filosofía - CENFISS" class="banner__img">
+            <!-- Banner Carousel Section -->
+            <section class="banner-carousel">
+                <div class="carousel-container">
+                    <div class="carousel-wrapper">
+                        <!-- Slide 1: Diplomado -->
+                        <div class="carousel-slide active">
+                            <a href="https://cenfiss.net/index.php/eventos/" class="banner__link" target="_blank" rel="noopener noreferrer">
+                                <div class="banner__content">
+                                    <div class="banner__image">
+                                        <img src="assets/img/flyer.jpg" alt="Flyer Diplomado en Filosofía - CENFISS" class="banner__img">
+                                    </div>
+                                    <div class="banner__info">
+                                        <h2 class="banner__title">DIPLOMADO EN FILOSOFÍA</h2>
+                                        <p class="banner__description">18ª Cohorte - 196 Horas Académicas</p>
+                                        <p class="banner__subtitle">Construir, elaborar y derivar teorías para desarrollar competencias de reflexión, análisis crítico y cuestionamiento de la realidad desde la filosofía asumida como "amor por la sabiduría".</p>
+                                        <div class="banner__meta">
+                                            <p><strong>Inicio:</strong> 24 de Octubre de 2025</p>
+                                            <p><strong>Modalidad:</strong> Presencial │ Online</p>
+                                            <p><strong>Coordinadores:</strong> Dr. Jairo Pérez - Dr. José Tadeo Morales</p>
+                                        </div>
+                                        <div class="banner__cta">
+                                            <span class="banner__cta-text">📞 Información: 0424-4237038 | Haz clic para más detalles</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
-                        <div class="banner__info">
-                            <h2 class="banner__title">DIPLOMADO EN FILOSOFÍA</h2>
-                            <p class="banner__description">18ª Cohorte - 196 Horas Académicas</p>
-                            <p class="banner__subtitle">Construir, elaborar y derivar teorías para desarrollar competencias de reflexión, análisis crítico y cuestionamiento de la realidad desde la filosofía asumida como "amor por la sabiduría".</p>
-                            <div class="banner__meta">
-                                <p><strong>Inicio:</strong> 24 de Octubre de 2025</p>
-                                <p><strong>Modalidad:</strong> Presencial │ Online</p>
-                                <p><strong>Coordinadores:</strong> Dr. Jairo Pérez - Dr. José Tadeo Morales</p>
-                            </div>
-                            <div class="banner__cta">
-                                <span class="banner__cta-text">📞 Información: 0424-4237038 | Haz clic para más detalles</span>
-                            </div>
+
+                        <!-- Slide 2: Placeholder -->
+                        <div class="carousel-slide">
+                            <a href="#" class="banner__link">
+                                <div class="banner__content">
+                                    <div class="banner__image">
+                                        <img src="assets/img/placeholder-banner.jpg" alt="Próximamente - CENFISS" class="banner__img">
+                                    </div>
+                                    <div class="banner__info">
+                                        <h2 class="banner__title">PRÓXIMAMENTE</h2>
+                                        <p class="banner__description">Nuevas Oportunidades Académicas</p>
+                                        <p class="banner__subtitle">Mantente atento a nuestras próximas convocatorias y programas de formación en filosofía y teología.</p>
+                                        <div class="banner__meta">
+                                            <p><strong>Estado:</strong> En Desarrollo</p>
+                                            <p><strong>Modalidad:</strong> Por Definir</p>
+                                            <p><strong>Información:</strong> Próximamente</p>
+                                        </div>
+                                        <div class="banner__cta">
+                                            <span class="banner__cta-text">🔔 Mantente informado | Haz clic para más detalles</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
                     </div>
-                </a>
+
+                    <!-- Carousel Controls -->
+                    <div class="carousel-controls">
+                        <button class="carousel-btn carousel-btn--prev" aria-label="Slide anterior">
+                            <span>‹</span>
+                        </button>
+                        <button class="carousel-btn carousel-btn--next" aria-label="Siguiente slide">
+                            <span>›</span>
+                        </button>
+                    </div>
+
+                    <!-- Carousel Indicators -->
+                    <div class="carousel-indicators">
+                        <button class="indicator active" data-slide="0" aria-label="Ir al slide 1"></button>
+                        <button class="indicator" data-slide="1" aria-label="Ir al slide 2"></button>
+                    </div>
+                </div>
             </section>
 
             <!-- Número Actual -->
@@ -392,5 +439,59 @@
 
     <!-- JavaScript -->
     <script src="assets/js/main.js"></script>
+    
+    <!-- Carousel JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const carouselWrapper = document.querySelector('.carousel-wrapper');
+            const slides = document.querySelectorAll('.carousel-slide');
+            const indicators = document.querySelectorAll('.indicator');
+            const prevBtn = document.querySelector('.carousel-btn--prev');
+            const nextBtn = document.querySelector('.carousel-btn--next');
+            
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+            
+            function showSlide(index) {
+                // Remove active class from all slides and indicators
+                slides.forEach(slide => slide.classList.remove('active'));
+                indicators.forEach(indicator => indicator.classList.remove('active'));
+                
+                // Add active class to current slide and indicator
+                slides[index].classList.add('active');
+                indicators[index].classList.add('active');
+                
+                // Update carousel position
+                carouselWrapper.style.transform = `translateX(-${index * 100}%)`;
+            }
+            
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                showSlide(currentSlide);
+            }
+            
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                showSlide(currentSlide);
+            }
+            
+            // Event listeners
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+            
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    currentSlide = index;
+                    showSlide(currentSlide);
+                });
+            });
+            
+            // Auto-play carousel (optional)
+            setInterval(nextSlide, 5000); // Change slide every 5 seconds
+            
+            // Initialize carousel
+            showSlide(0);
+        });
+    </script>
 </body>
 </html>

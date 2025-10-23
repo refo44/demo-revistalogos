@@ -1011,6 +1011,90 @@
   margin: 0;
 }
 
+/* Banner Carousel Section */
+.banner-carousel {
+  margin: var(--space-8) 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--border-radius-lg);
+}
+
+.carousel-container {
+  position: relative;
+}
+
+.carousel-wrapper {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  padding: var(--space-8) 0;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.carousel-slide.active {
+  opacity: 1;
+}
+
+.carousel-controls {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 var(--space-4);
+  pointer-events: none;
+}
+
+.carousel-btn {
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: var(--color-text-inverse);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: var(--font-size-xl);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+  pointer-events: auto;
+}
+
+.carousel-btn:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.carousel-indicators {
+  position: absolute;
+  bottom: var(--space-4);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: var(--space-2);
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--color-text-inverse);
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.indicator.active {
+  background-color: var(--color-text-inverse);
+}
+
 /* Banner Section */
 .banner {
   background-color: var(--color-primary);
@@ -1555,6 +1639,20 @@
   .banner__img {
     width: 150px;
     margin: 0 auto;
+  }
+  
+  .carousel-controls {
+    padding: 0 var(--space-2);
+  }
+  
+  .carousel-btn {
+    width: 40px;
+    height: 40px;
+    font-size: var(--font-size-lg);
+  }
+  
+  .carousel-indicators {
+    bottom: var(--space-2);
   }
   
   .revista-item__actions {
