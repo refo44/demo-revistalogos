@@ -29,6 +29,8 @@
   gap: var(--space-3);
   text-decoration: none;
   color: var(--color-text-primary);
+  flex-shrink: 0;
+  max-width: 300px;
 }
 
 .header__logo:hover {
@@ -38,18 +40,22 @@
 .header__logo-img {
   height: 40px;
   width: auto;
+  flex-shrink: 0;
 }
 
 .header__logo-text {
   font-family: var(--font-family-heading);
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+  overflow: hidden;
 }
 
 .header__logo-subtitle {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
   font-weight: var(--font-weight-normal);
+  line-height: 1.2;
 }
 
 /* Navegación principal */
@@ -211,8 +217,13 @@
     gap: var(--space-4);
   }
   
+  .header__logo {
+    max-width: 280px;
+  }
+  
   .header__logo-text {
     font-size: var(--font-size-lg);
+    line-height: 1.2;
   }
   
   .nav__toggle {
@@ -275,6 +286,7 @@
   
   .header__logo {
     gap: var(--space-2);
+    max-width: 250px;
   }
   
   .header__logo-img {
@@ -283,9 +295,11 @@
   
   .header__logo-text {
     font-size: var(--font-size-base);
+    line-height: 1.1;
   }
   
   .header__logo-subtitle {
     font-size: var(--font-size-xs);
+    line-height: 1.1;
   }
 }
