@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archivo de Números | Logos et Spes</title>
+    <meta name="description" content="Archivo completo de números publicados de la revista Logos et Spes. Accede a todos los volúmenes y números desde 2010 hasta la actualidad.">
+    <meta name="keywords" content="archivo, números, volúmenes, revista filosofía, Logos et Spes">
+    <meta name="author" content="CENFISS - Centro de Estudios Filosóficos y Sociales">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://revistalogos.cenfiss.org/archive-issue.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/img/logo-revista.svg">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+    <!-- Skip Link -->
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+
+    <!-- Header -->
+    <header class="header" role="banner">
+      <div class="container">
+        <div class="header__inner">
+          <a href="front-page.html" class="header__logo">
+            <img src="assets/img/logo-revista.svg" alt="Logos et Spes" class="header__logo-img">
+            <div class="header__logo-text">
+              <div>Logos et Spes</div>
+              <div class="header__logo-subtitle">Revista de Filosofía</div>
+            </div>
+          </a>
+
+          <nav class="nav" role="navigation" aria-label="Navegación principal">
+            <button class="nav__toggle" aria-expanded="false" aria-controls="main-nav">
+              <span class="nav__toggle-icon nav__toggle-icon--open" aria-hidden="true">☰</span>
+              <span class="nav__toggle-icon nav__toggle-icon--close" aria-hidden="true">✕</span>
+              <span class="visually-hidden">Menú</span>
+            </button>
+            
+            <ul class="nav__list" id="main-nav">
+              <li class="nav__item">
+                <a href="front-page.html" class="nav__link">Inicio</a>
+              </li>
+              <li class="nav__item">
+                <a href="single-issue.html" class="nav__link">Número Actual</a>
+              </li>
+              <li class="nav__item">
+                <a href="archive-issue.html" class="nav__link" aria-current="page">Archivos</a>
+              </li>
+              <li class="nav__item">
+                <a href="archive-article.html" class="nav__link">Artículos</a>
+              </li>
+              <li class="nav__item">
+                <a href="page-acerca.html" class="nav__link">Acerca</a>
+              </li>
+              <li class="nav__item">
+                <a href="page-contacto.html" class="nav__link">Contacto</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content" class="main-content">
+        <div class="container">
+            <!-- Breadcrumbs -->
+            <nav class="breadcrumbs" aria-label="Migas de pan">
+              <ol class="breadcrumbs__list">
+                <li class="breadcrumbs__item">
+                  <a href="front-page.html" class="breadcrumbs__link">Inicio</a>
+                </li>
+                <li class="breadcrumbs__item">
+                  <span class="breadcrumbs__current">Archivo de Números</span>
+                </li>
+              </ol>
+            </nav>
+
+            <!-- Archive Header -->
+            <header class="archive-header">
+                <h1 class="archive-header__title">Archivo de Números</h1>
+                <p class="archive-header__description">
+                    Explora todos los números publicados de Logos et Spes desde su fundación. 
+                    Cada número contiene artículos originales revisados por pares en las áreas de 
+                    metafísica, ética, epistemología y filosofía de la religión.
+                </p>
+            </header>
+
+            <!-- Filtros y búsqueda -->
+            <section class="archive-filters mb-8">
+                <div class="card">
+                    <h2>Filtrar por</h2>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div>
+                            <label for="year-filter">Año:</label>
+                            <select id="year-filter" class="w-full">
+                                <option value="">Todos los años</option>
+                                <option value="2025">2025</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                                <option value="2022">2022</option>
+                                <option value="2021">2021</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="volume-filter">Volumen:</label>
+                            <select id="volume-filter" class="w-full">
+                                <option value="">Todos los volúmenes</option>
+                                <option value="12">Vol. 12</option>
+                                <option value="11">Vol. 11</option>
+                                <option value="10">Vol. 10</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="search-issues">Buscar:</label>
+                            <input type="search" id="search-issues" placeholder="Título o tema..." class="w-full">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Grid de números -->
+            <section class="archive-grid">
+                <!-- WP:LOOP_ISSUES_START -->
+                <article class="card issue-card">
+                  <div class="issue-card__cover-container">
+                    <img src="assets/img/portada-ejemplo.jpg" alt="Portada Vol. 12 Nº 2 (2025)" class="issue-card__cover">
+                  </div>
+                  
+                  <header class="card__header">
+                    <div class="issue-card__volume">Vol. 12 Nº 2</div>
+                    <h2 class="card__title issue-card__title">
+                      <a href="single-issue.html" class="issue-card__link">
+                        Filosofía Contemporánea: Nuevas Perspectivas
+                      </a>
+                    </h2>
+                    <div class="issue-card__meta">
+                      <span><strong>Año:</strong> 2025</span> • 
+                      <span><strong>ISSN:</strong> 1234-5678</span> • 
+                      <span><strong>DOI:</strong> 10.1234/les.v12i2</span>
+                    </div>
+                  </header>
+                  
+                  <div class="card__content">
+                    <p class="issue-card__description">
+                      Este número presenta una selección de artículos que abordan temas fundamentales de la filosofía contemporánea, desde la metafísica hasta la ética aplicada.
+                    </p>
+                    
+                    <div class="issue-card__stats">
+                      <span><strong>6 artículos</strong></span> • 
+                      <span><strong>4 secciones</strong></span> • 
+                      <span><strong>116 páginas</strong></span>
+                    </div>
+                  </div>
+                  
+                  <footer class="card__footer">
+                    <a href="assets/pdf/numero-v12n2-2025.pdf" class="btn btn--primary btn--small" 
+                       aria-label="Descargar PDF completo del Vol. 12 Nº 2 (2025)">
+                      📄 PDF completo
+                    </a>
+                    <a href="single-issue.html" class="btn btn--secondary btn--small">
+                      Ver contenido
+                    </a>
+                  </footer>
+                </article>
+                <!-- WP:LOOP_ISSUES_END -->
+
+                <article class="card issue-card">
+                  <div class="issue-card__cover-container">
+                    <img src="assets/img/portada-ejemplo.jpg" alt="Portada Vol. 12 Nº 1 (2024)" class="issue-card__cover">
+                  </div>
+                  
+                  <header class="card__header">
+                    <div class="issue-card__volume">Vol. 12 Nº 1</div>
+                    <h2 class="card__title issue-card__title">
+                      <a href="single-issue.html" class="issue-card__link">
+                        Ética y Responsabilidad Social
+                      </a>
+                    </h2>
+                    <div class="issue-card__meta">
+                      <span><strong>Año:</strong> 2024</span> • 
+                      <span><strong>ISSN:</strong> 1234-5678</span> • 
+                      <span><strong>DOI:</strong> 10.1234/les.v12i1</span>
+                    </div>
+                  </header>
+                  
+                  <div class="card__content">
+                    <p class="issue-card__description">
+                      Número especial dedicado a la ética aplicada y la responsabilidad social en el contexto contemporáneo.
+                    </p>
+                    
+                    <div class="issue-card__stats">
+                      <span><strong>5 artículos</strong></span> • 
+                      <span><strong>3 secciones</strong></span> • 
+                      <span><strong>98 páginas</strong></span>
+                    </div>
+                  </div>
+                  
+                  <footer class="card__footer">
+                    <a href="assets/pdf/numero-v12n1-2024.pdf" class="btn btn--primary btn--small" 
+                       aria-label="Descargar PDF completo del Vol. 12 Nº 1 (2024)">
+                      📄 PDF completo
+                    </a>
+                    <a href="single-issue.html" class="btn btn--secondary btn--small">
+                      Ver contenido
+                    </a>
+                  </footer>
+                </article>
+
+                <article class="card issue-card">
+                  <div class="issue-card__cover-container">
+                    <img src="assets/img/portada-ejemplo.jpg" alt="Portada Vol. 11 Nº 2 (2024)" class="issue-card__cover">
+                  </div>
+                  
+                  <header class="card__header">
+                    <div class="issue-card__volume">Vol. 11 Nº 2</div>
+                    <h2 class="card__title issue-card__title">
+                      <a href="single-issue.html" class="issue-card__link">
+                        Metafísica y Existencia
+                      </a>
+                    </h2>
+                    <div class="issue-card__meta">
+                      <span><strong>Año:</strong> 2024</span> • 
+                      <span><strong>ISSN:</strong> 1234-5678</span> • 
+                      <span><strong>DOI:</strong> 10.1234/les.v11i2</span>
+                    </div>
+                  </header>
+                  
+                  <div class="card__content">
+                    <p class="issue-card__description">
+                      Exploraciones contemporáneas sobre la naturaleza del ser y la existencia humana.
+                    </p>
+                    
+                    <div class="issue-card__stats">
+                      <span><strong>7 artículos</strong></span> • 
+                      <span><strong>4 secciones</strong></span> • 
+                      <span><strong>124 páginas</strong></span>
+                    </div>
+                  </div>
+                  
+                  <footer class="card__footer">
+                    <a href="assets/pdf/numero-v11n2-2024.pdf" class="btn btn--primary btn--small" 
+                       aria-label="Descargar PDF completo del Vol. 11 Nº 2 (2024)">
+                      📄 PDF completo
+                    </a>
+                    <a href="single-issue.html" class="btn btn--secondary btn--small">
+                      Ver contenido
+                    </a>
+                  </footer>
+                </article>
+
+                <article class="card issue-card">
+                  <div class="issue-card__cover-container">
+                    <img src="assets/img/portada-ejemplo.jpg" alt="Portada Vol. 11 Nº 1 (2023)" class="issue-card__cover">
+                  </div>
+                  
+                  <header class="card__header">
+                    <div class="issue-card__volume">Vol. 11 Nº 1</div>
+                    <h2 class="card__title issue-card__title">
+                      <a href="single-issue.html" class="issue-card__link">
+                        Epistemología del Conocimiento
+                      </a>
+                    </h2>
+                    <div class="issue-card__meta">
+                      <span><strong>Año:</strong> 2023</span> • 
+                      <span><strong>ISSN:</strong> 1234-5678</span> • 
+                      <span><strong>DOI:</strong> 10.1234/les.v11i1</span>
+                    </div>
+                  </header>
+                  
+                  <div class="card__content">
+                    <p class="issue-card__description">
+                      Análisis críticos sobre la naturaleza del conocimiento y los métodos de investigación filosófica.
+                    </p>
+                    
+                    <div class="issue-card__stats">
+                      <span><strong>6 artículos</strong></span> • 
+                      <span><strong>3 secciones</strong></span> • 
+                      <span><strong>112 páginas</strong></span>
+                    </div>
+                  </div>
+                  
+                  <footer class="card__footer">
+                    <a href="assets/pdf/numero-v11n1-2023.pdf" class="btn btn--primary btn--small" 
+                       aria-label="Descargar PDF completo del Vol. 11 Nº 1 (2023)">
+                      📄 PDF completo
+                    </a>
+                    <a href="single-issue.html" class="btn btn--secondary btn--small">
+                      Ver contenido
+                    </a>
+                  </footer>
+                </article>
+            </section>
+
+            <!-- Paginación -->
+            <nav class="pagination" aria-label="Navegación de páginas">
+              <div class="pagination__info">
+                Mostrando 1-4 de 24 números
+              </div>
+              
+              <ul class="pagination__list">
+                <li class="pagination__item">
+                  <a href="#" class="pagination__link pagination__link--disabled" aria-label="Página anterior" aria-disabled="true">
+                    ‹ Anterior
+                  </a>
+                </li>
+                
+                <li class="pagination__item">
+                  <a href="#" class="pagination__link pagination__link--current" aria-label="Página 1, página actual" aria-current="page">
+                    1
+                  </a>
+                </li>
+                <li class="pagination__item">
+                  <a href="#" class="pagination__link" aria-label="Página 2">
+                    2
+                  </a>
+                </li>
+                <li class="pagination__item">
+                  <a href="#" class="pagination__link" aria-label="Página 3">
+                    3
+                  </a>
+                </li>
+                <li class="pagination__item">
+                  <span class="pagination__link pagination__link--disabled" aria-hidden="true">…</span>
+                </li>
+                <li class="pagination__item">
+                  <a href="#" class="pagination__link" aria-label="Página 6">
+                    6
+                  </a>
+                </li>
+                
+                <li class="pagination__item">
+                  <a href="#" class="pagination__link" aria-label="Página siguiente">
+                    Siguiente ›
+                  </a>
+                </li>
+              </ul>
+            </nav>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+      <div class="container">
+        <div class="footer__inner">
+          <div class="footer__section">
+            <h3>Logos et Spes</h3>
+            <p>Revista de Filosofía del Centro de Estudios Filosóficos y Sociales (CENFISS)</p>
+            <p><strong>ISSN:</strong> 1234-5678<br>
+            <strong>DOI:</strong> 10.1234/les</p>
+          </div>
+
+          <div class="footer__section">
+            <h3>Enlaces Rápidos</h3>
+            <ul class="footer__list">
+              <li><a href="single-issue.html" class="footer__link">Número Actual</a></li>
+              <li><a href="archive-issue.html" class="footer__link">Archivos</a></li>
+              <li><a href="archive-article.html" class="footer__link">Artículos</a></li>
+              <li><a href="page-envios.html" class="footer__link">Envíos</a></li>
+              <li><a href="search.html" class="footer__link">Búsqueda</a></li>
+            </ul>
+          </div>
+
+          <div class="footer__section">
+            <h3>Normas Editoriales</h3>
+            <ul class="footer__list">
+              <li><a href="page-normas.html" class="footer__link">Normas de Publicación</a></li>
+              <li><a href="page-etica.html" class="footer__link">Ética Editorial</a></li>
+              <li><a href="page-politicas.html" class="footer__link">Políticas</a></li>
+              <li><a href="page-comite.html" class="footer__link">Comité Editorial</a></li>
+            </ul>
+          </div>
+
+          <div class="footer__section">
+            <h3>Contacto</h3>
+            <p><strong>CENFISS</strong><br>
+            Centro de Estudios Filosóficos y Sociales</p>
+            <p>Email: <a href="mailto:revista@cenfiss.org" class="footer__link">revista@cenfiss.org</a><br>
+            Web: <a href="https://cenfiss.org" class="footer__link" target="_blank" rel="noopener noreferrer">cenfiss.org</a></p>
+          </div>
+        </div>
+
+        <div class="footer__bottom">
+          <p>&copy; 2025 CENFISS - Centro de Estudios Filosóficos y Sociales. Todos los derechos reservados.</p>
+          <p>Esta revista está bajo una <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">Licencia Creative Commons Atribución 4.0 Internacional</a>.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

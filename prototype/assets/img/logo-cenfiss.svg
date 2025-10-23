@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 40" width="150" height="40">
+  <defs>
+    <linearGradient id="cenfissGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#059669;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#10b981;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="150" height="40" fill="#ffffff" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- CENFISS text -->
+  <text x="10" y="18" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="url(#cenfissGradient)">CENFISS</text>
+  <text x="10" y="32" font-family="Arial, sans-serif" font-size="8" fill="#64748b">Centro de Estudios Filosóficos y Sociales</text>
+  
+  <!-- Decorative element -->
+  <rect x="120" y="15" width="20" height="10" fill="none" stroke="url(#cenfissGradient)" stroke-width="1" rx="2"/>
+  <circle cx="130" cy="20" r="3" fill="url(#cenfissGradient)"/>
+</svg>
