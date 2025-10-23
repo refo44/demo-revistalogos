@@ -1013,7 +1013,7 @@
 
 /* Banner Section */
 .banner {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  background-color: var(--color-primary);
   color: var(--color-text-inverse);
   padding: var(--space-8) 0;
   margin: var(--space-8) 0;
@@ -1021,21 +1021,10 @@
 }
 
 .banner__content {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: var(--space-6);
+  display: flex;
+  justify-content: center;
   align-items: center;
-}
-
-.banner__image {
-  flex-shrink: 0;
-}
-
-.banner__img {
-  width: 200px;
-  height: auto;
-  border-radius: var(--border-radius);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  text-align: center;
 }
 
 .banner__title {
@@ -1540,13 +1529,7 @@
   }
   
   .banner__content {
-    grid-template-columns: 1fr;
     text-align: center;
-  }
-  
-  .banner__img {
-    width: 150px;
-    margin: 0 auto;
   }
   
   .revista-item__actions {
