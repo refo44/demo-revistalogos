@@ -3,5 +3,5 @@
 # Si tu sitio está en una subcarpeta (ej: /prototype)
 # Agrega esto a tu HTML o usa un archivo _config.yml
 
-baseurl: "/revistalogos"
-url: "https://tu-usuario.github.io"
+baseurl: "/demo-revistalogos"
+url: "https://refo44.github.io"

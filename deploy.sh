@@ -25,4 +25,4 @@ fi
 git push origin main
 
 echo "✅ Despliegue completado!"
-echo "🌐 Tu sitio estará disponible en: https://tu-usuario.github.io/revistalogos"
+echo "🌐 Tu sitio estará disponible en: https://refo44.github.io/demo-revistalogos"
