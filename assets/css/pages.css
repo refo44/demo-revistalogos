@@ -1059,6 +1059,32 @@
   line-height: var(--line-height-relaxed);
 }
 
+.banner__meta {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: var(--space-4);
+  border-radius: var(--border-radius-md);
+  margin-bottom: var(--space-4);
+  backdrop-filter: blur(10px);
+}
+
+.banner__meta p {
+  margin-bottom: var(--space-2);
+  font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.banner__meta p:last-child {
+  margin-bottom: 0;
+}
+
+.banner__meta strong {
+  color: var(--color-text-inverse);
+  font-weight: var(--font-weight-semibold);
+  min-width: 80px;
+}
+
 .banner .btn {
   background-color: var(--color-text-inverse);
   color: var(--color-primary);
