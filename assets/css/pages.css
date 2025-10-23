@@ -1085,26 +1085,32 @@
   min-width: 80px;
 }
 
-.banner .btn {
-  background-color: var(--color-text-inverse);
-  color: var(--color-primary);
-  border-color: var(--color-text-inverse);
+.banner__link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.banner .btn:hover {
-  background-color: var(--color-bg-secondary);
-  color: var(--color-primary);
+.banner__link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
-.banner__actions {
-  display: flex;
-  gap: var(--space-3);
-  flex-wrap: wrap;
+.banner__cta {
+  margin-top: var(--space-4);
+  padding: var(--space-3);
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: var(--border-radius-md);
+  text-align: center;
+  backdrop-filter: blur(10px);
 }
 
-.banner__actions .btn {
-  flex: 1;
-  min-width: 120px;
+.banner__cta-text {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-inverse);
+  display: block;
 }
 
 .revista-item__actions {
@@ -1541,15 +1547,6 @@
   .banner__img {
     width: 150px;
     margin: 0 auto;
-  }
-  
-  .banner__actions {
-    flex-direction: column;
-  }
-  
-  .banner__actions .btn {
-    flex: none;
-    width: 100%;
   }
   
   .revista-item__actions {
