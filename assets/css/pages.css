@@ -985,7 +985,30 @@
 }
 
 .submission-type p:last-child {
-  margin-bottom: 0;
+  margin-bottom: var(--space-4);
+}
+
+.submission-cta {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-bg-tertiary);
+}
+
+.submission-cta .btn {
+  width: 100%;
+  text-align: center;
+}
+
+/* Button accent variant */
+.btn--accent {
+  background-color: var(--color-accent, #e67e22);
+  color: var(--color-text-inverse);
+  border-color: var(--color-accent, #e67e22);
+}
+
+.btn--accent:hover {
+  background-color: var(--color-accent-dark, #d35400);
+  border-color: var(--color-accent-dark, #d35400);
 }
 
 .submission-process {
