@@ -1070,6 +1070,29 @@
   color: var(--color-primary);
 }
 
+.banner__actions {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.banner__actions .btn {
+  flex: 1;
+  min-width: 120px;
+}
+
+.revista-item__actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.revista-item__actions .btn {
+  flex: 1;
+  min-width: 100px;
+}
+
 /* Sidebar Section */
 .front-page__sidebar {
   margin: var(--space-8) 0;
@@ -1492,6 +1515,24 @@
   .banner__img {
     width: 150px;
     margin: 0 auto;
+  }
+  
+  .banner__actions {
+    flex-direction: column;
+  }
+  
+  .banner__actions .btn {
+    flex: none;
+    width: 100%;
+  }
+  
+  .revista-item__actions {
+    flex-direction: column;
+  }
+  
+  .revista-item__actions .btn {
+    flex: none;
+    width: 100%;
   }
   
   .sidebar-grid {

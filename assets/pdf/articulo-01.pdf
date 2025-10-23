@@ -19,52 +19,83 @@ endobj
 /Type /Page
 /Parent 2 0 R
 /MediaBox [0 0 612 792]
-/Contents 4 0 R
 /Resources <<
 /Font <<
-/F1 5 0 R
+/F1 4 0 R
 >>
 >>
+/Contents 5 0 R
 >>
 endobj
 
 4 0 obj
 <<
-/Length 300
->>
-stream
-BT
-/F1 12 Tf
-72 720 Td
-(La naturaleza del ser en la filosofía contemporánea) Tj
-0 -20 Td
-(María González, Juan Pérez) Tj
-0 -20 Td
-() Tj
-0 -20 Td
-(Logos et Spes, Vol. 12 Nº 2 \(2025\), pp. 15-32) Tj
-0 -20 Td
-() Tj
-0 -20 Td
-(DOI: 10.1234/les.v12i2.001) Tj
-0 -20 Td
-() Tj
-0 -20 Td
-(Resumen) Tj
-0 -20 Td
-(Este artículo examina las principales corrientes del pensamiento) Tj
-0 -20 Td
-(ontológico contemporáneo...) Tj
-ET
-endstream
-endobj
-
-5 0 obj
-<<
 /Type /Font
 /Subtype /Type1
 /BaseFont /Helvetica
 >>
+endobj
+
+5 0 obj
+<<
+/Length 2000
+>>
+stream
+BT
+/F1 16 Tf
+100 750 Td
+(LA METAFÍSICA EN LA ERA DIGITAL) Tj
+0 -30 Td
+/F1 12 Tf
+(Dr. Rafael Figueredo) Tj
+0 -20 Td
+(Universidad de Carabobo) Tj
+0 -50 Td
+/F1 14 Tf
+(RESUMEN) Tj
+0 -30 Td
+/F1 12 Tf
+(En este artículo se analiza la relación entre la metafísica tradicional y los desafíos planteados por la era digital. Se examinan las implicaciones filosóficas de la tecnología moderna y su impacto en nuestra comprensión del ser y la existencia.) Tj
+0 -40 Td
+(ABSTRACT) Tj
+0 -20 Td
+(This article analyzes the relationship between traditional metaphysics and the challenges posed by the digital age. The philosophical implications of modern technology and its impact on our understanding of being and existence are examined.) Tj
+0 -40 Td
+(Palabras clave: metafísica, era digital, tecnología, filosofía contemporánea) Tj
+0 -50 Td
+(Keywords: metaphysics, digital age, technology, contemporary philosophy) Tj
+0 -50 Td
+/F1 14 Tf
+(INTRODUCCIÓN) Tj
+0 -30 Td
+/F1 12 Tf
+(La metafísica, como disciplina filosófica fundamental, ha enfrentado numerosos desafíos a lo largo de la historia. En la actualidad, la era digital presenta nuevos interrogantes que requieren una reflexión profunda sobre la naturaleza del ser y la realidad.) Tj
+0 -30 Td
+(El objetivo de este trabajo es examinar cómo la tecnología digital ha transformado nuestra comprensión de conceptos metafísicos fundamentales como la identidad, la presencia y la existencia.) Tj
+0 -50 Td
+/DESARROLLO) Tj
+0 -30 Td
+(En la primera sección, se analiza el concepto de identidad digital y sus implicaciones metafísicas. La segunda sección examina la naturaleza de la presencia virtual y su relación con la presencia física.) Tj
+0 -30 Td
+(La tercera sección explora las implicaciones éticas y ontológicas de la inteligencia artificial y su impacto en nuestra comprensión de la conciencia y la agencia.) Tj
+0 -50 Td
+(CONCLUSIONES) Tj
+0 -30 Td
+(La era digital ha transformado significativamente nuestra comprensión de conceptos metafísicos fundamentales. Es necesario desarrollar nuevas categorías filosóficas que permitan abordar los desafíos planteados por la tecnología contemporánea.) Tj
+0 -50 Td
+(REFERENCIAS) Tj
+0 -30 Td
+(Heidegger, M. (1977). La pregunta por la técnica. Barcelona: Ediciones del Ser.) Tj
+0 -20 Td
+(Floridi, L. (2014). The Fourth Revolution: How the Infosphere is Reshaping Human Reality. Oxford: Oxford University Press.) Tj
+0 -20 Td
+(Zuboff, S. (2019). The Age of Surveillance Capitalism. New York: PublicAffairs.) Tj
+0 -50 Td
+(LOGO ET SPES - Vol. 12, Nº 2 - Octubre 2025) Tj
+0 -20 Td
+(ISSN: 1234-5678 | DOI: 10.1234/les.v12i2.art01) Tj
+ET
+endstream
 endobj
 
 xref
@@ -73,13 +104,13 @@ xref
 0000000009 00000 n 
 0000000058 00000 n 
 0000000115 00000 n 
-0000000274 00000 n 
-0000000624 00000 n 
+0000000254 00000 n 
+0000000321 00000 n 
 trailer
 <<
 /Size 6
 /Root 1 0 R
 >>
 startxref
-712
+2340
 %%EOF
