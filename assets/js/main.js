@@ -10,6 +10,7 @@
   function initMobileMenu() {
     const navToggle = document.querySelector(".nav__toggle");
     const nav = document.querySelector(".nav");
+    const navContainer = document.querySelector(".nav__container");
 
     if (!navToggle || !nav) return;
 
