@@ -330,6 +330,86 @@
                         <li>Levinas, E. (1961). <em>Totalité et infini</em>. La Haye: Martinus Nijhoff.</li>
                     </ol>
                 </section>
+
+                <!-- Cómo Citar -->
+                <section class="single-article__section citation-section">
+                    <h2>Cómo Citar</h2>
+                    <p>Para citar este artículo, utilice la siguiente información:</p>
+                    
+                    <div class="citation-formats">
+                        <div class="citation-format">
+                            <h3>APA (7ª edición)</h3>
+                            <div class="citation-text">
+                                González, M., & Pérez, J. (2025). La naturaleza del ser en la filosofía contemporánea. <em>LOGO ET SPES</em>, 12(2), 15-32. https://doi.org/10.1234/les.v12i2.001
+                            </div>
+                            <button class="btn btn--small citation-copy" data-format="apa">📋 Copiar</button>
+                        </div>
+
+                        <div class="citation-format">
+                            <h3>BibTeX</h3>
+                            <div class="citation-text">
+                                <pre>@article{gonzalez2025naturaleza,
+  title={La naturaleza del ser en la filosofía contemporánea},
+  author={González, María and Pérez, Juan},
+  journal={LOGO ET SPES},
+  volume={12},
+  number={2},
+  pages={15--32},
+  year={2025},
+  publisher={CENFISS},
+  doi={10.1234/les.v12i2.001}
+}</pre>
+                            </div>
+                            <button class="btn btn--small citation-copy" data-format="bibtex">📋 Copiar</button>
+                        </div>
+
+                        <div class="citation-format">
+                            <h3>Vancouver</h3>
+                            <div class="citation-text">
+                                González M, Pérez J. La naturaleza del ser en la filosofía contemporánea. LOGO ET SPES. 2025;12(2):15-32. DOI: 10.1234/les.v12i2.001
+                            </div>
+                            <button class="btn btn--small citation-copy" data-format="vancouver">📋 Copiar</button>
+                        </div>
+
+                        <div class="citation-format">
+                            <h3>Chicago</h3>
+                            <div class="citation-text">
+                                González, María, and Juan Pérez. "La naturaleza del ser en la filosofía contemporánea." <em>LOGO ET SPES</em> 12, no. 2 (2025): 15-32. https://doi.org/10.1234/les.v12i2.001
+                            </div>
+                            <button class="btn btn--small citation-copy" data-format="chicago">📋 Copiar</button>
+                        </div>
+
+                        <div class="citation-format">
+                            <h3>MLA</h3>
+                            <div class="citation-text">
+                                González, María, and Juan Pérez. "La naturaleza del ser en la filosofía contemporánea." <em>LOGO ET SPES</em>, vol. 12, no. 2, 2025, pp. 15-32. DOI: 10.1234/les.v12i2.001
+                            </div>
+                            <button class="btn btn--small citation-copy" data-format="mla">📋 Copiar</button>
+                        </div>
+
+                        <div class="citation-format">
+                            <h3>Harvard</h3>
+                            <div class="citation-text">
+                                González, M. & Pérez, J. 2025, 'La naturaleza del ser en la filosofía contemporánea', <em>LOGO ET SPES</em>, vol. 12, no. 2, pp. 15-32. DOI: 10.1234/les.v12i2.001
+                            </div>
+                            <button class="btn btn--small citation-copy" data-format="harvard">📋 Copiar</button>
+                        </div>
+                    </div>
+
+                    <div class="citation-actions">
+                        <button class="btn btn--primary" id="export-all-citations">📄 Exportar Todas las Citas</button>
+                        <button class="btn btn--secondary" id="download-ris">📥 Descargar RIS</button>
+                    </div>
+
+                    <div class="citation-info">
+                        <h3>Información de Cita</h3>
+                        <ul>
+                            <li><strong>DOI:</strong> 10.1234/les.v12i2.001</li>
+                            <li><strong>URL:</strong> https://refo44.github.io/demo-revistalogos/single-article.html</li>
+                            <li><strong>Fecha de acceso:</strong> <span id="current-date"></span></li>
+                        </ul>
+                    </div>
+                </section>
             </article>
 
             <!-- Article Actions -->
@@ -395,5 +475,104 @@
 
     <!-- JavaScript -->
     <script src="assets/js/main.js"></script>
+    <script>
+        // Citation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current date
+            const currentDate = new Date().toLocaleDateString('es-ES');
+            document.getElementById('current-date').textContent = currentDate;
+
+            // Copy citation functionality
+            const copyButtons = document.querySelectorAll('.citation-copy');
+            copyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const format = this.getAttribute('data-format');
+                    const citationText = this.previousElementSibling;
+                    let textToCopy = '';
+
+                    if (format === 'bibtex') {
+                        textToCopy = citationText.querySelector('pre').textContent;
+                    } else {
+                        textToCopy = citationText.textContent.trim();
+                    }
+
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        // Show success feedback
+                        const originalText = this.textContent;
+                        this.textContent = '✅ Copiado';
+                        this.style.backgroundColor = '#28a745';
+                        
+                        setTimeout(() => {
+                            this.textContent = originalText;
+                            this.style.backgroundColor = '';
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('Error copying text: ', err);
+                        alert('Error al copiar la cita');
+                    });
+                });
+            });
+
+            // Export all citations
+            document.getElementById('export-all-citations').addEventListener('click', function() {
+                const citations = [];
+                const citationFormats = document.querySelectorAll('.citation-format');
+                
+                citationFormats.forEach(format => {
+                    const title = format.querySelector('h3').textContent;
+                    const text = format.querySelector('.citation-text');
+                    let citationText = '';
+                    
+                    if (title === 'BibTeX') {
+                        citationText = text.querySelector('pre').textContent;
+                    } else {
+                        citationText = text.textContent.trim();
+                    }
+                    
+                    citations.push(`${title}:\n${citationText}\n`);
+                });
+
+                const allCitations = citations.join('\n---\n\n');
+                
+                // Create and download file
+                const blob = new Blob([allCitations], { type: 'text/plain' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'citas-articulo-gonzalez-perez-2025.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            });
+
+            // Download RIS file
+            document.getElementById('download-ris').addEventListener('click', function() {
+                const risContent = `TY  - JOUR
+TI  - La naturaleza del ser en la filosofía contemporánea
+AU  - González, María
+AU  - Pérez, Juan
+T2  - LOGO ET SPES
+PY  - 2025
+VL  - 12
+IS  - 2
+SP  - 15
+EP  - 32
+DO  - 10.1234/les.v12i2.001
+UR  - https://refo44.github.io/demo-revistalogos/single-article.html
+ER  - `;
+
+                const blob = new Blob([risContent], { type: 'text/plain' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'gonzalez-perez-2025-naturaleza-ser.ris';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            });
+        });
+    </script>
 </body>
 </html>
