@@ -158,7 +158,7 @@
             <section class="banner-carousel">
                 <div class="carousel-container">
                     <div class="carousel-wrapper">
-                        <!-- Slide 1: Diplomado -->
+                        <!-- Slide 1: Diplomado (with content) -->
                         <div class="carousel-slide active">
                             <a href="https://cenfiss.net/index.php/eventos/" class="banner-slide" target="_blank" rel="noopener noreferrer">
                                 <div class="banner-slide__image">
@@ -172,19 +172,26 @@
                             </a>
                         </div>
 
-                        <!-- Slide 2: Placeholder -->
+                        <!-- Slide 2: Image only (no content) -->
+                        <div class="carousel-slide">
+                            <div class="banner-slide">
+                                <div class="banner-slide__image">
+                                    <div class="banner-slide__placeholder">
+                                        <span class="placeholder-icon">📚</span>
+                                        <span class="placeholder-text">Solo Imagen</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3: Image with link (no content) -->
                         <div class="carousel-slide">
                             <a href="#" class="banner-slide">
                                 <div class="banner-slide__image">
                                     <div class="banner-slide__placeholder">
-                                        <span class="placeholder-icon">📚</span>
-                                        <span class="placeholder-text">Próximamente</span>
+                                        <span class="placeholder-icon">🔗</span>
+                                        <span class="placeholder-text">Imagen + Enlace</span>
                                     </div>
-                                </div>
-                                <div class="banner-slide__content">
-                                    <h3 class="banner-slide__title">NUEVAS OPORTUNIDADES</h3>
-                                    <p class="banner-slide__subtitle">Mantente atento a nuestras convocatorias</p>
-                                    <p class="banner-slide__cta">🔔 Haz clic para más información</p>
                                 </div>
                             </a>
                         </div>
@@ -204,6 +211,7 @@
                     <div class="carousel-indicators">
                         <button class="indicator active" data-slide="0" aria-label="Ir al slide 1"></button>
                         <button class="indicator" data-slide="1" aria-label="Ir al slide 2"></button>
+                        <button class="indicator" data-slide="2" aria-label="Ir al slide 3"></button>
                     </div>
                 </div>
             </section>
@@ -478,3 +486,4 @@
     </script>
 </body>
 </html>
+

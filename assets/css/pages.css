@@ -1050,10 +1050,16 @@
   text-decoration: none;
   color: inherit;
   transition: transform 0.3s ease;
+  min-height: 200px;
 }
 
 .banner-slide:hover {
   transform: translateY(-2px);
+}
+
+/* When no content, center the image */
+.banner-slide:not(:has(.banner-slide__content)) {
+  justify-content: center;
 }
 
 .banner-slide__image {
@@ -1598,6 +1604,10 @@
     flex-direction: column;
     text-align: center;
     gap: var(--space-4);
+  }
+  
+  .banner-slide:not(:has(.banner-slide__content)) {
+    justify-content: center;
   }
   
   .banner-slide__image img,
