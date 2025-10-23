@@ -1021,10 +1021,21 @@
 }
 
 .banner__content {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-6);
   align-items: center;
-  text-align: center;
+}
+
+.banner__image {
+  flex-shrink: 0;
+}
+
+.banner__img {
+  width: 200px;
+  height: auto;
+  border-radius: var(--border-radius);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 .banner__title {
@@ -1108,68 +1119,6 @@
   font-weight: var(--font-weight-medium);
   color: var(--color-text-inverse);
   display: block;
-}
-
-/* Flyer Section */
-.flyer-section {
-  margin: var(--space-8) 0;
-  padding: var(--space-6) 0;
-  background-color: var(--color-bg-secondary);
-  border-radius: var(--border-radius-lg);
-}
-
-.flyer-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--space-4);
-}
-
-.flyer-title {
-  text-align: center;
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
-  margin-bottom: var(--space-6);
-  color: var(--color-text-primary);
-}
-
-.flyer-content {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: var(--space-6);
-  align-items: start;
-}
-
-.flyer-image {
-  width: 300px;
-  height: auto;
-  border-radius: var(--border-radius-md);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.flyer-info {
-  padding: var(--space-4);
-}
-
-.flyer-info h4 {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
-  margin-bottom: var(--space-3);
-}
-
-.flyer-info p {
-  margin-bottom: var(--space-2);
-  font-size: var(--font-size-base);
-  line-height: var(--line-height-relaxed);
-}
-
-.flyer-info strong {
-  color: var(--color-text-primary);
-  font-weight: var(--font-weight-semibold);
-}
-
-.flyer-info .btn {
-  margin-top: var(--space-4);
 }
 
 .revista-item__actions {
@@ -1599,16 +1548,12 @@
   }
   
   .banner__content {
-    text-align: center;
-  }
-  
-  .flyer-content {
     grid-template-columns: 1fr;
     text-align: center;
   }
   
-  .flyer-image {
-    width: 250px;
+  .banner__img {
+    width: 150px;
     margin: 0 auto;
   }
   
