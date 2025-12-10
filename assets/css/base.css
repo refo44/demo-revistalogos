@@ -80,7 +80,8 @@ a:hover {
 }
 
 a:visited {
-  color: var(--color-accent);
+  color: var(--color-link);
+  opacity: 0.8;
 }
 
 a:focus {
