@@ -20,7 +20,7 @@ Este prototipo mapea 1:1 a la template hierarchy y Custom Post Types (CPT) de Wo
 ├── taxonomy-section.html          → Taxonomía "section" (taxonomy-section.php)
 ├── search.html                    → Resultados de búsqueda (search.php)
 ├── 404.html                       → Error 404 (404.php)
-├── blog-index.html                → Blog/Noticias (home.php)
+├── blog-index.html                → Noticias/Noticias (home.php)
 ├── single-post.html               → Entrada de blog (single.php)
 ├── /partials/                     → Simulan template parts de WP
 │   ├── header.html                → <header> + nav principal
