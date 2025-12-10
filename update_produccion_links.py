@@ -53,7 +53,7 @@ def update_file(filepath):
 
 def main():
     """Función principal"""
-    print("🔄 Actualizando referencias de Producción Intelectual...")
+    print("🔄 Actualizando referencias de Números Publicados...")
     print("")
     
     updated = 0

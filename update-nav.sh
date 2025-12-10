@@ -26,7 +26,7 @@ NEW_NAV='
                   <a href="page-politicas.html" class="nav__link">Políticas de la editorial</a>
                 </li>
                 <li class="nav__item">
-                  <a href="page-produccion.html" class="nav__link">Producción Intelectual</a>
+                  <a href="page-produccion.html" class="nav__link">Números Publicados</a>
                 </li>
                 <li class="nav__item">
                   <a href="page-contacto.html" class="nav__link">Contactos</a>
