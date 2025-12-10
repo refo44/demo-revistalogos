@@ -23,7 +23,7 @@
   --color-text-inverse: #ffffff;    /* Texto sobre fondos oscuros o botones primarios */
   
   /* Colores de enlaces */
-  --color-link: var(--color-primary);  /* Color de enlace estándar */
+  --color-link: #00b0f0;  /* Azul celeste para enlaces */
   
   /* Tipografías del sistema */
   --font-family-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
