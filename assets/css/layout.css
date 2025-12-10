@@ -10,7 +10,7 @@
 /* Header */
 .header {
   background-color: var(--color-bg-primary);
-  border-bottom: var(--border-width) solid var(--color-bg-tertiary);
+  border-bottom: var(--border-width) solid var(--color-secondary);
   position: sticky;
   top: 0;
   z-index: var(--z-sticky);
@@ -53,7 +53,7 @@
 
 .header__logo-subtitle {
   font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
   font-weight: var(--font-weight-normal);
   line-height: 1.2;
 }
@@ -175,7 +175,7 @@
 }
 
 .sidebar {
-  background-color: var(--color-bg-secondary);
+  background-color: var(--color-bg-primary);
   padding: var(--space-6);
   border-radius: var(--border-radius-lg);
   height: fit-content;
@@ -183,8 +183,8 @@
 
 /* Footer */
 .footer {
-  background-color: var(--color-bg-secondary);
-  border-top: var(--border-width) solid var(--color-bg-tertiary);
+  background-color: var(--color-bg-primary);
+  border-top: var(--border-width) solid var(--color-secondary);
   margin-top: var(--space-16);
   padding: var(--space-12) 0 var(--space-8);
 }
@@ -212,7 +212,7 @@
 }
 
 .footer__link {
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
@@ -225,7 +225,7 @@
 .footer__bottom {
   margin-top: var(--space-8);
   padding-top: var(--space-6);
-  border-top: var(--border-width) solid var(--color-bg-tertiary);
+  border-top: var(--border-width) solid var(--color-secondary);
   text-align: center;
   color: var(--color-text-muted);
   font-size: var(--font-size-sm);
@@ -257,7 +257,7 @@
     left: 0;
     right: 0;
     background-color: var(--color-bg-primary);
-    border-top: var(--border-width) solid var(--color-bg-tertiary);
+    border-top: var(--border-width) solid var(--color-secondary);
     padding: var(--space-4);
     transform: translateY(-100%);
     opacity: 0;
@@ -284,7 +284,7 @@
   
   .nav__link {
     padding: var(--space-3) 0;
-    border-bottom: var(--border-width) solid var(--color-bg-tertiary);
+    border-bottom: var(--border-width) solid var(--color-secondary);
   }
   
   .nav__link:last-child {

@@ -75,12 +75,12 @@ a {
 }
 
 a:hover {
-  color: var(--color-link-hover);
+  filter: brightness(0.9);
   text-decoration-thickness: 2px;
 }
 
 a:visited {
-  color: var(--color-link-visited);
+  color: var(--color-accent);
 }
 
 a:focus {
@@ -132,12 +132,12 @@ table {
 th, td {
   padding: var(--space-3);
   text-align: left;
-  border-bottom: var(--border-width) solid var(--color-bg-tertiary);
+  border-bottom: var(--border-width) solid var(--color-secondary);
 }
 
 th {
   font-weight: var(--font-weight-semibold);
-  background-color: var(--color-bg-secondary);
+  background-color: var(--color-bg-primary);
 }
 
 /* Formularios */
@@ -155,7 +155,7 @@ textarea,
 select {
   width: 100%;
   padding: var(--space-3);
-  border: var(--border-width) solid var(--color-secondary-light);
+  border: var(--border-width) solid var(--color-secondary);
   border-radius: var(--border-radius);
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);

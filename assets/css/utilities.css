@@ -42,7 +42,6 @@
 .text-right { text-align: right; }
 
 .text-primary { color: var(--color-text-primary); }
-.text-secondary { color: var(--color-text-secondary); }
 .text-muted { color: var(--color-text-muted); }
 .text-inverse { color: var(--color-text-inverse); }
 
@@ -184,11 +183,11 @@
 .pr-8 { padding-right: var(--space-8); }
 
 /* Border utilities */
-.border { border: var(--border-width) solid var(--color-bg-tertiary); }
-.border-t { border-top: var(--border-width) solid var(--color-bg-tertiary); }
-.border-b { border-bottom: var(--border-width) solid var(--color-bg-tertiary); }
-.border-l { border-left: var(--border-width) solid var(--color-bg-tertiary); }
-.border-r { border-right: var(--border-width) solid var(--color-bg-tertiary); }
+.border { border: var(--border-width) solid var(--color-secondary); }
+.border-t { border-top: var(--border-width) solid var(--color-secondary); }
+.border-b { border-bottom: var(--border-width) solid var(--color-secondary); }
+.border-l { border-left: var(--border-width) solid var(--color-secondary); }
+.border-r { border-right: var(--border-width) solid var(--color-secondary); }
 
 .border-primary { border-color: var(--color-primary); }
 .border-secondary { border-color: var(--color-secondary); }
@@ -199,8 +198,6 @@
 
 /* Background utilities */
 .bg-primary { background-color: var(--color-bg-primary); }
-.bg-secondary { background-color: var(--color-bg-secondary); }
-.bg-tertiary { background-color: var(--color-bg-tertiary); }
 
 /* Width utilities */
 .w-full { width: 100%; }

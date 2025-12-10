@@ -47,8 +47,8 @@
 }
 
 .btn--pdf:hover {
-  background-color: #b91c1c;
-  border-color: #b91c1c;
+  background-color: var(--color-error);
+  border-color: var(--color-error);
   color: var(--color-text-inverse);
   text-decoration: none;
 }
@@ -66,7 +66,7 @@
 /* Cards */
 .card {
   background-color: var(--color-bg-primary);
-  border: var(--border-width) solid var(--color-bg-tertiary);
+  border: var(--border-width) solid var(--color-secondary);
   border-radius: var(--border-radius-lg);
   padding: var(--space-6);
   box-shadow: var(--shadow-sm);
@@ -89,7 +89,7 @@
 
 .card__subtitle {
   font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
   margin-bottom: 0;
 }
 
@@ -98,7 +98,7 @@
 }
 
 .card__footer {
-  border-top: var(--border-width) solid var(--color-bg-tertiary);
+  border-top: var(--border-width) solid var(--color-secondary);
   padding-top: var(--space-4);
   display: flex;
   justify-content: space-between;
@@ -122,7 +122,7 @@
 
 .issue-card__volume {
   font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
   margin-bottom: var(--space-1);
 }
 
@@ -133,7 +133,7 @@
 
 .issue-card__meta {
   font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
   margin-bottom: var(--space-3);
 }
 
@@ -149,7 +149,7 @@
 
 .article-card__authors {
   font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
   margin-bottom: var(--space-2);
 }
 
@@ -176,7 +176,7 @@
 
 /* Hero */
 .hero {
-  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-tertiary) 100%);
+  background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-secondary) 100%);
   padding: var(--space-16) 0;
   margin-bottom: var(--space-12);
   border-radius: var(--border-radius-xl);
@@ -196,7 +196,7 @@
 
 .hero__subtitle {
   font-size: var(--font-size-xl);
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
   margin-bottom: var(--space-6);
 }
 
@@ -246,7 +246,7 @@
 
 .hero-issue__meta {
   font-size: var(--font-size-lg);
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
   margin-bottom: var(--space-4);
 }
 
@@ -258,7 +258,7 @@
 
 /* Tabla de contenidos */
 .toc {
-  background-color: var(--color-bg-secondary);
+  background-color: var(--color-bg-primary);
   border-radius: var(--border-radius-lg);
   padding: var(--space-6);
   margin-bottom: var(--space-8);
@@ -284,7 +284,7 @@
   color: var(--color-primary);
   margin-bottom: var(--space-3);
   padding-bottom: var(--space-2);
-  border-bottom: var(--border-width) solid var(--color-bg-tertiary);
+  border-bottom: var(--border-width) solid var(--color-secondary);
 }
 
 .toc__list {
@@ -322,7 +322,7 @@
 
 .toc__meta {
   font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
   margin-top: var(--space-1);
 }
 
@@ -353,7 +353,7 @@
 }
 
 .breadcrumbs__link {
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
@@ -370,8 +370,8 @@
 
 /* Metadata Box */
 .metadata-box {
-  background-color: var(--color-bg-secondary);
-  border: var(--border-width) solid var(--color-bg-tertiary);
+  background-color: var(--color-bg-primary);
+  border: var(--border-width) solid var(--color-secondary);
   border-radius: var(--border-radius-lg);
   padding: var(--space-6);
   margin-bottom: var(--space-8);
@@ -402,7 +402,7 @@
 }
 
 .metadata-box__value {
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
   font-size: var(--font-size-sm);
 }
 
@@ -443,7 +443,7 @@
   min-width: 40px;
   height: 40px;
   padding: var(--space-2);
-  border: var(--border-width) solid var(--color-bg-tertiary);
+  border: var(--border-width) solid var(--color-secondary);
   border-radius: var(--border-radius);
   color: var(--color-text-primary);
   text-decoration: none;
@@ -451,7 +451,7 @@
 }
 
 .pagination__link:hover {
-  background-color: var(--color-bg-secondary);
+  background-color: var(--color-bg-primary);
   border-color: var(--color-primary);
   text-decoration: none;
 }
