@@ -1232,6 +1232,39 @@
   margin-bottom: 0;
 }
 
+/* News List Styles */
+.news-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.news-item {
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: var(--border-width) solid var(--color-secondary);
+}
+
+.news-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.news-link {
+  color: var(--color-text-primary);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  display: block;
+  transition: color var(--transition-fast);
+}
+
+.news-link:hover {
+  color: var(--color-link);
+  text-decoration: underline;
+}
+
 .sidebar-card .stat-item {
   display: flex;
   align-items: center;
