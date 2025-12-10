@@ -2,9 +2,9 @@
 
 :root {
   /* Colores principales */
-  --color-primary: #a8cf8c;        /* Verde institucional */
-  --color-primary-light: #e2eed8;  /* Verde claro para detalles y énfasis suaves */
-  --color-primary-dark: #7fa86a;    /* Verde oscuro para hover, encabezados y énfasis fuertes */
+  --color-primary: #1e3a8a;        /* Azul institucional */
+  --color-primary-light: #3b82f6;  /* Azul claro para detalles y énfasis suaves */
+  --color-primary-dark: #1e40af;    /* Azul oscuro para hover, encabezados y énfasis fuertes */
   
   /* Colores secundarios */
   --color-secondary: #64748b;       /* Gris neutro para bordes suaves, líneas y elementos secundarios */

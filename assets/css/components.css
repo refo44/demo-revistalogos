@@ -40,6 +40,19 @@
   text-decoration: none;
 }
 
+.btn--outline {
+  background-color: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn--outline:hover {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  border-color: var(--color-primary);
+  text-decoration: none;
+}
+
 .btn--pdf {
   background-color: var(--color-error);
   color: var(--color-text-inverse);
