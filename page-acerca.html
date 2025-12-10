@@ -24,7 +24,8 @@
     <!-- Header -->
     <header class="header" role="banner">
       <div class="container">
-        <div class="header__inner">
+        <!-- First Row: Logo and Auth Buttons -->
+        <div class="header__top" style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-3) 0;">
           <a href="index.html" class="header__logo">
             <img src="assets/img/logo-revista.svg" alt="LOGO ET SPES" class="header__logo-img">
             <div class="header__logo-text">
@@ -33,47 +34,51 @@
             </div>
           </a>
 
-          <nav class="nav" role="navigation" aria-label="Navegación principal">
-            <button class="nav__toggle" aria-expanded="false" aria-controls="main-nav">
-              <span class="nav__toggle-icon nav__toggle-icon--open" aria-hidden="true">☰</span>
-              <span class="nav__toggle-icon nav__toggle-icon--close" aria-hidden="true">✕</span>
-              <span class="visually-hidden">Menú</span>
-            </button>
-            
-                                    <div class="nav__container">
-              <!-- Main Navigation Row -->
-              <ul class="nav__list nav__list--main" id="main-nav">
+          <!-- Login/Register Buttons -->
+          <div class="header__auth" style="display: flex; gap: var(--space-2); align-items: center;">
+            <a href="#" class="btn btn--small btn--login">Entrar</a>
+            <a href="#" class="btn btn--small btn--register">Registrarse</a>
+          </div>
+        </div>
+
+        <!-- Second Row: Navigation -->
+        <nav class="nav" role="navigation" aria-label="Navegación principal">
+          <button class="nav__toggle" aria-expanded="false" aria-controls="main-nav">
+            <span class="nav__toggle-icon nav__toggle-icon--open" aria-hidden="true">☰</span>
+            <span class="nav__toggle-icon nav__toggle-icon--close" aria-hidden="true">✕</span>
+            <span class="visually-hidden">Menú</span>
+          </button>
+          
+          <div class="nav__container">
+            <!-- Main Navigation Row -->
+            <ul class="nav__list nav__list--main" id="main-nav">
               <li class="nav__item">
                 <a href="index.html" class="nav__link">Inicio</a>
               </li>
               <li class="nav__item">
-                <a href="single-issue.html" class="nav__link">Número Actual</a>
+                <a href="single-issue.html" class="nav__link">Número<br>Actual</a>
               </li>
               <li class="nav__item">
-                  <a href="page-acerca.html" class="nav__link">Acerca de</a>
-                </li>
-                <li class="nav__item">
-                  <a href="page-comite.html" class="nav__link">Directorio</a>
-                </li>
-                <li class="nav__item">
-                  <a href="page-enviar-colaboracion.html" class="nav__link">Como publicar</a>
+                <a href="archive-issue.html" class="nav__link">Números<br>Publicados</a>
               </li>
               <li class="nav__item">
-                  <a href="archive-issue.html" class="nav__link">Números Publicados</a>
+                <a href="page-enviar-colaboracion.html" class="nav__link">Como<br>publicar</a>
               </li>
               <li class="nav__item">
-                  <a href="blog-index.html" class="nav__link">Noticias</a>
+                <a href="page-acerca.html" class="nav__link">Acerca de</a>
               </li>
               <li class="nav__item">
-                  <a href="page-contacto.html" class="nav__link">Contactos</a>
-                </li>
-                <li class="nav__item">
-                  <a href="page-enlaces.html" class="nav__link">Enlaces de Interés</a>
+                <a href="blog-index.html" class="nav__link">Noticias</a>
+              </li>
+              <li class="nav__item">
+                <a href="page-contacto.html" class="nav__link">Contactos</a>
+              </li>
+              <li class="nav__item">
+                <a href="page-enlaces.html" class="nav__link">Enlaces de<br>Interés</a>
               </li>
             </ul>
-            </div>
-          </nav>
-        </div>
+          </div>
+        </nav>
       </div>
     </header>
 
