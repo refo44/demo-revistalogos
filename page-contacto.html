@@ -167,52 +167,36 @@
                             <p><strong>Ubicación:</strong> Valencia, Edo. Carabobo, Venezuela</p>
                         </div>
                     </section>
+
+                    <!-- Formulario de Contacto -->
+                    <section class="contact-section">
+                        <h2>Enviar Mensaje</h2>
+                        <form class="contact-form" action="mailto:revista@cenfiss.net" method="post" enctype="text/plain">
+                            <div class="form-group">
+                                <label for="contact-name">Nombre completo *</label>
+                                <input type="text" id="contact-name" name="name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="contact-email">Email *</label>
+                                <input type="email" id="contact-email" name="email" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="contact-subject">Asunto *</label>
+                                <input type="text" id="contact-subject" name="subject" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="contact-message">Mensaje *</label>
+                                <textarea id="contact-message" name="message" rows="6" required></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn--primary">Enviar Mensaje</button>
+                        </form>
+                    </section>
                 </div>
-
-                <aside class="sidebar">
-                    <div class="card">
-                        <h3>Enlaces Útiles</h3>
-                        <ul>
-                            <li><a href="page-enviar-colaboracion.html">Enviar artículo</a></li>
-                            <li><a href="page-normas.html">Normas de publicación</a></li>
-                            <li><a href="page-etica.html">Ética editorial</a></li>
-                            <li><a href="page-politicas.html">Políticas</a></li>
-                            <li><a href="page-comite.html">Comité editorial</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="card">
-                        <h3>Información de la Revista</h3>
-                        <dl>
-                            <dt>ISSN:</dt>
-                            <dd>1234-5678</dd>
-                            
-                            <dt>DOI:</dt>
-                            <dd>10.1234/les</dd>
-                            
-                            <dt>Frecuencia:</dt>
-                            <dd>Semestral</dd>
-                            
-                            <dt>Idioma:</dt>
-                            <dd>Español</dd>
-                            
-                            <dt>Acceso:</dt>
-                            <dd>Abierto</dd>
-                            
-                            <dt>Licencia:</dt>
-                            <dd>CC BY 4.0</dd>
-                        </dl>
-                    </div>
-
-                    <div class="card">
-                        <h3>CENFISS</h3>
-                        <p>El Centro de Filosofía para la Investigación Stanislao Strba (CENFISS) es una institución dedicada a la investigación y difusión del conocimiento filosófico y teológico.</p>
-                        <p><strong>Ubicación:</strong> Estado de Carabobo, Valencia, Venezuela</p>
-                        <p><a href="https://cenfiss.net" target="_blank" rel="noopener noreferrer">Visitar sitio web</a></p>
-                    </div>
-                </aside>
             </div>
-        </div>
     </main>
 
     <!-- Footer -->
