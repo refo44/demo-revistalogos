@@ -24,54 +24,113 @@
     <!-- Header -->
     <header class="header" role="banner">
       <div class="container">
-        <div class="header__inner">
+        <!-- First Row: Logo and Auth Buttons -->
+        <div class="header__top" style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-3) 0;">
           <a href="index.html" class="header__logo">
-            <img src="assets/img/logo-revista.svg" alt="Logos et Spes" class="header__logo-img">
+            <img src="assets/img/logo-revista.svg" alt="LOGO ET SPES" class="header__logo-img">
             <div class="header__logo-text">
-              <div>Logos et Spes</div>
-              <div class="header__logo-subtitle">Revista de Filosofía</div>
+              <div>LOGO ET SPES</div>
+              <div class="header__logo-subtitle">Revista de Filosofía y Teología</div>
             </div>
           </a>
 
-                    <nav class="nav" role="navigation" aria-label="Navegación principal">
-            <button class="nav__toggle" aria-expanded="false" aria-controls="main-nav">
-              <span class="nav__toggle-icon nav__toggle-icon--open" aria-hidden="true">☰</span>
-              <span class="nav__toggle-icon nav__toggle-icon--close" aria-hidden="true">✕</span>
-              <span class="visually-hidden">Menú</span>
-            </button>
-            
-                                    <div class="nav__container">
-              <!-- Main Navigation Row -->
-              <ul class="nav__list nav__list--main" id="main-nav">
-                <li class="nav__item">
-                  <a href="index.html" class="nav__link">Inicio</a>
+          <!-- Login/Register Buttons -->
+          <div class="header__auth" style="display: flex; gap: var(--space-2); align-items: center;">
+            <a href="#" class="btn btn--small btn--login">Entrar</a>
+            <a href="#" class="btn btn--small btn--register">Registrarse</a>
+          </div>
+        </div>
+
+        <!-- Second Row: Navigation -->
+        <nav class="nav" role="navigation" aria-label="Navegación principal">
+          <button class="nav__toggle" aria-expanded="false" aria-controls="main-nav">
+            <span class="nav__toggle-icon nav__toggle-icon--open" aria-hidden="true">☰</span>
+            <span class="nav__toggle-icon nav__toggle-icon--close" aria-hidden="true">✕</span>
+            <span class="visually-hidden">Menú</span>
+          </button>
+          
+          <div class="nav__container">
+            <!-- Main Navigation Row -->
+            <ul class="nav__list nav__list--main" id="main-nav">
+              <li class="nav__item">
+                <a href="index.html" class="nav__link">Inicio</a>
+              </li>
+              <li class="nav__item">
+                <a href="single-issue.html" class="nav__link">Número<br>Actual</a>
+              </li>
+              <li class="nav__item">
+                <a href="archive-issue.html" class="nav__link">Números<br>Publicados</a>
+              </li>
+              <li class="nav__item">
+                <a href="page-enviar-colaboracion.html" class="nav__link">Como<br>publicar</a>
+              </li>
+              <li class="nav__item">
+                <a href="page-acerca.html" class="nav__link">Acerca de</a>
+              </li>
+              <li class="nav__item">
+                <a href="blog-index.html" class="nav__link">Noticias</a>
+              </li>
+              <li class="nav__item">
+                <a href="page-contacto.html" class="nav__link">Contactos</a>
+              </li>
+              <li class="nav__item">
+                <a href="page-enlaces.html" class="nav__link">Enlaces de<br>Interés</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content" class="main-content">
+        <div class="container">
+            <!-- Breadcrumbs -->
+            <nav class="breadcrumbs" aria-label="Migas de pan">
+              <ol class="breadcrumbs__list">
+                <li class="breadcrumbs__item">
+                  <a href="index.html" class="breadcrumbs__link">Inicio</a>
                 </li>
-                <li class="nav__item">
-                  <a href="single-issue.html" class="nav__link">Número Actual</a>
+                <li class="breadcrumbs__item">
+                  <span class="breadcrumbs__current">Archivo de Artículos</span>
                 </li>
-                <li class="nav__item">
-                  <a href="page-acerca.html" class="nav__link">Acerca de</a>
-                </li>
-                <li class="nav__item">
-                  <a href="page-comite.html" class="nav__link">Directorio</a>
-                </li>
-                <li class="nav__item">
-                  <a href="page-enviar-colaboracion.html" class="nav__link">Como publicar</a>
-                </li>
-                <li class="nav__item">
-                  <a href="archive-issue.html" class="nav__link">Números Publicados</a>
-                </li>
-                <li class="nav__item">
-                  <a href="blog-index.html" class="nav__link">Noticias</a>
-                </li>
-                <li class="nav__item">
-                  <a href="page-contacto.html" class="nav__link">Contactos</a>
-                </li>
-                <li class="nav__item">
-                  <a href="page-enlaces.html" class="nav__link">Enlaces de Interés</a>
-                </li>
-              </ul>
-            </div>
+              </ol>
+            </nav>
+
+            <!-- Page Header -->
+            <header class="archive-header">
+                <h1 class="archive-header__title">Archivo de Artículos</h1>
+                <p class="archive-header__description">
+                    Archivo completo de artículos publicados en Logos et Spes. Busca y accede a todos los artículos de filosofía organizados por sección, autor y fecha.
+                </p>
+            </header>
+
+            <!-- Filtros de búsqueda -->
+            <section class="archive-filters">
+                <div class="card">
+                    <form class="archive-filters__form">
+                        <div class="form-group">
+                            <label for="search-query">Buscar</label>
+                            <input type="text" id="search-query" name="query" placeholder="Título, autor, palabras clave...">
+                        </div>
+                        <div class="form-group">
+                            <label for="filter-section">Sección</label>
+                            <select id="filter-section" name="section">
+                                <option value="">Todas las secciones</option>
+                                <option value="metafisica">Metafísica</option>
+                                <option value="etica">Ética</option>
+                                <option value="epistemologia">Epistemología</option>
+                                <option value="filosofia-religion">Filosofía de la Religión</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="filter-year">Año</label>
+                            <select id="filter-year" name="year">
+                                <option value="">Todos los años</option>
+                                <option value="2025">2025</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                            </select>
+                        </div>
                         <div class="mt-4">
                             <button type="submit" class="btn btn--primary">Buscar</button>
                             <button type="reset" class="btn btn--secondary">Limpiar filtros</button>
@@ -449,10 +508,10 @@
       <div class="container">
         <div class="footer__inner">
           <div class="footer__section">
-            <h3>Logos et Spes</h3>
-            <p>Revista de Filosofía del Centro de Estudios Filosóficos y Sociales (CENFISS)</p>
-            <p><strong>ISSN:</strong> 1234-5678<br>
-            <strong>DOI:</strong> 10.1234/les</p>
+            <h3>LOGO ET SPES</h3>
+            <p>Revista de Filosofía y Teología del Centro de Filosofía para la Investigación Stanislao Strba (CENFISS)</p>
+            <p><strong>ISSN:</strong> Próximamente<br>
+            <strong>DOI:</strong> Próximamente</p>
           </div>
 
           <div class="footer__section">
@@ -470,7 +529,6 @@
             <h3>Normas Editoriales</h3>
             <ul class="footer__list">
               <li><a href="page-normas.html" class="footer__link">Normas de Publicación</a></li>
-              <li><a href="page-etica.html" class="footer__link">Ética Editorial</a></li>
               <li><a href="page-politicas.html" class="footer__link">Políticas</a></li>
               <li><a href="page-comite.html" class="footer__link">Comité Editorial</a></li>
             </ul>
@@ -479,14 +537,15 @@
           <div class="footer__section">
             <h3>Contacto</h3>
             <p><strong>CENFISS</strong><br>
-            Centro de Estudios Filosóficos y Sociales</p>
+            Centro de Filosofía para la Investigación Stanislao Strba</p>
+            <p><strong>Ubicación:</strong> Estado de Carabobo, Valencia, Venezuela</p>
             <p>Email: <a href="mailto:revista@cenfiss.net" class="footer__link">revista@cenfiss.net</a><br>
             Web: <a href="https://cenfiss.net" class="footer__link" target="_blank" rel="noopener noreferrer">cenfiss.net</a></p>
           </div>
         </div>
 
         <div class="footer__bottom">
-          <p>&copy; 2025 CENFISS - Centro de Estudios Filosóficos y Sociales. Todos los derechos reservados.</p>
+          <p>&copy; 2025 CENFISS - Centro de Filosofía para la Investigación Stanislao Strba. Todos los derechos reservados.</p>
           <p>Esta revista está bajo una <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">Licencia Creative Commons Atribución 4.0 Internacional</a>.</p>
         </div>
       </div>
