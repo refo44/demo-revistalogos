@@ -1800,3 +1800,140 @@
   color: var(--color-primary);
   font-weight: var(--font-weight-semibold);
 }
+
+/* Políticas de la Editorial Page */
+.policies-toc {
+  background-color: var(--color-bg-primary);
+  border: var(--border-width) solid var(--color-secondary);
+  border-radius: var(--border-radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-8);
+}
+
+.policies-toc h2 {
+  color: var(--color-primary);
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--space-4);
+}
+
+.policies-toc ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.policies-toc li {
+  margin-bottom: var(--space-2);
+  padding-left: var(--space-4);
+  position: relative;
+}
+
+.policies-toc li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--color-primary);
+}
+
+.policies-toc a {
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.policies-toc a:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.policies-content {
+  margin-bottom: var(--space-8);
+}
+
+.policy-section {
+  margin-bottom: var(--space-12);
+  padding-bottom: var(--space-8);
+  border-bottom: var(--border-width) solid var(--color-secondary);
+  scroll-margin-top: var(--space-4);
+}
+
+.policy-section:last-child {
+  border-bottom: none;
+}
+
+.policy-section h2 {
+  color: var(--color-primary);
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--space-6);
+  padding-top: var(--space-4);
+}
+
+.policy-subsection {
+  margin-bottom: var(--space-6);
+}
+
+.policy-subsection h3 {
+  color: var(--color-text-primary);
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.policy-subsection h4 {
+  color: var(--color-text-primary);
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.policy-section p {
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--space-4);
+}
+
+.policy-section ul,
+.policy-section ol {
+  margin-bottom: var(--space-4);
+  padding-left: var(--space-6);
+}
+
+.policy-section li {
+  margin-bottom: var(--space-2);
+  line-height: var(--line-height-relaxed);
+}
+
+.policy-section blockquote {
+  border-left: 4px solid var(--color-primary);
+  padding-left: var(--space-4);
+  margin: var(--space-6) 0;
+  font-style: italic;
+  color: var(--color-text-muted);
+}
+
+.policy-section blockquote p {
+  margin-bottom: var(--space-2);
+}
+
+.policy-section blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* Responsive para políticas */
+@media (max-width: 768px) {
+  .policies-toc {
+    padding: var(--space-4);
+  }
+  
+  .policy-section {
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-6);
+  }
+  
+  .policy-section h2 {
+    font-size: var(--font-size-xl);
+  }
+  
+  .policy-subsection h3 {
+    font-size: var(--font-size-lg);
+  }
+}
