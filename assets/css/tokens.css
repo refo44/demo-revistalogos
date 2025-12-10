@@ -14,6 +14,10 @@
   --color-warning: #d97706;         /* Naranja alerta */
   --color-error: #dc2626;           /* Rojo error */
   
+  /* Colores de botones de autenticación */
+  --color-btn-login: #a8d08c;       /* Verde claro para botón Entrar */
+  --color-btn-register: #ffc000;    /* Naranja claro para botón Registrarse */
+  
   /* Colores de fondo */
   --color-bg-primary: #ffffff;      /* Blanco - todo el fondo del sitio es blanco */
   

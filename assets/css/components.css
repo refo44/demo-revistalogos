@@ -53,6 +53,30 @@
   text-decoration: none;
 }
 
+.btn--login {
+  background-color: var(--color-btn-login);
+  color: var(--color-text-primary);
+  border: var(--border-width) solid var(--color-btn-login);
+}
+
+.btn--login:hover {
+  background-color: var(--color-btn-login);
+  filter: brightness(0.9);
+  text-decoration: none;
+}
+
+.btn--register {
+  background-color: var(--color-btn-register);
+  color: var(--color-text-primary);
+  border: var(--border-width) solid var(--color-btn-register);
+}
+
+.btn--register:hover {
+  background-color: var(--color-btn-register);
+  filter: brightness(0.9);
+  text-decoration: none;
+}
+
 .btn--pdf {
   background-color: var(--color-error);
   color: var(--color-text-inverse);
