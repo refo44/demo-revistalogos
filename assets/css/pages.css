@@ -1864,13 +1864,13 @@
 }
 
 .policies-toc a {
-  color: var(--color-text-primary);
+  color: var(--color-link);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
 .policies-toc a:hover {
-  color: var(--color-primary);
+  filter: brightness(0.9);
   text-decoration: underline;
 }
 
