@@ -1863,13 +1863,15 @@
   color: var(--color-primary);
 }
 
-.policies-toc a {
+.policies-toc a,
+.policies-toc a:visited {
   color: var(--color-link);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
-.policies-toc a:hover {
+.policies-toc a:hover,
+.policies-toc a:focus {
   filter: brightness(0.9);
   text-decoration: underline;
 }
