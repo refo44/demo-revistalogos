@@ -176,10 +176,31 @@
 
 /* Hero */
 .hero {
-  background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-secondary) 100%);
+  background-image: url('../img/banner-main.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   padding: var(--space-16) 0;
   margin-bottom: var(--space-12);
   border-radius: var(--border-radius-xl);
+  position: relative;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: var(--border-radius-xl);
+  z-index: 0;
+}
+
+.hero > * {
+  position: relative;
+  z-index: 1;
 }
 
 .hero__content {
@@ -191,13 +212,15 @@
 .hero__title {
   font-size: var(--font-size-5xl);
   margin-bottom: var(--space-4);
-  color: var(--color-text-primary);
+  color: var(--color-text-inverse);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .hero__subtitle {
   font-size: var(--font-size-xl);
-  color: var(--color-text-muted);
+  color: var(--color-text-inverse);
   margin-bottom: var(--space-6);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .hero__description {
@@ -207,6 +230,8 @@
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+  color: var(--color-text-inverse);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .hero__actions {
