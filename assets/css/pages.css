@@ -492,6 +492,13 @@
   font-size: var(--font-size-xl);
 }
 
+.contact-role {
+  color: var(--color-primary);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-4);
+}
+
 .contact-details {
   display: grid;
   gap: var(--space-4);
@@ -1487,6 +1494,27 @@
 .contact-info p {
   margin-bottom: var(--space-2);
   line-height: var(--line-height-relaxed);
+}
+
+.contact-role {
+  color: var(--color-primary);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-4);
+}
+
+.contact-card {
+  background-color: var(--color-bg-primary);
+  border: var(--border-width) solid var(--color-secondary);
+  border-radius: var(--border-radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.contact-card h3 {
+  color: var(--color-primary);
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--space-4);
 }
 
 .contact-info p:last-child {
