@@ -128,12 +128,12 @@
                         <h3>Descargar Normas</h3>
                         <p>Obtén las normas completas en formato PDF para consulta offline.</p>
                         <div style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
-                            <a href="assets/pdf/normas-publicacion.pdf" class="btn btn--small" download="Normas-Publicacion-LOGO-ET-SPES.pdf">
+                            <button type="button" class="btn btn--small" onclick="const link = document.createElement('a'); link.href = 'assets/pdf/normas-publicacion.pdf'; link.download = 'Normas-Publicacion-LOGO-ET-SPES.pdf'; document.body.appendChild(link); link.click(); document.body.removeChild(link);">
                                 Descargar PDF
-                            </a>
-                            <a href="assets/pdf/normas-publicacion.pdf" class="btn btn--small" target="_blank" rel="noopener noreferrer">
+                            </button>
+                            <button type="button" class="btn btn--small" onclick="window.open('assets/pdf/normas-publicacion.pdf', '_blank')">
                                 Ver PDF
-                            </a>
+                            </button>
                         </div>
                     </div>
 
