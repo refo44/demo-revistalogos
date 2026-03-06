@@ -59,20 +59,30 @@ No document may depend on one with a higher number. Cross-references always poin
 
 All content comes from:
 
-- `content-source/{{PROJECT_FOLDER}}/` — Replace with your project folder name
-- Add specific source files (docx, pdf, images) as needed
+- `content-source/PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md` — Project document (structure, policies, norms, forms)
+- `assets/pdf/` — Normas, políticas, sample article and issue
+- `assets/img/` — Logos, favicon, placeholders
+
+See `16-content-source-inventory` for full mapping.
 
 ---
 
 ## Traceability
 
-Map each requirement or brainstorm item to at least one document. Use a table like:
-
 | Requirement / brainstorm | Doc(s) |
 |-------------------------|--------|
-| {{REQUIREMENT_1}} | 01, 02 |
-| {{REQUIREMENT_2}} | 03, 04 |
-| … | … |
+| Academic journal, open access | 01, 02 |
+| Double-blind peer review, editorial norms | 01, 03, 07 |
+| CPTs: issue, article | 03, 12 |
+| Screens and views | 04, 06 |
+| Navigation, breadcrumbs, IA | 05, 11 |
+| Voice, microcopy, CTAs | 07, 08, 09 |
+| User journeys | 10 |
+| Theme structure, templates | 12, 13 |
+| CSS, tokens, layout | 02, 14, 20 |
+| Assets, content inventory | 15, 16 |
+| Implementation phases | 17 |
+| UX/UI filter, accessibility | 18, 19 |
 
 ---
 
@@ -91,4 +101,4 @@ These principles apply regardless of site type (community, author, blog, portfol
 ---
 
 **Version:** 1.0  
-**Project:** {{PROJECT_NAME}}
+**Project:** Revista de Filosofía LOGO ET SPES

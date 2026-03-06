@@ -1,11 +1,12 @@
-# {{PROJECT_NAME}} — Accessibility Standards
+# Revista de Filosofía LOGO ET SPES — Accessibility Standards
 
 **Single document for accessibility standards**  
 **Version 1.0**
 
 Strategy, principles, design rules, semantic HTML, ARIA, editorial content, implementation checklist and testing. Aligned with WCAG 2.1/2.2 Level AA.
 
-**Depends on:** `01-platform-plan`, `02-corporate-identity`, `17-implementation-order`, `18-ux-ui-trends`
+**Depends on:** `01-platform-plan`, `02-corporate-identity`, `17-implementation-order`, `18-ux-ui-trends`  
+**Reference:** `07-voice-guide-microcopy-ux`, `09-ui-copy-sheet` (labels, error messages)
 
 ---
 
@@ -46,11 +47,11 @@ Strategy, principles, design rules, semantic HTML, ARIA, editorial content, impl
 - **Contrast:** Minimum AA (4.5:1 normal text, 3:1 large text).
 - **Targets:** Adequate clickable areas (~44×44px when possible).
 - **Color:** Do not rely on color alone for meaning.
-- **Language:** Clear and direct (aligned with voice guide).
+- **Language:** Clear and direct (aligned with `07-voice-guide-microcopy-ux`).
 
 ### Minimum rules (high impact, low cost)
 
-- **Skip link:** "Skip to content" visible on focus.
+- **Skip link:** "Saltar al contenido principal" visible on focus (per `09-ui-copy-sheet`).
 - **Language:** `lang` on `<html>`; consistent per page.
 - **Focus order:** Logical, predictable tab order.
 - **Focus visible:** No `outline: none` without replacement (`:focus-visible`).
@@ -98,12 +99,13 @@ Provide accessible name: (1) visible text, (2) `.visually-hidden` text, (3) `ari
 - **Links:** Descriptive text (avoid "here", "click", "more" without context).
 - **External links:** Indicate "opens in new tab" when `target="_blank"`.
 - **Media:** Captions or transcript for informative video/audio.
+- **PDFs:** Provide HTML summary or accessible alternative when PDF is primary content (e.g. normas, políticas).
 
 ---
 
 ## 7. Implementation checklist
 
-- [ ] Skip link visible on focus
+- [ ] Skip link visible on focus ("Saltar al contenido principal")
 - [ ] `lang` on `<html>`
 - [ ] Full keyboard navigation; logical tab order
 - [ ] Focus visible; no `outline: none` without replacement
@@ -128,5 +130,5 @@ Provide accessible name: (1) visible text, (2) `.visually-hidden` text, (3) `ari
 ---
 
 **Version:** 1.0  
-**Project:** {{PROJECT_NAME}}  
+**Project:** Revista de Filosofía LOGO ET SPES  
 **Standard:** WCAG 2.1 / 2.2 (W3C)
