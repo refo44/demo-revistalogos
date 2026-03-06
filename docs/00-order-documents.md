@@ -4,6 +4,12 @@ Los documentos en `docs/` usan un prefijo de dos dígitos (`01-`, `02-`, …) pa
 
 ---
 
+## Idioma del proyecto
+
+Todos los documentos de arquitectura del sitio se redactan en español. Los términos técnicos de programación pueden mantenerse en inglés (nombres de archivos, slugs, metadatos académicos estándar).
+
+---
+
 ## Criterio del orden
 
 | Rango | Criterio | Justificación |

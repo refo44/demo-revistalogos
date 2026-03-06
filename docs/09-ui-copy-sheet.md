@@ -16,22 +16,27 @@ Botones, menús, mensajes, formularios y estados. Criterios de voz en `07-voice-
 ### Menú principal (header)
 
 - Inicio
-- Número Actual
-- Números Publicados
+- Revista
+- Normas
 - Enviar colaboración
-- Acerca
 - Noticias
+- Acerca
 - Contacto
-- Enlaces
-- CENFISS (externo)
+- CENFISS ↗ (externo)
+
+### Subnavegación (Revista)
+
+- Número actual
+- Números publicados
+- Artículos
+- Autores
 
 ### Footer
 
 **Enlaces Rápidos:**
-- Número Actual
-- Archivos
+- Números publicados
 - Artículos
-- Enviar Colaboración
+- Enviar colaboración
 - Búsqueda
 
 **Normas Editoriales:**
@@ -52,19 +57,19 @@ Botones, menús, mensajes, formularios y estados. Criterios de voz en `07-voice-
 
 - **Título:** LOGO ET SPES
 - **Subtítulo:** Revista de Filosofía y Teología
-- **Descripción:** La Revista de Filosofía LOGO ET SPES adscrita, auspiciada y editada por el Centro de Filosofía para la Investigación \<Stanislao Strba\> - CENFISS, es una publicación digital venezolana enfocada en el pensamiento filosófico multidisciplinar. Es de acceso abierto; arbitrada bajo la modalidad \<doble anónimo o doble ciego\>; con periodicidad anual. Sus páginas están disponibles para difundir investigaciones originales -de autores nacionales e internacionales- que coadyuven a promover el desarrollo de todas las áreas de la Filosofía.
+- **Descripción:** LOGO ET SPES es una revista académica venezolana de acceso abierto dedicada al pensamiento filosófico multidisciplinar. Publica investigaciones originales sometidas a arbitraje doble ciego y promueve el desarrollo de todas las áreas de la filosofía.
 - **Botón:** Ver número actual
 
 ### Sidebar (Noticias)
 
 - **Título:** Noticias
-- **Botón:** Ver todas las noticias
+- **Botón:** Ver noticias
 
 ### Sidebar (CENFISS)
 
 - **Título:** CENFISS
-- **Texto:** Centro de Filosofía para la Investigación Stanislao Strba. Ubicación: Estado de Carabobo, Valencia, Venezuela
-- **Botón:** Visitar Web
+- **Texto:** Centro de Estudios Filosóficos, Sociales y de Investigación. Ubicación: Estado de Carabobo, Valencia, Venezuela
+- **Botón:** Ir al sitio
 
 ---
 
@@ -74,8 +79,8 @@ Botones, menús, mensajes, formularios y estados. Criterios de voz en `07-voice-
 |--------|--------|-------------|
 | Archivo de Números | Archivo de Números | Archivo completo de números publicados de la revista Logos et Spes. Accede a todos los volúmenes y números desde 2010 hasta la actualidad. |
 | Archivo de Artículos | Archivo de Artículos | Archivo completo de artículos publicados en Logos et Spes. Busca y accede a todos los artículos de filosofía organizados por sección, autor y fecha. |
-| Enviar Colaboración | Enviar Colaboración | Instrucciones para enviar artículos, ensayos y reseñas a LOGO ET SPES. |
-| Acerca | Acerca de | Conoce el enfoque, alcance y objetivos de LOGO ET SPES, revista de filosofía multidisciplinar del Centro de Filosofía para la Investigación Stanislao Strba (CENFISS). |
+| Enviar colaboración | Enviar colaboración | Instrucciones para enviar artículos, ensayos y reseñas a LOGO ET SPES. |
+| Acerca | Acerca de | Conoce el enfoque, alcance y objetivos de LOGO ET SPES, revista de filosofía multidisciplinar del Centro de Estudios Filosóficos, Sociales y de Investigación (CENFISS). |
 | Noticias | Noticias | Noticias, eventos y reflexiones sobre filosofía, teología y la revista académica LOGO ET SPES. |
 
 ---
@@ -107,10 +112,10 @@ Botones, menús, mensajes, formularios y estados. Criterios de voz en `07-voice-
 | Contexto | Principal | Secundario |
 |----------|-----------|------------|
 | Hero del home | Ver número actual | — |
-| Tarjeta de número | 📄 PDF completo | Ver contenido |
-| Tarjeta de artículo | 📄 PDF | Leer más |
-| Número individual | Descargar PDF del número completo | Ver PDF |
-| Artículo individual | Descargar PDF del artículo | Ver PDF, Ver número completo |
+| Tarjeta de número | Ver contenido | Ver PDF, Descargar PDF |
+| Tarjeta de artículo | Ver artículo | Ver PDF, Descargar PDF |
+| Número individual | Ver PDF | Descargar PDF |
+| Artículo individual | Ver PDF | Descargar PDF, Ver número completo |
 | Normas | Descargar | Ver PDF |
 | Filtros de búsqueda | Buscar | Limpiar filtros |
 
@@ -119,9 +124,10 @@ Botones, menús, mensajes, formularios y estados. Criterios de voz en `07-voice-
 ## 7. Migas de pan
 
 - **Home:** Inicio
-- **Archivos:** Inicio → Archivos
-- **Número individual:** Inicio → Archivos → [Título del número]
-- **Artículo individual:** Inicio → Archivos → [Número] → [Título del artículo]
+- **Números publicados:** Inicio → Revista → Números publicados
+- **Artículos:** Inicio → Revista → Artículos
+- **Número individual:** Inicio → Revista → [Título del número]
+- **Artículo individual:** Inicio → Revista → [Número] → [Título del artículo]
 - **Páginas estáticas:** Inicio → [Título de la página]
 
 ---
@@ -130,12 +136,12 @@ Botones, menús, mensajes, formularios y estados. Criterios de voz en `07-voice-
 
 | Situación | Texto |
 |-----------|-------|
-| Sin resultados de búsqueda | No se encontraron resultados para su búsqueda. Puede intentar con otros términos o explorar el archivo de artículos. |
+| Sin resultados de búsqueda | No se encontraron resultados para su búsqueda. Puede intentar con otros términos o consultar el archivo de artículos. |
 | Archivo vacío (números) | Aún no hay números publicados. Consulte las normas para enviar una colaboración. |
 | Archivo vacío (artículos) | Aún no hay artículos publicados. Consulte el archivo de números o las normas para enviar una colaboración. |
 | 404 | La página que busca no existe. Puede volver al inicio o ver el número actual. |
-| Error de envío | No fue posible enviar el mensaje. Intente de nuevo o contacte al Consejo Editorial por correo electrónico. |
-| Error técnico | No fue posible completar la acción. Intente de nuevo o contacte al Consejo Editorial. |
+| Error de envío | No fue posible enviar el mensaje. Intente de nuevo o contacte al Comité Editorial por correo electrónico. |
+| Error técnico | No fue posible completar la acción. Intente de nuevo o contacte al Comité Editorial. |
 
 ---
 
@@ -145,9 +151,9 @@ Botones, menús, mensajes, formularios y estados. Criterios de voz en `07-voice-
 |----------|-------|
 | Enlace saltar | Saltar al contenido principal |
 | Toggle de nav | Menú |
-| Carrusel anterior | Slide anterior |
-| Carrusel siguiente | Siguiente slide |
-| Indicador de carrusel | Ir al slide [n] |
+| Carrusel anterior | Diapositiva anterior |
+| Carrusel siguiente | Siguiente diapositiva |
+| Indicador de carrusel | Ir a diapositiva [n] |
 | Descarga PDF (número) | Descargar PDF completo del Vol. [X] Nº [Y] ([año]) |
 | Descarga PDF (artículo) | Descargar PDF del artículo '[título]' |
 
@@ -172,6 +178,16 @@ Botones, menús, mensajes, formularios y estados. Criterios de voz en `07-voice-
 **Avisos:** "Se abre en nueva pestaña" para enlaces externos. Usar `aria-label` cuando el texto del enlace sea insuficiente.
 
 Criterios completos en `19-accessibility-standards`.
+
+---
+
+## 12. Área de autores
+
+| Elemento | Texto |
+|----------|-------|
+| Iniciar sesión | Iniciar sesión |
+| Crear envío | Crear envío |
+| Mis envíos | Mis envíos |
 
 ---
 

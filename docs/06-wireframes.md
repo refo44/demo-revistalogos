@@ -39,11 +39,11 @@ Los wireframes definen:
 
 | Bloque | Orden | Contenido / función |
 |--------|-------|---------------------|
-| Hero | 1 | Título (LOGO ET SPES), subtítulo, descripción breve, CTA principal (Ver número actual) |
-| Carrusel de banner | 2 | Opcional. Eventos, CENFISS. Slides con imagen, título, CTA. |
-| Grid de sidebar | 3 | Noticias (lista + enlace), Colaboración (info), CENFISS (enlace). Tarjetas. |
-
-**Nota:** Las secciones por disciplina (Metafísica, Ética, etc.) son opcionales; pueden ocultarse o mostrarse.
+| Hero | 1 | Título revista, subtítulo, CTA Ver número actual |
+| Número actual destacado | 2 | Portada del número, resumen breve, Ver número |
+| Artículos recientes | 3 | 3–4 artículos del número actual |
+| Carrusel | 4 | Opcional: eventos o anuncios |
+| Sidebar / tarjetas | 5 | Noticias, colaboración, CENFISS |
 
 ---
 
@@ -51,9 +51,9 @@ Los wireframes definen:
 
 | Bloque | Orden | Contenido / función |
 |--------|-------|---------------------|
-| Migas de pan | 1 | Inicio → Archivos → [Título del número] |
-| Header del número | 2 | Imagen de portada, título (Vol. X Nº Y), meta (ISSN, DOI, fecha), descripción, acciones (descarga PDF, Ver PDF) |
-| Tabla de contenidos | 3 | Secciones (Metafísica, Ética, etc.). Por sección: enlaces a artículos con autores, páginas, DOI. |
+| Migas de pan | 1 | Inicio → Revista → [Título del número] |
+| Encabezado del número | 2 | Imagen de portada, título (Vol. X Nº Y), meta (ISSN, DOI, fecha), descripción, acciones (Ver PDF, Descargar PDF) |
+| Tabla de contenidos | 3 | Secciones (Metafísica, Ética, etc.). Por sección: título del artículo, Autor → enlace al perfil, páginas, DOI. |
 
 ---
 
@@ -61,11 +61,13 @@ Los wireframes definen:
 
 | Bloque | Orden | Contenido / función |
 |--------|-------|---------------------|
-| Migas de pan | 1 | Inicio → Archivos → [Número] → [Título del artículo] |
-| Header del artículo | 2 | Título (ES/EN), autores, meta (volumen, páginas, DOI, fechas) |
-| Caja de metadatos | 3 | Autores, afiliaciones, ORCID, DOI, páginas, sección, palabras clave, fechas, cita sugerida |
-| Contenido del artículo | 4 | Resumen, Abstract, Palabras clave, cuerpo (secciones), referencias |
-| Acciones del artículo | 5 | Descarga PDF, Leer más (si extracto) |
+| Migas de pan | 1 | Inicio → Revista → [Número] → [Título del artículo] |
+| Encabezado del artículo | 2 | Título (ES/EN), Autores → enlace a perfil, meta (volumen, páginas, DOI, fechas) |
+| Resumen / Abstract | 3 | Resumen, Abstract, Palabras clave |
+| Contenido | 4 | Cuerpo (secciones) |
+| Referencias | 5 | Lista de referencias |
+| Caja de metadatos | 6 | Autores, afiliaciones, ORCID, DOI, páginas, sección, palabras clave, fechas, cita sugerida |
+| Acciones | 7 | Ver PDF, Descargar PDF |
 
 ---
 
@@ -73,9 +75,19 @@ Los wireframes definen:
 
 | Bloque | Orden | Contenido / función |
 |--------|-------|---------------------|
-| Migas de pan | 1 | Inicio → Archivos |
-| Header del archivo | 2 | Título, descripción |
-| Grid de números | 3 | Tarjetas: portada, volumen, título, meta, descripción, estadísticas, PDF + Ver contenido |
+| Migas de pan | 1 | Inicio → Revista → Números publicados |
+| Encabezado | 2 | Título, descripción |
+| Grid de números | 3 | Tarjetas: portada, volumen, título, meta, descripción, estadísticas, Ver PDF + Descargar PDF |
+
+---
+
+### Archivo de autores
+
+| Bloque | Orden | Contenido / función |
+|--------|-------|---------------------|
+| Migas de pan | 1 | Inicio → Revista → Autores |
+| Encabezado | 2 | Título, descripción |
+| Grid de autores | 3 | Tarjetas: nombre, afiliación, enlace a perfil |
 
 ---
 
@@ -83,10 +95,10 @@ Los wireframes definen:
 
 | Bloque | Orden | Contenido / función |
 |--------|-------|---------------------|
-| Migas de pan | 1 | Inicio → Artículos |
-| Header del archivo | 2 | Título, descripción |
-| Filtros | 3 | Búsqueda (título, autor, palabras clave), select sección, select año, Buscar, Limpiar |
-| Grid de artículos | 4 | Tarjetas: título, subtítulo (EN), autores, meta (DOI, páginas, sección, año), resumen, palabras clave, PDF + Leer más |
+| Migas de pan | 1 | Inicio → Revista → Artículos |
+| Encabezado | 2 | Título, descripción |
+| Filtros | 3 | Búsqueda (título, autor, palabras clave), select sección, select año, ordenar por (año, título), Buscar, Limpiar |
+| Grid de artículos | 4 | Tarjetas: título, subtítulo (EN), autores → enlace a perfil, meta (DOI, páginas, sección, año), resumen, palabras clave, Ver PDF + Descargar PDF |
 
 ---
 
@@ -94,10 +106,11 @@ Los wireframes definen:
 
 | Bloque | Orden | Contenido / función |
 |--------|-------|---------------------|
-| Migas de pan | 1 | Inicio → Enviar Colaboración |
-| Header de página | 2 | Título, descripción |
+| Migas de pan | 1 | Inicio → Enviar colaboración |
+| Encabezado | 2 | Título, descripción |
 | Contenido principal | 3 | Instrucciones numeradas (login/registro, normas, formulario, email). Caja de aviso. |
-| Sidebar | 4 | Enlaces útiles: Normas, Políticas, Comité, Contacto |
+| Acciones | 4 | Iniciar sesión, Crear envío |
+| Sidebar | 5 | Enlaces útiles: Normas, Políticas, Comité, Contacto |
 
 ---
 
@@ -106,7 +119,7 @@ Los wireframes definen:
 | Bloque | Orden | Contenido / función |
 |--------|-------|---------------------|
 | Migas de pan | 1 | Inicio → [Título de la página] |
-| Header de página | 2 | Título, descripción |
+| Encabezado | 2 | Título, descripción |
 | Contenido | 3 | Secciones editoriales (H2, H3), botones de descarga PDF, enlaces a APA/Vancouver |
 | Sidebar | 4 | Opcional. Enlaces rápidos, páginas relacionadas. |
 
@@ -117,9 +130,10 @@ Los wireframes definen:
 | Bloque | Orden | Contenido / función |
 |--------|-------|---------------------|
 | Migas de pan | 1 | Inicio → Acerca |
-| Header de página | 2 | Título, descripción |
+| Encabezado | 2 | Título, descripción |
 | Contenido principal | 3 | Reseña, Línea Editorial (Enfoque, Objetivos, Principios, Valores, Criterios), Fundamento Normativo |
-| Sidebar | 4 | Información de la Revista (ISSN, etc.), enlaces |
+| Bloque institucional | 4 | Descripción CENFISS + enlace externo |
+| Sidebar | 5 | Información de la Revista (ISSN, etc.), enlaces |
 
 ---
 
@@ -128,7 +142,7 @@ Los wireframes definen:
 | Bloque | Orden | Contenido / función |
 |--------|-------|---------------------|
 | Migas de pan | 1 | Inicio → Contacto |
-| Header de página | 2 | Título, descripción |
+| Encabezado | 2 | Título, descripción |
 | Contenido | 3 | Info CENFISS, dirección, email, web. Opcional: formulario de contacto. |
 
 ---
@@ -138,7 +152,7 @@ Los wireframes definen:
 | Bloque | Orden | Contenido / función |
 |--------|-------|---------------------|
 | Migas de pan | 1 | Inicio → Comité Editorial |
-| Header de página | 2 | Título, descripción |
+| Encabezado | 2 | Título, descripción |
 | Contenido | 3 | Consejo Editorial, Editor General, Editores adjuntos, Árbitros. Lista o tarjetas. |
 
 ---
@@ -148,7 +162,7 @@ Los wireframes definen:
 | Bloque | Orden | Contenido / función |
 |--------|-------|---------------------|
 | Migas de pan | 1 | Inicio → Enlaces |
-| Header de página | 2 | Título, descripción |
+| Encabezado | 2 | Título, descripción |
 | Contenido | 3 | Lista de enlaces externos (CENFISS, partners, recursos). |
 
 ---
@@ -158,8 +172,8 @@ Los wireframes definen:
 | Bloque | Orden | Contenido / función |
 |--------|-------|---------------------|
 | Migas de pan | 1 | Inicio → Noticias |
-| Header del archivo | 2 | Título, descripción |
-| Lista de entradas | 3 | Tarjetas: fecha, autor, título, extracto, Leer más |
+| Encabezado | 2 | Título, descripción |
+| Lista de entradas | 3 | Tarjetas de noticia: fecha, autor, título, extracto, Leer más |
 
 ---
 
@@ -168,9 +182,19 @@ Los wireframes definen:
 | Bloque | Orden | Contenido / función |
 |--------|-------|---------------------|
 | Migas de pan | 1 | Inicio → Noticias |
-| Header de la entrada | 2 | Fecha, autor, título |
+| Encabezado de la entrada | 2 | Fecha, autor, título |
 | Contenido de la entrada | 3 | Cuerpo completo |
 | Footer de la entrada | 4 | Opcional: entradas relacionadas, volver a Noticias |
+
+---
+
+### Autor individual
+
+| Bloque | Orden | Contenido / función |
+|--------|-------|---------------------|
+| Migas de pan | 1 | Inicio → Revista → Autores → [Nombre del autor] |
+| Perfil de autor | 2 | Bio, afiliación, ORCID |
+| Lista de artículos | 3 | Artículos publicados del autor |
 
 ---
 
@@ -178,8 +202,8 @@ Los wireframes definen:
 
 | Bloque | Orden | Contenido / función |
 |--------|-------|---------------------|
-| Header de búsqueda | 1 | Consulta, conteo de resultados |
-| Lista de resultados | 2 | Artículos/números/entradas que coinciden con la consulta. Mismo patrón de tarjeta que archivos. |
+| Encabezado de búsqueda | 1 | Consulta, conteo de resultados |
+| Lista de resultados | 2 | Prioridad: 1) Artículos, 2) Números, 3) Autores, 4) Noticias. Mismo patrón de tarjeta que archivos. |
 | Estado vacío | 3 | Si no hay resultados: mensaje, enlace a Inicio, enlaces para explorar |
 
 ---
@@ -195,7 +219,7 @@ Los wireframes definen:
 
 ## Reglas responsive
 
-- **Móvil:** Columna única; bloques apilados verticalmente; mismo orden que escritorio. Nav colapsa a toggle. Sidebar pasa debajo del contenido principal.
+- **Móvil:** Columna única; bloques apilados verticalmente; mismo orden que escritorio. Nav colapsa a toggle. Sidebar pasa debajo del contenido principal. Migas de pan pueden simplificarse a: Inicio → Sección (para evitar saturación).
 - **Tablet:** Igual que móvil; puede permitir grid de 2 columnas para tarjetas donde el espacio lo permita.
 - **Escritorio:** Maquetación main + sidebar donde aplique (Acerca, Enviar colaboración, Normas). Grids de tarjetas: 2–3 columnas.
 
@@ -208,14 +232,24 @@ Los wireframes definen:
 | Componente | Uso |
 |------------|-----|
 | Hero | Home. Título, subtítulo, CTA. |
-| Migas de pan | Todas las páginas de contenido. Inicio → ruta. |
-| Header de archivo | Archivos. Título, descripción. |
-| Tarjeta de número | Archivo de números, Home. Portada, título, meta, PDF, Ver contenido. |
-| Tarjeta de artículo | Archivo de artículos, TOC del número individual. Título, autores, resumen, PDF, Leer más. |
+| Migas de pan | Todas las páginas de contenido. Inicio → Revista → ruta. |
+| Encabezado | Archivos, páginas estáticas. Título, descripción. |
+| Tarjeta de número | Archivo de números, Home. Portada, título, meta, Ver PDF, Descargar PDF. |
+| Tarjeta de artículo | Archivo de artículos, TOC del número individual. Título, autores → perfil, resumen, Ver PDF, Descargar PDF. |
+| Tarjeta de noticia | Índice de noticias. Fecha, autor, título, extracto, Leer más. |
+| Perfil de autor | Página con bio y lista de artículos. |
 | Caja de metadatos | Artículo individual. Lista estructurada clave-valor. |
 | Tarjeta de sidebar | Acerca, Enviar colaboración, Normas. Enlaces relacionados, info. |
 | Sección editorial | Páginas estáticas. H2/H3, párrafos, listas. |
 | Paginación | Archivos, búsqueda. Anterior/siguiente, números de página. |
+
+---
+
+## Flujo principal de lectura
+
+Inicio → Número actual → Artículo → Autor / otros artículos
+
+Este flujo refleja cómo se navega una revista académica.
 
 ---
 

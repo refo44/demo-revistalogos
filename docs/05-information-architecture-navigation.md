@@ -23,37 +23,46 @@ Este documento define qué enlaces salen de cada pantalla, a dónde van, en qué
 
 ## 2. Navegación global
 
-**Regla de cantidad:** Menú de 4–6 ítems recomendado. La implementación actual tiene 8; considerar agrupar (ej. submenú Revista) para reducir carga cognitiva.
+**Regla de cantidad:** Menú de 4–6 ítems recomendado. Agrupar bajo Revista para respetar la arquitectura.
 
 ### Header
 
 | Enlace | Destino |
 |--------|---------|
-| Inicio | Home |
-| Número Actual | Número actual (single-issue) |
-| Números Publicados | Archivo de números |
-| Enviar colaboración | Página de envío (CTA principal) |
-| Acerca | Página Acerca |
+| Inicio | Página de inicio |
+| Revista | Subnavegación (Número actual, Números publicados, Artículos, Autores) |
+| Normas | Página Normas |
+| Enviar colaboración | Página de envío |
 | Noticias | Índice del blog |
+| Acerca | Página Acerca |
 | Contacto | Página de contacto |
-| Enlaces | Página de enlaces |
-| CENFISS | cenfiss.net (externo) |
+| CENFISS ↗ | cenfiss.net (externo) |
+
+**Nota:** CENFISS es un enlace institucional externo y abre en una nueva pestaña.
+
+### Subnavegación Revista
+
+| Enlace | Destino |
+|--------|---------|
+| Número actual | Número actual (single-issue) |
+| Números publicados | Archivo de números |
+| Artículos | Archivo de artículos |
+| Autores | Archivo de autores |
 
 ### Footer
 
 | Enlace | Destino |
 |--------|---------|
-| Número Actual | Número actual |
-| Archivos | Archivo de números |
+| Archivo de números | Archivo de números |
 | Artículos | Archivo de artículos |
-| Enviar Colaboración | Página de envío |
-| Búsqueda | Búsqueda |
-| Normas de Publicación | Página Normas |
-| Ética Editorial | Página Ética |
+| Normas | Página Normas |
+| Ética editorial | Página Ética |
 | Políticas | Página Políticas |
-| Comité Editorial | Página Comité |
-| Contacto | Contacto, web CENFISS, email |
-| Creative Commons | Licencia CC (externo) |
+| Comité editorial | Página Comité |
+| Contacto | Página de contacto, web CENFISS, email |
+| Licencia Creative Commons | Licencia CC (externo) |
+| Privacidad | Página de privacidad |
+| CENFISS | Sitio institucional (externo) |
 
 ---
 
@@ -61,10 +70,10 @@ Este documento define qué enlaces salen de cada pantalla, a dónde van, en qué
 
 | Pantalla | Enlace(s) primario(s) | Enlace(s) secundario(s) |
 |----------|----------------------|--------------------------|
-| Home | Ver número actual | Enviar colaboración, Normas, Acerca |
-| Número Actual (single-issue) | Descarga PDF, enlaces a artículos en TOC | Archivo de números, Inicio (migas de pan) |
-| Números Publicados | Cada tarjeta de número → single-issue | Inicio, Enviar colaboración |
-| Artículo individual | PDF, Leer texto completo | Número padre, Archivo de artículos, Inicio (migas de pan) |
+| Inicio | Ver número actual, Artículos recientes | Enviar colaboración, Normas, Acerca |
+| Número actual (single-issue) | Enlaces a artículos en TOC, Descarga PDF | Archivo de números, Inicio (migas de pan) |
+| Números publicados | Cada tarjeta de número → single-issue | Inicio, Enviar colaboración |
+| Artículo | Leer artículo | Descargar PDF, Número padre, Autor, Sección |
 | Archivo de artículos | Cada tarjeta de artículo → single-article | Filtrar por sección/tipo, Inicio |
 | Enviar colaboración | mailto, formulario PDF, Normas, Políticas | Comité, Contacto |
 | Normas | Descargas PDF, enlaces APA/Vancouver | Políticas, Enviar colaboración |
@@ -73,8 +82,10 @@ Este documento define qué enlaces salen de cada pantalla, a dónde van, en qué
 | Contacto | mailto, web CENFISS | Enviar colaboración |
 | Comité | — | Enviar colaboración, Normas |
 | Enlaces | Enlaces externos (CENFISS, partners) | Contacto |
-| Noticias | Cada entrada → entrada individual | Inicio, Enviar colaboración |
-| Entrada individual | — | Noticias, Inicio |
+| Noticias | Cada entrada → entrada de noticia | Inicio, Enviar colaboración |
+| Entrada de noticia | — | Noticias, Inicio |
+| Autor individual | Artículos del autor | Inicio, Archivo de autores |
+| Archivo de autores | Cada tarjeta de autor → single-author | Inicio |
 
 ---
 
@@ -84,7 +95,7 @@ Este documento define qué enlaces salen de cada pantalla, a dónde van, en qué
 
 | Enlace | Destino |
 |--------|---------|
-| Ir a Inicio | Home |
+| Ir a Inicio | Página de inicio |
 | Ver todos los números | Archivo de números |
 | Ver todos los artículos | Archivo de artículos |
 
@@ -92,7 +103,7 @@ Este documento define qué enlaces salen de cada pantalla, a dónde van, en qué
 
 | Enlace | Destino |
 |--------|---------|
-| Volver al inicio | Home |
+| Volver al inicio | Página de inicio |
 | Ver número actual | Número actual |
 
 **Nunca** dejar una pantalla sin salida.
@@ -101,8 +112,8 @@ Este documento define qué enlaces salen de cada pantalla, a dónde van, en qué
 
 ## 5. Reglas de migas de pan
 
-- **Número individual:** Inicio → Archivos → [Título del número]
-- **Artículo individual:** Inicio → Archivos → [Número] → [Título del artículo]
+- **Número individual:** Inicio → Revista → [Título del número]
+- **Artículo individual:** Inicio → Revista → [Número] → [Título del artículo]
 - **Páginas estáticas:** Inicio → [Título de la página]
 
 Las migas de pan ofrecen salida secundaria; siempre enlazar a Inicio.
@@ -114,6 +125,7 @@ Las migas de pan ofrecen salida secundaria; siempre enlazar a Inicio.
 Si un enlace no impulsa hacia:
 
 - El contenido principal (leer)
+- La exploración (números, autores, artículos)
 - La acción principal (enviar)
 - Contacto o siguiente paso
 
