@@ -9,8 +9,6 @@
 ._*
 .Spotlight-V100
 .Trashes
-ehthumbs.db
-Thumbs.db
 
 # Windows
 Thumbs.db
@@ -27,7 +25,6 @@ $RECYCLE.BIN/
 *.log
 *.swp
 *.swo
-*~
 
 # Node.js (if you add any build tools later)
 node_modules/
@@ -46,6 +43,7 @@ yarn-error.log*
 .idea/
 *.sublime-project
 *.sublime-workspace
+*.code-*
 
 # Backup files
 *.bak
@@ -59,3 +57,54 @@ yarn-error.log*
 
 # PDF files (optional - remove if you want to track PDFs)
 # *.pdf
+
+
+# Wordpress - ignore core, configuration, examples, uploads and logs.
+# https://github.com/github/gitignore/blob/main/WordPress.gitignore
+
+# Core
+/wp-admin/
+/wp-content/index.php
+/wp-content/languages
+/wp-content/plugins/index.php
+/wp-content/themes/index.php
+/wp-includes/
+/index.php
+/license.txt
+/readme.html
+/wp-*.php
+/xmlrpc.php
+
+# Configuration
+wp-config.php
+
+# Example themes
+/wp-content/themes/twenty*/
+
+# Example plugin
+/wp-content/plugins/hello.php
+
+# Uploads
+/wp-content/uploads/
+
+# htaccess
+/.htaccess
+
+# All plugins
+# /wp-content/plugins
+
+# All themes
+# /wp-content/themes
+
+# Content source: reference material from author
+/content-source/
+
+# Cursor rules
+.cursorrules
+.cursorrules.md
+.cursorrules.txt
+.cursorrules.yml
+.cursorrules.yaml
+.cursorrules.json
+.cursorrules.jsonc
+.cursorrules.json5
