@@ -1,4 +1,4 @@
-# {{PROJECT_NAME}} — WordPress Content Model
+# Revista de Filosofía LOGO ET SPES — WordPress Content Model
 
 **Version 1.0**
 
@@ -15,17 +15,19 @@ Official content model for the WordPress implementation. Based on platform plan 
 
 | Key | Label | Type | Slug | Main use |
 |-----|-------|------|------|----------|
-| page | Pages | Native | per page | {{PAGE_USE}} |
-| {{CPT_1_KEY}} | {{CPT_1_LABEL}} | Custom | {{CPT_1_SLUG}} | {{CPT_1_USE}} |
-| … | … | … | … | … |
+| page | Pages | Native | per page | Static institutional and editorial pages |
+| post | Posts | Native | noticias | Noticias, CENFISS presente, misceláneas |
+| issue | Números | Custom | numeros | Journal volumes (annual issues) |
+| article | Artículos | Custom | articulos | Articles, essays, reviews (peer-reviewed content) |
 
 ### Fixed vs. dynamic content
 
 | Type | Management |
 |------|------------|
 | Static pages | page |
-| {{DYNAMIC_TYPE_1}} | {{CPT_OR_BLOCK}} |
-| … | … |
+| Issues (números) | issue (CPT) |
+| Articles, essays, reviews | article (CPT) |
+| Noticias, CENFISS presente | post |
 
 ---
 
@@ -33,35 +35,88 @@ Official content model for the WordPress implementation. Based on platform plan 
 
 ### Home (front-page)
 
-- Hero: title, subtitle, primary button
-- {{BLOCK_1}}
-- {{BLOCK_2}}
-- …
+- Hero: title, subtitle, short description, primary CTA (link to current issue)
+- Block: Current issue card (title, cover, link, PDF)
+- Block: Optional banner carousel (events, CENFISS)
+- Block: Quick links (Normas, Enviar colaboración)
 
-### {{PAGE_1_SLUG}} (page)
+### acerca (page)
 
-- {{FIELD_1}}
-- {{FIELD_2}}
-- …
+- Title, content (enfoque, alcance, objetivos, origen del nombre Logo et Spes)
+- Optional: Editorial board summary
 
-### {{PAGE_2_SLUG}} (page)
+### contacto (page)
 
-- {{FIELD_1}}
-- …
+- Title, content
+- Contact info: email (revista.cenfiss@gmail.com), CENFISS web, address
+- Optional: Contact form (or mailto link)
+
+### normas (page)
+
+- Title, content (normas de publicación)
+- PDF download: Solicitud de Publicación y Declaración de Ética
+- PDF download: Instrumento de Arbitraje
+- Links to APA, Vancouver guides
+
+### politicas (page)
+
+- Title, content (políticas editoriales)
+
+### enviar-colaboracion (page)
+
+- Title, content (instructions for authors)
+- PDF download: Solicitud de Publicación
+- Links to normas, politicas
+
+### comite (page)
+
+- Title, content (Consejo Editorial, Editor General, Editores adjuntos, Árbitros)
+
+### enlaces (page)
+
+- Title, content (enlaces de interés, CENFISS, partners)
 
 ---
 
 ## 3. Custom Post Types
 
-### {{CPT_KEY}}
+### issue
 
 | Field | Type | Use |
 |-------|------|-----|
-| {{FIELD_1}} | text | {{USE}} |
-| {{FIELD_2}} | date | {{USE}} |
-| … | … | … |
+| Title | Native | Volume title (e.g. "Filosofía Contemporánea: Nuevas Perspectivas") |
+| Content | Native | Editorial text |
+| Featured image | Native | Cover image |
+| volume_number | number | Vol. 12 |
+| issue_number | number | Nº 2 |
+| year | number | 2025 |
+| date_published | date | Publication date |
+| issn | text | ISSN (when available) |
+| doi | text | DOI prefix/suffix |
+| pdf_url | url | Full issue PDF |
+| article_count | number | Optional, for display |
 
-**Priority to native fields:** Use WordPress native fields (Title, Content, Featured image) when possible. Custom fields complement what core does not offer.
+**Relations:** Articles are linked to an issue via post meta or taxonomy.
+
+### article
+
+| Field | Type | Use |
+|-------|------|-----|
+| Title | Native | Spanish title |
+| Content | Native | Full body (or excerpt + PDF link) |
+| title_en | text | English title (required per norms) |
+| abstract | textarea | Spanish abstract (max 250 words) |
+| abstract_en | textarea | English abstract |
+| keywords | text | 3–5 keywords, comma-separated |
+| article_type | select | article \| essay \| review |
+| authors | repeater/relation | Author names, ORCID, affiliation, bio |
+| doi | text | Article DOI |
+| pages | text | Pagination (e.g. "15-32") |
+| pdf_url | url | Article PDF |
+| issue | relation | Parent issue |
+| section | taxonomy | Metafísica, Ética, Epistemología, etc. |
+
+**Priority to native fields:** Use Title, Content, Featured image when possible. Custom fields complement.
 
 ---
 
@@ -69,18 +124,24 @@ Official content model for the WordPress implementation. Based on platform plan 
 
 | Key | Label | Type | Applies to |
 |-----|-------|------|------------|
-| {{TAX_1_KEY}} | {{TAX_1_LABEL}} | Hierarchical | {{CPT}} |
-| … | … | … | … |
+| section | Sección | Hierarchical | article |
+| article_type | Tipo | Non-hierarchical | article |
+
+**Section values (examples):** Metafísica, Ética, Epistemología, Filosofía de la Religión, Filosofía Política, Lógica, Historia de la Filosofía, Otros.
 
 ---
 
 ## 5. Minimum templates
 
 - `front-page.php`: Home
-- `page-{{slug}}.php`: Per page
-- `archive-{{cpt}}.php`: Listings
-- `single-{{cpt}}.php`: Single items
-- `page.php`: Fallback
+- `page-acerca.php`, `page-contacto.php`, `page-normas.php`, `page-politicas.php`, `page-enviar-colaboracion.php`, `page-comite.php`, `page-enlaces.php`
+- `archive-issue.php`: List of numbers
+- `single-issue.php`: Single issue
+- `archive-article.php`: List of articles (filterable by section, type)
+- `single-article.php`: Single article
+- `home.php` or `index.php`: Noticias (blog index)
+- `single.php`: Single post (noticia)
+- `page.php`: Fallback for other pages
 - `404.php`: Not found
 
 ---
@@ -88,10 +149,11 @@ Official content model for the WordPress implementation. Based on platform plan 
 ## 6. External integrations
 
 | Resource | Implementation |
-|----------|-----------------|
-| {{INTEGRATION_1}} | {{HOW}} |
-| {{INTEGRATION_2}} | {{HOW}} |
-| … | … |
+|----------|----------------|
+| Email (revista.cenfiss@gmail.com) | mailto links or contact form plugin |
+| PDF forms | Media library; links from normas, enviar-colaboracion |
+| CENFISS site (cenfiss.net) | External links in footer, enlaces |
+| DOI resolver | Optional: link to doi.org for article DOIs |
 
 ---
 
@@ -107,9 +169,9 @@ Without replacing `19-accessibility-standards`, this model requires:
 
 ## 8. Guiding principle
 
-Everything in this model exists for: **{{MAIN_PURPOSE}}**. No marketing layers or funnels. Only clarity and purpose.
+Everything in this model exists for: **diffusing and divulging philosophical thought through an academic, open-access publication**. No marketing layers or funnels. Only clarity and purpose.
 
 ---
 
 **Version:** 1.0  
-**Project:** {{PROJECT_NAME}}
+**Project:** Revista de Filosofía LOGO ET SPES

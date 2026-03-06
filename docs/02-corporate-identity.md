@@ -1,47 +1,54 @@
-# {{PROJECT_NAME}} — Corporate Identity
+# Revista de Filosofía LOGO ET SPES — Corporate Identity
 
 **Version 1.0**
 
-This document defines the visual and typographic identity system for the site. Values come strictly from the brand manual.
+This document defines the visual and typographic identity system for the site. Values come from the implementation and the project document.
 
-**Canonical source:** `content-source/{{PROJECT_FOLDER}}/{{BRAND_MANUAL_FILENAME}}`
+**Canonical source:** `content-source/PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md`  
+**Implementation reference:** `assets/css/tokens.css`, `assets/img/logo-revista.svg`
 
 ---
 
 ## 1. Color palette
 
-Only the colors defined in the brand manual exist. These constitute the chromatic core. Do not add additional primary colors.
+Only the colors defined here exist. These constitute the chromatic core. Do not add additional primary colors.
 
 | Name | Hex | RGB |
 |------|-----|-----|
-| {{COLOR_1_NAME}} | {{COLOR_1_HEX}} | R: {{R}}, G: {{G}}, B: {{B}} |
-| {{COLOR_2_NAME}} | {{COLOR_2_HEX}} | … |
-| … | … | … |
+| Azul institucional | #1e3a8a | R: 30, G: 58, B: 138 |
+| Azul claro | #3b82f6 | R: 59, G: 130, B: 246 |
+| Azul oscuro | #1e40af | R: 30, G: 64, B: 175 |
+| Gris neutro | #64748b | R: 100, G: 116, B: 139 |
+| Texto principal | #1e293b | R: 30, G: 41, B: 59 |
+| Blanco | #ffffff | R: 255, G: 255, B: 255 |
+| Enlace | #00b0f0 | R: 0, G: 176, B: 240 |
+
+**Note:** The project document mentions *verde aguamarina degradado* for the cover. The current digital implementation uses the blue palette above. If a formal brand manual is adopted, it prevails.
 
 ### 1.1 Semantic order (for implementation)
 
 | Token | Hex | Suggested use |
 |-------|-----|---------------|
-| `--brand-1` | {{HEX}} | Primary accent, links, CTAs |
-| `--brand-2` | {{HEX}} | Secondary accent, hover |
-| `--brand-3` | {{HEX}} | Surfaces, soft backgrounds, borders |
-| `--brand-4` | {{HEX}} | Text, header, footer |
+| `--brand-1` | #1e3a8a | Primary accent, header, CTAs |
+| `--brand-2` | #3b82f6 | Secondary accent, hover, links |
+| `--brand-3` | #ffffff | Surfaces, backgrounds |
+| `--brand-4` | #1e293b | Text, body copy |
 
 ### 1.2 Semantic roles (CSS)
 
 ```css
 :root {
-  --brand-1: {{HEX}};   /* Primary accent */
-  --brand-2: {{HEX}};   /* Secondary accent */
-  --brand-3: {{HEX}};   /* Surfaces, borders */
-  --brand-4: {{HEX}};   /* Text */
+  --brand-1: #1e3a8a;   /* Primary accent */
+  --brand-2: #3b82f6;   /* Secondary accent */
+  --brand-3: #ffffff;   /* Surfaces, borders */
+  --brand-4: #1e293b;   /* Text */
 
   --bg: var(--brand-3);
   --text: var(--brand-4);
-  --text-muted: var(--brand-2);
+  --text-muted: #64748b;
   --surface: var(--brand-3);
-  --border: var(--brand-3);
-  --link: var(--brand-1);
+  --border: #e5e7eb;
+  --link: #00b0f0;
   --link-hover: var(--brand-2);
   --primary: var(--brand-1);
   --primary-hover: var(--brand-2);
@@ -58,26 +65,32 @@ Only the colors defined in the brand manual exist. These constitute the chromati
 
 | Family | Use |
 |--------|-----|
-| **{{FONT_DISPLAY}}** | Titles, brand voice, highlights |
-| **{{FONT_BODY}}** | Body text, navigation |
+| **Georgia** | Titles, brand voice, highlights, logo |
+| **System UI** | Body text, navigation, UI |
 
 ### 2.1 CSS variables
 
 ```css
 :root {
-  --font-display: "{{FONT_DISPLAY}}", serif;
-  --font-heading: "{{FONT_HEADING}}", serif;
-  --font-body: "{{FONT_BODY}}", system-ui, sans-serif;
+  --font-display: "Georgia", "Times New Roman", serif;
+  --font-heading: "Georgia", "Times New Roman", serif;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 ```
+
+### 2.2 Scale (from tokens)
+
+- Base: 1rem (16px)
+- Body: 1rem, line-height 1.5
+- Headings: 1.25rem → 3rem (xl to 5xl)
 
 ---
 
 ## 3. Logo
 
-- **File:** `content-source/{{PROJECT_FOLDER}}/{{LOGO_FILENAME}}`
-- **Favicon:** Derive from logo.
-- **Use:** Header, favicon, digital materials.
+- **Revista:** `assets/img/logo-revista.svg` — Header, digital materials
+- **CENFISS:** `assets/img/logo-cenfiss.svg` — Institutional reference
+- **Favicon:** `assets/img/favicon.svg` — Derived from logo
 - **Rule:** Do not alter proportions, color or composition.
 
 ---
@@ -86,10 +99,10 @@ Only the colors defined in the brand manual exist. These constitute the chromati
 
 | Trait | Description |
 |------|-------------|
-| Voice | {{VOICE_TRAIT}} |
-| Aesthetic | {{AESTHETIC_TRAIT}} |
-| Rhythm | {{RHYTHM_TRAIT}} |
-| Function | {{FUNCTION_TRAIT}} |
+| Voice | Academic, clear, rigorous. No commercial pressure. |
+| Aesthetic | Institutional, calm. Blue palette conveys trust and seriousness. |
+| Rhythm | Generous whitespace. Vertical reading flow. No dense grids. |
+| Function | Guide the visitor to read, submit, or contact. |
 
 ---
 
@@ -105,6 +118,7 @@ Only the colors defined in the brand manual exist. These constitute the chromati
 
 - Discrete, without dominating content
 - No aggressive CTAs
+- Primary CTA: Enviar Colaboración (clear, not pushy)
 
 ---
 
@@ -121,10 +135,10 @@ Only the colors defined in the brand manual exist. These constitute the chromati
 
 ## 7. Final rule
 
-Nothing visual is decided outside this system. Brand manual colors and fonts are the source of truth. In case of conflict, the brand manual prevails.
+Nothing visual is decided outside this system. In case of conflict with a future brand manual, the brand manual prevails.
 
 ---
 
 **Version:** 1.0  
-**Source:** {{BRAND_MANUAL_FILENAME}}  
-**Project:** {{PROJECT_NAME}}
+**Source:** PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md, tokens.css  
+**Project:** Revista de Filosofía LOGO ET SPES

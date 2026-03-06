@@ -1,4 +1,4 @@
-# {{PROJECT_NAME}} — Screen Map
+# Revista de Filosofía LOGO ET SPES — Screen Map
 
 List of what screens exist. Does not describe design; only what views to build. Single source for "what views to build". Content of each is in 03; theme structure in 12.
 
@@ -11,10 +11,16 @@ List of what screens exist. Does not describe design; only what views to build. 
 
 | Page | Function |
 |------|----------|
-| Home | {{HOME_FUNCTION}} |
-| {{PAGE_1}} | {{PAGE_1_FUNCTION}} |
-| {{PAGE_2}} | {{PAGE_2_FUNCTION}} |
-| … | … |
+| Home | Hero, current issue, primary CTA. Entry point to read and submit. |
+| Acerca | Enfoque, alcance, objetivos, origen del nombre Logo et Spes. |
+| Contacto | Institutional contact, editorial board, CENFISS, email. |
+| Normas | Normas de publicación, PDF downloads, links to APA/Vancouver. |
+| Ética | Normas de ética editorial (COPE alignment). |
+| Políticas | Políticas editoriales. |
+| Enviar colaboración | Instructions for authors, forms, primary CTA for submission. |
+| Comité Editorial | Consejo Editorial, Editor General, Editores adjuntos, Árbitros. |
+| Enlaces | Enlaces de interés, CENFISS, partners. |
+| Noticias | Blog index. CENFISS presente, events, misceláneas. |
 
 ---
 
@@ -22,7 +28,8 @@ List of what screens exist. Does not describe design; only what views to build. 
 
 | Page | Condition |
 |------|-----------|
-| {{CONDITIONAL_PAGE}} | {{CONDITION}} |
+| Search results | User submits search query. |
+| Archive filtered | User filters by section/article_type (articles, issues). |
 
 ---
 
@@ -30,8 +37,19 @@ List of what screens exist. Does not describe design; only what views to build. 
 
 | View | Use |
 |------|-----|
-| {{SINGLE_1}} | {{USE}} |
-| … | … |
+| Single issue | Single issue (número). Editorial, article list, PDF download. |
+| Single article | Single article, essay or review. Full text or PDF, metadata, authors. |
+| Single post | Single noticia. CENFISS presente, events. |
+
+---
+
+## Archive views
+
+| View | Use |
+|------|-----|
+| Archive issues | List of all published numbers. |
+| Archive articles | List of articles. Filter by section, type, issue. |
+| Archive authors | List of authors (optional; may link from article metadata). |
 
 ---
 
@@ -39,15 +57,17 @@ List of what screens exist. Does not describe design; only what views to build. 
 
 | State | Description |
 |-------|-------------|
-| {{STATE_1}} | {{DESCRIPTION}} |
-| 404 | Page does not exist |
+| Empty search | No results for query. Offer link to home or browse. |
+| Empty archive | No issues/articles yet. Informational message. |
+| 404 | Page does not exist. Link to home. |
 
 ---
 
 ## Global elements (components, not screens)
 
-**Header:** {{HEADER_CONTENT}}  
-**Footer:** {{FOOTER_CONTENT}}
+**Header:** Logo, main nav (Inicio, Número Actual, Números Publicados, Enviar colaboración, Acerca, Noticias, Contacto, Enlaces), CENFISS link.
+
+**Footer:** Revista info (ISSN, DOI), Enlaces rápidos, Normas editoriales, Contacto, CC license.
 
 Present on all pages.
 
@@ -55,13 +75,15 @@ Present on all pages.
 
 ## Total screens to build
 
-**Main pages (static):** {{LIST}}
+**Main pages (static):** Home, Acerca, Contacto, Normas, Ética, Políticas, Enviar colaboración, Comité Editorial, Enlaces, Noticias
 
-**Conditional:** {{CONDITIONAL_LIST}}
+**Archives:** Archive issues, Archive articles
 
-**Content views:** {{SINGLE_LIST}}
+**Content views:** Single issue, Single article, Single post
 
-**States:** {{STATE_LIST}}
+**Conditional:** Search results, Filtered archives
+
+**States:** 404, Empty search, Empty archive
 
 **Global components:** Header, Footer
 
@@ -72,8 +94,21 @@ Present on all pages.
 | View | Template |
 |------|----------|
 | Home | `front-page.php` |
-| {{PAGE}} | `page-{{slug}}.php` |
-| … | … |
+| Acerca | `page-acerca.php` |
+| Contacto | `page-contacto.php` |
+| Normas | `page-normas.php` |
+| Ética | `page-etica.php` |
+| Políticas | `page-politicas.php` |
+| Enviar colaboración | `page-enviar-colaboracion.php` |
+| Comité Editorial | `page-comite.php` |
+| Enlaces | `page-enlaces.php` |
+| Noticias | `home.php` or `index.php` |
+| Archive issues | `archive-issue.php` |
+| Archive articles | `archive-article.php` |
+| Single issue | `single-issue.php` |
+| Single article | `single-article.php` |
+| Single post | `single.php` |
+| Search | `search.php` |
 | 404 | `404.php` |
 | Header | `parts/header.php` |
 | Footer | `parts/footer.php` |
@@ -82,13 +117,15 @@ Present on all pages.
 
 ## What the site does NOT have
 
-- {{EXCLUDED_1}}
-- {{EXCLUDED_2}}
-- …
+- User dashboard or account management
+- E-commerce or payments
+- Comments on articles
+- Social feed or social login
+- Advertising or sponsored content
 
 Helps scope and avoid creep.
 
 ---
 
 **Version:** 1.0  
-**Project:** {{PROJECT_NAME}}
+**Project:** Revista de Filosofía LOGO ET SPES

@@ -1,24 +1,24 @@
-# {{PROJECT_NAME}} — Platform Master Plan
+# Revista de Filosofía LOGO ET SPES — Platform Master Plan
 
 **Version 1.0**
 
 The corporate identity defined in `02-corporate-identity` is the closed visual layer.
 
-This document defines the system that allows {{PROJECT_NAME}} to exist, be discovered, be traversed and endure as a living space.
+This document defines the system that allows Revista de Filosofía LOGO ET SPES to exist, be discovered, be traversed and endure as a living space.
 
-This site is not {{SITE_TYPE_NEGATIVE}}.  
-It is {{SITE_TYPE_POSITIVE}}.
+This site is not a commercial funnel, a landing page, or a marketing-oriented publication.  
+It is an academic digital publication platform for philosophical thought.
 
 The problem this plan addresses is not aesthetic. It is structural and orientational:
 
-- What is {{CORE_CONCEPT}} in this digital space?
+- What is philosophical knowledge in this digital space?
 - What is the main action or outcome?
 - How does the visitor reach it without losing orientation?
 
 **Canonical sources:**
 
-- `content-source/{{PROJECT_FOLDER}}/` — Replace with your project folder
-- Add specific source files (docx, pdf, brand manual) as needed
+- `content-source/PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md` — Project document (structure, policies, editorial norms)
+- Add specific source files (brand manual, PDFs) as needed
 
 ---
 
@@ -26,10 +26,10 @@ The problem this plan addresses is not aesthetic. It is structural and orientati
 
 | Principle | Operational meaning |
 |-----------|----------------------|
-| **{{PRINCIPLE_1_NAME}}** | {{PRINCIPLE_1_DESCRIPTION}} |
-| **{{PRINCIPLE_2_NAME}}** | {{PRINCIPLE_2_DESCRIPTION}} |
-| **{{PRINCIPLE_3_NAME}}** | {{PRINCIPLE_3_DESCRIPTION}} |
-| **{{PRINCIPLE_4_NAME}}** | {{PRINCIPLE_4_DESCRIPTION}} |
+| **Open access** | All content is free. No cost to authors or readers. Knowledge is accessible to the academic community and the public. |
+| **Academic rigor** | Double-blind peer review. Compliance with editorial policies, publication norms, and ethics. Antiplagiarism. |
+| **Orientation** | Each screen offers a clear next step or exit. No maze. The visitor always knows how to reach the main action (read, submit, contact). |
+| **Institutional anchor** | CENFISS identity is visible. Footer and key pages reinforce trust, ISSN, Depósito Legal, and contact. |
 
 ---
 
@@ -62,10 +62,12 @@ Defines what exists within the system.
 
 | Section | Function |
 |---------|----------|
-| {{SECTION_1}} | {{SECTION_1_FUNCTION}} |
-| {{SECTION_2}} | {{SECTION_2_FUNCTION}} |
-| {{SECTION_3}} | {{SECTION_3_FUNCTION}} |
-| … | … |
+| Inicio | Home. Hero, current issue, quick access to main content. |
+| Revista | Número actual, archivos, artículos, autores, comité editorial. |
+| Normas | Normas de publicación, ética editorial, políticas, enviar colaboración. |
+| Acerca | Enfoque, alcance, objetivos, origen del nombre Logo et Spes. |
+| Contacto | Institutional contact, editorial board, CENFISS. |
+| Noticias | CENFISS presente, events, misceláneas. |
 
 ---
 
@@ -75,9 +77,13 @@ Defines what each entity is within the system.
 
 | Type | Function |
 |------|----------|
-| {{CONTENT_TYPE_1}} | {{CONTENT_TYPE_1_FUNCTION}} |
-| {{CONTENT_TYPE_2}} | {{CONTENT_TYPE_2_FUNCTION}} |
-| … | … |
+| Issue (número) | A volume of the journal. Contains editorial, articles, essays, misceláneas. |
+| Article | Peer-reviewed research (6,500–8,000 words). Abstract, keywords, references. |
+| Essay | Peer-reviewed argumentative text (5,000–7,500 words). |
+| Review (reseña) | Critical review of a book, conference, film, etc. (500–700 words). |
+| Editorial | Editorial board statement per issue. |
+| Author | Author profile. Name, affiliation, ORCID, bio. |
+| Misceláneas | Reseñas, CENFISS presente, número anterior. |
 
 ---
 
@@ -87,9 +93,9 @@ Defines how the site is traversed.
 
 Elements:
 
-- Main menu (4–6 items recommended)
-- Primary CTA
-- Footer as institutional anchor
+- Main menu (4–6 items recommended): Inicio, Revista, Normas, Acerca, Contacto, Noticias
+- Primary CTA: Enviar Colaboración (for authors)
+- Footer as institutional anchor: ISSN, Depósito Legal, CENFISS, Creative Commons, contact
 
 **Rule:** The visitor always knows how to reach the main action or contact.
 
@@ -101,9 +107,10 @@ Defines the living rhythm of the site.
 
 Allows:
 
-- {{PUBLICATION_CAPABILITY_1}}
-- {{PUBLICATION_CAPABILITY_2}}
-- …
+- Annual issue publication (ordinary and eventual extraordinary numbers)
+- Editorial updates (editorial, misceláneas, CENFISS presente)
+- New article/essay/review submissions without development intervention
+- Form downloads (Solicitud de Publicación, Instrumento de Arbitraje)
 
 **Technical principle:** The system must allow constant updates without development intervention.
 
@@ -115,9 +122,9 @@ Defines how the site communicates.
 
 Includes:
 
-- Voice and tone
-- Clear, consistent language
-- No commercial pressure
+- Voice and tone: Academic, clear, rigorous. No commercial pressure.
+- Clear, consistent language: Spanish primary; titles in Spanish and English.
+- No commercial pressure: Open access, no fees, no marketing funnels.
 
 ---
 
@@ -137,9 +144,11 @@ Must guarantee:
 
 ### Layer 8. Legal and institutional anchor
 
-- {{LEGAL_ELEMENT_1}}
-- {{LEGAL_ELEMENT_2}}
-- …
+- ISSN and Depósito Legal (Biblioteca Nacional de Venezuela)
+- Creative Commons (Attribution, non-commercial)
+- Privacy and confidentiality policy (authors, reviewers, visitors)
+- Ethics declaration (COPE alignment)
+- Copyright policy (Venezuelan law, SAPI)
 
 ---
 
@@ -160,9 +169,10 @@ Must cross:
 
 Without touching code, the site owner can:
 
-- {{CAPABILITY_1}}
-- {{CAPABILITY_2}}
-- …
+- Publish new issues (editorial, articles, essays, misceláneas)
+- Update CENFISS presente and event information
+- Manage author and reviewer data
+- Update norms, policies, and forms
 
 Without modifying the central structure.
 
@@ -177,25 +187,32 @@ It is not:
 - A commercial site
 - A marketing-oriented CMS
 
-It is {{SITE_TYPE_POSITIVE}}.
+It is an academic digital publication platform for philosophical thought.
 
 ---
 
 ## Status
 
-| Layer | Status |
-|-------|--------|
-| Identity | Closed |
-| Architecture | Defined |
-| Content model | Defined |
-| Navigation | Defined |
-| Publication | {{STATUS}} |
-| Editorial | {{STATUS}} |
-| Infrastructure | To implement |
-| Legal | {{STATUS}} |
+| Layer | Status | Notes |
+|-------|--------|-------|
+| Identity | In use, doc pending | `tokens.css` has palette and typography. `02-corporate-identity` still has placeholders. |
+| Architecture | Implemented | Pages exist: Inicio, Revista (issue/article archives), Normas, Acerca, Contacto, Noticias. |
+| Content model | Implemented | Issue, article, essay, review views. Single/archive templates. |
+| Navigation | Implemented | Header nav, footer, primary CTA (Enviar Colaboración). |
+| Publication | Static only | No CMS. Content is hardcoded. Forms link to PDFs. |
+| Editorial | Implemented | Voice and tone in place. No commercial pressure. |
+| Infrastructure | Partial | Live at GitHub Pages. `deploy.sh` references non-existent `prototype/`. GitLab CI expects `public/`. No 404.html. |
+| Legal | Partial | CC license in footer. Privacy/ethics pages exist. ISSN placeholder. |
+
+### Implementation gaps
+
+- **404 page:** Missing. Add `404.html` for broken links.
+- **Deploy script:** `deploy.sh` checks for `prototype/front-page.html`; site lives at root with `index.html`.
+- **Docs 02–20:** Most retain `{{placeholders}}`. Need filling for traceability.
+- **WordPress:** Not started. Static maquette is the current deliverable.
 
 ---
 
 **Version:** 1.0  
 **Depends on:** content-source  
-**Project:** {{PROJECT_NAME}}
+**Project:** Revista de Filosofía LOGO ET SPES
