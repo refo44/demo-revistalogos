@@ -20,7 +20,7 @@ Define la estructura de archivos del tema: qué plantillas existen y qué partes
 | Ética | `page-etica.php` |
 | Políticas | `page-politicas.php` |
 | Enviar colaboración | `page-enviar-colaboracion.php` |
-| Comité Editorial | `page-comite.php` |
+| Comité Editorial | `page-comite-editorial.php` |
 | Enlaces | `page-enlaces.php` |
 | Páginas fallback | `page.php` |
 | Fallback global | `index.php` |
@@ -68,7 +68,7 @@ Define la estructura de archivos del tema: qué plantillas existen y qué partes
 
 ## 4.1 Archivos de taxonomía (artículos filtrados)
 
-Rutas `/articulos/seccion/{section}/` y `/articulos/tipo/{type}/` (según `11-url-tree`).
+Rutas `/revista/seccion/{slug}/` y `/revista/tipo/{slug}/` (según `11-url-tree`).
 
 | Opción | Plantilla | Uso |
 |--------|-----------|-----|
@@ -80,22 +80,23 @@ Rutas `/articulos/seccion/{section}/` y `/articulos/tipo/{type}/` (según `11-ur
 
 ---
 
-## 5. Partes reutilizables
+## 5. Partes reutilizables (template-parts)
 
 | Archivo | Función |
 |---------|---------|
-| `header.php` | Entrada para `get_header()`; carga `parts/header.php` |
-| `footer.php` | Entrada para `get_footer()`; carga `parts/footer.php` |
-| `parts/header.php` | Header (logo + navegación) |
-| `parts/footer.php` | Footer |
-| `parts/breadcrumbs.php` | Ruta de migas de pan (Inicio → ruta) |
-| `parts/issue-card.php` | Tarjeta de número (portada, título, meta, PDF, Ver contenido) |
-| `parts/article-card.php` | Tarjeta de artículo (título, autores, resumen, PDF, Leer más) |
-| `parts/hero-issue.php` | Bloque hero del número actual (Home) |
-| `parts/metadata-box.php` | Metadatos del artículo (autores, DOI, palabras clave, cita) |
-| `parts/toc.php` | Tabla de contenidos (número individual) |
-| `parts/pagination.php` | Anterior/siguiente, números de página (archivos, búsqueda) |
-| `parts/sidebar-card.php` | Bloque de sidebar (enlaces relacionados, info) |
+| `header.php` | Entrada para `get_header()`; carga `template-parts/header.php` |
+| `footer.php` | Entrada para `get_footer()`; carga `template-parts/footer.php` |
+| `template-parts/header.php` | Header (logo + navegación). Incluir `<nav aria-label="Navegación principal">` y enlace saltar. |
+| `template-parts/footer.php` | Footer |
+| `template-parts/breadcrumbs.php` | Ruta de migas de pan (Inicio → Revista → ruta). Helper en `template-tags.php`. |
+| `template-parts/issue-card.php` | Tarjeta de número (portada, título, meta, PDF, Ver contenido) |
+| `template-parts/article-card.php` | Tarjeta de artículo (título, autores, resumen, PDF, Ver artículo) |
+| `template-parts/hero-current-issue.php` | Bloque hero del número actual (Home) |
+| `template-parts/metadata-box.php` | Metadatos del artículo (autores, DOI, palabras clave, cita) |
+| `template-parts/toc.php` | Tabla de contenidos (número individual) |
+| `template-parts/pagination.php` | Anterior/siguiente, números de página (archivos, búsqueda) |
+| `template-parts/sidebar-card.php` | Bloque de sidebar (enlaces relacionados, info) |
+| `template-parts/schema-article.php` | Metadata estructurada Schema.org/ScholarlyArticle (Google Scholar) |
 
 ---
 
@@ -121,10 +122,11 @@ revistalogos/
 ├── page-etica.php
 ├── page-politicas.php
 ├── page-enviar-colaboracion.php
-├── page-comite.php
+├── page-comite-editorial.php
 ├── page-enlaces.php
 ├── archive-issue.php
 ├── archive-article.php
+├── archive-author.php
 ├── single-issue.php
 ├── single-article.php
 ├── comments.php            (mínimo; comentarios deshabilitados para artículos)
@@ -136,6 +138,18 @@ revistalogos/
 │   ├── cpt-submission.php
 │   ├── taxonomies.php
 │   └── template-tags.php
+├── template-parts/
+│   ├── header.php
+│   ├── footer.php
+│   ├── breadcrumbs.php
+│   ├── issue-card.php
+│   ├── article-card.php
+│   ├── hero-current-issue.php
+│   ├── metadata-box.php
+│   ├── toc.php
+│   ├── pagination.php
+│   ├── sidebar-card.php
+│   └── schema-article.php
 ├── assets/
 │   ├── css/
 │   │   ├── main.css       (entrada: importa o concatena)
@@ -143,28 +157,26 @@ revistalogos/
 │   │   ├── base.css
 │   │   ├── layout.css
 │   │   ├── components.css
-│   │   ├── pages.css
+│   │   ├── pages/
+│   │   │   ├── home.css
+│   │   │   ├── archive.css
+│   │   │   ├── issue.css
+│   │   │   ├── article.css
+│   │   │   └── static-pages.css
 │   │   └── utilities.css
 │   ├── js/
 │   │   └── main.js
 │   ├── img/
-│   │   ├── logo-revista.svg
-│   │   ├── logo-cenfiss.svg
-│   │   ├── favicon.svg
-│   │   └── ...
+│   │   ├── logos/
+│   │   ├── portada-numeros/
+│   │   ├── autores/
+│   │   ├── placeholders/
+│   │   └── banners/
+│   ├── fonts/
 │   └── pdf/               (o media library)
 │       └── ...
-└── parts/
-    ├── header.php
-    ├── footer.php
-    ├── breadcrumbs.php
-    ├── issue-card.php
-    ├── article-card.php
-    ├── hero-issue.php
-    ├── metadata-box.php
-    ├── toc.php
-    ├── pagination.php
-    └── sidebar-card.php
+└── languages/
+    └── revistalogos.pot
 ```
 
 ---
@@ -180,10 +192,31 @@ revistalogos/
 | `assets/css/base.css` | Resets, tipografía base. |
 | `assets/css/layout.css` | Contenedor, grid, estructura. |
 | `assets/css/components.css` | Botones, tarjetas, formularios, nav. |
-| `assets/css/pages.css` | Estilos específicos de página. |
+| `assets/css/pages/` | home.css, archive.css, issue.css, article.css, static-pages.css. |
 | `assets/css/utilities.css` | Clases de utilidad. |
 
 Encolar `main.css` en `functions.php` vía `wp_enqueue_style`. Un solo punto de entrada.
+
+---
+
+## 7.1 functions.php
+
+Responsable de:
+
+- Registrar scripts y estilos
+- Cargar archivos de `inc/`
+- Registrar menús
+- Soporte de tema (title-tag, post-thumbnails, etc.)
+- Hooks y helpers
+
+```php
+require_once get_template_directory() . '/inc/cpt-issue.php';
+require_once get_template_directory() . '/inc/cpt-article.php';
+require_once get_template_directory() . '/inc/cpt-author.php';
+require_once get_template_directory() . '/inc/cpt-submission.php';
+require_once get_template_directory() . '/inc/taxonomies.php';
+require_once get_template_directory() . '/inc/template-tags.php';
+```
 
 ---
 
@@ -229,10 +262,14 @@ if ( post_password_required() ) {
 - **Plantillas limpias:** Markup y llamadas simples; lógica en `functions.php` o `inc/`.
 - **inc/ obligatorio:** CPTs y taxonomías siempre en `inc/`; nunca inline en `functions.php`.
 - **Una sola entrada CSS:** Un `main.css`; imports o paso de build para módulos.
-- **Reutilizar vía parts:** `get_template_part('parts/header')`, `get_template_part('parts/issue-card')`.
-- **Seguridad:** Escapar salida (`esc_html`, `esc_attr`); sanitizar entrada; nonces para formularios.
+- **Reutilizar vía template-parts:** `get_template_part('template-parts/header')`, `get_template_part('template-parts/issue-card')`.
+- **Seguridad:** Escapar salida; sanitizar entrada; nonces para formularios. Ejemplos:
+  - `esc_html( $titulo )` — texto plano
+  - `esc_attr( $valor )` — atributos HTML
+  - `esc_url( $enlace )` — URLs
+  - `wp_kses_post( $contenido )` — HTML permitido en contenido
 - **Sin dependencia de builders:** Evitar Elementor/page builders salvo decisión explícita.
-- **Accesibilidad:** Preservar estructura semántica, enlace saltar, navegación por teclado, contraste (19).
+- **Accesibilidad:** Preservar estructura semántica. En `template-parts/header.php`: `<a class="skip-link" href="#main">Saltar al contenido principal</a>`, `<nav aria-label="Navegación principal">`. Navegación por teclado, contraste (19).
 
 ---
 

@@ -24,7 +24,7 @@ Valida: arquitectura de información, navegación, microcopy, jerarquía de pant
 - → Clic en artículo en la tabla de contenidos → Artículo individual
 - → Descargar PDF o Leer artículo
 
-**Puntos de salida:** Migas de pan (Inicio, Revista), enlaces del footer, menú de nav.
+**Puntos de salida:** Migas de pan (Inicio, Archivos), enlaces del footer, menú de nav.
 
 ---
 
@@ -56,6 +56,7 @@ Valida: arquitectura de información, navegación, microcopy, jerarquía de pant
 - → Panel de autor
 - → Nuevo envío
 - → Subir manuscrito
+- → Completar metadatos
 - → Confirmar envío
 
 **Alternativa:** Envío por email (mailto revista.cenfiss@gmail.com) si el panel no está disponible.
@@ -71,13 +72,13 @@ Valida: arquitectura de información, navegación, microcopy, jerarquía de pant
 **Ruta:**
 
 - Home o menú
-- → Revista → Artículos
+- → Archivo de artículos
 - → Usa filtros (Buscar, Sección, Año)
 - → Clic en Buscar
 - → Clic en tarjeta de artículo → Artículo individual
 - → Descargar PDF o Ver PDF
 
-**Alternativa:** Revista → Números publicados → Número individual → tabla de contenidos → Artículo individual.
+**Alternativa:** Números publicados → Número individual → tabla de contenidos → Artículo individual.
 
 ---
 
@@ -89,8 +90,9 @@ Valida: arquitectura de información, navegación, microcopy, jerarquía de pant
 
 - Llega desde Google, DOI o enlace compartido
 - → Aterriza en artículo individual, número individual o página estática
+- → Ve título del artículo, autores y metadatos (si llega desde DOI o Google Scholar)
 - → Ve header (nav) y footer
-- → Las migas de pan ofrecen ruta: Inicio → Revista → [actual]
+- → Las migas de pan ofrecen ruta: Inicio → Archivos → [Número]
 - → Navega a Inicio, Número actual, Enviar colaboración o Contacto
 
 **Ninguna página es un callejón sin salida.** Toda página ofrece navegación principal, migas de pan o enlaces de salida.
@@ -121,6 +123,7 @@ Valida: arquitectura de información, navegación, microcopy, jerarquía de pant
 2. Siempre hay un "siguiente" o "atrás" (migas de pan, nav, footer).
 3. Nunca aterrizan en una pantalla muerta (404 tiene enlaces; estados vacíos tienen salidas).
 4. Nunca sienten que entraron a una app o tienda (tono institucional, académico).
+5. El usuario puede volver al inicio o al número actual desde cualquier página.
 
 ---
 
@@ -132,7 +135,9 @@ La accesibilidad no define rutas alternas. Asegura que el mismo recorrido pueda 
 
 - Personas con discapacidad visual (lectores de pantalla, texto alt, estructura semántica)
 - Personas con baja visión (contraste, redimensionar, indicadores de foco)
+- Personas que usan zoom hasta 200%
 - Personas que navegan con teclado (navegación completa mediante teclado, enlace "Saltar al contenido principal", orden de foco, sin trampas)
+- Personas que navegan en dispositivos móviles
 - Personas con dificultades auditivas (sin información esencial solo en audio)
 - Personas con alta carga cognitiva (etiquetas claras, estructura consistente, sin jerga en la UI)
 

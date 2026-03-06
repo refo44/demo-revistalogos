@@ -4,7 +4,7 @@
 
 Qué adoptar y qué evitar: lectura, claridad, accesibilidad, rendimiento vs. personalización, ruido, invasividad.
 
-**Referencia:** `02-corporate-identity`, `14-css-architecture`, `19-accessibility-standards`
+**Referencia:** `02-corporate-identity`, `05-information-architecture-navigation`, `06-wireframes`, `07-voice-guide-microcopy-ux`, `14-css-architecture`, `19-accessibility-standards`
 
 ---
 
@@ -14,8 +14,9 @@ Qué adoptar y qué evitar: lectura, claridad, accesibilidad, rendimiento vs. pe
 
 - Lectura y legibilidad (principal: artículos largos, PDFs, normas)
 - Claridad (institucional, académica)
-- Accesibilidad (WCAG 2.1 AA mínimo)
+- Accesibilidad (WCAG 2.1 AA mínimo; principios: perceptible, operable, comprensible, robusto)
 - Rendimiento (carga rápida, sin frameworks pesados)
+- Estabilidad (interfaz consistente entre números y años)
 
 **Evitar** lo que introduce:
 
@@ -29,10 +30,10 @@ Qué adoptar y qué evitar: lectura, claridad, accesibilidad, rendimiento vs. pe
 
 | Principio | Significado |
 |-----------|-------------|
-| Minimalismo como estructura | No solo estético; claridad estructural. El contenido académico es el foco. |
-| Tipografía primero | La identidad es tipografía + color. Georgia para títulos; system UI para cuerpo. Las imágenes apoyan, no dominan. |
+| Minimalismo como estructura | No solo estético; claridad estructural. El contenido académico es el elemento dominante; el diseño debe desaparecer detrás del texto. |
+| Tipografía primero | La identidad es tipografía + color. Georgia / Times New Roman para títulos; System UI stack para cuerpo (-apple-system, Segoe UI, Roboto, Arial). Las imágenes apoyan, no dominan. |
 | Calma sobre impacto | Experiencia sobre golpe visual. Institucional, confiable. |
-| Un solo foco | Una acción principal clara por contexto: "Ver número actual", "Enviar colaboración". |
+| Un solo foco por pantalla | Cada vista debe tener una acción primaria clara. |
 
 ---
 
@@ -46,8 +47,9 @@ Qué adoptar y qué evitar: lectura, claridad, accesibilidad, rendimiento vs. pe
 | `prefers-reduced-motion` | Animaciones agresivas |
 | Rendimiento primero | Frameworks pesados por defecto |
 | Jerarquía clara | Grids densos, elementos que compiten |
+| Jerarquía tipográfica clara | Variación tipográfica excesiva |
 | Microinteracciones (funcionales: toggle nav, enlace saltar) | Movimiento por espectáculo |
-| Ancho de lectura 60–70ch | Bloques de texto a ancho completo |
+| Ancho de lectura 60–70ch (optimiza lectura continua de textos largos) | Bloques de texto a ancho completo |
 | Espacio en blanco generoso | Maquetaciones apretadas |
 
 ---
@@ -56,7 +58,7 @@ Qué adoptar y qué evitar: lectura, claridad, accesibilidad, rendimiento vs. pe
 
 | Opción | Decisión para LOGO ET SPES |
 |--------|----------------------------|
-| Modo oscuro | Fuera de alcance. La marca institucional es clara. |
+| Modo oscuro | Fuera de alcance. La identidad institucional es clara y el contenido principal es lectura académica. |
 | Formas orgánicas | Dosis mínimas solo; preferir geometría limpia. |
 | Transiciones sutiles | Sí para feedback funcional (hover, focus). Mantener bajo 250ms. |
 
@@ -69,6 +71,7 @@ Qué adoptar y qué evitar: lectura, claridad, accesibilidad, rendimiento vs. pe
 - Movimiento "por espectáculo" (parallax, animaciones de scroll)
 - Bloques de recomendación que parezcan feeds
 - Carruseles sin propósito claro (si carrusel: un CTA claro, sin auto-play)
+- Scroll infinito en artículos o archivos (preferir paginación estable y citable)
 - Lenguaje de marketing (ver `07-voice-guide-microcopy-ux`)
 
 ---
@@ -77,11 +80,12 @@ Qué adoptar y qué evitar: lectura, claridad, accesibilidad, rendimiento vs. pe
 
 | Patrón | Uso |
 |--------|-----|
+| Navegación estable por número | Cada número funciona como unidad editorial. |
 | Metadatos claros | DOI, ISSN, volumen, número, año visibles. |
 | Listo para citar | Copiar cita, descargar PDF. Sin botones "compartir" como principales. |
 | Lectura lineal | Flujo vertical. Sin sidebars que compitan con el contenido. |
 | Normas visibles | Enlace a Normas, Ética, Políticas desde footer y Enviar colaboración. |
-| Contacto accesible | Consejo editorial, CENFISS. Sin info de contacto enterrada. |
+| Contacto accesible | Comité Editorial, CENFISS. Sin info de contacto enterrada. |
 
 ---
 
@@ -93,11 +97,13 @@ Antes de cerrar Fase 2 (o validar antes de WordPress):
 - [ ] Sin colores hardcodeados (usar `--color-*`, `--brand-*`)
 - [ ] Foco visible en todos los interactivos (nav, enlaces, botones, campos de formulario)
 - [ ] Contraste AA verificado (`--color-text-primary` sobre `--color-bg-primary`)
-- [ ] Ancho de lectura 60–70ch para cuerpo del artículo
+- [ ] Ancho de lectura 60–70ch para cuerpo del artículo (optimiza lectura continua de textos largos)
 - [ ] Sin animación innecesaria; respetar `prefers-reduced-motion`
 - [ ] Landmarks semánticos (header, main, footer, nav)
 - [ ] Enlace saltar presente y funcional
 - [ ] Voz alineada con `07-voice-guide-microcopy-ux` (sin copy de marketing)
+- [ ] Jerarquía tipográfica consistente (H1–H3)
+- [ ] Tiempo de carga inicial < 2 s en red estándar
 
 ---
 

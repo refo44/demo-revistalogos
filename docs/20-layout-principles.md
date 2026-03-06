@@ -10,7 +10,8 @@ Cierra el sistema visual: ancho de lectura, ritmo vertical, espacio en blanco, r
 ## 1. Ancho de lectura
 
 - **Objetivo:** 60–70 caracteres por línea (`ch`) en texto de cuerpo. Objetivo: ~65ch (según `02-corporate-identity`).
-- **Implementación:** Contenedor de contenido con `max-width` en `ch` (ej. `65ch`). Cuerpo del artículo, normas, contenido editorial.
+- **Nota:** El rango de 60–70ch se basa en investigación tipográfica sobre legibilidad en pantalla.
+- **Implementación:** Contenedor de contenido con `max-width: 65ch; margin-inline: auto;`. Cuerpo del artículo, normas, contenido editorial. Si el contenedor usa fuentes variables o medidas inestables, puede usarse también un límite en px (ej. 720px).
 - **Contenedor general:** El texto vive en un contenedor centrado. Sin texto de borde a borde. El hero puede usar ancho completo; la lectura no.
 - **Regla:** Sin líneas infinitas; el sitio es legible y sereno, no denso.
 
@@ -21,14 +22,14 @@ Cierra el sistema visual: ancho de lectura, ritmo vertical, espacio en blanco, r
 - **Consistencia:** Márgenes y padding siguen la escala de espaciado (`--space-1` … `--space-24` en `tokens.css`).
 - **Respiración:** Espaciado generoso entre bloques; el contenido no está "pegado".
 - **Jerarquía:** Más espacio antes/después de H1/hero que entre párrafos.
-- **Regla:** Un solo sistema de espaciado en `layout.css` y `components.css`; sin valores arbitrarios por página.
+- **Regla:** Un solo sistema de espaciado en `layout.css` y `components.css`; sin valores arbitrarios por página. Evitar márgenes inconsistentes entre componentes. El ritmo vertical debe construirse con una única escala de espaciado.
 - **Entre páginas:** Ritmo consistente en todas las páginas.
 
 ---
 
 ## 3. Uso del espacio en blanco
 
-- **Blanco activo:** El espacio vacío es parte del diseño. No llenar por llenar.
+- **Blanco activo:** El espacio vacío es parte del diseño. Funciona como pausa de lectura. No llenar por llenar.
 - **Agrupación:** El espacio en blanco separa grupos lógicos (header / hero / sección / footer).
 - **Contraste:** Zonas densas (texto, listas) equilibradas con zonas abiertas (hero, entre secciones).
 - **Regla:** No sacrificar espacio en blanco para "meter más contenido".
@@ -37,7 +38,7 @@ Cierra el sistema visual: ancho de lectura, ritmo vertical, espacio en blanco, r
 
 ## 4. Relación tipografía / imagen
 
-- **Tipografía primero:** La identidad es tipografía + color. Las imágenes apoyan, no dominan.
+- **Tipografía primero:** La identidad es tipografía + color. Las imágenes apoyan el contenido; no deben competir con el texto académico.
 - **Evitar competencia:** Sin bloques donde imagen y texto compitan por prominencia.
 - **Proporción:** Cuando texto e imagen comparten un bloque, definir proporción clara (50/50, 2/3–1/3) según `06-wireframes`.
 - **Texto sobre imagen:** Asegurar contraste (overlay, sombra o zona sólida). Criterios en `19-accessibility-standards`.
@@ -47,24 +48,25 @@ Cierra el sistema visual: ancho de lectura, ritmo vertical, espacio en blanco, r
 
 ## 5. Sistema de grid
 
-- **Base:** Sitio organizado en un grid simple que alinea los bloques principales.
+- **Base:** Grid base: contenedor centrado + columnas flexibles. Sitio organizado en un grid simple que alinea los bloques principales.
 - **Función:** Coherencia horizontal entre header, contenido y footer.
 - **Centro:** Contenido en un contenedor centrado y alineado (`--container-max-width: 1200px`, `--container-padding`).
 - **Ancho de lectura:** 60–70ch vive dentro de ese contenedor.
 - **Proporciones:** Estables al combinar texto/imagen (1/2–1/2, 2/3–1/3).
 - **Regla:** Sin grids distintos por página. Un sistema para todo el sitio.
+- **Ejemplo CSS:** `.container { max-width: var(--container-max-width); padding-inline: var(--container-padding); margin-inline: auto; }`
 - **Responsive:** El grid se simplifica en móvil (columna única); ritmo y legibilidad preservados.
 
 ---
 
 ## 6. Comportamiento responsive
 
-- **Regla clave:** Responsive no significa rediseñar; significa la misma experiencia con menos ancho.
+- **Regla clave:** Responsive no significa rediseñar; significa la misma experiencia con menos ancho. El orden del DOM debe seguir el orden lógico de lectura.
 - **Estructura:** Multi-columna → columna única.
 - **Ancho de lectura:** Se detiene en `ch`; se vuelve fluido con márgenes cómodos.
 - **Ritmo vertical:** Mantenido o aumentado para touch.
 - **Orden de bloques:** Igual que wireframes; lo más importante primero.
-- **Imágenes:** Se adaptan al ancho del contenedor sin recortar información esencial.
+- **Imágenes:** Imágenes fluidas con `max-width: 100%` y `height: auto`. Se adaptan al ancho del contenedor sin recortar información esencial.
 - **Interactivos:** Fáciles de tocar; espacio suficiente alrededor (~44×44px cuando sea posible).
 - **Contenido:** No oculto en móvil. Mismo territorio, más estrecho.
 
@@ -77,8 +79,9 @@ Cierra el sistema visual: ancho de lectura, ritmo vertical, espacio en blanco, r
 | Cuerpo del artículo | Columna única, max-width 65ch, centrado |
 | Hero del número | Ancho completo o contenido; portada + meta lado a lado en escritorio |
 | Tarjetas de número/artículo | Grid o lista; altura de tarjeta consistente; metadatos claros |
+| Archivo de números | Grid consistente de tarjetas |
 | Caja de metadatos | Compacta; legible; sin competir con contenido principal |
-| Migas de pan | Inline; espacio mínimo sobre el contenido |
+| Migas de pan | Inline; espacio reducido para no competir con el contenido principal |
 
 ---
 
@@ -92,6 +95,7 @@ Cierra el sistema visual: ancho de lectura, ritmo vertical, espacio en blanco, r
 | Tipografía / imagen | Tipografía primero; sin competencia; sin drama |
 | Grid | Un sistema; contenedor → lectura; sin grid por página |
 | Responsive | Simplificar, no rediseñar; mismo territorio, menos ancho |
+| Imágenes | Responsivas, proporciones consistentes |
 
 ### Invariantes
 
@@ -100,6 +104,13 @@ Estos principios:
 - Se validan en la maqueta estática
 - Se mantienen en WordPress
 - No se modifican por página o contenido
+
+---
+
+## 9. Principio editorial de maquetación
+
+La maquetación debe desaparecer detrás del contenido.  
+El lector percibe claridad, no el sistema que la produce.
 
 ---
 

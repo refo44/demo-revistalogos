@@ -2,6 +2,13 @@
 
 Prototipo estático multi-página para la revista académica «Logos et Spes» (CENFISS), compatible con una futura migración a un theme de WordPress.
 
+Este repositorio contiene:
+
+- **Documentación del proyecto** (`docs/`)
+- **Maqueta HTML** del sitio
+- **Contenido fuente editorial** (`content-source/`)
+- **Tema WordPress** (cuando se implemente, en `theme-revistalogos/`)
+
 ## 🎯 Objetivo
 
 Este prototipo mapea 1:1 a la template hierarchy y Custom Post Types (CPT) de WordPress para issues (números) y articles (artículos), y páginas informativas.
