@@ -1,38 +1,38 @@
-# Revista de Filosofía LOGO ET SPES — Voice Guide, Microcopy and UX Writing
+# Revista de Filosofía LOGO ET SPES — Guía de Voz, Microcopy y UX Writing
 
-Defines how the site speaks. Not the domain content; the voice of the system that contains it.
+Define cómo habla el sitio. No el contenido del dominio; la voz del sistema que lo contiene.
 
-**Goal:** The entire site should sound like **an academic institution facilitating access to knowledge**, not like a landing page, store or platform.
+**Objetivo:** Todo el sitio debe sonar como **una institución académica que facilita el acceso al conocimiento**, no como una landing page, tienda o plataforma.
 
-**Depends on:** `01-platform-plan`, `02-corporate-identity`
-
----
-
-## 1. Fundamental principle
-
-The site does not persuade, sell or create urgency. The site **informs, guides and facilitates**.
-
-- No urgency persuasion
-- No interruption
-- No dramatization
-- No promotional or empty emotional language
-
-The site speaks as: **a librarian or academic guide—calm, precise, helpful.**
+**Depende de:** `01-platform-plan`, `02-corporate-identity`
 
 ---
 
-## 2. System voice identity
+## 1. Principio fundamental
 
-| Attribute | Meaning |
-|-----------|---------|
-| **Claro** | Direct, unambiguous. No jargon unless domain-specific (DOI, ISSN, arbitraje). |
-| **Respetuoso** | Formal "usted" when appropriate; neutral in navigation. No informal slang. |
-| **Conciso** | Short labels. No filler. "Ver contenido" not "Haz clic aquí para ver el contenido completo". |
+El sitio no persuade, no vende ni crea urgencia. El sitio **informa, guía y facilita**.
 
-### Examples
+- Sin persuasión de urgencia
+- Sin interrupción
+- Sin dramatización
+- Sin lenguaje emocional promocional o vacío
 
-| Incorrect | Correct |
-|-----------|---------|
+El sitio habla como: **un bibliotecario o guía académico—sereno, preciso, servicial.**
+
+---
+
+## 2. Identidad de voz del sistema
+
+| Atributo | Significado |
+|----------|-------------|
+| **Claro** | Directo, inequívoco. Sin jerga salvo la del dominio (DOI, ISSN, arbitraje). |
+| **Respetuoso** | "Usted" formal cuando corresponda; neutro en navegación. Sin slang informal. |
+| **Conciso** | Etiquetas cortas. Sin relleno. "Ver contenido" no "Haz clic aquí para ver el contenido completo". |
+
+### Ejemplos
+
+| Incorrecto | Correcto |
+|------------|----------|
 | "¡No te pierdas esta oportunidad!" | "Ver número actual" |
 | "Descubre nuestros artículos" | "Archivo de artículos" |
 | "Regístrate ahora y publica" | "Enviar colaboración" |
@@ -40,107 +40,107 @@ The site speaks as: **a librarian or academic guide—calm, precise, helpful.**
 
 ---
 
-## 3. Grammatical persons
+## 3. Personas gramaticales
 
-| Context | Voice |
-|---------|-------|
-| Navigation | Neutral. No "tú" or "usted". Labels only. |
-| Content | Third person or "la Revista", "el Consejo Editorial". Institutional. |
-| UX / system | Neutral. "Buscar", "Descargar", "Ver". Imperative as invitation, not order. |
-
----
-
-## 4. Forbidden words
-
-**Prohibited:** Oportunidad única, exclusivo, descubre, únete, no te pierdas, ahora mismo, limitado, gratis (use "acceso abierto" or "sin costo"), suscríbete (for newsletter), explora (as marketing verb), descarga gratis.
-
-Replace with **neutral, descriptive language**: "Ver", "Acceder", "Consultar", "Descargar", "Enviar".
+| Contexto | Voz |
+|---------|-----|
+| Navegación | Neutra. Sin "tú" ni "usted". Solo etiquetas. |
+| Contenido | Tercera persona o "la Revista", "el Consejo Editorial". Institucional. |
+| UX / sistema | Neutra. "Buscar", "Descargar", "Ver". Imperativo como invitación, no como orden. |
 
 ---
 
-## 5. Calls to action
+## 4. Palabras prohibidas
 
-Actions are never orders. They are invitations.
+**Prohibido:** Oportunidad única, exclusivo, descubre, únete, no te pierdas, ahora mismo, limitado, gratis (usar "acceso abierto" o "sin costo"), suscríbete (para newsletter), explora (como verbo de marketing), descarga gratis.
 
-**Natural hierarchy:**
+Reemplazar con **lenguaje neutro y descriptivo**: "Ver", "Acceder", "Consultar", "Descargar", "Enviar".
 
-| Level | Action |
+---
+
+## 5. Llamadas a la acción
+
+Las acciones nunca son órdenes. Son invitaciones.
+
+**Jerarquía natural:**
+
+| Nivel | Acción |
 |-------|--------|
-| 1 | Ver número actual, Enviar colaboración (primary) |
+| 1 | Ver número actual, Enviar colaboración (principal) |
 | 2 | Ver contenido, Leer más, Ver PDF, Descargar PDF |
 | 3 | Buscar, Limpiar filtros, Ver todas las noticias |
 
-**Pattern:** Verb + object. "Ver contenido", not "Ver más" (unless context is clear).
+**Patrón:** Verbo + objeto. "Ver contenido", no "Ver más" (salvo que el contexto sea claro).
 
 ---
 
-## 6. Empty states
+## 6. Estados vacíos
 
-Never use software language.
+Nunca usar lenguaje de software.
 
-| Situation | Text |
-|-----------|------|
-| No search results | "No se encontraron resultados para su búsqueda. Puede intentar con otros términos o explorar el archivo de artículos." |
-| Empty archive | "Aún no hay números publicados. Consulte las normas para enviar una colaboración." |
+| Situación | Texto |
+|-----------|-------|
+| Sin resultados de búsqueda | "No se encontraron resultados para su búsqueda. Puede intentar con otros términos o explorar el archivo de artículos." |
+| Archivo vacío | "Aún no hay números publicados. Consulte las normas para enviar una colaboración." |
 | Error | "Ha ocurrido un problema. Por favor, intente de nuevo o regrese al inicio." |
 
-**Never:** "No results found", "Error 404", "Empty", "Sin datos", "Cargando", "Oops", "Algo salió mal".
+**Nunca:** "No results found", "Error 404", "Empty", "Sin datos", "Cargando", "Oops", "Algo salió mal".
 
 ---
 
-## 7. Errors and friction
+## 7. Errores y fricción
 
-| Case | Text |
-|------|------|
-| Page not found | "La página que busca no existe. Puede volver al inicio o ver el número actual." |
-| Technical error | "No fue posible completar la acción. Intente de nuevo o contacte al Consejo Editorial." |
+| Caso | Texto |
+|-----|-------|
+| Página no encontrada | "La página que busca no existe. Puede volver al inicio o ver el número actual." |
+| Error técnico | "No fue posible completar la acción. Intente de nuevo o contacte al Consejo Editorial." |
 
-No codes or visible technical jargon. No "Error 404", "500", "Timeout".
+Sin códigos ni jerga técnica visible. Sin "Error 404", "500", "Timeout".
 
 ---
 
-## 8. Tone by section
+## 8. Tono por sección
 
-| Section | Tone |
+| Sección | Tono |
 |---------|------|
-| Home | Welcoming, institutional. Brief. Primary CTA visible. |
-| Número actual / Archivos | Informative. Metadata clear. Actions: Ver, Descargar. |
-| Artículos | Academic. Metadata, abstract, keywords. No hype. |
-| Enviar colaboración | Instructional. Step-by-step. Clear, no pressure. |
-| Normas / Políticas / Ética | Formal, normative. Precise. |
-| Acerca | Institutional. Enfoque, alcance, objetivos. |
-| Contacto | Helpful. Contact info clear. |
-| Noticias | Informative. CENFISS presente, events. Calm. |
+| Home | Acogedor, institucional. Breve. CTA principal visible. |
+| Número actual / Archivos | Informativo. Metadatos claros. Acciones: Ver, Descargar. |
+| Artículos | Académico. Metadatos, resumen, palabras clave. Sin hype. |
+| Enviar colaboración | Instruccional. Paso a paso. Claro, sin presión. |
+| Normas / Políticas / Ética | Formal, normativo. Preciso. |
+| Acerca | Institucional. Enfoque, alcance, objetivos. |
+| Contacto | Servicial. Info de contacto clara. |
+| Noticias | Informativo. CENFISS presente, eventos. Sereno. |
 
 ---
 
-## 9. Labels and microcopy
+## 9. Etiquetas y microcopy
 
-| Element | Text |
-|---------|------|
-| Skip link | "Saltar al contenido principal" |
-| Nav toggle | "Menú" (visually hidden) |
-| PDF button | "Descargar PDF" or "📄 PDF" (short) |
-| Ver PDF | "Ver PDF" or "👁️ Ver PDF" |
-| Citation copy | "Copiar" |
-| Form submit | "Buscar", "Enviar mensaje", "Limpiar filtros" |
+| Elemento | Texto |
+|----------|-------|
+| Enlace saltar | "Saltar al contenido principal" |
+| Toggle de nav | "Menú" (visualmente oculto) |
+| Botón PDF | "Descargar PDF" o "📄 PDF" (corto) |
+| Ver PDF | "Ver PDF" o "👁️ Ver PDF" |
+| Copiar cita | "Copiar" |
+| Envío de formulario | "Buscar", "Enviar mensaje", "Limpiar filtros" |
 
 ---
 
-## 10. Golden rule
+## 10. Regla de oro
 
-If a text sounds like:
+Si un texto suena como:
 
 - Landing page
-- Store
+- Tienda
 - Startup
 - Influencer
 
-**It is wrong.**
+**está mal.**
 
-It must sound like: **an academic journal's institutional site—calm, clear, purposeful.**
+Debe sonar como: **sitio institucional de una revista académica—sereno, claro, con propósito.**
 
 ---
 
-**Version:** 1.0  
-**Project:** Revista de Filosofía LOGO ET SPES
+**Versión:** 1.0  
+**Proyecto:** Revista de Filosofía LOGO ET SPES

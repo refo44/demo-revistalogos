@@ -1,138 +1,138 @@
-# Revista de Filosofía LOGO ET SPES — User Journey
+# Revista de Filosofía LOGO ET SPES — Recorrido del Usuario
 
-Describes how a real person moves through the site. Not a conversion flow; a series of encounters with **philosophical content and editorial processes**.
+Describe cómo una persona real se mueve por el sitio. No es un flujo de conversión; es una serie de encuentros con **contenido filosófico y procesos editoriales**.
 
-Validates: information architecture, navigation, microcopy, screen hierarchy.
+Valida: arquitectura de información, navegación, microcopy, jerarquía de pantallas.
 
-**Depends on:** `04-screen-map`, `05-information-architecture-navigation`  
-**Reference:** `07-voice-guide-microcopy-ux`, `09-ui-copy-sheet`, `19-accessibility-standards`
+**Depende de:** `04-screen-map`, `05-information-architecture-navigation`  
+**Referencia:** `07-voice-guide-microcopy-ux`, `09-ui-copy-sheet`, `19-accessibility-standards`
 
 ---
 
-## 1. Person arrives and wants to read the current issue
+## 1. La persona llega y quiere leer el número actual
 
-**Goal:** Enter without friction. Reach content quickly.
+**Objetivo:** Entrar sin fricción. Llegar al contenido rápido.
 
-**Path:**
+**Ruta:**
 
 - Home
-- → Reads hero and main message (enfoque, acceso abierto, arbitraje)
-- → Clicks "Ver número actual"
-- → Single issue: sees TOC, downloads PDF or reads articles
-- → Clicks article in TOC → Single article
-- → Downloads PDF or reads full text
+- → Lee el hero y mensaje principal (enfoque, acceso abierto, arbitraje)
+- → Clic en "Ver número actual"
+- → Número individual: ve TOC, descarga PDF o lee artículos
+- → Clic en artículo en TOC → Artículo individual
+- → Descarga PDF o lee texto completo
 
-**Exit points:** Breadcrumbs (Inicio, Archivos), footer links, nav menu.
+**Puntos de salida:** Migas de pan (Inicio, Archivos), enlaces del footer, menú de nav.
 
 ---
 
-## 2. Person explores to understand the journal
+## 2. La persona explora para entender la revista
 
-**Goal:** Understand what LOGO ET SPES is, its scope and how to participate.
+**Objetivo:** Entender qué es LOGO ET SPES, su alcance y cómo participar.
 
-**Path:**
+**Ruta:**
 
 - Home
 - → Acerca (enfoque, alcance, objetivos, origen del nombre)
-- → Reads content
-- → Enviar colaboración or Contacto
+- → Lee el contenido
+- → Enviar colaboración o Contacto
 
-**Alternative:** Home → Normas → Políticas → Enviar colaboración.
+**Alternativa:** Home → Normas → Políticas → Enviar colaboración.
 
 ---
 
-## 3. Person wants to submit an article
+## 3. La persona quiere enviar un artículo
 
-**Goal:** Find instructions and send a collaboration.
+**Objetivo:** Encontrar instrucciones y enviar una colaboración.
 
-**Path:**
+**Ruta:**
 
-- Home or menu
+- Home o menú
 - → Enviar colaboración
-- → Reads numbered instructions (login, normas, form, email)
-- → Downloads Solicitud de Publicación
-- → Clicks mailto (revista.cenfiss@gmail.com) or Contacto
-- → Sends work
+- → Lee instrucciones numeradas (login, normas, formulario, email)
+- → Descarga Solicitud de Publicación
+- → Clic en mailto (revista.cenfiss@gmail.com) o Contacto
+- → Envía el trabajo
 
-**Supporting path:** Enviar colaboración → Normas → Políticas (to verify requirements before submitting).
+**Ruta de apoyo:** Enviar colaboración → Normas → Políticas (para verificar requisitos antes de enviar).
 
 ---
 
-## 4. Person searches for a specific article or topic
+## 4. La persona busca un artículo o tema específico
 
-**Goal:** Find content by section, author or keyword.
+**Objetivo:** Encontrar contenido por sección, autor o palabra clave.
 
-**Path:**
+**Ruta:**
 
-- Home or menu
+- Home o menú
 - → Archivo de Artículos
-- → Uses filters (Buscar, Sección, Año)
-- → Clicks Buscar
-- → Clicks article card → Single article
-- → Downloads PDF or reads
+- → Usa filtros (Buscar, Sección, Año)
+- → Clic en Buscar
+- → Clic en tarjeta de artículo → Artículo individual
+- → Descarga PDF o lee
 
-**Alternative:** Archivo de Números → Single issue → TOC → Single article.
-
----
-
-## 5. Person arrives from outside (direct link)
-
-**Goal:** Not get lost when arriving via Google, DOI link or shared URL.
-
-**Path:**
-
-- Arrives from Google, DOI, or shared link
-- → Lands on single article, single issue, or static page
-- → Sees header (nav) and footer
-- → Breadcrumbs offer path: Inicio → Archivos → [current]
-- → Navigates to Home, Número actual, Enviar colaboración or Contacto
-
-**No page is a dead end.** Every screen has: nav, footer, breadcrumbs (where applicable).
+**Alternativa:** Archivo de Números → Número individual → TOC → Artículo individual.
 
 ---
 
-## 6. Person wants to contact the editorial board
+## 5. La persona llega desde fuera (enlace directo)
 
-**Goal:** Reach the Consejo Editorial.
+**Objetivo:** No perderse al llegar vía Google, enlace DOI o URL compartida.
 
-**Path:**
+**Ruta:**
 
-- Home or menu
+- Llega desde Google, DOI o enlace compartido
+- → Aterriza en artículo individual, número individual o página estática
+- → Ve header (nav) y footer
+- → Las migas de pan ofrecen ruta: Inicio → Archivos → [actual]
+- → Navega a Home, Número actual, Enviar colaboración o Contacto
+
+**Ninguna página es un callejón sin salida.** Cada pantalla tiene: nav, footer, migas de pan (donde aplique).
+
+---
+
+## 6. La persona quiere contactar al consejo editorial
+
+**Objetivo:** Llegar al Consejo Editorial.
+
+**Ruta:**
+
+- Home o menú
 - → Contacto
-- → Reads contact info (email, CENFISS web, address)
-- → Clicks mailto or fills contact form
-- → Sends message
+- → Lee info de contacto (email, web CENFISS, dirección)
+- → Clic en mailto o rellena formulario de contacto
+- → Envía mensaje
 
-**Alternative:** Enviar colaboración → mailto in instructions. Comité → Contacto.
-
----
-
-## 7. Validation rule
-
-**A journey is correct if:**
-
-1. The person can understand **what the journal is and how to read or submit** in fewer than three clicks.
-2. There is always a "next" or "back" (breadcrumbs, nav, footer).
-3. They never land on a dead screen (404 has links; empty states have exits).
-4. They never feel they entered an app or store (institutional, academic tone).
+**Alternativa:** Enviar colaboración → mailto en instrucciones. Comité → Contacto.
 
 ---
 
-## 8. Journey accessibility
+## 7. Regla de validación
 
-The journey must be possible for anyone, regardless of physical, sensory or cognitive abilities.
+**Un recorrido es correcto si:**
 
-Accessibility does not define alternate paths. It ensures the same journey can be traversed by:
-
-- People with visual disabilities (screen readers, alt text, semantic structure)
-- People with low vision (contrast, resize, focus indicators)
-- People who navigate with keyboard (skip link, focus order, no traps)
-- People with hearing difficulties (no essential info in audio only)
-- People with high cognitive load (clear labels, consistent structure, no jargon in UI)
-
-Technical and editorial criteria in `19-accessibility-standards`.
+1. La persona puede entender **qué es la revista y cómo leer o enviar** en menos de tres clics.
+2. Siempre hay un "siguiente" o "atrás" (migas de pan, nav, footer).
+3. Nunca aterrizan en una pantalla muerta (404 tiene enlaces; estados vacíos tienen salidas).
+4. Nunca sienten que entraron a una app o tienda (tono institucional, académico).
 
 ---
 
-**Version:** 1.0  
-**Project:** Revista de Filosofía LOGO ET SPES
+## 8. Accesibilidad del recorrido
+
+El recorrido debe ser posible para cualquiera, independientemente de capacidades físicas, sensoriales o cognitivas.
+
+La accesibilidad no define rutas alternas. Asegura que el mismo recorrido pueda ser atravesado por:
+
+- Personas con discapacidad visual (lectores de pantalla, texto alt, estructura semántica)
+- Personas con baja visión (contraste, redimensionar, indicadores de foco)
+- Personas que navegan con teclado (enlace saltar, orden de foco, sin trampas)
+- Personas con dificultades auditivas (sin información esencial solo en audio)
+- Personas con alta carga cognitiva (etiquetas claras, estructura consistente, sin jerga en la UI)
+
+Criterios técnicos y editoriales en `19-accessibility-standards`.
+
+---
+
+**Versión:** 1.0  
+**Proyecto:** Revista de Filosofía LOGO ET SPES

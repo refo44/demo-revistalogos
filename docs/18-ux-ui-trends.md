@@ -1,105 +1,105 @@
-# Revista de Filosofía LOGO ET SPES — UX/UI Trends and Editorial System
+# Revista de Filosofía LOGO ET SPES — Tendencias UX/UI y Sistema Editorial
 
-**Strategic filter for design and implementation validation**
+**Filtro estratégico para validación de diseño e implementación**
 
-What to adopt and what to avoid: reading, clarity, accessibility, performance vs. personalization, noise, invasiveness.
+Qué adoptar y qué evitar: lectura, claridad, accesibilidad, rendimiento vs. personalización, ruido, invasividad.
 
-**Reference:** `02-corporate-identity`, `14-css-architecture`, `19-accessibility-standards`
-
----
-
-## 1. Adoption rule
-
-**Adopt** what improves:
-
-- Reading and legibility (primary: long-form articles, PDFs, norms)
-- Clarity (institutional, academic)
-- Accessibility (WCAG 2.1 AA minimum)
-- Performance (fast load, no heavy frameworks)
-
-**Avoid** what introduces:
-
-- Unnecessary personalization (no dashboards, no "for you")
-- Visual noise (no feeds, no recommendation blocks)
-- Invasive behavior (no popups, no smart triggers)
+**Referencia:** `02-corporate-identity`, `14-css-architecture`, `19-accessibility-standards`
 
 ---
 
-## 2. Design philosophy
+## 1. Regla de adopción
 
-| Principle | Meaning |
-|-----------|---------|
-| Minimalism as structure | Not aesthetic only; structural clarity. Academic content is the focus. |
-| Typography first | Identity is typography + color. Georgia for headings; system UI for body. Images support, do not dominate. |
-| Calm over impact | Experience over visual punch. Institutional, trustworthy. |
-| Single focus | One clear primary action per context: "Ver número actual", "Enviar colaboración". |
+**Adoptar** lo que mejora:
 
----
+- Lectura y legibilidad (principal: artículos largos, PDFs, normas)
+- Claridad (institucional, académica)
+- Accesibilidad (WCAG 2.1 AA mínimo)
+- Rendimiento (carga rápida, sin frameworks pesados)
 
-## 3. Adoption table
+**Evitar** lo que introduce:
 
-| Adopt | Avoid |
-|-------|-------|
-| Design tokens (`tokens.css`, `02-corporate-identity`) | Hardcoded colors/sizes |
-| Semantic HTML | Div soup |
-| Focus visible | `outline: none` without replacement |
-| `prefers-reduced-motion` | Aggressive animations |
-| Performance-first | Heavy frameworks by default |
-| Clear hierarchy | Dense grids, competing elements |
-| Micro-interactions (functional: nav toggle, skip link) | Motion for show |
-| Reading width 60–70ch | Full-width text blocks |
-| Generous whitespace | Cramped layouts |
+- Personalización innecesaria (sin dashboards, sin "para ti")
+- Ruido visual (sin feeds, sin bloques de recomendación)
+- Comportamiento invasivo (sin popups, sin triggers inteligentes)
 
 ---
 
-## 4. Optional (evaluate per project)
+## 2. Filosofía de diseño
 
-| Option | Decision for LOGO ET SPES |
-|--------|---------------------------|
-| Dark mode | Not in scope. Institutional brand is light. |
-| Organic shapes | Minimal doses only; prefer clean geometry. |
-| Subtle transitions | Yes for functional feedback (hover, focus). Keep under 250ms. |
-
----
-
-## 5. Avoid as base
-
-- Agentic experiences (chatbots, AI assistants)
-- Popups / smart triggers (newsletter modals, exit intent)
-- Motion "for show" (parallax, scroll animations)
-- Recommendation blocks that feel like feeds
-- Carousels without clear purpose (if carousel: one clear CTA, no auto-play)
-- Marketing language (see `07-voice-guide-microcopy-ux`)
+| Principio | Significado |
+|-----------|-------------|
+| Minimalismo como estructura | No solo estético; claridad estructural. El contenido académico es el foco. |
+| Tipografía primero | La identidad es tipografía + color. Georgia para títulos; system UI para cuerpo. Las imágenes apoyan, no dominan. |
+| Calma sobre impacto | Experiencia sobre golpe visual. Institucional, confiable. |
+| Un solo foco | Una acción principal clara por contexto: "Ver número actual", "Enviar colaboración". |
 
 ---
 
-## 6. Academic journal patterns
+## 3. Tabla de adopción
 
-| Pattern | Use |
-|---------|-----|
-| Clear metadata | DOI, ISSN, volume, issue, year visible. |
-| Citation-ready | Copy citation, download PDF. No "share" buttons as primary. |
-| Linear reading | Vertical flow. No sidebars competing with content. |
-| Norms visible | Link to Normas, Ética, Políticas from footer and Enviar colaboración. |
-| Contact accessible | Editorial board, CENFISS. No buried contact info. |
-
----
-
-## 7. Checklist for maquette
-
-Before closing Phase 2 (or validating before WordPress):
-
-- [ ] Tokens from `02-corporate-identity` applied (`tokens.css`)
-- [ ] No hardcoded colors (use `--color-*`, `--brand-*`)
-- [ ] Focus visible on all interactives (nav, links, buttons, form fields)
-- [ ] Contrast AA verified (`--color-text-primary` on `--color-bg-primary`)
-- [ ] Reading width 60–70ch for article body
-- [ ] No unnecessary animation; respect `prefers-reduced-motion`
-- [ ] Semantic landmarks (header, main, footer, nav)
-- [ ] Skip link present and functional
-- [ ] Voice aligned with `07-voice-guide-microcopy-ux` (no marketing copy)
+| Adoptar | Evitar |
+|---------|--------|
+| Tokens de diseño (`tokens.css`, `02-corporate-identity`) | Colores/tamaños hardcodeados |
+| HTML semántico | Div soup |
+| Foco visible | `outline: none` sin reemplazo |
+| `prefers-reduced-motion` | Animaciones agresivas |
+| Rendimiento primero | Frameworks pesados por defecto |
+| Jerarquía clara | Grids densos, elementos que compiten |
+| Microinteracciones (funcionales: toggle nav, enlace saltar) | Movimiento por espectáculo |
+| Ancho de lectura 60–70ch | Bloques de texto a ancho completo |
+| Espacio en blanco generoso | Maquetaciones apretadas |
 
 ---
 
-**Version:** 1.0  
-**Project:** Revista de Filosofía LOGO ET SPES
+## 4. Opcional (evaluar por proyecto)
+
+| Opción | Decisión para LOGO ET SPES |
+|--------|----------------------------|
+| Modo oscuro | Fuera de alcance. La marca institucional es clara. |
+| Formas orgánicas | Dosis mínimas solo; preferir geometría limpia. |
+| Transiciones sutiles | Sí para feedback funcional (hover, focus). Mantener bajo 250ms. |
+
+---
+
+## 5. Evitar como base
+
+- Experiencias agentic (chatbots, asistentes IA)
+- Popups / triggers inteligentes (modales de newsletter, exit intent)
+- Movimiento "por espectáculo" (parallax, animaciones de scroll)
+- Bloques de recomendación que parezcan feeds
+- Carruseles sin propósito claro (si carrusel: un CTA claro, sin auto-play)
+- Lenguaje de marketing (ver `07-voice-guide-microcopy-ux`)
+
+---
+
+## 6. Patrones de revista académica
+
+| Patrón | Uso |
+|--------|-----|
+| Metadatos claros | DOI, ISSN, volumen, número, año visibles. |
+| Listo para citar | Copiar cita, descargar PDF. Sin botones "compartir" como principales. |
+| Lectura lineal | Flujo vertical. Sin sidebars que compitan con el contenido. |
+| Normas visibles | Enlace a Normas, Ética, Políticas desde footer y Enviar colaboración. |
+| Contacto accesible | Consejo editorial, CENFISS. Sin info de contacto enterrada. |
+
+---
+
+## 7. Checklist para maqueta
+
+Antes de cerrar Fase 2 (o validar antes de WordPress):
+
+- [ ] Tokens de `02-corporate-identity` aplicados (`tokens.css`)
+- [ ] Sin colores hardcodeados (usar `--color-*`, `--brand-*`)
+- [ ] Foco visible en todos los interactivos (nav, enlaces, botones, campos de formulario)
+- [ ] Contraste AA verificado (`--color-text-primary` sobre `--color-bg-primary`)
+- [ ] Ancho de lectura 60–70ch para cuerpo del artículo
+- [ ] Sin animación innecesaria; respetar `prefers-reduced-motion`
+- [ ] Landmarks semánticos (header, main, footer, nav)
+- [ ] Enlace saltar presente y funcional
+- [ ] Voz alineada con `07-voice-guide-microcopy-ux` (sin copy de marketing)
+
+---
+
+**Versión:** 1.0  
+**Proyecto:** Revista de Filosofía LOGO ET SPES

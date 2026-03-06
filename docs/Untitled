@@ -1,0 +1,263 @@
+Tu 04-screen-map está muy bien estructurado y cumple exactamente lo que debe hacer un screen map: listar qué vistas existen sin mezclar diseño ni lógica de contenido. Está alineado con tu arquitectura (01, 03, 05, 06, 12). Las sugerencias que siguen son afinaciones para robustez editorial, claridad técnica y coherencia con WordPress.
+
+⸻
+
+1. Correcciones estructurales
+
+1.1 Separar “Noticias” como archivo
+
+Ahora aparece en Fixed pages:
+
+Noticias | Blog index
+
+En WordPress, Noticias es un archive de post, no una página fija.
+
+Sugerencia
+
+Mover a Archive views:
+
+Archive posts (Noticias) | List of news, CENFISS presente, events
+
+Y en Fixed pages mantener solo páginas institucionales.
+
+⸻
+
+1.2 Añadir vista “Single author”
+
+Ya tienes Archive authors, pero falta la vista individual.
+
+Agregar en Content views:
+
+View	Use
+Single author	Author profile, affiliation, ORCID, articles by author
+
+Esto es importante para navegación académica.
+
+⸻
+
+2. Mejoras en el área privada
+
+Tu sección está bien diseñada, pero conviene añadir dos pantallas más.
+
+2.1 Submission history
+
+Para transparencia editorial.
+
+Agregar:
+
+Screen	Function
+Submission history	Timeline of status changes (submitted, under review, revisions, decision)
+
+
+⸻
+
+2.2 Submission revision upload
+
+Cuando el editor pide correcciones.
+
+Agregar:
+
+Screen	Function
+Upload revision	Upload revised manuscript after editor request
+
+
+⸻
+
+3. Mejora en Content Views
+
+Tu lista es correcta:
+	•	single issue
+	•	single article
+	•	single post
+
+Pero conviene añadir dos vistas académicas importantes.
+
+⸻
+
+3.1 Articles by issue
+
+Aunque ya existe single issue, conviene aclararlo.
+
+Actualizar descripción:
+
+Single issue | Issue metadata, editorial, list of articles belonging to that issue
+
+
+⸻
+
+3.2 Related articles
+
+No es una pantalla, pero sí una vista parcial.
+
+Agregar nota:
+
+Single article should provide navigation to:
+- issue
+- author
+- related articles
+
+Esto mejora navegación académica.
+
+⸻
+
+4. Mejora en Archive Views
+
+Tu lista está bien.
+
+Sugiero añadir:
+
+View	Use
+Archive by section	Articles filtered by philosophical section
+
+Esto corresponde a taxonomía section.
+
+⸻
+
+5. Mejora en estados
+
+Tus estados son correctos.
+
+Solo añadiría uno muy útil:
+
+State	Description
+Empty author archive	Author has no published articles yet
+
+
+⸻
+
+6. Mejora en componentes globales
+
+Tu header actual:
+
+Inicio
+Número Actual
+Números Publicados
+Enviar colaboración
+Acerca
+Noticias
+Contacto
+Enlaces
+
+Esto supera la regla que definiste en el platform plan (4–6 items).
+
+Sugerencia
+
+Header principal:
+
+Inicio
+Revista
+Normas
+Enviar colaboración
+Acerca
+Noticias
+Contacto
+
+Y dentro de Revista:
+
+Número actual
+Números publicados
+Autores
+
+Esto respeta la regla de navegación.
+
+⸻
+
+7. Mejora en Footer
+
+Tu footer menciona:
+
+Revista info (ISSN, DOI)
+
+Pero conviene añadir:
+
+Creative Commons license
+Privacy policy
+Editorial ethics
+
+Esto conecta con Layer 8 del platform plan.
+
+⸻
+
+8. Mejora en WordPress template mapping
+
+Tu mapping está muy bien.
+
+Solo añadiría tres templates más si usas taxonomías:
+
+View	Template
+Archive by section	taxonomy-section.php
+Archive by article type	taxonomy-article_type.php
+Archive by keyword	taxonomy-keyword.php
+
+
+⸻
+
+9. Mejora en Search
+
+Tu sección dice:
+
+Search results
+
+Añadir comportamiento:
+
+Search should prioritize:
+1. Articles
+2. Issues
+3. Authors
+4. News posts
+
+Esto mejora experiencia académica.
+
+⸻
+
+10. Mejora final de claridad
+
+Tu sección:
+
+Total screens to build
+
+Es muy buena.
+
+Solo sugeriría añadir un subtítulo para distinguir:
+
+Public screens
+Private screens
+System states
+Global components
+
+Para mayor claridad.
+
+⸻
+
+Evaluación general
+
+Tu screen map es excelente porque:
+
+✔ separa vistas públicas y privadas
+✔ no mezcla diseño con arquitectura
+✔ está alineado con WordPress
+✔ refleja correctamente el modelo editorial
+✔ incluye estados del sistema
+
+Eso es exactamente lo que debería hacer un screen map profesional.
+
+⸻
+
+Conclusión
+
+Con las mejoras propuestas el documento queda completamente coherente con el resto de tu sistema:
+
+01 platform plan
+02 corporate identity
+03 content model
+04 screen map
+05 navigation
+06 wireframes
+
+La arquitectura ahora está muy limpia.
+
+⸻
+
+Si quieres, puedo ayudarte también con algo muy útil ahora que tienes 04 bien definido:
+
+revisar 05-information-architecture-navigation, porque ahí es donde se decide definitivamente cómo se conectan todas estas pantallas.

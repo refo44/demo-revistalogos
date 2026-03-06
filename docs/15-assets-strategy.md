@@ -1,118 +1,118 @@
-# Revista de Filosofía LOGO ET SPES — Assets Strategy
+# Revista de Filosofía LOGO ET SPES — Estrategia de Assets
 
-**Images, fonts, icons and static files**
+**Imágenes, fuentes, iconos y archivos estáticos**
 
-Defines how assets are sourced, optimized and used.
+Define cómo se obtienen, optimizan y usan los assets.
 
-**Depends on:** `02-corporate-identity`, `16-content-source-inventory`  
-**Reference:** `14-css-architecture`, `12-theme-file-structure`
-
----
-
-## 1. Image strategy
-
-### Sources
-
-- `content-source/` — Project document may reference cover images, brand assets.
-- `assets/img/` — Current maquette assets. Trace to source when possible.
-- No images invented; all traceable to source or documented as placeholder.
-
-### Current inventory
-
-| File | Use | Source |
-|------|-----|--------|
-| `logo-revista.svg` | Header, brand | Brand / 02 |
-| `logo-cenfiss.svg` | Institutional reference | CENFISS |
-| `favicon.svg` | Favicon | Derived from logo |
-| `portada-ejemplo.png` | Issue cover placeholder | Maquette |
-| `article-placeholder.svg` | Article card fallback | Maquette |
-| `avatar-default.svg` | Author avatar fallback | Maquette |
-| `placeholder-banner.jpg` | Banner carousel | Maquette |
-| `flyer.jpg` | CENFISS events (carousel) | CENFISS |
-| `banner-main.png` | Hero/banner | Maquette |
-
-### Optimization
-
-- **Format:** WebP with JPEG/PNG fallback when needed. SVG for logos, icons.
-- **Compression:** Balance quality and size. Issue covers: max ~800px width for display.
-- **Responsive:** `srcset` for issue covers, banners when multiple sizes exist.
-- **Lazy loading:** For below-fold images (article cards, archive grids).
-- **Alt text:** Always fill. Decorative: `alt=""`. See `09-ui-copy-sheet`, `19-accessibility-standards`.
-
-### Naming
-
-- Lowercase, kebab-case
-- Descriptive: `portada-vol-12-n2-2025.jpg`, `logo-revista.svg`, `flyer-diplomado-2025.jpg`
+**Depende de:** `02-corporate-identity`, `16-content-source-inventory`  
+**Referencia:** `14-css-architecture`, `12-theme-file-structure`
 
 ---
 
-## 2. Typography
+## 1. Estrategia de imágenes
 
-### Fonts
+### Fuentes
 
-| Use | Family | Source |
-|-----|--------|--------|
-| Display / headings | Georgia, Times New Roman | System |
-| Body | -apple-system, Segoe UI, Roboto, Arial | System |
+- `content-source/` — El documento del proyecto puede referenciar imágenes de portada, assets de marca.
+- `assets/img/` — Assets actuales de la maqueta. Trazar a la fuente cuando sea posible.
+- Sin imágenes inventadas; todas trazables a fuente o documentadas como placeholder.
 
-### Implementation
+### Inventario actual
 
-- **No custom font files.** Uses system fonts. No external font loading.
-- **Privacy and performance:** No font CDN or external requests.
-- **Fallback:** `serif` for headings, `sans-serif` for body.
-- **Future:** If custom fonts are adopted, self-host woff2, subset Latin, `font-display: swap`.
+| Archivo | Uso | Fuente |
+|---------|-----|--------|
+| `logo-revista.svg` | Header, marca | Marca / 02 |
+| `logo-cenfiss.svg` | Referencia institucional | CENFISS |
+| `favicon.svg` | Favicon | Derivado del logo |
+| `portada-ejemplo.png` | Placeholder de portada de número | Maqueta |
+| `article-placeholder.svg` | Fallback de tarjeta de artículo | Maqueta |
+| `avatar-default.svg` | Fallback de avatar de autor | Maqueta |
+| `placeholder-banner.jpg` | Carrusel de banner | Maqueta |
+| `flyer.jpg` | Eventos CENFISS (carrusel) | CENFISS |
+| `banner-main.png` | Hero/banner | Maqueta |
+
+### Optimización
+
+- **Formato:** WebP con fallback JPEG/PNG cuando haga falta. SVG para logos, iconos.
+- **Compresión:** Equilibrar calidad y tamaño. Portadas de números: máx ~800px de ancho para visualización.
+- **Responsive:** `srcset` para portadas de números, banners cuando existan varios tamaños.
+- **Carga diferida:** Para imágenes debajo del pliegue (tarjetas de artículos, grids de archivo).
+- **Texto alt:** Siempre rellenar. Decorativas: `alt=""`. Ver `09-ui-copy-sheet`, `19-accessibility-standards`.
+
+### Nomenclatura
+
+- Minúsculas, kebab-case
+- Descriptivo: `portada-vol-12-n2-2025.jpg`, `logo-revista.svg`, `flyer-diplomado-2025.jpg`
 
 ---
 
-## 3. Icons
+## 2. Tipografía
 
-- **SVG preferred** (scalable, lightweight). Current: favicon, placeholders.
-- **Decorative:** `aria-hidden="true"`, `focusable="false"`
-- **Meaningful:** Provide accessible name or hide from assistive tech as appropriate.
-- **Avoid icon fonts** if possible; inline SVG or sprite.
+### Fuentes
+
+| Uso | Familia | Fuente |
+|-----|---------|--------|
+| Display / títulos | Georgia, Times New Roman | Sistema |
+| Cuerpo | -apple-system, Segoe UI, Roboto, Arial | Sistema |
+
+### Implementación
+
+- **Sin archivos de fuentes custom.** Usa fuentes del sistema. Sin carga externa de fuentes.
+- **Privacidad y rendimiento:** Sin CDN de fuentes ni peticiones externas.
+- **Fallback:** `serif` para títulos, `sans-serif` para cuerpo.
+- **Futuro:** Si se adoptan fuentes custom, auto-hospedar woff2, subset latino, `font-display: swap`.
+
+---
+
+## 3. Iconos
+
+- **SVG preferido** (escalable, ligero). Actual: favicon, placeholders.
+- **Decorativos:** `aria-hidden="true"`, `focusable="false"`
+- **Con significado:** Proporcionar nombre accesible o ocultar de tecnología asistiva según corresponda.
+- **Evitar fuentes de iconos** si es posible; SVG inline o sprite.
 
 ---
 
 ## 4. Favicon
 
-- **File:** `favicon.svg` — Derived from logo
-- **Sizes:** SVG covers all. For legacy: 16×16, 32×32, 180×180 (Apple), 192×192
-- **Use:** `<link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">`
+- **Archivo:** `favicon.svg` — Derivado del logo
+- **Tamaños:** SVG cubre todo. Para legacy: 16×16, 32×32, 180×180 (Apple), 192×192
+- **Uso:** `<link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">`
 
 ---
 
 ## 5. PDFs
 
-| File | Use |
-|-----|-----|
-| `normas-publicacion.pdf` | Normas page download |
-| `politicas-editorial.pdf` | Políticas page download |
-| `solicitud-publicacion-declaracion-etica.pdf` | Enviar colaboración form (per project doc) |
-| `instrumento-arbitraje.pdf` | Normas (arbitraje form; per project doc) |
-| `articulo-01.pdf` | Sample article |
-| `numero-v12n2-2025.pdf` | Sample issue |
+| Archivo | Uso |
+|---------|-----|
+| `normas-publicacion.pdf` | Descarga en página Normas |
+| `politicas-editorial.pdf` | Descarga en página Políticas |
+| `solicitud-publicacion-declaracion-etica.pdf` | Formulario Enviar colaboración (según doc del proyecto) |
+| `instrumento-arbitraje.pdf` | Normas (formulario de arbitraje; según doc del proyecto) |
+| `articulo-01.pdf` | Artículo de ejemplo |
+| `numero-v12n2-2025.pdf` | Número de ejemplo |
 
-**Rule:** PDFs in WordPress phase live in media library. Links from pages point to attachment URL.
-
----
-
-## 6. File locations
-
-| Phase | Location |
-|-------|----------|
-| Maquette (static) | `assets/img/`, `assets/pdf/`, `assets/css/`, `assets/js/` |
-| WordPress | `revistalogos/assets/img/`, `revistalogos/assets/pdf/` (or media library for PDFs) |
+**Regla:** Los PDFs en la fase WordPress viven en la media library. Los enlaces desde las páginas apuntan a la URL del adjunto.
 
 ---
 
-## 7. Do-not rules
+## 6. Ubicaciones de archivos
 
-- Do not add images without documenting source in 16.
-- Do not use uncompressed large images; optimize before commit.
-- Do not inline base64 images in CSS/HTML for non-trivial assets.
-- Do not use external font CDNs without explicit project decision.
+| Fase | Ubicación |
+|------|-----------|
+| Maqueta (estático) | `assets/img/`, `assets/pdf/`, `assets/css/`, `assets/js/` |
+| WordPress | `revistalogos/assets/img/`, `revistalogos/assets/pdf/` (o media library para PDFs) |
 
 ---
 
-**Version:** 1.0  
-**Project:** Revista de Filosofía LOGO ET SPES
+## 7. Reglas de no hacer
+
+- No añadir imágenes sin documentar la fuente en 16.
+- No usar imágenes grandes sin comprimir; optimizar antes de commit.
+- No incrustar imágenes base64 en CSS/HTML para assets no triviales.
+- No usar CDNs de fuentes externos sin decisión explícita del proyecto.
+
+---
+
+**Versión:** 1.0  
+**Proyecto:** Revista de Filosofía LOGO ET SPES

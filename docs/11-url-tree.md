@@ -1,20 +1,20 @@
-# Revista de Filosofía LOGO ET SPES — URL Tree
+# Revista de Filosofía LOGO ET SPES — Árbol de URLs
 
-**Official URL structure**
+**Estructura oficial de URLs**
 
-Defines the canonical routes of the site. Single source for "what URL leads where".
+Define las rutas canónicas del sitio. Fuente única para "qué URL lleva a dónde".
 
-**Depends on:** `04-screen-map`, `05-information-architecture-navigation`, `09-ui-copy-sheet`  
-**Reference:** `03-wordpress-content-model`, `12-theme-file-structure`
+**Depende de:** `04-screen-map`, `05-information-architecture-navigation`, `09-ui-copy-sheet`  
+**Referencia:** `03-wordpress-content-model`, `12-theme-file-structure`
 
 ---
 
-## 1. Structure
+## 1. Estructura
 
-### Main pages
+### Páginas principales
 
-| Route | Content |
-|-------|---------|
+| Ruta | Contenido |
+|------|-----------|
 | `/` | Home |
 | `/acerca/` | Acerca (enfoque, alcance, objetivos) |
 | `/contacto/` | Contacto |
@@ -24,54 +24,67 @@ Defines the canonical routes of the site. Single source for "what URL leads wher
 | `/enviar-colaboracion/` | Enviar colaboración |
 | `/comite/` | Comité Editorial |
 | `/enlaces/` | Enlaces de interés |
-| `/noticias/` | Noticias (blog index) |
+| `/noticias/` | Noticias (índice del blog) |
 
-### Content (CPT)
+### Contenido (CPT)
 
-| Route | Content |
-|-------|---------|
-| `/numeros/` | Archive issues |
-| `/numeros/{slug}/` | Single issue (e.g. `/numeros/vol-12-n2-2025/`) |
-| `/articulos/` | Archive articles |
-| `/articulos/{slug}/` | Single article (e.g. `/articulos/la-naturaleza-del-ser/`) |
-| `/noticias/{slug}/` | Single post (noticia) |
+| Ruta | Contenido |
+|------|-----------|
+| `/numeros/` | Archivo de números |
+| `/numeros/{slug}/` | Número individual (ej. `/numeros/vol-12-n2-2025/`) |
+| `/articulos/` | Archivo de artículos |
+| `/articulos/{slug}/` | Artículo individual (ej. `/articulos/la-naturaleza-del-ser/`) |
+| `/autores/` | Archivo de autores |
+| `/autores/{slug}/` | Autor individual |
+| `/noticias/{slug}/` | Entrada individual (noticia) |
 
-### Filtered archives (optional)
+### Área privada (autenticados)
 
-| Route | Content |
-|-------|---------|
-| `/articulos/seccion/{section}/` | Articles by section (Metafísica, Ética, etc.) |
-| `/articulos/tipo/{type}/` | Articles by type (article, essay, review) |
+| Ruta | Contenido |
+|------|-----------|
+| `/login/` | Login (o `wp-login.php`) |
+| `/registro/` | Registro (si está habilitado) |
+| `/mi-cuenta/` | Panel de autor |
+| `/mi-cuenta/nuevo/` | Nuevo envío |
+| `/mi-cuenta/envios/` | Mis envíos |
+| `/mi-cuenta/envios/{id}/` | Ver envío |
 
-### Search
+### Archivos filtrados (opcional)
 
-| Route | When |
-|-------|------|
-| `/?s={query}` | Search results (WordPress default) |
-| or `/buscar/?s={query}` | If search page exists |
+| Ruta | Contenido |
+|------|-----------|
+| `/articulos/seccion/{section}/` | Artículos por sección (Metafísica, Ética, etc.) |
+| `/articulos/tipo/{type}/` | Artículos por tipo (article, essay, review) |
 
-### States
+### Búsqueda
 
-| Route | When |
-|-------|------|
-| 404 | Page not found |
+| Ruta | Cuándo |
+|------|--------|
+| `/?s={query}` | Resultados de búsqueda (por defecto WordPress) |
+| o `/buscar/?s={query}` | Si existe página de búsqueda |
+
+### Estados
+
+| Ruta | Cuándo |
+|------|--------|
+| 404 | Página no encontrada |
 
 ---
 
-## 2. Rules
+## 2. Reglas
 
-- **Clean URLs:** No query strings for main content. Use for search only (`?s=`).
-- **Consistent slugs:** Match WordPress page slugs exactly. Use lowercase, hyphens.
-- **Trailing slash:** Use trailing slash for consistency (e.g. `/acerca/`, `/numeros/`).
-- **Hierarchy:** Max 2–3 levels. `/numeros/{slug}/`, `/articulos/{slug}/`.
-- **Spanish slugs:** Page slugs in Spanish (acerca, contacto, normas, enviar-colaboracion).
+- **URLs limpias:** Sin query strings para contenido principal. Usar solo para búsqueda (`?s=`).
+- **Slugs consistentes:** Coincidir exactamente con los slugs de páginas WordPress. Minúsculas, guiones.
+- **Barra final:** Usar barra final para consistencia (ej. `/acerca/`, `/numeros/`).
+- **Jerarquía:** Máximo 2–3 niveles. `/numeros/{slug}/`, `/articulos/{slug}/`.
+- **Slugs en español:** Slugs de páginas en español (acerca, contacto, normas, enviar-colaboracion).
 
 ---
 
-## 3. WordPress mapping
+## 3. Mapeo WordPress
 
-| Route | Template |
-|-------|----------|
+| Ruta | Plantilla |
+|------|-----------|
 | `/` | `front-page.php` |
 | `/acerca/` | `page-acerca.php` |
 | `/contacto/` | `page-contacto.php` |
@@ -81,21 +94,23 @@ Defines the canonical routes of the site. Single source for "what URL leads wher
 | `/enviar-colaboracion/` | `page-enviar-colaboracion.php` |
 | `/comite/` | `page-comite.php` |
 | `/enlaces/` | `page-enlaces.php` |
-| `/noticias/` | `home.php` (posts page) |
+| `/noticias/` | `home.php` (página de entradas) |
 | `/numeros/` | `archive-issue.php` |
 | `/numeros/{slug}/` | `single-issue.php` |
 | `/articulos/` | `archive-article.php` |
 | `/articulos/{slug}/` | `single-article.php` |
 | `/noticias/{slug}/` | `single.php` |
 | `/?s=` | `search.php` |
+| `/login/` | `page-login.php` o redirección |
+| `/mi-cuenta/` | `page-mi-cuenta.php` |
 | 404 | `404.php` |
 
 ---
 
-## 4. Static HTML to URL mapping (maquette)
+## 4. Mapeo HTML estático a URL (maqueta)
 
-| Static file | WordPress URL |
-|-------------|---------------|
+| Archivo estático | URL WordPress |
+|------------------|---------------|
 | `index.html` | `/` |
 | `page-acerca.html` | `/acerca/` |
 | `page-contacto.html` | `/contacto/` |
@@ -111,9 +126,9 @@ Defines the canonical routes of the site. Single source for "what URL leads wher
 | `archive-article.html` | `/articulos/` |
 | `single-article.html` | `/articulos/{slug}/` |
 | `single-post.html` | `/noticias/{slug}/` |
-| `search.html` | `/?s=` or `/buscar/` |
+| `search.html` | `/?s=` o `/buscar/` |
 
 ---
 
-**Version:** 1.0  
-**Project:** Revista de Filosofía LOGO ET SPES
+**Versión:** 1.0  
+**Proyecto:** Revista de Filosofía LOGO ET SPES

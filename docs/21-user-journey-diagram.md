@@ -1,6 +1,6 @@
-# Revista de Filosofía LOGO ET SPES — User Journey Diagram
+# Revista de Filosofía LOGO ET SPES — Diagrama de Recorrido del Usuario
 
-Mermaid diagram. Based on `10-user-journey`. Score 1–5: flow fluency (5 = no friction). Actor: **Visitor**.
+Diagrama Mermaid. Basado en `10-user-journey`. Puntuación 1–5: fluidez del flujo (5 = sin fricción). Actor: **Visitante**.
 
 ---
 
@@ -41,4 +41,4 @@ journey
 
 ---
 
-**Reference:** `10-user-journey`
+**Referencia:** `10-user-journey`

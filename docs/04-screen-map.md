@@ -1,98 +1,115 @@
-# Revista de Filosofía LOGO ET SPES — Screen Map
+# Revista de Filosofía LOGO ET SPES — Mapa de Pantallas
 
-List of what screens exist. Does not describe design; only what views to build. Single source for "what views to build". Content of each is in 03; theme structure in 12.
+Lista de qué pantallas existen. No describe el diseño; solo qué vistas construir. Fuente única para "qué vistas construir". El contenido de cada una está en 03; la estructura del tema en 12.
 
-**Depends on / reference:** `01-platform-plan`, `03-wordpress-content-model`, `05-information-architecture-navigation`  
-**Block structure per screen:** `06-wireframes`
+**Depende de / referencia:** `01-platform-plan`, `03-wordpress-content-model`, `05-information-architecture-navigation`  
+**Estructura de bloques por pantalla:** `06-wireframes`
 
 ---
 
-## Fixed pages
+## Páginas fijas
 
-| Page | Function |
-|------|----------|
-| Home | Hero, current issue, primary CTA. Entry point to read and submit. |
+| Página | Función |
+|--------|---------|
+| Home | Hero, número actual, CTA principal. Punto de entrada para leer y enviar. |
 | Acerca | Enfoque, alcance, objetivos, origen del nombre Logo et Spes. |
-| Contacto | Institutional contact, editorial board, CENFISS, email. |
-| Normas | Normas de publicación, PDF downloads, links to APA/Vancouver. |
-| Ética | Normas de ética editorial (COPE alignment). |
+| Contacto | Contacto institucional, consejo editorial, CENFISS, email. |
+| Normas | Normas de publicación, descargas PDF, enlaces a APA/Vancouver. |
+| Ética | Normas de ética editorial (alineación COPE). |
 | Políticas | Políticas editoriales. |
-| Enviar colaboración | Instructions for authors, forms, primary CTA for submission. |
+| Enviar colaboración | Instrucciones para autores, formularios, CTA principal para envío. |
 | Comité Editorial | Consejo Editorial, Editor General, Editores adjuntos, Árbitros. |
 | Enlaces | Enlaces de interés, CENFISS, partners. |
-| Noticias | Blog index. CENFISS presente, events, misceláneas. |
+| Noticias | Índice del blog. CENFISS presente, eventos, misceláneas. |
 
 ---
 
-## Conditional pages
+## Páginas condicionales
 
-| Page | Condition |
-|------|-----------|
-| Search results | User submits search query. |
-| Archive filtered | User filters by section/article_type (articles, issues). |
-
----
-
-## Content views (single)
-
-| View | Use |
-|------|-----|
-| Single issue | Single issue (número). Editorial, article list, PDF download. |
-| Single article | Single article, essay or review. Full text or PDF, metadata, authors. |
-| Single post | Single noticia. CENFISS presente, events. |
+| Página | Condición |
+|--------|------------|
+| Resultados de búsqueda | El usuario envía una consulta de búsqueda. |
+| Archivo filtrado | El usuario filtra por sección/article_type (artículos, números). |
 
 ---
 
-## Archive views
+## Área privada (autores autenticados)
 
-| View | Use |
-|------|-----|
-| Archive issues | List of all published numbers. |
-| Archive articles | List of articles. Filter by section, type, issue. |
-| Archive authors | List of authors (optional; may link from article metadata). |
-
----
-
-## States
-
-| State | Description |
-|-------|-------------|
-| Empty search | No results for query. Offer link to home or browse. |
-| Empty archive | No issues/articles yet. Informational message. |
-| 404 | Page does not exist. Link to home. |
+| Pantalla | Función |
+|----------|---------|
+| Login | Formulario de inicio de sesión |
+| Registro | Creación controlada de cuentas (o solo por invitación) |
+| Panel de autor | Resumen, enlaces a normas, nuevo envío |
+| Nuevo envío | Crear envío, subir manuscrito + archivo anonimizado |
+| Mis envíos | Lista de envíos del autor |
+| Ver envío | Detalle de un envío, estado |
+| Editar borrador | Editar borrador antes del envío |
+| Confirmación de envío | Confirmación tras enviar |
 
 ---
 
-## Global elements (components, not screens)
+## Vistas de contenido (individual)
 
-**Header:** Logo, main nav (Inicio, Número Actual, Números Publicados, Enviar colaboración, Acerca, Noticias, Contacto, Enlaces), CENFISS link.
-
-**Footer:** Revista info (ISSN, DOI), Enlaces rápidos, Normas editoriales, Contacto, CC license.
-
-Present on all pages.
-
----
-
-## Total screens to build
-
-**Main pages (static):** Home, Acerca, Contacto, Normas, Ética, Políticas, Enviar colaboración, Comité Editorial, Enlaces, Noticias
-
-**Archives:** Archive issues, Archive articles
-
-**Content views:** Single issue, Single article, Single post
-
-**Conditional:** Search results, Filtered archives
-
-**States:** 404, Empty search, Empty archive
-
-**Global components:** Header, Footer
+| Vista | Uso |
+|-------|-----|
+| Número individual | Número individual. Editorial, lista de artículos, descarga PDF. |
+| Artículo individual | Artículo, ensayo o reseña individual. Texto completo o PDF, metadatos, autores. |
+| Entrada individual | Noticia individual. CENFISS presente, eventos. |
 
 ---
 
-## WordPress template mapping
+## Vistas de archivo
 
-| View | Template |
-|------|----------|
+| Vista | Uso |
+|-------|-----|
+| Archivo de números | Lista de todos los números publicados. |
+| Archivo de artículos | Lista de artículos. Filtrar por sección, tipo, número. |
+| Archivo de autores | Lista de autores (opcional; puede enlazar desde metadatos del artículo). |
+
+---
+
+## Estados
+
+| Estado | Descripción |
+|--------|-------------|
+| Búsqueda vacía | Sin resultados para la consulta. Ofrecer enlace a inicio o explorar. |
+| Archivo vacío | Aún no hay números/artículos. Mensaje informativo. |
+| 404 | La página no existe. Enlace a inicio. |
+
+---
+
+## Elementos globales (componentes, no pantallas)
+
+**Header:** Logo, nav principal (Inicio, Número Actual, Números Publicados, Enviar colaboración, Acerca, Noticias, Contacto, Enlaces), enlace CENFISS.
+
+**Footer:** Info de la revista (ISSN, DOI), Enlaces rápidos, Normas editoriales, Contacto, licencia CC.
+
+Presentes en todas las páginas.
+
+---
+
+## Total de pantallas a construir
+
+**Páginas principales (estáticas):** Home, Acerca, Contacto, Normas, Ética, Políticas, Enviar colaboración, Comité Editorial, Enlaces, Noticias
+
+**Archivos:** Archivo de números, Archivo de artículos
+
+**Vistas de contenido:** Número individual, Artículo individual, Entrada individual
+
+**Condicionales:** Resultados de búsqueda, Archivos filtrados
+
+**Privadas (autores):** Login, Registro, Panel de autor, Nuevo envío, Mis envíos, Ver envío, Editar borrador, Confirmación de envío
+
+**Estados:** 404, Búsqueda vacía, Archivo vacío
+
+**Componentes globales:** Header, Footer
+
+---
+
+## Mapeo de plantillas WordPress
+
+| Vista | Plantilla |
+|-------|-----------|
 | Home | `front-page.php` |
 | Acerca | `page-acerca.php` |
 | Contacto | `page-contacto.php` |
@@ -102,30 +119,29 @@ Present on all pages.
 | Enviar colaboración | `page-enviar-colaboracion.php` |
 | Comité Editorial | `page-comite.php` |
 | Enlaces | `page-enlaces.php` |
-| Noticias | `home.php` or `index.php` |
-| Archive issues | `archive-issue.php` |
-| Archive articles | `archive-article.php` |
-| Single issue | `single-issue.php` |
-| Single article | `single-article.php` |
-| Single post | `single.php` |
-| Search | `search.php` |
+| Noticias | `home.php` o `index.php` |
+| Archivo de números | `archive-issue.php` |
+| Archivo de artículos | `archive-article.php` |
+| Número individual | `single-issue.php` |
+| Artículo individual | `single-article.php` |
+| Entrada individual | `single.php` |
+| Búsqueda | `search.php` |
 | 404 | `404.php` |
 | Header | `parts/header.php` |
 | Footer | `parts/footer.php` |
 
 ---
 
-## What the site does NOT have
+## Qué NO tiene el sitio
 
-- User dashboard or account management
-- E-commerce or payments
-- Comments on articles
-- Social feed or social login
-- Advertising or sponsored content
+- E-commerce o pagos
+- Comentarios en artículos
+- Feed social o login social
+- Publicidad o contenido patrocinado
 
-Helps scope and avoid creep.
+**Nota:** El panel de autor y la gestión de envíos son parte del sistema (Capa 6.5). La cuenta existe solo para facilitar el proceso editorial.
 
 ---
 
-**Version:** 1.0  
-**Project:** Revista de Filosofía LOGO ET SPES
+**Versión:** 1.0  
+**Proyecto:** Revista de Filosofía LOGO ET SPES

@@ -1,19 +1,19 @@
-# Revista de Filosofía LOGO ET SPES — UI Copy Sheet
+# Revista de Filosofía LOGO ET SPES — Hoja de Copy UI
 
-**Single source of truth for microcopy, navigation and system**
+**Fuente única de verdad para microcopy, navegación y sistema**
 
-Buttons, menus, messages, forms and states. Voice criteria in `07-voice-guide-microcopy-ux`; allowed/forbidden terms in `08-voice-dictionary`.
+Botones, menús, mensajes, formularios y estados. Criterios de voz en `07-voice-guide-microcopy-ux`; términos permitidos/prohibidos en `08-voice-dictionary`.
 
-**Depends on:** `07-voice-guide-microcopy-ux`, `08-voice-dictionary`  
-**Reference:** `04-screen-map`, `05-information-architecture-navigation`, `06-wireframes`
+**Depende de:** `07-voice-guide-microcopy-ux`, `08-voice-dictionary`  
+**Referencia:** `04-screen-map`, `05-information-architecture-navigation`, `06-wireframes`
 
-**Central rule:** All copy must sound institutional and academic. No marketing, urgency or promotional language.
+**Regla central:** Todo el copy debe sonar institucional y académico. Sin marketing, urgencia ni lenguaje promocional.
 
 ---
 
-## 1. Global navigation
+## 1. Navegación global
 
-### Main menu (header)
+### Menú principal (header)
 
 - Inicio
 - Número Actual
@@ -23,7 +23,7 @@ Buttons, menus, messages, forms and states. Voice criteria in `07-voice-guide-mi
 - Noticias
 - Contacto
 - Enlaces
-- CENFISS (external)
+- CENFISS (externo)
 
 ### Footer
 
@@ -42,7 +42,7 @@ Buttons, menus, messages, forms and states. Voice criteria in `07-voice-guide-mi
 
 **Contacto:** CENFISS, email, web
 
-**Footer bottom:** © 2025 CENFISS. Licencia Creative Commons Atribución 4.0 Internacional.
+**Footer inferior:** © 2025 CENFISS. Licencia Creative Commons Atribución 4.0 Internacional.
 
 ---
 
@@ -50,28 +50,28 @@ Buttons, menus, messages, forms and states. Voice criteria in `07-voice-guide-mi
 
 ### Hero
 
-- **Title:** LOGO ET SPES
-- **Subtitle:** Revista de Filosofía y Teología
-- **Description:** La Revista de Filosofía LOGO ET SPES adscrita, auspiciada y editada por el Centro de Filosofía para la Investigación \<Stanislao Strba\> - CENFISS, es una publicación digital venezolana enfocada en el pensamiento filosófico multidisciplinar. Es de acceso abierto; arbitrada bajo la modalidad \<doble anónimo o doble ciego\>; con periodicidad anual. Sus páginas están disponibles para difundir investigaciones originales -de autores nacionales e internacionales- que coadyuven a promover el desarrollo de todas las áreas de la Filosofía.
-- **Button:** Ver número actual
+- **Título:** LOGO ET SPES
+- **Subtítulo:** Revista de Filosofía y Teología
+- **Descripción:** La Revista de Filosofía LOGO ET SPES adscrita, auspiciada y editada por el Centro de Filosofía para la Investigación \<Stanislao Strba\> - CENFISS, es una publicación digital venezolana enfocada en el pensamiento filosófico multidisciplinar. Es de acceso abierto; arbitrada bajo la modalidad \<doble anónimo o doble ciego\>; con periodicidad anual. Sus páginas están disponibles para difundir investigaciones originales -de autores nacionales e internacionales- que coadyuven a promover el desarrollo de todas las áreas de la Filosofía.
+- **Botón:** Ver número actual
 
 ### Sidebar (Noticias)
 
-- **Title:** Noticias
-- **Button:** Ver todas las noticias
+- **Título:** Noticias
+- **Botón:** Ver todas las noticias
 
 ### Sidebar (CENFISS)
 
-- **Title:** CENFISS
-- **Text:** Centro de Filosofía para la Investigación Stanislao Strba. Ubicación: Estado de Carabobo, Valencia, Venezuela
-- **Button:** Visitar Web
+- **Título:** CENFISS
+- **Texto:** Centro de Filosofía para la Investigación Stanislao Strba. Ubicación: Estado de Carabobo, Valencia, Venezuela
+- **Botón:** Visitar Web
 
 ---
 
-## 3. Page headers (archive-header pattern)
+## 3. Headers de página (patrón archive-header)
 
-| Page | Title | Description |
-|------|-------|-------------|
+| Página | Título | Descripción |
+|--------|--------|-------------|
 | Archivo de Números | Archivo de Números | Archivo completo de números publicados de la revista Logos et Spes. Accede a todos los volúmenes y números desde 2010 hasta la actualidad. |
 | Archivo de Artículos | Archivo de Artículos | Archivo completo de artículos publicados en Logos et Spes. Busca y accede a todos los artículos de filosofía organizados por sección, autor y fecha. |
 | Enviar Colaboración | Enviar Colaboración | Instrucciones para enviar artículos, ensayos y reseñas a LOGO ET SPES. |
@@ -80,100 +80,100 @@ Buttons, menus, messages, forms and states. Voice criteria in `07-voice-guide-mi
 
 ---
 
-## 4. Archive filters (artículos)
+## 4. Filtros de archivo (artículos)
 
-- **Label Buscar:** Buscar
+- **Etiqueta Buscar:** Buscar
 - **Placeholder:** Título, autor, palabras clave...
-- **Label Sección:** Sección
-- **Option default:** Todas las secciones
-- **Label Año:** Año
-- **Option default:** Todos los años
-- **Submit:** Buscar
-- **Reset:** Limpiar filtros
+- **Etiqueta Sección:** Sección
+- **Opción por defecto:** Todas las secciones
+- **Etiqueta Año:** Año
+- **Opción por defecto:** Todos los años
+- **Enviar:** Buscar
+- **Restablecer:** Limpiar filtros
 
 ---
 
-## 5. Contact form
+## 5. Formulario de contacto
 
-- **Section title:** Enviar Mensaje
-- **Fields:** Nombre completo *, Email *, Asunto *, Mensaje *
-- **Button:** Enviar Mensaje
-- **Confirmation:** (mailto; no confirmation message if using mailto)
+- **Título de sección:** Enviar Mensaje
+- **Campos:** Nombre completo *, Email *, Asunto *, Mensaje *
+- **Botón:** Enviar Mensaje
+- **Confirmación:** (mailto; sin mensaje de confirmación si se usa mailto)
 
 ---
 
-## 6. Buttons (by context)
+## 6. Botones (por contexto)
 
-| Context | Primary | Secondary |
-|---------|---------|-----------|
-| Home hero | Ver número actual | — |
-| Issue card | 📄 PDF completo | Ver contenido |
-| Article card | 📄 PDF | Leer más |
-| Single issue | Descargar PDF del número completo | Ver PDF |
-| Single article | Descargar PDF del artículo | Ver PDF, Ver número completo |
+| Contexto | Principal | Secundario |
+|----------|-----------|------------|
+| Hero del home | Ver número actual | — |
+| Tarjeta de número | 📄 PDF completo | Ver contenido |
+| Tarjeta de artículo | 📄 PDF | Leer más |
+| Número individual | Descargar PDF del número completo | Ver PDF |
+| Artículo individual | Descargar PDF del artículo | Ver PDF, Ver número completo |
 | Normas | Descargar | Ver PDF |
-| Search filters | Buscar | Limpiar filtros |
+| Filtros de búsqueda | Buscar | Limpiar filtros |
 
 ---
 
-## 7. Breadcrumbs
+## 7. Migas de pan
 
 - **Home:** Inicio
-- **Archives:** Inicio → Archivos
-- **Single issue:** Inicio → Archivos → [Issue title]
-- **Single article:** Inicio → Archivos → [Issue] → [Article title]
-- **Static pages:** Inicio → [Page title]
+- **Archivos:** Inicio → Archivos
+- **Número individual:** Inicio → Archivos → [Título del número]
+- **Artículo individual:** Inicio → Archivos → [Número] → [Título del artículo]
+- **Páginas estáticas:** Inicio → [Título de la página]
 
 ---
 
-## 8. States and errors
+## 8. Estados y errores
 
-| Situation | Text |
-|-----------|------|
-| No search results | No se encontraron resultados para su búsqueda. Puede intentar con otros términos o explorar el archivo de artículos. |
-| Empty archive (issues) | Aún no hay números publicados. Consulte las normas para enviar una colaboración. |
-| Empty archive (articles) | Aún no hay artículos publicados. Consulte el archivo de números o las normas para enviar una colaboración. |
+| Situación | Texto |
+|-----------|-------|
+| Sin resultados de búsqueda | No se encontraron resultados para su búsqueda. Puede intentar con otros términos o explorar el archivo de artículos. |
+| Archivo vacío (números) | Aún no hay números publicados. Consulte las normas para enviar una colaboración. |
+| Archivo vacío (artículos) | Aún no hay artículos publicados. Consulte el archivo de números o las normas para enviar una colaboración. |
 | 404 | La página que busca no existe. Puede volver al inicio o ver el número actual. |
-| Send error | No fue posible enviar el mensaje. Intente de nuevo o contacte al Consejo Editorial por correo electrónico. |
-| Technical error | No fue posible completar la acción. Intente de nuevo o contacte al Consejo Editorial. |
+| Error de envío | No fue posible enviar el mensaje. Intente de nuevo o contacte al Consejo Editorial por correo electrónico. |
+| Error técnico | No fue posible completar la acción. Intente de nuevo o contacte al Consejo Editorial. |
 
 ---
 
-## 9. Accessibility labels
+## 9. Etiquetas de accesibilidad
 
-| Element | Text |
-|---------|------|
-| Skip link | Saltar al contenido principal |
-| Nav toggle | Menú |
-| Carousel prev | Slide anterior |
-| Carousel next | Siguiente slide |
-| Carousel indicator | Ir al slide [n] |
-| PDF download (issue) | Descargar PDF completo del Vol. [X] Nº [Y] ([year]) |
-| PDF download (article) | Descargar PDF del artículo '[title]' |
-
----
-
-## 10. External links
-
-- **CENFISS:** Opens in new tab. Use `rel="noopener noreferrer"`.
-- **Creative Commons:** Opens in new tab.
-- **APA / Vancouver guides:** Opens in new tab.
-- **DOI links:** Opens doi.org in new tab.
-- **ORCID links:** Opens orcid.org in new tab.
-
-**Notice for screen readers:** Add visually hidden "(se abre en nueva pestaña)" or use `target="_blank"` with appropriate `rel`.
+| Elemento | Texto |
+|----------|-------|
+| Enlace saltar | Saltar al contenido principal |
+| Toggle de nav | Menú |
+| Carrusel anterior | Slide anterior |
+| Carrusel siguiente | Siguiente slide |
+| Indicador de carrusel | Ir al slide [n] |
+| Descarga PDF (número) | Descargar PDF completo del Vol. [X] Nº [Y] ([año]) |
+| Descarga PDF (artículo) | Descargar PDF del artículo '[título]' |
 
 ---
 
-## 11. Accessibility
+## 10. Enlaces externos
 
-**Alt text:** Describe images clearly. Decorative images: `alt=""`.
+- **CENFISS:** Se abre en nueva pestaña. Usar `rel="noopener noreferrer"`.
+- **Creative Commons:** Se abre en nueva pestaña.
+- **Guías APA / Vancouver:** Se abre en nueva pestaña.
+- **Enlaces DOI:** Se abre doi.org en nueva pestaña.
+- **Enlaces ORCID:** Se abre orcid.org en nueva pestaña.
 
-**Notices:** "Opens in new tab" for external links. Use `aria-label` where link text is insufficient.
-
-Full criteria in `19-accessibility-standards`.
+**Aviso para lectores de pantalla:** Añadir "(se abre en nueva pestaña)" visualmente oculto o usar `target="_blank"` con el `rel` apropiado.
 
 ---
 
-**Version:** 1.0  
-**Project:** Revista de Filosofía LOGO ET SPES
+## 11. Accesibilidad
+
+**Texto alt:** Describir las imágenes con claridad. Imágenes decorativas: `alt=""`.
+
+**Avisos:** "Se abre en nueva pestaña" para enlaces externos. Usar `aria-label` cuando el texto del enlace sea insuficiente.
+
+Criterios completos en `19-accessibility-standards`.
+
+---
+
+**Versión:** 1.0  
+**Proyecto:** Revista de Filosofía LOGO ET SPES

@@ -1,57 +1,57 @@
-# Revista de Filosofía LOGO ET SPES — Documentation
+# Revista de Filosofía LOGO ET SPES — Documentación
 
-Documentation for the academic journal website. CENFISS (Centro de Filosofía para la Investigación Stanislao Strba), Valencia, Venezuela.
+Documentación para el sitio web de la revista académica. CENFISS (Centro de Filosofía para la Investigación Stanislao Strba), Valencia, Venezuela.
 
-**Canonical source:** `content-source/PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md`
-
----
-
-## Document list
-
-| # | Document | Purpose |
-|---|----------|---------|
-| 00 | order-documents | Document order and dependency rules |
-| 01 | platform-plan | Master plan, layers, principles |
-| 02 | corporate-identity | Palette, typography, logo, brand essence |
-| 03 | wordpress-content-model | Post types, taxonomies, fields |
-| 04 | screen-map | What screens exist |
-| 05 | information-architecture-navigation | Links per screen, menu structure |
-| 06 | wireframes | Block structure per view |
-| 07 | voice-guide-microcopy-ux | How the site speaks |
-| 08 | voice-dictionary | Allowed / forbidden terms |
-| 09 | ui-copy-sheet | Buttons, menus, messages |
-| 10 | user-journey | Visitor paths and validation |
-| 11 | url-tree | Canonical routes |
-| 12 | theme-file-structure | WordPress theme architecture |
-| 13 | static-file-structure | Project geography |
-| 14 | css-architecture | Tokens, layers, naming |
-| 15 | assets-strategy | Images, fonts, icons |
-| 16 | content-source-inventory | Source files and mapping |
-| 17 | implementation-order | Phases, maquette → WordPress |
-| 18 | ux-ui-trends | Adoption / avoidance filter |
-| 19 | accessibility-standards | WCAG, checklist, testing |
-| 20 | layout-principles | Reading width, rhythm, responsive |
-| 21 | user-journey-diagram | Mermaid diagram of journeys |
+**Fuente canónica:** `content-source/PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md`
 
 ---
 
-## Guidelines
+## Lista de documentos
 
-- **Strategy first:** Define purpose and audience before design.
-- **Identity as constraint:** Brand manual is source of truth.
-- **Content drives structure:** Model content before building screens.
-- **Voice consistency:** One tone across navigation, copy and errors.
-- **Accessibility by default:** WCAG AA from the start.
-- **Static before dynamic:** Validate with HTML/CSS maquette before WordPress.
-- **Single source of truth:** One document per concern.
+| # | Documento | Propósito |
+|---|-----------|-----------|
+| 00 | order-documents | Orden de documentos y reglas de dependencia |
+| 01 | platform-plan | Plan maestro, capas, principios |
+| 02 | corporate-identity | Paleta, tipografía, logo, esencia de marca |
+| 03 | wordpress-content-model | Tipos de entrada, taxonomías, campos |
+| 04 | screen-map | Qué pantallas existen |
+| 05 | information-architecture-navigation | Enlaces por pantalla, estructura del menú |
+| 06 | wireframes | Estructura de bloques por vista |
+| 07 | voice-guide-microcopy-ux | Cómo habla el sitio |
+| 08 | voice-dictionary | Términos permitidos / prohibidos |
+| 09 | ui-copy-sheet | Botones, menús, mensajes |
+| 10 | user-journey | Rutas del visitante y validación |
+| 11 | url-tree | Rutas canónicas |
+| 12 | theme-file-structure | Arquitectura del tema WordPress |
+| 13 | static-file-structure | Geografía del proyecto |
+| 14 | css-architecture | Tokens, capas, nomenclatura |
+| 15 | assets-strategy | Imágenes, fuentes, iconos |
+| 16 | content-source-inventory | Archivos fuente y mapeo |
+| 17 | implementation-order | Fases, maqueta → WordPress |
+| 18 | ux-ui-trends | Filtro adopción / evitación |
+| 19 | accessibility-standards | WCAG, checklist, pruebas |
+| 20 | layout-principles | Ancho de lectura, ritmo, responsive |
+| 21 | user-journey-diagram | Diagrama Mermaid de recorridos |
 
 ---
 
-## Dependency rule
+## Directrices
 
-No document may depend on one with a higher number. See `00-order-documents` for full rationale.
+- **Estrategia primero:** Definir propósito y audiencia antes del diseño.
+- **Identidad como restricción:** El manual de marca es la fuente de verdad.
+- **El contenido impulsa la estructura:** Modelar contenido antes de construir pantallas.
+- **Consistencia de voz:** Un solo tono en navegación, copy y errores.
+- **Accesibilidad por defecto:** WCAG AA desde el inicio.
+- **Estático antes que dinámico:** Validar con maqueta HTML/CSS antes de WordPress.
+- **Una sola fuente de verdad:** Un documento por tema.
 
 ---
 
-**Version:** 1.0  
-**Project:** Revista de Filosofía LOGO ET SPES
+## Regla de dependencias
+
+Ningún documento puede depender de uno con número mayor. Ver `00-order-documents` para la justificación completa.
+
+---
+
+**Versión:** 1.0  
+**Proyecto:** Revista de Filosofía LOGO ET SPES

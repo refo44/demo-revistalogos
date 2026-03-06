@@ -1,148 +1,148 @@
-# Revista de Filosofía LOGO ET SPES — Content Source Inventory
+# Revista de Filosofía LOGO ET SPES — Inventario de Fuentes de Contenido
 
-**Canonical list of content sources**
+**Lista canónica de fuentes de contenido**
 
-Single source for what content exists, where it lives and how it maps to the site.
+Fuente única para qué contenido existe, dónde vive y cómo se mapea al sitio.
 
-**Depends on:** `03-wordpress-content-model`, `04-screen-map`  
-**Reference:** `09-ui-copy-sheet`, `15-assets-strategy`
+**Depende de:** `03-wordpress-content-model`, `04-screen-map`  
+**Referencia:** `09-ui-copy-sheet`, `15-assets-strategy`
 
 ---
 
-## 1. Directory structure
+## 1. Estructura de directorios
 
 ```
 content-source/
 └── PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md
 
 assets/
-├── img/          (logos, placeholders, covers)
-└── pdf/          (normas, políticas, sample article/issue)
+├── img/          (logos, placeholders, portadas)
+└── pdf/          (normas, políticas, artículo/número de ejemplo)
 ```
 
-**Rule:** `content-source/` is canonical. Do not modify; use as written. Assets in `assets/` are copies for implementation. See `.cursor/rules/content-source-priority.mdc`.
+**Regla:** `content-source/` es canónico. No modificar; usar tal cual está escrito. Los assets en `assets/` son copias para implementación. Ver `.cursor/rules/content-source-priority.mdc`.
 
 ---
 
-## 2. Document sources
+## 2. Fuentes documentales
 
-| File | Content | Maps to |
-|------|---------|---------|
-| `content-source/PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md` | Project document: structure, policies, norms, forms, portada model | All pages |
-| — Sección Primera (Estructura Básica) | Portada, Sumario, Editorial, Artículos, Autores, Árbitros, Misceláneas | Home, Single issue, Single article, Archive |
+| Archivo | Contenido | Mapea a |
+|---------|-----------|---------|
+| `content-source/PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md` | Documento del proyecto: estructura, políticas, normas, formularios, modelo de portada | Todas las páginas |
+| — Sección Primera (Estructura Básica) | Portada, Sumario, Editorial, Artículos, Autores, Árbitros, Misceláneas | Home, Número individual, Artículo individual, Archivo |
 | — Sección Segunda (Descripción de Partes) | Enfoque, Alcance, Objetivos, Políticas, Normas de Publicación, Normas de Ética, Formularios | Acerca, Normas, Ética, Políticas, Enviar colaboración |
-| — Sección Tercera | Simulación teórica del sitio | Wireframes, structure |
-| — Formularios (Solicitud, Arbitraje) | Form templates | Enviar colaboración, Normas |
+| — Sección Tercera | Simulación teórica del sitio | Wireframes, estructura |
+| — Formularios (Solicitud, Arbitraje) | Plantillas de formularios | Enviar colaboración, Normas |
 | — Origen del nombre Logo et Spes | Prof. Luis Felipe Ramírez | Acerca |
-| `assets/pdf/normas-publicacion.pdf` | Normas de publicación (extract/adapt) | Normas |
+| `assets/pdf/normas-publicacion.pdf` | Normas de publicación (extracto/adaptación) | Normas |
 | `assets/pdf/politicas-editorial.pdf` | Políticas editoriales | Políticas |
 
 ---
 
-## 3. Image sources
+## 3. Fuentes de imágenes
 
-| File / folder | Content | Maps to |
-|---------------|---------|---------|
-| `assets/img/logo-revista.svg` | Revista logo | Header, all pages |
-| `assets/img/logo-cenfiss.svg` | CENFISS logo | Footer, Enlaces, institutional refs |
-| `assets/img/favicon.svg` | Favicon | All pages |
-| `assets/img/article-placeholder.svg` | Article fallback | Archive articles, article cards |
-| `assets/img/avatar-default.svg` | Author avatar fallback | Single article, author cards |
-| `assets/img/placeholder-banner.jpg` | Banner placeholder | Home carousel |
+| Archivo / carpeta | Contenido | Mapea a |
+|-------------------|-----------|---------|
+| `assets/img/logo-revista.svg` | Logo de la revista | Header, todas las páginas |
+| `assets/img/logo-cenfiss.svg` | Logo CENFISS | Footer, Enlaces, referencias institucionales |
+| `assets/img/favicon.svg` | Favicon | Todas las páginas |
+| `assets/img/article-placeholder.svg` | Fallback de artículo | Archivo de artículos, tarjetas de artículo |
+| `assets/img/avatar-default.svg` | Fallback de avatar de autor | Artículo individual, tarjetas de autor |
+| `assets/img/placeholder-banner.jpg` | Placeholder de banner | Carrusel del Home |
 
-**To add:** `portada-ejemplo.png` (issue cover), `flyer.jpg` (CENFISS events), `banner-main.png` (hero).  
-**Source for real content:** Issue covers from editorial; author photos from authors; event images from CENFISS.
+**Por añadir:** `portada-ejemplo.png` (portada de número), `flyer.jpg` (eventos CENFISS), `banner-main.png` (hero).  
+**Fuente para contenido real:** Portadas de números del equipo editorial; fotos de autores de los autores; imágenes de eventos de CENFISS.
 
 ---
 
 ## 4. Video / audio
 
-| Source | Content | Implementation |
-|--------|---------|-----------------|
-| (None currently) | — | — |
+| Fuente | Contenido | Implementación |
+|--------|-----------|----------------|
+| (Ninguno actualmente) | — | — |
 
-**Rule:** If added, provide subtitles or transcript for informative content. See `19-accessibility-standards`.
+**Regla:** Si se añade, proporcionar subtítulos o transcripción para contenido informativo. Ver `19-accessibility-standards`.
 
 ---
 
-## 5. Brand assets
+## 5. Assets de marca
 
-| File | Use |
-|------|-----|
-| `assets/img/logo-revista.svg` | Header, favicon, digital materials |
-| `assets/img/logo-cenfiss.svg` | Footer, Enlaces, institutional |
+| Archivo | Uso |
+|---------|-----|
+| `assets/img/logo-revista.svg` | Header, favicon, materiales digitales |
+| `assets/img/logo-cenfiss.svg` | Footer, Enlaces, institucional |
 | `assets/img/favicon.svg` | Favicon |
-| `content-source/PROYECTO...md` | Identity reference (02), structure |
+| `content-source/PROYECTO...md` | Referencia de identidad (02), estructura |
 
 ---
 
-## 6. PDF sources
+## 6. Fuentes PDF
 
-| File | Content | Maps to |
-|------|---------|---------|
-| `assets/pdf/normas-publicacion.pdf` | Normas de publicación | Normas page |
-| `assets/pdf/articulo-01.pdf` | Sample article | Single article |
-| `assets/pdf/numero-v12n2-2025.pdf` | Sample issue | Single issue |
-| (To create) `politicas-editorial.pdf` | Políticas editoriales | Políticas page |
-| (To create) `solicitud-publicacion-declaracion-etica.pdf` | Form per project doc | Enviar colaboración |
-| (To create) `instrumento-arbitraje.pdf` | Form per project doc | Normas |
+| Archivo | Contenido | Mapea a |
+|---------|-----------|---------|
+| `assets/pdf/normas-publicacion.pdf` | Normas de publicación | Página Normas |
+| `assets/pdf/articulo-01.pdf` | Artículo de ejemplo | Artículo individual |
+| `assets/pdf/numero-v12n2-2025.pdf` | Número de ejemplo | Número individual |
+| (Por crear) `politicas-editorial.pdf` | Políticas editoriales | Página Políticas |
+| (Por crear) `solicitud-publicacion-declaracion-etica.pdf` | Formulario según doc del proyecto | Enviar colaboración |
+| (Por crear) `instrumento-arbitraje.pdf` | Formulario según doc del proyecto | Normas |
 
 ---
 
-## 7. Recommended image sizes
+## 7. Tamaños de imagen recomendados
 
-| Use | Max width | Format |
-|-----|-----------|--------|
-| Issue cover | 800–1000 px | JPG/WebP |
+| Uso | Ancho máx | Formato |
+|-----|-----------|---------|
+| Portada de número | 800–1000 px | JPG/WebP |
 | Hero / banner | 1200–1600 px | JPG/WebP |
-| Article card thumbnail | 400–600 px | JPG/WebP |
-| Author avatar | 200–300 px | JPG/WebP |
+| Miniatura tarjeta de artículo | 400–600 px | JPG/WebP |
+| Avatar de autor | 200–300 px | JPG/WebP |
 | Logos | SVG | SVG |
 
 ---
 
-## 8. Traceability matrix
+## 8. Matriz de trazabilidad
 
-| Page / Section | Source(s) |
-|----------------|----------|
-| Home | Project doc (Presentación, Estructura), portada-ejemplo, flyer |
-| Acerca | Project doc (Enfoque, Alcance, Objetivos, Origen del nombre) |
-| Normas | Project doc (Normas de Publicación, Ética), normas-publicacion.pdf |
-| Ética | Project doc (Normas de Ética) |
-| Políticas | Project doc (Políticas Editorial), politicas-editorial.pdf |
-| Enviar colaboración | Project doc (Formularios, instrucciones) |
-| Comité Editorial | Project doc (CENFISS autoridades, Consejo Editorial) |
-| Contacto | Project doc (ubicación, email), CENFISS |
-| Enlaces | CENFISS, partners (external) |
-| Single issue | Project doc (Sumario, Editorial), portada, PDF |
-| Single article | Project doc (Artículo format), articulo-01.pdf |
-| Archive issues | Project doc (estructura), portada-ejemplo |
-| Archive articles | Project doc (Artículo format), article-placeholder |
-| Noticias | Project doc (CENFISS presente, Misceláneas) |
-| Header / Footer | logo-revista, logo-cenfiss, project doc (nav structure) |
-
----
-
-## 9. Pending actions
-
-| Action | Owner | Status |
-|--------|-------|--------|
-| Create `politicas-editorial.pdf` | Editorial | Pending |
-| Create `solicitud-publicacion-declaracion-etica.pdf` | Editorial | Pending |
-| Create `instrumento-arbitraje.pdf` | Editorial | Pending |
-| Add `portada-ejemplo.png` (issue cover) | Design | Pending |
-| Add `flyer.jpg` (CENFISS events) | CENFISS | Pending |
-| Add `banner-main.png` (hero) | Design | Pending |
-| Build `404.html` | Dev | Pending |
-| Build `search.html` | Dev | Pending |
+| Página / Sección | Fuente(s) |
+|------------------|-----------|
+| Home | Doc del proyecto (Presentación, Estructura), portada-ejemplo, flyer |
+| Acerca | Doc del proyecto (Enfoque, Alcance, Objetivos, Origen del nombre) |
+| Normas | Doc del proyecto (Normas de Publicación, Ética), normas-publicacion.pdf |
+| Ética | Doc del proyecto (Normas de Ética) |
+| Políticas | Doc del proyecto (Políticas Editorial), politicas-editorial.pdf |
+| Enviar colaboración | Doc del proyecto (Formularios, instrucciones) |
+| Comité Editorial | Doc del proyecto (autoridades CENFISS, Consejo Editorial) |
+| Contacto | Doc del proyecto (ubicación, email), CENFISS |
+| Enlaces | CENFISS, partners (externos) |
+| Número individual | Doc del proyecto (Sumario, Editorial), portada, PDF |
+| Artículo individual | Doc del proyecto (formato Artículo), articulo-01.pdf |
+| Archivo de números | Doc del proyecto (estructura), portada-ejemplo |
+| Archivo de artículos | Doc del proyecto (formato Artículo), article-placeholder |
+| Noticias | Doc del proyecto (CENFISS presente, Misceláneas) |
+| Header / Footer | logo-revista, logo-cenfiss, doc del proyecto (estructura de nav) |
 
 ---
 
-## 10. Traceability rule
+## 9. Acciones pendientes
 
-Each page/section in `04-screen-map` should trace to at least one content source. If content is created in WordPress without a source, document the decision in this file.
+| Acción | Responsable | Estado |
+|--------|-------------|--------|
+| Crear `politicas-editorial.pdf` | Editorial | Pendiente |
+| Crear `solicitud-publicacion-declaracion-etica.pdf` | Editorial | Pendiente |
+| Crear `instrumento-arbitraje.pdf` | Editorial | Pendiente |
+| Añadir `portada-ejemplo.png` (portada de número) | Diseño | Pendiente |
+| Añadir `flyer.jpg` (eventos CENFISS) | CENFISS | Pendiente |
+| Añadir `banner-main.png` (hero) | Diseño | Pendiente |
+| Construir `404.html` | Dev | Pendiente |
+| Construir `search.html` | Dev | Pendiente |
 
 ---
 
-**Version:** 1.0  
-**Project:** Revista de Filosofía LOGO ET SPES
+## 10. Regla de trazabilidad
+
+Cada página/sección en `04-screen-map` debe trazarse a al menos una fuente de contenido. Si se crea contenido en WordPress sin fuente, documentar la decisión en este archivo.
+
+---
+
+**Versión:** 1.0  
+**Proyecto:** Revista de Filosofía LOGO ET SPES

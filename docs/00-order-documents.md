@@ -1,37 +1,37 @@
-# Document Order (numeric prefix)
+# Orden de documentos (prefijo numérico)
 
-Documents in `docs/` use a two-digit prefix (`01-`, `02-`, …) to maintain a fixed order. The order follows the **dependency hierarchy**: from "why" to "how", and from strategy to implementation.
-
----
-
-## Order rationale
-
-| Range | Criterion | Rationale |
-|-------|-----------|------------|
-| **01** | Master plan | The platform plan defines the territory; it precedes and guides everything else. |
-| **02** | Identity | Palette, typography and brand manual define the visual criteria. |
-| **03–05** | What exists | WordPress content model, screen map and information architecture. Define *what* content and *what* screens exist. |
-| **06** | Wireframes | Screen structure: hierarchy, blocks and reading flow per view. Not visual design; supports screen map and navigation. |
-| **07–09** | Voice and copy | Voice guide, term dictionary, UI copy sheet. Copy depends on identity; navigation uses them later. |
-| **10** | Visitor experience | User journey. How the site is traversed and how the person reaches the main action. |
-| **11–12** | Navigation and theme | URL tree and theme file structure. Depend on screens, copy and journeys. |
-| **13** | Static file structure | Project geography: docs, content-source, theme, assets. Where static files live. |
-| **14** | CSS architecture | Layers (theme.json, main.css), tokens, naming, specificity, accessibility in styles. |
-| **15–17** | Technical implementation | Assets, content source inventory, implementation order. Convert architecture into code. |
-| **18** | Contemporary criteria | UX/UI trends applied to the system. Strategic filter for design and implementation validation. |
-| **19** | Accessibility | Unique accessibility standards: strategy, design, semantic HTML, ARIA, editorial content, checklist and testing. WCAG 2.1/2.2 AA. |
-| **20** | Layout principles | Reading width, vertical rhythm, use of whitespace, typography/image relationship. Closes the visual system before writing HTML. |
-| **21** | User journey diagram | Mermaid diagram of visitor flows. Visual validation of 10-user-journey. |
+Los documentos en `docs/` usan un prefijo de dos dígitos (`01-`, `02-`, …) para mantener un orden fijo. El orden sigue la **jerarquía de dependencias**: de "por qué" a "cómo", y de estrategia a implementación.
 
 ---
 
-## Dependency rule
+## Criterio del orden
 
-No document may depend on one with a higher number. Cross-references always point to documents with a lower or equal prefix. If you add a new document, assign the next available number and review references.
+| Rango | Criterio | Justificación |
+|-------|----------|---------------|
+| **01** | Plan maestro | El plan de plataforma define el territorio; precede y guía todo lo demás. |
+| **02** | Identidad | Paleta, tipografía y manual de marca definen los criterios visuales. |
+| **03–05** | Qué existe | Modelo de contenido WordPress, mapa de pantallas y arquitectura de información. Define *qué* contenido y *qué* pantallas existen. |
+| **06** | Wireframes | Estructura de pantalla: jerarquía, bloques y flujo de lectura por vista. No diseño visual; apoya mapa de pantallas y navegación. |
+| **07–09** | Voz y copy | Guía de voz, diccionario de términos, hoja de copy UI. El copy depende de la identidad; la navegación los usa después. |
+| **10** | Experiencia del visitante | Recorrido del usuario. Cómo se recorre el sitio y cómo la persona llega a la acción principal. |
+| **11–12** | Navegación y tema | Árbol de URLs y estructura de archivos del tema. Dependen de pantallas, copy y recorridos. |
+| **13** | Estructura de archivos estáticos | Geografía del proyecto: docs, content-source, tema, assets. Dónde viven los archivos estáticos. |
+| **14** | Arquitectura CSS | Capas (theme.json, main.css), tokens, nomenclatura, especificidad, accesibilidad en estilos. |
+| **15–17** | Implementación técnica | Assets, inventario de fuentes de contenido, orden de implementación. Convertir arquitectura en código. |
+| **18** | Criterios contemporáneos | Tendencias UX/UI aplicadas al sistema. Filtro estratégico para validación de diseño e implementación. |
+| **19** | Accesibilidad | Estándares únicos de accesibilidad: estrategia, diseño, HTML semántico, ARIA, contenido editorial, checklist y pruebas. WCAG 2.1/2.2 AA. |
+| **20** | Principios de maquetación | Ancho de lectura, ritmo vertical, uso del espacio en blanco, relación tipografía/imagen. Cierra el sistema visual antes de escribir HTML. |
+| **21** | Diagrama de recorrido del usuario | Diagrama Mermaid de flujos del visitante. Validación visual de 10-user-journey. |
 
 ---
 
-## Ordered list (document names)
+## Regla de dependencias
+
+Ningún documento puede depender de uno con número mayor. Las referencias cruzadas siempre apuntan a documentos con prefijo menor o igual. Si se añade un documento nuevo, asignar el siguiente número disponible y revisar referencias.
+
+---
+
+## Lista ordenada (nombres de documentos)
 
 1. `01-platform-plan`
 2. `02-corporate-identity`
@@ -57,39 +57,39 @@ No document may depend on one with a higher number. Cross-references always poin
 
 ---
 
-## Content sources
+## Fuentes de contenido
 
-All content comes from:
+Todo el contenido proviene de:
 
-- `content-source/PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md` — Project document (structure, policies, norms, forms)
-- `assets/pdf/` — Normas, políticas, sample article and issue
+- `content-source/PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md` — Documento del proyecto (estructura, políticas, normas, formularios)
+- `assets/pdf/` — Normas, políticas, artículo de ejemplo y número
 - `assets/img/` — Logos, favicon, placeholders
 
-See `16-content-source-inventory` for full mapping.
+Ver `16-content-source-inventory` para el mapeo completo.
 
 ---
 
-## Traceability
+## Trazabilidad
 
-| Requirement / brainstorm | Doc(s) |
-|-------------------------|--------|
-| Academic journal, open access | 01, 02 |
-| Double-blind peer review, editorial norms | 01, 03, 07 |
-| CPTs: issue, article | 03, 12 |
-| Screens and views | 04, 06 |
-| Navigation, breadcrumbs, IA | 05, 11 |
-| Voice, microcopy, CTAs | 07, 08, 09 |
-| User journeys | 10, 21 |
-| Theme structure, templates | 12, 13 |
-| CSS, tokens, layout | 02, 14, 20 |
-| Assets, content inventory | 15, 16 |
-| Implementation phases | 17 |
-| UX/UI filter, accessibility | 18, 19 |
+| Requisito / lluvia de ideas | Doc(s) |
+|-----------------------------|--------|
+| Revista académica, acceso abierto | 01, 02 |
+| Arbitraje doble ciego, normas editoriales | 01, 03, 07 |
+| CPTs: número, artículo | 03, 12 |
+| Pantallas y vistas | 04, 06 |
+| Navegación, migas de pan, IA | 05, 11 |
+| Voz, microcopy, CTAs | 07, 08, 09 |
+| Recorridos del usuario | 10, 21 |
+| Estructura del tema, plantillas | 12, 13 |
+| CSS, tokens, maquetación | 02, 14, 20 |
+| Assets, inventario de contenido | 15, 16 |
+| Fases de implementación | 17 |
+| Filtro UX/UI, accesibilidad | 18, 19 |
 
-### Project document → docs
+### Documento del proyecto → docs
 
-| Project doc item | Doc(s) |
-|------------------|--------|
+| Ítem del doc del proyecto | Doc(s) |
+|---------------------------|--------|
 | Portada, Sumario, Editorial, Artículos | 03, 04, 06 |
 | Normas de Publicación, Ética, Políticas | 04, 07, 09 |
 | Formularios (Solicitud, Arbitraje) | 16, 17 |
@@ -99,19 +99,19 @@ See `16-content-source-inventory` for full mapping.
 
 ---
 
-## Guidelines for any website
+## Directrices para cualquier sitio web
 
-These principles apply regardless of site type (community, author, blog, portfolio, e-commerce):
+Estos principios aplican independientemente del tipo de sitio (comunidad, autor, blog, portfolio, e-commerce):
 
-- **Strategy first:** Define purpose and audience before design.
-- **Identity as constraint:** Brand manual is the source of truth; no visual decisions outside it.
-- **Content drives structure:** Model content before building screens.
-- **Voice consistency:** One tone across navigation, copy and error states.
-- **Accessibility by default:** WCAG AA from the start, not as an afterthought.
-- **Static before dynamic:** Validate with HTML/CSS maquette before WordPress.
-- **Single source of truth:** One document per concern; avoid duplication.
+- **Estrategia primero:** Definir propósito y audiencia antes del diseño.
+- **Identidad como restricción:** El manual de marca es la fuente de verdad; ninguna decisión visual fuera de él.
+- **El contenido impulsa la estructura:** Modelar contenido antes de construir pantallas.
+- **Consistencia de voz:** Un solo tono en navegación, copy y estados de error.
+- **Accesibilidad por defecto:** WCAG AA desde el inicio, no como añadido posterior.
+- **Estático antes que dinámico:** Validar con maqueta HTML/CSS antes de WordPress.
+- **Una sola fuente de verdad:** Un documento por tema; evitar duplicación.
 
 ---
 
-**Version:** 1.0  
-**Project:** Revista de Filosofía LOGO ET SPES
+**Versión:** 1.0  
+**Proyecto:** Revista de Filosofía LOGO ET SPES

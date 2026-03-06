@@ -1,134 +1,134 @@
-# Revista de Filosofía LOGO ET SPES — Accessibility Standards
+# Revista de Filosofía LOGO ET SPES — Estándares de Accesibilidad
 
-**Single document for accessibility standards**  
-**Version 1.0**
+**Documento único para estándares de accesibilidad**  
+**Versión 1.0**
 
-Strategy, principles, design rules, semantic HTML, ARIA, editorial content, implementation checklist and testing. Aligned with WCAG 2.1/2.2 Level AA.
+Estrategia, principios, reglas de diseño, HTML semántico, ARIA, contenido editorial, checklist de implementación y pruebas. Alineado con WCAG 2.1/2.2 Nivel AA.
 
-**Depends on:** `01-platform-plan`, `02-corporate-identity`, `17-implementation-order`, `18-ux-ui-trends`  
-**Reference:** `07-voice-guide-microcopy-ux`, `09-ui-copy-sheet` (labels, error messages)
-
----
-
-## 1. Strategy
-
-- **Commitment:** Anyone can read, orient and understand content without friction.
-- **Reference:** WCAG 2.1 Level AA (minimum) or WCAG 2.2 Level AA (recommended).
-- **Philosophy:** Accessibility as part of design and content, not an afterthought.
+**Depende de:** `01-platform-plan`, `02-corporate-identity`, `17-implementation-order`, `18-ux-ui-trends`  
+**Referencia:** `07-voice-guide-microcopy-ux`, `09-ui-copy-sheet` (etiquetas, mensajes de error)
 
 ---
 
-## 2. Principles (WCAG)
+## 1. Estrategia
 
-| Principle | Goal |
-|-----------|------|
-| **Perceptible** | Information and UI are presentable so people can perceive them. |
-| **Operable** | UI is operable (keyboard, enough time, no seizures, navigable). |
-| **Understandable** | Information and UI use are understandable. |
-| **Robust** | Content is reliably interpretable by user agents and assistive tech. |
+- **Compromiso:** Cualquiera puede leer, orientarse y entender el contenido sin fricción.
+- **Referencia:** WCAG 2.1 Nivel AA (mínimo) o WCAG 2.2 Nivel AA (recomendado).
+- **Filosofía:** La accesibilidad como parte del diseño y el contenido, no como añadido posterior.
 
 ---
 
-## 3. Users to consider
+## 2. Principios (WCAG)
 
-| Profile | Impact |
-|---------|--------|
-| Visual | Blindness, low vision, color blindness → semantics, labels, alt, contrast, zoom |
-| Auditory | Deafness → captions, transcripts |
-| Motor | No mouse, low precision → keyboard, large targets, tab order |
-| Cognitive | Dyslexia, ADHD, slow processing → clear language, simple hierarchy |
-| Neurological | Photosensitivity, migraines → no flashing, respect `prefers-reduced-motion` |
-
----
-
-## 4. Design rules
-
-- **Legible typography:** Comfortable sizes, clear hierarchy (H1–H3).
-- **Contrast:** Minimum AA (4.5:1 normal text, 3:1 large text).
-- **Targets:** Adequate clickable areas (~44×44px when possible).
-- **Color:** Do not rely on color alone for meaning.
-- **Language:** Clear and direct (aligned with `07-voice-guide-microcopy-ux`).
-
-### Minimum rules (high impact, low cost)
-
-- **Skip link:** "Saltar al contenido principal" visible on focus (per `09-ui-copy-sheet`).
-- **Language:** `lang` on `<html>`; consistent per page.
-- **Focus order:** Logical, predictable tab order.
-- **Focus visible:** No `outline: none` without replacement (`:focus-visible`).
-- **Reflow and zoom:** Usable at 200% zoom and 320px width.
-- **Landmarks:** One `<main>` per page; consistent header/nav/main/footer.
-- **Headings:** No skipping (H1→H3); hierarchy follows content.
-- **Links:** Distinguishable without color alone.
-- **Forms:** Labels, autocomplete, clear error messages.
+| Principio | Objetivo |
+|-----------|----------|
+| **Perceptible** | La información y la UI se presentan de forma que las personas puedan percibirlas. |
+| **Operable** | La UI es operable (teclado, tiempo suficiente, sin convulsiones, navegable). |
+| **Comprensible** | La información y el uso de la UI son comprensibles. |
+| **Robusto** | El contenido se interpreta de forma fiable por agentes de usuario y tecnología asistiva. |
 
 ---
 
-## 5. HTML and ARIA
+## 3. Usuarios a considerar
+
+| Perfil | Impacto |
+|--------|---------|
+| Visual | Ceguera, baja visión, daltonismo → semántica, etiquetas, alt, contraste, zoom |
+| Auditivo | Sordera → subtítulos, transcripciones |
+| Motor | Sin ratón, baja precisión → teclado, objetivos grandes, orden de tabulación |
+| Cognitivo | Dislexia, TDAH, procesamiento lento → lenguaje claro, jerarquía simple |
+| Neurológico | Fotosensibilidad, migrañas → sin parpadeos, respetar `prefers-reduced-motion` |
+
+---
+
+## 4. Reglas de diseño
+
+- **Tipografía legible:** Tamaños cómodos, jerarquía clara (H1–H3).
+- **Contraste:** Mínimo AA (4.5:1 texto normal, 3:1 texto grande).
+- **Objetivos:** Áreas clicables adecuadas (~44×44px cuando sea posible).
+- **Color:** No depender solo del color para el significado.
+- **Lenguaje:** Claro y directo (alineado con `07-voice-guide-microcopy-ux`).
+
+### Reglas mínimas (alto impacto, bajo costo)
+
+- **Enlace saltar:** "Saltar al contenido principal" visible al enfocar (según `09-ui-copy-sheet`).
+- **Idioma:** `lang` en `<html>`; consistente por página.
+- **Orden de foco:** Lógico, predecible.
+- **Foco visible:** Sin `outline: none` sin reemplazo (`:focus-visible`).
+- **Reflujo y zoom:** Usable al 200% de zoom y 320px de ancho.
+- **Landmarks:** Un `<main>` por página; header/nav/main/footer consistentes.
+- **Encabezados:** Sin saltos (H1→H3); jerarquía sigue el contenido.
+- **Enlaces:** Distinguibles sin depender solo del color.
+- **Formularios:** Etiquetas, autocompletado, mensajes de error claros.
+
+---
+
+## 5. HTML y ARIA
 
 ### Base
 
-1. **Semantic HTML first.** Use native elements (`button`, `a`, `input`, `nav`, `main`, etc.).
-2. **ARIA only** when HTML is insufficient (dynamic UI, custom components).
-3. **Do not use ARIA to fix bad markup.**
+1. **HTML semántico primero.** Usar elementos nativos (`button`, `a`, `input`, `nav`, `main`, etc.).
+2. **ARIA solo** cuando HTML sea insuficiente (UI dinámica, componentes custom).
+3. **No usar ARIA para arreglar markup malo.**
 
-### When to use ARIA
+### Cuándo usar ARIA
 
-- Accessible name when no visible text
-- State (expanded, selected, pressed, invalid)
-- Relationships (controls, labelledby, describedby)
-- Live regions for dynamic announcements
+- Nombre accesible cuando no hay texto visible
+- Estado (expandido, seleccionado, pulsado, inválido)
+- Relaciones (controls, labelledby, describedby)
+- Regiones live para anuncios dinámicos
 
-### When NOT to use ARIA
+### Cuándo NO usar ARIA
 
-- `div` with `role="button"` when a `button` works
-- Redundant roles
-- `aria-hidden` on focusable content
-- `aria-label` when visible label exists
-- `tabindex` positive (1, 2, …)
+- `div` con `role="button"` cuando un `button` funciona
+- Roles redundantes
+- `aria-hidden` en contenido enfocable
+- `aria-label` cuando existe etiqueta visible
+- `tabindex` positivo (1, 2, …)
 
-### Icon buttons
+### Botones de icono
 
-Provide accessible name: (1) visible text, (2) `.visually-hidden` text, (3) `aria-labelledby`, (4) `aria-label` as last resort. Decorative icons: `aria-hidden="true"`, `focusable="false"`.
-
----
-
-## 6. Editorial content
-
-- **Headings:** H1–H3 ordered; one H1 per page.
-- **Alt text:** All informative images; descriptive and concise. Decorative: `alt=""`.
-- **Links:** Descriptive text (avoid "here", "click", "more" without context).
-- **External links:** Indicate "opens in new tab" when `target="_blank"`.
-- **Media:** Captions or transcript for informative video/audio.
-- **PDFs:** Provide HTML summary or accessible alternative when PDF is primary content (e.g. normas, políticas).
+Proporcionar nombre accesible: (1) texto visible, (2) texto `.visually-hidden`, (3) `aria-labelledby`, (4) `aria-label` como último recurso. Iconos decorativos: `aria-hidden="true"`, `focusable="false"`.
 
 ---
 
-## 7. Implementation checklist
+## 6. Contenido editorial
 
-- [ ] Skip link visible on focus ("Saltar al contenido principal")
-- [ ] `lang` on `<html>`
-- [ ] Full keyboard navigation; logical tab order
-- [ ] Focus visible; no `outline: none` without replacement
-- [ ] Usable at 200% zoom and 320px width
-- [ ] Images with appropriate alt
-- [ ] Forms with real labels; errors linked (aria-describedby, aria-invalid)
-- [ ] No aggressive animation; respect `prefers-reduced-motion`
-- [ ] No flashing content
-- [ ] AA contrast on text, links, buttons
-- [ ] Unique `<title>` per page; landmarks and headings correct
+- **Encabezados:** H1–H3 ordenados; un H1 por página.
+- **Texto alt:** Todas las imágenes informativas; descriptivo y conciso. Decorativas: `alt=""`.
+- **Enlaces:** Texto descriptivo (evitar "aquí", "clic", "más" sin contexto).
+- **Enlaces externos:** Indicar "se abre en nueva pestaña" cuando `target="_blank"`.
+- **Media:** Subtítulos o transcripción para video/audio informativo.
+- **PDFs:** Proporcionar resumen HTML o alternativa accesible cuando el PDF sea contenido principal (ej. normas, políticas).
 
 ---
 
-## 8. Testing
+## 7. Checklist de implementación
 
-- **Keyboard:** Tab through all interactives; no focus traps.
-- **Focus visible:** Clear on links, buttons, inputs.
-- **Lighthouse:** No critical accessibility failures.
-- **Forms:** Label associated, error visible and readable.
-- **Screen reader (recommended):** Test key flows (nav, contact form).
+- [ ] Enlace saltar visible al enfocar ("Saltar al contenido principal")
+- [ ] `lang` en `<html>`
+- [ ] Navegación completa por teclado; orden de tabulación lógico
+- [ ] Foco visible; sin `outline: none` sin reemplazo
+- [ ] Usable al 200% de zoom y 320px de ancho
+- [ ] Imágenes con alt apropiado
+- [ ] Formularios con etiquetas reales; errores vinculados (aria-describedby, aria-invalid)
+- [ ] Sin animación agresiva; respetar `prefers-reduced-motion`
+- [ ] Sin contenido parpadeante
+- [ ] Contraste AA en texto, enlaces, botones
+- [ ] `<title>` único por página; landmarks y encabezados correctos
 
 ---
 
-**Version:** 1.0  
-**Project:** Revista de Filosofía LOGO ET SPES  
-**Standard:** WCAG 2.1 / 2.2 (W3C)
+## 8. Pruebas
+
+- **Teclado:** Tabular por todos los interactivos; sin trampas de foco.
+- **Foco visible:** Claro en enlaces, botones, inputs.
+- **Lighthouse:** Sin fallos críticos de accesibilidad.
+- **Formularios:** Etiqueta asociada, error visible y legible.
+- **Lector de pantalla (recomendado):** Probar flujos clave (nav, formulario de contacto).
+
+---
+
+**Versión:** 1.0  
+**Proyecto:** Revista de Filosofía LOGO ET SPES  
+**Estándar:** WCAG 2.1 / 2.2 (W3C)

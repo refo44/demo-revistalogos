@@ -1,33 +1,33 @@
-# Revista de Filosofía LOGO ET SPES — Static File Structure
+# Revista de Filosofía LOGO ET SPES — Estructura de Archivos Estáticos
 
-**Project geography**
+**Geografía del proyecto**
 
-Where static files live: docs, content-source, maquette (or theme), assets.
+Dónde viven los archivos estáticos: docs, content-source, maqueta (o tema), assets.
 
-**Depends on:** `12-theme-file-structure`  
-**Reference:** `15-assets-strategy`, `16-content-source-inventory`
+**Depende de:** `12-theme-file-structure`  
+**Referencia:** `15-assets-strategy`, `16-content-source-inventory`
 
 ---
 
-## 1. Root structure
+## 1. Estructura raíz
 
-### Current (maquette phase)
+### Actual (fase maqueta)
 
 ```
 revistalogos/
-├── docs/                  (documentation, 00–20)
-├── content-source/        (source content before WordPress)
+├── docs/                  (documentación, 00–20)
+├── content-source/        (contenido fuente antes de WordPress)
 │   └── PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md
-├── assets/                (CSS, JS, images, PDFs)
-├── partials/              (reusable HTML blocks)
+├── assets/                (CSS, JS, imágenes, PDFs)
+├── partials/              (bloques HTML reutilizables)
 ├── index.html             (Home)
-├── page-*.html            (static pages)
-├── single-*.html          (single issue, article, post)
-├── archive-*.html         (archive issues, articles)
-├── blog-index.html        (Noticias index)
-├── search.html            (search results; to build)
-├── 404.html               (not found; to build)
-├── _config.yml            (Jekyll, if used)
+├── page-*.html            (páginas estáticas)
+├── single-*.html          (número individual, artículo, entrada)
+├── archive-*.html         (archivo de números, artículos)
+├── blog-index.html        (índice de Noticias)
+├── search.html            (resultados de búsqueda; por construir)
+├── 404.html               (no encontrado; por construir)
+├── _config.yml            (Jekyll, si se usa)
 ├── deploy.sh
 ├── update_navigation.py
 ├── update_produccion_links.py
@@ -35,36 +35,36 @@ revistalogos/
 └── README.md
 ```
 
-### Target (WordPress phase)
+### Objetivo (fase WordPress)
 
 ```
 revistalogos/
 ├── docs/
 ├── content-source/
-├── revistalogos/          (WordPress theme)
-│   └── (see 12-theme-file-structure)
-└── (optional) scripts/    (build, optimize)
+├── revistalogos/          (tema WordPress)
+│   └── (ver 12-theme-file-structure)
+└── (opcional) scripts/   (build, optimizar)
 ```
 
 ---
 
 ## 2. content-source
 
-All canonical content before migration:
+Todo el contenido canónico antes de la migración:
 
-- `PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md` — Project document (structure, policies, editorial norms, portada model)
-- Add: brand manual (if exists), source images, source PDFs
+- `PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md` — Documento del proyecto (estructura, políticas, normas editoriales, modelo de portada)
+- Añadir: manual de marca (si existe), imágenes fuente, PDFs fuente
 
-**Rule:** Content in WordPress should trace back to content-source. No content invented in the admin without a source.
+**Regla:** El contenido en WordPress debe trazarse a content-source. No inventar contenido en el admin sin una fuente.
 
-**Note:** `content-source/` may be in `.gitignore` if the project document is large or sensitive.
+**Nota:** `content-source/` puede estar en `.gitignore` si el documento del proyecto es grande o sensible.
 
 ---
 
-## 3. Maquette HTML (current phase)
+## 3. Maqueta HTML (fase actual)
 
-| File | Maps to |
-|------|---------|
+| Archivo | Mapea a |
+|---------|---------|
 | `index.html` | `front-page.php` |
 | `page-acerca.html` | `page-acerca.php` |
 | `page-contacto.html` | `page-contacto.php` |
@@ -85,10 +85,10 @@ All canonical content before migration:
 
 ---
 
-## 4. partials (maquette)
+## 4. partials (maqueta)
 
-| File | Maps to |
-|------|---------|
+| Archivo | Mapea a |
+|---------|---------|
 | `partials/header.html` | `parts/header.php` |
 | `partials/footer.html` | `parts/footer.php` |
 | `partials/breadcrumbs.html` | `parts/breadcrumbs.php` |
@@ -101,40 +101,40 @@ All canonical content before migration:
 
 ---
 
-## 5. assets (maquette phase)
+## 5. assets (fase maqueta)
 
-| Path | Content |
-|------|---------|
-| `assets/css/main.css` | Entry; imports tokens, base, layout, components, pages, utilities |
-| `assets/css/tokens.css` | Design tokens |
-| `assets/css/base.css` | Reset, typography |
-| `assets/css/layout.css` | Container, grid |
-| `assets/css/components.css` | Buttons, cards, forms, nav |
-| `assets/css/pages.css` | Page-specific styles |
-| `assets/css/utilities.css` | Utility classes |
-| `assets/js/main.js` | Nav toggle, skip link, optional accordions |
+| Ruta | Contenido |
+|------|-----------|
+| `assets/css/main.css` | Entrada; importa tokens, base, layout, components, pages, utilities |
+| `assets/css/tokens.css` | Tokens de diseño |
+| `assets/css/base.css` | Reset, tipografía |
+| `assets/css/layout.css` | Contenedor, grid |
+| `assets/css/components.css` | Botones, tarjetas, formularios, nav |
+| `assets/css/pages.css` | Estilos específicos de página |
+| `assets/css/utilities.css` | Clases de utilidad |
+| `assets/js/main.js` | Toggle de nav, enlace saltar, acordeones opcionales |
 | `assets/img/` | logo-revista.svg, logo-cenfiss.svg, favicon.svg, placeholders |
-| `assets/pdf/` | Sample PDFs (normas, artículo, número) |
+| `assets/pdf/` | PDFs de ejemplo (normas, artículo, número) |
 
-In WordPress phase, assets live inside the theme: `revistalogos/assets/`.
+En la fase WordPress, los assets viven dentro del tema: `revistalogos/assets/`.
 
 ---
 
 ## 6. docs
 
-Documentation. Numbered prefix for order. See `00-order-documents`.
+Documentación. Prefijo numérico para el orden. Ver `00-order-documents`.
 
 ---
 
-## 7. Migration path
+## 7. Ruta de migración
 
-1. **Maquette:** HTML at root, `partials/`, `assets/`. Validate against `04-screen-map`, `06-wireframes`, `19-accessibility-standards`.
-2. **Theme creation:** Create `revistalogos/` theme folder. Copy structure from `12-theme-file-structure`.
-3. **HTML → PHP:** Convert each `.html` to corresponding `.php` template. Replace partial includes with `get_template_part()`.
-4. **Assets:** Move `assets/` into theme. Update paths in `functions.php` enqueue.
-5. **CPT registration:** Add `inc/cpt-issue.php`, `inc/cpt-article.php`, taxonomies.
+1. **Maqueta:** HTML en raíz, `partials/`, `assets/`. Validar contra `04-screen-map`, `06-wireframes`, `19-accessibility-standards`.
+2. **Creación del tema:** Crear carpeta del tema `revistalogos/`. Copiar estructura de `12-theme-file-structure`.
+3. **HTML → PHP:** Convertir cada `.html` a la plantilla `.php` correspondiente. Reemplazar includes de partials con `get_template_part()`.
+4. **Assets:** Mover `assets/` al tema. Actualizar rutas en encolado de `functions.php`.
+5. **Registro de CPTs:** Añadir `inc/cpt-issue.php`, `inc/cpt-article.php`, taxonomías.
 
 ---
 
-**Version:** 1.0  
-**Project:** Revista de Filosofía LOGO ET SPES
+**Versión:** 1.0  
+**Proyecto:** Revista de Filosofía LOGO ET SPES

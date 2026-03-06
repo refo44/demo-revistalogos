@@ -1,18 +1,18 @@
-# Revista de Filosofía LOGO ET SPES — Theme File Structure
+# Revista de Filosofía LOGO ET SPES — Estructura de Archivos del Tema
 
-**WordPress theme file architecture**
+**Arquitectura de archivos del tema WordPress**
 
-Defines theme file structure: what templates exist and what parts are reused. Official routes in 11; this document defines how they render.
+Define la estructura de archivos del tema: qué plantillas existen y qué partes se reutilizan. Rutas oficiales en 11; este documento define cómo se renderizan.
 
-**Depends on:** `03-wordpress-content-model`, `04-screen-map`, `11-url-tree`, `05-information-architecture-navigation`  
-**Reference:** `02-corporate-identity`, `06-wireframes`
+**Depende de:** `03-wordpress-content-model`, `04-screen-map`, `11-url-tree`, `05-information-architecture-navigation`  
+**Referencia:** `02-corporate-identity`, `06-wireframes`
 
 ---
 
-## 1. Templates by function
+## 1. Plantillas por función
 
-| Function | Template |
-|----------|----------|
+| Función | Plantilla |
+|---------|-----------|
 | Home | `front-page.php` |
 | Acerca | `page-acerca.php` |
 | Contacto | `page-contacto.php` |
@@ -22,77 +22,89 @@ Defines theme file structure: what templates exist and what parts are reused. Of
 | Enviar colaboración | `page-enviar-colaboracion.php` |
 | Comité Editorial | `page-comite.php` |
 | Enlaces | `page-enlaces.php` |
-| Fallback pages | `page.php` |
+| Páginas fallback | `page.php` |
 | Fallback global | `index.php` |
+| Login | `page-login.php` o redirección a `wp-login.php` |
+| Panel de autor | `page-mi-cuenta.php` |
 
 ---
 
 ## 2. Custom Post Types
 
-| CPT | Archive | Single |
-|-----|---------|--------|
+| CPT | Archivo | Individual |
+|-----|---------|------------|
 | issue (numeros) | `archive-issue.php` | `single-issue.php` |
 | article (articulos) | `archive-article.php` | `single-article.php` |
+| author (autores) | `archive-author.php` | `single-author.php` |
+| submission (envios) | — | Solo admin (CPT privado) |
 
 ---
 
-## 3. Blog (posts)
+## 3. Blog (entradas)
 
-| View | Template |
-|------|----------|
-| Noticias index | `home.php` |
-| Single post | `single.php` |
-
----
-
-## 4. States
-
-| State | File |
-|-------|------|
-| Not found | `404.php` |
-| Search results | `search.php` |
+| Vista | Plantilla |
+|------|-----------|
+| Índice de Noticias | `home.php` |
+| Entrada individual | `single.php` |
 
 ---
 
-## 4.1 Taxonomy archives (filtered articles)
+## 4. Estados
 
-Routes `/articulos/seccion/{section}/` and `/articulos/tipo/{type}/` (per `11-url-tree`).
+| Estado | Archivo |
+|--------|---------|
+| No encontrado | `404.php` |
+| Resultados de búsqueda | `search.php` |
 
-| Option | Template | Use |
-|--------|----------|-----|
-| A | `archive-article.php` | Single template handles all. Use `get_queried_object()` to detect section/type and adjust title. |
-| B | `taxonomy-section.php` | Custom layout when filtering by section. Falls back to archive-article logic. |
-| C | `taxonomy-article_type.php` | Custom layout when filtering by type. |
+## 4.0 Área privada (envío de autores)
 
-**Recommendation:** Option A. Keep `archive-article.php` as the single archive template; it receives the main query already filtered by taxonomy. Add conditional title/description based on `is_tax()`.
+| Pantalla | Implementación |
+|----------|----------------|
+| Login | `page-login.php` o `wp-login.php` |
+| Panel de autor | `page-mi-cuenta.php` (shortcodes o plantilla custom) |
+| Nuevo envío, Mis envíos | Shortcodes o páginas custom; CPT submission gestionado en admin |
 
 ---
 
-## 5. Reusable parts
+## 4.1 Archivos de taxonomía (artículos filtrados)
 
-| File | Function |
-|------|----------|
-| `header.php` | Entry for `get_header()`; loads `parts/header.php` |
-| `footer.php` | Entry for `get_footer()`; loads `parts/footer.php` |
-| `parts/header.php` | Header (logo + navigation) |
+Rutas `/articulos/seccion/{section}/` y `/articulos/tipo/{type}/` (según `11-url-tree`).
+
+| Opción | Plantilla | Uso |
+|--------|-----------|-----|
+| A | `archive-article.php` | Una sola plantilla maneja todo. Usar `get_queried_object()` para detectar sección/tipo y ajustar título. |
+| B | `taxonomy-section.php` | Maquetación custom al filtrar por sección. Fallback a lógica archive-article. |
+| C | `taxonomy-article_type.php` | Maquetación custom al filtrar por tipo. |
+
+**Recomendación:** Opción A. Mantener `archive-article.php` como plantilla única de archivo; recibe la query principal ya filtrada por taxonomía. Añadir título/descripción condicional según `is_tax()`.
+
+---
+
+## 5. Partes reutilizables
+
+| Archivo | Función |
+|---------|---------|
+| `header.php` | Entrada para `get_header()`; carga `parts/header.php` |
+| `footer.php` | Entrada para `get_footer()`; carga `parts/footer.php` |
+| `parts/header.php` | Header (logo + navegación) |
 | `parts/footer.php` | Footer |
-| `parts/breadcrumbs.php` | Breadcrumb trail (Inicio → path) |
-| `parts/issue-card.php` | Issue card (cover, title, meta, PDF, Ver contenido) |
-| `parts/article-card.php` | Article card (title, authors, abstract, PDF, Leer más) |
-| `parts/hero-issue.php` | Hero block for current issue (Home) |
-| `parts/metadata-box.php` | Article metadata (authors, DOI, keywords, citation) |
-| `parts/toc.php` | Table of contents (single issue) |
-| `parts/pagination.php` | Prev/next, page numbers (archives, search) |
-| `parts/sidebar-card.php` | Sidebar block (related links, info) |
+| `parts/breadcrumbs.php` | Ruta de migas de pan (Inicio → ruta) |
+| `parts/issue-card.php` | Tarjeta de número (portada, título, meta, PDF, Ver contenido) |
+| `parts/article-card.php` | Tarjeta de artículo (título, autores, resumen, PDF, Leer más) |
+| `parts/hero-issue.php` | Bloque hero del número actual (Home) |
+| `parts/metadata-box.php` | Metadatos del artículo (autores, DOI, palabras clave, cita) |
+| `parts/toc.php` | Tabla de contenidos (número individual) |
+| `parts/pagination.php` | Anterior/siguiente, números de página (archivos, búsqueda) |
+| `parts/sidebar-card.php` | Bloque de sidebar (enlaces relacionados, info) |
 
 ---
 
-## 6. Theme tree
+## 6. Árbol del tema
 
 ```
 revistalogos/
-├── style.css              (metadata only, required by WP)
-├── theme.json             (design tokens: palette, typography)
+├── style.css              (solo metadatos, requerido por WP)
+├── theme.json             (tokens de diseño: paleta, tipografía)
 ├── screenshot.png
 ├── functions.php
 ├── header.php
@@ -115,16 +127,18 @@ revistalogos/
 ├── archive-article.php
 ├── single-issue.php
 ├── single-article.php
-├── comments.php            (minimal; comments disabled for articles)
+├── comments.php            (mínimo; comentarios deshabilitados para artículos)
 ├── 404.php
 ├── inc/
 │   ├── cpt-issue.php
 │   ├── cpt-article.php
+│   ├── cpt-author.php
+│   ├── cpt-submission.php
 │   ├── taxonomies.php
 │   └── template-tags.php
 ├── assets/
 │   ├── css/
-│   │   ├── main.css       (entry: imports or concatenates)
+│   │   ├── main.css       (entrada: importa o concatena)
 │   │   ├── tokens.css
 │   │   ├── base.css
 │   │   ├── layout.css
@@ -138,7 +152,7 @@ revistalogos/
 │   │   ├── logo-cenfiss.svg
 │   │   ├── favicon.svg
 │   │   └── ...
-│   └── pdf/               (or media library)
+│   └── pdf/               (o media library)
 │       └── ...
 └── parts/
     ├── header.php
@@ -155,70 +169,72 @@ revistalogos/
 
 ---
 
-## 7. CSS strategy
+## 7. Estrategia CSS
 
-| File | Role |
-|------|------|
-| `style.css` | Theme metadata only (required by WordPress). No styles. |
-| `theme.json` | Design tokens: palette, typography, spacing (block editor). |
-| `assets/css/main.css` | Entry point. Imports: tokens, base, layout, components, pages, utilities. |
-| `assets/css/tokens.css` | Design tokens (colors, fonts, spacing). |
-| `assets/css/base.css` | Resets, typography base. |
-| `assets/css/layout.css` | Container, grid, structure. |
-| `assets/css/components.css` | Buttons, cards, forms, nav. |
-| `assets/css/pages.css` | Page-specific styles. |
-| `assets/css/utilities.css` | Utility classes. |
+| Archivo | Rol |
+|---------|-----|
+| `style.css` | Solo metadatos del tema (requerido por WordPress). Sin estilos. |
+| `theme.json` | Tokens de diseño: paleta, tipografía, espaciado (editor de bloques). |
+| `assets/css/main.css` | Punto de entrada. Importa: tokens, base, layout, components, pages, utilities. |
+| `assets/css/tokens.css` | Tokens de diseño (colores, fuentes, espaciado). |
+| `assets/css/base.css` | Resets, tipografía base. |
+| `assets/css/layout.css` | Contenedor, grid, estructura. |
+| `assets/css/components.css` | Botones, tarjetas, formularios, nav. |
+| `assets/css/pages.css` | Estilos específicos de página. |
+| `assets/css/utilities.css` | Clases de utilidad. |
 
-Enqueue `main.css` in `functions.php` via `wp_enqueue_style`. Single entry point.
+Encolar `main.css` en `functions.php` vía `wp_enqueue_style`. Un solo punto de entrada.
 
 ---
 
-## 8. inc/ (required)
+## 8. inc/ (requerido)
 
-CPT registration and helpers. Keeps `functions.php` clean.
+Registro de CPTs y helpers. Mantiene `functions.php` limpio.
 
 ```
 inc/
-├── cpt-issue.php          (register issue CPT)
-├── cpt-article.php        (register article CPT)
-├── taxonomies.php         (section, article_type)
-└── template-tags.php      (helper functions)
+├── cpt-issue.php          (registrar CPT issue)
+├── cpt-article.php        (registrar CPT article)
+├── cpt-author.php          (registrar CPT author)
+├── cpt-submission.php      (registrar CPT submission, privado)
+├── taxonomies.php          (section, article_type, keyword)
+└── template-tags.php      (funciones helper)
 ```
 
-Register in `functions.php` via `require_once`. Load order: taxonomies after CPTs.
+Registrar en `functions.php` vía `require_once`. Orden de carga: taxonomías después de CPTs.
 
 ---
 
 ## 8.1 comments.php
 
-Include a minimal `comments.php` even if comments are disabled. WordPress may look for it; an empty or disabled template avoids notices.
+Incluir un `comments.php` mínimo aunque los comentarios estén deshabilitados. WordPress puede buscarlo; una plantilla vacía o deshabilitada evita avisos.
 
 ```php
 <?php
 /**
- * Comments template. Required by WordPress.
- * Comments disabled for academic journal.
+ * Plantilla de comentarios. Requerida por WordPress.
+ * Comentarios deshabilitados para revista académica.
  */
 if ( post_password_required() ) {
 	return;
 }
-// Comments closed. No output needed.
+// Comentarios cerrados. No se necesita salida.
 ?>
 ```
 
 ---
 
-## 9. Best practices
+## 9. Buenas prácticas
 
-- **Clean templates:** Markup and simple calls; logic in `functions.php` or `inc/`.
-- **inc/ mandatory:** CPTs and taxonomies always in `inc/`; never inline in `functions.php`.
-- **Single CSS entry:** One `main.css`; imports or build step for modules.
-- **Reuse via parts:** `get_template_part('parts/header')`, `get_template_part('parts/issue-card')`.
-- **Security:** Escape output (`esc_html`, `esc_attr`); sanitize input; nonces for forms.
-- **No builder lock-in:** Avoid Elementor/page builders unless explicit decision.
-- **Accessibility:** Preserve semantic structure, skip link, keyboard nav, contrast (19).
+- **Plantillas limpias:** Markup y llamadas simples; lógica en `functions.php` o `inc/`.
+- **inc/ obligatorio:** CPTs y taxonomías siempre en `inc/`; nunca inline en `functions.php`.
+- **Una sola entrada CSS:** Un `main.css`; imports o paso de build para módulos.
+- **Reutilizar vía parts:** `get_template_part('parts/header')`, `get_template_part('parts/issue-card')`.
+- **Seguridad:** Escapar salida (`esc_html`, `esc_attr`); sanitizar entrada; nonces para formularios.
+- **Sin dependencia de builders:** Evitar Elementor/page builders salvo decisión explícita.
+- **Accesibilidad:** Preservar estructura semántica, enlace saltar, navegación por teclado, contraste (19).
 
 ---
 
-**Version:** 1.0  
-**Project:** Revista de Filosofía LOGO ET SPES
+**Versión:** 1.0  
+**Proyecto:** Revista de Filosofía LOGO ET SPES

@@ -1,218 +1,309 @@
-# Revista de Filosofía LOGO ET SPES — Platform Master Plan
+# Revista de Filosofía LOGO ET SPES — Plan Maestro de Plataforma
 
-**Version 1.0**
+**Versión 1.0**
 
-The corporate identity defined in `02-corporate-identity` is the closed visual layer.
+La identidad corporativa definida en `02-corporate-identity` es la capa visual cerrada.
 
-This document defines the system that allows Revista de Filosofía LOGO ET SPES to exist, be discovered, be traversed and endure as a living space.
+Este documento define el sistema que permite que la Revista de Filosofía LOGO ET SPES exista, sea descubierta, navegada y sostenida en el tiempo.
 
-This site is not a commercial funnel, a landing page, or a marketing-oriented publication.  
-It is an academic digital publication platform for philosophical thought.
+Este sitio no es un embudo comercial, una landing page ni una publicación orientada al marketing.  
+Es una plataforma de publicación digital académica para el pensamiento filosófico.
 
-The problem this plan addresses is not aesthetic. It is structural and orientational:
+El problema que aborda este plan no es estético sino estructural y de orientación:
 
-- What is philosophical knowledge in this digital space?
-- What is the main action or outcome?
-- How does the visitor reach it without losing orientation?
+- ¿Cómo se presenta y accede al conocimiento filosófico en este espacio digital?
+- ¿Cuál es la acción o resultado principal?
+- ¿Cómo llega el visitante sin perder la orientación?
 
-**Canonical sources:**
+**Fuentes canónicas:**
 
-- `content-source/PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md` — Project document (structure, policies, editorial norms)
-- Add specific source files (brand manual, PDFs) as needed
-
----
-
-## Operating principles
-
-| Principle | Operational meaning |
-|-----------|----------------------|
-| **Open access** | All content is free. No cost to authors or readers. Knowledge is accessible to the academic community and the public. |
-| **Academic rigor** | Double-blind peer review. Compliance with editorial policies, publication norms, and ethics. Antiplagiarism. |
-| **Orientation** | Each screen offers a clear next step or exit. No maze. The visitor always knows how to reach the main action (read, submit, contact). |
-| **Institutional anchor** | CENFISS identity is visible. Footer and key pages reinforce trust, ISSN, Depósito Legal, and contact. |
+- `content-source/PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md` — Documento del proyecto (estructura, políticas, normas editoriales)
+- `assets/pdf/` — Normas editoriales, políticas, número y artículo de ejemplo
+- `assets/img/` — Logos, favicon y placeholders editoriales
+- `docs/02-corporate-identity` — Identidad visual de la plataforma
 
 ---
 
-## The eight layers of the system
+## Acción principal
 
-The site is designed as a system of independent, complementary layers. Each layer has a specific function.
+Las acciones principales que soporta la plataforma son:
 
----
+1. **Leer** contenido filosófico
+2. **Explorar** números de la revista
+3. **Enviar** contribuciones académicas
+4. **Gestionar envíos** (autores autenticados: seguimiento de estado, editar borradores, subir archivos)
 
-### Layer 1. Identity
-
-Defines how the site looks and feels.
-
-Includes:
-
-- Typography
-- Color palette
-- Visual rhythm
-- Use of whitespace
-- Editorial hierarchy
-- Aesthetic consistency
-
-**Status:** Closed. Defined in `02-corporate-identity`.
+Toda la navegación y orientación debe apoyar estas acciones.
 
 ---
 
-### Layer 2. Information architecture
+## Audiencias principales
 
-Defines what exists within the system.
+La plataforma sirve a tres audiencias principales:
 
-| Section | Function |
-|---------|----------|
-| Inicio | Home. Hero, current issue, quick access to main content. |
-| Revista | Número actual, archivos, artículos, autores, comité editorial. |
+| Audiencia | Perfil |
+|-----------|--------|
+| **Lectores** | Investigadores, estudiantes, público general interesado en filosofía |
+| **Autores** | Investigadores, académicos, estudiantes de posgrado, investigadores independientes |
+| **Editores** | Miembros del consejo editorial que gestionan envíos y decisiones de publicación |
+
+---
+
+## Principios operativos
+
+| Principio | Significado operativo |
+|-----------|------------------------|
+| **Acceso abierto** | Todo el contenido es gratuito. Sin costo para autores ni lectores. El conocimiento es accesible a la comunidad académica y al público. |
+| **Rigor académico** | Arbitraje doble ciego. Cumplimiento de políticas editoriales, normas de publicación y ética. Antiplagio. |
+| **Orientación** | Cada pantalla ofrece un siguiente paso o salida clara. Sin laberintos. El visitante siempre sabe cómo llegar a la acción principal (leer, enviar, contactar). |
+| **Ancla institucional** | La identidad CENFISS es visible. El pie y las páginas clave refuerzan confianza, ISSN, Depósito Legal y contacto. |
+| **Descubribilidad** | El contenido debe ser indexable y citable. Metadatos estructurados, HTML semántico y compatibilidad con motores de búsqueda académicos (Google Scholar, catálogos de bibliotecas). |
+| **Permanencia** | Las URLs y estructuras de artículos deben permanecer estables en el tiempo para apoyar la citación académica. |
+
+---
+
+## Las capas del sistema
+
+El sitio está diseñado como un sistema de capas independientes y complementarias. Cada capa tiene una función específica. (Capas 1–8; Capa 6.5 Envío de autores, subcapa; Capa 7.5 Descubribilidad, subcapa.)
+
+---
+
+### Capa 1. Identidad
+
+Define cómo se ve y se siente el sitio.
+
+Incluye:
+
+- Tipografía
+- Paleta de colores
+- Ritmo visual
+- Uso del espacio en blanco
+- Jerarquía editorial
+- Consistencia estética
+
+**Estado:** Cerrada. Definida en `02-corporate-identity`.
+
+---
+
+### Capa 2. Arquitectura de información
+
+Define qué existe dentro del sistema.
+
+| Sección | Función |
+|---------|---------|
+| Inicio | Home. Hero, número actual, acceso rápido al contenido principal. |
+| Revista | Número actual, archivo de números, vistas de artículos, vistas de autores. |
 | Normas | Normas de publicación, ética editorial, políticas, enviar colaboración. |
 | Acerca | Enfoque, alcance, objetivos, origen del nombre Logo et Spes. |
-| Contacto | Institutional contact, editorial board, CENFISS. |
-| Noticias | CENFISS presente, events, misceláneas. |
+| Contacto | Contacto institucional, consejo editorial, CENFISS. |
+| Noticias | CENFISS presente, eventos y misceláneas. |
 
 ---
 
-### Layer 3. Content model
+### Capa 3. Modelo de contenido
 
-Defines what each entity is within the system.
+Define qué es cada entidad dentro del sistema. Alineado con `03-wordpress-content-model`.
 
-| Type | Function |
-|------|----------|
-| Issue (número) | A volume of the journal. Contains editorial, articles, essays, misceláneas. |
-| Article | Peer-reviewed research (6,500–8,000 words). Abstract, keywords, references. |
-| Essay | Peer-reviewed argumentative text (5,000–7,500 words). |
-| Review (reseña) | Critical review of a book, conference, film, etc. (500–700 words). |
-| Editorial | Editorial board statement per issue. |
-| Author | Author profile. Name, affiliation, ORCID, bio. |
+| Tipo | Función |
+|------|---------|
+| Issue (número) | Un volumen de la revista. Contiene artículos (incluido editorial), misceláneas. |
+| Article (contenido arbitrado) | artículo, ensayo, reseña, editorial — todos como tipos de artículo. Resumen, palabras clave, referencias. |
+| Author | Perfil de autor. Nombre, afiliación, ORCID, bio. |
 | Misceláneas | Reseñas, CENFISS presente, número anterior. |
 
 ---
 
-### Layer 4. Navigation grammar
+### Capa 4. Gramática de navegación
 
-Defines how the site is traversed.
+Define cómo se recorre el sitio.
 
-Elements:
+Elementos:
 
-- Main menu (4–6 items recommended): Inicio, Revista, Normas, Acerca, Contacto, Noticias
-- Primary CTA: Enviar Colaboración (for authors)
-- Footer as institutional anchor: ISSN, Depósito Legal, CENFISS, Creative Commons, contact
+- Menú principal (4–6 ítems recomendados): Inicio, Revista, Normas, Acerca, Contacto, Noticias
+- CTA principal: Enviar Colaboración (para autores)
+- Pie como ancla institucional: ISSN, Depósito Legal, CENFISS, Creative Commons, contacto
 
-**Rule:** The visitor always knows how to reach the main action or contact.
+**Reglas:**
 
----
-
-### Layer 5. Publication strategy
-
-Defines the living rhythm of the site.
-
-Allows:
-
-- Annual issue publication (ordinary and eventual extraordinary numbers)
-- Editorial updates (editorial, misceláneas, CENFISS presente)
-- New article/essay/review submissions without development intervention
-- Form downloads (Solicitud de Publicación, Instrumento de Arbitraje)
-
-**Technical principle:** The system must allow constant updates without development intervention.
+- El visitante siempre sabe cómo llegar a la acción principal o al contacto.
+- La navegación no debe superar dos niveles jerárquicos.
+- Las páginas de artículos deben ofrecer siempre: enlace al número, enlace al autor, enlace a artículos relacionados.
 
 ---
 
-### Layer 6. Editorial system
+### Capa 5. Estrategia de publicación
 
-Defines how the site communicates.
+Define el ritmo de vida del sitio.
 
-Includes:
+Permite:
 
-- Voice and tone: Academic, clear, rigorous. No commercial pressure.
-- Clear, consistent language: Spanish primary; titles in Spanish and English.
-- No commercial pressure: Open access, no fees, no marketing funnels.
+- Publicación anual de números (ordinarios y eventuales extraordinarios)
+- Actualizaciones editoriales (editorial, misceláneas, CENFISS presente)
+- Descarga de formularios (Solicitud de Publicación, Instrumento de Arbitraje)
 
----
+**Principio CMS futuro:** El sistema debe permitir la publicación de nuevo contenido sin intervención de desarrollo.
 
-### Layer 7. Infrastructure
-
-The silent but critical base.
-
-Must guarantee:
-
-- Stability
-- Security
-- Backups
-- Staging environment
-- Scalability
+**Flujo editorial:** envío → revisión interna → arbitraje → decisión → publicación.
 
 ---
 
-### Layer 8. Legal and institutional anchor
+### Capa 6. Sistema editorial
 
-- ISSN and Depósito Legal (Biblioteca Nacional de Venezuela)
-- Creative Commons (Attribution, non-commercial)
-- Privacy and confidentiality policy (authors, reviewers, visitors)
-- Ethics declaration (COPE alignment)
-- Copyright policy (Venezuelan law, SAPI)
+Define cómo comunica el sitio.
 
----
+Incluye:
 
-## Accessibility (cross-cutting layer)
+- Voz y tono: Académico, claro, riguroso. Sin presión comercial.
+- Lenguaje claro y consistente: español principal; títulos en español e inglés.
+- Sin presión comercial: acceso abierto, sin tarifas, sin embudos de marketing.
 
-Not an add-on. A structural condition of the system. Defined in `19-accessibility-standards`.
-
-Must cross:
-
-- Identity
-- Navigation
-- Content
-- Visual design
+**Regla de consistencia editorial:** Todos los artículos deben presentar: título en español e inglés; resumen y palabras clave; información del autor; referencias.
 
 ---
 
-## What the system allows
+### Capa 6.5. Envío de autores (subcapa)
 
-Without touching code, the site owner can:
+Permite a autores autenticados enviar y gestionar manuscritos. Área privada; no altera la identidad editorial pública.
 
-- Publish new issues (editorial, articles, essays, misceláneas)
-- Update CENFISS presente and event information
-- Manage author and reviewer data
-- Update norms, policies, and forms
+**Debe permitir:**
 
-Without modifying the central structure.
+- Registro o creación controlada de cuentas
+- Inicio de sesión
+- Envío de manuscritos
+- Subida de archivos (versión identificada, versión anonimizada según normas editoriales)
+- Seguimiento básico de envíos (estado, historial)
+- Acceso a normas y formularios desde el panel del autor
 
----
+**Reglas:**
 
-## What this system is NOT
-
-It is not:
-
-- A funnel
-- A landing page
-- A commercial site
-- A marketing-oriented CMS
-
-It is an academic digital publication platform for philosophical thought.
+- La cuenta existe solo para facilitar el proceso editorial. El sitio sigue siendo una revista académica, no una plataforma comercial.
+- Los envíos son visibles solo para: el autor que envía, editores, administradores.
+- Solo los envíos aceptados generan artículos publicados.
 
 ---
 
-## Status
+### Capa 7. Infraestructura
 
-| Layer | Status | Notes |
-|-------|--------|-------|
-| Identity | In use, doc pending | `tokens.css` has palette and typography. `02-corporate-identity` still has placeholders. |
-| Architecture | Implemented | Pages exist: Inicio, Revista (issue/article archives), Normas, Acerca, Contacto, Noticias. |
-| Content model | Implemented | Issue, article, essay, review views. Single/archive templates. |
-| Navigation | Implemented | Header nav, footer, primary CTA (Enviar Colaboración). |
-| Publication | Static only | No CMS. Content is hardcoded. Forms link to PDFs. |
-| Editorial | Implemented | Voice and tone in place. No commercial pressure. |
-| Infrastructure | Partial | Live at GitHub Pages. `deploy.sh` references non-existent `prototype/`. GitLab CI expects `public/`. No 404.html. |
-| Legal | Partial | CC license in footer. Privacy/ethics pages exist. ISSN placeholder. |
+La base silenciosa pero crítica.
 
-### Implementation gaps
+Debe garantizar:
 
-- **404 page:** Missing. Add `404.html` for broken links.
-- **Deploy script:** `deploy.sh` checks for `prototype/front-page.html`; site lives at root with `index.html`.
-- **Docs 02–20:** Filled for project. Traceability in `00-order-documents`.
-- **WordPress:** Not started. Static maquette is the current deliverable.
+- Estabilidad
+- Seguridad
+- Copias de seguridad (incluyendo base de datos)
+- Entorno de staging
+- Escalabilidad
+- Control de versiones (Git)
+- Builds reproducibles
+- Separación entre contenido y maquetación
+- HTTPS y autenticación segura
 
 ---
 
-**Version:** 1.0  
-**Depends on:** content-source  
-**Project:** Revista de Filosofía LOGO ET SPES
+### Capa 7.5. Descubribilidad (subcapa)
+
+Asegura que la revista pueda ser descubierta y citada.
+
+Incluye:
+
+- HTML semántico
+- Datos estructurados Schema.org
+- Etiquetas de metadatos de citación (citation_title, citation_author, citation_journal_title, citation_publication_date, etc.)
+- Metadatos Open Graph
+- Compatibilidad con sistemas de indexación académica (Google Scholar, catálogos de bibliotecas)
+- Posible integración DOI
+
+---
+
+### Capa 8. Ancla legal e institucional
+
+- ISSN y Depósito Legal (Biblioteca Nacional de Venezuela)
+- Creative Commons (Atribución, no comercial)
+- Política de privacidad y confidencialidad (autores, árbitros, visitantes)
+- Declaración de ética (alineación COPE)
+- Política de derechos de autor (ley venezolana, SAPI)
+- Política de retención de derechos del autor (autores conservan derechos según proyecto)
+
+---
+
+## Accesibilidad (capa transversal)
+
+No es un añadido. Es una condición estructural del sistema. Definida en `19-accessibility-standards`.
+
+**Línea base de accesibilidad:** Cumplimiento WCAG 2.1 AA obligatorio.
+
+Debe atravesar:
+
+- Identidad
+- Navegación
+- Contenido
+- Diseño visual
+
+---
+
+## Qué permite el sistema
+
+Sin tocar código, el propietario del sitio puede:
+
+- Publicar nuevos números (editorial, artículos, ensayos, misceláneas)
+- Publicar contenido editorial sin modificar plantillas de maquetación
+- Gestionar metadatos de artículos para indexación
+- Actualizar CENFISS presente e información de eventos
+- Gestionar datos de autores y árbitros
+- Actualizar normas, políticas y formularios
+
+Sin modificar la estructura central.
+
+---
+
+## Qué NO es este sistema
+
+No es:
+
+- Un embudo
+- Una landing page
+- Un sitio comercial
+- Un CMS orientado al marketing
+- Un flujo de contenido de redes sociales
+
+Es una plataforma de publicación digital académica para el pensamiento filosófico.
+
+---
+
+## Estado
+
+| Capa | Estado | Notas |
+|------|--------|-------|
+| Identidad | Implementada | `tokens.css` y `02-corporate-identity` definen paleta y tipografía. |
+| Arquitectura | Implementada | Páginas existen: Inicio, Revista (archivos de números/artículos), Normas, Acerca, Contacto, Noticias. |
+| Modelo de contenido | Implementada | Vistas de número, artículo, ensayo, reseña. Plantillas single/archive. |
+| Navegación | Implementada | Nav del header, footer, CTA principal (Enviar Colaboración). |
+| Publicación | Solo estático | Sin CMS. Contenido hardcodeado. Formularios enlazan a PDFs. |
+| Editorial | Implementada | Voz y tono en su lugar. Sin presión comercial. |
+| Envío de autores | Planificado | Login, CPT de envíos, panel de autor. Implementación WordPress. |
+| Infraestructura | Parcial | En vivo en GitHub Pages. `deploy.sh` referencia `prototype/` inexistente. GitLab CI espera `public/`. Sin 404.html. |
+| Descubribilidad | Planificada | HTML semántico en maqueta. Metadatos, DOI, indexación por implementar en WordPress. |
+| Legal | Parcial | Licencia CC en footer. Páginas de privacidad/ética existen. Placeholder ISSN. |
+
+### Brechas de implementación
+
+- **Página 404:** Falta. Añadir `404.html` para enlaces rotos.
+- **Script de deploy:** `deploy.sh` busca `prototype/front-page.html`; el sitio vive en raíz con `index.html`.
+- **Docs 02–20:** Completados para el proyecto. Trazabilidad en `00-order-documents`.
+- **WordPress:** No iniciado. La maqueta estática es el entregable actual.
+
+---
+
+## Ruta de evolución
+
+| Etapa | Descripción |
+|-------|-------------|
+| **Actual** | Maqueta HTML estática. |
+| **Siguiente** | Implementación WordPress usando la misma arquitectura. |
+| **Largo plazo** | Revista académica indexada con ritmo de publicación estable. |
+
+---
+
+**Versión:** 1.0  
+**Depende de:** content-source  
+**Proyecto:** Revista de Filosofía LOGO ET SPES

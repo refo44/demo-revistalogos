@@ -1,141 +1,141 @@
-# Revista de Filosofía LOGO ET SPES — Voice Dictionary
+# Revista de Filosofía LOGO ET SPES — Diccionario de Voz
 
-**System lexicon**
+**Léxico del sistema**
 
-Defines what words exist within the territory and which can never exist. Voice and tone are defined in `07-voice-guide-microcopy-ux`.
+Define qué palabras existen dentro del territorio y cuáles nunca pueden existir. La voz y el tono se definen en `07-voice-guide-microcopy-ux`.
 
-**Depends on:** `07-voice-guide-microcopy-ux`
+**Depende de:** `07-voice-guide-microcopy-ux`
 
 ---
 
-## 1. Guiding principle
+## 1. Principio rector
 
-If a word belongs to the language of:
+Si una palabra pertenece al lenguaje de:
 
 - marketing
-- sales
-- growth
-- platforms
+- ventas
+- crecimiento
+- plataformas
 - startups
-- aggressive monetization
+- monetización agresiva
 
-then it does not belong on this site.
+entonces no pertenece a este sitio.
 
-The site does not persuade. It does not push. It **informs, guides and facilitates**.
-
----
-
-## 2. Allowed verbs
-
-| Verb | Use |
-|------|-----|
-| Ver | View content, issue, article, PDF |
-| Descargar | Download PDF |
-| Leer | Read article, more |
-| Buscar | Search, filter |
-| Enviar | Submit collaboration, message |
-| Consultar | Access norms, archive |
-| Acceder | Access content |
-| Copiar | Copy citation |
-| Limpiar | Reset filters |
-| Explorar | Browse archive (neutral use) |
-
-**Never use:** Descubrir, Únete, Regístrate (as primary CTA), Suscríbete, Explora (as marketing), Descarga gratis, Aprovecha, No te pierdas.
+El sitio no persuade. No empuja. **Informa, guía y facilita**.
 
 ---
 
-## 3. Allowed nouns
+## 2. Verbos permitidos
 
-| Category | Words |
-|----------|-------|
-| Content | Artículo, ensayo, reseña, número, editorial, misceláneas |
-| People | Autor, árbitro, par evaluador, Consejo Editorial, Editor General |
-| Process | Arbitraje, doble ciego, Revisión Interna Previa, Evaluación Externa por Pares |
-| Institutional | Revista, CENFISS, rLES |
-| Metadata | DOI, ISSN, Depósito Legal, palabras clave, sección |
+| Verbo | Uso |
+|-------|-----|
+| Ver | Ver contenido, número, artículo, PDF |
+| Descargar | Descargar PDF |
+| Leer | Leer artículo, más |
+| Buscar | Buscar, filtrar |
+| Enviar | Enviar colaboración, mensaje |
+| Consultar | Acceder a normas, archivo |
+| Acceder | Acceder al contenido |
+| Copiar | Copiar cita |
+| Limpiar | Restablecer filtros |
+| Explorar | Explorar archivo (uso neutro) |
 
-**Never use:** product, content (use "contenido" only in editorial context), user (use "autor", "visitante", "lector"), audience, client, lead, funnel, platform, dashboard, feed.
+**Nunca usar:** Descubrir, Únete, Regístrate (como CTA principal), Suscríbete, Explora (como marketing), Descarga gratis, Aprovecha, No te pierdas.
 
 ---
 
-## 4. Navigation terms
+## 3. Sustantivos permitidos
 
-| Function | Term |
-|----------|------|
+| Categoría | Palabras |
+|-----------|----------|
+| Contenido | Artículo, ensayo, reseña, número, editorial, misceláneas |
+| Personas | Autor, árbitro, par evaluador, Consejo Editorial, Editor General |
+| Proceso | Arbitraje, doble ciego, Revisión Interna Previa, Evaluación Externa por Pares |
+| Institucional | Revista, CENFISS, rLES |
+| Metadatos | DOI, ISSN, Depósito Legal, palabras clave, sección |
+
+**Nunca usar:** product, content (usar "contenido" solo en contexto editorial), user (usar "autor", "visitante", "lector"), audience, client, lead, funnel, platform, dashboard, feed.
+
+---
+
+## 4. Términos de navegación
+
+| Función | Término |
+|---------|---------|
 | Home | Inicio |
-| Current issue | Número Actual |
-| Archive issues | Números Publicados, Archivos |
-| Archive articles | Artículos |
-| Submit | Enviar colaboración |
-| About | Acerca |
-| News | Noticias |
-| Contact | Contacto |
-| Links | Enlaces |
-| Search | Búsqueda |
-| Editorial board | Comité Editorial |
-| Publication norms | Normas de Publicación |
-| Ethics | Ética Editorial |
-| Policies | Políticas |
+| Número actual | Número Actual |
+| Archivo de números | Números Publicados, Archivos |
+| Archivo de artículos | Artículos |
+| Enviar | Enviar colaboración |
+| Acerca | Acerca |
+| Noticias | Noticias |
+| Contacto | Contacto |
+| Enlaces | Enlaces |
+| Búsqueda | Búsqueda |
+| Consejo editorial | Comité Editorial |
+| Normas de publicación | Normas de Publicación |
+| Ética | Ética Editorial |
+| Políticas | Políticas |
 
 ---
 
-## 5. Standard buttons
+## 5. Botones estándar
 
-| Function | Text |
-|----------|------|
-| Primary CTA (home) | Ver número actual |
-| Primary CTA (submit) | Enviar colaboración |
-| View issue content | Ver contenido |
-| View article | Leer más |
-| Download PDF (issue) | Descargar PDF, 📄 PDF completo |
-| Download PDF (article) | Descargar PDF del artículo, 📄 PDF |
-| View PDF | Ver PDF |
-| Search submit | Buscar |
-| Reset filters | Limpiar filtros |
-| Copy citation | Copiar |
-| Form submit | Enviar mensaje |
-| Visit external | Visitar Web, Ver todas las noticias |
+| Función | Texto |
+|---------|-------|
+| CTA principal (home) | Ver número actual |
+| CTA principal (enviar) | Enviar colaboración |
+| Ver contenido del número | Ver contenido |
+| Ver artículo | Leer más |
+| Descargar PDF (número) | Descargar PDF, 📄 PDF completo |
+| Descargar PDF (artículo) | Descargar PDF del artículo, 📄 PDF |
+| Ver PDF | Ver PDF |
+| Envío de búsqueda | Buscar |
+| Restablecer filtros | Limpiar filtros |
+| Copiar cita | Copiar |
+| Envío de formulario | Enviar mensaje |
+| Visitar externo | Visitar Web, Ver todas las noticias |
 
 ---
 
-## 6. System messages
+## 6. Mensajes del sistema
 
-| Situation | Text |
-|-----------|------|
-| No search results | "No se encontraron resultados para su búsqueda. Puede intentar con otros términos o explorar el archivo de artículos." |
-| Empty archive | "Aún no hay números publicados. Consulte las normas para enviar una colaboración." |
+| Situación | Texto |
+|-----------|-------|
+| Sin resultados de búsqueda | "No se encontraron resultados para su búsqueda. Puede intentar con otros términos o explorar el archivo de artículos." |
+| Archivo vacío | "Aún no hay números publicados. Consulte las normas para enviar una colaboración." |
 | Error | "Ha ocurrido un problema. Por favor, intente de nuevo o regrese al inicio." |
 | 404 | "La página que busca no existe. Puede volver al inicio o ver el número actual." |
-| Technical error | "No fue posible completar la acción. Intente de nuevo o contacte al Consejo Editorial." |
+| Error técnico | "No fue posible completar la acción. Intente de nuevo o contacte al Consejo Editorial." |
 
-**Never:** Error 404, No data, Loading, Oops, Something went wrong, Sin datos, Cargando, Algo salió mal.
+**Nunca:** Error 404, No data, Loading, Oops, Something went wrong, Sin datos, Cargando, Algo salió mal.
 
 ---
 
-## 7. Domain-specific terms
+## 7. Términos específicos del dominio
 
-Use consistently:
+Usar de forma consistente:
 
-- **rLES** — Abreviatura de Revista LOGO ET SPES (in norms, forms, labels)
+- **rLES** — Abreviatura de Revista LOGO ET SPES (en normas, formularios, etiquetas)
 - **CENFISS** — Centro de Filosofía para la Investigación Stanislao Strba
-- **Consejo Editorial** — Editorial board
-- **doble ciego / doble anónimo** — Double-blind peer review
-- **Revisión Interna Previa** — Internal pre-review
-- **Evaluación Externa por Pares** — External peer review
-- **acceso abierto** — Open access (not "gratis" for policy context)
-- **trabajo postulado** — Submitted work
-- **autoría** — Authorship, authors
-- **árbitro** — Reviewer (peer reviewer)
-- **par evaluador** — Peer reviewer
+- **Consejo Editorial** — Consejo editorial
+- **doble ciego / doble anónimo** — Arbitraje doble ciego
+- **Revisión Interna Previa** — Revisión interna previa
+- **Evaluación Externa por Pares** — Evaluación externa por pares
+- **acceso abierto** — Acceso abierto (no "gratis" en contexto de políticas)
+- **trabajo postulado** — Trabajo enviado
+- **autoría** — Autoría, autores
+- **árbitro** — Revisor (par evaluador)
+- **par evaluador** — Par evaluador
 
 ---
 
-## 8. Final rule
+## 8. Regla final
 
-If a word sounds like it could appear on a landing page, app, startup or store, it cannot be here.
+Si una palabra suena como si pudiera aparecer en una landing page, app, startup o tienda, no puede estar aquí.
 
 ---
 
-**Reference:** `09-ui-copy-sheet` (concrete texts per screen)  
-**Version:** 1.0  
-**Project:** Revista de Filosofía LOGO ET SPES
+**Referencia:** `09-ui-copy-sheet` (textos concretos por pantalla)  
+**Versión:** 1.0  
+**Proyecto:** Revista de Filosofía LOGO ET SPES

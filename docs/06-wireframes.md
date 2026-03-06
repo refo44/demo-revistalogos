@@ -1,231 +1,231 @@
 # Revista de Filosofía LOGO ET SPES — Wireframes
 
-**Version 1.0**
+**Versión 1.0**
 
-Screen structure: hierarchy, blocks and reading flow per view. Not visual design; supports screen map and navigation.
+Estructura de pantalla: jerarquía, bloques y flujo de lectura por vista. No diseño visual; apoya mapa de pantallas y navegación.
 
-**Depends on:** `04-screen-map`, `05-information-architecture-navigation`  
-**Reference:** `02-corporate-identity`, `20-layout-principles`
-
----
-
-## Purpose
-
-Wireframes define:
-
-- Block hierarchy per screen
-- Reading flow
-- Component placement
-- Responsive behavior (mobile → desktop)
-
-They do **not** define colors, typography or final visual design. Those come from `02-corporate-identity`.
+**Depende de:** `04-screen-map`, `05-information-architecture-navigation`  
+**Referencia:** `02-corporate-identity`, `20-layout-principles`
 
 ---
 
-## Global structure (all pages)
+## Propósito
 
-| Block | Order | Content / function |
-|-------|-------|---------------------|
-| Skip link | 0 | Skip to main content (accessibility) |
-| Header | 1 | Logo, main nav |
-| Main | 2 | Page-specific content |
-| Footer | 3 | Revista info, enlaces rápidos, normas, contacto, CC |
+Los wireframes definen:
+
+- Jerarquía de bloques por pantalla
+- Flujo de lectura
+- Ubicación de componentes
+- Comportamiento responsive (móvil → escritorio)
+
+**No** definen colores, tipografía ni diseño visual final. Eso viene de `02-corporate-identity`.
 
 ---
 
-## Per-screen structure
+## Estructura global (todas las páginas)
+
+| Bloque | Orden | Contenido / función |
+|--------|-------|---------------------|
+| Enlace saltar | 0 | Saltar al contenido principal (accesibilidad) |
+| Header | 1 | Logo, nav principal |
+| Main | 2 | Contenido específico de la página |
+| Footer | 3 | Info revista, enlaces rápidos, normas, contacto, CC |
+
+---
+
+## Estructura por pantalla
 
 ### Home
 
-| Block | Order | Content / function |
-|-------|-------|---------------------|
-| Hero | 1 | Title (LOGO ET SPES), subtitle, short description, primary CTA (Ver número actual) |
-| Banner carousel | 2 | Optional. Events, CENFISS. Slides with image, title, CTA. |
-| Sidebar grid | 3 | Noticias (list + link), Colaboración (info), CENFISS (link). Cards. |
+| Bloque | Orden | Contenido / función |
+|--------|-------|---------------------|
+| Hero | 1 | Título (LOGO ET SPES), subtítulo, descripción breve, CTA principal (Ver número actual) |
+| Carrusel de banner | 2 | Opcional. Eventos, CENFISS. Slides con imagen, título, CTA. |
+| Grid de sidebar | 3 | Noticias (lista + enlace), Colaboración (info), CENFISS (enlace). Tarjetas. |
 
-**Note:** Sections by discipline (Metafísica, Ética, etc.) are optional; may be hidden or shown.
-
----
-
-### Single issue
-
-| Block | Order | Content / function |
-|-------|-------|---------------------|
-| Breadcrumbs | 1 | Inicio → Archivos → [Issue title] |
-| Issue header | 2 | Cover image, title (Vol. X Nº Y), meta (ISSN, DOI, date), description, actions (PDF download, Ver PDF) |
-| Table of contents | 3 | Sections (Metafísica, Ética, etc.). Per section: article links with authors, pages, DOI. |
+**Nota:** Las secciones por disciplina (Metafísica, Ética, etc.) son opcionales; pueden ocultarse o mostrarse.
 
 ---
 
-### Single article
+### Número individual
 
-| Block | Order | Content / function |
-|-------|-------|---------------------|
-| Breadcrumbs | 1 | Inicio → Archivos → [Issue] → [Article title] |
-| Article header | 2 | Title (ES/EN), authors, meta (volume, pages, DOI, dates) |
-| Metadata box | 3 | Authors, affiliations, ORCID, DOI, pages, section, keywords, dates, suggested citation |
-| Article content | 4 | Resumen, Abstract, Palabras clave, body (sections), referencias |
-| Article actions | 5 | PDF download, Leer más (if excerpt) |
+| Bloque | Orden | Contenido / función |
+|--------|-------|---------------------|
+| Migas de pan | 1 | Inicio → Archivos → [Título del número] |
+| Header del número | 2 | Imagen de portada, título (Vol. X Nº Y), meta (ISSN, DOI, fecha), descripción, acciones (descarga PDF, Ver PDF) |
+| Tabla de contenidos | 3 | Secciones (Metafísica, Ética, etc.). Por sección: enlaces a artículos con autores, páginas, DOI. |
 
 ---
 
-### Archive issues
+### Artículo individual
 
-| Block | Order | Content / function |
-|-------|-------|---------------------|
-| Breadcrumbs | 1 | Inicio → Archivos |
-| Archive header | 2 | Title, description |
-| Issue grid | 3 | Cards: cover, volume, title, meta, description, stats, PDF + Ver contenido |
+| Bloque | Orden | Contenido / función |
+|--------|-------|---------------------|
+| Migas de pan | 1 | Inicio → Archivos → [Número] → [Título del artículo] |
+| Header del artículo | 2 | Título (ES/EN), autores, meta (volumen, páginas, DOI, fechas) |
+| Caja de metadatos | 3 | Autores, afiliaciones, ORCID, DOI, páginas, sección, palabras clave, fechas, cita sugerida |
+| Contenido del artículo | 4 | Resumen, Abstract, Palabras clave, cuerpo (secciones), referencias |
+| Acciones del artículo | 5 | Descarga PDF, Leer más (si extracto) |
 
 ---
 
-### Archive articles
+### Archivo de números
 
-| Block | Order | Content / function |
-|-------|-------|---------------------|
-| Breadcrumbs | 1 | Inicio → Artículos |
-| Archive header | 2 | Title, description |
-| Filters | 3 | Search (title, author, keywords), section select, year select, Buscar, Limpiar |
-| Article grid | 4 | Cards: title, subtitle (EN), authors, meta (DOI, pages, section, year), abstract, keywords, PDF + Leer más |
+| Bloque | Orden | Contenido / función |
+|--------|-------|---------------------|
+| Migas de pan | 1 | Inicio → Archivos |
+| Header del archivo | 2 | Título, descripción |
+| Grid de números | 3 | Tarjetas: portada, volumen, título, meta, descripción, estadísticas, PDF + Ver contenido |
+
+---
+
+### Archivo de artículos
+
+| Bloque | Orden | Contenido / función |
+|--------|-------|---------------------|
+| Migas de pan | 1 | Inicio → Artículos |
+| Header del archivo | 2 | Título, descripción |
+| Filtros | 3 | Búsqueda (título, autor, palabras clave), select sección, select año, Buscar, Limpiar |
+| Grid de artículos | 4 | Tarjetas: título, subtítulo (EN), autores, meta (DOI, páginas, sección, año), resumen, palabras clave, PDF + Leer más |
 
 ---
 
 ### Enviar colaboración
 
-| Block | Order | Content / function |
-|-------|-------|---------------------|
-| Breadcrumbs | 1 | Inicio → Enviar Colaboración |
-| Page header | 2 | Title, description |
-| Content main | 3 | Numbered instructions (login/register, normas, form, email). Warning box. |
+| Bloque | Orden | Contenido / función |
+|--------|-------|---------------------|
+| Migas de pan | 1 | Inicio → Enviar Colaboración |
+| Header de página | 2 | Título, descripción |
+| Contenido principal | 3 | Instrucciones numeradas (login/registro, normas, formulario, email). Caja de aviso. |
 | Sidebar | 4 | Enlaces útiles: Normas, Políticas, Comité, Contacto |
 
 ---
 
 ### Normas, Políticas, Ética
 
-| Block | Order | Content / function |
-|-------|-------|---------------------|
-| Breadcrumbs | 1 | Inicio → [Page title] |
-| Page header | 2 | Title, description |
-| Content | 3 | Editorial sections (H2, H3), PDF download buttons, links to APA/Vancouver |
-| Sidebar | 4 | Optional. Quick links, related pages. |
+| Bloque | Orden | Contenido / función |
+|--------|-------|---------------------|
+| Migas de pan | 1 | Inicio → [Título de la página] |
+| Header de página | 2 | Título, descripción |
+| Contenido | 3 | Secciones editoriales (H2, H3), botones de descarga PDF, enlaces a APA/Vancouver |
+| Sidebar | 4 | Opcional. Enlaces rápidos, páginas relacionadas. |
 
 ---
 
 ### Acerca
 
-| Block | Order | Content / function |
-|-------|-------|---------------------|
-| Breadcrumbs | 1 | Inicio → Acerca |
-| Page header | 2 | Title, description |
-| Content main | 3 | Reseña, Línea Editorial (Enfoque, Objetivos, Principios, Valores, Criterios), Fundamento Normativo |
-| Sidebar | 4 | Información de la Revista (ISSN, etc.), links |
+| Bloque | Orden | Contenido / función |
+|--------|-------|---------------------|
+| Migas de pan | 1 | Inicio → Acerca |
+| Header de página | 2 | Título, descripción |
+| Contenido principal | 3 | Reseña, Línea Editorial (Enfoque, Objetivos, Principios, Valores, Criterios), Fundamento Normativo |
+| Sidebar | 4 | Información de la Revista (ISSN, etc.), enlaces |
 
 ---
 
 ### Contacto
 
-| Block | Order | Content / function |
-|-------|-------|---------------------|
-| Breadcrumbs | 1 | Inicio → Contacto |
-| Page header | 2 | Title, description |
-| Content | 3 | CENFISS info, address, email, web. Optional: contact form. |
+| Bloque | Orden | Contenido / función |
+|--------|-------|---------------------|
+| Migas de pan | 1 | Inicio → Contacto |
+| Header de página | 2 | Título, descripción |
+| Contenido | 3 | Info CENFISS, dirección, email, web. Opcional: formulario de contacto. |
 
 ---
 
 ### Comité Editorial
 
-| Block | Order | Content / function |
-|-------|-------|---------------------|
-| Breadcrumbs | 1 | Inicio → Comité Editorial |
-| Page header | 2 | Title, description |
-| Content | 3 | Consejo Editorial, Editor General, Editores adjuntos, Árbitros. List or cards. |
+| Bloque | Orden | Contenido / función |
+|--------|-------|---------------------|
+| Migas de pan | 1 | Inicio → Comité Editorial |
+| Header de página | 2 | Título, descripción |
+| Contenido | 3 | Consejo Editorial, Editor General, Editores adjuntos, Árbitros. Lista o tarjetas. |
 
 ---
 
 ### Enlaces
 
-| Block | Order | Content / function |
-|-------|-------|---------------------|
-| Breadcrumbs | 1 | Inicio → Enlaces |
-| Page header | 2 | Title, description |
-| Content | 3 | List of external links (CENFISS, partners, resources). |
+| Bloque | Orden | Contenido / función |
+|--------|-------|---------------------|
+| Migas de pan | 1 | Inicio → Enlaces |
+| Header de página | 2 | Título, descripción |
+| Contenido | 3 | Lista de enlaces externos (CENFISS, partners, recursos). |
 
 ---
 
-### Noticias (blog index)
+### Noticias (índice del blog)
 
-| Block | Order | Content / function |
-|-------|-------|---------------------|
-| Breadcrumbs | 1 | Inicio → Noticias |
-| Archive header | 2 | Title, description |
-| Post list | 3 | Cards: date, author, title, excerpt, Leer más |
-
----
-
-### Single post (noticia)
-
-| Block | Order | Content / function |
-|-------|-------|---------------------|
-| Breadcrumbs | 1 | Inicio → Noticias |
-| Post header | 2 | Date, author, title |
-| Post content | 3 | Full body |
-| Post footer | 4 | Optional: related posts, back to Noticias |
+| Bloque | Orden | Contenido / función |
+|--------|-------|---------------------|
+| Migas de pan | 1 | Inicio → Noticias |
+| Header del archivo | 2 | Título, descripción |
+| Lista de entradas | 3 | Tarjetas: fecha, autor, título, extracto, Leer más |
 
 ---
 
-### Search results
+### Entrada individual (noticia)
 
-| Block | Order | Content / function |
-|-------|-------|---------------------|
-| Search header | 1 | Query, result count |
-| Results list | 2 | Articles/issues/posts matching query. Same card pattern as archives. |
-| Empty state | 3 | If no results: message, link to Inicio, browse links |
+| Bloque | Orden | Contenido / función |
+|--------|-------|---------------------|
+| Migas de pan | 1 | Inicio → Noticias |
+| Header de la entrada | 2 | Fecha, autor, título |
+| Contenido de la entrada | 3 | Cuerpo completo |
+| Footer de la entrada | 4 | Opcional: entradas relacionadas, volver a Noticias |
+
+---
+
+### Resultados de búsqueda
+
+| Bloque | Orden | Contenido / función |
+|--------|-------|---------------------|
+| Header de búsqueda | 1 | Consulta, conteo de resultados |
+| Lista de resultados | 2 | Artículos/números/entradas que coinciden con la consulta. Mismo patrón de tarjeta que archivos. |
+| Estado vacío | 3 | Si no hay resultados: mensaje, enlace a Inicio, enlaces para explorar |
 
 ---
 
 ### 404
 
-| Block | Order | Content / function |
-|-------|-------|---------------------|
-| Message | 1 | "Página no encontrada" or similar |
-| Actions | 2 | Link to Inicio, link to Número actual |
+| Bloque | Orden | Contenido / función |
+|--------|-------|---------------------|
+| Mensaje | 1 | "Página no encontrada" o similar |
+| Acciones | 2 | Enlace a Inicio, enlace a Número actual |
 
 ---
 
-## Responsive rules
+## Reglas responsive
 
-- **Mobile:** Single column; blocks stack vertically; same order as desktop. Nav collapses to toggle. Sidebar moves below main content.
-- **Tablet:** Same as mobile; may allow 2-column grid for cards where space permits.
-- **Desktop:** Main + sidebar layout where applicable (Acerca, Enviar colaboración, Normas). Card grids: 2–3 columns.
+- **Móvil:** Columna única; bloques apilados verticalmente; mismo orden que escritorio. Nav colapsa a toggle. Sidebar pasa debajo del contenido principal.
+- **Tablet:** Igual que móvil; puede permitir grid de 2 columnas para tarjetas donde el espacio lo permita.
+- **Escritorio:** Maquetación main + sidebar donde aplique (Acerca, Enviar colaboración, Normas). Grids de tarjetas: 2–3 columnas.
 
-**Rule:** Responsive does not redesign; it adapts proportions. Same content, less width.
-
----
-
-## Component inventory
-
-| Component | Use |
-|-----------|-----|
-| Hero | Home. Title, subtitle, CTA. |
-| Breadcrumbs | All content pages. Inicio → path. |
-| Archive header | Archives. Title, description. |
-| Issue card | Archive issues, Home. Cover, title, meta, PDF, Ver contenido. |
-| Article card | Archive articles, single-issue TOC. Title, authors, abstract, PDF, Leer más. |
-| Metadata box | Single article. Structured key-value list. |
-| Sidebar card | Acerca, Enviar colaboración, Normas. Related links, info. |
-| Editorial section | Static pages. H2/H3, paragraphs, lists. |
-| Pagination | Archives, search. Prev/next, page numbers. |
+**Regla:** Lo responsive no rediseña; adapta proporciones. Mismo contenido, menos ancho.
 
 ---
 
-## Deliverable
+## Inventario de componentes
 
-- Paper sketches, or
-- Figma / HTML wireframes
-- Per `04-screen-map` screens
+| Componente | Uso |
+|------------|-----|
+| Hero | Home. Título, subtítulo, CTA. |
+| Migas de pan | Todas las páginas de contenido. Inicio → ruta. |
+| Header de archivo | Archivos. Título, descripción. |
+| Tarjeta de número | Archivo de números, Home. Portada, título, meta, PDF, Ver contenido. |
+| Tarjeta de artículo | Archivo de artículos, TOC del número individual. Título, autores, resumen, PDF, Leer más. |
+| Caja de metadatos | Artículo individual. Lista estructurada clave-valor. |
+| Tarjeta de sidebar | Acerca, Enviar colaboración, Normas. Enlaces relacionados, info. |
+| Sección editorial | Páginas estáticas. H2/H3, párrafos, listas. |
+| Paginación | Archivos, búsqueda. Anterior/siguiente, números de página. |
 
 ---
 
-**Version:** 1.0  
-**Project:** Revista de Filosofía LOGO ET SPES
+## Entregable
+
+- Bocetos en papel, o
+- Wireframes Figma / HTML
+- Por pantallas de `04-screen-map`
+
+---
+
+**Versión:** 1.0  
+**Proyecto:** Revista de Filosofía LOGO ET SPES
