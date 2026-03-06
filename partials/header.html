@@ -1,63 +1,60 @@
-<!-- Header - Revista Logos et Spes -->
+<!-- Header - Revista LOGO ET SPES -->
 <!-- WP:HEADER_START -->
 <header class="header" role="banner">
   <div class="container">
     <div class="header__inner">
-      <!-- Logo -->
-      <a href="index.html" class="header__logo">
-        <img src="assets/img/logo-revista.svg" alt="Logos et Spes" class="header__logo-img">
-        <div class="header__logo-text">
-          <div>Logos et Spes</div>
-          <div class="header__logo-subtitle">Revista de Filosofía</div>
-        </div>
-      </a>
+      <div class="header__top">
+        <a href="index.html" class="header__logo">
+          <img src="assets/img/logo-revista.png" alt="LOGO ET SPES" class="header__logo-img" width="1024" height="1024">
+          <span class="header__logo-text">
+            <span class="header__logo-title">LOGO ET SPES</span>
+            <span class="header__logo-subtitle">Revista de Filosofía y Teología</span>
+          </span>
+        </a>
+      </div>
 
-      <!-- Navegación principal -->
-      <!-- WP:NAV_MENU(primary) -->
-      <nav class="nav" role="navigation" aria-label="Navegación principal">
+      <nav class="nav" aria-label="Navegación principal">
         <button class="nav__toggle" aria-expanded="false" aria-controls="main-nav">
           <span class="nav__toggle-icon nav__toggle-icon--open" aria-hidden="true">☰</span>
           <span class="nav__toggle-icon nav__toggle-icon--close" aria-hidden="true">✕</span>
           <span class="visually-hidden">Menú</span>
         </button>
-        
-        <ul class="nav__list" id="main-nav">
-          <li class="nav__item">
-            <a href="index.html" class="nav__link" aria-current="page">Inicio</a>
-          </li>
-          <li class="nav__item">
-            <a href="#" class="nav__link">Revista</a>
-            <ul class="nav__submenu">
-              <li><a href="single-issue.html">Número Actual</a></li>
-              <li><a href="archive-issue.html">Archivos</a></li>
-              <li><a href="archive-article.html">Artículos</a></li>
-              <li><a href="author.html">Autores</a></li>
-              <li><a href="page-comite.html">Comité Editorial</a></li>
-            </ul>
-          </li>
-          <li class="nav__item">
-            <a href="#" class="nav__link">Normas</a>
-            <ul class="nav__submenu">
-              <li><a href="page-normas.html">Normas de Publicación</a></li>
-              <li><a href="page-etica.html">Ética Editorial</a></li>
-              <li><a href="page-politicas.html">Políticas</a></li>
-              <li><a href="page-enviar-colaboracion.html">Enviar Colaboración</a></li>
-            </ul>
-          </li>
-          <li class="nav__item">
-            <a href="page-acerca.html" class="nav__link">Acerca</a>
-          </li>
-          <li class="nav__item">
-              <li class="nav__item">
-                <a href="https://cenfiss.net" class="nav__link" target="_blank" rel="noopener noreferrer">CENFISS</a>
-              </li>            <a href="page-contacto.html" class="nav__link">Contacto</a>
-          </li>
-          <li class="nav__item">
-            <a href="blog-index.html" class="nav__link">Noticias</a>
-          </li>
-        </ul>
+
+        <div class="nav__container">
+          <ul class="nav__list nav__list--main" id="main-nav">
+            <li class="nav__item">
+              <a href="index.html" class="nav__link">Inicio</a>
+            </li>
+            <li class="nav__item nav__item--has-submenu">
+              <a href="archive-issue.html" class="nav__link">Revista</a>
+              <ul class="nav__submenu">
+                <li><a href="single-issue.html">Número actual</a></li>
+                <li><a href="archive-issue.html">Números publicados</a></li>
+                <li><a href="archive-article.html">Artículos</a></li>
+                <li><a href="archive-author.html">Autores</a></li>
+              </ul>
+            </li>
+            <li class="nav__item">
+              <a href="page-normas.html" class="nav__link">Normas</a>
+            </li>
+            <li class="nav__item">
+              <a href="page-enviar-colaboracion.html" class="nav__link">Enviar colaboración</a>
+            </li>
+            <li class="nav__item">
+              <a href="blog-index.html" class="nav__link">Noticias</a>
+            </li>
+            <li class="nav__item">
+              <a href="page-acerca.html" class="nav__link">Acerca</a>
+            </li>
+            <li class="nav__item">
+              <a href="page-contacto.html" class="nav__link">Contacto</a>
+            </li>
+            <li class="nav__item">
+              <a href="https://cenfiss.net" class="nav__link" target="_blank" rel="noopener noreferrer">CENFISS ↗<span class="visually-hidden"> (se abre en nueva pestaña)</span></a>
+            </li>
+          </ul>
+        </div>
       </nav>
-      <!-- WP:NAV_MENU_END -->
     </div>
   </div>
 </header>

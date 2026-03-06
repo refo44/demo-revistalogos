@@ -68,7 +68,7 @@ Este prototipo mapea 1:1 a la template hierarchy y Custom Post Types (CPT) de Wo
 ## 🎨 Características de Diseño
 
 ### Estilo Visual
-- **Paleta sobria**: Azules institucionales (#1e3a8a, #3b82f6) y grises neutros
+- **Paleta sobria**: Aguamarina institucional derivada del documento fuente y grises neutros
 - **Tipografía**: Sistema de fuentes (Georgia para títulos, Arial para texto)
 - **Layout**: Grid responsivo sin frameworks
 - **Accesibilidad**: Contraste AA, foco visible, skip links

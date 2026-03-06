@@ -100,10 +100,10 @@
       link.setAttribute("target", "_blank");
       link.setAttribute("rel", "noopener noreferrer");
 
-      // Agregar indicador visual para screen readers
+      // Agregar indicador para lectores de pantalla
       const srText = document.createElement("span");
       srText.className = "visually-hidden";
-      srText.textContent = " (abre en nueva ventana)";
+      srText.textContent = " (se abre en nueva pestaña)";
       link.appendChild(srText);
     });
   }

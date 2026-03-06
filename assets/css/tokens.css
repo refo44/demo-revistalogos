@@ -2,12 +2,12 @@
 
 :root {
   /* Colores principales */
-  --color-primary: #1e3a8a;        /* Azul institucional */
-  --color-primary-light: #3b82f6;  /* Azul claro para detalles y énfasis suaves */
-  --color-primary-dark: #1e40af;    /* Azul oscuro para hover, encabezados y énfasis fuertes */
-  
+  --color-primary: #18597c;        /* Azul petróleo institucional */
+  --color-primary-light: #e7f2f8;  /* Azul editorial suave para fondos y acentos */
+  --color-primary-dark: #144866;   /* Variante azul más profunda del primario para hover y énfasis */
   /* Colores secundarios */
-  --color-secondary: #64748b;       /* Gris neutro para bordes suaves, líneas y elementos secundarios */
+  --color-secondary: #afabac;       /* Gris neutro de la paleta para líneas y elementos secundarios */
+  --color-border: #d9d6d7;          /* Borde suave derivado del gris neutro */
   
   /* Colores de estado */
   --color-accent: #059669;          /* Verde éxito */
@@ -15,19 +15,23 @@
   --color-error: #dc2626;           /* Rojo error */
   
   /* Colores de botones de autenticación */
-  --color-btn-login: #a8d08c;       /* Verde claro para botón Entrar */
-  --color-btn-register: #ffc000;    /* Naranja claro para botón Registrarse */
+  --color-btn-login: #e7f2f8;       /* Azul editorial suave para botón Entrar */
+  --color-btn-register: #ffbf00;    /* Amarillo de énfasis para botón Registrarse */
   
   /* Colores de fondo */
-  --color-bg-primary: #ffffff;      /* Blanco - todo el fondo del sitio es blanco */
+  --color-bg-primary: #f8fafc;      /* Fondo general casi blanco con matiz frio editorial */
+  --color-surface: #ffffff;         /* Superficies y contenedores principales */
+  --color-soft: #e7f2f8;            /* Bloques editoriales suaves */
   
   /* Colores de texto */
   --color-text-primary: #1e293b;    /* Texto principal */
-  --color-text-muted: #64748b;      /* Texto secundario o notas */
+  --color-text-muted: #64748b;      /* Texto secundario legible sobre fondo blanco */
   --color-text-inverse: #ffffff;    /* Texto sobre fondos oscuros o botones primarios */
   
   /* Colores de enlaces */
-  --color-link: #00b0f0;  /* Azul celeste para enlaces */
+  --color-link: #1abaf0;            /* Azul de acento para enlaces */
+  --color-link-hover: #18597c;      /* Estado hover de enlaces */
+  --color-focus-ring: rgb(24 89 124 / 0.18);
   
   /* Tipografías del sistema */
   --font-family-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -53,7 +57,7 @@
   
   /* Altura de línea */
   --line-height-tight: 1.25;
-  --line-height-normal: 1.5;
+  --line-height-normal: 1.6;
   --line-height-relaxed: 1.75;
   
   /* Espaciado */
@@ -73,7 +77,9 @@
   /* Bordes */
   --border-width: 1px;
   --border-width-thick: 2px;
+  --border-radius-sm: 0.25rem;     /* 4px */
   --border-radius: 0.375rem;    /* 6px */
+  --border-radius-md: 0.375rem;    /* 6px */
   --border-radius-lg: 0.5rem;   /* 8px */
   --border-radius-xl: 0.75rem;  /* 12px */
   
@@ -104,6 +110,7 @@
   /* Contenedores */
   --container-max-width: 1200px;
   --container-padding: var(--space-4);
+  --reading-max-width: 65ch;
   
   /* Breakpoints (para referencia en comentarios) */
   /* sm: 640px, md: 768px, lg: 1024px, xl: 1280px */

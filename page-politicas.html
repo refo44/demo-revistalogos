@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Políticas de la Editorial | LOGO ET SPES</title>
+    <title>Políticas | LOGO ET SPES</title>
     <meta name="description" content="Políticas editoriales de LOGO ET SPES. Garantías de autoría, acceso abierto, derechos de autor, antiplagio, privacidad y más.">
     <meta name="keywords" content="políticas editoriales, garantías autoría, acceso abierto, derechos autor, antiplagio, ética editorial">
     <meta name="author" content="CENFISS - Centro de Filosofía para la Investigación Stanislao Strba">
@@ -12,7 +12,7 @@
     <link rel="canonical" href="https://refo44.github.io/demo-revistalogos/page-politicas.html">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+    <link rel="icon" type="image/png" href="assets/img/favicon.png">
     
     <!-- Styles -->
     <link rel="stylesheet" href="assets/css/main.css">
@@ -22,7 +22,7 @@
     {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "name": "Políticas de la Editorial - LOGO ET SPES",
+      "name": "Políticas - LOGO ET SPES",
       "description": "Políticas editoriales de LOGO ET SPES. Garantías de autoría, acceso abierto, derechos de autor, antiplagio y más.",
       "url": "https://refo44.github.io/demo-revistalogos/page-politicas.html",
       "isPartOf": {
@@ -37,84 +37,79 @@
     <!-- Skip Link -->
     <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
 
-    <!-- Header -->
+        <!-- Header -->
     <header class="header" role="banner">
       <div class="container">
-        <!-- First Row: Logo and Auth Buttons -->
-        <div class="header__top" style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-3) 0;">
-          <a href="index.html" class="header__logo">
-            <img src="assets/img/logo-revista.svg" alt="LOGO ET SPES" class="header__logo-img">
-            <div class="header__logo-text">
-              <div>LOGO ET SPES</div>
-              <div class="header__logo-subtitle">Revista de Filosofía y Teología</div>
+        <div class="header__inner">
+          <div class="header__top">
+            <a href="index.html" class="header__logo">
+              <img src="assets/img/logo-revista.png" alt="LOGO ET SPES" class="header__logo-img" width="1024" height="1024">
+              <span class="header__logo-text">
+                <span class="header__logo-title">LOGO ET SPES</span>
+                <span class="header__logo-subtitle">Revista de Filosofía y Teología</span>
+              </span>
+            </a>
+          </div>
+
+          <nav class="nav" aria-label="Navegación principal">
+            <button class="nav__toggle" aria-expanded="false" aria-controls="main-nav">
+              <span class="nav__toggle-icon nav__toggle-icon--open" aria-hidden="true">☰</span>
+              <span class="nav__toggle-icon nav__toggle-icon--close" aria-hidden="true">✕</span>
+              <span class="visually-hidden">Menú</span>
+            </button>
+
+            <div class="nav__container">
+              <ul class="nav__list nav__list--main" id="main-nav">
+                <li class="nav__item">
+                  <a href="index.html" class="nav__link">Inicio</a>
+                </li>
+                <li class="nav__item nav__item--has-submenu">
+                  <a href="archive-issue.html" class="nav__link">Revista</a>
+                  <ul class="nav__submenu">
+                    <li><a href="single-issue.html">Número actual</a></li>
+                    <li><a href="archive-issue.html">Números publicados</a></li>
+                    <li><a href="archive-article.html">Artículos</a></li>
+                    <li><a href="archive-author.html">Autores</a></li>
+                  </ul>
+                </li>
+                <li class="nav__item">
+                  <a href="page-normas.html" class="nav__link" aria-current="page">Normas</a>
+                </li>
+                <li class="nav__item">
+                  <a href="page-enviar-colaboracion.html" class="nav__link">Enviar colaboración</a>
+                </li>
+                <li class="nav__item">
+                  <a href="blog-index.html" class="nav__link">Noticias</a>
+                </li>
+                <li class="nav__item">
+                  <a href="page-acerca.html" class="nav__link">Acerca</a>
+                </li>
+                <li class="nav__item">
+                  <a href="page-contacto.html" class="nav__link">Contacto</a>
+                </li>
+                <li class="nav__item">
+                  <a href="https://cenfiss.net" class="nav__link" target="_blank" rel="noopener noreferrer">CENFISS ↗<span class="visually-hidden"> (se abre en nueva pestaña)</span></a>
+                </li>
+              </ul>
             </div>
-          </a>
-
-          <!-- Login/Register Buttons -->
-          <div class="header__auth" style="display: flex; gap: var(--space-2); align-items: center;">
-            <a href="#" class="btn btn--small btn--login">Entrar</a>
-            <a href="#" class="btn btn--small btn--register">Registrarse</a>
-          </div>
+          </nav>
         </div>
-
-        <!-- Second Row: Navigation -->
-        <nav class="nav" role="navigation" aria-label="Navegación principal">
-          <button class="nav__toggle" aria-expanded="false" aria-controls="main-nav">
-            <span class="nav__toggle-icon nav__toggle-icon--open" aria-hidden="true">☰</span>
-            <span class="nav__toggle-icon nav__toggle-icon--close" aria-hidden="true">✕</span>
-            <span class="visually-hidden">Menú</span>
-          </button>
-          
-          <div class="nav__container">
-            <!-- Main Navigation Row -->
-            <ul class="nav__list nav__list--main" id="main-nav">
-              <li class="nav__item">
-                <a href="index.html" class="nav__link">Inicio</a>
-              </li>
-              <li class="nav__item">
-                <a href="single-issue.html" class="nav__link">Número<br>Actual</a>
-              </li>
-              <li class="nav__item">
-                <a href="archive-issue.html" class="nav__link">Números<br>Publicados</a>
-              </li>
-              <li class="nav__item">
-                <a href="page-enviar-colaboracion.html" class="nav__link">Como<br>publicar</a>
-              </li>
-              <li class="nav__item">
-                <a href="page-acerca.html" class="nav__link">Acerca de</a>
-              </li>
-              <li class="nav__item">
-                <a href="blog-index.html" class="nav__link">Noticias</a>
-              </li>
-              <li class="nav__item">
-                <a href="page-contacto.html" class="nav__link">Contactos</a>
-              </li>
-              <li class="nav__item">
-                <a href="page-enlaces.html" class="nav__link">Enlaces de<br>Interés</a>
-              </li>
-            </ul>
-          </div>
-        </nav>
       </div>
     </header>
 
-    <main id="main-content" class="main-content">
+<main id="main-content" class="main-content" tabindex="-1">
         <div class="container">
             <!-- Breadcrumbs -->
-            <nav class="breadcrumbs" aria-label="Migas de pan">
+                        <nav class="breadcrumbs" aria-label="Migas de pan">
               <ol class="breadcrumbs__list">
-                <li class="breadcrumbs__item">
-                  <a href="index.html" class="breadcrumbs__link">Inicio</a>
-                </li>
-                <li class="breadcrumbs__item">
-                  <span class="breadcrumbs__current">Políticas de la Editorial</span>
-                </li>
+                <li class="breadcrumbs__item"><a href="index.html" class="breadcrumbs__link">Inicio</a></li>
+                <li class="breadcrumbs__item"><span class="breadcrumbs__current">Políticas</span></li>
               </ol>
             </nav>
 
             <!-- Page Header -->
             <header class="archive-header">
-                <h1 class="archive-header__title">Políticas de la Editorial</h1>
+                <h1 class="archive-header__title">Políticas</h1>
                 <p class="archive-header__description">
                     Conoce las políticas que rigen la publicación en LOGO ET SPES, incluyendo garantías de autoría, acceso abierto, derechos de autor, antiplagio y más.
                 </p>
@@ -176,7 +171,7 @@
                                         </ol>
                                         De ser el caso, acepta incorporar al trabajo postulado las observaciones emitidas en uno o en ambos procesos indicados.
                                     </li>
-                                    <li>Lo establecido en las <strong>Políticas de la Editorial</strong>, las <strong>Normas de Publicación</strong> y las <strong>Normas de Ética</strong> de la Revista.</li>
+                                    <li>Lo establecido en las <strong>Políticas</strong>, las <strong>Normas de Publicación</strong> y las <strong>Normas de Ética</strong> de la Revista.</li>
                                     <li>La <strong>absoluta responsabilidad</strong> sobre el contenido de su obra.</li>
                                     <li>Adjuntar al trabajo postulado el formulario <strong>&lt;Solicitud de Publicación y Declaración de Ética&gt;</strong> con el debido registro de la totalidad de datos solicitados.</li>
                                 </ul>
@@ -186,7 +181,7 @@
                                 <h3>1.2. Cumplimiento de Disposiciones Normativas</h3>
                                 <p>Los artículos y ensayos postulados deben cumplir con las disposiciones normativas establecidas por la Revista. Se devolverán las propuestas de publicación que incumplan con cualquiera de estas disposiciones, a saber:</p>
                                 <ul>
-                                    <li>Políticas de la Editorial</li>
+                                    <li>Políticas</li>
                                     <li>Normas de Publicación</li>
                                     <li>Normas de Ética</li>
                                 </ul>
@@ -213,7 +208,7 @@
                                 <h3>3.1. Procesos de Control y Selección</h3>
                                 <p>Ser sometido a dos (2) procesos de control y selección:</p>
                                 <ol type="a">
-                                    <li><strong>Revisión Interna Previa</strong>, efectuada por el Consejo Editorial (Editor (a) General y Editores adjuntos). Esta acción consiste en la revisión editorial enfocada en una evaluación de pertinencia de la obra en el cumplimiento irrestricto de las Políticas de la Editorial, las Normas de Publicación y las Normas de Ética.</li>
+                                    <li><strong>Revisión Interna Previa</strong>, efectuada por el Consejo Editorial (Editor (a) General y Editores adjuntos). Esta acción consiste en la revisión editorial enfocada en una evaluación de pertinencia de la obra en el cumplimiento irrestricto de las Políticas, las Normas de Publicación y las Normas de Ética.</li>
                                     <li><strong>Evaluación Externa por Pares</strong>. Ésta, se lleva a cabo bajo el Método de Arbitraje <strong>&lt;Doble Ciego&gt;</strong> y es realizada por árbitros colaboradores de la Revista. Los mismos, se constituyen en un conjunto de investigadores imparciales, pertenecientes a la academia de la región carabobeña y del resto del país. Dicho Método, por lo general, es ejecutado por tres (3) árbitros, quienes tienen competencias para determinar del trabajo arbitrado: rigor académico; contribución al área de conocimiento -sea en filosofía o en teología-; originalidad; coherencia temática; etc. Estos profesionales expertos son externos al Consejo Editorial.</li>
                                 </ol>
                             </div>
@@ -259,7 +254,7 @@
                             <h2>7. Política de Frecuencia de Publicación</h2>
                             <p>Electrónicamente, la Revista de Filosofía <strong>LOGO ET SPES</strong> publica con una <strong>frecuencia anual</strong>. Esta revista se compromete a la puntualidad en la publicación; en primer término, para garantizar la vigencia del contenido de las obras difundidas a través de sus páginas; y, en segundo término, para contribuir oportunamente al acceso del avance y alcances en el conocimiento filosófico y multidisciplinario.</p>
                             <p>Eventualmente, podrá editar un <strong>número extraordinario</strong>, sí así lo requiere.</p>
-                            <p>En tal sentido, el Consejo Editorial de la Revista es la autoridad responsable de la supervisión de todo el proceso editorial hasta la publicación, tanto de los volúmenes ordinarios como del extraordinario. En este marco, conjuntamente con las autoridades del CENFISS, participará en las decisiones de resolución de cualquier conflicto ético o de procedimientos; garantizado con ello, el cumplimiento de las Políticas de la Editorial, las Normas de Publicación y las Normas de Ética de la revista.</p>
+                            <p>En tal sentido, el Consejo Editorial de la Revista es la autoridad responsable de la supervisión de todo el proceso editorial hasta la publicación, tanto de los volúmenes ordinarios como del extraordinario. En este marco, conjuntamente con las autoridades del CENFISS, participará en las decisiones de resolución de cualquier conflicto ético o de procedimientos; garantizado con ello, el cumplimiento de las Políticas, las Normas de Publicación y las Normas de Ética de la revista.</p>
                         </section>
 
                         <!-- Política 8 -->
@@ -340,23 +335,51 @@
         </div>
     </main>
 
-    <!-- Footer -->
+        <!-- Footer -->
     <footer class="footer" role="contentinfo">
       <div class="container">
         <div class="footer__inner">
           <div class="footer__section">
             <h3>LOGO ET SPES</h3>
-            <p>Revista de Filosofía y Teología del Centro de Filosofía para la Investigación Stanislao Strba (CENFISS)</p>
+            <p>Revista de Filosofía adscrita, auspiciada y editada por el Centro de Filosofía para la Investigación &lt;Stanislao Strba&gt; - CENFISS.</p>
             <p><strong>ISSN:</strong> Próximamente<br>
-            <strong>DOI:</strong> Próximamente</p>
+            <strong>Depósito Legal:</strong> Próximamente</p>
           </div>
 
-  
-  
+          <div class="footer__section">
+            <h3>Enlaces Rápidos</h3>
+            <ul class="footer__list">
+              <li><a href="archive-issue.html" class="footer__link">Números publicados</a></li>
+              <li><a href="archive-article.html" class="footer__link">Artículos</a></li>
+              <li><a href="page-enviar-colaboracion.html" class="footer__link">Enviar colaboración</a></li>
+              <li><a href="search.html" class="footer__link">Búsqueda</a></li>
+            </ul>
+          </div>
+
+          <div class="footer__section">
+            <h3>Normas Editoriales</h3>
+            <ul class="footer__list">
+              <li><a href="page-normas.html" class="footer__link">Normas de Publicación</a></li>
+              <li><a href="page-etica.html" class="footer__link">Ética Editorial</a></li>
+              <li><a href="page-politicas.html" class="footer__link">Políticas</a></li>
+              <li><a href="page-comite-editorial.html" class="footer__link">Comité Editorial</a></li>
+              <li><a href="page-politicas.html#politica-privacidad" class="footer__link">Privacidad</a></li>
+            </ul>
+          </div>
+
+          <div class="footer__section">
+            <h3>Contacto</h3>
+            <p><strong>CENFISS</strong><br>
+            Centro de Filosofía para la Investigación &lt;Stanislao Strba&gt; - CENFISS</p>
+            <p><strong>Ubicación:</strong> Estado de Carabobo, Valencia, Venezuela</p>
+            <p>Email: <a href="mailto:revista.cenfiss@gmail.com" class="footer__link">revista.cenfiss@gmail.com</a><br>
+            Web: <a href="https://cenfiss.net" class="footer__link" target="_blank" rel="noopener noreferrer">cenfiss.net<span class="visually-hidden"> (se abre en nueva pestaña)</span></a></p>
+          </div>
+        </div>
 
         <div class="footer__bottom">
-          <p>&copy; 2025 CENFISS - Centro de Filosofía para la Investigación Stanislao Strba. Todos los derechos reservados.</p>
-          <p>Esta revista está bajo una <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">Licencia Creative Commons Atribución 4.0 Internacional</a>.</p>
+          <p>&copy; 2025 CENFISS.</p>
+          <p>Licencia <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">Creative Commons Atribución 4.0 Internacional<span class="visually-hidden"> (se abre en nueva pestaña)</span></a>.</p>
         </div>
       </div>
     </footer>

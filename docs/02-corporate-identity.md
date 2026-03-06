@@ -1,29 +1,36 @@
 # Revista de Filosofía LOGO ET SPES — Identidad Corporativa
 
-**Versión 1.0**
+Versión: 1.5
 
-Este documento define el sistema de identidad visual y tipográfica del sitio. Los valores provienen de la implementación y del documento del proyecto.
+Este documento define el sistema de identidad visual y tipográfica del sitio. Sigue de forma estricta la fuente canónica y traduce al front-end solo los valores necesarios para una implementación web consistente y accesible.
 
 **Fuente canónica:** `content-source/PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md`  
-**Referencia de implementación:** `assets/css/tokens.css`, `assets/img/logo-revista.svg`
+**Referencia de implementación:** `assets/css/tokens.css`, `assets/img/logo-revista.png`
 
 ---
 
 ## 1. Paleta de colores
 
-Solo existen los colores aquí definidos. Constituyen el núcleo cromático. No añadir colores primarios adicionales.
+La única instrucción cromática explícita de la fuente canónica es: `Fondo: <color verde aguamarina degradado>.` La referencia cromática original describe un fondo degradado verde-aguamarina. Para la implementación digital se interpreta esa intención como una gama editorial azul-aguamarina coherente con el color institucional de la revista.
 
-| Nombre | Hex | RGB |
-|--------|-----|-----|
-| Azul institucional | #1e3a8a | R: 30, G: 58, B: 138 |
-| Azul claro | #3b82f6 | R: 59, G: 130, B: 246 |
-| Azul oscuro | #1e40af | R: 30, G: 64, B: 175 |
-| Gris neutro | #64748b | R: 100, G: 116, B: 139 |
-| Texto principal | #1e293b | R: 30, G: 41, B: 59 |
-| Blanco | #ffffff | R: 255, G: 255, B: 255 |
-| Enlace | #00b0f0 | R: 0, G: 176, B: 240 |
+| Nombre | Hex | Uso |
+| --- | --- | --- |
+| Fondo general frío | #f8fafc | fondo principal del sitio |
+| Blanco de superficie | #ffffff | contenedores, tarjetas |
+| Azul petróleo institucional | #18597c | navegación, títulos |
+| Azul editorial suave | #e7f2f8 | fondos de bloque |
+| Azul de enlace | #1abaf0 | enlaces y estados |
+| Amarillo de énfasis | #ffbf00 | botones principales |
+| Gris neutro | #afabac | bordes y metadatos |
+| Texto principal | #1e293b | texto |
 
-**Nota:** El documento original del proyecto menciona un fondo "verde aguamarina degradado" para la portada impresa. La plataforma digital adopta la paleta azul definida arriba para garantizar consistencia, accesibilidad y mantenibilidad a largo plazo. Si CENFISS adopta posteriormente un manual de marca formal, ese manual prevalecerá.
+**Regla:** `#18597c` es el color institucional principal. `#f8fafc` es el fondo general recomendado. `#ffffff` se reserva para superficies, contenedores y tarjetas. Los demás colores actúan como soporte, acento, neutral o estado y deben usarse con moderación.
+
+**Nota de implementación:** Como la fuente canónica describe la intención cromática pero no fija códigos hexadecimales, los valores de esta tabla traducen esa intención a una paleta digital coherente que reutiliza colores definidos para el proyecto y mantiene accesibilidad. El color de borde derivado recomendado para UI es `#d9d6d7`.
+
+**Uso recomendado del azul editorial suave (`#e7f2f8`):** cajas informativas, bloques de normas, citas destacadas y paneles. No debe competir con el texto principal ni desplazar al color institucional.
+
+**Nota de alcance:** Los colores de estado (`success`, `warning`, `error`) son tokens semánticos de interfaz. No forman parte de la paleta institucional.
 
 ### 1.1 Tokens de marca y semánticos
 
@@ -32,33 +39,39 @@ Separar tokens de marca de tokens semánticos para mantenibilidad.
 **Tokens de marca:**
 
 ```css
---color-brand-primary: #1e3a8a;
---color-brand-secondary: #3b82f6;
+--color-brand-primary: #18597c;
+--color-brand-accent: #1abaf0;
+--color-brand-soft: #e7f2f8;
+--color-brand-highlight: #ffbf00;
 ```
 
 **Tokens semánticos:**
 
 ```css
---color-bg: #ffffff;
+--color-bg: #f8fafc;
+--color-surface: #ffffff;
+--color-soft: #e7f2f8;
 --color-text: #1e293b;
 --color-text-muted: #64748b;
---color-border: #e5e7eb;
---color-link: #00b0f0;
---color-link-hover: #3b82f6;
+--color-border: #d9d6d7;
+--color-link: #1abaf0;
+--color-link-hover: #18597c;
 ```
 
 **Mapeo legacy** (para compatibilidad con `tokens.css` existente): `--brand-1` = primary, `--brand-2` = secondary.
 
 ### 1.2 Regla de accesibilidad
 
-Todas las combinaciones de color deben cumplir las ratios de contraste WCAG 2.1 AA. El texto de cuerpo debe alcanzar al menos 4.5:1 de contraste. Ver `19-accessibility-standards`.
+Todas las combinaciones de color deben cumplir las ratios de contraste WCAG 2.1 AA. El texto de cuerpo debe alcanzar al menos 4.5:1 de contraste. El texto principal (`#1e293b`) sobre fondo general (`#f8fafc`) y sobre superficie blanca (`#ffffff`) supera ampliamente la ratio de contraste requerida por WCAG 2.1 AA. Ver `19-accessibility-standards`.
+
+**Regla visual:** La interfaz editorial no debe usar gradientes como fondo dominante ni como recurso de marca. El color institucional debe aplicarse en tonos sólidos y con uso moderado.
 
 ---
 
 ## 2. Sistema tipográfico
 
 | Familia | Uso |
-|---------|-----|
+| --- | --- |
 | **Georgia** | Títulos, voz de marca, énfasis editorial |
 | **System UI** | Texto largo de cuerpo, navegación, UI (mejora legibilidad en pantalla) |
 
@@ -77,7 +90,7 @@ Usar Georgia para títulos y énfasis editorial. Usar System UI para texto largo
 ### 2.2 Escala tipográfica
 
 | Nivel | Tamaño |
-|-------|--------|
+| --- | --- |
 | H1 | 2.5–3rem |
 | H2 | 2rem |
 | H3 | 1.5rem |
@@ -85,15 +98,15 @@ Usar Georgia para títulos y énfasis editorial. Usar System UI para texto largo
 | Cuerpo | 1rem |
 | Pequeño | 0.875rem |
 
-Base: 1rem (16px). Line-height del cuerpo: 1.5.
+Base: 1rem (16px). Line-height del cuerpo: 1.6.
 
 ---
 
 ## 3. Logo
 
-- **Revista:** `assets/img/logo-revista.svg` — Header, materiales digitales
+- **Revista:** `assets/img/logo-revista.png` — Header, materiales digitales
 - **CENFISS:** `assets/img/logo-cenfiss.svg` — Referencia institucional
-- **Favicon:** `assets/img/favicon.svg` — Derivado del logo
+- **Favicon:** `assets/img/favicon.png` — Derivado del logo
 
 **Reglas:** No alterar proporciones, color ni composición.
 
@@ -107,13 +120,11 @@ Base: 1rem (16px). Line-height del cuerpo: 1.5.
 
 ## 4. Esencia de marca
 
-| Rasgo | Descripción |
-|-------|-------------|
-| Voz | Académica, clara, rigurosa. Sin presión comercial. |
-| Estética | Institucional, serena. La paleta azul transmite confianza y seriedad. |
-| Autoridad | El lenguaje visual debe transmitir seriedad académica y credibilidad editorial. |
-| Ritmo | Espacio en blanco generoso. Flujo de lectura vertical. Sin grids densos. |
-| Función | Guiar al visitante a leer, enviar o contactar. |
+- La identidad visual debe transmitir serenidad editorial.
+- El contenido filosófico es el centro de la experiencia.
+- El color organiza la información, pero nunca domina la página.
+- La voz visual debe sentirse académica, clara, rigurosa y sin presión comercial.
+- El lenguaje visual debe transmitir seriedad académica y credibilidad editorial.
 
 ---
 
@@ -132,12 +143,16 @@ Base: 1rem (16px). Line-height del cuerpo: 1.5.
 - Sin CTAs agresivos
 - CTA principal: Enviar Colaboración (claro, no insistente)
 
+### Regla cromática editorial
+
+El sitio debe permanecer mayoritariamente neutro. Aproximadamente 90-95% de la interfaz debe sentirse blanca o casi blanca. Los colores de marca organizan la información pero no deben saturar la interfaz.
+
 ---
 
 ## 6. Gramática de maquetación
 
 | Regla | Significado |
-|-------|-------------|
+| --- | --- |
 | Columna única / maquetación simple | Lectura vertical |
 | Espacio | Respirar, calma |
 | Sin grids densos | Ni revista ni e-commerce |
@@ -148,7 +163,7 @@ Base: 1rem (16px). Line-height del cuerpo: 1.5.
 
 ## 7. Iconografía
 
-Los iconos deben ser simples, basados en líneas y neutros. Evitar estilos decorativos o juguetones. Los iconos apoyan la navegación pero no deben competir con el texto.
+Los iconos deben ser SVG simples y accesibles. Evitar estilos decorativos o juguetones. Los iconos apoyan la navegación pero no deben competir con el texto. Los iconos decorativos deben marcarse como `aria-hidden="true"`.
 
 ---
 
@@ -172,6 +187,6 @@ Todas las decisiones visuales deben derivar de este sistema. Si CENFISS adopta p
 
 ---
 
-**Versión:** 1.0  
+**Versión:** 1.5  
 **Fuente:** PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md, tokens.css  
 **Proyecto:** Revista de Filosofía LOGO ET SPES
