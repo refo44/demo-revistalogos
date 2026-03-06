@@ -21,6 +21,7 @@ Documents in `docs/` use a two-digit prefix (`01-`, `02-`, …) to maintain a fi
 | **18** | Contemporary criteria | UX/UI trends applied to the system. Strategic filter for design and implementation validation. |
 | **19** | Accessibility | Unique accessibility standards: strategy, design, semantic HTML, ARIA, editorial content, checklist and testing. WCAG 2.1/2.2 AA. |
 | **20** | Layout principles | Reading width, vertical rhythm, use of whitespace, typography/image relationship. Closes the visual system before writing HTML. |
+| **21** | User journey diagram | Mermaid diagram of visitor flows. Visual validation of 10-user-journey. |
 
 ---
 
@@ -52,6 +53,7 @@ No document may depend on one with a higher number. Cross-references always poin
 18. `18-ux-ui-trends`
 19. `19-accessibility-standards`
 20. `20-layout-principles`
+21. `21-user-journey-diagram`
 
 ---
 
@@ -77,12 +79,23 @@ See `16-content-source-inventory` for full mapping.
 | Screens and views | 04, 06 |
 | Navigation, breadcrumbs, IA | 05, 11 |
 | Voice, microcopy, CTAs | 07, 08, 09 |
-| User journeys | 10 |
+| User journeys | 10, 21 |
 | Theme structure, templates | 12, 13 |
 | CSS, tokens, layout | 02, 14, 20 |
 | Assets, content inventory | 15, 16 |
 | Implementation phases | 17 |
 | UX/UI filter, accessibility | 18, 19 |
+
+### Project document → docs
+
+| Project doc item | Doc(s) |
+|------------------|--------|
+| Portada, Sumario, Editorial, Artículos | 03, 04, 06 |
+| Normas de Publicación, Ética, Políticas | 04, 07, 09 |
+| Formularios (Solicitud, Arbitraje) | 16, 17 |
+| Origen del nombre Logo et Spes | 02, 04 |
+| Simulación teórica del sitio | 04, 06, 11 |
+| Acceso abierto, arbitraje doble ciego | 01, 07 |
 
 ---
 

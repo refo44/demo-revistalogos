@@ -9,7 +9,22 @@ Single source for what content exists, where it lives and how it maps to the sit
 
 ---
 
-## 1. Document sources
+## 1. Directory structure
+
+```
+content-source/
+└── PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md
+
+assets/
+├── img/          (logos, placeholders, covers)
+└── pdf/          (normas, políticas, sample article/issue)
+```
+
+**Rule:** `content-source/` is canonical. Do not modify; use as written. Assets in `assets/` are copies for implementation. See `.cursor/rules/content-source-priority.mdc`.
+
+---
+
+## 2. Document sources
 
 | File | Content | Maps to |
 |------|---------|---------|
@@ -24,7 +39,7 @@ Single source for what content exists, where it lives and how it maps to the sit
 
 ---
 
-## 2. Image sources
+## 3. Image sources
 
 | File / folder | Content | Maps to |
 |---------------|---------|---------|
@@ -40,7 +55,7 @@ Single source for what content exists, where it lives and how it maps to the sit
 
 ---
 
-## 3. Video / audio
+## 4. Video / audio
 
 | Source | Content | Implementation |
 |--------|---------|-----------------|
@@ -50,7 +65,7 @@ Single source for what content exists, where it lives and how it maps to the sit
 
 ---
 
-## 4. Brand assets
+## 5. Brand assets
 
 | File | Use |
 |------|-----|
@@ -61,7 +76,7 @@ Single source for what content exists, where it lives and how it maps to the sit
 
 ---
 
-## 5. PDF sources
+## 6. PDF sources
 
 | File | Content | Maps to |
 |------|---------|---------|
@@ -74,7 +89,19 @@ Single source for what content exists, where it lives and how it maps to the sit
 
 ---
 
-## 6. Traceability matrix
+## 7. Recommended image sizes
+
+| Use | Max width | Format |
+|-----|-----------|--------|
+| Issue cover | 800–1000 px | JPG/WebP |
+| Hero / banner | 1200–1600 px | JPG/WebP |
+| Article card thumbnail | 400–600 px | JPG/WebP |
+| Author avatar | 200–300 px | JPG/WebP |
+| Logos | SVG | SVG |
+
+---
+
+## 8. Traceability matrix
 
 | Page / Section | Source(s) |
 |----------------|----------|
@@ -96,7 +123,22 @@ Single source for what content exists, where it lives and how it maps to the sit
 
 ---
 
-## 7. Traceability rule
+## 9. Pending actions
+
+| Action | Owner | Status |
+|--------|-------|--------|
+| Create `politicas-editorial.pdf` | Editorial | Pending |
+| Create `solicitud-publicacion-declaracion-etica.pdf` | Editorial | Pending |
+| Create `instrumento-arbitraje.pdf` | Editorial | Pending |
+| Add `portada-ejemplo.png` (issue cover) | Design | Pending |
+| Add `flyer.jpg` (CENFISS events) | CENFISS | Pending |
+| Add `banner-main.png` (hero) | Design | Pending |
+| Build `404.html` | Dev | Pending |
+| Build `search.html` | Dev | Pending |
+
+---
+
+## 10. Traceability rule
 
 Each page/section in `04-screen-map` should trace to at least one content source. If content is created in WordPress without a source, document the decision in this file.
 

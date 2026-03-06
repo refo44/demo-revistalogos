@@ -208,7 +208,7 @@ It is an academic digital publication platform for philosophical thought.
 
 - **404 page:** Missing. Add `404.html` for broken links.
 - **Deploy script:** `deploy.sh` checks for `prototype/front-page.html`; site lives at root with `index.html`.
-- **Docs 02–20:** Most retain `{{placeholders}}`. Need filling for traceability.
+- **Docs 02–20:** Filled for project. Traceability in `00-order-documents`.
 - **WordPress:** Not started. Static maquette is the current deliverable.
 
 ---
