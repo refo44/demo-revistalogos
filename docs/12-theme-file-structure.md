@@ -54,6 +54,20 @@ Defines theme file structure: what templates exist and what parts are reused. Of
 
 ---
 
+## 4.1 Taxonomy archives (filtered articles)
+
+Routes `/articulos/seccion/{section}/` and `/articulos/tipo/{type}/` (per `11-url-tree`).
+
+| Option | Template | Use |
+|--------|----------|-----|
+| A | `archive-article.php` | Single template handles all. Use `get_queried_object()` to detect section/type and adjust title. |
+| B | `taxonomy-section.php` | Custom layout when filtering by section. Falls back to archive-article logic. |
+| C | `taxonomy-article_type.php` | Custom layout when filtering by type. |
+
+**Recommendation:** Option A. Keep `archive-article.php` as the single archive template; it receives the main query already filtered by taxonomy. Add conditional title/description based on `is_tax()`.
+
+---
+
 ## 5. Reusable parts
 
 | File | Function |
@@ -101,7 +115,13 @@ revistalogos/
 ├── archive-article.php
 ├── single-issue.php
 ├── single-article.php
+├── comments.php            (minimal; comments disabled for articles)
 ├── 404.php
+├── inc/
+│   ├── cpt-issue.php
+│   ├── cpt-article.php
+│   ├── taxonomies.php
+│   └── template-tags.php
 ├── assets/
 │   ├── css/
 │   │   ├── main.css       (entry: imports or concatenates)
@@ -153,9 +173,9 @@ Enqueue `main.css` in `functions.php` via `wp_enqueue_style`. Single entry point
 
 ---
 
-## 8. inc/ (optional)
+## 8. inc/ (required)
 
-For logic and helpers:
+CPT registration and helpers. Keeps `functions.php` clean.
 
 ```
 inc/
@@ -165,13 +185,33 @@ inc/
 └── template-tags.php      (helper functions)
 ```
 
-Register in `functions.php` via `require_once`.
+Register in `functions.php` via `require_once`. Load order: taxonomies after CPTs.
+
+---
+
+## 8.1 comments.php
+
+Include a minimal `comments.php` even if comments are disabled. WordPress may look for it; an empty or disabled template avoids notices.
+
+```php
+<?php
+/**
+ * Comments template. Required by WordPress.
+ * Comments disabled for academic journal.
+ */
+if ( post_password_required() ) {
+	return;
+}
+// Comments closed. No output needed.
+?>
+```
 
 ---
 
 ## 9. Best practices
 
 - **Clean templates:** Markup and simple calls; logic in `functions.php` or `inc/`.
+- **inc/ mandatory:** CPTs and taxonomies always in `inc/`; never inline in `functions.php`.
 - **Single CSS entry:** One `main.css`; imports or build step for modules.
 - **Reuse via parts:** `get_template_part('parts/header')`, `get_template_part('parts/issue-card')`.
 - **Security:** Escape output (`esc_html`, `esc_attr`); sanitize input; nonces for forms.
