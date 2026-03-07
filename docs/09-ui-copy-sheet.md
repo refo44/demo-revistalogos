@@ -56,7 +56,7 @@ Botones, menús, mensajes, formularios y estados. Criterios de voz en `07-voice-
 ### Hero
 
 - **Título:** LOGO ET SPES
-- **Subtítulo:** Revista de Filosofía y Teología
+- **Subtítulo:** Revista de Filosofía
 - **Descripción:** LOGO ET SPES es una revista académica venezolana de acceso abierto dedicada al pensamiento filosófico multidisciplinar. Publica investigaciones originales sometidas a arbitraje doble ciego y promueve el desarrollo de todas las áreas de la filosofía.
 - **Botón:** Ver número actual
 
@@ -81,7 +81,7 @@ Botones, menús, mensajes, formularios y estados. Criterios de voz en `07-voice-
 | Archivo de Artículos | Archivo de Artículos | Archivo completo de artículos publicados en Logos et Spes. Busca y accede a todos los artículos de filosofía organizados por sección, autor y fecha. |
 | Enviar colaboración | Enviar colaboración | Instrucciones para enviar artículos, ensayos y reseñas a LOGO ET SPES. |
 | Acerca | Acerca de | Conoce el enfoque, alcance y objetivos de LOGO ET SPES, revista de filosofía multidisciplinar del Centro de Estudios Filosóficos, Sociales y de Investigación (CENFISS). |
-| Noticias | Noticias | Noticias, eventos y reflexiones sobre filosofía, teología y la revista académica LOGO ET SPES. |
+| Noticias | Noticias | Noticias, eventos y reflexiones sobre filosofía y la revista académica LOGO ET SPES. |
 
 ---
 
