@@ -33,7 +33,7 @@ revistalogos/
 ├── page-*.html            (páginas estáticas)
 ├── single-*.html          (número individual, artículo, entrada)
 ├── archive-*.html         (archivo de números, artículos)
-├── blog-index.html        (índice de Noticias)
+├── noticias.html        (índice de Noticias)
 ├── search.html            (resultados de búsqueda; por construir)
 ├── 404.html               (no encontrado; por construir)
 ├── _config.yml            (solo si se usa GitHub Pages con Jekyll; opcional)
@@ -81,7 +81,7 @@ Los nombres de archivos siguen la jerarquía de plantillas de WordPress para fac
 | `page-enviar-colaboracion.html` | `page-enviar-colaboracion.php` |
 | `page-comite-editorial.html` | `page-comite-editorial.php` |
 | `page-enlaces.html` | `page-enlaces.php` |
-| `blog-index.html` | `home.php` |
+| `noticias.html` | `home.php` |
 | `archive-issue.html` | `archive-issue.php` |
 | `archive-article.html` | `archive-article.php` |
 | `single-issue.html` | `single-issue.php` |

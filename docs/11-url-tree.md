@@ -137,7 +137,7 @@ Define las rutas canónicas del sitio. Fuente única para "qué URL lleva a dón
 | `page-enviar-colaboracion.html` | `/enviar-colaboracion/` |
 | `page-comite.html` | `/comite-editorial/` |
 | `page-enlaces.html` | `/enlaces/` |
-| `blog-index.html` | `/noticias/` |
+| `noticias.html` | `/noticias/` |
 | `archive-issue.html` | `/revista/numeros/` |
 | `single-issue.html` | `/revista/numeros/{slug}/` |
 | `archive-article.html` | `/revista/articulos/` |

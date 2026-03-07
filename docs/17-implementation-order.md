@@ -41,7 +41,7 @@ page-politicas.html
 page-enviar-colaboracion.html
 page-comite-editorial.html
 page-enlaces.html
-blog-index.html
+noticias.html
 archive-issue.html
 archive-article.html
 single-issue.html
@@ -66,7 +66,7 @@ assets/
 | `page-enviar-colaboracion.html` | `page-enviar-colaboracion.php` | `/enviar-colaboracion/` |
 | `page-comite-editorial.html` | `page-comite-editorial.php` | `/comite-editorial/` |
 | `page-enlaces.html` | `page-enlaces.php` | `/enlaces/` |
-| `blog-index.html` | `home.php` | `/noticias/` |
+| `noticias.html` | `home.php` | `/noticias/` |
 | `archive-issue.html` | `archive-issue.php` | `/numeros/` |
 | `archive-article.html` | `archive-article.php` | `/articulos/` |
 | `single-issue.html` | `single-issue.php` | `/numeros/{slug}/` |
