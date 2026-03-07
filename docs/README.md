@@ -47,6 +47,14 @@ Documentación para el sitio web de la revista académica. CENFISS (Centro de Fi
 
 ---
 
+## Licencias del repositorio
+
+- **Código del repositorio** (`HTML`, `CSS`, `JS`, scripts, configuración): licencia `MIT`. Ver `../LICENSE`.
+- **Contenido editorial y de publicación**: licencia `CC BY 4.0`. Ver `../LICENSE-CONTENT`.
+- **Materiales de terceros** mantienen su licencia o atribución específica cuando aplique.
+
+---
+
 ## Regla de dependencias
 
 Ningún documento puede depender de uno con número mayor. Ver `00-order-documents` para la justificación completa.

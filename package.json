@@ -1,0 +1,35 @@
+{
+  "name": "revistalogos",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Static HTML/CSS prototype for Revista de Filosofia LOGO ET SPES.",
+  "keywords": [
+    "academic-journal",
+    "css",
+    "html",
+    "static-site",
+    "stylelint",
+    "wordpress-ready"
+  ],
+  "homepage": "https://refo44.github.io/demo-revistalogos",
+  "bugs": {
+    "url": "https://github.com/refo44/demo-revistalogos/issues"
+  },
+  "license": "MIT",
+  "author": "Rafael Figueredo Oropeza for CENFISS",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/refo44/demo-revistalogos.git"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "lint:css": "stylelint \"assets/css/**/*.css\"",
+    "lint:css:fix": "stylelint \"assets/css/**/*.css\" --fix"
+  },
+  "devDependencies": {
+    "stylelint": "^17.4.0",
+    "stylelint-config-standard": "^40.0.0"
+  }
+}

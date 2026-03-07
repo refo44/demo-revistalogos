@@ -163,7 +163,12 @@ Para migrar este prototipo a WordPress:
 
 ## 📄 Licencia
 
-Este prototipo está bajo licencia Creative Commons Atribución 4.0 Internacional.
+Licenciamiento del repositorio:
+
+- **Código** (HTML, CSS, JS, scripts y configuración): **MIT**. Ver `LICENSE`.
+- **Contenido editorial y de publicación**: **Creative Commons Atribución 4.0 Internacional (CC BY 4.0)**. Ver `LICENSE-CONTENT`.
+
+Los materiales de terceros conservan su propia licencia o atribución cuando corresponda.
 
 ---
 

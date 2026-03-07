@@ -16,6 +16,8 @@ Dónde viven los archivos estáticos: docs, content-source, maqueta (o tema), as
 ```
 revistalogos/
 ├── docs/                  (documentación, 00–20)
+├── LICENSE                (licencia del código del repositorio: MIT)
+├── LICENSE-CONTENT        (licencia del contenido editorial: CC BY 4.0)
 ├── content-source/        (contenido fuente antes de WordPress)
 │   └── PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md
 ├── assets/                (CSS, JS, imágenes, fuentes, PDFs)
@@ -37,6 +39,7 @@ revistalogos/
 ├── search.html            (resultados de búsqueda; por construir)
 ├── 404.html               (no encontrado; por construir)
 ├── _config.yml            (solo si se usa GitHub Pages con Jekyll; opcional)
+├── package.json           (tooling del proyecto: scripts, engines, devDependencies)
 ├── .gitignore
 └── README.md
 ```
@@ -146,6 +149,7 @@ Este repositorio contiene:
 - Maqueta HTML del sitio
 - Contenido fuente editorial (`content-source/`)
 - Tema WordPress (cuando se implemente, en `theme-revistalogos/`)
+- Política de licencias del repositorio (`LICENSE` para código, `LICENSE-CONTENT` para contenido)
 
 ---
 

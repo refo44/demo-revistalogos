@@ -129,6 +129,7 @@
 
 .nav__item {
   margin: 0;
+  position: relative;
 }
 
 .nav__link {
@@ -180,10 +181,6 @@
   right: 0;
   height: 2px;
   background-color: var(--color-primary);
-}
-
-.nav__item {
-  position: relative;
 }
 
 .nav__submenu {

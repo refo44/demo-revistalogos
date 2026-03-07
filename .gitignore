@@ -28,6 +28,7 @@ $RECYCLE.BIN/
 
 # Node.js (if you add any build tools later)
 node_modules/
+.stylelintcache
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

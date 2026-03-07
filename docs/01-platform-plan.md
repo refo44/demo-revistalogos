@@ -218,7 +218,7 @@ Incluye:
 ### Capa 8. Ancla legal e institucional
 
 - ISSN y Depósito Legal (Biblioteca Nacional de Venezuela)
-- Creative Commons (Atribución, no comercial)
+- Creative Commons Atribución 4.0 Internacional
 - Política de privacidad y confidencialidad (autores, árbitros, visitantes)
 - Declaración de ética (alineación COPE)
 - Política de derechos de autor (ley venezolana, SAPI)
