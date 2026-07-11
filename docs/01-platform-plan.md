@@ -281,14 +281,14 @@ Es una plataforma de publicación digital académica para el pensamiento filosó
 | Publicación | Solo estático | Sin CMS. Contenido hardcodeado. Formularios enlazan a PDFs. |
 | Editorial | Implementada | Voz y tono en su lugar. Sin presión comercial. |
 | Envío de autores | Planificado | Login, CPT de envíos, panel de autor. Implementación WordPress. |
-| Infraestructura | Parcial | En vivo en GitHub Pages. `deploy.sh` referencia `prototype/` inexistente. GitLab CI espera `public/`. Sin 404.html. |
+| Infraestructura | Parcial | Despliegue a Hostinger vía FTPS con GitHub Actions (`.github/workflows/deploy.yml`, disparo manual). `_config.yml` de GitHub Pages también presente en el repo. `deploy.sh` referencia `prototype/` inexistente y está desactualizado. `404.html` ya existe. |
 | Descubribilidad | Planificada | HTML semántico en maqueta. Metadatos, DOI, indexación por implementar en WordPress. |
 | Legal | Parcial | Licencia CC en footer. Páginas de privacidad/ética existen. Placeholder ISSN. |
 
 ### Brechas de implementación
 
-- **Página 404:** Falta. Añadir `404.html` para enlaces rotos.
-- **Script de deploy:** `deploy.sh` busca `prototype/front-page.html`; el sitio vive en raíz con `index.html`.
+- **Página 404:** Implementada (`404.html` en la raíz).
+- **Script de deploy:** `deploy.sh` busca `prototype/front-page.html`; el sitio vive en raíz con `index.html`. El despliegue real usa `.github/workflows/deploy.yml` (FTPS a Hostinger, disparo manual), no `deploy.sh`.
 - **Docs 02–20:** Completados para el proyecto. Trazabilidad en `00-order-documents`.
 - **WordPress:** No iniciado. La maqueta estática es el entregable actual.
 
