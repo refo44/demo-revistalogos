@@ -146,6 +146,23 @@
     });
   }
 
+  // Conservar en los campos los valores de búsqueda/filtro tras recargar (búsqueda y archivo de artículos)
+  function initFormStatePersistence() {
+    const params = new URLSearchParams(window.location.search);
+    if (![...params.keys()].length) return;
+
+    const forms = document.querySelectorAll(".search-form, .archive-filters__form");
+    forms.forEach(function (form) {
+      const fields = form.querySelectorAll("[name]");
+      fields.forEach(function (field) {
+        const value = params.get(field.name);
+        if (value !== null) {
+          field.value = value;
+        }
+      });
+    });
+  }
+
   // Inicialización cuando el DOM esté listo
   function init() {
     initMobileMenu();
@@ -153,6 +170,7 @@
     initExternalLinks();
     initSmoothScroll();
     initSearchForms();
+    initFormStatePersistence();
   }
 
   // Ejecutar cuando el DOM esté listo
