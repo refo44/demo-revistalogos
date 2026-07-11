@@ -88,7 +88,7 @@
         <div class="header__inner">
           <div class="header__top">
             <a href="index.html" class="header__logo">
-              <img src="assets/img/logo-revista.png" alt="LOGO ET SPES" class="header__logo-img" width="1024" height="1024">
+              <img src="assets/img/logo-revista.png" alt="" class="header__logo-img" width="1024" height="1024">
               <span class="header__logo-text">
                 <span class="header__logo-title">LOGO ET SPES</span>
                 <span class="header__logo-subtitle">Revista de Filosofía</span>
@@ -342,15 +342,15 @@
                     
                     <div class="citation-formats">
                         <div class="citation-format">
-                            <h3>APA (7ª edición)</h3>
+                            <h3 id="citation-format-apa">APA (7ª edición)</h3>
                             <div class="citation-text">
                                 González, M., & Pérez, J. (2025). La naturaleza del ser en la filosofía contemporánea. <em>LOGO ET SPES</em>, 12(2), 15-32. DOI: Próximamente
                             </div>
-                            <button class="btn btn--small citation-copy" data-format="apa">📋 Copiar</button>
+                            <button id="citation-copy-apa" class="btn btn--small citation-copy" data-format="apa" aria-labelledby="citation-format-apa citation-copy-apa"><span aria-hidden="true">📋</span> Copiar</button>
                         </div>
 
                         <div class="citation-format">
-                            <h3>BibTeX</h3>
+                            <h3 id="citation-format-bibtex">BibTeX</h3>
                             <div class="citation-text">
                                 <pre>@article{gonzalez2025naturaleza,
   title={La naturaleza del ser en la filosofía contemporánea},
@@ -364,41 +364,43 @@
   doi={Próximamente}
 }</pre>
                             </div>
-                            <button class="btn btn--small citation-copy" data-format="bibtex">📋 Copiar</button>
+                            <button id="citation-copy-bibtex" class="btn btn--small citation-copy" data-format="bibtex" aria-labelledby="citation-format-bibtex citation-copy-bibtex"><span aria-hidden="true">📋</span> Copiar</button>
                         </div>
 
                         <div class="citation-format">
-                            <h3>Vancouver</h3>
+                            <h3 id="citation-format-vancouver">Vancouver</h3>
                             <div class="citation-text">
                                 González M, Pérez J. La naturaleza del ser en la filosofía contemporánea. LOGO ET SPES. 2025;12(2):15-32. DOI: Próximamente
                             </div>
-                            <button class="btn btn--small citation-copy" data-format="vancouver">📋 Copiar</button>
+                            <button id="citation-copy-vancouver" class="btn btn--small citation-copy" data-format="vancouver" aria-labelledby="citation-format-vancouver citation-copy-vancouver"><span aria-hidden="true">📋</span> Copiar</button>
                         </div>
 
                         <div class="citation-format">
-                            <h3>Chicago</h3>
+                            <h3 id="citation-format-chicago">Chicago</h3>
                             <div class="citation-text">
                                 González, María, and Juan Pérez. "La naturaleza del ser en la filosofía contemporánea." <em>LOGO ET SPES</em> 12, no. 2 (2025): 15-32. DOI: Próximamente
                             </div>
-                            <button class="btn btn--small citation-copy" data-format="chicago">📋 Copiar</button>
+                            <button id="citation-copy-chicago" class="btn btn--small citation-copy" data-format="chicago" aria-labelledby="citation-format-chicago citation-copy-chicago"><span aria-hidden="true">📋</span> Copiar</button>
                         </div>
 
                         <div class="citation-format">
-                            <h3>MLA</h3>
+                            <h3 id="citation-format-mla">MLA</h3>
                             <div class="citation-text">
                                 González, María, and Juan Pérez. "La naturaleza del ser en la filosofía contemporánea." <em>LOGO ET SPES</em>, vol. 12, no. 2, 2025, pp. 15-32. DOI: Próximamente
                             </div>
-                            <button class="btn btn--small citation-copy" data-format="mla">📋 Copiar</button>
+                            <button id="citation-copy-mla" class="btn btn--small citation-copy" data-format="mla" aria-labelledby="citation-format-mla citation-copy-mla"><span aria-hidden="true">📋</span> Copiar</button>
                         </div>
 
                         <div class="citation-format">
-                            <h3>Harvard</h3>
+                            <h3 id="citation-format-harvard">Harvard</h3>
                             <div class="citation-text">
                                 González, M. & Pérez, J. 2025, 'La naturaleza del ser en la filosofía contemporánea', <em>LOGO ET SPES</em>, vol. 12, no. 2, pp. 15-32. DOI: Próximamente
                             </div>
-                            <button class="btn btn--small citation-copy" data-format="harvard">📋 Copiar</button>
+                            <button id="citation-copy-harvard" class="btn btn--small citation-copy" data-format="harvard" aria-labelledby="citation-format-harvard citation-copy-harvard"><span aria-hidden="true">📋</span> Copiar</button>
                         </div>
                     </div>
+
+                    <div id="citation-copy-status" class="visually-hidden" role="status" aria-live="polite"></div>
 
                     <div class="citation-actions">
                         <button class="btn btn--primary" id="export-all-citations">📄 Exportar Todas las Citas</button>
@@ -423,7 +425,7 @@
                     📄 Descargar PDF del artículo
                 </a>
                 <a href="assets/pdf/articulo-01.pdf" class="btn btn--secondary btn--large" target="_blank" rel="noopener noreferrer">
-                    👁️ Ver PDF
+                    <span aria-hidden="true">👁️</span> Ver PDF<span class="visually-hidden"> (se abre en nueva pestaña)</span>
                 </a>
                 <a href="single-issue.html" class="btn btn--secondary btn--large">
                     Ver número completo
@@ -496,6 +498,7 @@
 
             // Copy citation functionality
             const copyButtons = document.querySelectorAll('.citation-copy');
+            const copyStatus = document.getElementById('citation-copy-status');
             copyButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     const format = this.getAttribute('data-format');
@@ -510,12 +513,15 @@
 
                     navigator.clipboard.writeText(textToCopy).then(() => {
                         // Show success feedback
-                        const originalText = this.textContent;
+                        const originalHTML = this.innerHTML;
                         this.textContent = '✅ Copiado';
                         this.classList.add('is-copied');
+                        if (copyStatus) {
+                            copyStatus.textContent = '✅ Copiado';
+                        }
 
                         setTimeout(() => {
-                            this.textContent = originalText;
+                            this.innerHTML = originalHTML;
                             this.classList.remove('is-copied');
                         }, 2000);
                     }).catch(err => {

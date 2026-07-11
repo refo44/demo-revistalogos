@@ -10,7 +10,6 @@
   function initMobileMenu() {
     const navToggle = document.querySelector(".nav__toggle");
     const nav = document.querySelector(".nav");
-    const navContainer = document.querySelector(".nav__container");
 
     if (!navToggle || !nav) return;
 
@@ -40,6 +39,17 @@
         nav.classList.remove("is-open");
         navToggle.setAttribute("aria-expanded", "false");
         navToggle.focus();
+      }
+    });
+
+    // Cerrar menú cuando el foco sale del todo por teclado (WCAG 2.4.11)
+    nav.addEventListener("focusout", function (event) {
+      if (
+        nav.classList.contains("is-open") &&
+        !nav.contains(event.relatedTarget)
+      ) {
+        nav.classList.remove("is-open");
+        navToggle.setAttribute("aria-expanded", "false");
       }
     });
   }
