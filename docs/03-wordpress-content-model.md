@@ -1,6 +1,6 @@
 # Revista de Filosofía LOGO ET SPES — Modelo de Contenido WordPress
 
-**Versión 1.0**
+**Versión 1.1**
 
 Modelo de contenido oficial para la implementación WordPress. Basado en el plan de plataforma y las fuentes de contenido.
 
@@ -35,6 +35,17 @@ Modelo de contenido oficial para la implementación WordPress. Basado en el plan
 | Envíos (manuscritos) | submission (CPT, privado) |
 | Noticias, CENFISS presente | post |
 
+### Procedencia y estado del contenido
+
+| Estado | Fuente | Regla |
+|--------|--------|-------|
+| Institucional | `content-source/` | Copiar literalmente a páginas y opciones globales |
+| Editorial publicado | PDF final y metadatos entregados por el equipo editorial | Crear registros `issue`, `article`, `author` y `post` |
+| Derivado | Consultas y relaciones de WordPress | Calcular tabla de contenidos, conteos, archivos, filtros, paginación, SEO y citaciones |
+| Demostrativo | HTML y PDFs actuales de la maqueta | No migrar a producción ni usar como valor por defecto |
+
+El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, ISSN, DOI y ORCID presentes en la maqueta son ficticios. Solo prueban el diseño y las consultas.
+
 ---
 
 ## 2. Campos por página
@@ -64,6 +75,11 @@ Modelo de contenido oficial para la implementación WordPress. Basado en el plan
 - Descarga PDF: Instrumento de Arbitraje
 - Enlaces a guías APA, Vancouver
 
+### etica (página)
+
+- Título, contenido (Normas de Ética del documento canónico)
+- El contenido se publica literalmente; no usar el resumen demostrativo de la maqueta
+
 ### politicas (página)
 
 - Título, contenido (políticas editoriales)
@@ -90,18 +106,20 @@ Modelo de contenido oficial para la implementación WordPress. Basado en el plan
 
 | Campo | Tipo | Uso |
 |-------|------|-----|
-| Title | Nativo | Título del volumen (ej. "Filosofía Contemporánea: Nuevas Perspectivas") |
+| Title | Nativo | Título oficial del número, si el equipo editorial define uno |
 | Content | Nativo | Descripción del número. El editorial es un artículo con article_type = editorial. |
 | Featured image | Nativo | Imagen de portada |
-| volume_number | number | Vol. 12 |
-| issue_number | number | Nº 2 |
-| year | number | 2025 |
+| volume_number | number | Volumen oficial, si aplica |
+| issue_number | number | Número oficial |
+| year | number | Año de publicación |
 | date_published | date | Fecha de publicación |
 | issn | text | ISSN (cuando esté disponible) |
 | doi | text | Prefijo/sufijo DOI |
 | pdf_file | file | PDF completo del número (Media Library) |
 
 **Relaciones:** Artículos vinculados al número vía post meta. El conteo de artículos es derivado (no almacenar).
+
+**Número actual:** Es el `issue` publicado con `date_published` más reciente. No almacenar un segundo indicador mientras esta regla sea suficiente.
 
 ### article
 
@@ -116,7 +134,7 @@ Modelo de contenido oficial para la implementación WordPress. Basado en el plan
 | authors | relation | Enlaces al CPT author (muchos a muchos) |
 | doi | text | DOI del artículo |
 | doi_url | url | URL completo DOI (https://doi.org/xxxxx) |
-| pages | text | Paginación (ej. "15-32") |
+| pages | text | Paginación oficial dentro del número |
 | pdf_file | file | PDF del artículo (Media Library) |
 | issue | relation | Número padre |
 | section | taxonomy | Metafísica, Ética, Epistemología, etc. |
@@ -125,7 +143,7 @@ Modelo de contenido oficial para la implementación WordPress. Basado en el plan
 | publication_date | date | Fecha de publicación |
 | received_date | date | Fecha de envío |
 | accepted_date | date | Fecha de aceptación |
-| citation_format | text | Cita preformateada (ej. "Pérez, Juan. La naturaleza del ser. Revista de Filosofía LOGO ET SPES. Vol. 12, Nº 2 (2025): 15–32.") |
+| citation_format | computed | Cita generada desde autores, título, número, año, páginas y DOI |
 
 **Prioridad a campos nativos:** Usar Title, Content, Featured image cuando sea posible. Los campos custom complementan.
 
@@ -231,13 +249,13 @@ Para Google Scholar, Crossref, catálogos de bibliotecas. Añadir como meta tags
 
 | Tipo | Estructura | Ejemplo |
 |------|------------|---------|
-| Issue | `/numeros/{slug}/` | `/numeros/2025-vol-12-n2/` |
-| Article | `/articulos/{slug}/` | `/articulos/la-naturaleza-del-ser/` (opcional: `/articulos/2025/la-naturaleza-del-ser/`) |
-| Author | `/autores/{slug}/` | `/autores/juan-perez/` |
+| Issue | `/revista/numeros/{slug}/` | `/revista/numeros/primera-edicion/` |
+| Article | `/revista/articulos/{slug}/` | `/revista/articulos/{slug-del-articulo}/` |
+| Author | `/revista/autores/{slug}/` | `/revista/autores/{slug-del-autor}/` |
 | Login | `/login/` o `wp-login.php` | — |
 | Panel de autor | `/autores/panel/` o `/mi-cuenta/` | — |
 
-**Prefijo opcional** (si el sitio vive en subruta): `revista/numeros/`, `revista/articulos/`, `revista/autores/`. Mejora SEO, citabilidad, estabilidad. Requiere configuración de permalinks.
+**Regla:** Usar el prefijo `/revista/` según `11-url-tree`. Configurar permalinks y redirects antes del lanzamiento para mantener URLs estables y citables.
 
 ---
 
@@ -315,5 +333,5 @@ El sistema prioriza la lectura, la citación y la divulgación académica sobre 
 
 ---
 
-**Versión:** 1.0  
+**Versión:** 1.1
 **Proyecto:** Revista de Filosofía LOGO ET SPES

@@ -1,7 +1,7 @@
 # Revista de Filosofía LOGO ET SPES — Orden de Implementación
 
 **Secuencia acordada para llevar el sitio a la web.** **No saltar etapas.**  
-**Versión 1.0**
+**Versión 1.1**
 
 **Depende de:** 01–16, 18–20
 
@@ -27,6 +27,8 @@
 4. **Validar** contra checklist de `18-ux-ui-trends` antes de cerrar fase
 5. **Validar responsive:** Móvil, tablet, escritorio antes de WordPress
 
+**Alcance de “HECHO”:** La estructura visual, responsive y accesible está maquetada. El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, identificadores y paginación son datos demostrativos. No están validados como contenido editorial y no deben migrarse a producción.
+
 ### 2.1 Estructura HTML (base para WordPress)
 
 La maqueta usa HTML plano en raíz. Fase WordPress = adaptación directa HTML-a-PHP, sin rediseño. URLs finales según `11-url-tree`.
@@ -47,8 +49,8 @@ archive-article.html
 single-issue.html
 single-article.html
 single-post.html
-search.html          (por construir)
-404.html             (por construir)
+search.html
+404.html
 partials/
 assets/
 ```
@@ -67,10 +69,10 @@ assets/
 | `page-comite-editorial.html` | `page-comite-editorial.php` | `/comite-editorial/` |
 | `page-enlaces.html` | `page-enlaces.php` | `/enlaces/` |
 | `noticias.html` | `home.php` | `/noticias/` |
-| `archive-issue.html` | `archive-issue.php` | `/numeros/` |
-| `archive-article.html` | `archive-article.php` | `/articulos/` |
-| `single-issue.html` | `single-issue.php` | `/numeros/{slug}/` |
-| `single-article.html` | `single-article.php` | `/articulos/{slug}/` |
+| `archive-issue.html` | `archive-issue.php` | `/revista/numeros/` |
+| `archive-article.html` | `archive-article.php` | `/revista/articulos/` |
+| `single-issue.html` | `single-issue.php` | `/revista/numeros/{slug}/` |
+| `single-article.html` | `single-article.php` | `/revista/articulos/{slug}/` |
 | `single-post.html` | `single.php` | `/noticias/{slug}/` |
 | `search.html` | `search.php` | `/?s={query}` o `/buscar/?q={query}` |
 | `404.html` | `404.php` | 404 |
@@ -97,6 +99,31 @@ WordPress añade: motor de contenido, panel editorial, roles de usuario y conten
 3. Implementar CPTs: `issue`, `article`, `author` (submission como CPT privado); `post` para noticias
 4. **Desplegar:** Staging para validación editorial antes de producción; configurar contenido y hosting
 
+### 3.1 Separación obligatoria durante la migración
+
+| Origen en la maqueta | Destino WordPress | Acción |
+|----------------------|-------------------|--------|
+| Header, footer, componentes, CSS y JavaScript | Tema | Convertir a plantillas y assets |
+| Enfoque, normas, ética, políticas y origen del nombre | Páginas | Cargar desde `content-source/` sin alterar el texto |
+| Número, editorial, artículos, autores y noticias | CPTs / posts | Crear únicamente con información editorial real |
+| Portada, PDF integral y PDFs de artículos | Media Library | Subir los archivos finales de la primera edición |
+| ISSN, depósito legal, DOI, ORCID y fechas | Campos / opciones | Registrar solo valores oficiales |
+| Conteos, tabla de contenidos, filtros, archivos y paginación | Lógica WordPress | Generar desde consultas; no copiar valores dummy |
+
+**Prohibido en producción:** Migrar el Vol. 12 Nº 2, los números Vol. 11–12, los seis artículos de ejemplo, las noticias ficticias, `1234-5678`, `10.1234/les.*`, `0000-0000-*`, las paginaciones demostrativas o los canonicals del sitio demo.
+
+### 3.2 Carga de la primera edición
+
+Cuando el equipo editorial entregue el PDF final:
+
+1. Crear el `issue` con portada, número, fecha, descripción, PDF integral e identificadores oficiales.
+2. Extraer el sumario y crear un `article` por editorial, artículo, ensayo o reseña.
+3. Crear y vincular los `author` con afiliación, ORCID y biografía confirmados.
+4. Asignar sección, tipo, palabras clave, páginas, fechas y PDF individual a cada artículo.
+5. Validar que títulos, orden, paginación y autoría coincidan con el PDF.
+6. Revisar descargas, citaciones, metadatos académicos, Schema.org, canonical y accesibilidad.
+7. Publicar primero en staging y obtener aprobación editorial antes de producción.
+
 ---
 
 ## Prioridad de páginas
@@ -108,7 +135,7 @@ WordPress añade: motor de contenido, panel editorial, roles de usuario y conten
 5. **Enviar colaboración** — CTA principal para autores
 6. **Normas** — Normas de publicación, PDFs
 7. **Acerca** — Enfoque, alcance, objetivos
-8. **Comité Editorial** — Autoridades CENFISS
+8. **Consejo Editorial** — Autoridades y cargos confirmados
 9. **Ética** — Normas de ética
 10. **Políticas** — Políticas editoriales
 11. **Enlaces** — Enlaces externos
@@ -118,7 +145,7 @@ WordPress añade: motor de contenido, panel editorial, roles de usuario y conten
 
 ## Regla
 
-La maqueta estática está validada y se convierte en la base del tema WordPress. Proceder al desarrollo del tema y despliegue.
+La maqueta estática está validada como base visual del tema WordPress. Su contenido demostrativo no está aprobado para publicación. Proceder al desarrollo del tema; la carga editorial real queda condicionada a la recepción y validación de la primera edición.
 
 ---
 
@@ -137,10 +164,14 @@ La maqueta estática está validada y se convierte en la base del tema WordPress
 - [ ] Sitemap generado
 - [ ] Tema WordPress desplegado
 - [ ] Contenido migrado / configurado
-- [ ] Primer número cargado en el sistema
-- [ ] Primer artículo cargado en el sistema
+- [ ] Dataset dummy excluido de producción
+- [ ] Primera edición recibida y validada contra el PDF final
+- [ ] Primer número real cargado en el sistema
+- [ ] Todos los artículos y autores de la primera edición cargados y vinculados
+- [ ] ISSN, depósito legal, DOI y ORCID confirmados o marcados honestamente como pendientes
+- [ ] Aprobación editorial completada en staging
 
 ---
 
-**Versión:** 1.0  
+**Versión:** 1.1
 **Proyecto:** Revista de Filosofía LOGO ET SPES

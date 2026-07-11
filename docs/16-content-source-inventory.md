@@ -1,8 +1,8 @@
 # Revista de Filosofía LOGO ET SPES — Inventario de Fuentes de Contenido
 
-**Lista canónica de fuentes de contenido**
+**Lista canónica de fuentes de contenido y estado editorial**
 
-Fuente única para qué contenido existe, dónde vive y cómo se mapea al sitio.
+Fuente única para saber qué contenido existe, dónde vive, cómo se mapea al sitio y si es institucional, dinámico o demostrativo.
 
 **Depende de:** `03-wordpress-content-model`, `04-screen-map`  
 **Referencia:** `09-ui-copy-sheet`, `15-assets-strategy`
@@ -17,24 +17,24 @@ content-source/
 
 assets/
 ├── img/
-│   ├── logos/
-│   │   ├── logo-revista.svg
-│   │   └── logo-cenfiss.svg
-│   ├── portada-numeros/
-│   ├── autores/
-│   ├── placeholders/
-│   │   ├── article-placeholder.svg
-│   │   ├── avatar-default.svg
-│   │   └── placeholder-banner.jpg
-│   └── banners/
+│   ├── logo-revista.svg
+│   ├── logo-revista.png
+│   ├── logo-cenfiss.svg
+│   ├── favicon.svg
+│   ├── favicon.png
+│   ├── portada-ejemplo.jpg
+│   ├── article-placeholder.svg
+│   ├── avatar-default.svg
+│   ├── placeholder-banner.jpg
+│   └── banner-main.jpg
 └── pdf/
     ├── normas-publicacion.pdf
-    ├── politicas-editoriales.pdf
-    ├── rles-v12-n2-articulo-01.pdf
-    └── rles-v12-n2-2025.pdf
+    ├── solicitud-publicacion-declaracion-etica.pdf
+    ├── articulo-01.pdf
+    └── numero-v12n2-2025.pdf
 ```
 
-**Regla:** `content-source/` es canónico. No modificar; usar tal cual está escrito. content-source es la fuente editorial; WordPress es el sistema de publicación. Esto evita que el CMS se convierta en la fuente primaria. Los assets en `assets/` son copias para implementación. Ver `.cursor/rules/content-source-priority.mdc`.
+**Regla:** `content-source/` es canónico. No modificar; usar tal cual está escrito. El documento fuente define el proyecto, la estructura y la normativa editorial, pero **no contiene la primera edición publicada**. WordPress es el sistema de publicación. Los assets en `assets/` son copias para implementación o recursos demostrativos. Ver `.cursor/rules/content-source-priority.mdc`.
 
 ---
 
@@ -49,7 +49,17 @@ assets/
 | — Formularios (Solicitud, Arbitraje) | Plantillas de formularios | Enviar colaboración, Normas |
 | — Origen del nombre Logo et Spes | Prof. Luis Felipe Ramírez | Acerca |
 | `assets/pdf/normas-publicacion.pdf` | Normas de publicación (extracto/adaptación) | Normas |
-| `assets/pdf/politicas-editoriales.pdf` | Políticas editoriales | Políticas |
+| (Por crear) `assets/pdf/politicas-editoriales.pdf` | Políticas editoriales | Políticas |
+
+### 2.1 Estado editorial de las fuentes
+
+| Clasificación | Qué incluye | Tratamiento |
+|---------------|-------------|-------------|
+| Institucional canónico | Enfoque y alcance, objetivos, políticas, normas, ética, origen del nombre y formularios de `content-source/` | Puede cargarse en páginas WordPress respetando literalmente la fuente |
+| Estructura del sitio | Plantillas HTML, partials, navegación, componentes, CSS y JavaScript | Se convierte en tema WordPress; no es contenido editorial |
+| Contenido dinámico | Números, artículos, editoriales, autores, noticias y sus metadatos | Se crea como contenido administrable en WordPress |
+| Demostrativo / dummy | Vol. 12 Nº 2, números históricos, seis artículos, autores, noticias, ISSN, DOI, ORCID, paginación y portadas de ejemplo | Sirve solo para validar la maqueta; no se migra como contenido real |
+| Primera edición real | Portada, sumario, editorial, artículos, autores, páginas, PDF y metadatos oficiales | Se obtiene del PDF final y de los datos entregados por el equipo editorial |
 
 ---
 
@@ -57,14 +67,14 @@ assets/
 
 | Archivo / carpeta | Contenido | Mapea a |
 |-------------------|-----------|---------|
-| `assets/img/logos/logo-revista.svg` | Logo de la revista | Header, todas las páginas |
-| `assets/img/logos/logo-cenfiss.svg` | Logo CENFISS | Footer, Enlaces, referencias institucionales |
-| `assets/img/logos/favicon.svg` | Favicon | Todas las páginas |
-| `assets/img/placeholders/article-placeholder.svg` | Fallback de artículo | Archivo de artículos, tarjetas de artículo |
-| `assets/img/placeholders/avatar-default.svg` | Fallback de avatar de autor | Artículo individual, tarjetas de autor |
-| `assets/img/placeholders/placeholder-banner.jpg` | Placeholder de banner | Carrusel del Home |
+| `assets/img/logo-revista.svg` | Logo de la revista | Header, todas las páginas |
+| `assets/img/logo-cenfiss.svg` | Logo CENFISS | Footer, Enlaces, referencias institucionales |
+| `assets/img/favicon.svg` | Favicon | Todas las páginas |
+| `assets/img/article-placeholder.svg` | Fallback de artículo | Archivo de artículos, tarjetas de artículo |
+| `assets/img/avatar-default.svg` | Fallback de avatar de autor | Artículo individual, tarjetas de autor |
+| `assets/img/placeholder-banner.jpg` | Placeholder de banner | Carrusel del Home |
 
-**Ya implementados:** `placeholders/portada-ejemplo.jpg` (portada de número), `banners/flyer.jpg` (eventos CENFISS), `placeholders/banner-main.jpg` (hero).  
+**Ya implementados:** `portada-ejemplo.jpg` (portada demostrativa), `banner-main.jpg` y `placeholder-banner.jpg`.
 **Fuente para contenido real:** Las portadas oficiales deben provenir del equipo editorial o del diseño institucional de la revista. Fotos de autores de los propios autores; imágenes de eventos de CENFISS.
 
 ---
@@ -83,9 +93,9 @@ assets/
 
 | Archivo | Uso |
 |---------|-----|
-| `assets/img/logos/logo-revista.svg` | Header, favicon, materiales digitales |
-| `assets/img/logos/logo-cenfiss.svg` | Footer, Enlaces, institucional |
-| `assets/img/logos/favicon.svg` | Favicon |
+| `assets/img/logo-revista.svg` | Header, favicon, materiales digitales |
+| `assets/img/logo-cenfiss.svg` | Footer, Enlaces, institucional |
+| `assets/img/favicon.svg` | Favicon |
 | `content-source/PROYECTO...md` | Referencia de identidad (02), estructura |
 
 ---
@@ -95,12 +105,13 @@ assets/
 | Archivo | Contenido | Mapea a |
 |---------|-----------|---------|
 | `assets/pdf/normas-publicacion.pdf` | Normas de publicación | Página Normas |
-| `assets/pdf/rles-v12-n2-articulo-01.pdf` | Artículo de ejemplo | Artículo individual |
-| `assets/pdf/rles-v12-n2-2025.pdf` | Número de ejemplo | Número individual |
+| `assets/pdf/articulo-01.pdf` | Artículo demostrativo; no pertenece a la primera edición real | Artículo individual de la maqueta |
+| `assets/pdf/numero-v12n2-2025.pdf` | Número demostrativo; no pertenece a la primera edición real | Número individual de la maqueta |
+| `assets/pdf/solicitud-publicacion-declaracion-etica.pdf` | Archivo provisional pendiente de validación editorial | Enviar colaboración |
 | (Por crear) `politicas-editoriales.pdf` | Políticas editoriales | Página Políticas |
-| (Por crear) `solicitud-publicacion.pdf` | Formulario según documento del proyecto | Enviar colaboración |
-| (Por crear) `declaracion-etica.pdf` | Declaración ética | Enviar colaboración |
 | (Por crear) `instrumento-arbitraje.pdf` | Formulario según documento del proyecto | Normas |
+
+**Regla para la primera edición:** El PDF integral, los PDFs individuales y la portada final deben subirse a la Media Library de WordPress. Los archivos demostrativos actuales no se renombran ni se publican como si fueran contenido oficial.
 
 ---
 
@@ -120,21 +131,21 @@ assets/
 
 | Página / Sección | Fuente(s) |
 |------------------|-----------|
-| Home | content-source/... (Presentación, Estructura), assets/img/placeholders/portada-ejemplo.jpg, assets/img/banners/flyer.jpg |
+| Home | Texto institucional de content-source + consultas dinámicas para número actual, artículos y noticias; la portada actual es demostrativa |
 | Acerca | Documento del proyecto (Enfoque, Alcance, Objetivos, Origen del nombre) |
 | Normas | Documento del proyecto (Normas de Publicación, Ética), assets/pdf/normas-publicacion.pdf |
 | Ética | Documento del proyecto (Normas de Ética) |
 | Políticas | Documento del proyecto (Políticas Editorial), assets/pdf/politicas-editorial.pdf |
 | Enviar colaboración | Documento del proyecto (Formularios, instrucciones), assets/pdf/solicitud-publicacion-declaracion-etica.pdf (placeholder) |
-| Comité Editorial | Documento del proyecto (autoridades CENFISS, Comité Editorial) |
+| Consejo Editorial | Documento del proyecto (estructura y datos disponibles) + datos oficiales de la primera edición |
 | Contacto | Documento del proyecto (ubicación, email), CENFISS |
 | Enlaces | CENFISS, partners (externos) |
-| Número individual | Documento del proyecto (Sumario, Editorial), portada, PDF |
-| Artículo individual | Documento del proyecto (formato Artículo), assets/pdf/articulo-01.pdf |
-| Archivo de números | Documento del proyecto (estructura), assets/img/placeholders/portada-ejemplo.jpg |
-| Archivo de artículos | Documento del proyecto (formato Artículo), assets/img/placeholders/article-placeholder.svg |
-| Noticias | Documento del proyecto (CENFISS presente, Misceláneas) |
-| Header / Footer | assets/img/logos/logo-revista.svg, assets/img/logos/logo-cenfiss.svg, Documento del proyecto (estructura de nav) |
+| Número individual | Datos de la primera edición, portada oficial y PDF integral; la maqueta actual es dummy |
+| Artículo individual | Datos y PDF de cada artículo de la primera edición; `articulo-01.pdf` es dummy |
+| Archivo de números | Consulta dinámica de números publicados; inicialmente debe mostrar solo ediciones reales |
+| Archivo de artículos | Consulta dinámica de artículos publicados |
+| Noticias | Entradas reales de CENFISS; las noticias actuales de la maqueta son dummy |
+| Header / Footer | assets/img/logo-revista.svg, assets/img/logo-cenfiss.svg y datos institucionales; ISSN y depósito legal pendientes |
 
 ---
 
@@ -142,13 +153,15 @@ assets/
 
 | Acción | Responsable | Estado |
 |--------|-------------|--------|
-| Crear `politicas-editorial.pdf` | Editorial | Implementado |
+| Crear `politicas-editoriales.pdf` | Editorial | Pendiente |
 | Reemplazar `solicitud-publicacion-declaracion-etica.pdf` (hoy es un placeholder sin contenido real) | Editorial | Pendiente |
 | Crear `instrumento-arbitraje.pdf` | Editorial | Pendiente |
+| Recibir y registrar metadatos oficiales de la primera edición | Editorial | Pendiente |
 | Añadir portada real del primer número publicado (hoy `portada-ejemplo.jpg` es una portada de ejemplo, no la oficial) | Editorial | Pendiente |
-| Añadir `placeholders/portada-ejemplo.jpg` (portada de número) | Diseño | Implementado |
-| Añadir `banners/flyer.jpg` (eventos CENFISS) | CENFISS | Implementado |
-| Añadir `placeholders/banner-main.jpg` (hero) | Diseño | Implementado |
+| Recibir PDF integral y PDFs individuales de la primera edición | Editorial | Pendiente |
+| Sustituir el dataset dummy de números, artículos, autores y noticias | Dev / Editorial | Pendiente |
+| Añadir `portada-ejemplo.jpg` para validar la maqueta | Diseño | Implementado |
+| Añadir `banner-main.jpg` y `placeholder-banner.jpg` | Diseño | Implementado |
 | Construir `404.html` | Dev | Implementado |
 | Construir `search.html` | Dev | Implementado |
 
@@ -158,8 +171,10 @@ assets/
 
 - Cada página/sección en `04-screen-map` debe trazarse a al menos una fuente de contenido. Si se crea contenido en WordPress sin fuente, documentar la decisión en este archivo.
 - Todo asset visual o PDF publicado debe estar registrado en este inventario.
+- Ningún dato de demostración puede convertirse en contenido publicado sin confirmación documental del equipo editorial.
+- Los conteos, archivos, filtros, tabla de contenidos, paginación, breadcrumbs, SEO y metadatos de citación se generan desde WordPress; no se copian como contenido estático.
 
 ---
 
-**Versión:** 1.0  
+**Versión:** 1.1
 **Proyecto:** Revista de Filosofía LOGO ET SPES

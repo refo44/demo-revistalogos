@@ -45,6 +45,15 @@ Documentación para el sitio web de la revista académica. CENFISS (Centro de Fi
 - **Estático antes que dinámico:** Validar con maqueta HTML/CSS antes de WordPress.
 - **Una sola fuente de verdad:** Un documento por tema.
 
+### Estado del contenido de la maqueta
+
+- La maqueta HTML está validada como referencia visual y estructural, no como edición publicada.
+- El contenido institucional proviene de `content-source/` y puede cargarse en páginas WordPress respetando literalmente la fuente.
+- Los números, artículos, editoriales, autores y noticias son contenido dinámico administrado en WordPress.
+- El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, ISSN, DOI, ORCID, portadas y paginación actuales son demostrativos y no deben migrarse a producción.
+- La primera edición real se cargará desde el PDF final y los metadatos oficiales entregados por el equipo editorial.
+- La clasificación detallada y el checklist de sustitución están en `16-content-source-inventory` y `17-implementation-order`.
+
 ---
 
 ## Licencias del repositorio
@@ -61,5 +70,5 @@ Ningún documento puede depender de uno con número mayor. Ver `00-order-documen
 
 ---
 
-**Versión:** 1.0  
+**Versión:** 1.1
 **Proyecto:** Revista de Filosofía LOGO ET SPES

@@ -43,7 +43,7 @@ Botones, menús, mensajes, formularios y estados. Criterios de voz en `07-voice-
 - Normas de Publicación
 - Ética Editorial
 - Políticas
-- Comité Editorial
+- Consejo Editorial
 
 **Contacto:** CENFISS, email, web
 
@@ -57,7 +57,7 @@ Botones, menús, mensajes, formularios y estados. Criterios de voz en `07-voice-
 
 - **Título:** LOGO ET SPES
 - **Subtítulo:** Revista de Filosofía
-- **Descripción:** LOGO ET SPES es una revista académica venezolana de acceso abierto dedicada al pensamiento filosófico multidisciplinar. Publica investigaciones originales sometidas a arbitraje doble ciego y promueve el desarrollo de todas las áreas de la filosofía.
+- **Descripción:** La Revista de Filosofía LOGO ET SPES adscrita, auspiciada y editada por el Centro de Filosofía para la Investigación \<Stanislao Strba\> \- CENFISS, es una publicación digital venezolana enfocada en el pensamiento filosófico multidisciplinar. Es de acceso abierto; arbitrada bajo la modalidad \<doble anónimo o doble ciego\>; con periodicidad anual. Sus páginas están disponibles para difundir investigaciones originales \-de autores nacionales e internacionales- que coadyuven a promover el desarrollo de todas las áreas de la Filosofía.
 - **Botón:** Ver número actual
 
 ### Sidebar (Noticias)
@@ -68,7 +68,7 @@ Botones, menús, mensajes, formularios y estados. Criterios de voz en `07-voice-
 ### Sidebar (CENFISS)
 
 - **Título:** CENFISS
-- **Texto:** Centro de Estudios Filosóficos, Sociales y de Investigación. Ubicación: Estado de Carabobo, Valencia, Venezuela
+- **Texto:** Centro de Filosofía para la Investigación \<Stanislao Strba\> - CENFISS. Ubicación: Estado de Carabobo, Valencia, Venezuela
 - **Botón:** Ir al sitio
 
 ---
@@ -77,10 +77,10 @@ Botones, menús, mensajes, formularios y estados. Criterios de voz en `07-voice-
 
 | Página | Título | Descripción |
 |--------|--------|-------------|
-| Archivo de Números | Archivo de Números | Archivo completo de números publicados de la revista Logos et Spes. Accede a todos los volúmenes y números desde 2010 hasta la actualidad. |
-| Archivo de Artículos | Archivo de Artículos | Archivo completo de artículos publicados en Logos et Spes. Busca y accede a todos los artículos de filosofía organizados por sección, autor y fecha. |
+| Archivo de Números | Archivo de Números | Consulta los números publicados de la Revista de Filosofía LOGO ET SPES desde su primera edición. |
+| Archivo de Artículos | Archivo de Artículos | Consulta los artículos publicados en la Revista de Filosofía LOGO ET SPES, organizados por sección, autor y fecha. |
 | Enviar colaboración | Enviar colaboración | Instrucciones para enviar artículos, ensayos y reseñas a LOGO ET SPES. |
-| Acerca | Acerca de | Conoce el enfoque, alcance y objetivos de LOGO ET SPES, revista de filosofía multidisciplinar del Centro de Estudios Filosóficos, Sociales y de Investigación (CENFISS). |
+| Acerca | Acerca de | Conoce el enfoque, alcance y objetivos de la Revista de Filosofía LOGO ET SPES, adscrita, auspiciada y editada por el Centro de Filosofía para la Investigación \<Stanislao Strba\> - CENFISS. |
 | Noticias | Noticias | Noticias, eventos y reflexiones sobre filosofía y la revista académica LOGO ET SPES. |
 
 ---
@@ -140,8 +140,8 @@ Botones, menús, mensajes, formularios y estados. Criterios de voz en `07-voice-
 | Archivo vacío (números) | Aún no hay números publicados. Consulte las normas para enviar una colaboración. |
 | Archivo vacío (artículos) | Aún no hay artículos publicados. Consulte el archivo de números o las normas para enviar una colaboración. |
 | 404 | La página que busca no existe. Puede volver al inicio o ver el número actual. |
-| Error de envío | No fue posible enviar el mensaje. Intente de nuevo o contacte al Comité Editorial por correo electrónico. |
-| Error técnico | No fue posible completar la acción. Intente de nuevo o contacte al Comité Editorial. |
+| Error de envío | No fue posible enviar el mensaje. Intente de nuevo o contacte al Consejo Editorial por correo electrónico. |
+| Error técnico | No fue posible completar la acción. Intente de nuevo o contacte al Consejo Editorial. |
 
 ---
 
@@ -191,5 +191,5 @@ Criterios completos en `19-accessibility-standards`.
 
 ---
 
-**Versión:** 1.0  
+**Versión:** 1.1
 **Proyecto:** Revista de Filosofía LOGO ET SPES
