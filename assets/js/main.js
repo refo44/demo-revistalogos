@@ -54,6 +54,35 @@
     });
   }
 
+  // Reflejar en aria-expanded el submenú que ya se muestra por :hover/:focus-within (CSS)
+  function initSubmenuAria() {
+    const submenuItems = document.querySelectorAll(".nav__item--has-submenu");
+
+    submenuItems.forEach(function (item) {
+      const trigger = item.querySelector(":scope > .nav__link[aria-haspopup]");
+      if (!trigger) return;
+
+      function open() {
+        trigger.setAttribute("aria-expanded", "true");
+      }
+
+      function close(event) {
+        if (!item.contains(event.relatedTarget)) {
+          trigger.setAttribute("aria-expanded", "false");
+        }
+      }
+
+      item.addEventListener("mouseenter", open);
+      item.addEventListener("mouseleave", function () {
+        if (!item.matches(":focus-within")) {
+          trigger.setAttribute("aria-expanded", "false");
+        }
+      });
+      item.addEventListener("focusin", open);
+      item.addEventListener("focusout", close);
+    });
+  }
+
   // Fix de skip-link para navegadores antiguos
   function initSkipLink() {
     const skipLink = document.querySelector(".skip-link");
@@ -176,6 +205,7 @@
   // Inicialización cuando el DOM esté listo
   function init() {
     initMobileMenu();
+    initSubmenuAria();
     initSkipLink();
     initExternalLinks();
     initSmoothScroll();

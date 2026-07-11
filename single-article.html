@@ -109,7 +109,7 @@
                   <a href="index.html" class="nav__link">Inicio</a>
                 </li>
                 <li class="nav__item nav__item--has-submenu">
-                  <a href="archive-issue.html" class="nav__link">Revista</a>
+                  <a href="archive-issue.html" class="nav__link" aria-haspopup="true" aria-expanded="false">Revista</a>
                   <ul class="nav__submenu">
                     <li><a href="single-issue.html">Número actual</a></li>
                     <li><a href="archive-issue.html">Números publicados</a></li>
@@ -403,7 +403,7 @@
                     <div id="citation-copy-status" class="visually-hidden" role="status" aria-live="polite"></div>
 
                     <div class="citation-actions">
-                        <button class="btn btn--primary" id="export-all-citations">📄 Exportar Todas las Citas</button>
+                        <button class="btn btn--primary" id="export-all-citations"><span aria-hidden="true">📄</span> Exportar Todas las Citas</button>
                         <button class="btn btn--secondary" id="download-ris">📥 Descargar RIS</button>
                     </div>
 
@@ -422,7 +422,7 @@
             <section class="single-article__actions">
                 <a href="assets/pdf/articulo-01.pdf" class="btn btn--pdf btn--large" 
                    aria-label="Descargar PDF del artículo 'La naturaleza del ser en la filosofía contemporánea'">
-                    📄 Descargar PDF del artículo
+                    <span aria-hidden="true">📄</span> Descargar PDF del artículo
                 </a>
                 <a href="assets/pdf/articulo-01.pdf" class="btn btn--secondary btn--large" target="_blank" rel="noopener noreferrer">
                     <span aria-hidden="true">👁️</span> Ver PDF<span class="visually-hidden"> (se abre en nueva pestaña)</span>
