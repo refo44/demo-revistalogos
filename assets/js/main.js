@@ -202,6 +202,68 @@
     });
   }
 
+  // Validación accesible del formulario de contacto (errores vinculados con aria-describedby/aria-invalid)
+  function initContactFormValidation() {
+    const form = document.querySelector(".contact-form");
+    if (!form) return;
+
+    function messageFor(field) {
+      if (field.validity.valueMissing) {
+        return "Este campo es obligatorio.";
+      }
+      if (field.validity.typeMismatch && field.type === "email") {
+        return "Introduce un correo electrónico válido.";
+      }
+      return "";
+    }
+
+    function validateField(field) {
+      const errorEl = document.getElementById(
+        field.getAttribute("aria-describedby")
+      );
+      const message = messageFor(field);
+
+      if (message) {
+        field.setAttribute("aria-invalid", "true");
+        if (errorEl) errorEl.textContent = message;
+        return false;
+      }
+
+      field.setAttribute("aria-invalid", "false");
+      if (errorEl) errorEl.textContent = "";
+      return true;
+    }
+
+    const fields = form.querySelectorAll("[required]");
+
+    fields.forEach(function (field) {
+      field.addEventListener("blur", function () {
+        validateField(field);
+      });
+      field.addEventListener("input", function () {
+        if (field.getAttribute("aria-invalid") === "true") {
+          validateField(field);
+        }
+      });
+    });
+
+    form.addEventListener("submit", function (event) {
+      let firstInvalid = null;
+
+      fields.forEach(function (field) {
+        const isValid = validateField(field);
+        if (!isValid && !firstInvalid) {
+          firstInvalid = field;
+        }
+      });
+
+      if (firstInvalid) {
+        event.preventDefault();
+        firstInvalid.focus();
+      }
+    });
+  }
+
   // Inicialización cuando el DOM esté listo
   function init() {
     initMobileMenu();
@@ -211,6 +273,7 @@
     initSmoothScroll();
     initSearchForms();
     initFormStatePersistence();
+    initContactFormValidation();
   }
 
   // Ejecutar cuando el DOM esté listo

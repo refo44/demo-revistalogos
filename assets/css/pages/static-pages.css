@@ -106,6 +106,12 @@
   max-width: var(--reading-max-width);
 }
 
+.form-required-note {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--space-4);
+}
+
 .form-group {
   margin-bottom: var(--space-6);
 }
@@ -114,6 +120,21 @@
   display: block;
   margin-bottom: var(--space-2);
   font-weight: var(--font-weight-semibold);
+}
+
+.form-group [aria-invalid="true"] {
+  border-color: var(--color-error);
+}
+
+.form-error {
+  display: block;
+  margin-top: var(--space-2);
+  color: var(--color-error);
+  font-size: var(--font-size-sm);
+}
+
+.form-error:empty {
+  display: none;
 }
 
 .highlight-actions,
