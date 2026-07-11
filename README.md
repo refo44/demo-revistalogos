@@ -38,7 +38,7 @@ Este prototipo mapea 1:1 a la template hierarchy y Custom Post Types (CPT) de Wo
 │   ├── metadata-box.html          → Caja de metadatos académicos
 │   ├── toc.html                   → Tabla de contenidos de un número
 │   ├── pagination.html            → Paginación accesible
-│   └── hero-issue.html            → Hero del número vigente
+│   └── hero-current-issue.html    → Hero del número vigente
 └── /assets/
     ├── /css/
     │   ├── tokens.css             → Design tokens (colores/espacios/tipo)

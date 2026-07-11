@@ -262,7 +262,7 @@ Para Google Scholar, Crossref, catálogos de bibliotecas. Añadir como meta tags
 **Públicas:**
 
 - `front-page.php`: Home
-- `page-acerca.php`, `page-contacto.php`, `page-normas.php`, `page-politicas.php`, `page-enviar-colaboracion.php`, `page-comite.php`, `page-enlaces.php`
+- `page-acerca.php`, `page-contacto.php`, `page-normas.php`, `page-politicas.php`, `page-enviar-colaboracion.php`, `page-comite-editorial.php`, `page-enlaces.php`
 - `archive-issue.php`: Lista de números
 - `single-issue.php`: Número individual
 - `archive-article.php`: Lista de artículos (filtrable por sección, tipo)

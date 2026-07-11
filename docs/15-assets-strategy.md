@@ -38,11 +38,11 @@ Ejemplo: `assets/img/logos/logo-revista.svg`, `assets/img/placeholders/article-p
 | `logos/logo-revista.svg` | Header, marca | Marca / 02 |
 | `logos/logo-cenfiss.svg` | Referencia institucional | CENFISS |
 | `logos/favicon.svg` | Favicon | Derivado del logo |
-| `placeholders/portada-ejemplo.png` | Placeholder de portada de número | Placeholder (maqueta) |
+| `placeholders/portada-ejemplo.jpg` | Placeholder de portada de número | Placeholder (maqueta) |
 | `placeholders/article-placeholder.svg` | Fallback de tarjeta de artículo | Placeholder (maqueta) |
 | `placeholders/avatar-default.svg` | Fallback de avatar de autor | Placeholder (maqueta) |
 | `placeholders/placeholder-banner.jpg` | Carrusel de banner | Placeholder (maqueta) |
-| `placeholders/banner-main.png` | Hero/banner | Placeholder (maqueta) |
+| `placeholders/banner-main.jpg` | Hero/banner | Placeholder (maqueta) |
 | `banners/flyer.jpg` | Eventos CENFISS (carrusel) | CENFISS |
 
 ### Optimización

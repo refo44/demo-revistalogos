@@ -64,7 +64,7 @@ assets/
 | `assets/img/placeholders/avatar-default.svg` | Fallback de avatar de autor | Artículo individual, tarjetas de autor |
 | `assets/img/placeholders/placeholder-banner.jpg` | Placeholder de banner | Carrusel del Home |
 
-**Por añadir:** `placeholders/portada-ejemplo.png` (portada de número), `banners/flyer.jpg` (eventos CENFISS), `placeholders/banner-main.png` (hero).  
+**Ya implementados:** `placeholders/portada-ejemplo.jpg` (portada de número), `banners/flyer.jpg` (eventos CENFISS), `placeholders/banner-main.jpg` (hero).  
 **Fuente para contenido real:** Las portadas oficiales deben provenir del equipo editorial o del diseño institucional de la revista. Fotos de autores de los propios autores; imágenes de eventos de CENFISS.
 
 ---
@@ -120,18 +120,18 @@ assets/
 
 | Página / Sección | Fuente(s) |
 |------------------|-----------|
-| Home | content-source/... (Presentación, Estructura), assets/img/placeholders/portada-ejemplo.png, assets/img/banners/flyer.jpg |
+| Home | content-source/... (Presentación, Estructura), assets/img/placeholders/portada-ejemplo.jpg, assets/img/banners/flyer.jpg |
 | Acerca | Documento del proyecto (Enfoque, Alcance, Objetivos, Origen del nombre) |
 | Normas | Documento del proyecto (Normas de Publicación, Ética), assets/pdf/normas-publicacion.pdf |
 | Ética | Documento del proyecto (Normas de Ética) |
-| Políticas | Documento del proyecto (Políticas Editorial), assets/pdf/politicas-editoriales.pdf |
-| Enviar colaboración | Documento del proyecto (Formularios, instrucciones) |
+| Políticas | Documento del proyecto (Políticas Editorial), assets/pdf/politicas-editorial.pdf |
+| Enviar colaboración | Documento del proyecto (Formularios, instrucciones), assets/pdf/solicitud-publicacion-declaracion-etica.pdf (placeholder) |
 | Comité Editorial | Documento del proyecto (autoridades CENFISS, Comité Editorial) |
 | Contacto | Documento del proyecto (ubicación, email), CENFISS |
 | Enlaces | CENFISS, partners (externos) |
 | Número individual | Documento del proyecto (Sumario, Editorial), portada, PDF |
-| Artículo individual | Documento del proyecto (formato Artículo), assets/pdf/rles-v12-n2-articulo-01.pdf |
-| Archivo de números | Documento del proyecto (estructura), assets/img/placeholders/portada-ejemplo.png |
+| Artículo individual | Documento del proyecto (formato Artículo), assets/pdf/articulo-01.pdf |
+| Archivo de números | Documento del proyecto (estructura), assets/img/placeholders/portada-ejemplo.jpg |
 | Archivo de artículos | Documento del proyecto (formato Artículo), assets/img/placeholders/article-placeholder.svg |
 | Noticias | Documento del proyecto (CENFISS presente, Misceláneas) |
 | Header / Footer | assets/img/logos/logo-revista.svg, assets/img/logos/logo-cenfiss.svg, Documento del proyecto (estructura de nav) |
@@ -142,15 +142,15 @@ assets/
 
 | Acción | Responsable | Estado |
 |--------|-------------|--------|
-| Crear `politicas-editoriales.pdf` | Editorial | Pendiente |
-| Crear `solicitud-publicacion.pdf`, `declaracion-etica.pdf` | Editorial | Pendiente |
+| Crear `politicas-editorial.pdf` | Editorial | Implementado |
+| Reemplazar `solicitud-publicacion-declaracion-etica.pdf` (hoy es un placeholder sin contenido real) | Editorial | Pendiente |
 | Crear `instrumento-arbitraje.pdf` | Editorial | Pendiente |
-| Añadir portada real del primer número publicado | Editorial | Pendiente |
-| Añadir `placeholders/portada-ejemplo.png` (portada de número) | Diseño | Pendiente |
-| Añadir `banners/flyer.jpg` (eventos CENFISS) | CENFISS | Pendiente |
-| Añadir `placeholders/banner-main.png` (hero) | Diseño | Pendiente |
-| Construir `404.html` | Dev | Pendiente |
-| Construir `search.html` | Dev | Pendiente |
+| Añadir portada real del primer número publicado (hoy `portada-ejemplo.jpg` es una portada de ejemplo, no la oficial) | Editorial | Pendiente |
+| Añadir `placeholders/portada-ejemplo.jpg` (portada de número) | Diseño | Implementado |
+| Añadir `banners/flyer.jpg` (eventos CENFISS) | CENFISS | Implementado |
+| Añadir `placeholders/banner-main.jpg` (hero) | Diseño | Implementado |
+| Construir `404.html` | Dev | Implementado |
+| Construir `search.html` | Dev | Implementado |
 
 ---
 
