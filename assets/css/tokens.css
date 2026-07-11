@@ -29,7 +29,7 @@
   --color-text-inverse: #ffffff;    /* Texto sobre fondos oscuros o botones primarios */
   
   /* Colores de enlaces */
-  --color-link: #1abaf0;            /* Azul de acento para enlaces */
+  --color-link: #0a7599;            /* Azul de acento para enlaces (oscurecido para cumplir contraste AA 4.5:1) */
   --color-link-hover: #18597c;      /* Estado hover de enlaces */
   --color-focus-ring: rgb(24 89 124 / 0.18);
   
