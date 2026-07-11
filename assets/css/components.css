@@ -78,14 +78,14 @@
 }
 
 .btn--pdf {
-  background-color: var(--color-error);
+  background-color: var(--color-link);
   color: var(--color-text-inverse);
-  border-color: var(--color-error);
+  border-color: var(--color-link);
 }
 
 .btn--pdf:hover {
-  background-color: var(--color-error);
-  border-color: var(--color-error);
+  background-color: var(--color-link-hover);
+  border-color: var(--color-link-hover);
   color: var(--color-text-inverse);
   text-decoration: none;
 }
