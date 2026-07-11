@@ -71,7 +71,7 @@
       "datePublished": "2025-01-15",
       "dateModified": "2025-01-15",
       "inLanguage": "es",
-      "identifier": "10.1234/les.v12i2.001",
+      "identifier": "Próximamente",
       "keywords": "ontología, ser, Heidegger, Sartre, filosofía contemporánea",
       "pagination": "15-32",
       "wordCount": 8500
@@ -113,7 +113,7 @@
                   <ul class="nav__submenu">
                     <li><a href="single-issue.html">Número actual</a></li>
                     <li><a href="archive-issue.html">Números publicados</a></li>
-                    <li><a href="archive-article.html" aria-current="page">Artículos</a></li>
+                    <li><a href="archive-article.html">Artículos</a></li>
                     <li><a href="archive-author.html">Autores</a></li>
                   </ul>
                 </li>
@@ -201,11 +201,7 @@
                 
                 <div class="metadata-box__item">
                   <dt class="metadata-box__label">DOI</dt>
-                  <dd class="metadata-box__value">
-                    <a href="https://doi.org/10.1234/les.v12i2.001" class="metadata-box__value--link" target="_blank" rel="noopener noreferrer">
-                      Próximamente
-                    </a>
-                  </dd>
+                  <dd class="metadata-box__value">Próximamente</dd>
                 </div>
                 
                 <div class="metadata-box__item">
@@ -516,11 +512,11 @@
                         // Show success feedback
                         const originalText = this.textContent;
                         this.textContent = '✅ Copiado';
-                        this.style.backgroundColor = '#28a745';
-                        
+                        this.classList.add('is-copied');
+
                         setTimeout(() => {
                             this.textContent = originalText;
-                            this.style.backgroundColor = '';
+                            this.classList.remove('is-copied');
                         }, 2000);
                     }).catch(err => {
                         console.error('Error copying text: ', err);

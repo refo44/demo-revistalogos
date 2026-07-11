@@ -15,13 +15,13 @@
   --color-error: #dc2626;           /* Rojo error */
   
   /* Colores de botones de autenticación */
-  --color-btn-login: #e7f2f8;       /* Azul editorial suave para botón Entrar */
+  --color-btn-login: var(--color-primary-light);   /* Azul editorial suave para botón Entrar */
   --color-btn-register: #ffbf00;    /* Amarillo de énfasis para botón Registrarse */
-  
+
   /* Colores de fondo */
   --color-bg-primary: #f8fafc;      /* Fondo general casi blanco con matiz frio editorial */
   --color-surface: #ffffff;         /* Superficies y contenedores principales */
-  --color-soft: #e7f2f8;            /* Bloques editoriales suaves */
+  --color-soft: var(--color-primary-light); /* Bloques editoriales suaves (alias de --color-primary-light) */
   
   /* Colores de texto */
   --color-text-primary: #1e293b;    /* Texto principal */

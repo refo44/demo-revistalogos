@@ -78,9 +78,20 @@
 }
 
 .normas-warning {
+  margin-top: var(--space-6);
   padding: var(--space-4);
+  background-color: var(--color-primary-light);
   border-left: 4px solid var(--color-warning);
   border-radius: var(--border-radius);
+}
+
+.instructions-list {
+  line-height: var(--line-height-relaxed);
+  padding-left: var(--space-6);
+}
+
+.instructions-list li {
+  margin-bottom: var(--space-6);
 }
 
 .normas-example {

@@ -120,7 +120,7 @@ Presentes en todas las páginas.
 | Ética | `page-etica.php` |
 | Políticas | `page-politicas.php` |
 | Enviar colaboración | `page-enviar-colaboracion.php` |
-| Comité Editorial | `page-comite.php` |
+| Comité Editorial | `page-comite-editorial.php` |
 | Enlaces | `page-enlaces.php` |
 | Archivo de noticias | `home.php` o `index.php` |
 | Archivo de números | `archive-issue.php` |

@@ -164,78 +164,171 @@
                 </div>
             </section>
 
-            <!-- Banner Carousel Section -->
-            <section class="banner-carousel" style="display: none;">
-                <div class="carousel-container">
-                    <div class="carousel-wrapper">
-                        <!-- Slide 1: Diplomado (with content) -->
-                        <div class="carousel-slide active">
-                            <a href="https://cenfiss.net/index.php/eventos/" class="banner-slide" target="_blank" rel="noopener noreferrer">
-                                <div class="banner-slide__image">
-                                    <img src="assets/img/flyer.jpg" alt="Diplomado en Filosofía - CENFISS">
-                      </div>
-                                <div class="banner-slide__content">
-                                    <h3 class="banner-slide__title">DIPLOMADO EN FILOSOFÍA</h3>
-                                    <p class="banner-slide__subtitle">18ª Cohorte - Inscripciones Abiertas</p>
-                                    <p class="banner-slide__cta">📞 0424-4237038 | Haz clic para más info</p>
-                        </div>
-                          </a>
-                        </div>
-                    <!-- Carousel Controls -->
-                    <div class="carousel-controls">
-                        <button class="carousel-btn carousel-btn--prev" aria-label="Slide anterior">
-                            <span>‹</span>
-                        </button>
-                        <button class="carousel-btn carousel-btn--next" aria-label="Siguiente slide">
-                            <span>›</span>
-                        </button>
-                      </div>
-
-                    <!-- Carousel Indicators -->
-                    <div class="carousel-indicators">
-                        <button class="indicator active" data-slide="0" aria-label="Ir al slide 1"></button>
-                        <button class="indicator" data-slide="1" aria-label="Ir al slide 2"></button>
-                        <button class="indicator" data-slide="2" aria-label="Ir al slide 3"></button>
-                    </div>
+            <!-- Número actual destacado -->
+            <section class="front-page__current-issue">
+                <h2 class="front-page__section-title">Número actual</h2>
+                <article class="card issue-card front-page__featured-issue">
+                  <div class="issue-card__cover-container">
+                    <img src="assets/img/portada-ejemplo.jpg" alt="Portada Vol. 12 Nº 2 (2025)" class="issue-card__cover">
                   </div>
+
+                  <header class="card__header">
+                    <div class="issue-card__volume">Vol. 12 Nº 2</div>
+                    <h3 class="card__title issue-card__title">
+                      <a href="single-issue.html" class="issue-card__link">
+                        Filosofía Contemporánea: Nuevas Perspectivas
+                      </a>
+                    </h3>
+                    <div class="issue-card__meta">
+                      <span><strong>Año:</strong> 2025</span> •
+                      <span><strong>ISSN:</strong> Próximamente</span>
+                    </div>
+                  </header>
+
+                  <div class="card__content">
+                    <p class="issue-card__description">
+                      Este número presenta una selección de artículos que abordan temas fundamentales de la filosofía contemporánea, desde la metafísica hasta la ética aplicada. Los trabajos incluidos reflejan la diversidad y riqueza del pensamiento filosófico actual.
+                    </p>
+                  </div>
+
+                  <footer class="card__footer">
+                    <a href="assets/pdf/numero-v12n2-2025.pdf" class="btn btn--primary btn--small"
+                       aria-label="Descargar PDF completo del Vol. 12 Nº 2 (2025)">
+                      📄 PDF completo
+                    </a>
+                    <a href="single-issue.html" class="btn btn--secondary btn--small">
+                      Ver contenido
+                    </a>
+                  </footer>
+                </article>
             </section>
 
-            <!-- Secciones de la revista -->
-            <section class="front-page__sections" style="display: none;">
-                <div class="front-page__section">
-                    <h2>Metafísica</h2>
-                    <p>Estudios sobre el ser, la existencia y la realidad fundamental.</p>
-                    <ul>
-                        <li><a href="taxonomy-section.html?section=metafisica">Ver artículos</a></li>
-                        <li><a href="page-normas.html#metafisica">Normas específicas</a></li>
-                    </ul>
-                </div>
+            <!-- Artículos recientes -->
+            <section class="front-page__recent-articles">
+                <h2 class="front-page__section-title">Artículos recientes</h2>
+                <div class="archive-grid">
+                  <article class="card article-card">
+                    <header class="card__header">
+                      <h3 class="card__title article-card__title">
+                        <a href="single-article.html" class="article-card__link">
+                          La naturaleza del ser en la filosofía contemporánea
+                        </a>
+                      </h3>
+                      <p class="article-card__subtitle">The Nature of Being in Contemporary Philosophy</p>
+                      <div class="article-card__authors">
+                        <strong>Autores:</strong> María González, Juan Pérez
+                      </div>
+                      <div class="article-card__meta">
+                        <span class="article-card__meta-item">
+                          <span class="article-card__meta-label">Sección:</span>
+                          <span>Metafísica</span>
+                        </span>
+                        <span class="article-card__meta-item">
+                          <span class="article-card__meta-label">Año:</span>
+                          <span>2025</span>
+                        </span>
+                      </div>
+                    </header>
 
-                <div class="front-page__section">
-                    <h2>Ética</h2>
-                    <p>Investigaciones sobre moral, valores y comportamiento humano.</p>
-                    <ul>
-                        <li><a href="taxonomy-section.html?section=etica">Ver artículos</a></li>
-                        <li><a href="page-normas.html#etica">Normas específicas</a></li>
-                    </ul>
-                </div>
+                    <div class="card__content">
+                      <div class="article-card__abstract">
+                        <p>Este artículo examina las principales corrientes del pensamiento ontológico contemporáneo, analizando las contribuciones de Heidegger, Sartre y otros filósofos modernos al problema del ser.</p>
+                      </div>
+                    </div>
 
-                <div class="front-page__section">
-                    <h2>Epistemología</h2>
-                    <p>Análisis del conocimiento, la verdad y los métodos de investigación.</p>
-                    <ul>
-                        <li><a href="taxonomy-section.html?section=epistemologia">Ver artículos</a></li>
-                        <li><a href="page-normas.html#epistemologia">Normas específicas</a></li>
-                    </ul>
-                </div>
+                    <footer class="card__footer">
+                      <a href="assets/pdf/articulo-01.pdf" class="btn btn--pdf btn--small"
+                         aria-label="Descargar PDF del artículo 'La naturaleza del ser en la filosofía contemporánea'">
+                        📄 PDF
+                      </a>
+                      <a href="single-article.html" class="btn btn--secondary btn--small">
+                        Leer más
+                      </a>
+                    </footer>
+                  </article>
 
-                <div class="front-page__section">
-                    <h2>Filosofía de la Religión</h2>
-                    <p>Reflexiones sobre la experiencia religiosa y lo sagrado.</p>
-                    <ul>
-                        <li><a href="taxonomy-section.html?section=filosofia-religion">Ver artículos</a></li>
-                        <li><a href="page-normas.html#filosofia-religion">Normas específicas</a></li>
-                    </ul>
+                  <article class="card article-card">
+                    <header class="card__header">
+                      <h3 class="card__title article-card__title">
+                        <a href="single-article.html" class="article-card__link">
+                          Fundamentos de la ética aplicada en el siglo XXI
+                        </a>
+                      </h3>
+                      <p class="article-card__subtitle">Foundations of Applied Ethics in the 21st Century</p>
+                      <div class="article-card__authors">
+                        <strong>Autores:</strong> Ana Rodríguez
+                      </div>
+                      <div class="article-card__meta">
+                        <span class="article-card__meta-item">
+                          <span class="article-card__meta-label">Sección:</span>
+                          <span>Ética</span>
+                        </span>
+                        <span class="article-card__meta-item">
+                          <span class="article-card__meta-label">Año:</span>
+                          <span>2025</span>
+                        </span>
+                      </div>
+                    </header>
+
+                    <div class="card__content">
+                      <div class="article-card__abstract">
+                        <p>Este trabajo analiza los fundamentos teóricos de la ética aplicada en el contexto del siglo XXI, considerando los nuevos desafíos morales planteados por la tecnología, la globalización y los cambios sociales.</p>
+                      </div>
+                    </div>
+
+                    <footer class="card__footer">
+                      <a href="assets/pdf/articulo-02.pdf" class="btn btn--pdf btn--small"
+                         aria-label="Descargar PDF del artículo 'Fundamentos de la ética aplicada en el siglo XXI'">
+                        📄 PDF
+                      </a>
+                      <a href="single-article.html" class="btn btn--secondary btn--small">
+                        Leer más
+                      </a>
+                    </footer>
+                  </article>
+
+                  <article class="card article-card">
+                    <header class="card__header">
+                      <h3 class="card__title article-card__title">
+                        <a href="single-article.html" class="article-card__link">
+                          Justicia distributiva y responsabilidad social
+                        </a>
+                      </h3>
+                      <p class="article-card__subtitle">Distributive Justice and Social Responsibility</p>
+                      <div class="article-card__authors">
+                        <strong>Autores:</strong> Carlos Mendoza, Laura Silva
+                      </div>
+                      <div class="article-card__meta">
+                        <span class="article-card__meta-item">
+                          <span class="article-card__meta-label">Sección:</span>
+                          <span>Ética</span>
+                        </span>
+                        <span class="article-card__meta-item">
+                          <span class="article-card__meta-label">Año:</span>
+                          <span>2025</span>
+                        </span>
+                      </div>
+                    </header>
+
+                    <div class="card__content">
+                      <div class="article-card__abstract">
+                        <p>Este artículo explora la relación entre justicia distributiva y responsabilidad social en el marco de las sociedades contemporáneas. Se analizan las teorías de Rawls, Sen y otros pensadores.</p>
+                      </div>
+                    </div>
+
+                    <footer class="card__footer">
+                      <a href="assets/pdf/articulo-03.pdf" class="btn btn--pdf btn--small"
+                         aria-label="Descargar PDF del artículo 'Justicia distributiva y responsabilidad social'">
+                        📄 PDF
+                      </a>
+                      <a href="single-article.html" class="btn btn--secondary btn--small">
+                        Leer más
+                      </a>
+                    </footer>
+                  </article>
+                </div>
+                <div class="front-page__section-footer">
+                  <a href="archive-article.html" class="btn btn--outline btn--small">Ver todos los artículos</a>
                 </div>
             </section>
 
@@ -259,7 +352,7 @@
                                 <a href="noticias.html" class="news-link">Convocatoria Abierta: Vol. 13 Nº 1 (2025)</a>
                             </li>
                         </ul>
-                        <a href="noticias.html" class="btn btn--small btn--outline" style="margin-top: var(--space-4);">Ver noticias</a>
+                        <a href="noticias.html" class="btn btn--small btn--outline mt-4">Ver noticias</a>
                     </div>
 
                     <!-- Enviar colaboración Card -->
@@ -278,9 +371,10 @@
                     </div>
                 </div>
             </section>
+        </div>
+    </main>
 
-
-            <!-- Footer -->
+    <!-- Footer -->
     <!-- WP:GET_TEMPLATE_PART(partials/footer) -->
     <footer class="footer" role="contentinfo">
       <div class="container">
@@ -337,60 +431,6 @@
 
     <!-- JavaScript -->
     <script src="assets/js/main.js?v=20260306-2"></script>
-    
-    <!-- Carousel JavaScript -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const carouselWrapper = document.querySelector('.carousel-wrapper');
-            const slides = document.querySelectorAll('.carousel-slide');
-            const indicators = document.querySelectorAll('.indicator');
-            const prevBtn = document.querySelector('.carousel-btn--prev');
-            const nextBtn = document.querySelector('.carousel-btn--next');
-            
-            let currentSlide = 0;
-            const totalSlides = slides.length;
-            
-            function showSlide(index) {
-                // Remove active class from all slides and indicators
-                slides.forEach(slide => slide.classList.remove('active'));
-                indicators.forEach(indicator => indicator.classList.remove('active'));
-                
-                // Add active class to current slide and indicator
-                slides[index].classList.add('active');
-                indicators[index].classList.add('active');
-                
-                // Update carousel position
-                carouselWrapper.style.transform = `translateX(-${index * 100}%)`;
-            }
-            
-            function nextSlide() {
-                currentSlide = (currentSlide + 1) % totalSlides;
-                showSlide(currentSlide);
-            }
-            
-            function prevSlide() {
-                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-                showSlide(currentSlide);
-            }
-            
-            // Event listeners
-            nextBtn.addEventListener('click', nextSlide);
-            prevBtn.addEventListener('click', prevSlide);
-            
-            indicators.forEach((indicator, index) => {
-                indicator.addEventListener('click', () => {
-                    currentSlide = index;
-                    showSlide(currentSlide);
-                });
-            });
-            
-            // Auto-play carousel (optional)
-            setInterval(nextSlide, 5000); // Change slide every 5 seconds
-            
-            // Initialize carousel
-            showSlide(0);
-        });
-    </script>
 </body>
 </html>
 

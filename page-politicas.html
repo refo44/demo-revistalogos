@@ -118,16 +118,16 @@
             <div class="content-layout">
                 <div class="content-main">
                     <!-- Descargar Políticas -->
-                    <div class="card" style="margin-bottom: var(--space-6);">
+                    <div class="card download-section">
                         <h3>Descargar Políticas</h3>
                         <p>Obtén las políticas completas en formato PDF para consulta offline.</p>
-                        <div style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
-                            <button type="button" class="btn btn--small" onclick="const link = document.createElement('a'); link.href = 'assets/pdf/politicas-editorial.pdf'; link.download = 'Politicas-Editorial-LOGO-ET-SPES.pdf'; document.body.appendChild(link); link.click(); document.body.removeChild(link);">
+                        <div class="highlight-actions">
+                            <a href="assets/pdf/politicas-editorial.pdf" download="Politicas-Editorial-LOGO-ET-SPES.pdf" class="btn btn--small">
                                 Descargar
-                            </button>
-                            <button type="button" class="btn btn--small" onclick="window.open('assets/pdf/politicas-editorial.pdf', '_blank')">
+                            </a>
+                            <a href="assets/pdf/politicas-editorial.pdf" target="_blank" rel="noopener noreferrer" class="btn btn--small btn--secondary">
                                 Ver
-                            </button>
+                            </a>
                         </div>
                     </div>
 

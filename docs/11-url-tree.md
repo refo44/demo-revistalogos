@@ -135,7 +135,7 @@ Define las rutas canónicas del sitio. Fuente única para "qué URL lleva a dón
 | `page-etica.html` | `/etica/` |
 | `page-politicas.html` | `/politicas/` |
 | `page-enviar-colaboracion.html` | `/enviar-colaboracion/` |
-| `page-comite.html` | `/comite-editorial/` |
+| `page-comite-editorial.html` | `/comite-editorial/` |
 | `page-enlaces.html` | `/enlaces/` |
 | `noticias.html` | `/noticias/` |
 | `archive-issue.html` | `/revista/numeros/` |

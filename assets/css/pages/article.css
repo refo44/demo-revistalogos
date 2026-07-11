@@ -128,6 +128,12 @@
   flex: 1 1 12rem;
 }
 
+.citation-copy.is-copied {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-text-inverse);
+}
+
 .citation-info {
   margin-top: var(--space-6);
   padding: var(--space-4);

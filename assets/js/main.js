@@ -63,33 +63,6 @@
     });
   }
 
-  // Acordeones opcionales para Normas/Ética
-  function initAccordions() {
-    const accordionToggles = document.querySelectorAll(
-      "[data-accordion-toggle]"
-    );
-
-    accordionToggles.forEach(function (toggle) {
-      toggle.addEventListener("click", function () {
-        const targetId = this.getAttribute("data-accordion-toggle");
-        const target = document.getElementById(targetId);
-        const isExpanded = this.getAttribute("aria-expanded") === "true";
-
-        if (target) {
-          if (isExpanded) {
-            target.style.display = "none";
-            this.setAttribute("aria-expanded", "false");
-            this.classList.remove("is-open");
-          } else {
-            target.style.display = "block";
-            this.setAttribute("aria-expanded", "true");
-            this.classList.add("is-open");
-          }
-        }
-      });
-    });
-  }
-
   // Mejorar accesibilidad de enlaces externos
   function initExternalLinks() {
     const externalLinks = document.querySelectorAll(
@@ -100,7 +73,12 @@
       link.setAttribute("target", "_blank");
       link.setAttribute("rel", "noopener noreferrer");
 
-      // Agregar indicador para lectores de pantalla
+      // Evitar doble anuncio si el HTML ya trae el aviso escrito a mano
+      const alreadyAnnounced = link.querySelector(".visually-hidden");
+      if (alreadyAnnounced && /nueva pestaña/i.test(alreadyAnnounced.textContent)) {
+        return;
+      }
+
       const srText = document.createElement("span");
       srText.className = "visually-hidden";
       srText.textContent = " (se abre en nueva pestaña)";
@@ -108,9 +86,9 @@
     });
   }
 
-  // Smooth scroll para anclas internas
+  // Smooth scroll para anclas internas (excluye el skip-link, que initSkipLink ya maneja)
   function initSmoothScroll() {
-    const anchorLinks = document.querySelectorAll('a[href^="#"]');
+    const anchorLinks = document.querySelectorAll('a[href^="#"]:not(.skip-link)');
 
     anchorLinks.forEach(function (link) {
       link.addEventListener("click", function (event) {
@@ -131,31 +109,6 @@
     });
   }
 
-  // Lazy loading básico para imágenes
-  function initLazyLoading() {
-    if ("IntersectionObserver" in window) {
-      const imageObserver = new IntersectionObserver(function (
-        entries,
-        observer
-      ) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            const img = entry.target;
-            img.src = img.dataset.src;
-            img.classList.remove("loading");
-            observer.unobserve(img);
-          }
-        });
-      });
-
-      const lazyImages = document.querySelectorAll("img[data-src]");
-      lazyImages.forEach(function (img) {
-        img.classList.add("loading");
-        imageObserver.observe(img);
-      });
-    }
-  }
-
   // Mejorar formularios de búsqueda
   function initSearchForms() {
     const searchForms = document.querySelectorAll(".search-form");
@@ -165,11 +118,20 @@
       const button = form.querySelector('button[type="submit"]');
 
       if (input && button) {
-        // Habilitar búsqueda con Enter
+        function submitIfNotEmpty(event) {
+          if (!input.value.trim()) {
+            event.preventDefault();
+            input.focus();
+            return;
+          }
+          form.submit();
+        }
+
+        // Habilitar búsqueda con Enter, con la misma validación que el botón
         input.addEventListener("keydown", function (event) {
           if (event.key === "Enter") {
             event.preventDefault();
-            form.submit();
+            submitIfNotEmpty(event);
           }
         });
 
@@ -188,10 +150,8 @@
   function init() {
     initMobileMenu();
     initSkipLink();
-    initAccordions();
     initExternalLinks();
     initSmoothScroll();
-    initLazyLoading();
     initSearchForms();
   }
 
