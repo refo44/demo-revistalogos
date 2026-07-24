@@ -42,6 +42,7 @@ Se registran aquí hasta convertirlas en su ADR correspondiente:
 - **Despliegue solo manual:** el workflow de GitHub Actions se conserva para el sitio estático pero se ejecuta **únicamente por disparo manual** (`workflow_dispatch`); nada se despliega en automático. → condiciona **D8**.
 - **CI/CD automático aplazado:** sin triggers de `push`/`schedule`/`pull_request` por ahora. → condiciona **D12**.
 - **Dominio de producción:** `https://logo-et-spes.cenfiss.net/` (Hostinger). **Pendiente**: los `<link rel="canonical">` y `og:url` del HTML aún apuntan a `refo44.github.io/demo-revistalogos` (obsoletos); corregir al resolver **D7** (política de URLs).
+- **Indexación bloqueada hasta el lanzamiento:** `robots.txt` permanece en `Disallow: /` hasta que la migración a WordPress esté terminada y validada y esté cargado el contenido editorial real. Solo entonces se abre la indexación y se añade la línea `Sitemap:`. Es el brazo de aplicación de **D4** (datos dummy excluidos de producción); se documentará en el ADR 0004 y en el checklist de lanzamiento (doc 17).
 
 Estado en el repo: `.github/workflows/deploy.yml` ya es `workflow_dispatch`-only (cumple). `deploy.sh` **eliminado** el 2026-07-23 (hacía `git push` y mencionaba GitHub Pages y una ruta `prototype/` inexistente, incoherente con el despliegue manual por FTPS a Hostinger). El despliegue al host se dispara solo desde Actions → «Deploy to Hostinger» → Run workflow.
 

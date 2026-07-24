@@ -1,2 +1,13 @@
+# INTENCIONAL — NO abrir la indexación todavía.
+#
+# El sitio bloquea a todos los rastreadores mientras es prototipo con
+# contenido demostrativo. Debe permanecer en "Disallow: /" hasta que:
+#   1. la migración a WordPress esté terminada y validada, y
+#   2. el contenido editorial real de la primera edición esté cargado.
+#
+# Solo entonces (sitio listo para lanzamiento) se abre la indexación y se
+# añade la línea "Sitemap:". Ver docs/adr/BACKLOG.md (D4) y
+# docs/17-implementation-order (checklist de lanzamiento).
+
 User-agent: *
 Disallow: /
