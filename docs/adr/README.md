@@ -51,6 +51,8 @@ Usar `TEMPLATE.md` como punto de partida. Estructura mínima: Estado · Fecha ·
 | --- | ------ | ------ |
 | [0001](0001-maqueta-estatica-como-base-definitiva.md) | Maqueta estática como base definitiva | Aceptada |
 | [0002](0002-wordpress-como-adaptacion-sin-rediseno.md) | WordPress como adaptación sin rediseño | Aceptada |
+| [0003](0003-css-y-tokens-invariantes-en-la-migracion.md) | CSS y tokens invariantes en la migración | Aceptada |
+| [0004](0004-datos-dummy-excluidos-de-produccion.md) | Datos dummy excluidos de producción | Aceptada |
 
 > El backlog de decisiones a resolver (D1–D12) se lleva en `docs/adr/BACKLOG.md`. Cada decisión resuelta añade su fila a esta tabla y se retira del backlog.
 

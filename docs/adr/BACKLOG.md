@@ -14,8 +14,8 @@ Invariantes que los documentos numerados ya afirman; el ADR los hace vinculantes
 | -- | ------------- | -------- | ------ |
 | D1 | [0001](0001-maqueta-estatica-como-base-definitiva.md) — Maqueta estática como base definitiva | La maqueta es el contrato visual congelado | ✅ Resuelta |
 | D2 | [0002](0002-wordpress-como-adaptacion-sin-rediseno.md) — WordPress como adaptación sin rediseño | Invariante «no rediseñar» (doc 17 §2.3) | ✅ Resuelta |
-| D3 | 0003 — CSS y tokens invariantes en la migración | Arquitectura CSS y tokens no cambian | ⏳ Pendiente |
-| D4 | 0004 — Datos dummy excluidos de producción | Lista «prohibido migrar» (doc 17 §3.1) | ⏳ Pendiente |
+| D3 | [0003](0003-css-y-tokens-invariantes-en-la-migracion.md) — CSS y tokens invariantes en la migración | Arquitectura CSS y tokens no cambian | ✅ Resuelta |
+| D4 | [0004](0004-datos-dummy-excluidos-de-produccion.md) — Datos dummy excluidos de producción | Lista «prohibido migrar» (doc 17 §3.1) | ✅ Resuelta |
 | D5 | 0005 — Modelo de contenido: CPTs y taxonomías | issue/article/author/submission + section/article_type/keyword | ⏳ Pendiente |
 
 ## Grupo B — decisiones genuinamente abiertas
