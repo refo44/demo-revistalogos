@@ -31,6 +31,10 @@ jobs:
             cp robots.txt .deploy-package/robots.txt
           fi
 
+          if [ -f "sitemap.xml" ]; then
+            cp sitemap.xml .deploy-package/sitemap.xml
+          fi
+
       - name: Deploy files to Hostinger
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:

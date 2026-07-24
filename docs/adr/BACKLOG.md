@@ -41,6 +41,7 @@ Se registran aquí hasta convertirlas en su ADR correspondiente:
 - **Repositorio compartido (monorepo):** el sitio estático y WordPress conviven en el **mismo repositorio**. → condiciona **D6**.
 - **Despliegue solo manual:** el workflow de GitHub Actions se conserva para el sitio estático pero se ejecuta **únicamente por disparo manual** (`workflow_dispatch`); nada se despliega en automático. → condiciona **D8**.
 - **CI/CD automático aplazado:** sin triggers de `push`/`schedule`/`pull_request` por ahora. → condiciona **D12**.
+- **Dominio de producción:** `https://logo-et-spes.cenfiss.net/` (Hostinger). **Pendiente**: los `<link rel="canonical">` y `og:url` del HTML aún apuntan a `refo44.github.io/demo-revistalogos` (obsoletos); corregir al resolver **D7** (política de URLs).
 
 Estado en el repo: `.github/workflows/deploy.yml` ya es `workflow_dispatch`-only (cumple). `deploy.sh` **eliminado** el 2026-07-23 (hacía `git push` y mencionaba GitHub Pages y una ruta `prototype/` inexistente, incoherente con el despliegue manual por FTPS a Hostinger). El despliegue al host se dispara solo desde Actions → «Deploy to Hostinger» → Run workflow.
 
