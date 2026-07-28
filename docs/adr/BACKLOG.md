@@ -36,7 +36,7 @@ Requieren elegir entre alternativas antes o durante la construcción del theme. 
 | -- | ---------------- | ---------- | ------ |
 | D6 | Layout del monorepo → **`static/` + `wordpress/`** (ejecutar al iniciar Fase 3) | Scaffold del theme | ✅ Resuelta ([0007](0007-layout-del-monorepo-static-y-wordpress.md)) |
 | D7 | Política de URLs → **con barra final** (default WP, KISS/YAGNI); enlaces del theme vía `get_permalink()` | ~~Conversión de enlaces~~ (ya no necesaria) | ✅ Resuelta ([0008](0008-politica-de-urls.md)) |
-| D8 | Mecanismo y alcance del despliegue: FTPS vs rsync; fuentes de verdad duales; deploy acotado | Arreglo de despliegue | ⏳ Pendiente |
+| D8 | Despliegue → **FTPS** + fuentes de verdad duales + deploy acotado (theme/plugin) + staging en subdominio noindex; un workflow tras el corte | Arreglo de despliegue | ✅ Resuelta ([0009](0009-mecanismo-y-alcance-del-despliegue.md)) |
 | D9 | Formulario de contacto: nativo/propio vs plugin (según 0006); tratamiento de datos | — | ⏳ Pendiente |
 | D10 | Analítica y privacidad: GA4 / cookies sí o no; página de privacidad | — | ⏳ Pendiente |
 | D11 | Alojamiento de PDFs → **Media Library** | — | ✅ Resuelta (en [0005](0005-modelo-de-contenido-cpts-y-taxonomias.md) §5) |
