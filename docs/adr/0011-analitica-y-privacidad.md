@@ -44,12 +44,32 @@ El anclaje de sede sigue siendo venezolano: *habeas data* (art. 28 CRBV) y norma
 
 Este ADR fija la **postura técnica**. La validación jurídica del texto corresponde al propietario y a su asesoría legal, como ya asumió ADR 0010 §4.
 
-### 2. Analítica: aplazada. GA4 en fase posterior, con asesoría legal
+### 2. Analítica: propia y sin cookies desde la v1. GA4 después, con asesoría legal
 
-- **La v1 se publica sin analítica.** Las únicas métricas hasta entonces son los **registros de acceso del servidor** (Hostinger): sin coste, sin código, sin cookies.
-- **GA4 queda planificado para una fase posterior, condicionado a asesoría legal previa.** No se descarta; **no se instala ahora**.
+Se adoptan **dos pasos, en este orden**:
 
-Precondiciones que deberán resolverse **antes** de activar GA4, registradas aquí para que la fase posterior no las redescubra:
+#### 2.1. Ahora: analítica propia, autoalojada y sin cookies — **WP Statistics**
+
+La revista necesita saber qué se lee (memoria del CENFISS, solicitudes a índices), y esa necesidad no justifica esperar a GA4. Se adopta **WP Statistics**, que cumple ADR 0006:
+
+- **Gratuito** y GPL en su versión del repositorio oficial.
+- **Muy usado:** 600.000+ instalaciones activas (verificado el 2026-07-28), el mayor de los candidatos evaluados.
+- **Activamente mantenido:** actualizado días antes de esta decisión y declarado compatible con la versión vigente de WordPress.
+- **Necesario:** medir por artículo no se resuelve con los registros del servidor sin herramientas de análisis adicionales.
+- **Autoalojado:** los datos se crean y quedan **en el servidor de la revista**; no se envían a ninguna plataforma externa.
+
+**Requisitos vinculantes de configuración** (condición de la adopción, no preferencias):
+
+1. **Sin cookies y sin almacenamiento en el cliente.** WP Statistics no usa cookies por defecto; se verifica en la instalación y tras cada actualización mayor. Si una versión futura cambiara ese comportamiento, se reconfigura o se sustituye el plugin: el invariante de §3 manda sobre la herramienta.
+2. **Sin IP en claro.** Se emplea el hash con sal rotatoria diaria que el propio plugin aplica; no se almacenan direcciones IP legibles.
+3. **Sin transferencia a terceros.** Ninguna integración externa (Search Console u otras) sin reabrir este ADR.
+4. **Sin complementos de pago.** Se asume la consecuencia: según la página del plugin, el seguimiento de enlaces y descargas es un complemento de pago, de modo que **el recuento de descargas de PDF puede no estar disponible** en la versión gratuita. Si esa métrica resulta imprescindible, se resuelve con código propio en `revistalogos-core` (ADR 0005/0006), no pagando.
+
+Se añade a la lista de plugins de terceros a instalar (ADR 0006, ADR 0009 §3), junto a Contact Form 7.
+
+#### 2.2. Después: GA4, condicionado a asesoría legal previa
+
+**GA4 queda planificado para una fase posterior**, no se descarta y **no se instala ahora**. Precondiciones que deberán resolverse **antes** de activarlo, registradas aquí para que la fase posterior no las redescubra:
 
 1. **Banner de consentimiento previo**, con bloqueo de la etiqueta hasta que se consienta y registro del consentimiento. Implica un plugin adicional (evaluar contra ADR 0006).
 2. **Actualización de esta política de privacidad**: cookies, Google como destinatario, transferencias internacionales.
@@ -59,7 +79,7 @@ Precondiciones que deberán resolverse **antes** de activar GA4, registradas aqu
 
 ### 3. Cookies: cero para el visitante anónimo; sin banner en la v1
 
-- **Invariante:** el sitio **no escribe cookies a visitantes anónimos** y **no realiza peticiones a terceros** en tiempo de ejecución.
+- **Invariante:** el sitio **no escribe cookies a visitantes anónimos** y **no realiza peticiones a terceros** en tiempo de ejecución. **Este invariante prevalece sobre cualquier herramienta**: si una analítica —la actual o una futura— no puede funcionar sin cookies, se sustituye la herramienta, no el invariante.
 - En WordPress el invariante se sostiene porque el núcleo solo pone cookies a **usuarios autenticados** (`wordpress_logged_in_*`, `wp-settings-*`), a **comentaristas** (`comment_author_*`) y a **contenido protegido por contraseña** (`wp-postpass_*`). Las de sesión de la redacción son estrictamente necesarias y quedan exentas de consentimiento.
 - **Medida de aplicación:** los **comentarios se desactivan globalmente** y los CPTs de `revistalogos-core` (ADR 0005) **no declaran `comments`** en sus `supports`.
 - **No se instala banner de cookies en la v1.** Se registra explícitamente: un banner sin cookies que consentir es ruido, sugiere un rastreo que no existe y daña la sobriedad de lectura. No se añade «por si acaso».
@@ -83,7 +103,8 @@ Se crea **`page-privacidad`** (`/privacidad/` en WordPress), separada de `page-p
 
 Esta política se revisa cuando:
 
-- se active GA4 o cualquier otra analítica;
+- **se active la analítica propia** al pasar de la maqueta estática a WordPress: la nota de la página que advierte de que aún no está en funcionamiento debe retirarse ese mismo día;
+- se active GA4, se cambie de herramienta de analítica o se incorpore cualquier cookie;
 - el formulario pase de `mailto:` a **Contact Form 7** (ADR 0010): entonces sí habrá tratamiento en servidor propio;
 - arranque el **sistema de envíos de autores** (ADR 0005);
 - se incorpore cualquier recurso de terceros.
@@ -103,7 +124,9 @@ Un buzón en el propio dominio (`revista@cenfiss.net` o similar) eliminaría ese
 | Alternativa | Motivo de descarte |
 | ----------- | ------------------ |
 | **GA4 desde la v1** | Pone cookies → obliga a banner → añade un plugin de consentimiento y un elemento de UI que rompe la sobriedad académica; transfiere datos a Google, contradiciendo el motivo por el que ADR 0010 rechazó reCAPTCHA; y debilita la excepción del art. 27.2 RGPD. **Se aplaza a fase posterior con asesoría legal; no se descarta.** |
-| **Analítica autoalojada sin cookies** (Koko Analytics, WP Statistics, Burst Statistics) | Daría métricas por artículo sin cookies, sin banner y sin terceros, pero añade un plugin y escritura continua en la base de datos de un hosting compartido para una necesidad que aún no existe (YAGNI). Queda como opción si se necesitan métricas antes de resolver GA4. |
+| **No instalar analítica en la v1** (solo registros del servidor) | Era la opción de mínimo riesgo, pero deja a la revista sin cifras de uso por artículo justo cuando más las necesita: memoria institucional y solicitudes a índices. El propietario decide medir desde el principio, y una herramienta sin cookies permite hacerlo sin banner ni terceros. |
+| **Koko Analytics** | El más fiel a «acotado» y el más ligero (datos agregados, huella mínima en la base de datos, sin peticiones externas), pero 60.000 instalaciones frente a 600.000 y **cookies opcionales**: el invariante dependería de dejar bien una casilla. Descartado por el criterio «muy usado» de ADR 0006 y por robustez del invariante. Sigue siendo el sustituto natural si WP Statistics decepciona. |
+| **Burst Statistics** | 200.000+ instalaciones y bien mantenido, pero **usa cookies por defecto** y el modo sin cookies es opcional. Hacer depender un invariante de años de una casilla que un ajuste o una actualización pueden revertir es frágil. Descartado. |
 | **Matomo, Plausible o Umami autoalojados** | Plausible y Umami exigen Node/Docker: inviable en hosting compartido. Sus versiones cloud cuestan dinero (presupuesto = hosting + dominio, ADR 0005). Matomo autoalojado es una segunda aplicación PHP + base de datos que mantener. |
 | **Ampliar `page-politicas` §6 en vez de crear página propia** | Mezcla dos tratamientos distintos —confidencialidad editorial y datos del visitante— y contradice `docs/05` §2, que ya preveía página propia. |
 | **Instalar un banner de cookies «por si acaso»** | Sin cookies que consentir es ruido; sugiere un rastreo inexistente y empeora la experiencia de lectura sin aportar cumplimiento. |
@@ -113,20 +136,25 @@ Un buzón en el propio dominio (`revista@cenfiss.net` o similar) eliminaría ese
 
 **Beneficios:**
 
-- La v1 se publica **sin banner, sin plugins de consentimiento y sin terceros**: cumplimiento por ausencia de tratamiento, que es la vía más barata y estable.
+- La revista **mide desde el primer día sin renunciar al invariante**: métricas por contenido, en su propio servidor, sin banner, sin plugins de consentimiento y sin ceder datos a nadie.
+- La v1 se publica **sin banner y sin terceros**, que es la vía más barata y estable de cumplir.
 - Permite a **D12** una CSP estricta (`default-src 'self'`) sin excepciones mientras el invariante se mantenga.
 - Cierra el pendiente de ADR 0010 §4 y llena el hueco que `docs/05` §2 ya preveía.
 - El coste real de GA4 queda **documentado por adelantado**, de modo que la fase posterior decida con la factura a la vista y no por inercia.
 
 **Riesgos / costes:**
 
-- **Sin métricas por artículo** en la v1. Si el CENFISS necesita cifras de uso para una memoria o una solicitud a un índice, habrá que adelantar la decisión de analítica.
+- **Una dependencia de terceros más** que mantener (WP Statistics), sumada a Contact Form 7. Su comportamiento sin cookies debe **reverificarse tras cada actualización mayor**: es el punto por donde el invariante puede romperse en silencio.
+- **Crecimiento de la base de datos** en hosting compartido, porque el plugin registra visitas de forma continua. Requiere vigilar el tamaño y fijar una purga de datos antiguos.
+- **Las descargas de PDF pueden quedar sin medir** en la versión gratuita (§2.1.4), justo una de las métricas que más interesan a una revista. Se acepta y, si hace falta, se resuelve con código propio.
 - La política es **provisional y sin validar jurídicamente**; su texto puede cambiar tras la asesoría legal.
 - El invariante «sin terceros» es **frágil ante peticiones editoriales** (un vídeo incrustado, un mapa). Por eso se exige reabrir el ADR.
 - Quedan **datos por confirmar** en la página (plazo de conservación de los registros del servidor), marcados de forma visible en el propio documento.
 
 **Trabajo futuro:**
 
+- **Instalar y configurar WP Statistics** en WordPress: verificar que no escribe cookies, que la IP no se almacena en claro, desactivar cualquier integración externa y fijar una **purga periódica** de datos antiguos.
+- Añadir a la rutina de mantenimiento la **reverificación del comportamiento sin cookies** tras cada actualización mayor del plugin.
 - Confirmar con Hostinger el plazo de conservación de los registros de acceso y completar la página.
 - Someter la política provisional a **asesoría legal** antes de abrir la indexación (ADR 0004: `robots.txt` sigue en `Disallow: /` hasta el lanzamiento).
 - Al migrar a WordPress: crear la página, fijarla en Ajustes → Privacidad, desactivar comentarios globalmente y enlazar el aviso desde el formulario de Contact Form 7 (ADR 0010 §4).

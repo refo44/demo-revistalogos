@@ -9,7 +9,7 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Añadido
-- ADR 0011 — Analítica y privacidad (Aceptada): sin analítica en la v1, GA4 aplazado a fase posterior con asesoría legal, cero cookies y cero terceros, sin banner de consentimiento.
+- ADR 0011 — Analítica y privacidad (Aceptada): analítica propia sin cookies desde la v1 (WP Statistics), GA4 aplazado a fase posterior con asesoría legal, cero cookies y cero terceros, sin banner de consentimiento.
 - `page-privacidad.html` — Aviso de privacidad del sitio, **provisional** y pendiente de validación legal.
 
 ### Cambiado

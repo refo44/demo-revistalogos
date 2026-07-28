@@ -38,7 +38,7 @@ Requieren elegir entre alternativas antes o durante la construcción del theme. 
 | D7 | Política de URLs → **con barra final** (default WP, KISS/YAGNI); enlaces del theme vía `get_permalink()` | ~~Conversión de enlaces~~ (ya no necesaria) | ✅ Resuelta ([0008](0008-politica-de-urls.md)) |
 | D8 | Despliegue → **FTPS** + fuentes de verdad duales + deploy acotado (theme/plugin) + staging en subdominio noindex; un workflow tras el corte | Arreglo de despliegue | ✅ Resuelta ([0009](0009-mecanismo-y-alcance-del-despliegue.md)) |
 | D9 | Formulario de contacto → **Contact Form 7** + honeypot (no reCAPTCHA) + solo correo (sin BD) | — | ✅ Resuelta ([0010](0010-formulario-de-contacto.md)) |
-| D10 | Analítica y privacidad → **sin analítica en la v1** (GA4 aplazado a fase posterior con asesoría legal); cero cookies y cero terceros; **sin banner**; página de privacidad propia y provisional | Aviso de privacidad de D9; CSP estricta en D12 | ✅ Resuelta ([0011](0011-analitica-y-privacidad.md)) |
+| D10 | Analítica y privacidad → **analítica propia sin cookies desde la v1** (WP Statistics); GA4 aplazado a fase posterior con asesoría legal; cero cookies y cero terceros; **sin banner**; página de privacidad propia y provisional | Aviso de privacidad de D9; CSP estricta en D12 | ✅ Resuelta ([0011](0011-analitica-y-privacidad.md)) |
 | D11 | Alojamiento de PDFs → **Media Library** | — | ✅ Resuelta (en [0005](0005-modelo-de-contenido-cpts-y-taxonomias.md) §5) |
 | D12 | HSTS / cabeceras de seguridad + momento de automatización CI/CD | — | ⏳ Pendiente |
 
@@ -57,7 +57,7 @@ Se registran aquí hasta convertirlas en su ADR correspondiente:
 ### Añadidas el 2026-07-28
 
 - **Público objetivo:** la revista es venezolana y está registrada en Venezuela, pero se dirige al público hispanohablante de **España y Latinoamérica**. → condicionó **D10** (activa el RGPD por la vía del art. 3(2)(a)).
-- **Analítica aplazada:** la v1 sale **sin analítica**; **GA4 se implementará en una fase posterior y con asesoría legal previa**. → recogido en ADR 0011 §2.
+- **Analítica en dos pasos:** se implementa **ya** una analítica propia, autoalojada y sin cookies (**WP Statistics**), muy antes que GA4; **GA4 queda para una fase posterior y con asesoría legal previa**. → recogido en ADR 0011 §2.
 - **Cumplimiento por jurisdicción:** el RGPD es la **línea base** de diseño, no el punto final; en fases posteriores se harán **auditorías incrementales país por país**. → recogido en ADR 0011 §1.
 - **Buzón en el dominio:** está **por verificar** si el plan de hosting contratado incluye correo en `cenfiss.net`. De ello depende poder sacar a Google de la cadena de destinatarios del formulario. → recogido en ADR 0011 §7.
 
