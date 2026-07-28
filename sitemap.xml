@@ -71,6 +71,12 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://logo-et-spes.cenfiss.net/page-privacidad</loc>
+    <lastmod>2026-07-28</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://logo-et-spes.cenfiss.net/page-enviar-colaboracion</loc>
     <lastmod>2026-07-23</lastmod>
     <changefreq>yearly</changefreq>

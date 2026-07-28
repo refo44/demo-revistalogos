@@ -38,7 +38,7 @@ Requieren elegir entre alternativas antes o durante la construcción del theme. 
 | D7 | Política de URLs → **con barra final** (default WP, KISS/YAGNI); enlaces del theme vía `get_permalink()` | ~~Conversión de enlaces~~ (ya no necesaria) | ✅ Resuelta ([0008](0008-politica-de-urls.md)) |
 | D8 | Despliegue → **FTPS** + fuentes de verdad duales + deploy acotado (theme/plugin) + staging en subdominio noindex; un workflow tras el corte | Arreglo de despliegue | ✅ Resuelta ([0009](0009-mecanismo-y-alcance-del-despliegue.md)) |
 | D9 | Formulario de contacto → **Contact Form 7** + honeypot (no reCAPTCHA) + solo correo (sin BD) | — | ✅ Resuelta ([0010](0010-formulario-de-contacto.md)) |
-| D10 | Analítica y privacidad: GA4 / cookies sí o no; página de privacidad | — | ⏳ Pendiente |
+| D10 | Analítica y privacidad → **sin analítica en la v1** (GA4 aplazado a fase posterior con asesoría legal); cero cookies y cero terceros; **sin banner**; página de privacidad propia y provisional | Aviso de privacidad de D9; CSP estricta en D12 | ✅ Resuelta ([0011](0011-analitica-y-privacidad.md)) |
 | D11 | Alojamiento de PDFs → **Media Library** | — | ✅ Resuelta (en [0005](0005-modelo-de-contenido-cpts-y-taxonomias.md) §5) |
 | D12 | HSTS / cabeceras de seguridad + momento de automatización CI/CD | — | ⏳ Pendiente |
 
@@ -53,6 +53,13 @@ Se registran aquí hasta convertirlas en su ADR correspondiente:
 - **CI/CD automático aplazado:** sin triggers de `push`/`schedule`/`pull_request` por ahora. → condiciona **D12**.
 - **Dominio de producción:** `https://logo-et-spes.cenfiss.net/` (Hostinger). **Pendiente**: los `<link rel="canonical">` y `og:url` del HTML aún apuntan a `refo44.github.io/demo-revistalogos` (obsoletos); corregir al resolver **D7** (política de URLs).
 - **Indexación bloqueada hasta el lanzamiento:** `robots.txt` permanece en `Disallow: /` hasta que la migración a WordPress esté terminada y validada y esté cargado el contenido editorial real. Solo entonces se abre la indexación y se añade la línea `Sitemap:`. Es el brazo de aplicación de **D4** (datos dummy excluidos de producción); se documentará en el ADR 0004 y en el checklist de lanzamiento (doc 17).
+
+### Añadidas el 2026-07-28
+
+- **Público objetivo:** la revista es venezolana y está registrada en Venezuela, pero se dirige al público hispanohablante de **España y Latinoamérica**. → condicionó **D10** (activa el RGPD por la vía del art. 3(2)(a)).
+- **Analítica aplazada:** la v1 sale **sin analítica**; **GA4 se implementará en una fase posterior y con asesoría legal previa**. → recogido en ADR 0011 §2.
+- **Cumplimiento por jurisdicción:** el RGPD es la **línea base** de diseño, no el punto final; en fases posteriores se harán **auditorías incrementales país por país**. → recogido en ADR 0011 §1.
+- **Buzón en el dominio:** está **por verificar** si el plan de hosting contratado incluye correo en `cenfiss.net`. De ello depende poder sacar a Google de la cadena de destinatarios del formulario. → recogido en ADR 0011 §7.
 
 Estado en el repo: `.github/workflows/deploy.yml` ya es `workflow_dispatch`-only (cumple). `deploy.sh` **eliminado** el 2026-07-23 (hacía `git push` y mencionaba GitHub Pages y una ruta `prototype/` inexistente, incoherente con el despliegue manual por FTPS a Hostinger). El despliegue al host se dispara solo desde Actions → «Deploy to Hostinger» → Run workflow.
 

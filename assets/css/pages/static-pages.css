@@ -77,7 +77,8 @@
   font-style: italic;
 }
 
-.normas-warning {
+.normas-warning,
+.page-notice {
   margin-top: var(--space-6);
   padding: var(--space-4);
   background-color: var(--color-primary-light);

@@ -59,6 +59,7 @@ Usar `TEMPLATE.md` como punto de partida. Estructura mínima: Estado · Fecha ·
 | [0008](0008-politica-de-urls.md) | Política de URLs | Aceptada |
 | [0009](0009-mecanismo-y-alcance-del-despliegue.md) | Mecanismo y alcance del despliegue | Aceptada |
 | [0010](0010-formulario-de-contacto.md) | Formulario de contacto (Contact Form 7) | Aceptada |
+| [0011](0011-analitica-y-privacidad.md) | Analítica y privacidad | Aceptada |
 
 > El backlog de decisiones a resolver (D1–D12) se lleva en `docs/adr/BACKLOG.md`. Cada decisión resuelta añade su fila a esta tabla y se retira del backlog.
 

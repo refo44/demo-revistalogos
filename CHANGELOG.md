@@ -8,8 +8,19 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Añadido
+- ADR 0011 — Analítica y privacidad (Aceptada): sin analítica en la v1, GA4 aplazado a fase posterior con asesoría legal, cero cookies y cero terceros, sin banner de consentimiento.
+- `page-privacidad.html` — Aviso de privacidad del sitio, **provisional** y pendiente de validación legal.
+
+### Cambiado
+- El enlace «Privacidad» del footer apunta ahora al nuevo aviso (antes iba a `page-politicas.html#politica-privacidad`, que trata la confidencialidad editorial).
+- `page-politicas.html` §6 remite al nuevo aviso para el tratamiento de datos de visitantes.
+- `sitemap.xml` incluye `/page-privacidad`.
+
 ### Por hacer
-- Resolver el backlog de decisiones en ADR (ver `docs/adr/BACKLOG.md`).
+- Resolver el backlog de decisiones en ADR (ver `docs/adr/BACKLOG.md`): queda **D12** (cabeceras de seguridad y momento de automatización CI/CD).
+- Confirmar con el proveedor el plazo de conservación de los registros de acceso y completar el marcador `[Por confirmar]` del aviso de privacidad.
+- Someter el aviso de privacidad a asesoría legal antes de abrir la indexación.
 
 ## [0.1.0] — 2026-07-23
 
