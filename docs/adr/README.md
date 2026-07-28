@@ -53,6 +53,10 @@ Usar `TEMPLATE.md` como punto de partida. Estructura mínima: Estado · Fecha ·
 | [0002](0002-wordpress-como-adaptacion-sin-rediseno.md) | WordPress como adaptación sin rediseño | Aceptada |
 | [0003](0003-css-y-tokens-invariantes-en-la-migracion.md) | CSS y tokens invariantes en la migración | Aceptada |
 | [0004](0004-datos-dummy-excluidos-de-produccion.md) | Datos dummy excluidos de producción | Aceptada |
+| [0005](0005-modelo-de-contenido-cpts-y-taxonomias.md) | Modelo de contenido — CPTs, taxonomías y plugin propio | Aceptada |
+| [0006](0006-politica-de-dependencias-de-plugins.md) | Política de dependencias de plugins de terceros | Aceptada |
+| [0007](0007-layout-del-monorepo-static-y-wordpress.md) | Layout del monorepo — static/ y wordpress/ | Aceptada |
+| [0008](0008-politica-de-urls.md) | Política de URLs | Aceptada |
 
 > El backlog de decisiones a resolver (D1–D12) se lleva en `docs/adr/BACKLOG.md`. Cada decisión resuelta añade su fila a esta tabla y se retira del backlog.
 

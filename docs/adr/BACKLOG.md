@@ -4,6 +4,8 @@ Lista de decisiones a convertir en ADR, **una por una**. Al resolver cada una: s
 
 Origen: análisis comparativo con el proyecto hermano *Camino del Dharma* (mismo patrón «maqueta estática → WordPress, sin rediseño») y con los invariantes ya afirmados en `docs/17-implementation-order` y `docs/12-theme-file-structure`.
 
+> **Numeración:** el número de ADR se asigna **secuencialmente al redactar**. Los números de la columna «ADR propuesto» de abajo son **indicativos** y se desplazan si se intercalan decisiones nuevas (p. ej. la política de plugins tomó el 0006).
+
 ---
 
 ## Grupo A — registrar decisiones ya tomadas
@@ -16,21 +18,29 @@ Invariantes que los documentos numerados ya afirman; el ADR los hace vinculantes
 | D2 | [0002](0002-wordpress-como-adaptacion-sin-rediseno.md) — WordPress como adaptación sin rediseño | Invariante «no rediseñar» (doc 17 §2.3) | ✅ Resuelta |
 | D3 | [0003](0003-css-y-tokens-invariantes-en-la-migracion.md) — CSS y tokens invariantes en la migración | Arquitectura CSS y tokens no cambian | ✅ Resuelta |
 | D4 | [0004](0004-datos-dummy-excluidos-de-produccion.md) — Datos dummy excluidos de producción | Lista «prohibido migrar» (doc 17 §3.1) | ✅ Resuelta |
-| D5 | 0005 — Modelo de contenido: CPTs y taxonomías | issue/article/author/submission + section/article_type/keyword | ⏳ Pendiente |
+| D5 | [0005](0005-modelo-de-contenido-cpts-y-taxonomias.md) — Modelo de contenido: CPTs, taxonomías y plugin propio | issue/article/author/submission + section/article_type/keyword | ✅ Resuelta |
+
+## Decisiones transversales resueltas
+
+Principios que gobiernan varias decisiones de abajo.
+
+| ID | ADR | Qué fija | Estado |
+| -- | --- | -------- | ------ |
+| DT1 | [0006](0006-politica-de-dependencias-de-plugins.md) — Política de dependencias de plugins | Minimizar terceros; nativo/propio primero; solo plugins gratis, muy usados y mantenidos. Gobierna D9, D10, D12. | ✅ Resuelta |
 
 ## Grupo B — decisiones genuinamente abiertas
 
-Requieren elegir entre alternativas antes o durante la construcción del theme.
+Requieren elegir entre alternativas antes o durante la construcción del theme. (Números de ADR indicativos; se asignan al redactar.)
 
-| ID | ADR propuesto | Decisión a tomar | Desbloquea | Estado |
-| -- | ------------- | ---------------- | ---------- | ------ |
-| D6 | 0006 — Layout del monorepo | `static/` + `wordpress/` **vs** `theme-revistalogos/` en raíz | Scaffold del theme | ⏳ Pendiente |
-| D7 | 0007 — Política de URLs | Barra final sí/no + enlaces internos absolutos de raíz | Conversión de enlaces | ⏳ Pendiente |
-| D8 | 0008 — Mecanismo y alcance del despliegue | FTPS vs rsync; fuentes de verdad duales; deploy acotado | Arreglo de despliegue | ⏳ Pendiente |
-| D9 | 0009 — Formulario de contacto en WordPress | Plugin vs endpoint propio; tratamiento de datos | — | ⏳ Pendiente |
-| D10 | 0010 — Analítica y privacidad | GA4 / cookies sí o no; página de privacidad | — | ⏳ Pendiente |
-| D11 | 0011 — Alojamiento de PDFs | Theme `assets/pdf/` **vs** Media Library | — | ⏳ Pendiente |
-| D12 | 0012 — HSTS / cabeceras y CI/CD | Cabeceras de seguridad + momento de automatización | — | ⏳ Pendiente |
+| ID | Decisión a tomar | Desbloquea | Estado |
+| -- | ---------------- | ---------- | ------ |
+| D6 | Layout del monorepo → **`static/` + `wordpress/`** (ejecutar al iniciar Fase 3) | Scaffold del theme | ✅ Resuelta ([0007](0007-layout-del-monorepo-static-y-wordpress.md)) |
+| D7 | Política de URLs → **con barra final** (default WP, KISS/YAGNI); enlaces del theme vía `get_permalink()` | ~~Conversión de enlaces~~ (ya no necesaria) | ✅ Resuelta ([0008](0008-politica-de-urls.md)) |
+| D8 | Mecanismo y alcance del despliegue: FTPS vs rsync; fuentes de verdad duales; deploy acotado | Arreglo de despliegue | ⏳ Pendiente |
+| D9 | Formulario de contacto: nativo/propio vs plugin (según 0006); tratamiento de datos | — | ⏳ Pendiente |
+| D10 | Analítica y privacidad: GA4 / cookies sí o no; página de privacidad | — | ⏳ Pendiente |
+| D11 | Alojamiento de PDFs → **Media Library** | — | ✅ Resuelta (en [0005](0005-modelo-de-contenido-cpts-y-taxonomias.md) §5) |
+| D12 | HSTS / cabeceras de seguridad + momento de automatización CI/CD | — | ⏳ Pendiente |
 
 ---
 
