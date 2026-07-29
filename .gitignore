@@ -88,8 +88,11 @@ wp-config.php
 # Uploads
 /wp-content/uploads/
 
-# htaccess
-/.htaccess
+# htaccess: versionado a propósito. Es código (reglas de URL y cabeceras de
+# seguridad), y ADR 0009 §2 lo declara fuente de verdad en Git; el workflow lo
+# copia al desplegar. En la fase WordPress el despliegue solo apunta al theme y
+# al plugin (ADR 0009 §3), así que el .htaccess que WordPress gestione en el
+# servidor no se ve afectado por este archivo.
 
 # All plugins
 # /wp-content/plugins

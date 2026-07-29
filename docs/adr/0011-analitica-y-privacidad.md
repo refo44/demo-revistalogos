@@ -79,11 +79,17 @@ Se añade a la lista de plugins de terceros a instalar (ADR 0006, ADR 0009 §3),
 
 ### 3. Cookies: cero para el visitante anónimo; sin banner en la v1
 
-- **Invariante:** el sitio **no escribe cookies a visitantes anónimos** y **no realiza peticiones a terceros** en tiempo de ejecución. **Este invariante prevalece sobre cualquier herramienta**: si una analítica —la actual o una futura— no puede funcionar sin cookies, se sustituye la herramienta, no el invariante.
+Conviene separar dos cosas que no tienen el mismo rango:
+
+- **Invariante (duro): el sitio no escribe cookies a visitantes anónimos.** Esto sí prevalece sobre cualquier herramienta: si una analítica —la actual o una futura— no puede funcionar sin cookies, se sustituye la herramienta, no el invariante. La razón es concreta: es lo único que evita el banner de consentimiento y todo lo que arrastra.
+- **Preferencia (blanda): evitar peticiones a terceros** cuando no cueste nada evitarlas. **No es un invariante.** Si un recurso de terceros resulta conveniente —por ejemplo los emojis del núcleo de WordPress o Gravatar—, se usa. El criterio que manda es el de ADR 0006: **no acumular dependencias que haya que mantener**, que es un problema de plugins, no de peticiones HTTP.
+
+Cuando se incorpore un tercero, se exigen dos cosas: que **no introduzca cookies ni almacenamiento en el navegador** (si las introduce, vuelve a decidir el invariante duro), y que se **actualice el aviso de privacidad** declarándolo. Actualizar ese documento es barato y está previsto: para eso tiene disparadores de revisión (§5).
 - En WordPress el invariante se sostiene porque el núcleo solo pone cookies a **usuarios autenticados** (`wordpress_logged_in_*`, `wp-settings-*`), a **comentaristas** (`comment_author_*`) y a **contenido protegido por contraseña** (`wp-postpass_*`). Las de sesión de la redacción son estrictamente necesarias y quedan exentas de consentimiento.
 - **Medida de aplicación:** los **comentarios se desactivan globalmente** y los CPTs de `revistalogos-core` (ADR 0005) **no declaran `comments`** en sus `supports`.
 - **No se instala banner de cookies en la v1.** Se registra explícitamente: un banner sin cookies que consentir es ruido, sugiere un rastreo que no existe y daña la sobriedad de lectura. No se añade «por si acaso».
-- Cualquier incorporación futura de recursos de terceros (embeds de YouTube o Maps, fuentes desde CDN, reCAPTCHA) **rompe el invariante y obliga a reabrir este ADR**.
+- Lo que sí queda vetado, por su propio ADR y no por este: **Google reCAPTCHA** (ADR 0010), porque introduce cookies y rastreo. El veto viene del invariante duro, no de la preferencia blanda.
+- Incorporar embeds de terceros (vídeo, mapas) **no obliga a reabrir este ADR**; obliga a comprobar que no traen cookies y a actualizar el aviso de privacidad.
 
 ### 4. Aviso de privacidad: página propia y provisional
 
@@ -137,8 +143,8 @@ Un buzón en el propio dominio (`revista@cenfiss.net` o similar) eliminaría ese
 **Beneficios:**
 
 - La revista **mide desde el primer día sin renunciar al invariante**: métricas por contenido, en su propio servidor, sin banner, sin plugins de consentimiento y sin ceder datos a nadie.
-- La v1 se publica **sin banner y sin terceros**, que es la vía más barata y estable de cumplir.
-- Permite a **D12** una CSP estricta (`default-src 'self'`) sin excepciones mientras el invariante se mantenga.
+- La v1 se publica **sin banner ni plugin de consentimiento**, que es la vía más barata y estable de cumplir.
+- Permite a **D12** una CSP sencilla mientras no haya terceros, y fácil de ampliar con los hosts concretos si algún día los hay.
 - Cierra el pendiente de ADR 0010 §4 y llena el hueco que `docs/05` §2 ya preveía.
 - El coste real de GA4 queda **documentado por adelantado**, de modo que la fase posterior decida con la factura a la vista y no por inercia.
 
@@ -148,7 +154,7 @@ Un buzón en el propio dominio (`revista@cenfiss.net` o similar) eliminaría ese
 - **Crecimiento de la base de datos** en hosting compartido, porque el plugin registra visitas de forma continua. Requiere vigilar el tamaño y fijar una purga de datos antiguos.
 - **Las descargas de PDF pueden quedar sin medir** en la versión gratuita (§2.1.4), justo una de las métricas que más interesan a una revista. Se acepta y, si hace falta, se resuelve con código propio.
 - La política es **provisional y sin validar jurídicamente**; su texto puede cambiar tras la asesoría legal.
-- El invariante «sin terceros» es **frágil ante peticiones editoriales** (un vídeo incrustado, un mapa). Por eso se exige reabrir el ADR.
+- La ausencia de terceros es una **situación de hecho, no una promesa**: puede cambiar sin que eso sea un fallo. El coste de cada cambio así es actualizar el aviso de privacidad y, en su caso, ampliar la CSP con el host correspondiente.
 - Quedan **datos por confirmar** en la página (plazo de conservación de los registros del servidor), marcados de forma visible en el propio documento.
 
 **Trabajo futuro:**
@@ -169,7 +175,7 @@ Un buzón en el propio dominio (`revista@cenfiss.net` o similar) eliminaría ese
 - ADR 0005 (CPTs de `revistalogos-core`; subsistema de envíos aplazado)
 - ADR 0006 (política de dependencias de plugins: nativo antes que plugin)
 - ADR 0010 (formulario de contacto; §4 dejó pendiente este aviso; reCAPTCHA rechazado por cookies)
-- Backlog **D10** (esta decisión) y **D12** (cabeceras de seguridad; la CSP depende del invariante §3)
+- Backlog **D10** (esta decisión) y **D12a** / ADR 0012 (cabeceras de seguridad; la CSP se apoya en §3)
 - `docs/05-information-architecture-navigation` §2 (la IA ya preveía página de privacidad)
 - `docs/15-assets-strategy` (sin CDN ni peticiones externas)
 - RGPD arts. 3(2)(a), 13 y 27; Considerando 23; Directrices 3/2018 del CEPD sobre ámbito territorial

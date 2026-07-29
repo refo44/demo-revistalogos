@@ -11,6 +11,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ### Añadido
 - ADR 0011 — Analítica y privacidad (Aceptada): analítica propia sin cookies desde la v1 (WP Statistics), GA4 aplazado a fase posterior con asesoría legal, cero cookies y cero terceros, sin banner de consentimiento.
 - `page-privacidad.html` — Aviso de privacidad del sitio, **provisional** y pendiente de validación legal.
+- ADR 0012 — Cabeceras de seguridad HTTP (Aceptada): redirección a HTTPS y cuatro cabeceras reversibles ahora; HSTS y CSP tras la auditoría profesional; nunca `preload`.
+- `.htaccess` — redirección 301 de HTTP a HTTPS (el dominio servía contenido en claro) y cabeceras `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy` y `Permissions-Policy`.
+
+### Corregido
+- URL absolutas del HTML: las 38 referencias —16 `canonical`, `og:url`, `twitter:url`, imágenes sociales y bloques JSON-LD— apuntaban a la copia de GitHub Pages y ahora declaran canónico el dominio principal `logo-et-spes.cenfiss.net`, sin extensión y sin barra final.
+- Aviso de privacidad: declara **GitHub Pages** como segundo proveedor de alojamiento. El sitio se publica en dos direcciones y el documento solo mencionaba Hostinger.
+- `.htaccess` pasa a versionarse: `.gitignore` lo excluía, de modo que el paso `cp .htaccess` del workflow de despliegue era un no-op silencioso y ese archivo nunca se publicó desde CI (ver ADR 0012, «Hallazgo»).
 
 ### Cambiado
 - El enlace «Privacidad» del footer apunta ahora al nuevo aviso (antes iba a `page-politicas.html#politica-privacidad`, que trata la confidencialidad editorial).
@@ -18,7 +25,8 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 - `sitemap.xml` incluye `/page-privacidad`.
 
 ### Por hacer
-- Resolver el backlog de decisiones en ADR (ver `docs/adr/BACKLOG.md`): queda **D12** (cabeceras de seguridad y momento de automatización CI/CD).
+- Resolver el backlog de decisiones en ADR (ver `docs/adr/BACKLOG.md`): queda **D12b** (momento de automatización CI/CD), a decidir tras la auditoría profesional.
+- Verificar tras el próximo despliegue que `http://` devuelve 301 y que las cuatro cabeceras nuevas llegan al navegador.
 - Confirmar con el proveedor el plazo de conservación de los registros de acceso y completar el marcador `[Por confirmar]` del aviso de privacidad.
 - Someter el aviso de privacidad a asesoría legal antes de abrir la indexación.
 
