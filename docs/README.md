@@ -32,6 +32,7 @@ Documentación para el sitio web de la revista académica. CENFISS (Centro de Fi
 | 19 | accessibility-standards | WCAG, checklist, pruebas |
 | 20 | layout-principles | Ancho de lectura, ritmo, responsive |
 | 21 | user-journey-diagram | Diagrama Mermaid de recorridos |
+| 22 | identificadores-academicos-doi-orcid | Registro DOI (Crossref) y reconocimiento de autoría (ORCID): validación, flujo de depósito, costes |
 
 ---
 

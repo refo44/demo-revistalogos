@@ -42,6 +42,7 @@ Requieren elegir entre alternativas antes o durante la construcción del theme. 
 | D11 | Alojamiento de PDFs → **Media Library** | — | ✅ Resuelta (en [0005](0005-modelo-de-contenido-cpts-y-taxonomias.md) §5) |
 | D12a | Cabeceras de seguridad → **redirección HTTPS + 4 cabeceras reversibles ahora**; **HSTS y CSP tras la auditoría profesional**; nunca `preload` | — | ✅ Resuelta ([0012](0012-cabeceras-de-seguridad.md)) |
 | D12b | Momento de automatización CI/CD | — | ⏳ Pendiente — se decide **tras la auditoría profesional** (ADR 0012 §6) |
+| D13 | Identificadores académicos → **DOI (Crossref) y ORCID**: arquitectura resuelta (API pública ORCID gratuita, código propio); implementación técnica en nueva **Fase 4** de `docs/17` (posterior a WordPress); DOI tratado como coste editorial/legal (igual que ISSN/Depósito Legal), no como gasto de software — el trámite con Crossref (Sponsor, alta de cuenta) procede ya, en paralelo, sin esperar a esa fase | Aviso de privacidad (`page-politicas` §6); backfill del checklist de `docs/17` | ✅ Resuelta ([0013](0013-identificadores-academicos-doi-orcid.md)) |
 
 ---
 
@@ -76,6 +77,13 @@ Se registran aquí hasta convertirlas en su ADR correspondiente:
   - **Diferencia conocida y asumida:** GitHub Pages no aplica el `.htaccess`, así que no tiene cabeceras de seguridad y sus URL no redirigen como producción (`page-acerca.html` responde 200 en vez de redirigir 301 a `/page-acerca`). Los usuarios beta ya lo saben; se anota como contexto, no como pendiente.
   - **D7 (canónicas): resuelto** — ver arriba, los `canonical` apuntan ya a la principal.
   - **Comprobado el 2026-07-28** que **nada en el pipeline reescribía las canónicas**: el workflow es un `cp` sin `sed`, no hay más workflows ni scripts, y ambos despliegues servían la etiqueta apuntando a GitHub Pages. El `.htaccess` sí canonicaliza **URL** (redirige `.html` a la forma sin extensión y quita barras finales), que es cosa distinta de la etiqueta `<link rel="canonical">`.
+
+### Añadidas el 2026-07-29
+
+- **La revista se publica en papel y en digital, con los mismos artículos.** CENFISS ya paga y gestiona ISSN y Depósito Legal de la versión **impresa** ante la Biblioteca Nacional de Venezuela; el trámite de la versión **digital** (su propio e-ISSN, distinto del impreso) sigue pendiente. → recogido en ADR 0013 §Contexto («Precisión 2») y en `docs/22-identificadores-academicos-doi-orcid` §2.2.
+- **El registro DOI (Crossref) se paga con presupuesto editorial/legal de la revista, no con el presupuesto de software del sitio.** El propietario encuadra el DOI en la misma categoría que ISSN/Depósito Legal: un coste de la publicación como tal, no un «plugin o servicio de pago» en el sentido de ADR 0005. → recogido en ADR 0013 §Contexto («Precisión 1») y §2.1; **matiza el alcance de ADR 0005**, que sigue gobernando el software del sitio sin cambios.
+- **No hacen falta cuentas de usuario para publicar la primera edición.** El equipo editorial crea la ficha pública de autor directamente; el sistema de cuentas/login para autores sigue siendo el subsistema de envíos ya aplazado por ADR 0005 §4. → confirmado (no es una decisión nueva) en ADR 0013 §7.
+- **WordPress (Fase 3) todavía no está implementado** — el repositorio sigue en la Fase 2 (maqueta estática); solo existe la maqueta HTML. La implementación de ORCID es, por decisión del propietario, una **fase posterior a WordPress**, no parte de la Fase 3 ni anterior a que exista. Por dependencia técnica (vive en `revistalogos-core`), lo mismo aplica al código de depósito DOI. → recogido en ADR 0013 §Contexto («Precisión 4») como nueva **Fase 4: Identificadores académicos** en `docs/17-implementation-order`; no alcanza a los trámites administrativos con Crossref, que sí avanzan ya (punto anterior).
 
 Estado en el repo: `.github/workflows/deploy.yml` ya es `workflow_dispatch`-only (cumple). `deploy.sh` **eliminado** el 2026-07-23 (hacía `git push` y mencionaba GitHub Pages y una ruta `prototype/` inexistente, incoherente con el despliegue manual por FTPS a Hostinger). El despliegue al host se dispara solo desde Actions → «Deploy to Hostinger» → Run workflow. **El de GitHub Pages, en cambio, se publica solo en cada push a `main`** (verificado el 2026-07-28).
 

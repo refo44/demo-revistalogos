@@ -1,6 +1,6 @@
 # Revista de Filosofía LOGO ET SPES — Modelo de Contenido WordPress
 
-**Versión 1.1**
+**Versión 1.2**
 
 Modelo de contenido oficial para la implementación WordPress. Basado en el plan de plataforma y las fuentes de contenido.
 
@@ -113,7 +113,7 @@ El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, ISSN,
 | issue_number | number | Número oficial |
 | year | number | Año de publicación |
 | date_published | date | Fecha de publicación |
-| issn | text | ISSN (cuando esté disponible) |
+| issn | text | ISSN **electrónico** (e-ISSN), cuando esté disponible. Distinto del ISSN de la versión impresa (ya obtenido por CENFISS); son dos trámites separados ante la Biblioteca Nacional — ver `22-identificadores-academicos-doi-orcid` §2.2 y ADR 0013 |
 | doi | text | Prefijo/sufijo DOI |
 | pdf_file | file | PDF completo del número (Media Library) |
 
@@ -153,7 +153,8 @@ El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, ISSN,
 |-------|------|-----|
 | Title | Nativo | Nombre completo (usar solo post_title) |
 | afiliacion | text | Institución, afiliación |
-| orcid | text | ORCID iD |
+| orcid | text | ORCID iD, formato `NNNN-NNNN-NNNN-NNNK`; opcional, validado por checksum. Ver `22-identificadores-academicos-doi-orcid` §3 |
+| orcid_url | computed | `https://orcid.org/{orcid}`, calculado al mostrar, no almacenado (análogo a `article.doi_url`) |
 | bio | textarea | Biografía breve |
 | email | text | Opcional; para contacto |
 
@@ -312,7 +313,8 @@ Para Google Scholar, Crossref, catálogos de bibliotecas. Añadir como meta tags
 | Email (revista.cenfiss@gmail.com) | Enlaces mailto o plugin de formulario de contacto |
 | Formularios PDF | Media library; enlaces desde normas, enviar-colaboracion |
 | Sitio CENFISS (cenfiss.net) | Enlaces externos en footer, enlaces |
-| Resolvedor DOI | Opcional: enlace a doi.org para DOIs de artículos |
+| Resolvedor DOI (Crossref) | Enlace a doi.org; generador de depósito XML en `revistalogos-core`. Mecanismo, costes y flujo en `22-identificadores-academicos-doi-orcid` / ADR 0013 |
+| ORCID | Enlace a orcid.org/{iD}, dato estructurado `sameAs`; API pública gratuita. Validación, flujo y consecuencias de privacidad en `22-identificadores-academicos-doi-orcid` / ADR 0013 |
 
 ---
 
@@ -333,5 +335,5 @@ El sistema prioriza la lectura, la citación y la divulgación académica sobre 
 
 ---
 
-**Versión:** 1.1
+**Versión:** 1.2
 **Proyecto:** Revista de Filosofía LOGO ET SPES

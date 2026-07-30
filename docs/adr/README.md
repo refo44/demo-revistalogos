@@ -61,8 +61,9 @@ Usar `TEMPLATE.md` como punto de partida. Estructura mínima: Estado · Fecha ·
 | [0010](0010-formulario-de-contacto.md) | Formulario de contacto (Contact Form 7) | Aceptada |
 | [0011](0011-analitica-y-privacidad.md) | Analítica y privacidad | Aceptada |
 | [0012](0012-cabeceras-de-seguridad.md) | Cabeceras de seguridad HTTP | Aceptada |
+| [0013](0013-identificadores-academicos-doi-orcid.md) | Identificadores académicos — DOI y ORCID | Aceptada |
 
-> El backlog de decisiones a resolver (D1–D12) se lleva en `docs/adr/BACKLOG.md`. Cada decisión resuelta añade su fila a esta tabla y se retira del backlog.
+> El backlog de decisiones a resolver (D1–D13) se lleva en `docs/adr/BACKLOG.md`. Cada decisión resuelta añade su fila a esta tabla y se retira del backlog.
 
 ---
 

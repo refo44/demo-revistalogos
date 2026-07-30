@@ -13,6 +13,8 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 - `page-privacidad.html` — Aviso de privacidad del sitio, **provisional** y pendiente de validación legal.
 - ADR 0012 — Cabeceras de seguridad HTTP (Aceptada): redirección a HTTPS y cuatro cabeceras reversibles ahora; HSTS y CSP tras la auditoría profesional; nunca `preload`.
 - `.htaccess` — redirección 301 de HTTP a HTTPS (el dominio servía contenido en claro) y cabeceras `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy` y `Permissions-Policy`.
+- ADR 0013 — Identificadores académicos: DOI y ORCID (Aceptada): arquitectura resuelta (API pública ORCID gratuita, validación por checksum, enlace y `sameAs`, generador de depósito Crossref, código propio); implementación situada en una nueva **Fase 4** de `docs/17-implementation-order`, posterior al lanzamiento de WordPress. DOI tratado como coste editorial/legal de la revista (igual que ISSN/Depósito Legal, fuera del presupuesto de software de ADR 0005) — el trámite con Crossref (Sponsors, alta de cuenta) puede avanzar ya, en paralelo, sin esperar a esa fase; análisis de privacidad/RGPD del circuito editorial (destinatarios internacionales, base jurídica, límite del derecho de supresión); confirma que no hacen falta cuentas de usuario para la primera edición.
+- `docs/22-identificadores-academicos-doi-orcid.md` — especificación operativa: validación ORCID, mapeo de campos a XML de Crossref, convención de sufijo DOI, estados «en trámite», checklist de implementación.
 
 ### Corregido
 - URL absolutas del HTML: las 38 referencias —16 `canonical`, `og:url`, `twitter:url`, imágenes sociales y bloques JSON-LD— apuntaban a la copia de GitHub Pages y ahora declaran canónico el dominio principal `logo-et-spes.cenfiss.net`, sin extensión y sin barra final.
@@ -29,6 +31,9 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 - Verificar tras el próximo despliegue que `http://` devuelve 301 y que las cuatro cabeceras nuevas llegan al navegador.
 - Confirmar con el proveedor el plazo de conservación de los registros de acceso y completar el marcador `[Por confirmar]` del aviso de privacidad.
 - Someter el aviso de privacidad a asesoría legal antes de abrir la indexación.
+- Investigar el Programa de Sponsors de Crossref para Venezuela/Latinoamérica y confirmar el coste real de membresía DOI con el volumen del primer número (ADR 0013 §2.1 — puede avanzar ya, sin esperar a la Fase 4).
+- Tramitar el ISSN electrónico (e-ISSN) ante la Biblioteca Nacional, en paralelo al DOI y sin depender de él (ADR 0013, ADR 0004).
+- Designar quién en CENFISS gestiona las solicitudes de acceso/corrección/baja de datos de autor frente a Crossref, y revisar `page-politicas` §6 y la Solicitud de Publicación/Declaración de Ética con asesoría legal (ADR 0013 §6).
 
 ## [0.1.0] — 2026-07-23
 

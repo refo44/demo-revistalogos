@@ -168,10 +168,25 @@ La maqueta estática está validada como base visual del tema WordPress. Su cont
 - [ ] Primera edición recibida y validada contra el PDF final
 - [ ] Primer número real cargado en el sistema
 - [ ] Todos los artículos y autores de la primera edición cargados y vinculados
-- [ ] ISSN, depósito legal, DOI y ORCID confirmados o marcados honestamente como pendientes
+- [ ] ISSN (impreso ya obtenido; electrónico pendiente), depósito legal, DOI y ORCID confirmados o marcados honestamente como pendientes — mecanismo, costes y flujo en `22-identificadores-academicos-doi-orcid` y ADR 0013
 - [ ] Aprobación editorial completada en staging
 
 ---
 
-**Versión:** 1.1
+## Fase 4: Identificadores académicos (DOI y ORCID) — POSTERIOR
+
+Fase separada, **deliberadamente posterior al lanzamiento de WordPress** (decisión del propietario; ver ADR 0013 §Contexto, «Precisión 4»). No bloquea el cierre de la Fase 3 ni el checklist de lanzamiento: el sitio puede salir a producción con los identificadores en «en trámite» (régimen de ADR 0004), y esta fase los completa después. Especificación completa en `docs/22-identificadores-academicos-doi-orcid`.
+
+1. **Implementar en `revistalogos-core`:** validación de formato/checksum de `author.orcid`, campo derivado `orcid_url`, enlace visible y `sameAs` en JSON-LD, marcadores «en trámite» para `doi`/`issn` — `docs/22` §3-§6.
+2. **Generador de depósito Crossref:** comando WP-CLI o acción de administración que produce el XML de un número a partir de los CPT `issue`/`article`/`author`, con revisión manual antes de cualquier envío — `docs/22` §7.
+3. **Primer depósito real** (con cuenta Crossref activa y sitio en producción con URLs estables): depositar, confirmar, rellenar `doi`/`issn` reales, retirar el marcador «en trámite» de ese registro.
+4. **«Sign in with ORCID»** queda fuera de esta fase — se plantea para cuando exista portal de autor (subsistema de envíos, ADR 0005 §4, fase posterior incluso a esta).
+
+### Lo que puede avanzar antes, en paralelo a la Fase 3
+
+El trámite administrativo con Crossref **no depende de que exista el theme** (ADR 0013 §2.1): investigar el Programa de Sponsors, confirmar el coste real, dar de alta la cuenta, designar quién gestiona solicitudes de datos personales frente a Crossref, tramitar el ISSN electrónico ante la Biblioteca Nacional, y revisar `page-politicas` §6 con asesoría legal. Checklist completo en `docs/22` §9.
+
+---
+
+**Versión:** 1.2
 **Proyecto:** Revista de Filosofía LOGO ET SPES

@@ -28,6 +28,7 @@ Todos los documentos de arquitectura del sitio se redactan en español. Los tér
 | **19** | Accesibilidad | Estándares únicos de accesibilidad: estrategia, diseño, HTML semántico, ARIA, contenido editorial, checklist y pruebas. WCAG 2.1/2.2 AA. |
 | **20** | Principios de maquetación | Ancho de lectura, ritmo vertical, uso del espacio en blanco, relación tipografía/imagen. Cierra el sistema visual antes de escribir HTML. |
 | **21** | Diagrama de recorrido del usuario | Diagrama Mermaid de flujos del visitante. Validación visual de 10-user-journey. |
+| **22** | Identificadores académicos | DOI (Crossref) y ORCID: validación, flujo de depósito, costes. Depende del modelo de contenido (03) y del orden de implementación (17); documenta ADR 0013. |
 
 ---
 
@@ -60,6 +61,7 @@ Ningún documento puede depender de uno con número mayor. Las referencias cruza
 19. `19-accessibility-standards`
 20. `20-layout-principles`
 21. `21-user-journey-diagram`
+22. `22-identificadores-academicos-doi-orcid`
 
 ---
 
@@ -82,6 +84,7 @@ Ver `16-content-source-inventory` para el mapeo completo.
 | Revista académica, acceso abierto | 01, 02 |
 | Arbitraje doble ciego, normas editoriales | 01, 03, 07 |
 | CPTs: número, artículo | 03, 12 |
+| DOI, ISSN digital, ORCID | 03, 22 |
 | Pantallas y vistas | 04, 06 |
 | Navegación, migas de pan, IA | 05, 11 |
 | Voz, microcopy, CTAs | 07, 08, 09 |
@@ -99,6 +102,7 @@ Ver `16-content-source-inventory` para el mapeo completo.
 | Portada, Sumario, Editorial, Artículos | 03, 04, 06 |
 | Normas de Publicación, Ética, Políticas | 04, 07, 09 |
 | Formularios (Solicitud, Arbitraje) | 16, 17 |
+| Reseña curricular del autor (Código ORCID) | 03, 22 |
 | Origen del nombre Logo et Spes | 02, 04 |
 | Simulación teórica del sitio | 04, 06, 11 |
 | Acceso abierto, arbitraje doble ciego | 01, 07 |
