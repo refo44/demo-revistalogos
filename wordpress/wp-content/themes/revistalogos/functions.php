@@ -15,6 +15,8 @@ define( 'REVISTALOGOS_THEME_VERSION', '0.1.0' );
 
 require_once get_template_directory() . '/inc/template-tags.php';
 require_once get_template_directory() . '/inc/class-nav-walker.php';
+require_once get_template_directory() . '/inc/citations.php';
+require_once get_template_directory() . '/inc/metadata-output.php';
 
 /**
  * Theme supports and menu locations.
@@ -57,6 +59,20 @@ function revistalogos_enqueue_assets() {
 			'strategy'  => 'defer',
 		)
 	);
+
+	// Citation tools only where the citation block renders.
+	if ( is_singular( 'article' ) ) {
+		wp_enqueue_script(
+			'revistalogos-citation',
+			get_template_directory_uri() . '/assets/js/citation.js',
+			array(),
+			REVISTALOGOS_THEME_VERSION,
+			array(
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			)
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'revistalogos_enqueue_assets' );
 

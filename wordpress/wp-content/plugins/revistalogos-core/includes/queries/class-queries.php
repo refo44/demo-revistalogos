@@ -129,6 +129,48 @@ class Queries {
 	}
 
 	/**
+	 * Bounded public search for /buscar/?q= (docs/04: result priority
+	 * 1) articles, 2) issues, 3) authors, 4) news). Only approved public
+	 * content types; stable pagination via paged.
+	 *
+	 * @param string $search   Search terms (already sanitized).
+	 * @param int    $paged    Page number (1-based).
+	 * @param int    $per_page Results per page.
+	 * @return \WP_Query
+	 */
+	public static function search_query( $search, $paged = 1, $per_page = 10 ) {
+		$orderby_filter = static function ( $orderby, $query ) {
+			global $wpdb;
+
+			if ( $query->get( 'revistalogos_search' ) ) {
+				// Documented type priority, then recency. No native
+				// orderby exists for type priority; posts_orderby is the
+				// supported extension point.
+				$orderby = "FIELD({$wpdb->posts}.post_type, 'article', 'issue', 'author', 'post'), {$wpdb->posts}.post_date DESC";
+			}
+
+			return $orderby;
+		};
+
+		add_filter( 'posts_orderby', $orderby_filter, 10, 2 );
+
+		$query = new \WP_Query(
+			array(
+				's'                   => $search,
+				'post_type'           => array( Content_Types::ARTICLE, Content_Types::ISSUE, Content_Types::AUTHOR, 'post' ),
+				'post_status'         => 'publish',
+				'posts_per_page'      => max( 1, absint( $per_page ) ),
+				'paged'               => max( 1, absint( $paged ) ),
+				'revistalogos_search' => true,
+			)
+		);
+
+		remove_filter( 'posts_orderby', $orderby_filter, 10 );
+
+		return $query;
+	}
+
+	/**
 	 * Issue referenced by an article, if published.
 	 *
 	 * @param int $article_id Article post ID.
