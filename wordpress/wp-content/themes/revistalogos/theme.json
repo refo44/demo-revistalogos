@@ -1,0 +1,31 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 2,
+	"settings": {
+		"color": {
+			"custom": false,
+			"customGradient": false,
+			"customDuotone": false,
+			"defaultPalette": false,
+			"defaultGradients": false,
+			"palette": [
+				{ "slug": "primary", "name": "Azul petróleo institucional", "color": "#18597c" },
+				{ "slug": "primary-light", "name": "Azul editorial suave", "color": "#e7f2f8" },
+				{ "slug": "primary-dark", "name": "Azul profundo", "color": "#144866" },
+				{ "slug": "secondary", "name": "Gris neutro", "color": "#afabac" },
+				{ "slug": "accent", "name": "Verde éxito", "color": "#059669" },
+				{ "slug": "bg-primary", "name": "Fondo editorial", "color": "#f8fafc" },
+				{ "slug": "surface", "name": "Superficie", "color": "#ffffff" },
+				{ "slug": "text-primary", "name": "Texto principal", "color": "#1e293b" },
+				{ "slug": "text-muted", "name": "Texto secundario", "color": "#64748b" },
+				{ "slug": "link", "name": "Enlace", "color": "#0a7599" }
+			]
+		},
+		"typography": {
+			"customFontSize": false
+		},
+		"spacing": {
+			"customSpacingSize": false
+		}
+	}
+}

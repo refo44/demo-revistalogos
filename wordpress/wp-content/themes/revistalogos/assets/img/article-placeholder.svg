@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" width="300" height="200">
+  <defs>
+    <linearGradient id="articleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f1f5f9;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e2e8f0;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="300" height="200" fill="url(#articleGradient)" stroke="#cbd5e1" stroke-width="1"/>
+  
+  <!-- Document icon -->
+  <rect x="120" y="60" width="60" height="80" fill="#64748b" rx="4"/>
+  <rect x="130" y="70" width="40" height="3" fill="white"/>
+  <rect x="130" y="80" width="40" height="3" fill="white"/>
+  <rect x="130" y="90" width="30" height="3" fill="white"/>
+  <rect x="130" y="100" width="35" height="3" fill="white"/>
+  
+  <!-- Text -->
+  <text x="150" y="160" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#64748b">Artículo</text>
+</svg>

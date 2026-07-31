@@ -1,0 +1,61 @@
+/* Single issue page */
+
+.single-issue__header {
+  margin-bottom: var(--space-8);
+}
+
+.single-issue__cover {
+  max-width: 200px;
+  margin: 0 auto var(--space-6);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+}
+
+.single-issue__title,
+.single-issue__meta,
+.single-issue__description,
+.single-issue__actions,
+.single-issue__editorial,
+.single-issue__stats {
+  max-width: var(--reading-max-width);
+  margin-inline: auto;
+}
+
+.single-issue__title,
+.single-issue__meta,
+.single-issue__actions {
+  text-align: center;
+}
+
+.single-issue__meta {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--space-6);
+}
+
+.single-issue__description {
+  margin-bottom: var(--space-8);
+  font-size: var(--font-size-lg);
+}
+
+.single-issue__actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-8);
+}
+
+.single-issue__editorial {
+  margin-bottom: var(--space-12);
+}
+
+.single-issue__stats .grid {
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+}
+
+@media (max-width: 768px) {
+  .single-issue__actions {
+    flex-direction: column;
+  }
+}
