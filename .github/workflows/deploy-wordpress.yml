@@ -1,0 +1,69 @@
+# Manual WordPress deployment to STAGING (ADR 0009; prompt §14 Phase 13).
+#
+# Hard rules encoded here:
+# - workflow_dispatch ONLY: no push/pull_request/schedule/tag triggers and
+#   no automatic promotion. Creating or validating this workflow does not
+#   authorize executing it; every run needs an explicit owner decision.
+# - Scope is exactly the first-party theme and plugin directories. It
+#   never touches wp-content/uploads/, wp-config.php, WordPress core,
+#   database content, third-party plugins or the server-root .htaccess,
+#   and it never activates anything or runs migrations/fixtures.
+# - FTPS with dangerous-clean-slate disabled and no delete/mirror mode
+#   against shared WordPress directories; each artifact goes to its own
+#   bounded remote directory (never the WordPress installation root).
+#
+# Required staging secrets (see docs/operations/wordpress-manual-deployment.md):
+#   STAGING_FTP_SERVER, STAGING_FTP_USERNAME, STAGING_FTP_PASSWORD,
+#   STAGING_THEME_REMOTE_DIR, STAGING_PLUGIN_REMOTE_DIR
+name: Deploy WordPress theme+plugin to staging
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-wordpress-staging
+  cancel-in-progress: false
+
+jobs:
+  deploy-theme:
+    name: Upload theme via FTPS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy theme directory
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.STAGING_FTP_SERVER }}
+          username: ${{ secrets.STAGING_FTP_USERNAME }}
+          password: ${{ secrets.STAGING_FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: ./wordpress/wp-content/themes/revistalogos/
+          server-dir: ${{ secrets.STAGING_THEME_REMOTE_DIR }}
+          dangerous-clean-slate: false
+          exclude: |
+            **/.DS_Store
+
+  deploy-plugin:
+    name: Upload plugin via FTPS
+    runs-on: ubuntu-latest
+    needs: deploy-theme
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy plugin directory
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.STAGING_FTP_SERVER }}
+          username: ${{ secrets.STAGING_FTP_USERNAME }}
+          password: ${{ secrets.STAGING_FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: ./wordpress/wp-content/plugins/revistalogos-core/
+          server-dir: ${{ secrets.STAGING_PLUGIN_REMOTE_DIR }}
+          dangerous-clean-slate: false
+          exclude: |
+            **/.DS_Store

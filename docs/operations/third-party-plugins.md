@@ -18,6 +18,14 @@ nuevo requiere un ADR aceptado.
   - Antispam por **honeypot** provisto por `revistalogos-core`
     (integración propia; no se instala plugin extra de honeypot).
   - Enlace al aviso de privacidad (`/privacidad/`) junto al formulario.
+  - Tras crear el formulario en el admin de CF7, guardar su ID en la opción
+    `revistalogos_contact_form_id` (p. ej.
+    `wp option update revistalogos_contact_form_id <ID>`): la plantilla
+    `page-contacto.php` renderiza el formulario desde esa opción y, si falta
+    el plugin o la opción, muestra el fallback accesible con `mailto:`.
+  - Campos del formulario según la maqueta: Nombre completo*, Email*,
+    Asunto*, Mensaje* (obligatorios); el honeypot lo inyecta
+    `revistalogos-core` automáticamente.
   - Checkbox de consentimiento solo si lo aprueba la asesoría legal o lo exige
     el contenido canónico.
   - Cloudflare Turnstile es respaldo aprobado por ADR 0010 **solo** si el
