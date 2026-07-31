@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
-status: "in_progress"
-current_work_unit: "WU6 — Generador e importador de contenido institucional"
+status: "ready_for_review"
+current_work_unit: "WU12 — Gate final y correcciones de documentación (cerrado)"
 current_branch: "main"
-last_verified_commit: "1cd5ab0"
-last_checkpoint_commit: "1cd5ab0"
+last_verified_commit: "dfb91b8"
+last_checkpoint_commit: "dfb91b8"
 updated_at: "2026-07-31"
-next_action: "Ejecutar WU6: generador de payload (Node) + importador (PHP/WP-CLI) de contenido institucional"
+next_action: "Provisionar staging WordPress (Hostinger) y ejecutar allí la QA de niveles 2-4: activar plugin+theme, permalinks, wp revistalogos content validate/plan/import --apply, ciclo de fixtures, CF7 y WP Statistics"
 blocked: false
 ---
 
@@ -129,10 +129,42 @@ Los del prompt maestro §6 (Definition of success). Resumen operativo:
   JSON-LD Schema.org y Open Graph (`inc/metadata-output.php`, 250 líneas).
   Incluido en `b46d313` + `1cd5ab0`.
 
+- **WU6 (2026-07-31):** migración institucional en dos pasos. Generador Node
+  (`tools/generate-content-payload.mjs`, sin dependencias) → payload
+  versionado + semillas de media en `resources/` del plugin; `etica`
+  convertida literalmente del canon con verificación estricta de texto
+  (falla ante divergencia); resto de páginas desde el cuerpo estático
+  validado con enlaces reescritos, PDFs tokenizados a adjuntos y avatares a
+  assets del theme; cobertura canónica informativa: normas 18/27,
+  politicas 10/18 párrafos verbatim (pendiente confirmación editorial).
+  Importador WP-CLI `wp revistalogos content validate|plan|import|verify`,
+  dry-run por defecto, `--apply` para escribir, producción exige
+  `--confirm-production` + `--backup`; identidad `_les_source_*`,
+  detección de deriva (fuente cambiada vs ediciones manuales; `--force`
+  solo reafirma campos poseídos), ajustes de sitio y menús idempotentes
+  sin pisar menús del propietario. Commit `5c1697b`.
+- **WU7 (2026-07-31):** fixtures seed/verify/teardown (`da375c6`): primera
+  edición mockeada Vol. 1 Nº 1 + stubs de paginación, todo con
+  `_les_fixture=1`, claves estables idempotentes e identificadores falsos
+  detectables; guard de producción; teardown limpio de posts/media/meta/
+  términos propios.
+- **WU8 (2026-07-31):** integraciones — honeypot CF7 en el plugin (WU2),
+  opción `revistalogos_contact_form_id` documentada, inventario operativo
+  de CF7/WP Statistics en `docs/operations/third-party-plugins.md`.
+- **WU11 (2026-07-31):** workflow manual FTPS de staging
+  (`.github/workflows/deploy-wordpress.yml`, solo `workflow_dispatch`,
+  acotado a theme+plugin, sin delete/mirror). Creado, **no ejecutado ni
+  autorizado**. Commit `dfb91b8`.
+- **WU12 (2026-07-31):** gate final nivel 1 completo (ver matriz),
+  correcciones de documentación (README árbol monorepo, nota de reorg en
+  `docs/13`), matriz de cobertura completa con 20 pantallas
+  `Implemented`.
+
 ## Active work
 
-- WU6: generador e importador de contenido institucional. Ver «Next exact
-  action».
+- Ninguna. Fase 3 `ready_for_review`: todo el alcance local implementado;
+  queda la QA de runtime (niveles 2-4) en staging y las decisiones del
+  propietario listadas en «Blockers».
 
 ## QA status of completed work
 
@@ -246,28 +278,31 @@ prompt maestro versionado.
 
 ## Next exact action
 
-Ejecutar WU6 (generador e importador de contenido institucional,
-docs/17 §Fase 3.1, prompt maestro):
+La implementación local de Fase 3 está completa (`ready_for_review`).
+Siguiente acción única y priorizada — **QA de runtime en staging**:
 
-1. Generador de payload en Node (herramienta del repo, sin dependencias
-   nuevas): lee `content-source/` (gitignored, local) y produce un
-   artefacto JSON versionado con el contenido institucional (enfoque,
-   normas, ética, políticas, origen del nombre) más checksum de la fuente,
-   determinista e idempotente.
-2. Importador PHP/WP-CLI dentro de `revistalogos-core` (comando de
-   administración o WP-CLI) que consume ese payload y crea/actualiza las
-   páginas de WordPress correspondientes sin depender de rutas del
-   repositorio.
-3. Verificación de texto: el importador debe poder confirmar que el
-   contenido publicado coincide con la fuente (no solo que se ejecutó sin
-   error).
-4. Respetar ADR 0004: nada del Vol. 12 Nº 2 ni de los datos dummy se migra
-   aquí — solo contenido institucional real ya presente en
-   `content-source/`.
-5. QA nivel 1 (sintaxis del generador Node, ejecución local del generador
-   contra `content-source/`); el importador PHP queda `Unverified` sin
-   runtime WordPress, igual que el resto del código de Fase 3.
-6. Commit `feat(plugin): content migration` y actualizar este archivo.
+1. El propietario provisiona el subdominio de staging en Hostinger
+   (WordPress instalado, entorno `staging` en `wp-config.php` vía
+   `WP_ENVIRONMENT_TYPE`) y configura los secretos
+   `STAGING_FTP_*`/`STAGING_*_REMOTE_DIR`.
+2. Con autorización explícita del propietario: disparar «Deploy WordPress
+   theme+plugin to staging» siguiendo el runbook
+   (`docs/operations/wordpress-manual-deployment.md`).
+3. En staging: activar plugin y theme, permalinks «Nombre de la entrada»,
+   instalar CF7 + WP Statistics según
+   `docs/operations/third-party-plugins.md`, y ejecutar:
+   `wp revistalogos content validate` → `plan` → `import --apply` →
+   `verify`; ciclo de fixtures completo (teardown/seed/verify/reseed/
+   teardown ×2); verificación de cookies/red con navegador.
+4. Registrar cada resultado en `docs/fase3-validation-matrix.md`
+   (pasar `Unverified` → Pass/Fail con evidencia).
+
+Acciones del propietario pendientes (no bloquean nada más):
+
+- Cambiar la fuente de GitHub Pages a «GitHub Actions» (Settings → Pages).
+- Revisar las divergencias canon↔maqueta de normas (18/27) y politicas
+  (10/18) reportadas por el generador y decidir si el cuerpo de esas
+  páginas debe regenerarse desde el canon literal (como `etica`).
 
 ## Resume procedure
 

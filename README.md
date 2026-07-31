@@ -15,49 +15,32 @@ Este prototipo mapea 1:1 a la template hierarchy y Custom Post Types (CPT) de Wo
 
 ## 📁 Estructura del Proyecto
 
+Monorepo con dos implementaciones delimitadas (ADR 0007):
+
 ```
-/prototype/
-├── front-page.html                 → Home (mapea a front-page.php)
-├── page-acerca.html               → Acerca (page-acerca.php)
-├── archive-issue.html             → Archivo de números (archive-les_issue.php)
-├── single-issue.html             → Detalle de número (single-les_issue.php)
-├── archive-article.html           → Listado de artículos (archive-les_article.php)
-├── single-article.html            → Ficha de artículo (single-les_article.php)
-├── author.html                    → Ficha de autor (author.php)
-├── taxonomy-section.html          → Taxonomía "section" (taxonomy-section.php)
-├── search.html                    → Resultados de búsqueda (search.php)
-├── 404.html                       → Error 404 (404.php)
-├── noticias.html                → Noticias/Noticias (home.php)
-├── single-post.html               → Entrada de blog (single.php)
-├── /partials/                     → Simulan template parts de WP
-│   ├── header.html                → <header> + nav principal
-│   ├── footer.html                → <footer>
-│   ├── breadcrumbs.html           → Migas accesibles
-│   ├── article-card.html          → Tarjeta de artículo
-│   ├── issue-card.html            → Tarjeta de número
-│   ├── metadata-box.html          → Caja de metadatos académicos
-│   ├── toc.html                   → Tabla de contenidos de un número
-│   ├── pagination.html            → Paginación accesible
-│   └── hero-current-issue.html    → Hero del número vigente
-└── /assets/
-    ├── /css/
-    │   ├── tokens.css             → Design tokens (colores/espacios/tipo)
-    │   ├── base.css               → Reset ligero y tipografía
-    │   ├── layout.css             → Layout, grid, header/nav/footer
-    │   ├── components.css         → Cards, hero, toc, breadcrumbs, buttons, metadata
-    │   ├── pages.css              → Ajustes por plantilla
-    │   ├── utilities.css          → Helpers (visually-hidden, flows, gaps)
-    │   └── main.css               → @import del resto (para futura enqueue en WP)
-    ├── /js/
-    │   └── main.js                → Solo: menú móvil, skip-link fix, acordeones opc.
-    ├── /img/
-    │   ├── logo-cenfiss.svg
-    │   ├── logo-revista.svg
-    │   └── portada-ejemplo.jpg
-    └── /pdf/
-        ├── numero-v12n2-2025.pdf
-        └── articulo-01.pdf
+revistalogos/
+├── static/                          → Referencia estática congelada (Fase 2)
+│   ├── index.html, page-*.html, archive-*.html, single-*.html,
+│   │   noticias.html, search.html, 404.html
+│   ├── partials/                    → Simulan template parts de WP
+│   ├── assets/                      → css/ (tokens→main), js/, img/, pdf/
+│   └── .htaccess, robots.txt, sitemap.xml
+├── wordpress/
+│   └── wp-content/
+│       ├── themes/revistalogos/     → Theme clásico (solo presentación)
+│       └── plugins/revistalogos-core/ → CPTs, taxonomías, campos, roles,
+│                                        migración de contenido y fixtures
+├── tools/                           → Generador del payload de migración
+├── docs/                            → Documentación numerada, ADRs, harness Fase 3
+├── content-source/                  → Fuente canónica (no versionada)
+└── .github/workflows/               → deploy.yml (estático, manual),
+                                       pages.yml (espejo beta, automático),
+                                       deploy-wordpress.yml (staging, manual)
 ```
+
+El detalle de las plantillas estáticas y su mapeo a WordPress está en
+`docs/17-implementation-order` §2.2 y en la matriz de cobertura de
+`docs/fase3-validation-matrix.md`.
 
 ## 🚀 Cómo usar
 

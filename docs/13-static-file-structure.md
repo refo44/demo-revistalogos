@@ -9,6 +9,18 @@ Dónde viven los archivos estáticos: docs, content-source, maqueta (o tema), as
 
 ---
 
+> **Nota de la Fase 3 (2026-07-31):** con la reorganización del monorepo
+> (ADR 0007, tag `pre-fase3-reorg`) la maqueta estática dejó la raíz y vive
+> completa bajo **`static/`** (`static/index.html`, `static/assets/`,
+> `static/partials/`, `static/.htaccess`, `static/robots.txt`,
+> `static/sitemap.xml`). Las rutas «raíz» descritas más abajo se leen hoy
+> con el prefijo `static/`. El código WordPress vive en
+> `wordpress/wp-content/` (theme `revistalogos` y plugin
+> `revistalogos-core`). La estructura plana real de `static/assets/img/`
+> se preserva tal cual; las subcarpetas documentadas en `docs/15` §1 son
+> aspiracionales y su reorganización requiere decisión explícita
+> (discrepancia registrada en `docs/fase3-execution-state.md`).
+
 ## 1. Estructura raíz
 
 ### Actual (fase maqueta)
