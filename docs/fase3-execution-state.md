@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
-status: "preflight"
-current_work_unit: "WU0 — Harness y preflight"
+status: "in_progress"
+current_work_unit: "WU2 — Scaffold revistalogos-core"
 current_branch: "main"
-last_verified_commit: "5fedf8a"
-last_checkpoint_commit: ""
+last_verified_commit: "df3ad90"
+last_checkpoint_commit: "df3ad90"
 updated_at: "2026-07-31"
-next_action: "Ejecutar WU1: reorganización del monorepo (tag pre-fase3-reorg + git mv a static/)"
+next_action: "Ejecutar WU2: scaffold del plugin revistalogos-core"
 blocked: false
 ---
 
@@ -66,6 +66,15 @@ Los del prompt maestro §6 (Definition of success). Resumen operativo:
 
 - **WU0 (2026-07-31):** lectura de fuentes vinculantes; creación de artefactos
   durables; snapshot del repositorio; baseline de checksums CSS/JS (abajo).
+  Commit `df3ad90`.
+- **WU1 (2026-07-31):** reorganización del monorepo (ADR 0007). Tag de rollback
+  `pre-fase3-reorg`; `git mv` de HTML, `assets/`, `partials/`, `.htaccess`,
+  `robots.txt` y `sitemap.xml` a `static/`; estructura `wordpress/wp-content/`
+  creada; `deploy.yml` apunta a `static/`; nuevo `pages.yml` para el espejo
+  beta (pendiente acción del propietario en Settings → Pages); scripts de
+  stylelint actualizados; `wordpress/wp-content/uploads/` ignorado. QA: YAML
+  parse OK, `git diff --check` OK, 12/12 checksums CSS/JS idénticos tras el
+  movimiento, estructura de imagen plana preservada.
 
 ## Active work
 

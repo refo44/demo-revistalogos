@@ -87,6 +87,7 @@ wp-config.php
 
 # Uploads
 /wp-content/uploads/
+wordpress/wp-content/uploads/
 
 # htaccess: versionado a propósito. Es código (reglas de URL y cabeceras de
 # seguridad), y ADR 0009 §2 lo declara fuente de verdad en Git; el workflow lo

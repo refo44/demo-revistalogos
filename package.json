@@ -25,8 +25,8 @@
     "node": ">=20.19.0"
   },
   "scripts": {
-    "lint:css": "stylelint \"assets/css/**/*.css\"",
-    "lint:css:fix": "stylelint \"assets/css/**/*.css\" --fix"
+    "lint:css": "stylelint \"static/assets/css/**/*.css\" \"wordpress/wp-content/themes/revistalogos/assets/css/**/*.css\"",
+    "lint:css:fix": "stylelint \"static/assets/css/**/*.css\" \"wordpress/wp-content/themes/revistalogos/assets/css/**/*.css\" --fix"
   },
   "devDependencies": {
     "stylelint": "^17.4.0",

@@ -1,0 +1,43 @@
+# Beta review mirror on GitHub Pages (deliberate auto-deploy on every push
+# to main; see ADR 0012 context and BACKLOG 2026-07-28). After the Fase 3
+# monorepo reorg the static site lives in static/, which branch-based Pages
+# cannot serve, so this workflow publishes it instead. Requires the Pages
+# source to be set to "GitHub Actions" in the repository settings (owner
+# action; recorded in docs/fase3-execution-state.md).
+name: Deploy static mirror to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Publish static/ to Pages
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Upload static site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: static/
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
