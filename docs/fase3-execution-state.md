@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "in_progress"
-current_work_unit: "WU2 — Scaffold revistalogos-core"
+current_work_unit: "WU6 — Generador e importador de contenido institucional"
 current_branch: "main"
-last_verified_commit: "df3ad90"
-last_checkpoint_commit: "df3ad90"
+last_verified_commit: "1cd5ab0"
+last_checkpoint_commit: "1cd5ab0"
 updated_at: "2026-07-31"
-next_action: "Ejecutar WU2: scaffold del plugin revistalogos-core"
+next_action: "Ejecutar WU6: generador de payload (Node) + importador (PHP/WP-CLI) de contenido institucional"
 blocked: false
 ---
 
@@ -75,10 +75,75 @@ Los del prompt maestro §6 (Definition of success). Resumen operativo:
   stylelint actualizados; `wordpress/wp-content/uploads/` ignorado. QA: YAML
   parse OK, `git diff --check` OK, 12/12 checksums CSS/JS idénticos tras el
   movimiento, estructura de imagen plana preservada.
+- **WU2 (2026-07-31):** scaffold de `revistalogos-core` (ADR 0005). Bootstrap
+  con guard de acceso directo, constante de versión, hooks de
+  activación/desactivación (flush de rewrite solo ahí) y rutina de upgrade
+  idempotente; sin efectos secundarios al incluir, sin dependencia del theme.
+  Commit `8e5ebfc`.
+- **WU3 (2026-07-31, mismo commit que WU2):** modelo de contenido. CPTs
+  `issue`/`article`/`author` con slugs `revista/*` (ADR 0008, docs/11) y
+  capabilities por CPT; sin CPT `submission` (aplazado, ADR 0005 §4).
+  Taxonomías `section` (jerárquica, términos iniciales aprobados),
+  `article_type` (valores canónicos en inglés, etiquetas admin en español) y
+  `keyword`. `register_post_meta` con sanitización, auth callbacks y esquemas
+  REST; `issn`/`doi`/`orcid` almacenados solo como campos inertes (ADR 0013 —
+  sin validación ni URLs derivadas, límite de Fase 4). Meta boxes nativas con
+  nonce y chequeo de capacidad; relaciones artículo↔autores (many-to-many) y
+  artículo↔número (many-to-one) normalizadas y limpiadas al borrar posts
+  referenciados. Rol Managing Editor de mínimo privilegio, distinto del
+  Editor nativo. Query del número actual derivada (más reciente por
+  `date_published`, sin flag almacenado) y queries de dominio acotadas para
+  el theme. Comentarios desactivados globalmente (invariante cero-cookies,
+  ADR 0011) e integración de honeypot con CF7 guardada tras `class_exists`
+  (ADR 0010). Commit `8e5ebfc`.
+- **WU4 (2026-07-31):** scaffold del theme `revistalogos` + assets de
+  presentación. `style.css` solo cabecera; `theme.json` restrictivo (paleta
+  aprobada, colores/gradientes/duotono/tamaños de fuente/espaciado
+  personalizados desactivados, ADR 0003 §1). `functions.php`: soporte de
+  title-tag/thumbnail, ubicaciones de menú, `main.css` como único punto de
+  entrada de hoja de estilos, `main.js` diferido en el footer, dequeue
+  auditado de estilos de bloque nativos no usados (ADR 0003 §3), fallback de
+  favicon y aviso admin + fallbacks seguros de front-end si
+  `revistalogos-core` está inactivo. CSS/JS copiados byte a byte desde
+  `static/` (SHA-256 agregado verificado igual; espacios en blanco finales
+  preexistentes preservados deliberadamente). Shell de sitio con paridad
+  estática: header con skip link y navegación primaria congelada (menu
+  walker con clases `nav__*`, enlace dinámico al número actual, fallback
+  hardcodeado), footer con listas de enlaces menú-o-fallback, breadcrumbs,
+  paginación y estado vacío, `page.php` como renderizador institucional
+  compartido vía `the_content()`, `index.php` de respaldo, `404.php`,
+  `comments.php` desactivado. Commit `b46d313`.
+- **WU5 (2026-07-31, mismo commit que WU4, mas `1cd5ab0`):** migración de
+  plantillas por familias — todos los archivos/singles de
+  `issue`/`article`/`author`/`post`, taxonomías `article_type`/`keyword`/
+  `section`, todas las páginas institucionales (`page-acerca`, `page-etica`,
+  `page-normas`, `page-politicas`, `page-enlaces`,
+  `page-enviar-colaboracion`, `page-comite-editorial`, `page-contacto`),
+  `privacy-policy.php`, `home.php`, `front-page.php`, `404.php`. Script de
+  citación extraído de inline a `assets/js/citation.js` +
+  `inc/citations.php`, con lógica de enqueue en el theme (commit `1cd5ab0`).
+- **WU9:** ruta de búsqueda resuelta dentro de WU3/WU5 — `page-buscar.php`
+  (`/buscar/?q=`) como plantilla principal y `search.php` como delegado fino
+  para `/?s=` (ver «Decisions and assumptions», ya no es una WU separada).
+- **WU10 (2026-07-31):** metadatos académicos — Highwire Press tags,
+  JSON-LD Schema.org y Open Graph (`inc/metadata-output.php`, 250 líneas).
+  Incluido en `b46d313` + `1cd5ab0`.
 
 ## Active work
 
-- WU1: reorganización del monorepo. Ver «Next exact action».
+- WU6: generador e importador de contenido institucional. Ver «Next exact
+  action».
+
+## QA status of completed work
+
+Igual que WU1: sin runtime PHP/WP-CLI/WordPress local, WU2–WU5, WU9 y WU10
+solo tienen QA de **nivel 1** (sintaxis PHP no verificable localmente —
+ver «Decisions and assumptions» — checksums CSS/JS agregados verificados
+iguales para WU4/WU5). Activación de plugin/theme, render real de
+plantillas, y todo lo de niveles 2-4 permanece `Unverified` en
+`docs/fase3-validation-matrix.md` hasta que exista un entorno de staging.
+No se declara "hecho" en el sentido de "verificado en WordPress real" —
+solo en el sentido de "código escrito según las fuentes vinculantes".
 
 ## Validation evidence
 
@@ -181,17 +246,28 @@ prompt maestro versionado.
 
 ## Next exact action
 
-Ejecutar WU1:
+Ejecutar WU6 (generador e importador de contenido institucional,
+docs/17 §Fase 3.1, prompt maestro):
 
-1. `git tag pre-fase3-reorg`
-2. `git mv` de `*.html`, `assets/`, `partials/`, `.htaccess`, `robots.txt`,
-   `sitemap.xml` a `static/`.
-3. Crear `wordpress/wp-content/themes/revistalogos/` y
-   `wordpress/wp-content/plugins/revistalogos-core/` (con `.gitkeep` hasta el
-   scaffold).
-4. Actualizar `deploy.yml` (origen `static/`), añadir `pages.yml` para el
-   espejo beta.
-5. Validar (YAML parse, `git diff --check`, checksums CSS) y commit.
+1. Generador de payload en Node (herramienta del repo, sin dependencias
+   nuevas): lee `content-source/` (gitignored, local) y produce un
+   artefacto JSON versionado con el contenido institucional (enfoque,
+   normas, ética, políticas, origen del nombre) más checksum de la fuente,
+   determinista e idempotente.
+2. Importador PHP/WP-CLI dentro de `revistalogos-core` (comando de
+   administración o WP-CLI) que consume ese payload y crea/actualiza las
+   páginas de WordPress correspondientes sin depender de rutas del
+   repositorio.
+3. Verificación de texto: el importador debe poder confirmar que el
+   contenido publicado coincide con la fuente (no solo que se ejecutó sin
+   error).
+4. Respetar ADR 0004: nada del Vol. 12 Nº 2 ni de los datos dummy se migra
+   aquí — solo contenido institucional real ya presente en
+   `content-source/`.
+5. QA nivel 1 (sintaxis del generador Node, ejecución local del generador
+   contra `content-source/`); el importador PHP queda `Unverified` sin
+   runtime WordPress, igual que el resto del código de Fase 3.
+6. Commit `feat(plugin): content migration` y actualizar este archivo.
 
 ## Resume procedure
 
