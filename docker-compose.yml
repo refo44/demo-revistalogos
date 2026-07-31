@@ -1,0 +1,77 @@
+# Entorno local de desarrollo WordPress (Fase 3, ADR 0014).
+# Solo para desarrollo: no se usa en Hostinger (allí el despliegue es FTPS
+# manual, ver .github/workflows/deploy-wordpress.yml). El core de WordPress
+# y la base de datos viven en volúmenes; el repo solo monta plugin y theme.
+#
+# Credenciales: en `.env` (gitignored). Primer uso: `cp .env.example .env`
+# y rellenar con valores aleatorios (`openssl rand -hex 16`).
+#
+# Uso:
+#   docker compose up -d
+#   docker compose run --rm wpcli wp <comando>
+# Sitio: http://localhost:8080  (admin: /wp-admin)
+
+name: revistalogos
+
+services:
+  db:
+    image: mariadb:11
+    environment:
+      MARIADB_DATABASE: ${MARIADB_DATABASE:?define MARIADB_DATABASE en .env (ver .env.example)}
+      MARIADB_USER: ${MARIADB_USER:?define MARIADB_USER en .env}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD:?define MARIADB_PASSWORD en .env}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:?define MARIADB_ROOT_PASSWORD en .env}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  wordpress:
+    image: wordpress:6.8-php8.2-apache
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${WORDPRESS_PORT:-8080}:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: ${MARIADB_DATABASE}
+      WORDPRESS_DB_USER: ${MARIADB_USER}
+      WORDPRESS_DB_PASSWORD: ${MARIADB_PASSWORD}
+      WORDPRESS_CONFIG_EXTRA: |
+        define( 'WP_ENVIRONMENT_TYPE', 'local' );
+        define( 'WP_DEBUG', true );
+        define( 'WP_DEBUG_LOG', true );
+        define( 'WP_DEBUG_DISPLAY', false );
+    volumes:
+      - wp_data:/var/www/html
+      - ./wordpress/wp-content/plugins/revistalogos-core:/var/www/html/wp-content/plugins/revistalogos-core
+      - ./wordpress/wp-content/themes/revistalogos:/var/www/html/wp-content/themes/revistalogos
+
+  wpcli:
+    image: wordpress:cli-php8.2
+    depends_on:
+      db:
+        condition: service_healthy
+    user: "33:33"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: ${MARIADB_DATABASE}
+      WORDPRESS_DB_USER: ${MARIADB_USER}
+      WORDPRESS_DB_PASSWORD: ${MARIADB_PASSWORD}
+      # wp-config.php (generado por la imagen oficial) evalúa esta variable en
+      # tiempo de ejecución: sin ella aquí, wp_get_environment_type() devuelve
+      # "production" y los guards del plugin se niegan a escribir.
+      WORDPRESS_CONFIG_EXTRA: |
+        define( 'WP_ENVIRONMENT_TYPE', 'local' );
+    volumes:
+      - wp_data:/var/www/html
+      - ./wordpress/wp-content/plugins/revistalogos-core:/var/www/html/wp-content/plugins/revistalogos-core
+      - ./wordpress/wp-content/themes/revistalogos:/var/www/html/wp-content/themes/revistalogos
+
+volumes:
+  db_data:
+  wp_data:

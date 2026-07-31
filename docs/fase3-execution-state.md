@@ -6,7 +6,7 @@ current_branch: "main"
 last_verified_commit: "dfb91b8"
 last_checkpoint_commit: "dfb91b8"
 updated_at: "2026-07-31"
-next_action: "Provisionar staging WordPress (Hostinger) y ejecutar allí la QA de niveles 2-4: activar plugin+theme, permalinks, wp revistalogos content validate/plan/import --apply, ciclo de fixtures, CF7 y WP Statistics"
+next_action: "Provisionar staging WordPress (Hostinger) para el gate formal (FTPS, hosting real). La QA de niveles 2-4 no dependiente del hosting ya está Pass (local) vía Docker (ADR 0014); en local queda pendiente el protocolo completo de paridad visual y el ejercicio de meta boxes/REST"
 blocked: false
 ---
 
@@ -168,14 +168,18 @@ Los del prompt maestro §6 (Definition of success). Resumen operativo:
 
 ## QA status of completed work
 
-Igual que WU1: sin runtime PHP/WP-CLI/WordPress local, WU2–WU5, WU9 y WU10
-solo tienen QA de **nivel 1** (sintaxis PHP no verificable localmente —
-ver «Decisions and assumptions» — checksums CSS/JS agregados verificados
-iguales para WU4/WU5). Activación de plugin/theme, render real de
-plantillas, y todo lo de niveles 2-4 permanece `Unverified` en
-`docs/fase3-validation-matrix.md` hasta que exista un entorno de staging.
-No se declara "hecho" en el sentido de "verificado en WordPress real" —
-solo en el sentido de "código escrito según las fuentes vinculantes".
+**Actualización 2026-07-31:** existe runtime WordPress local vía Docker
+(ADR 0014, `docker-compose.yml`). Ejecutado y registrado en la matriz como
+`Pass (local)`: `php -l` (59 archivos, 0 errores), activación de
+plugin/theme, permalinks, migración completa
+(`content validate|plan|import --apply|verify`, 12/12 OK), idempotencia del
+re-plan, guard de producción del importador, ciclo completo de fixtures
+(teardown/seed/verify, 39 objetos), CF7 renderizando en `/contacto/`,
+WP Statistics activo con assets locales, 15 URLs clave en 200, cero cookies
+y cero recursos externos en front-end. Permanece `Unverified`: protocolo
+completo de paridad visual (nivel 4), meta boxes/REST/limpieza de
+relaciones, y todo lo dependiente del hosting real (FTPS, cabeceras,
+staging Hostinger) — ver `docs/fase3-validation-matrix.md`.
 
 ## Validation evidence
 
@@ -205,9 +209,11 @@ d75e7fbd757c5402c2d4a94e6836883819579ca1245daa142c0b235555e69b93  assets/css/pag
 
 - **Herramientas (2026-07-31):** PHP, WP-CLI, Composer y actionlint **no** están
   instalados en la máquina de desarrollo; Node 20.17 y npm 10.8 sí. No se
-  instala toolchain global sin autorización. Consecuencia: `php -l`, activación
-  de plugin/theme, migración, fixtures y comparación visual quedan `Unverified`
-  hasta que exista un runtime (staging u otro entorno).
+  instala toolchain global sin autorización. **Superado el mismo día** por el
+  entorno Docker local (ADR 0014): `docker-compose.yml` provee WordPress
+  6.8.3 + PHP 8.2 + MariaDB 11 + WP-CLI sin toolchain global; la QA de
+  runtime no dependiente del hosting se ejecuta localmente. El gate formal
+  de lanzamiento sigue siendo staging Hostinger.
 - El generador de payload de migración se implementa en **Node** (herramienta
   del repo, sin dependencias nuevas), porque es la única runtime disponible y el
   payload es un artefacto local versionado; el importador es PHP/WP-CLI dentro
@@ -278,8 +284,11 @@ prompt maestro versionado.
 
 ## Next exact action
 
-La implementación local de Fase 3 está completa (`ready_for_review`).
-Siguiente acción única y priorizada — **QA de runtime en staging**:
+La implementación local de Fase 3 está completa (`ready_for_review`) y la QA
+de runtime no dependiente del hosting ya es `Pass (local)` (ADR 0014, ver
+matriz). Siguiente acción única y priorizada — **QA de runtime en staging**
+(los pasos 3-4 sirven además de re-confirmación en hosting real de lo ya
+validado localmente):
 
 1. El propietario provisiona el subdominio de staging en Hostinger
    (WordPress instalado, entorno `staging` en `wp-config.php` vía

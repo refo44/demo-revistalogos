@@ -1,10 +1,15 @@
 # Fase 3 — Matriz de validación
 
 Evidencia durable de QA de la Fase 3. Estados permitidos: `Pass`, `Fail`,
-`Unverified`. Nada se marca `Pass` sin evidencia de ejecución; lo que el entorno
-local no puede ejecutar (sin PHP/WP-CLI/WordPress, ver
-`docs/fase3-execution-state.md` §Decisions) queda `Unverified` hasta que exista
-runtime.
+`Pass (local)`, `Unverified`. Nada se marca `Pass` sin evidencia de ejecución.
+
+Desde 2026-07-31 existe runtime WordPress local vía Docker (ADR 0014):
+`Pass (local)` = evidencia ejecutada en ese entorno (WordPress 6.8.3,
+PHP 8.2, MariaDB 11, `WP_ENVIRONMENT_TYPE=local`) sobre el código del commit
+`dfb91b8` (+ `docker-compose.yml` entonces sin commitear). `Pass (local)` no
+sustituye la validación en staging Hostinger para lo que depende del hosting
+real (FTPS, `.htaccess`/Apache del hosting, versión PHP del hosting, HTTPS,
+cabeceras).
 
 Formato de cada fila: validación, método, resultado, estado, commit probado.
 
@@ -18,7 +23,7 @@ Formato de cada fila: validación, método, resultado, estado, commit probado.
 | Paridad `main.js` theme vs static | `cmp` | idénticos byte a byte | Pass | dfb91b8 |
 | YAML workflows (deploy, pages, deploy-wordpress) | `ruby -ryaml` | parsean | Pass | dfb91b8 |
 | JSON (`theme.json`, `content-payload.json`) | `node JSON.parse` | parsean | Pass | dfb91b8 |
-| Sintaxis PHP | — (sin binario PHP/WP-CLI local) | heurístico de balance de llaves/paréntesis OK en 100% de archivos; no sustituye a `php -l` | Unverified | dfb91b8 |
+| Sintaxis PHP | `php -l` (PHP 8.2, contenedor wpcli, ADR 0014) sobre los 59 archivos PHP de plugin+theme | 0 errores de sintaxis | Pass (local) | dfb91b8 |
 | stylelint | `npm run lint:css` | 16 errores, todos preexistentes en el CSS congelado (verificado contra tag `pre-fase3-reorg`); no se corrigen por inmutabilidad ADR 0003 | Pass (preexistentes aceptados) | dfb91b8 |
 | `git diff --check` | git | sin conflictos de espacios introducidos (los del CSS/SVG copiados preexisten en el asset congelado) | Pass | dfb91b8 |
 | Identificadores falsos fuera de fixtures | grep `1234-5678\|10.1234/les\|0000-0000-` en wordpress/ | 0 apariciones fuera de `fixtures/`; payload institucional con 0 | Pass | dfb91b8 |
@@ -34,32 +39,52 @@ Formato de cada fila: validación, método, resultado, estado, commit probado.
 
 ## Nivel 2 — Componente
 
-Sin runtime WordPress local: todo `Unverified`. Cobertura prevista al disponer
-de staging: registro de CPTs/taxonomías, esquemas de meta, guardado de meta
-boxes (nonce/capacidad/sanitización), normalización de relaciones, comandos
-WP-CLI (`content validate|plan|import|verify`, `fixtures seed|verify|teardown`),
-conversión de contenido, creación de menús, adjuntos.
+Ejecutado en el runtime local (ADR 0014) el 2026-07-31. Queda `Unverified` lo
+no ejercitado por CLI/front: guardado de meta boxes en admin
+(nonce/capacidad/sanitización), esquemas REST de meta y normalización de
+relaciones al borrar posts referenciados.
 
 | Validación | Método | Resultado | Estado | Commit |
 | ---------- | ------ | --------- | ------ | ------ |
-| Todas las de nivel 2 | requiere WP runtime | — | Unverified | dfb91b8 |
+| `wp revistalogos content validate` | WP-CLI local | payload v1 válido; 12 entradas, 3 semillas de media; warnings informativos esperados (footnote, cobertura normas 18/27 y politicas 10/18) | Pass (local) | dfb91b8 |
+| `wp revistalogos content plan` (estado limpio) | WP-CLI local | 12 create + 3 media import + 4 ajustes de sitio + 3 menús, dry-run sin escritura | Pass (local) | dfb91b8 |
+| `wp revistalogos content import --apply` | WP-CLI local | 12 entradas creadas, 3 media importados, portada/página de posts/privacidad asignadas, 3 menús creados y asignados a sus ubicaciones | Pass (local) | dfb91b8 |
+| `wp revistalogos content verify` | WP-CLI local | 12/12 OK («All migrated objects verified») | Pass (local) | dfb91b8 |
+| Idempotencia del importador | re-ejecución de `plan` tras `import --apply` | 12/12 `skip unchanged`; ajustes de sitio `unchanged`; menús existentes «left untouched (owner-managed)» | Pass (local) | dfb91b8 |
+| Guard de producción del importador (ADR 0004) | `import --apply` con entorno reportando `production` (wpcli sin `WP_ENVIRONMENT_TYPE`) | rechazado: «Production import requires --confirm-production and --backup» | Pass (local) | dfb91b8 |
+| `wp revistalogos fixtures seed --apply` + `verify` | WP-CLI local | 39 objetos de fixture creados y verificados | Pass (local) | dfb91b8 |
+| Ciclo completo de fixtures | `teardown --apply` → `verify` → `seed --apply` → `verify` | teardown limpio de posts/media/términos propios; verify reporta 0; reseed 39; verify OK | Pass (local) | dfb91b8 |
+| Registro de CPTs/taxonomías con slugs ADR 0008 | activación + resolución de `/revista/numeros|articulos|autores/` y términos de fixtures | archivos y singles resuelven 200; términos `keyword` de fixtures creados y destruidos por su ciclo | Pass (local) | dfb91b8 |
+| Meta boxes admin (nonce/capacidad/sanitización), esquemas REST, limpieza de relaciones al borrar | requiere ejercicio manual en admin/REST | — | Unverified | dfb91b8 |
 
 ## Nivel 3 — Integración
 
 | Validación | Método | Resultado | Estado | Commit |
 | ---------- | ------ | --------- | ------ | ------ |
-| Activación plugin/theme, permalinks, jerarquía de plantillas, búsqueda, migración, ciclo de fixtures, CF7, WP Statistics, cabeceras | requiere WP runtime + staging | — | Unverified | dfb91b8 |
+| Activación de plugin y theme | WP-CLI local | `revistalogos-core` activo, theme `Revista LOGO ET SPES` activo, sin fatales (debug.log vacío) | Pass (local) | dfb91b8 |
+| Permalinks «Nombre de la entrada» + jerarquía de plantillas | `wp rewrite structure '/%postname%/'` + curl de 15 URLs clave (portada, noticias, 8 institucionales, privacidad, buscar, 3 archivos CPT) | 15/15 HTTP 200; front-page, archive-issue, single-issue y contacto verificados renderizando en navegador | Pass (local) | dfb91b8 |
+| Búsqueda `/buscar/?q=` | curl + render | 200 y render de resultados con fixtures sembradas | Pass (local) | dfb91b8 |
+| CF7 en página de contacto (ADR 0010) | instalación CF7 6.1.6 + `wp option update revistalogos_contact_form_id` | formulario CF7 renderizado en `/contacto/` (marcadores `wpcf7` presentes); envío de correo no probado (sin SMTP local) | Pass (local) | dfb91b8 |
+| WP Statistics instalado y sirviendo assets localmente (ADR 0011) | instalación 14.16.10 + inspección de HTML | activo; tracker JS servido desde el propio sitio; configuración operativa de `docs/operations/third-party-plugins.md` pendiente en staging | Pass (local) | dfb91b8 |
+| Despliegue FTPS a staging (workflow WU11) | requiere staging Hostinger + autorización | — | Unverified | dfb91b8 |
+| Cabeceras de seguridad del hosting (ADR 0012) | requiere staging Hostinger | — | Unverified | dfb91b8 |
 
 ## Nivel 4 — Regresión de cara al usuario
 
 | Validación | Método | Resultado | Estado | Commit |
 | ---------- | ------ | --------- | ------ | ------ |
-| Paridad visual static↔WP (móvil/tablet/escritorio/200%/320px), teclado, foco, cookies/almacenamiento, peticiones de red, copy ES | requiere navegador contra WP | — | Unverified | dfb91b8 |
+| Cero cookies en front-end (ADR 0011) | `curl -I` sobre `/`, `/revista/numeros/`, `/buscar/?q=`, `/contacto/` | 0 cabeceras `Set-Cookie` en las cuatro | Pass (local) | dfb91b8 |
+| Sin recursos externos en el front-end (ADR 0011) | grep de `src`/`srcset` en HTML renderizado de portada | 0 recursos de hosts externos (los hosts externos presentes son solo `href` de enlaces y JSON-LD/comentarios) | Pass (local) | dfb91b8 |
+| Smoke visual (escritorio) | screenshots de portada, archivo de números y single de número en navegador | renderizan con el diseño del theme, navegación migrada y fixtures | Pass (local) | dfb91b8 |
+| Paridad visual static↔WP (móvil/tablet/escritorio/200%/320px), teclado, foco, almacenamiento, copy ES | protocolo completo de paridad, pendiente | — | Unverified | dfb91b8 |
 
 ## Matriz de cobertura static → WordPress
 
-Estado: `Implemented` = plantilla escrita y revisada; la validación de runtime
-es `Unverified` en todas las filas hasta que exista staging.
+Estado: `Implemented` = plantilla escrita y revisada. Smoke local (ADR 0014,
+2026-07-31): las 15 URLs clave devuelven 200 y front-page, archive-issue,
+single-issue y page-contacto renderizan verificados en navegador. La columna
+Validation se mantiene `Unverified` por fila hasta ejecutar el protocolo
+completo de paridad visual (nivel 4).
 
 | Static source | WordPress template | Shared part | Dynamic source | Status | Validation | Known differences |
 | ------------- | ------------------ | ----------- | -------------- | ------ | ---------- | ----------------- |
