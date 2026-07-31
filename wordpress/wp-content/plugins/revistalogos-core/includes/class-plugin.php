@@ -55,7 +55,9 @@ class Plugin {
 		// never on activation, never during deployment.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			require_once REVISTALOGOS_CORE_DIR . 'includes/cli/class-content-command.php';
+			require_once REVISTALOGOS_CORE_DIR . 'includes/cli/class-fixtures-command.php';
 			\WP_CLI::add_command( 'revistalogos content', __NAMESPACE__ . '\CLI\Content_Command' );
+			\WP_CLI::add_command( 'revistalogos fixtures', __NAMESPACE__ . '\CLI\Fixtures_Command' );
 		}
 	}
 
@@ -75,6 +77,7 @@ class Plugin {
 		require_once $includes . 'integrations/class-comments-disabler.php';
 		require_once $includes . 'integrations/class-contact-form-integration.php';
 		require_once $includes . 'migration/class-content-migrator.php';
+		require_once $includes . 'fixtures/class-fixtures.php';
 	}
 
 	/**
