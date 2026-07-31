@@ -50,6 +50,13 @@ class Plugin {
 
 		// Idempotent upgrade routine for future schema/capability changes.
 		add_action( 'admin_init', array( __CLASS__, 'maybe_upgrade' ) );
+
+		// WP-CLI commands only under WP-CLI; never on normal requests,
+		// never on activation, never during deployment.
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			require_once REVISTALOGOS_CORE_DIR . 'includes/cli/class-content-command.php';
+			\WP_CLI::add_command( 'revistalogos content', __NAMESPACE__ . '\CLI\Content_Command' );
+		}
 	}
 
 	/**
@@ -67,6 +74,7 @@ class Plugin {
 		require_once $includes . 'queries/class-queries.php';
 		require_once $includes . 'integrations/class-comments-disabler.php';
 		require_once $includes . 'integrations/class-contact-form-integration.php';
+		require_once $includes . 'migration/class-content-migrator.php';
 	}
 
 	/**
