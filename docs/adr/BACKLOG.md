@@ -43,6 +43,7 @@ Requieren elegir entre alternativas antes o durante la construcción del theme. 
 | D12a | Cabeceras de seguridad → **redirección HTTPS + 4 cabeceras reversibles ahora**; **HSTS y CSP tras la auditoría profesional**; nunca `preload` | — | ✅ Resuelta ([0012](0012-cabeceras-de-seguridad.md)) |
 | D12b | Momento de automatización CI/CD | — | ⏳ Pendiente — se decide **tras la auditoría profesional** (ADR 0012 §6) |
 | D13 | Identificadores académicos → **DOI (Crossref) y ORCID**: arquitectura resuelta (API pública ORCID gratuita, código propio); implementación técnica en nueva **Fase 4** de `docs/17` (posterior a WordPress); DOI tratado como coste editorial/legal (igual que ISSN/Depósito Legal), no como gasto de software — el trámite con Crossref (Sponsor, alta de cuenta) procede ya, en paralelo, sin esperar a esa fase | Aviso de privacidad (`page-politicas` §6); backfill del checklist de `docs/17` | ✅ Resuelta ([0013](0013-identificadores-academicos-doi-orcid.md)) |
+| D14 | Clasificación de la sección de noticias/blog (CPT nativo `post`) → ¿se le añade una taxonomía (propia, tipo `keyword`, o nativa `category`/`post_tag` reactivada) para agrupar noticias, o se mantiene sin clasificar? Detectado 2026-07-31: `post_tag`/`category` existen en WordPress por defecto pero ni el plugin ni el theme las registran, renderizan ni enlazan — hoy son datos muertos si se usan desde el panel. **No se implementa todavía**; se abre solo para no perder el hallazgo. | Alcance de una futura plantilla `category.php`/`tag.php` si se resuelve por «sí» | ⏳ Pendiente |
 
 ---
 
