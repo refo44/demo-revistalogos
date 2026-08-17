@@ -1,7 +1,8 @@
 # Entorno local de desarrollo WordPress (Fase 3, ADR 0014).
-# Solo para desarrollo: no se usa en Hostinger (allí el despliegue es FTPS
-# manual, ver .github/workflows/deploy-wordpress.yml). El core de WordPress
-# y la base de datos viven en volúmenes; el repo solo monta plugin y theme.
+# Solo para desarrollo: no se usa en el cPanel de producción (allí el
+# despliegue es FTPS manual, ver .github/workflows/deploy-wordpress.yml
+# y ADR 0016). El core de WordPress y la base de datos viven en volúmenes;
+# el repo solo monta plugin y theme.
 #
 # Credenciales: en `.env` (gitignored). Primer uso: `cp .env.example .env`
 # y rellenar con valores aleatorios (`openssl rand -hex 16`).

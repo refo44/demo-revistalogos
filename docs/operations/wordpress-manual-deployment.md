@@ -1,9 +1,19 @@
-# Runbook — Despliegue manual de WordPress (staging)
+# Runbook — Despliegue manual de WordPress
 
 Procedimiento operativo del despliegue **manual** del theme `revistalogos` y el
-plugin `revistalogos-core` por FTPS (ADR 0009). Crear o validar el workflow
-**no autoriza ejecutarlo**: cada despliegue requiere decisión explícita del
-propietario en la sesión en curso.
+plugin `revistalogos-core` por FTPS (ADR 0009, topología ADR 0016). Crear o
+validar el workflow **no autoriza ejecutarlo**: cada despliegue requiere
+decisión explícita del propietario en la sesión en curso.
+
+**Precisión 2026-08-16 (ADR 0016):** no hay subdominio de staging extra. El
+WordPress de la revista se instala **in situ** en
+`logo-et-spes.cenfiss.net` (`/home/cenfiss2/public_html/logo-et-spes.cenfiss.net`)
+**después** del bootstrap FSE en Docker (ADR 0015). Hasta entonces este
+runbook no se ejecuta. El FTP de GitHub es
+`deploy_revista@logo-et-spes.cenfiss.net` (jaula = carpeta de la revista),
+no el usuario `cenfiss2`. No apuntar FTPS a `/public_html` (CENFISS +
+Moodle) ni a `test.cenfiss.net` (Laravel). Una vez exista WP, **no** lanzar
+`deploy.yml` (paquete `static/`) contra esa carpeta.
 
 ## Alcance
 
@@ -31,14 +41,17 @@ STAGING_PLUGIN_REMOTE_DIR   (p. ej. .../wp-content/plugins/revistalogos-core/)
 STAGING_SITE_URL
 ```
 
-Los valores no se escriben nunca en el repositorio. El hostname de staging es
-un dato pendiente del propietario (bloqueador solo cuando desplegar sea la
-siguiente acción).
+Los valores no se escriben nunca en el repositorio. Tras ADR 0016 el
+hostname de destino es `https://logo-et-spes.cenfiss.net/` (mismo
+subdominio que el estático). Los secretos `STAGING_*` del workflow pueden
+reapuntarse a las rutas
+`…/logo-et-spes.cenfiss.net/wp-content/themes/revistalogos/` y
+`…/plugins/revistalogos-core/` usando la cuenta `deploy_revista@…`.
 
 ## Procedimiento
 
-1. **Entorno objetivo:** confirmar que es el subdominio de staging (nunca
-   `public_html` del dominio principal).
+1. **Entorno objetivo:** `logo-et-spes.cenfiss.net` (ADR 0016). Nunca
+   `/public_html` de `cenfiss.net` ni `test.cenfiss.net`.
 2. **Rama y commit:** anotar `git rev-parse HEAD`; desplegar solo desde `main`.
 3. **Working tree limpio:** `git status --short` sin salida.
 4. **Gate de QA:** nivel 1 completo en verde (ver

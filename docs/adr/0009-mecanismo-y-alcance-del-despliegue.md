@@ -112,3 +112,4 @@ Se mantiene el despliegue **solo por disparo manual** (`workflow_dispatch`); la 
 - ADR 0004 (noindex hasta el lanzamiento), ADR 0005 (plugin propio; presupuesto), ADR 0006 (lista de plugins), ADR 0007 (monorepo; reorg; `static/` archivado)
 - `.github/workflows/deploy.yml`
 - Backlog **D12** (HSTS / automatización CI/CD)
+- [ADR 0016](0016-topologia-hosting-cpanel.md) — el proveedor no es el panel Hostinger; es cPanel `cenfiss2`. El corte WP de la revista es **in situ** en `logo-et-spes.cenfiss.net` (sin subdominio de staging extra). FTPS acotado y `workflow_dispatch` de este ADR siguen vigentes.

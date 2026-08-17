@@ -4,6 +4,8 @@
 
 Aceptada
 
+**Sustitución parcial (2026-08-16):** [ADR 0015](0015-block-theme-fse-site-editor.md) sustituye §1 (`theme.json` mínimo que no restata el diseño) y §3 (dequeue de `wp-block-library` / `global-styles`) cuando el theme pase a block theme. Siguen vigentes: `main.css` como arquitectura, tokens semánticos, `settings.color.custom = false` por bloque, y el carve-out WCAG AA. Los hex de marca en runtime los gobierna el Site Editor (Estilos → Colores).
+
 ## Fecha
 
 2026-07-23
@@ -79,3 +81,4 @@ WordPress introduce tres puntos de fricción que exigen decisión:
 - `docs/14-css-architecture`
 - `assets/css/` (tokens, base, layout, components, pages/, utilities, main)
 - `docs/migracion-static-wordpress.md` (ledger; registra correcciones del carve-out)
+- [ADR 0015](0015-block-theme-fse-site-editor.md) — sustituye §1 y §3 en el paso a block theme

@@ -104,5 +104,7 @@ todo lo que no depende del hosting queda pre-validado localmente.
 
 - ADR 0004 (fixtures nunca a producción; guard verificado aquí),
   ADR 0009 (despliegue FTPS; dos fuentes de verdad — sin cambios).
+- [ADR 0016](0016-topologia-hosting-cpanel.md) — el hosting público es cPanel
+  `cenfiss2`, no el panel Hostinger; Docker sigue siendo solo local.
 - `docker-compose.yml`, `docs/fase3-validation-matrix.md`,
   `docs/fase3-execution-state.md`.

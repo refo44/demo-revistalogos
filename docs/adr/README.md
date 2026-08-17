@@ -63,8 +63,10 @@ Usar `TEMPLATE.md` como punto de partida. Estructura mínima: Estado · Fecha ·
 | [0012](0012-cabeceras-de-seguridad.md) | Cabeceras de seguridad HTTP | Aceptada |
 | [0013](0013-identificadores-academicos-doi-orcid.md) | Identificadores académicos — DOI y ORCID | Aceptada |
 | [0014](0014-entorno-local-de-desarrollo-docker.md) | Entorno local de desarrollo WordPress con Docker | Aceptada |
+| [0015](0015-block-theme-fse-site-editor.md) | Block theme, Gutenberg y Site Editor | Aceptada |
+| [0016](0016-topologia-hosting-cpanel.md) | Topología de hosting (cPanel cenfiss2) | Aceptada |
 
-> El backlog de decisiones a resolver (D1–D13) se lleva en `docs/adr/BACKLOG.md`. Cada decisión resuelta añade su fila a esta tabla y se retira del backlog.
+> El backlog de decisiones a resolver se lleva en `docs/adr/BACKLOG.md`. Cada decisión resuelta añade su fila a esta tabla y se retira del backlog.
 
 ---
 

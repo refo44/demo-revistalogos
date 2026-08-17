@@ -24,13 +24,15 @@ that file before resuming any Fase 3 work; it's the durable resume state.
 
 ## Project-specific constraints that aren't obvious from the code
 
-- **No native PHP/WP-CLI/Composer on the host; WordPress runs locally via
-  Docker** (ADR 0014, `docker-compose.yml`: site at `localhost:8080`,
-  WP-CLI via `docker compose run --rm wpcli wp <cmd>`). Use the containers
-  to actually execute/verify PHP instead of claiming something "works" from
-  reading it. Local evidence is recorded as `Pass (local)` in
-  `docs/fase3-validation-matrix.md`; the formal launch gate is still
-  Hostinger staging. See `docs/fase3-execution-state.md` → Decisions.
+- **No native PHP/WP-CLI/Composer on the developer laptop; WordPress runs
+  locally via Docker** (ADR 0014, `docker-compose.yml`: site at
+  `localhost:8080`, WP-CLI via `docker compose run --rm wpcli wp <cmd>`).
+  Use the containers to actually execute/verify PHP instead of claiming
+  something "works" from reading it. Local evidence is recorded as
+  `Pass (local)` in `docs/fase3-validation-matrix.md`. The public host is
+  **cPanel `cenfiss2`** (LiteSpeed), not a Hostinger control panel
+  (ADR 0016). Docker is not deployed to that server. See
+  `docs/fase3-execution-state.md` → Next exact action.
 - **`content-source/` is gitignored** — it exists only in the local working
   tree, not in Git. Treat it as a local input, not a tracked dependency.
 - **Dummy/demo data must never reach production** (ADR 0004): the Vol. 12
@@ -39,12 +41,21 @@ that file before resuming any Fase 3 work; it's the durable resume state.
   forbidden in any WordPress content migration.
 - **Plugin owns the domain, theme owns presentation only** (ADR 0005) — no
   CPT/taxonomy/role registration in the theme, ever.
-- **Two live deployments, deliberately asymmetric**: Hostinger
-  (`logo-et-spes.cenfiss.net`, production, manual `workflow_dispatch` only)
-  and GitHub Pages (`refo44.github.io/demo-revistalogos`, beta review
-  mirror, auto-publishes on every push to `main` — this is intentional, not
-  a bug). Never make the static-site deploy workflow auto-trigger on push;
-  never suggest removing the Pages mirror without being asked.
+- **Two live deployments, deliberately asymmetric**:
+  `logo-et-spes.cenfiss.net` (cPanel `cenfiss2`, static dummy today, manual
+  `workflow_dispatch` FTPS via `deploy_revista@…`) and GitHub Pages
+  (`refo44.github.io/demo-revistalogos`, beta review mirror, auto-publishes
+  on every push to `main` — this is intentional, not a bug). Never make the
+  static-site deploy workflow auto-trigger on push; never suggest removing
+  the Pages mirror without being asked. After WordPress is installed in
+  that subdomain, never run `deploy.yml` (static HTML) against that folder
+  (ADR 0016). Same hosting also runs `cenfiss.net` (institutional WP +
+  Moodle) and `test.cenfiss.net` (dead Laravel) — do not deploy the journal
+  there.
+- **FSE is accepted** (ADR 0015): block theme + Site Editor + brand colors
+  in Global Styles. Implement incrementally in Docker first. Do not convert
+  to Next.js. ADR 0003 §1/§3 are superseded for `theme.json` / block CSS
+  dequeue; keep BEM and `main.css`.
 - **Identifiers (DOI/ORCID/ISSN) are Fase 4, deliberately deferred** past
   the WordPress launch (ADR 0013). Fase 3 stores them as inert fields only —
   no validation, no derived URLs.

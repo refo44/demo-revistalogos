@@ -79,3 +79,4 @@ Toda corrección de este tipo se registra en `docs/migracion-static-wordpress.md
 - ADR 0003 (CSS y tokens invariantes) — detalle técnico del punto §1
 - `docs/17-implementation-order` §2.3 (invariantes de diseño)
 - `docs/migracion-static-wordpress.md` (ledger; registra las correcciones del carve-out)
+- [ADR 0015](0015-block-theme-fse-site-editor.md) — tras el corte a FSE, la maqueta es el default de fábrica; el Site Editor puede cambiar estructura. «No rediseñar» sigue aplicando a la conversión.

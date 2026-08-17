@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "ready_for_review"
-current_work_unit: "WU12 — Gate final y correcciones de documentación (cerrado)"
+current_work_unit: "Post-WU12 — FSE bootstrap en Docker (ADR 0015); corte hosting ADR 0016 pendiente"
 current_branch: "main"
 last_verified_commit: "dfb91b8"
 last_checkpoint_commit: "dfb91b8"
-updated_at: "2026-07-31"
-next_action: "Provisionar staging WordPress (Hostinger) para el gate formal (FTPS, hosting real). La QA de niveles 2-4 no dependiente del hosting ya está Pass (local) vía Docker (ADR 0014); en local queda pendiente el protocolo completo de paridad visual y el ejercicio de meta boxes/REST"
+updated_at: "2026-08-16"
+next_action: "FSE en Docker (ADR 0015): bootstrap block theme hasta que el Site Editor abra y los colores en Estilos se vean en localhost:8080. No instalar WP en logo-et-spes.cenfiss.net todavía (ADR 0016: corte in situ después de ese gate). Inventario cPanel cenfiss2 cerrado 2026-08-16."
 blocked: false
 ---
 
@@ -261,21 +261,21 @@ Registradas para corrección en commit de documentación separado (WU12):
 
 ## Blockers
 
-- Ninguno duro para el trabajo local. Potenciales (no bloquean todavía):
-  - Hostname exacto del subdominio de staging: solo necesario al configurar
-    secretos y ejecutar el primer despliegue (prohibido sin autorización).
-  - Runtime WordPress: necesario para QA niveles 2-4; sin él todo queda
-    `Unverified`.
-  - Acción del propietario: cambiar la fuente de GitHub Pages a «GitHub
-    Actions» (ver discrepancia 1).
+- Ninguno duro para FSE en Docker. El corte en servidor espera al gate
+  local (ADR 0015 §7). No hay subdominio de staging extra (ADR 0016):
+  el destino es `logo-et-spes.cenfiss.net`.
+- Acción del propietario: cambiar la fuente de GitHub Pages a «GitHub
+  Actions» (ver discrepancia 1). No bloquea FSE.
 
 ## Repository state
 
 - Rama: `main`; HEAD al iniciar: `5fedf8a`; tag existente: `v0.1.0`.
 - Working tree al iniciar: limpio salvo `docs/FABLE5-Fase3-WordPress-Master-Prompt-v4.md`
   (sin trackear; es el prompt de esta fase, se versiona en WU0).
-- Despliegues: Hostinger manual (`deploy.yml`, `workflow_dispatch`) y GitHub
-  Pages automático desde raíz de `main`.
+- Despliegues: estático a `logo-et-spes.cenfiss.net` por FTPS manual
+  (`deploy.yml`, `workflow_dispatch`; cuenta FTP `deploy_revista@…`,
+  ADR 0016) y GitHub Pages automático desde `static/` (`pages.yml`).
+  El panel del servidor es cPanel `cenfiss2`, no Hostinger.
 
 ## Files changed
 
@@ -284,27 +284,28 @@ prompt maestro versionado.
 
 ## Next exact action
 
-La implementación local de Fase 3 está completa (`ready_for_review`) y la QA
-de runtime no dependiente del hosting ya es `Pass (local)` (ADR 0014, ver
-matriz). Siguiente acción única y priorizada — **QA de runtime en staging**
-(los pasos 3-4 sirven además de re-confirmación en hosting real de lo ya
-validado localmente):
+La implementación **clásica** de Fase 3 está completa (`ready_for_review`) y
+la QA de runtime no dependiente del hosting ya es `Pass (local)` (ADR 0014).
+El inventario de hosting (ADR 0016) está cerrado. Siguiente acción
+priorizada — **FSE en Docker (ADR 0015)**, no Softaculous todavía:
 
-1. El propietario provisiona el subdominio de staging en Hostinger
-   (WordPress instalado, entorno `staging` en `wp-config.php` vía
-   `WP_ENVIRONMENT_TYPE`) y configura los secretos
-   `STAGING_FTP_*`/`STAGING_*_REMOTE_DIR`.
-2. Con autorización explícita del propietario: disparar «Deploy WordPress
-   theme+plugin to staging» siguiendo el runbook
-   (`docs/operations/wordpress-manual-deployment.md`).
-3. En staging: activar plugin y theme, permalinks «Nombre de la entrada»,
-   instalar CF7 + WP Statistics según
-   `docs/operations/third-party-plugins.md`, y ejecutar:
-   `wp revistalogos content validate` → `plan` → `import --apply` →
-   `verify`; ciclo de fixtures completo (teardown/seed/verify/reseed/
-   teardown ×2); verificación de cookies/red con navegador.
-4. Registrar cada resultado en `docs/fase3-validation-matrix.md`
-   (pasar `Unverified` → Pass/Fail con evidencia).
+1. Confirmar Docker (`localhost:8080`, theme + plugin activos).
+2. Bootstrap block theme: paleta en `theme.json`, aliases en `tokens.css`,
+   `templates/index.html`, dejar de hacer dequeue de `global-styles`.
+   Gate: Site Editor abre; cambiar `--color-primary` en Estilos se ve en
+   el front (el resto puede seguir en PHP).
+3. **Después** de ese gate: corte in situ en
+   `logo-et-spes.cenfiss.net` (Softaculous **solo** ese subdominio, BD
+   nueva, FTPS `deploy_revista@…`). **No** lanzar `deploy.yml` del
+   estático contra esa carpeta una vez exista WP. **No** usar
+   `test.cenfiss.net` ni el WP de `cenfiss.net`.
+4. Seguir FSE incremental (parts, bloques de dominio, front-page,
+   `single-article` al final).
+5. QA de runtime en el subdominio (CF7, WP Statistics, import, fixtures,
+   cookies) cuando WP esté ahí; registrar en
+   `docs/fase3-validation-matrix.md`.
+
+D12b (checks CI sin deploy) sigue pendiente de la auditoría (ADR 0012 §6).
 
 Acciones del propietario pendientes (no bloquean nada más):
 
