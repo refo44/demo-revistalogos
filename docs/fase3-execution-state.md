@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
-status: "ready_for_review"
-current_work_unit: "Post-WU12 — FSE bootstrap en Docker (ADR 0015); corte hosting ADR 0016 pendiente"
+status: "classic_in_production"
+current_work_unit: "Post-corte — QA producción clásica; FSE aplazado (ADR 0015)"
 current_branch: "main"
-last_verified_commit: "dfb91b8"
-last_checkpoint_commit: "dfb91b8"
-updated_at: "2026-08-18"
-next_action: "FSE en Docker (ADR 0015): bootstrap block theme hasta que el Site Editor abra y los colores en Estilos se vean en localhost:8080. No instalar WP en logo-et-spes.cenfiss.net todavía (ADR 0016: corte in situ después de ese gate). Inventario cPanel cenfiss2 cerrado 2026-08-16."
+last_verified_commit: "8ebc8ee"
+last_checkpoint_commit: "8ebc8ee"
+updated_at: "2026-08-19"
+next_action: "QA del theme clásico en https://logo-et-spes.cenfiss.net. No importar fixtures. No lanzar deploy.yml contra esa carpeta. FSE solo después, primero en Docker. Snapshot: docs/operations/produccion-wordpress.md."
 blocked: false
 ---
 
@@ -20,10 +20,11 @@ protocolo de reanudación del final.
 
 Implementar la Fase 3 completa según `docs/17-implementation-order` y los
 ADR: reorganización del monorepo (ADR 0007), plugin `revistalogos-core`
-(ADR 0005), theme `revistalogos` (ADR 0001–0003; FSE según ADR 0015),
-migración institucional determinista, fixtures, integraciones aprobadas
-(CF7, WP Statistics), búsqueda, metadatos académicos de Fase 3 y workflow
-manual de despliegue FTPS (ADR 0009). El corte en hosting sigue ADR 0016.
+(ADR 0005), theme `revistalogos` (ADR 0001–0003; FSE según ADR 0015,
+pendiente), migración institucional determinista, fixtures (solo Docker),
+integraciones aprobadas (CF7, WP Statistics), búsqueda, metadatos académicos
+de Fase 3 y workflow manual de despliegue FTPS (ADR 0009). El corte in situ
+(ADR 0016) está hecho; producción sirve el theme clásico.
 
 ## Current strategy
 
@@ -48,8 +49,10 @@ orden de `docs/17-implementation-order`:
 
 Runtime local: Docker (ADR 0014). La QA de niveles 2–4 no dependiente del
 hosting se registra como `Pass (local)` en la matriz. La QA de nivel 1
-(sintaxis, greps, checksums, YAML/JSON) se ejecuta siempre. El corte en
-`logo-et-spes.cenfiss.net` sigue ADR 0016 y espera el gate FSE (ADR 0015).
+(sintaxis, greps, checksums, YAML/JSON) se ejecuta siempre. El corte in situ
+en `logo-et-spes.cenfiss.net` (ADR 0016) **ya se ejecutó** el 2026-08-19 con
+el theme **clásico**; FSE (ADR 0015) queda para después, primero en Docker.
+Hechos de producción: `docs/operations/produccion-wordpress.md`.
 
 ## Acceptance criteria
 
@@ -152,10 +155,11 @@ Los de `docs/17-implementation-order` y los ADR de Fase 3. Resumen operativo:
 - **WU8 (2026-07-31):** integraciones — honeypot CF7 en el plugin (WU2),
   opción `revistalogos_contact_form_id` documentada, inventario operativo
   de CF7/WP Statistics en `docs/operations/third-party-plugins.md`.
-- **WU11 (2026-07-31):** workflow manual FTPS de staging
+- **WU11 (2026-07-31; producción 2026-08-19):** workflow manual FTPS
   (`.github/workflows/deploy-wordpress.yml`, solo `workflow_dispatch`,
-  acotado a theme+plugin, sin delete/mirror). Creado, **no ejecutado ni
-  autorizado**. Commit `dfb91b8`.
+  acotado a theme+plugin, sin delete/mirror). Renombrado a producción
+  (`wordpress-production`, secretos `PRODUCTION_*`). Primer run real
+  **Success** (~27 s, theme + plugin). Commit de workflow `8ebc8ee`.
 - **WU12 (2026-07-31):** gate final nivel 1 completo (ver matriz),
   correcciones de documentación (README árbol monorepo, nota de reorg en
   `docs/13`), matriz de cobertura completa con 20 pantallas
@@ -169,11 +173,21 @@ Los de `docs/17-implementation-order` y los ADR de Fase 3. Resumen operativo:
   `screenshot.png` (1200×900) en la raíz del theme para Apariencia → Temas.
   Eliminado el prompt maestro de agente FABLE5 (decisiones en ADR y `docs/17`).
 
+- **Corte producción clásica (2026-08-19):** WordPress 7.0.4 instalado con
+  Softaculous in situ en `logo-et-spes.cenfiss.net` (BD nueva, sin tocar
+  `cenfiss.net` ni `test.cenfiss.net`). FTPS run #1 **Success** (theme +
+  plugin). Activación **en wp-admin**, no en CI. Indexación observada
+  cerrada en el setup (verificar de nuevo; política ADR 0004). Fixtures
+  **no** importados. FSE no bloqueó el corte. Snapshot y runbook:
+  `docs/operations/produccion-wordpress.md`,
+  `docs/operations/wordpress-manual-deployment.md`.
+
 ## Active work
 
-- Ninguna. Fase 3 `ready_for_review`: todo el alcance local implementado;
-  queda la QA de runtime (niveles 2-4) en staging y las decisiones del
-  propietario listadas en «Blockers».
+- QA del theme clásico en producción (`https://logo-et-spes.cenfiss.net`).
+  Backlog operativo en `docs/operations/produccion-wordpress.md`
+  (permalinks, PHP 8.0.30 vs MultiPHP 8.2, plugins Softaculous, CF7,
+  WP Statistics, cookies, restos HTML, FSE después en Docker).
 
 ## QA status of completed work
 
@@ -195,6 +209,13 @@ cPanel `cenfiss2`) — ver `docs/fase3-validation-matrix.md`.
 theme y plugin activos, portada/archivos issue-article/institucionales/
 búsqueda/404/media/login OK. Excepción conocida: single CPT `author` 404
 (colisión de query var; ver Failures).
+
+**Actualización 2026-08-19:** primer deploy FTPS a producción **Success**
+(run #1, ~27 s). Transferencia OK; activación en wp-admin (el workflow no
+activa). PHP efectivo del hosting: **8.0.30** (wp-admin); MultiPHP lista
+Inherited 8.2 — discrepancia abierta. QA de paridad visual, cookies, CF7,
+WP Statistics, caché y cabeceras en el hosting sigue `Unverified`. No se
+importaron fixtures. Upload success ≠ sitio verificado.
 
 ## Validation evidence
 
@@ -242,8 +263,9 @@ d75e7fbd757c5402c2d4a94e6836883819579ca1245daa142c0b235555e69b93  assets/css/pag
   WP-CLI sin toolchain global. El core vive en `wp_data`; un cambio de tag
   exige `wp core update --version=…` + `wp core update-db` (no
   `docker compose down -v`). La QA de runtime no dependiente del hosting
-  se ejecuta localmente. El gate formal de lanzamiento es el subdominio
-  `logo-et-spes.cenfiss.net` (ADR 0016), no un staging Hostinger.
+  se ejecuta localmente. El sitio público es ya WordPress en
+  `logo-et-spes.cenfiss.net` (ADR 0016, corte 2026-08-19); Docker sigue
+  siendo el entorno de desarrollo. PHP de producción observado: 8.0.30.
 - El generador de payload de migración se implementa en **Node** (herramienta
   del repo, sin dependencias nuevas), porque es la única runtime disponible y el
   payload es un artefacto local versionado; el importador es PHP/WP-CLI dentro
@@ -290,20 +312,21 @@ Registradas para corrección en commit de documentación separado (WU12):
 
 ## Blockers
 
-- Ninguno duro para FSE en Docker. El corte en servidor espera al gate
-  local (ADR 0015 §7). No hay subdominio de staging extra (ADR 0016):
-  el destino es `logo-et-spes.cenfiss.net`.
+- Ninguno duro para la QA de producción clásica. FSE (ADR 0015) queda
+  **después** de estabilizar este corte; no bloqueó la instalación.
 - Acción del propietario: cambiar la fuente de GitHub Pages a «GitHub
-  Actions» (ver discrepancia 1). No bloquea FSE.
+  Actions» (ver discrepancia 1). No bloquea la QA de producción.
 
 ## Repository state
 
 - Rama: `main`; tag publicado: `v0.1.0`. Versión de proyecto **0.2.0**
   (canónica en `package.json`); tag Git `v0.2.0` pendiente (véase `VERSION.md`).
-- Despliegues: estático a `logo-et-spes.cenfiss.net` por FTPS manual
-  (`deploy.yml`, `workflow_dispatch`; cuenta FTP `deploy_revista@…`,
-  ADR 0016) y GitHub Pages automático desde `static/` (`pages.yml`).
-  El panel del servidor es cPanel `cenfiss2`, no Hostinger.
+- Despliegues: WordPress de la revista en `logo-et-spes.cenfiss.net`
+  (`deploy-wordpress.yml`, `workflow_dispatch`, Environment
+  `wordpress-production`, cuenta FTP `deploy_revista@…`). **No** lanzar
+  `deploy.yml` (estático) contra esa carpeta. GitHub Pages automático
+  desde `static/` (`pages.yml`) sigue como espejo beta. Panel: cPanel
+  `cenfiss2`, no Hostinger.
 
 ## Files changed
 
@@ -315,32 +338,38 @@ matriz, ledger, runbooks).
 12, 13, 15, 17, README de docs, matriz, inventario de terceros, `CLAUDE.md`,
 este archivo. Tag Git `v0.2.0` pendiente de publicación (véase `VERSION.md`).
 
+**2026-08-19 (corte + runbook de producción):** snapshot
+`docs/operations/produccion-wordpress.md`; runbook canónico
+`docs/operations/wordpress-manual-deployment.md` (PRE/DEPLOY/POST/ROLLBACK);
+ADR 0009/0015/0016/0014 (notas de implementación); README, `CLAUDE.md`,
+`docs/17`, CHANGELOG, BACKLOG, matriz.
+
 ## Next exact action
 
-La implementación **clásica** de Fase 3 está completa (`ready_for_review`) y
-la QA de runtime no dependiente del hosting ya es `Pass (local)` (ADR 0014).
-El inventario de hosting (ADR 0016) está cerrado. Siguiente acción
-priorizada — **FSE en Docker (ADR 0015)**, no Softaculous todavía:
+La implementación **clásica** está en **producción**
+(`https://logo-et-spes.cenfiss.net`, WordPress 7.0.4). Código first-party
+desplegado por FTPS; activación en wp-admin. Docker:
+`http://localhost:8080`. Runbook:
+`docs/operations/wordpress-manual-deployment.md`.
 
-1. Confirmar Docker (`localhost:8080`, theme + plugin activos).
-2. Bootstrap block theme: paleta en `theme.json`, aliases en `tokens.css`,
-   `templates/index.html`, dejar de hacer dequeue de `global-styles`.
-   Gate: Site Editor abre; cambiar `--color-primary` en Estilos se ve en
-   el front (el resto puede seguir en PHP).
-3. **Después** de ese gate: corte in situ en
-   `logo-et-spes.cenfiss.net` (Softaculous **solo** ese subdominio, BD
-   nueva, FTPS `deploy_revista@…`). **No** lanzar `deploy.yml` del
-   estático contra esa carpeta una vez exista WP. **No** usar
-   `test.cenfiss.net` ni el WP de `cenfiss.net`.
-4. Seguir FSE incremental (parts, bloques de dominio, front-page,
-   `single-article` al final).
-5. QA de runtime en el subdominio (CF7, WP Statistics, import, fixtures,
-   cookies) cuando WP esté ahí; registrar en
-   `docs/fase3-validation-matrix.md`.
+Siguiente acción priorizada — **QA de producción clásica**, no FSE todavía:
+
+1. QA del theme clásico (portada, nav, CSS/JS, archivos CPT, páginas
+   institucionales, 404). Registrar en `docs/fase3-validation-matrix.md`.
+   Upload Success **no** cubre este paso.
+2. Guardar permalinks (`/%postname%/`) para regenerar rewrites de CPTs.
+3. **No** importar fixtures. **No** lanzar `deploy.yml` contra la carpeta
+   de la revista. **No** tocar `cenfiss.net` ni `test.cenfiss.net`.
+4. Verificar Ajustes → Lectura (política ADR 0004: no abrir indexación hasta
+   contenido editorial real).
+5. Luego, cuando el rollback al dummy ya no haga falta: limpiar restos HTML
+   del document root; revisar PHP 8.0.30 vs MultiPHP 8.2; evaluar plugins
+   Softaculous; instalar/configurar CF7 y WP Statistics; vigilar SpeedyCache.
+6. **FSE (ADR 0015) después**, incremental, **primero en Docker**.
 
 D12b (checks CI sin deploy) sigue pendiente de la auditoría (ADR 0012 §6).
 
-Acciones del propietario pendientes (no bloquean nada más):
+Acciones del propietario pendientes (no bloquean la QA):
 
 - Cambiar la fuente de GitHub Pages a «GitHub Actions» (Settings → Pages).
 - Revisar las divergencias canon↔maqueta de normas (18/27) y politicas

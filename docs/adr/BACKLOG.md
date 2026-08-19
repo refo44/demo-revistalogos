@@ -44,8 +44,8 @@ Requieren elegir entre alternativas antes o durante la construcción del theme. 
 | D12b | Momento de automatización CI/CD | — | ⏳ Pendiente — se decide **tras la auditoría profesional** (ADR 0012 §6) |
 | D13 | Identificadores académicos → **DOI (Crossref) y ORCID**: arquitectura resuelta (API pública ORCID gratuita, código propio); implementación técnica en nueva **Fase 4** de `docs/17` (posterior a WordPress); DOI tratado como coste editorial/legal (igual que ISSN/Depósito Legal), no como gasto de software — el trámite con Crossref (Sponsor, alta de cuenta) procede ya, en paralelo, sin esperar a esa fase | Aviso de privacidad (`page-politicas` §6); backfill del checklist de `docs/17` | ✅ Resuelta ([0013](0013-identificadores-academicos-doi-orcid.md)) |
 | D14 | Clasificación de la sección de noticias/blog (CPT nativo `post`) → ¿se le añade una taxonomía (propia, tipo `keyword`, o nativa `category`/`post_tag` reactivada) para agrupar noticias, o se mantiene sin clasificar? Detectado 2026-07-31: `post_tag`/`category` existen en WordPress por defecto pero ni el plugin ni el theme las registran, renderizan ni enlazan — hoy son datos muertos si se usan desde el panel. **No se implementa todavía**; se abre solo para no perder el hallazgo. | Alcance de una futura plantilla `category.php`/`tag.php` si se resuelve por «sí» | ⏳ Pendiente |
-| D15 | Tipo de theme → **block theme (FSE)** + Site Editor + paleta en Estilos; Next.js / headless **rechazado** | Implementación FSE en Docker, luego corte en el subdominio | ✅ Resuelta ([0015](0015-block-theme-fse-site-editor.md)) |
-| D16 | Topología de hosting → **cPanel `cenfiss2`**, no panel Hostinger; corte WP **in situ** en `logo-et-spes.cenfiss.net`; sin subdominios nuevos | Secretos FTPS y Softaculous | ✅ Resuelta ([0016](0016-topologia-hosting-cpanel.md)) |
+| D15 | Tipo de theme → **block theme (FSE)** + Site Editor + paleta en Estilos; Next.js / headless **rechazado** | FSE incremental en Docker **después** de estabilizar producción clásica (el corte 2026-08-19 no esperó al gate FSE) | ✅ Resuelta ([0015](0015-block-theme-fse-site-editor.md)); implementación pendiente |
+| D16 | Topología de hosting → **cPanel `cenfiss2`**, no panel Hostinger; corte WP **in situ** en `logo-et-spes.cenfiss.net`; sin subdominios nuevos | Secretos FTPS y Softaculous | ✅ Resuelta ([0016](0016-topologia-hosting-cpanel.md)); **corte ejecutado 2026-08-19** |
 
 ---
 
@@ -91,10 +91,10 @@ Se registran aquí hasta convertirlas en su ADR correspondiente:
 ### Añadidas el 2026-08-16
 
 - **Block theme / Site Editor:** el theme público pasa a FSE (Gutenberg). Colores de marca (paleta impresa vs hex provisionales) se editan en Estilos, no en `tokens.css`. Next.js como front público **descartado**. → [ADR 0015](0015-block-theme-fse-site-editor.md).
-- **Hosting:** el panel no es Hostinger; es **cPanel cuenta `cenfiss2`**. En el mismo disco: WP+Moodle en `cenfiss.net`, estático dummy en `logo-et-spes.cenfiss.net`, Laravel muerto en `test.cenfiss.net`. **No se crean subdominios.** El WP de la revista sustituye el dummy **in situ** tras el bootstrap FSE en Docker. FTP `deploy_revista@…` ya enjaulado a la revista. → [ADR 0016](0016-topologia-hosting-cpanel.md). Matiza el «subdominio de staging» de D8/0009 sin anular FTPS manual.
-- **CI/CD:** D12b sigue pendiente (auditoría). No se lanza `deploy.yml` del estático contra la carpeta de la revista una vez instalado WP.
+- **Hosting:** el panel no es Hostinger; es **cPanel cuenta `cenfiss2`**. En el mismo disco: WP+Moodle en `cenfiss.net`, **WordPress clásico de la revista** en `logo-et-spes.cenfiss.net` (corte 2026-08-19), Laravel muerto en `test.cenfiss.net`. **No se crean subdominios.** FTP `deploy_revista@…` enjaulado a la revista. → [ADR 0016](0016-topologia-hosting-cpanel.md). Snapshot: `docs/operations/produccion-wordpress.md`. Matiza el «subdominio de staging» de D8/0009 sin anular FTPS manual.
+- **CI/CD:** D12b sigue pendiente (auditoría). **No** se lanza `deploy.yml` del estático contra la carpeta de la revista. Production deploy: `deploy-wordpress.yml`, Environment `wordpress-production`.
 
-Estado en el repo: `.github/workflows/deploy.yml` ya es `workflow_dispatch`-only (cumple). `deploy.sh` **eliminado** el 2026-07-23 (hacía `git push` y mencionaba GitHub Pages y una ruta `prototype/` inexistente, incoherente con el despliegue manual por FTPS a Hostinger). El despliegue al host se dispara solo desde Actions → «Deploy to Hostinger» → Run workflow. **El de GitHub Pages, en cambio, se publica solo en cada push a `main`** (verificado el 2026-07-28).
+Estado en el repo: `.github/workflows/deploy.yml` ya es `workflow_dispatch`-only (cumple) y **no** debe ejecutarse contra la carpeta de la revista. `deploy.sh` **eliminado** el 2026-07-23. El código de WordPress se dispara desde Actions → «Deploy WordPress theme+plugin to production» → Run workflow. El espejo de GitHub Pages se publica en cada push a `main` (deliberado; 2026-07-28).
 
 ---
 
@@ -103,6 +103,6 @@ Estado en el repo: `.github/workflows/deploy.yml` ya es `workflow_dispatch`-only
 1. Grupo A (D1–D5) — registrar en una sesión; son actas, no debates.
 2. Grupo B por dependencia: **D6 → D7 → D8** primero (desbloquean tareas de enlaces, despliegue y scaffold).
 3. D9–D12 después; no bloquean la construcción.
-4. **D15 → implementación FSE en Docker → D16 corte** en el subdominio (sin esperar D12b ni D14).
+4. D16 corte **hecho** (2026-08-19, theme clásico). D15 → FSE incremental en Docker **después** de QA de producción (sin esperar D12b ni D14).
 
 Regla: se resuelve **una decisión a la vez**, con sus alternativas y consecuencias, para conservar el razonamiento.

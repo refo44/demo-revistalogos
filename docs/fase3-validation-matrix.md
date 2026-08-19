@@ -20,6 +20,9 @@ Desde 2026-07-31 existe runtime WordPress local vía Docker (ADR 0014):
 `Pass (local)` no sustituye la validación en el hosting real (cPanel
 `cenfiss2` / ADR 0016) para lo que depende de ese entorno (FTPS,
 `.htaccess`/LiteSpeed, versión PHP del hosting, HTTPS, cabeceras).
+Corte 2026-08-19: WP 7.0.4 en `https://logo-et-spes.cenfiss.net`; PHP
+efectivo **8.0.30**; transfer FTPS OK. Snapshot:
+`docs/operations/produccion-wordpress.md`.
 
 Formato de cada fila: validación, método, resultado, estado, commit probado.
 
@@ -75,9 +78,9 @@ relaciones al borrar posts referenciados.
 | Permalinks «Nombre de la entrada» + jerarquía de plantillas | `wp rewrite structure '/%postname%/'` + curl de 15 URLs clave (portada, noticias, 8 institucionales, privacidad, buscar, 3 archivos CPT) | 15/15 HTTP 200; front-page, archive-issue, single-issue y contacto verificados renderizando en navegador | Pass (local) | dfb91b8 |
 | Búsqueda `/buscar/?q=` | curl + render | 200 y render de resultados con fixtures sembradas | Pass (local) | dfb91b8 |
 | CF7 en página de contacto (ADR 0010) | instalación CF7 6.1.6 + `wp option update revistalogos_contact_form_id` | formulario CF7 renderizado en `/contacto/` (marcadores `wpcf7` presentes); envío de correo no probado (sin SMTP local) | Pass (local) | dfb91b8 |
-| WP Statistics instalado y sirviendo assets localmente (ADR 0011) | instalación 14.16.10 + inspección de HTML | activo; tracker JS servido desde el propio sitio; configuración operativa de `docs/operations/third-party-plugins.md` pendiente en staging | Pass (local) | dfb91b8 |
-| Despliegue FTPS a staging (workflow WU11) | requiere staging Hostinger + autorización | — | Unverified | dfb91b8 |
-| Cabeceras de seguridad del hosting (ADR 0012) | requiere staging Hostinger | — | Unverified | dfb91b8 |
+| WP Statistics instalado y sirviendo assets localmente (ADR 0011) | instalación 14.16.10 + inspección de HTML | activo; tracker JS servido desde el propio sitio; configuración operativa de `docs/operations/third-party-plugins.md` pendiente en producción | Pass (local) | dfb91b8 |
+| Despliegue FTPS a producción (workflow WU11) | GitHub Actions run #1, Environment `wordpress-production` | Jobs theme + plugin **Success** (~27 s). Theme y plugin activos en `logo-et-spes.cenfiss.net`. QA de paridad/cookies/CF7/cabeceras en el hosting sigue abierta. | Pass (transfer) | 8ebc8ee |
+| Cabeceras de seguridad del hosting (ADR 0012) | requiere curl al hosting real | — | Unverified | dfb91b8 |
 
 ## Nivel 4 — Regresión de cara al usuario
 

@@ -117,3 +117,14 @@ todo lo que no depende del hosting queda pre-validado localmente.
   `cenfiss2`, no el panel Hostinger; Docker sigue siendo solo local.
 - `docker-compose.yml`, `docs/fase3-validation-matrix.md`,
   `docs/fase3-execution-state.md`.
+
+## Estado de implementación (2026-08-19)
+
+Nota factual; no cambia §1–§4 (Compose solo local; `Pass (local)` no sustituye
+el hosting).
+
+- El gate de hosting ya no es un «staging Hostinger»: es
+  `https://logo-et-spes.cenfiss.net` (WordPress 7.0.4, PHP efectivo **8.0.30**).
+  Docker local sigue en PHP 8.2. La discrepancia está abierta; no se cambió
+  PHP en el corte (ADR 0016).
+- Fixtures se siembran solo aquí. Producción no las importó.

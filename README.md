@@ -3,8 +3,10 @@
 **Versión:** 0.2.0 (canónica en `package.json`; ver `VERSION.md` y `CHANGELOG.md`)
 
 Monorepo de la revista académica (CENFISS): prototipo HTML estático (`static/`,
-Fase 2, base visual congelada) y WordPress (`wordpress/`, Fase 3 clásica lista).
-Pendiente: FSE (ADR 0015) y corte en `logo-et-spes.cenfiss.net` (ADR 0016).
+Fase 2, base visual congelada) y WordPress (`wordpress/`, Fase 3 clásica).
+Producción: `https://logo-et-spes.cenfiss.net` (WordPress 7.0.4, theme clásico
+`revistalogos` + `revistalogos-core`). Pendiente: FSE (ADR 0015), primero en
+Docker. Snapshot: `docs/operations/produccion-wordpress.md`.
 
 ## Objetivo
 
@@ -33,9 +35,9 @@ revistalogos/
 ├── tools/                           → Generador del payload de migración
 ├── docs/                            → Documentación numerada, ADRs, harness Fase 3
 ├── content-source/                  → Fuente canónica (no versionada)
-└── .github/workflows/               → deploy.yml (estático, manual),
+└── .github/workflows/               → deploy.yml (estático; no lanzar contra WP),
                                        pages.yml (espejo beta, automático),
-                                       deploy-wordpress.yml (staging, manual)
+                                       deploy-wordpress.yml (producción, manual)
 ```
 
 El detalle de las plantillas estáticas y su mapeo a WordPress está en
@@ -44,13 +46,19 @@ El detalle de las plantillas estáticas y su mapeo a WordPress está en
 
 ## Cómo usar
 
-**Prototipo estático:** abrir `static/index.html` en un navegador (sin build).
-
 **WordPress local (Docker, ADR 0014):** `docker compose up -d` →
 `http://localhost:8080`. Imagen `wordpress:7.0.4-php8.2-apache`. WP-CLI:
 `docker compose run --rm wpcli wp <cmd>`. No usar `docker compose down -v`
 (borra `db_data` y `wp_data`). Cambiar el tag de imagen no actualiza el core
 persistido; hace falta `wp core update` + `wp core update-db`.
+
+**Producción WordPress:** `https://logo-et-spes.cenfiss.net`. Solo
+`deploy-wordpress.yml` (manual). No hay staging WordPress. Ver
+`docs/operations/wordpress-manual-deployment.md`.
+
+**Prototipo estático:** abrir `static/index.html` en un navegador (sin build).
+El espejo beta es GitHub Pages (`pages.yml`). **No** usar `deploy.yml`
+(«Deploy to Hostinger») contra la carpeta de la revista.
 
 **Lint CSS:** `npm run lint:css`.
 
@@ -91,11 +99,14 @@ ScholarlyArticle). El theme replica metadatos Highwire, Schema.org y OG.
 
 ## WordPress (Fase 3)
 
-Implementación clásica en el repo: theme + plugin, migración institucional,
-fixtures, CF7, WP Statistics, búsqueda `/buscar/?q=`, workflow FTPS manual.
-Siguiente: FSE en Docker y corte en cPanel `cenfiss2`. No desplegar el HTML
-estático (`deploy.yml`) sobre el subdominio una vez instalado WordPress
-(ADR 0016).
+Implementación clásica en el repo y **en producción** (`logo-et-spes.cenfiss.net`):
+theme + plugin por FTPS manual (Environment `wordpress-production`). El workflow
+**no** activa theme/plugin ni despliega core/BD/`uploads`. Fixtures solo en
+Docker (ADR 0004). `static/` sigue como referencia visual (Fase 2) y espejo
+Pages; **no** lanzar `deploy.yml` contra el subdominio (ADR 0016).
+Runbook: `docs/operations/wordpress-manual-deployment.md`.
+Siguiente: QA de producción; FSE incremental después, primero en Docker
+(ADR 0015).
 
 ## Licencia
 

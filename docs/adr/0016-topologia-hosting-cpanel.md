@@ -16,15 +16,15 @@ Hechos verificados (panel + File Manager + Softaculous + MultiPHP + SSL + DNS):
 
 | Host | Document root | Qué hay |
 | ---- | ------------- | ------- |
-| `cenfiss.net` | `/public_html` | WordPress institucional (Softaculous: «Centro de Filosofía…») + Moodle (`cenfiss2_moodle`, `moodledata`). PHP efectivo visto por HTTP: 8.0.30 (el panel lista Inherited 8.2). |
-| `logo-et-spes.cenfiss.net` | `/public_html/logo-et-spes.cenfiss.net` | Maqueta estática dummy. Sin `wp-config.php`. AutoSSL válido. |
-| `test.cenfiss.net` | `/public_html/test.cenfiss.net` | Laravel 10 skeleton (Softaculous), roto desde 2024 (pide PHP ≥ 8.1; el vhost responde 8.0.30). No es staging de la revista. |
+| `cenfiss.net` | `/public_html` | WordPress institucional (Softaculous: «Centro de Filosofía…») + Moodle (`cenfiss2_moodle`, `moodledata`). PHP efectivo visto por HTTP: 8.0.30 (el panel lista Inherited 8.2). **Sin cambios en el corte 2026-08-19.** |
+| `logo-et-spes.cenfiss.net` | `/public_html/logo-et-spes.cenfiss.net` | **WordPress 7.0.4 propio** (Softaculous, 2026-08-19). Theme clásico `revistalogos` y plugin `revistalogos-core` activos. BD nueva, aislada. Restos del estático aún en la raíz (temporales). AutoSSL válido. Inventario 2026-08-16: era maqueta dummy sin `wp-config.php`. |
+| `test.cenfiss.net` | `/public_html/test.cenfiss.net` | Laravel 10 skeleton (Softaculous), roto desde 2024 (pide PHP ≥ 8.1; el vhost responde 8.0.30). No es staging de la revista. **Sin cambios en el corte.** |
 
 Otras cuentas cPanel vistas en la misma sesión (`confiadi` / `cenfissu`) **no** son el inventario de la revista. El File Manager vivo de la maqueta es `/home/cenfiss2/…`. No se usa `cenfissu` ni Confiadi para deploys de LOGO ET SPES.
 
-ADR 0009 preveía un **subdominio de staging extra**. El propietario decide: **no hay dominios ni subdominios nuevos**. `logo-et-spes.cenfiss.net` se queda. El dummy (`robots.txt` `Disallow: /`, ADR 0004) se puede sustituir **in situ** cuando el FSE bootstrap funcione en Docker (0015 §7).
+ADR 0009 preveía un **subdominio de staging extra**. El propietario decide: **no hay dominios ni subdominios nuevos**. `logo-et-spes.cenfiss.net` se queda. El dummy se sustituyó **in situ** el 2026-08-19 con WordPress clásico (el gate FSE de 0015 §7 no bloqueó el corte).
 
-`deploy.yml` solo publica `static/` a la carpeta de la revista (FTPS). `deploy-wordpress.yml` existe y apunta a secretos `STAGING_*` que no están ligados a un hostname real. D12b (checks automáticos) sigue pendiente tras la auditoría (0012 §6).
+`deploy.yml` publica `static/` y **no** debe lanzarse contra la carpeta de la revista. `deploy-wordpress.yml` usa Environment `wordpress-production` y secretos `PRODUCTION_*`. D12b (checks automáticos) sigue pendiente tras la auditoría (0012 §6).
 
 ## Decisión
 
@@ -41,20 +41,22 @@ ADR 0009 preveía un **subdominio de staging extra**. El propietario decide: **n
 
 ### 3. Corte WP en el mismo subdominio
 
-Cuando ADR 0015 §7.2 esté visto en `localhost:8080`:
+**Ejecutado 2026-08-19** (theme clásico; el gate FSE de 0015 §7.2 no se exigió). Pasos que sí se hicieron:
 
-1. Backup de `/home/cenfiss2/public_html/logo-et-spes.cenfiss.net`.
-2. MultiPHP: la revista ya figura **Inherited 8.2**; no Apply global. El desplegable no debe aplicarse en 5.6.
-3. WordPress **nuevo** (Softaculous) **solo** en `logo-et-spes.cenfiss.net`, URL `https://`.
-4. Base MySQL **nueva** (`cenfiss2_*` distinta de `moodle`, `tR2qU`, `4bplx`, `wp200`). Hay cupo (formulario Create Database presente; 4 bases actuales).
-5. Theme + plugin vía FTPS acotado (mismo esquema que `deploy-wordpress.yml`).
+1. Backup ZIP del estático + JetBackup 5 On Demand de la cuenta.
+2. MultiPHP: no se Apply global; no se cambió PHP. WordPress reportó PHP **8.0.30** pese a Inherited 8.2 (discrepancia abierta).
+3. WordPress **nuevo** (Softaculous) **solo** en `logo-et-spes.cenfiss.net`, URL `https://`, directorio vacío, 7.0.4.
+4. Base MySQL **nueva** (distinta de `moodle`, `tRZQu`, `4bplx`, `wp200`).
+5. Theme + plugin vía FTPS acotado (`deploy-wordpress.yml`, run #1 Success).
 6. **Dejar de lanzar** `deploy.yml` (estático) contra esa carpeta: volvería a volcar HTML sobre WP.
 
-Hasta ese corte, `deploy.yml` sigue siendo el deploy de producción de la revista.
+El deploy de código de la revista es `deploy-wordpress.yml`. Snapshot: `docs/operations/produccion-wordpress.md`.
 
 ### 4. FTP
 
-La cuenta **`deploy_revista@logo-et-spes.cenfiss.net`** está enjaulada a la carpeta de la revista. Es la que debe usar GitHub Actions (`FTP_*`). El usuario especial `cenfiss2` (`/home/cenfiss2`) **no** va en secretos. No se crean cuentas FTP nuevas con jaula en `/home/cenfiss2`.
+La cuenta **`deploy_revista@logo-et-spes.cenfiss.net`** está enjaulada a la carpeta de la revista. Es la que debe usar GitHub Actions (`PRODUCTION_FTP_*`). El usuario especial `cenfiss2` (`/home/cenfiss2`) **no** va en secretos. No se crean cuentas FTP nuevas con jaula en `/home/cenfiss2`.
+
+cPanel lista `ftp.cenfiss.net:21`; el certificado TLS de ese host está emitido para `caroni.tepuyserver.net`. El secreto `PRODUCTION_FTP_SERVER` debe ser el hostname que coincide con ese certificado (FTPS explícito con verificación TLS). Ambos hosts responden en el puerto 21; la cuenta está jaulada al document root de la revista. `PRODUCTION_*_REMOTE_DIR` son rutas **relativas a esa jaula**, no paths `/home/cenfiss2/…`.
 
 Tras el WP, la misma cuenta cubre `wp-content/themes/revistalogos` y `plugins/revistalogos-core` (siguen dentro de la jaula).
 
@@ -97,14 +99,16 @@ No se inventa un pipeline nuevo para FSE. Theme y plugin viajan por FTPS acotado
 
 **Trabajo futuro:**
 
-- Tras sesión 2 de FSE en Docker: corte §3.
-- Reapuntar `deploy-wordpress.yml` a las rutas reales de `logo-et-spes` (secretos `FTP_*` de `deploy_revista` o equivalentes `STAGING_*` documentados).
+- QA de producción clásica; permalinks; revisar PHP 8.0.30 vs Inherited 8.2; evaluar plugins Softaculous; CF7 y WP Statistics; cero cookies; limpiar restos HTML cuando el rollback no haga falta. Lista: `docs/operations/produccion-wordpress.md`.
+- FSE incremental **después**, primero en Docker (ADR 0015). El corte §3 ya está hecho.
 - Bloquear la ruta anidada bajo `cenfiss.net`.
 - Actualizar menciones operativas «Hostinger» en runbooks cuando se toquen por otra razón.
+- Warnings Node.js 20→24 del workflow (`checkout@v4`, FTP-Deploy-Action@v4.3.6): mantenimiento futuro, no bloquearon el deploy.
 
 ## Referencias
 
 - Inventario cPanel 2026-08-16 (Dominios, File Manager, MySQL, FTP, Softaculous, MultiPHP, SSL)
+- Corte in situ 2026-08-19 — `docs/operations/produccion-wordpress.md`
 - ADR 0004, 0009, 0012, 0014, 0015
 - `.github/workflows/deploy.yml`, `deploy-wordpress.yml`
 - `docs/operations/wordpress-manual-deployment.md`

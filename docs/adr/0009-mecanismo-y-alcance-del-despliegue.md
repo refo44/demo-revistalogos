@@ -113,3 +113,15 @@ Se mantiene el despliegue **solo por disparo manual** (`workflow_dispatch`); la 
 - `.github/workflows/deploy.yml`
 - Backlog **D12** (HSTS / automatización CI/CD)
 - [ADR 0016](0016-topologia-hosting-cpanel.md) — el proveedor no es el panel Hostinger; es cPanel `cenfiss2`. El corte WP de la revista es **in situ** en `logo-et-spes.cenfiss.net` (sin subdominio de staging extra). FTPS acotado y `workflow_dispatch` de este ADR siguen vigentes.
+
+## Estado de implementación (2026-08-19)
+
+Nota factual; no sustituye las decisiones de este ADR ni de ADR 0016.
+
+- WordPress 7.0.4 está instalado **in situ** en `logo-et-spes.cenfiss.net`. No hubo subdominio de staging extra ni `wp search-replace` de hostname: el corte no movió de un staging a producción.
+- El workflow acotado es `.github/workflows/deploy-wordpress.yml` (`Deploy WordPress theme+plugin to production`), Environment `wordpress-production`, secretos `PRODUCTION_*`. Primer run **Success** (~27 s). El workflow **no** activa theme/plugin.
+- Destinos remotos: relativos a la raíz FTP enjaulada (document root de la revista), no a `/home/cenfiss2/public_html/` ni paths absolutos de cPanel.
+- Un run verde **no** sustituye la QA funcional pública.
+- Indexación: observada cerrada en el setup; ADR 0004 impide abrirla hasta contenido editorial real; el paso «abrir robots» de §4 **no** se ejecutó. Verificar el checkbox en cada post-deploy.
+- `deploy.yml` (estático, secretos `FTP_*`) **no** debe lanzarse contra la carpeta de la revista. No renombrar esos secretos.
+- Runbook canónico: `docs/operations/wordpress-manual-deployment.md`. Snapshot: `docs/operations/produccion-wordpress.md`.

@@ -109,3 +109,12 @@ WordPress sigue siendo CMS **y** servidor del sitio público. No hay `frontend/`
 - ADR 0001, 0002, 0003 (§1/§3 sustituidos), 0005, 0014, 0016
 - `wordpress/wp-content/themes/revistalogos/functions.php` (dequeue a retirar)
 - `docs/02-corporate-identity` (paleta provisional; impresa es la marca real)
+
+## Estado de implementación (2026-08-19)
+
+Nota factual; **no** sustituye las decisiones §1–§6 (block theme, Site Editor, paleta en Estilos, BEM, bloques en el plugin, Next.js rechazado).
+
+- El theme desplegado y activo en producción es el **clásico** `revistalogos`. FSE **pendiente**.
+- El corte in situ (ADR 0016) se ejecutó **sin** esperar al gate local de §7.2/§7.4. FSE **no bloqueó** el corte. Eso es un cambio de **orden operativo**, no de destino arquitectónico.
+- Orden operativo actual: producción clásica estable → QA → limpieza del estático residual → revisar PHP → plugins aprobados → contenido real → **luego** FSE incremental, **primero en Docker**.
+- Snapshot: `docs/operations/produccion-wordpress.md`.

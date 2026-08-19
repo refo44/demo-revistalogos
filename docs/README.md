@@ -34,7 +34,7 @@ Documentación para el sitio web de la revista académica. CENFISS (Centro de Fi
 | 21 | user-journey-diagram | Diagrama Mermaid de recorridos |
 | 22 | identificadores-academicos-doi-orcid | Registro DOI (Crossref) y reconocimiento de autoría (ORCID): validación, flujo de depósito, costes |
 
-Harness de Fase 3 (fuera de la numeración): `fase3-execution-state.md` (reanudación), `fase3-validation-matrix.md` (QA), `migracion-static-wordpress.md` (ledger ADR 0001–0003), `operations/` (Docker, plugins de terceros).
+Harness de Fase 3 (fuera de la numeración): `fase3-execution-state.md` (reanudación), `fase3-validation-matrix.md` (QA), `migracion-static-wordpress.md` (ledger ADR 0001–0003), `operations/` ([runbook de producción](operations/wordpress-manual-deployment.md), [snapshot](operations/produccion-wordpress.md), Docker, plugins de terceros).
 
 ---
 

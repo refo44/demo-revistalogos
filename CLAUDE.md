@@ -2,10 +2,12 @@
 
 Monorepo: a static HTML prototype (`static/`, Fase 2 — done, base visual
 frozen) and WordPress (`wordpress/wp-content/{themes,plugins}/`, Fase 3 —
-classic complete as of 0.2.0; FSE ADR 0015 and hosting cutover ADR 0016
-pending). See `docs/17-implementation-order.md` for the phase plan and
-`docs/fase3-execution-state.md` for the current work unit — read that file
-before resuming any Fase 3 work; it's the durable resume state.
+classic complete as of 0.2.0 and **live** at `https://logo-et-spes.cenfiss.net`
+since 2026-08-19). FSE (ADR 0015) is still the destination but did **not**
+block the cutover; implement it later, Docker first. See
+`docs/operations/produccion-wordpress.md`, `docs/17-implementation-order.md`,
+and `docs/fase3-execution-state.md` (durable resume state — read it before
+resuming Fase 3 work).
 
 ## Binding sources, in priority order
 
@@ -45,20 +47,23 @@ before resuming any Fase 3 work; it's the durable resume state.
 - **Plugin owns the domain, theme owns presentation only** (ADR 0005) — no
   CPT/taxonomy/role registration in the theme, ever.
 - **Two live deployments, deliberately asymmetric**:
-  `logo-et-spes.cenfiss.net` (cPanel `cenfiss2`, static dummy today, manual
-  `workflow_dispatch` FTPS via `deploy_revista@…`) and GitHub Pages
+  `logo-et-spes.cenfiss.net` (cPanel `cenfiss2`, **WordPress classic** since
+  2026-08-19, manual `workflow_dispatch` FTPS via `deploy_revista@…`,
+  Environment `wordpress-production`) and GitHub Pages
   (`refo44.github.io/demo-revistalogos`, beta review mirror, auto-publishes
   on every push to `main` — this is intentional, not a bug). Never make the
   static-site deploy workflow auto-trigger on push; never suggest removing
-  the Pages mirror without being asked. After WordPress is installed in
-  that subdomain, never run `deploy.yml` (static HTML) against that folder
-  (ADR 0016). Same hosting also runs `cenfiss.net` (institutional WP +
-  Moodle) and `test.cenfiss.net` (dead Laravel) — do not deploy the journal
-  there.
+  the Pages mirror without being asked. **Never** run `deploy.yml` (static
+  HTML) against the journal folder (ADR 0016). Same hosting also runs
+  `cenfiss.net` (institutional WP + Moodle) and `test.cenfiss.net` (dead
+  Laravel) — do not deploy the journal there. Do not import fixtures to
+  production. Keep search-engine indexing closed until real editorial
+  content exists.
 - **FSE is accepted** (ADR 0015): block theme + Site Editor + brand colors
-  in Global Styles. Implement incrementally in Docker first. Do not convert
-  to Next.js. ADR 0003 §1/§3 are superseded for `theme.json` / block CSS
-  dequeue; keep BEM and `main.css`.
+  in Global Styles. The live theme is still classic; convert incrementally
+  in Docker after production QA. Do not convert to Next.js. ADR 0003 §1/§3
+  are superseded for `theme.json` / block CSS dequeue; keep BEM and
+  `main.css`.
 - **Identifiers (DOI/ORCID/ISSN) are Fase 4, deliberately deferred** past
   the WordPress launch (ADR 0013). Fase 3 stores them as inert fields only —
   no validation, no derived URLs.

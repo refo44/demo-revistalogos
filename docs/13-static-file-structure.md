@@ -20,6 +20,13 @@ Dónde viven los archivos estáticos: docs, content-source, maqueta (o tema), as
 > se preserva tal cual; las subcarpetas documentadas en `docs/15` §1 son
 > aspiracionales y su reorganización requiere decisión explícita
 > (discrepancia registrada en `docs/fase3-execution-state.md`).
+>
+> **Clasificación (2026-08-19):** `static/` **sigue vigente** como prototipo
+> Fase 2 y referencia visual de paridad (ADR 0001). No está obsoleto porque
+> WordPress esté en producción. El espejo beta es GitHub Pages. Los HTML
+> residuales en el document root de `logo-et-spes.cenfiss.net` son leftover
+> del corte (deuda operativa), distintos de este árbol versionado. Ver
+> `docs/operations/produccion-wordpress.md` § Referencias estáticas.
 
 ## 1. Estructura raíz
 

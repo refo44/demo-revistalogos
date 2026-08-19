@@ -31,7 +31,9 @@ La etiqueta apunta al commit que deja `package.json`, `CHANGELOG.md` y este arch
 3. Actualizar «Versión vigente» en este archivo.
 4. Commit: `chore(release): vX.Y.Z`.
 5. Etiquetar: `git tag -a vX.Y.Z -m "vX.Y.Z"` y `git push origin vX.Y.Z`.
-6. Desplegar al host manualmente desde GitHub Actions → «Deploy to Hostinger» → Run workflow.
+6. Desplegar theme+plugin desde GitHub Actions → «Deploy WordPress theme+plugin
+   to production» → Run workflow. **No** usar «Deploy to Hostinger»
+   (`deploy.yml`) contra `logo-et-spes.cenfiss.net`.
 
 ## Historial
 

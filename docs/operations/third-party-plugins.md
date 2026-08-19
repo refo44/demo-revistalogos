@@ -65,6 +65,33 @@ nuevo requiere un ADR aceptado.
 - **Retirada:** desactivar y borrar; purgar sus tablas si se abandona
   definitivamente.
 
+## Producción (2026-08-19)
+
+CF7 y WP Statistics están **aprobados** y activos en Docker. En
+`logo-et-spes.cenfiss.net` **aún no** están instalados/configurados
+(pendiente operativo).
+
+Softaculous dejó un bundle que **no** forma parte de esta lista aprobada ni
+del deploy de Git. No se desinstaló durante el corte. Evaluar después; no
+asumir que deban mantenerse (ADR 0006). **Backuply** es backup *desde*
+WordPress: no es JetBackup, no es el ZIP del estático, no lo dispara GitHub
+Actions.
+
+```text
+Backuply / Backuply Pro
+GoSMTP / GoSMTP Pro
+Loginizer / Loginizer Pro
+SiteSEO / SiteSEO Pro
+SpeedyCache / SpeedyCache Pro
+Akismet
+Hello Dolly
+```
+
+SiteSEO choca con la política de suites SEO vetadas abajo. SpeedyCache /
+Loginizer / Backuply / GoSMTP se revisan por necesidad real (caché, seguridad,
+backups, SMTP), no por venir en el instalador. Snapshot:
+[produccion-wordpress.md](produccion-wordpress.md).
+
 ## Vetados (recordatorio operativo)
 
 ACF o cualquier field builder, page builders, Flamingo, Google reCAPTCHA,

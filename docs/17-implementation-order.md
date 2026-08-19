@@ -92,12 +92,15 @@ WordPress añade: motor de contenido, panel editorial, roles de usuario y conten
 
 ---
 
-## Fase 3: WordPress — EN CURSO
+## Fase 3: WordPress — EN CURSO (clásico en producción)
 
-Implementación clásica (WU0–WU12) en el repositorio desde **0.2.0**: plugin
-`revistalogos-core`, theme `revistalogos`, Docker local en WordPress 7.0.4.
-Pendiente: bootstrap FSE (ADR 0015) y corte en `logo-et-spes.cenfiss.net`
-(ADR 0016). Estado operativo: `docs/fase3-execution-state.md`.
+Implementación clásica (WU0–WU12) en el repositorio desde **0.2.0**. Corte
+in situ **2026-08-19:** WordPress 7.0.4 en `https://logo-et-spes.cenfiss.net`,
+theme clásico `revistalogos` y plugin `revistalogos-core` activos. Pendiente:
+QA de producción, contenido editorial real, bootstrap FSE (ADR 0015; primero
+en Docker; no bloqueó el corte). Estado operativo:
+`docs/fase3-execution-state.md`. Snapshot:
+`docs/operations/produccion-wordpress.md`.
 
 1. **Convertir** maqueta a tema WordPress según `12-theme-file-structure`
 2. Alinear con `03-wordpress-content-model` y `11-url-tree`; assets en el tema según `15-assets-strategy`
@@ -158,7 +161,7 @@ La maqueta estática está validada como base visual del tema WordPress. Su cont
 
 - [x] Identidad (paleta, tipografía) definida
 - [x] Todas las páginas maquetadas
-- [ ] Formulario de contacto funcional (WordPress)
+- [ ] Formulario de contacto funcional (WordPress) — CF7 aún no en producción
 - [ ] Enlaces externos verificados
 - [ ] Accesibilidad: estándares 19 aplicados (contraste, alt, teclado, foco, formularios)
 - [ ] Navegación y breadcrumbs verificados
@@ -167,9 +170,9 @@ La maqueta estática está validada como base visual del tema WordPress. Su cont
 - [ ] SEO básico (title, meta description)
 - [ ] Favicon cargado
 - [ ] Sitemap generado
-- [ ] Tema WordPress desplegado
+- [x] Tema WordPress desplegado (clásico `revistalogos` + `revistalogos-core`, 2026-08-19)
 - [ ] Contenido migrado / configurado
-- [ ] Dataset dummy excluido de producción
+- [x] Dataset dummy excluido de producción (fixtures no importados; mantener)
 - [ ] Primera edición recibida y validada contra el PDF final
 - [ ] Primer número real cargado en el sistema
 - [ ] Todos los artículos y autores de la primera edición cargados y vinculados

@@ -8,6 +8,14 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Documentación
+- Corte a WordPress clásico en producción (2026-08-19): snapshot
+  `docs/operations/produccion-wordpress.md`; runbook canónico PRE/DEPLOY/POST/
+  ROLLBACK en `docs/operations/wordpress-manual-deployment.md`; notas de
+  implementación en ADR 0009/0015/0016 (sin reescribir decisiones).
+- Despliegue: Environment `wordpress-production`, FTPS acotado, jaula FTP,
+  rutas remotas relativas, activación distinta de la transferencia.
+
 ### Por hacer
 - Resolver el backlog de decisiones en ADR (ver `docs/adr/BACKLOG.md`): queda **D12b** (momento de automatización CI/CD), a decidir tras la auditoría profesional.
 - Verificar tras el próximo despliegue que `http://` devuelve 301 y que las cuatro cabeceras nuevas llegan al navegador.
@@ -16,7 +24,10 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 - Investigar el Programa de Sponsors de Crossref para Venezuela/Latinoamérica y confirmar el coste real de membresía DOI con el volumen del primer número (ADR 0013 §2.1 — puede avanzar ya, sin esperar a la Fase 4).
 - Tramitar el ISSN electrónico (e-ISSN) ante la Biblioteca Nacional, en paralelo al DOI y sin depender de él (ADR 0013, ADR 0004).
 - Designar quién en CENFISS gestiona las solicitudes de acceso/corrección/baja de datos de autor frente a Crossref, y revisar `page-politicas` §6 y la Solicitud de Publicación/Declaración de Ética con asesoría legal (ADR 0013 §6).
-- Bootstrap FSE en Docker (ADR 0015) y corte WordPress en `logo-et-spes.cenfiss.net` (ADR 0016).
+- QA de producción clásica en `https://logo-et-spes.cenfiss.net` (permalinks, cookies, privacidad, restos HTML del estático).
+- Revisar PHP efectivo 8.0.30 vs MultiPHP Inherited 8.2; evaluar plugins Softaculous; instalar CF7 y WP Statistics.
+- Warnings Node.js 20→24 del workflow FTPS (`checkout@v4`, FTP-Deploy-Action@v4.3.6).
+- Bootstrap FSE en Docker (ADR 0015); el corte WordPress (ADR 0016) ya está hecho con el theme clásico.
 
 ## [0.2.0] — 2026-08-18
 
