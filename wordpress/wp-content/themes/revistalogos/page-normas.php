@@ -18,7 +18,7 @@ while ( have_posts() ) :
 		'template-parts/content/content-institutional-page',
 		null,
 		array(
-			'description' => __( 'Instrucciones para autores sobre formato, estilo, citación y proceso editorial de LOGO ET SPES.', 'revistalogos' ),
+			'description' => __( 'Instrucciones para autores sobre formato, estilo y citación APA (7.ª edición) para la elaboración de producción intelectual de LOGO ET SPES.', 'revistalogos' ),
 		)
 	);
 endwhile;

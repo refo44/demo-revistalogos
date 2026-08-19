@@ -39,8 +39,8 @@ class Meta_Boxes {
 			),
 			Content_Types::ARTICLE => array(
 				'title_en'         => array( __( 'Título en inglés', 'revistalogos-core' ), 'text' ),
-				'abstract'         => array( __( 'Resumen (máx. 250 palabras)', 'revistalogos-core' ), 'textarea' ),
-				'abstract_en'      => array( __( 'Resumen en inglés', 'revistalogos-core' ), 'textarea' ),
+				'abstract'         => array( __( 'Resumen (máx. 180 palabras)', 'revistalogos-core' ), 'textarea' ),
+				'abstract_en'      => array( __( 'Resumen en inglés (máx. 180 palabras)', 'revistalogos-core' ), 'textarea' ),
 				'doi'              => array( __( 'DOI', 'revistalogos-core' ), 'text' ),
 				'pages'            => array( __( 'Paginación (ej. 15-32)', 'revistalogos-core' ), 'text' ),
 				'pdf_file'         => array( __( 'PDF del artículo (ID de adjunto)', 'revistalogos-core' ), 'attachment' ),
