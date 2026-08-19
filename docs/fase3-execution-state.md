@@ -230,8 +230,9 @@ cPanel `cenfiss2`) — ver `docs/fase3-validation-matrix.md`.
 **Actualización 2026-08-18:** smoke sobre WordPress 7.0.4 en Docker
 (`Pass (local)` en la matriz): core 7.0.4, PHP 8.2.33, MariaDB 11.8.8,
 theme y plugin activos, portada/archivos issue-article/institucionales/
-búsqueda/404/media/login OK. Excepción conocida: single CPT `author` 404
-(colisión de query var; ver Failures).
+búsqueda/404/media/login OK. Excepción conocida hasta plugin 0.2.1:
+single CPT `author` 404 (colisión de query var; corregido en código local
+2026-08-19, **no desplegado** — ver Failures).
 
 **Actualización 2026-08-19:** primer deploy FTPS a producción **Success**
 (run #1, ~27 s). Transferencia OK; activación en wp-admin (el workflow no
@@ -263,10 +264,14 @@ d75e7fbd757c5402c2d4a94e6836883819579ca1245daa142c0b235555e69b93  assets/css/pag
 ## Failures and root causes
 
 - **Single CPT `author` (`/revista/autores/{slug}/`) HTTP 404** (2026-08-18,
-  WP 7.0.4): el CPT se registra como `author` y usa la query var nativa de
-  WordPress; el archivo `/revista/autores/` y REST `wp/v2/author/{id}` sí
-  resuelven. `wp rewrite flush --hard` no lo corrige. Fuera del alcance del
-  upgrade de core; no se cambió `revistalogos-core`.
+  WP 7.0.4; **corregido en código local 2026-08-19, no desplegado**): el CPT
+  se registra como `author` y la query var por defecto chocaba con la nativa
+  de WordPress (`index.php?author={slug}` se interpreta como usuario). El
+  archivo `/revista/autores/` y REST `wp/v2/author/{id}` sí resolvían.
+  Arreglo: `query_var=journal_author` en `Content_Types`; flush en
+  `Plugin::maybe_upgrade` al pasar a plugin `0.2.1`. Tras desplegar hay que
+  dejar que corra el upgrade (primera petición o wp-admin) o guardar
+  Enlaces permanentes. **No desplegado en esta tarea.**
 - **`placeholder-banner.jpg` no era un JPEG** (corregido 2026-08-18): el
   archivo era un data URI de SVG con extensión `.jpg`; Apache lo servía
   como `image/jpeg` y el navegador mostraba imagen rota en `issue-card`

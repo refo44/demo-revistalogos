@@ -48,8 +48,9 @@ class Plugin {
 		Relationships::register_hooks();
 		Contact_Form_Integration::register_hooks();
 
-		// Idempotent upgrade routine for future schema/capability changes.
-		add_action( 'admin_init', array( __CLASS__, 'maybe_upgrade' ) );
+		// Idempotent upgrade: late on init so CPT rewrite args are
+		// registered before a version-gated rewrite flush.
+		add_action( 'init', array( __CLASS__, 'maybe_upgrade' ), 20 );
 
 		// WP-CLI commands only under WP-CLI; never on normal requests,
 		// never on activation, never during deployment.
@@ -107,7 +108,7 @@ class Plugin {
 
 	/**
 	 * Run idempotent upgrade steps when the stored version is older than
-	 * the code version (roles/terms re-install safely).
+	 * the code version (roles/terms re-install, rewrite flush).
 	 */
 	public static function maybe_upgrade() {
 		$installed = get_option( self::VERSION_OPTION );
@@ -118,6 +119,7 @@ class Plugin {
 
 		Taxonomies::insert_initial_terms();
 		Roles::install();
+		flush_rewrite_rules();
 
 		update_option( self::VERSION_OPTION, REVISTALOGOS_CORE_VERSION );
 	}

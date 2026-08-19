@@ -8,6 +8,12 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Fixed
+- CPT `author` singles at `/revista/autores/{slug}/` 404ed because the
+  default query var collided with WordPress’s native user `author` var.
+  Registration now uses `query_var=journal_author`. Public URL unchanged.
+  One rewrite flush is required after this plugin version lands.
+
 ### Added
 - WP-CLI `wp revistalogos fixtures bootstrap`: restricted editorial
   bootstrap (one draft issue, one draft article, one draft author;

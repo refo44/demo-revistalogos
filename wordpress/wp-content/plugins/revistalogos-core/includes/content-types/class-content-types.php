@@ -23,6 +23,14 @@ class Content_Types {
 	const AUTHOR  = 'author';
 
 	/**
+	 * Public query var for the author CPT. Must not be `author`: that is
+	 * WordPress's native user-archive query var, so singles rewrite to
+	 * `index.php?author={slug}` and 404. Archives (`post_type=author`)
+	 * and REST are unaffected.
+	 */
+	const AUTHOR_QUERY_VAR = 'journal_author';
+
+	/**
 	 * Register the CPTs. Hooked on init; also called on activation.
 	 */
 	public static function register() {
@@ -113,6 +121,7 @@ class Content_Types {
 				'menu_icon'    => 'dashicons-groups',
 				'supports'     => array( 'title', 'thumbnail' ),
 				'has_archive'  => true,
+				'query_var'    => self::AUTHOR_QUERY_VAR,
 				'rewrite'      => array(
 					'slug'       => 'revista/autores',
 					'with_front' => false,
