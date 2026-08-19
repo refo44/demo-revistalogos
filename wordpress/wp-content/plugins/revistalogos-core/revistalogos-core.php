@@ -5,6 +5,7 @@
  * Description:       Modelo de contenido de la Revista de Filosofía LOGO ET SPES: números, artículos, autores, taxonomías, rol Managing Editor, migración de contenido institucional y fixtures. El theme revistalogos solo presenta; este plugin es el dueño del dominio (ADR 0005).
  * Version:           0.1.0
  * Requires at least: 6.4
+ * Tested up to:      7.0
  * Requires PHP:      7.4
  * Author:            CENFISS
  * Author URI:        https://cenfiss.net

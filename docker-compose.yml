@@ -2,7 +2,11 @@
 # Solo para desarrollo: no se usa en el cPanel de producción (allí el
 # despliegue es FTPS manual, ver .github/workflows/deploy-wordpress.yml
 # y ADR 0016). El core de WordPress y la base de datos viven en volúmenes;
-# el repo solo monta plugin y theme.
+# el repo solo monta plugin y theme. Imagen fijada a
+# `wordpress:7.0.4-php8.2-apache` (no `latest` ni tags flotantes). Cambiar
+# el tag no actualiza el core persistido en `wp_data`: tras recrear el
+# contenedor hay que `wp core update --version=7.0.4` y `wp core update-db`.
+# Nunca `docker compose down -v` para un upgrade (destruye db_data/wp_data).
 #
 # Credenciales: en `.env` (gitignored). Primer uso: `cp .env.example .env`
 # y rellenar con valores aleatorios (`openssl rand -hex 16`).

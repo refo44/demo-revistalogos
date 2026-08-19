@@ -4,12 +4,19 @@ Evidencia durable de QA de la Fase 3. Estados permitidos: `Pass`, `Fail`,
 `Pass (local)`, `Unverified`. Nada se marca `Pass` sin evidencia de ejecución.
 
 Desde 2026-07-31 existe runtime WordPress local vía Docker (ADR 0014):
-`Pass (local)` = evidencia ejecutada en ese entorno (WordPress 6.8.3,
-PHP 8.2, MariaDB 11, `WP_ENVIRONMENT_TYPE=local`) sobre el código del commit
-`dfb91b8` (+ `docker-compose.yml` entonces sin commitear). `Pass (local)` no
-sustituye la validación en staging Hostinger para lo que depende del hosting
-real (FTPS, `.htaccess`/Apache del hosting, versión PHP del hosting, HTTPS,
-cabeceras).
+`Pass (local)` = evidencia ejecutada en ese entorno.
+
+- **2026-07-31:** WordPress 6.8.3, PHP 8.2, MariaDB 11, `WP_ENVIRONMENT_TYPE=local`,
+  código del commit `dfb91b8` (+ `docker-compose.yml` entonces sin commitear).
+- **2026-08-18:** imagen `wordpress:7.0.4-php8.2-apache`; core persistido en
+  `wp_data` actualizado a **7.0.4** (`wp core update --version=7.0.4` +
+  `wp core update-db`; cambiar el tag no basta). PHP 8.2.33; MariaDB 11.8.8
+  (`mariadb:11` sin cambio). Theme `revistalogos` y plugin `revistalogos-core`
+  activos. `Tested up to: 7.0` en cabeceras de theme y plugin.
+
+`Pass (local)` no sustituye la validación en el hosting real (cPanel
+`cenfiss2` / ADR 0016) para lo que depende de ese entorno (FTPS,
+`.htaccess`/LiteSpeed, versión PHP del hosting, HTTPS, cabeceras).
 
 Formato de cada fila: validación, método, resultado, estado, commit probado.
 
@@ -54,7 +61,7 @@ relaciones al borrar posts referenciados.
 | Guard de producción del importador (ADR 0004) | `import --apply` con entorno reportando `production` (wpcli sin `WP_ENVIRONMENT_TYPE`) | rechazado: «Production import requires --confirm-production and --backup» | Pass (local) | dfb91b8 |
 | `wp revistalogos fixtures seed --apply` + `verify` | WP-CLI local | 39 objetos de fixture creados y verificados | Pass (local) | dfb91b8 |
 | Ciclo completo de fixtures | `teardown --apply` → `verify` → `seed --apply` → `verify` | teardown limpio de posts/media/términos propios; verify reporta 0; reseed 39; verify OK | Pass (local) | dfb91b8 |
-| Registro de CPTs/taxonomías con slugs ADR 0008 | activación + resolución de `/revista/numeros|articulos|autores/` y términos de fixtures | archivos y singles resuelven 200; términos `keyword` de fixtures creados y destruidos por su ciclo | Pass (local) | dfb91b8 |
+| Registro de CPTs/taxonomías con slugs ADR 0008 | activación + resolución de `/revista/numeros|articulos|autores/` y términos de fixtures | archivos y singles de issue/article 200 (dfb91b8). 2026-08-18: single CPT `author` 404 (query var nativa; archivo y REST OK) — ver cobertura `single-author` | Pass (local) | dfb91b8 |
 | Meta boxes admin (nonce/capacidad/sanitización), esquemas REST, limpieza de relaciones al borrar | requiere ejercicio manual en admin/REST | — | Unverified | dfb91b8 |
 
 ## Nivel 3 — Integración
@@ -76,6 +83,7 @@ relaciones al borrar posts referenciados.
 | Cero cookies en front-end (ADR 0011) | `curl -I` sobre `/`, `/revista/numeros/`, `/buscar/?q=`, `/contacto/` | 0 cabeceras `Set-Cookie` en las cuatro | Pass (local) | dfb91b8 |
 | Sin recursos externos en el front-end (ADR 0011) | grep de `src`/`srcset` en HTML renderizado de portada | 0 recursos de hosts externos (los hosts externos presentes son solo `href` de enlaces y JSON-LD/comentarios) | Pass (local) | dfb91b8 |
 | Smoke visual (escritorio) | screenshots de portada, archivo de números y single de número en navegador | renderizan con el diseño del theme, navegación migrada y fixtures | Pass (local) | dfb91b8 |
+| Smoke post-upgrade WordPress 7.0.4 | curl + navegador sobre portada, nav, archivos/singles CPT, páginas institucionales, `/buscar/?q=`, 404, media, login wp-admin; `wp core version` / `php -v` / MariaDB | Core 7.0.4, PHP 8.2.33, MariaDB 11.8.8; theme y plugin activos; 200 en portada, issues, articles, institucionales, búsqueda, 404; media JPEG/PDF 200. **Excepción:** single CPT `author` 404 (ver cobertura `single-author`). Placeholder de número sin cover corregido a JPEG real. | Pass (local) | working tree 2026-08-18 |
 | Paridad visual static↔WP (móvil/tablet/escritorio/200%/320px), teclado, foco, almacenamiento, copy ES | protocolo completo de paridad, pendiente | — | Unverified | dfb91b8 |
 
 ## Matriz de cobertura static → WordPress
@@ -104,7 +112,7 @@ completo de paridad visual (nivel 4).
 | archive-article.html | archive-article.php (+ taxonomy-*.php delegados) | article-card, pagination, content-none | WP_Query article; filtros con query vars nativas (s/section/year) | Implemented | Unverified | filtros funcionales (en la maqueta eran decorativos) |
 | single-article.html | single-article.php | metadata-box, breadcrumbs | article + autores + issue + citas generadas | Implemented | Unverified | fila ORCID de la maqueta ausente (display de identificadores = Fase 4, ADR 0013); script de citas externo (ledger #1) |
 | archive-author.html | archive-author.php | author-card, pagination | WP_Query author | Implemented | Unverified | la maqueta era estado vacío deliberado; lista dinámica con componentes card existentes |
-| single-author.html | single-author.php | article-card | author + artículos vinculados | Implemented | Unverified | ídem; sin display ORCID (Fase 4) |
+| single-author.html | single-author.php | article-card | author + artículos vinculados | Implemented | Unverified | ídem; sin display ORCID (Fase 4). **Pretty permalink `/revista/autores/{slug}/` 404:** el CPT se registra como `author` y choca con la query var nativa de WordPress; el archivo `/revista/autores/` y REST `wp/v2/author` sí resuelven. Observado 2026-08-18 en WP 7.0.4; no se cambió el plugin en el upgrade. |
 | single-post.html | single.php | breadcrumbs | post + 2 relacionadas derivadas | Implemented | Unverified | — |
 | search.html | page-buscar.php (+ search.php redirect 301) | article/issue/author-card, content-none | Queries::search_query con prioridad documentada (docs/04) | Implemented | Unverified | copy de descripción sin «maqueta estática»; resultados renderizados (la maqueta solo mostraba estado vacío) |
 | 404.html | 404.php | — | enlace dinámico a número actual | Implemented | Unverified | — |

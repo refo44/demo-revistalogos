@@ -41,7 +41,7 @@ Ejemplo: `assets/img/logos/logo-revista.svg`, `assets/img/placeholders/article-p
 | `placeholders/portada-ejemplo.jpg` | Placeholder de portada de número | Placeholder (maqueta) |
 | `placeholders/article-placeholder.svg` | Fallback de tarjeta de artículo | Placeholder (maqueta) |
 | `placeholders/avatar-default.svg` | Fallback de avatar de autor | Placeholder (maqueta) |
-| `placeholders/placeholder-banner.jpg` | Carrusel de banner | Placeholder (maqueta) |
+| `placeholders/placeholder-banner.jpg` | Carrusel de banner y fallback de portada de número sin thumbnail (ruta real plana: `assets/img/placeholder-banner.jpg`). Debe ser JPEG real, no data URI. | Placeholder (maqueta) |
 | `placeholders/banner-main.jpg` | Hero/banner | Placeholder (maqueta) |
 | `banners/flyer.jpg` | Eventos CENFISS (carrusel) | CENFISS |
 

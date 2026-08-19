@@ -1,7 +1,7 @@
 === Revista LOGO ET SPES — Core ===
 Contributors: cenfiss
 Requires at least: 6.4
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.4
 Stable tag: 0.1.0
 License: GPLv2 or later
@@ -38,3 +38,4 @@ la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
 
 = 0.1.0 =
 * Modelo de contenido publicado inicial de la Fase 3.
+* 2026-08-18: `Tested up to` actualizado a WordPress 7.0 (entorno Docker local `wordpress:7.0.4-php8.2-apache`).

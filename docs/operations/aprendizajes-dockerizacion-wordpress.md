@@ -117,9 +117,18 @@ Reglas que demostraron su valor:
 5. **Puerto parametrizado con default** (`"${WORDPRESS_PORT:-8080}:80"`) para
    convivir con otros proyectos dockerizados en la misma máquina.
 
-6. **Fijar versiones de imagen que imiten al hosting** (`wordpress:6.8-php8.2`
-   y no `latest`): la paridad de versión PHP con el hosting real es lo que da
-   valor probatorio a `php -l` y a la QA local.
+6. **Fijar versiones de imagen que imiten al hosting**
+   (`wordpress:7.0.4-php8.2-apache` y no `latest` ni tags flotantes `7`/`7.0`):
+   la paridad de versión PHP con el hosting real es lo que da valor
+   probatorio a `php -l` y a la QA local.
+
+7. **Cambiar el tag de la imagen no actualiza el core en `wp_data`.** El
+   servicio monta `wp_data:/var/www/html`, así que los archivos de WordPress
+   ya instalados sobreviven al recreate del contenedor. Tras un upgrade de
+   tag: `docker compose pull wordpress`, `up -d --force-recreate wordpress`
+   **sin** `-v`, luego `wp core update --version=X.Y.Z` y `wp core update-db`.
+   Un `.maintenance` residual deja el sitio en 503 hasta borrarlo. Nunca
+   `docker compose down -v` para subir de versión.
 
 ## 4. Método: qué QA ejecutar en cuanto el entorno levanta
 
@@ -190,4 +199,4 @@ hosting de destino y renombrar `name:`.
 ---
 
 **Proyecto de origen:** Revista de Filosofía LOGO ET SPES (Fase 3, WordPress)
-**Fecha:** 2026-07-31
+**Fecha:** 2026-07-31 (gotcha §3.7 y tag 7.0.4: 2026-08-18)

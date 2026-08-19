@@ -29,9 +29,13 @@ autorización explícita.
 Se añade `docker-compose.yml` en la raíz del monorepo con tres servicios:
 
 - **db**: MariaDB 11 (volumen `db_data`).
-- **wordpress**: imagen oficial `wordpress` (PHP 8.2 + Apache), puerto 8080,
-  core en volumen `wp_data`.
-- **wpcli**: imagen oficial `wordpress:cli` para ejecutar los comandos del
+- **wordpress**: imagen oficial `wordpress:7.0.4-php8.2-apache` (PHP 8.2 +
+  Apache; tag exacto, no `latest` ni `7`/`7.0`), puerto 8080, core en
+  volumen `wp_data`. El volumen persiste los archivos del core: cambiar el
+  tag de la imagen **no** actualiza WordPress dentro de `wp_data`. Tras
+  recrear el contenedor hay que `wp core update --version=7.0.4` y
+  `wp core update-db`. Nunca `docker compose down -v` para un upgrade.
+- **wpcli**: imagen oficial `wordpress:cli-php8.2` para ejecutar los comandos del
   plugin (`wp revistalogos content …`, `wp revistalogos fixtures …`).
 
 El plugin `revistalogos-core` y el theme `revistalogos` se montan por bind
@@ -99,6 +103,11 @@ todo lo que no depende del hosting queda pre-validado localmente.
 - Estado local no versionado (volúmenes): cada máquina debe re-ejecutar la
   importación y las fixtures; el procedimiento está en los comentarios del
   propio `docker-compose.yml`.
+- **Upgrade de core (2026-08-18):** el entorno local pasó de
+  `wordpress:6.8-php8.2-apache` (core 6.8.3 en `wp_data`) a
+  `wordpress:7.0.4-php8.2-apache` (core 7.0.4) sin recrear `db_data` ni
+  `wp_data`. PHP se mantuvo en 8.2; MariaDB en `mariadb:11`. Theme y plugin
+  `Tested up to: 7.0`.
 
 ## Referencias
 

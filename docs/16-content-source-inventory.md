@@ -72,7 +72,7 @@ assets/
 | `assets/img/favicon.svg` | Favicon | Todas las páginas |
 | `assets/img/article-placeholder.svg` | Fallback de artículo | Archivo de artículos, tarjetas de artículo |
 | `assets/img/avatar-default.svg` | Fallback de avatar de autor | Artículo individual, tarjetas de autor |
-| `assets/img/placeholder-banner.jpg` | Placeholder de banner | Carrusel del Home |
+| `assets/img/placeholder-banner.jpg` | Placeholder JPEG «PRÓXIMAMENTE» (400×300). Debe ser un JPEG real, no un data URI con extensión `.jpg` (eso rompe el `Content-Type: image/jpeg`). | Carrusel del Home (maqueta); en WordPress, fallback de `issue-card` cuando un número no tiene featured image (p. ej. fixture «Número stub B») |
 
 **Ya implementados:** `portada-ejemplo.jpg` (portada demostrativa), `banner-main.jpg` y `placeholder-banner.jpg`.
 **Fuente para contenido real:** Las portadas oficiales deben provenir del equipo editorial o del diseño institucional de la revista. Fotos de autores de los propios autores; imágenes de eventos de CENFISS.

@@ -10,7 +10,7 @@ Aceptada
 
 ## Contexto
 
-El prompt maestro de Fase 3 (§9.1) exige un theme clásico y prohíbe convertirlo a block theme sin una decisión nueva. Esa decisión es esta.
+Fase 3 se implementó como theme clásico. Convertirlo a block theme exigía una decisión nueva. Esa decisión es esta.
 
 El theme `revistalogos` ya es un classic theme completo (WU4/WU5). Tres hechos posteriores cambian el alcance de presentación, no el de contenido (ADR 0005):
 

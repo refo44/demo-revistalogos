@@ -26,12 +26,14 @@ that file before resuming any Fase 3 work; it's the durable resume state.
 
 - **No native PHP/WP-CLI/Composer on the developer laptop; WordPress runs
   locally via Docker** (ADR 0014, `docker-compose.yml`: site at
-  `localhost:8080`, WP-CLI via `docker compose run --rm wpcli wp <cmd>`).
-  Use the containers to actually execute/verify PHP instead of claiming
-  something "works" from reading it. Local evidence is recorded as
-  `Pass (local)` in `docs/fase3-validation-matrix.md`. The public host is
-  **cPanel `cenfiss2`** (LiteSpeed), not a Hostinger control panel
-  (ADR 0016). Docker is not deployed to that server. See
+  `localhost:8080`, image `wordpress:7.0.4-php8.2-apache`, WP-CLI via
+  `docker compose run --rm wpcli wp <cmd>`). Changing that image tag does
+  not update core files inside the `wp_data` volume — follow the comments
+  in `docker-compose.yml`. Use the containers to actually execute/verify
+  PHP instead of claiming something "works" from reading it. Local
+  evidence is recorded as `Pass (local)` in `docs/fase3-validation-matrix.md`.
+  The public host is **cPanel `cenfiss2`** (LiteSpeed), not a Hostinger
+  control panel (ADR 0016). Docker is not deployed to that server. See
   `docs/fase3-execution-state.md` → Next exact action.
 - **`content-source/` is gitignored** — it exists only in the local working
   tree, not in Git. Treat it as a local input, not a tracked dependency.

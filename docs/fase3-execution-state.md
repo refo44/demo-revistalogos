@@ -5,7 +5,7 @@ current_work_unit: "Post-WU12 — FSE bootstrap en Docker (ADR 0015); corte host
 current_branch: "main"
 last_verified_commit: "dfb91b8"
 last_checkpoint_commit: "dfb91b8"
-updated_at: "2026-08-16"
+updated_at: "2026-08-18"
 next_action: "FSE en Docker (ADR 0015): bootstrap block theme hasta que el Site Editor abra y los colores en Estilos se vean en localhost:8080. No instalar WP en logo-et-spes.cenfiss.net todavía (ADR 0016: corte in situ después de ese gate). Inventario cPanel cenfiss2 cerrado 2026-08-16."
 blocked: false
 ---
@@ -18,17 +18,17 @@ protocolo de reanudación del final.
 
 ## Current objective
 
-Implementar la Fase 3 completa según el prompt maestro
-(`docs/FABLE5-Fase3-WordPress-Master-Prompt-v4.md`): reorganización del monorepo
-(ADR 0007), plugin `revistalogos-core` (ADR 0005), theme clásico `revistalogos`
-(ADR 0001-0003), migración institucional determinista, fixtures, integraciones
-aprobadas (CF7, WP Statistics), búsqueda, metadatos académicos de Fase 3 y
-workflow manual de despliegue FTPS (ADR 0009).
+Implementar la Fase 3 completa según `docs/17-implementation-order` y los
+ADR: reorganización del monorepo (ADR 0007), plugin `revistalogos-core`
+(ADR 0005), theme `revistalogos` (ADR 0001–0003; FSE según ADR 0015),
+migración institucional determinista, fixtures, integraciones aprobadas
+(CF7, WP Statistics), búsqueda, metadatos académicos de Fase 3 y workflow
+manual de despliegue FTPS (ADR 0009). El corte en hosting sigue ADR 0016.
 
 ## Current strategy
 
 Ejecución por unidades de trabajo (WU) con commits pequeños y revisables, en el
-orden de `docs/17-implementation-order` y del prompt maestro:
+orden de `docs/17-implementation-order`:
 
 | WU | Alcance | Commit previsto |
 | -- | ------- | --------------- |
@@ -52,7 +52,7 @@ checksums, YAML/JSON) se ejecuta siempre.
 
 ## Acceptance criteria
 
-Los del prompt maestro §6 (Definition of success). Resumen operativo:
+Los de `docs/17-implementation-order` y los ADR de Fase 3. Resumen operativo:
 
 - Separación static/wordpress según ADR 0007 sin romper el despliegue estático.
 - Theme solo presentación; plugin dueño del dominio; sin CPT `submission`.
@@ -159,6 +159,13 @@ Los del prompt maestro §6 (Definition of success). Resumen operativo:
   correcciones de documentación (README árbol monorepo, nota de reorg en
   `docs/13`), matriz de cobertura completa con 20 pantallas
   `Implemented`.
+- **Post-WU12 (2026-08-18):** upgrade del runtime Docker local de WordPress
+  6.8.3 a **7.0.4** (`wordpress:7.0.4-php8.2-apache`) sin destruir `db_data`
+  ni `wp_data`; core en el volumen actualizado con `wp core update
+  --version=7.0.4` + `wp core update-db`. PHP 8.2.33; MariaDB 11 sin cambio.
+  Theme y plugin `Tested up to: 7.0`. Placeholder `placeholder-banner.jpg`
+  sustituido por un JPEG real (el archivo era un data URI de SVG y rompía
+  las tarjetas de número sin cover, p. ej. stub B).
 
 ## Active work
 
@@ -179,7 +186,13 @@ WP Statistics activo con assets locales, 15 URLs clave en 200, cero cookies
 y cero recursos externos en front-end. Permanece `Unverified`: protocolo
 completo de paridad visual (nivel 4), meta boxes/REST/limpieza de
 relaciones, y todo lo dependiente del hosting real (FTPS, cabeceras,
-staging Hostinger) — ver `docs/fase3-validation-matrix.md`.
+cPanel `cenfiss2`) — ver `docs/fase3-validation-matrix.md`.
+
+**Actualización 2026-08-18:** smoke sobre WordPress 7.0.4 en Docker
+(`Pass (local)` en la matriz): core 7.0.4, PHP 8.2.33, MariaDB 11.8.8,
+theme y plugin activos, portada/archivos issue-article/institucionales/
+búsqueda/404/media/login OK. Excepción conocida: single CPT `author` 404
+(colisión de query var; ver Failures).
 
 ## Validation evidence
 
@@ -203,7 +216,19 @@ d75e7fbd757c5402c2d4a94e6836883819579ca1245daa142c0b235555e69b93  assets/css/pag
 
 ## Failures and root causes
 
-- Ninguno todavía.
+- **Single CPT `author` (`/revista/autores/{slug}/`) HTTP 404** (2026-08-18,
+  WP 7.0.4): el CPT se registra como `author` y usa la query var nativa de
+  WordPress; el archivo `/revista/autores/` y REST `wp/v2/author/{id}` sí
+  resuelven. `wp rewrite flush --hard` no lo corrige. Fuera del alcance del
+  upgrade de core; no se cambió `revistalogos-core`.
+- **`placeholder-banner.jpg` no era un JPEG** (corregido 2026-08-18): el
+  archivo era un data URI de SVG con extensión `.jpg`; Apache lo servía
+  como `image/jpeg` y el navegador mostraba imagen rota en `issue-card`
+  cuando el número no tiene thumbnail (fixture stub B). Sustituido por un
+  JPEG real 400×300.
+- **`PHP Warning: Constant WP_DEBUG already defined`:** la imagen oficial
+  define `WP_DEBUG` en `wp-config.php` y `WORDPRESS_CONFIG_EXTRA` lo
+  redefine. Preexistente del compose; no introducido por el tag 7.0.4.
 
 ## Decisions and assumptions
 
@@ -211,19 +236,22 @@ d75e7fbd757c5402c2d4a94e6836883819579ca1245daa142c0b235555e69b93  assets/css/pag
   instalados en la máquina de desarrollo; Node 20.17 y npm 10.8 sí. No se
   instala toolchain global sin autorización. **Superado el mismo día** por el
   entorno Docker local (ADR 0014): `docker-compose.yml` provee WordPress
-  6.8.3 + PHP 8.2 + MariaDB 11 + WP-CLI sin toolchain global; la QA de
-  runtime no dependiente del hosting se ejecuta localmente. El gate formal
-  de lanzamiento sigue siendo staging Hostinger.
+  **7.0.4** (`wordpress:7.0.4-php8.2-apache`) + PHP 8.2 + MariaDB 11 +
+  WP-CLI sin toolchain global. El core vive en `wp_data`; un cambio de tag
+  exige `wp core update --version=…` + `wp core update-db` (no
+  `docker compose down -v`). La QA de runtime no dependiente del hosting
+  se ejecuta localmente. El gate formal de lanzamiento es el subdominio
+  `logo-et-spes.cenfiss.net` (ADR 0016), no un staging Hostinger.
 - El generador de payload de migración se implementa en **Node** (herramienta
   del repo, sin dependencias nuevas), porque es la única runtime disponible y el
   payload es un artefacto local versionado; el importador es PHP/WP-CLI dentro
   de `revistalogos-core` y no depende de rutas del repositorio.
 - `docs/12-theme-file-structure` §8 sitúa los CPT en `inc/` del theme; ADR 0005
   §3 lo ajusta explícitamente: se sigue ADR 0005 (CPTs en el plugin).
-- El prompt maestro pide `search.html → page-buscar.php` (ruta `/buscar/?q=`);
-  `docs/17` §2.2 mapea `search.html → search.php`. Se sigue el prompt y
-  `docs/11` (ruta preferida `/buscar/?q=`), manteniendo `search.php` como
-  delegado fino para `/?s=` sin crear variantes indexables en competencia.
+- `docs/11` fija la ruta preferida `/buscar/?q=` (`page-buscar.php`);
+  `docs/17` §2.2 mapea `search.html → search.php`. Se sigue `docs/11`,
+  manteniendo `search.php` como delegado fino para `/?s=` sin crear
+  variantes indexables en competencia.
 
 ## Documentation discrepancies
 
@@ -242,9 +270,8 @@ Registradas para corrección en commit de documentación separado (WU12):
    reorg queda obsoleto (actualización separada).
 3. **`docs/15-assets-strategy`/`docs/12`** documentan subcarpetas
    `assets/img/logos/`, `placeholders/`, etc.; la estructura real es **plana**
-   (`assets/img/*.svg|jpg|png`). Se preserva la estructura plana durante la
-   reorganización (regla del prompt §14 Fase 1); reorganizar imágenes requiere
-   decisión explícita.
+   (`assets/img/*.svg|jpg|png`). Se preserva la estructura plana (ADR 0007 /
+   reorg a `static/`); reorganizar imágenes requiere decisión explícita.
 4. **`docs/03` §3** almacena `article.doi_url` como campo; ADR 0013/`docs/22`
    lo definen **computado, no almacenado**. Gana ADR 0013: en Fase 3 solo se
    registra almacenamiento inerte de `issue.issn`, `issue.doi`, `article.doi`,
@@ -270,8 +297,6 @@ Registradas para corrección en commit de documentación separado (WU12):
 ## Repository state
 
 - Rama: `main`; HEAD al iniciar: `5fedf8a`; tag existente: `v0.1.0`.
-- Working tree al iniciar: limpio salvo `docs/FABLE5-Fase3-WordPress-Master-Prompt-v4.md`
-  (sin trackear; es el prompt de esta fase, se versiona en WU0).
 - Despliegues: estático a `logo-et-spes.cenfiss.net` por FTPS manual
   (`deploy.yml`, `workflow_dispatch`; cuenta FTP `deploy_revista@…`,
   ADR 0016) y GitHub Pages automático desde `static/` (`pages.yml`).
@@ -279,8 +304,19 @@ Registradas para corrección en commit de documentación separado (WU12):
 
 ## Files changed
 
-Se actualiza al cierre de cada WU. WU0: los cinco artefactos del harness + el
-prompt maestro versionado.
+Se actualiza al cierre de cada WU. WU0: artefactos del harness (execution-state,
+matriz, ledger, runbooks).
+
+**2026-08-18 (upgrade local WP 7.0.4, sin commit aún):** `docker-compose.yml`
+(tag de imagen); cabeceras `Tested up to: 7.0` (theme `style.css`, plugin
+PHP + `readme.txt`); `placeholder-banner.jpg` (theme + static) y
+`issue-card.php`; docs ADR 0014, aprendizajes Docker, matriz, este archivo,
+inventario de assets, `CLAUDE.md`.
+
+**2026-08-18 (purga):** eliminado `docs/FABLE5-Fase3-WordPress-Master-Prompt-v4.md`
+(pliego de agente de Fase 3, ya implementado; las decisiones viven en ADR y
+`docs/17`). Se conservan `fase3-execution-state.md`, `fase3-validation-matrix.md`
+y `migracion-static-wordpress.md`.
 
 ## Next exact action
 
