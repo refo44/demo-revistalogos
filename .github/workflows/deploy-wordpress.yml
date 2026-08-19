@@ -1,4 +1,4 @@
-# Manual WordPress deployment to STAGING (ADR 0009; prompt §14 Phase 13).
+# Manual WordPress deployment to PRODUCTION (ADR 0009; prompt §14 Phase 13).
 #
 # Hard rules encoded here:
 # - workflow_dispatch ONLY: no push/pull_request/schedule/tag triggers and
@@ -12,22 +12,23 @@
 #   against shared WordPress directories; each artifact goes to its own
 #   bounded remote directory (never the WordPress installation root).
 #
-# Required staging secrets (see docs/operations/wordpress-manual-deployment.md):
-#   STAGING_FTP_SERVER, STAGING_FTP_USERNAME, STAGING_FTP_PASSWORD,
-#   STAGING_THEME_REMOTE_DIR, STAGING_PLUGIN_REMOTE_DIR
-name: Deploy WordPress theme+plugin to staging
+# Required production secrets (see docs/operations/wordpress-manual-deployment.md):
+#   PRODUCTION_FTP_SERVER, PRODUCTION_FTP_USERNAME, PRODUCTION_FTP_PASSWORD,
+#   PRODUCTION_THEME_REMOTE_DIR, PRODUCTION_PLUGIN_REMOTE_DIR
+name: Deploy WordPress theme+plugin to production
 
 on:
   workflow_dispatch:
 
 concurrency:
-  group: deploy-wordpress-staging
+  group: deploy-wordpress-production
   cancel-in-progress: false
 
 jobs:
   deploy-theme:
     name: Upload theme via FTPS
     runs-on: ubuntu-latest
+    environment: wordpress-production
 
     steps:
       - name: Checkout repository
@@ -36,12 +37,12 @@ jobs:
       - name: Deploy theme directory
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
-          server: ${{ secrets.STAGING_FTP_SERVER }}
-          username: ${{ secrets.STAGING_FTP_USERNAME }}
-          password: ${{ secrets.STAGING_FTP_PASSWORD }}
+          server: ${{ secrets.PRODUCTION_FTP_SERVER }}
+          username: ${{ secrets.PRODUCTION_FTP_USERNAME }}
+          password: ${{ secrets.PRODUCTION_FTP_PASSWORD }}
           protocol: ftps
           local-dir: ./wordpress/wp-content/themes/revistalogos/
-          server-dir: ${{ secrets.STAGING_THEME_REMOTE_DIR }}
+          server-dir: ${{ secrets.PRODUCTION_THEME_REMOTE_DIR }}
           dangerous-clean-slate: false
           exclude: |
             **/.DS_Store
@@ -49,6 +50,7 @@ jobs:
   deploy-plugin:
     name: Upload plugin via FTPS
     runs-on: ubuntu-latest
+    environment: wordpress-production
     needs: deploy-theme
 
     steps:
@@ -58,12 +60,12 @@ jobs:
       - name: Deploy plugin directory
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
-          server: ${{ secrets.STAGING_FTP_SERVER }}
-          username: ${{ secrets.STAGING_FTP_USERNAME }}
-          password: ${{ secrets.STAGING_FTP_PASSWORD }}
+          server: ${{ secrets.PRODUCTION_FTP_SERVER }}
+          username: ${{ secrets.PRODUCTION_FTP_USERNAME }}
+          password: ${{ secrets.PRODUCTION_FTP_PASSWORD }}
           protocol: ftps
           local-dir: ./wordpress/wp-content/plugins/revistalogos-core/
-          server-dir: ${{ secrets.STAGING_PLUGIN_REMOTE_DIR }}
+          server-dir: ${{ secrets.PRODUCTION_PLUGIN_REMOTE_DIR }}
           dangerous-clean-slate: false
           exclude: |
             **/.DS_Store
