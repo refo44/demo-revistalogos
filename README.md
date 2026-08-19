@@ -35,9 +35,8 @@ revistalogos/
 ├── tools/                           → Generador del payload de migración
 ├── docs/                            → Documentación numerada, ADRs, harness Fase 3
 ├── content-source/                  → Fuente canónica (no versionada)
-└── .github/workflows/               → deploy.yml (estático; no lanzar contra WP),
-                                       pages.yml (espejo beta, automático),
-                                       deploy-wordpress.yml (producción, manual)
+└── .github/workflows/               → deploy-wordpress.yml (producción WP, manual),
+                                       pages.yml (espejo estático beta, automático)
 ```
 
 El detalle de las plantillas estáticas y su mapeo a WordPress está en
@@ -57,8 +56,8 @@ persistido; hace falta `wp core update` + `wp core update-db`.
 `docs/operations/wordpress-manual-deployment.md`.
 
 **Prototipo estático:** abrir `static/index.html` en un navegador (sin build).
-El espejo beta es GitHub Pages (`pages.yml`). **No** usar `deploy.yml`
-(«Deploy to Hostinger») contra la carpeta de la revista.
+El espejo beta es GitHub Pages (`pages.yml`). El workflow estático
+«Deploy to Hostinger» (`deploy.yml`) **está retirado**; no recrearlo.
 
 **Lint CSS:** `npm run lint:css`.
 
@@ -103,7 +102,7 @@ Implementación clásica en el repo y **en producción** (`logo-et-spes.cenfiss.
 theme + plugin por FTPS manual (Environment `wordpress-production`). El workflow
 **no** activa theme/plugin ni despliega core/BD/`uploads`. Fixtures solo en
 Docker (ADR 0004). `static/` sigue como referencia visual (Fase 2) y espejo
-Pages; **no** lanzar `deploy.yml` contra el subdominio (ADR 0016).
+Pages. El deploy estático a cPanel (`deploy.yml`) está **retirado**.
 Runbook: `docs/operations/wordpress-manual-deployment.md`.
 Siguiente: QA de producción; FSE incremental después, primero en Docker
 (ADR 0015).

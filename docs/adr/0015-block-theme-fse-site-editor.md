@@ -118,3 +118,4 @@ Nota factual; **no** sustituye las decisiones §1–§6 (block theme, Site Edito
 - El corte in situ (ADR 0016) se ejecutó **sin** esperar al gate local de §7.2/§7.4. FSE **no bloqueó** el corte. Eso es un cambio de **orden operativo**, no de destino arquitectónico.
 - Orden operativo actual: producción clásica estable → QA → limpieza del estático residual → revisar PHP → plugins aprobados → contenido real → **luego** FSE incremental, **primero en Docker**.
 - Snapshot: `docs/operations/produccion-wordpress.md`.
+- El riesgo de volcar HTML estático sobre WP (`deploy.yml`, consecuencia arriba) queda cerrado: ese workflow se **retiró** el 2026-08-19. `pages.yml` no despliega a cPanel.

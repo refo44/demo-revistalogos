@@ -34,7 +34,7 @@ Formato de cada fila: validación, método, resultado, estado, commit probado.
 | Paridad CSS tras reorg (static/) | comparación de 12 hashes contra baseline | 12/12 idénticos | Pass | 537c94e |
 | Paridad CSS theme vs static | hash agregado de ambos árboles CSS | idénticos (`550dead…`) | Pass | dfb91b8 |
 | Paridad `main.js` theme vs static | `cmp` | idénticos byte a byte | Pass | dfb91b8 |
-| YAML workflows (deploy, pages, deploy-wordpress) | `ruby -ryaml` | parsean | Pass | dfb91b8 |
+| YAML workflows (pages, deploy-wordpress) | `ruby -ryaml` | parsean; `deploy.yml` estático retirado 2026-08-19 | Pass | dfb91b8 |
 | JSON (`theme.json`, `content-payload.json`) | `node JSON.parse` | parsean | Pass | dfb91b8 |
 | Sintaxis PHP | `php -l` (PHP 8.2, contenedor wpcli, ADR 0014) sobre los 59 archivos PHP de plugin+theme | 0 errores de sintaxis | Pass (local) | dfb91b8 |
 | stylelint | `npm run lint:css` | 16 errores, todos preexistentes en el CSS congelado (verificado contra tag `pre-fase3-reorg`); no se corrigen por inmutabilidad ADR 0003 | Pass (preexistentes aceptados) | dfb91b8 |

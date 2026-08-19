@@ -32,8 +32,8 @@ La etiqueta apunta al commit que deja `package.json`, `CHANGELOG.md` y este arch
 4. Commit: `chore(release): vX.Y.Z`.
 5. Etiquetar: `git tag -a vX.Y.Z -m "vX.Y.Z"` y `git push origin vX.Y.Z`.
 6. Desplegar theme+plugin desde GitHub Actions → «Deploy WordPress theme+plugin
-   to production» → Run workflow. **No** usar «Deploy to Hostinger»
-   (`deploy.yml`) contra `logo-et-spes.cenfiss.net`.
+   to production» → Run workflow. El workflow estático «Deploy to Hostinger»
+   (`deploy.yml`) está **retirado**; no recrearlo.
 
 ## Historial
 

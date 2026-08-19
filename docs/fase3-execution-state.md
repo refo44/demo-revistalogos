@@ -6,7 +6,7 @@ current_branch: "main"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-08-19"
-next_action: "QA del theme clásico en https://logo-et-spes.cenfiss.net. No importar fixtures. No lanzar deploy.yml contra esa carpeta. FSE solo después, primero en Docker. Snapshot: docs/operations/produccion-wordpress.md."
+next_action: "QA del theme clásico en https://logo-et-spes.cenfiss.net. No importar fixtures. deploy.yml retirado (no recrear). FSE solo después, primero en Docker. Snapshot: docs/operations/produccion-wordpress.md."
 blocked: false
 ---
 
@@ -323,8 +323,8 @@ Registradas para corrección en commit de documentación separado (WU12):
   (canónica en `package.json`); tag Git `v0.2.0` pendiente (véase `VERSION.md`).
 - Despliegues: WordPress de la revista en `logo-et-spes.cenfiss.net`
   (`deploy-wordpress.yml`, `workflow_dispatch`, Environment
-  `wordpress-production`, cuenta FTP `deploy_revista@…`). **No** lanzar
-  `deploy.yml` (estático) contra esa carpeta. GitHub Pages automático
+  `wordpress-production`, cuenta FTP `deploy_revista@…`). El workflow
+  estático `deploy.yml` está **retirado**. GitHub Pages automático
   desde `static/` (`pages.yml`) sigue como espejo beta. Panel: cPanel
   `cenfiss2`, no Hostinger.
 
@@ -358,8 +358,8 @@ Siguiente acción priorizada — **QA de producción clásica**, no FSE todavía
    institucionales, 404). Registrar en `docs/fase3-validation-matrix.md`.
    Upload Success **no** cubre este paso.
 2. Guardar permalinks (`/%postname%/`) para regenerar rewrites de CPTs.
-3. **No** importar fixtures. **No** lanzar `deploy.yml` contra la carpeta
-   de la revista. **No** tocar `cenfiss.net` ni `test.cenfiss.net`.
+3. **No** importar fixtures. **No** recrear `deploy.yml`. **No** tocar
+   `cenfiss.net` ni `test.cenfiss.net`.
 4. Verificar Ajustes → Lectura (política ADR 0004: no abrir indexación hasta
    contenido editorial real).
 5. Luego, cuando el rollback al dummy ya no haga falta: limpiar restos HTML

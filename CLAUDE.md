@@ -53,8 +53,9 @@ resuming Fase 3 work).
   (`refo44.github.io/demo-revistalogos`, beta review mirror, auto-publishes
   on every push to `main` — this is intentional, not a bug). Never make the
   static-site deploy workflow auto-trigger on push; never suggest removing
-  the Pages mirror without being asked. **Never** run `deploy.yml` (static
-  HTML) against the journal folder (ADR 0016). Same hosting also runs
+  the Pages mirror without being asked. The legacy cPanel static workflow
+  (`deploy.yml`, «Deploy to Hostinger») was **retired** after the WordPress
+  cutover; do not recreate it. Same hosting also runs
   `cenfiss.net` (institutional WP + Moodle) and `test.cenfiss.net` (dead
   Laravel) — do not deploy the journal there. Do not import fixtures to
   production. Keep search-engine indexing closed until real editorial

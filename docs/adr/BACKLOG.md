@@ -92,9 +92,9 @@ Se registran aquí hasta convertirlas en su ADR correspondiente:
 
 - **Block theme / Site Editor:** el theme público pasa a FSE (Gutenberg). Colores de marca (paleta impresa vs hex provisionales) se editan en Estilos, no en `tokens.css`. Next.js como front público **descartado**. → [ADR 0015](0015-block-theme-fse-site-editor.md).
 - **Hosting:** el panel no es Hostinger; es **cPanel cuenta `cenfiss2`**. En el mismo disco: WP+Moodle en `cenfiss.net`, **WordPress clásico de la revista** en `logo-et-spes.cenfiss.net` (corte 2026-08-19), Laravel muerto en `test.cenfiss.net`. **No se crean subdominios.** FTP `deploy_revista@…` enjaulado a la revista. → [ADR 0016](0016-topologia-hosting-cpanel.md). Snapshot: `docs/operations/produccion-wordpress.md`. Matiza el «subdominio de staging» de D8/0009 sin anular FTPS manual.
-- **CI/CD:** D12b sigue pendiente (auditoría). **No** se lanza `deploy.yml` del estático contra la carpeta de la revista. Production deploy: `deploy-wordpress.yml`, Environment `wordpress-production`.
+- **CI/CD:** D12b sigue pendiente (auditoría). El workflow estático `deploy.yml` («Deploy to Hostinger») está **retirado**. Production deploy: `deploy-wordpress.yml`, Environment `wordpress-production`. Pages: `pages.yml`.
 
-Estado en el repo: `.github/workflows/deploy.yml` ya es `workflow_dispatch`-only (cumple) y **no** debe ejecutarse contra la carpeta de la revista. `deploy.sh` **eliminado** el 2026-07-23. El código de WordPress se dispara desde Actions → «Deploy WordPress theme+plugin to production» → Run workflow. El espejo de GitHub Pages se publica en cada push a `main` (deliberado; 2026-07-28).
+Estado en el repo: `.github/workflows/deploy.yml` («Deploy to Hostinger») **eliminado** el 2026-08-19 tras el corte WP. `deploy.sh` **eliminado** el 2026-07-23. El código de WordPress se dispara desde Actions → «Deploy WordPress theme+plugin to production» → Run workflow. El espejo de GitHub Pages se publica en cada push a `main` (deliberado; 2026-07-28).
 
 ---
 

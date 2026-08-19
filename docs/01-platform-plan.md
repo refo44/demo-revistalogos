@@ -281,14 +281,14 @@ Es una plataforma de publicación digital académica para el pensamiento filosó
 | Publicación | Solo estático | Sin CMS. Contenido hardcodeado. Formularios enlazan a PDFs. |
 | Editorial | Implementada | Voz y tono en su lugar. Sin presión comercial. |
 | Envío de autores | Planificado | Login, CPT de envíos, panel de autor. Implementación WordPress. |
-| Infraestructura | Parcial | Despliegue a Hostinger vía FTPS con GitHub Actions (`.github/workflows/deploy.yml`, disparo manual). `_config.yml` de GitHub Pages también presente en el repo. `deploy.sh` referencia `prototype/` inexistente y está desactualizado. `404.html` ya existe. |
+| Infraestructura | Parcial | **Estado 2026-08-19:** el deploy estático `.github/workflows/deploy.yml` («Deploy to Hostinger») está **retirado**. Código a cPanel: `deploy-wordpress.yml` (manual). Espejo `static/`: `pages.yml`. Histórico: FTPS a Hostinger/cPanel con `deploy.yml`; `deploy.sh` eliminado 2026-07-23. |
 | Descubribilidad | Planificada | HTML semántico en maqueta. Metadatos, DOI, indexación por implementar en WordPress. |
 | Legal | Parcial | Licencia CC en footer. Páginas de privacidad/ética existen. Placeholder ISSN. |
 
 ### Brechas de implementación
 
 - **Página 404:** Implementada (`404.html` en la raíz).
-- **Script de deploy:** `deploy.sh` busca `prototype/front-page.html`; el sitio vive en raíz con `index.html`. El despliegue real usa `.github/workflows/deploy.yml` (FTPS a Hostinger, disparo manual), no `deploy.sh`.
+- **Script de deploy:** `deploy.sh` se eliminó el 2026-07-23. El workflow estático `.github/workflows/deploy.yml` («Deploy to Hostinger») se **retiró** el 2026-08-19. El deploy vigente a producción es `deploy-wordpress.yml`.
 - **Docs 02–20:** Completados para el proyecto. Trazabilidad en `00-order-documents`.
 - **WordPress:** No iniciado. La maqueta estática es el entregable actual.
 

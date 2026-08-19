@@ -19,7 +19,7 @@ Snapshot factual del corte 2026-08-19:
 | **Referencia estática** | `static/` en Git; espejo beta GitHub Pages | `pages.yml` (automático en `main`) |
 | **Producción WordPress** | `logo-et-spes.cenfiss.net` | Este runbook (`deploy-wordpress.yml`) |
 | **Staging WordPress** | **No existe.** No hay subdominio de staging extra (ADR 0016). | — |
-| **Estático en cPanel** | Workflow `Deploy to Hostinger` (`deploy.yml`) | **Prohibido** contra la carpeta de la revista |
+| **Estático en cPanel** | Workflow `Deploy to Hostinger` (`deploy.yml`) | **Retirado** (2026-08-19). No recrear. No hay botón de Actions para volcar HTML sobre WP. |
 
 No hay promoción automática staging → producción. No hay Environment de
 staging WordPress. El Environment de este workflow es solo
@@ -113,9 +113,13 @@ de hostname. Ambos hosts responden en el puerto 21.
 **coincide** con el certificado TLS del FTPS explícito. No desactivar la
 verificación TLS. No usar FTP en claro.
 
-El workflow estático `deploy.yml` usa secretos distintos (`FTP_HOST`,
-`FTP_USERNAME`, `FTP_PASSWORD`, `FTP_PORT`, `FTP_REMOTE_DIR`). **No**
-renombrarlos: son del paquete `static/` y **no** deben usarse contra WordPress.
+El workflow estático `deploy.yml` («Deploy to Hostinger») **fue retirado**
+tras el corte a WordPress. Ya no hay Action que use los secretos de
+repositorio `FTP_HOST`, `FTP_USERNAME`, `FTP_PASSWORD`, `FTP_PORT`,
+`FTP_REMOTE_DIR`. No recrear ese workflow. Follow-up manual: borrar esos
+cinco secretos en GitHub → Settings → Secrets and variables → Actions
+(Repository secrets). **No** tocar los secretos del Environment
+`wordpress-production` (`PRODUCTION_*`).
 
 ## Workflow
 
@@ -208,7 +212,7 @@ No hay rollback automático en GitHub Actions. Distinguir el fallo:
 | **C. Base de datos** | Backup/restore de BD aparte (JetBackup y/o Backuply). **Este workflow no despliega ni restaura BD.** | Contenido, ajustes, activaciones |
 | **D. Estático pre-WP** | ZIP `logo-et-spes-static-backup-2026-08-18.zip`. Histórico. **No** es el rollback normal de WordPress. | Solo si se acepta volver al dummy HTML |
 
-No copiar el ZIP estático sobre `index.php`. No lanzar `deploy.yml` como
+No copiar el ZIP estático sobre `index.php`. No recrear `deploy.yml` como
 «rollback».
 
 ---

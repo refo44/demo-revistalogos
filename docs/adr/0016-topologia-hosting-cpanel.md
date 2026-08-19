@@ -24,7 +24,7 @@ Otras cuentas cPanel vistas en la misma sesión (`confiadi` / `cenfissu`) **no**
 
 ADR 0009 preveía un **subdominio de staging extra**. El propietario decide: **no hay dominios ni subdominios nuevos**. `logo-et-spes.cenfiss.net` se queda. El dummy se sustituyó **in situ** el 2026-08-19 con WordPress clásico (el gate FSE de 0015 §7 no bloqueó el corte).
 
-`deploy.yml` publica `static/` y **no** debe lanzarse contra la carpeta de la revista. `deploy-wordpress.yml` usa Environment `wordpress-production` y secretos `PRODUCTION_*`. D12b (checks automáticos) sigue pendiente tras la auditoría (0012 §6).
+`deploy.yml` («Deploy to Hostinger») publicaba `static/` por FTPS; **retirado** el 2026-08-19. No recrearlo. `deploy-wordpress.yml` es el único deploy de código al cPanel de la revista (Environment `wordpress-production`, secretos `PRODUCTION_*`). GitHub Pages (`pages.yml`) sigue como espejo de `static/` y **no** toca el servidor. D12b (checks automáticos) sigue pendiente tras la auditoría (0012 §6).
 
 ## Decisión
 
@@ -48,7 +48,7 @@ ADR 0009 preveía un **subdominio de staging extra**. El propietario decide: **n
 3. WordPress **nuevo** (Softaculous) **solo** en `logo-et-spes.cenfiss.net`, URL `https://`, directorio vacío, 7.0.4.
 4. Base MySQL **nueva** (distinta de `moodle`, `tRZQu`, `4bplx`, `wp200`).
 5. Theme + plugin vía FTPS acotado (`deploy-wordpress.yml`, run #1 Success).
-6. **Dejar de lanzar** `deploy.yml` (estático) contra esa carpeta: volvería a volcar HTML sobre WP.
+6. Dejar de lanzar `deploy.yml` (estático) contra esa carpeta. **Hecho:** el archivo se retiró del repo (2026-08-19); no recrearlo.
 
 El deploy de código de la revista es `deploy-wordpress.yml`. Snapshot: `docs/operations/produccion-wordpress.md`.
 
@@ -110,5 +110,5 @@ No se inventa un pipeline nuevo para FSE. Theme y plugin viajan por FTPS acotado
 - Inventario cPanel 2026-08-16 (Dominios, File Manager, MySQL, FTP, Softaculous, MultiPHP, SSL)
 - Corte in situ 2026-08-19 — `docs/operations/produccion-wordpress.md`
 - ADR 0004, 0009, 0012, 0014, 0015
-- `.github/workflows/deploy.yml`, `deploy-wordpress.yml`
+- `.github/workflows/deploy-wordpress.yml` (producción); `deploy.yml` retirado 2026-08-19
 - `docs/operations/wordpress-manual-deployment.md`

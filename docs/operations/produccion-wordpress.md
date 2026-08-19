@@ -248,14 +248,29 @@ a Node.js 24. No rompió el deploy; queda como mantenimiento del workflow.
 
 Esto reduce el riesgo de afectar `cenfiss.net`.
 
-## Workflows que no deben usarse contra la revista
+## Workflows
 
-- **No** ejecutar `Deploy to Hostinger` (`.github/workflows/deploy.yml`) contra
-  la carpeta de la revista: es el paquete estático. Tras el WP, volvería a
-  volcar HTML sobre WordPress (ADR 0016).
-- GitHub Pages (`pages.yml`) puede seguir actualizando el espejo estático
-  (`refo44.github.io/demo-revistalogos`) sin tocar el servidor. Eso es
-  deliberado.
+Producción WordPress (único deploy de código a cPanel):
+
+```text
+.github/workflows/deploy-wordpress.yml
+name: Deploy WordPress theme+plugin to production
+on: workflow_dispatch
+environment: wordpress-production
+```
+
+Espejo estático (no toca cPanel):
+
+```text
+.github/workflows/pages.yml
+name: Deploy static mirror to GitHub Pages
+```
+
+Legacy estático a hosting («Deploy to Hostinger», `deploy.yml`): **retirado**
+el 2026-08-19. No recrear. Volcaría HTML sobre WordPress. Follow-up: borrar
+en GitHub los Repository secrets `FTP_HOST`, `FTP_USERNAME`, `FTP_PASSWORD`,
+`FTP_PORT`, `FTP_REMOTE_DIR` (ya no los usa ningún workflow). No tocar
+`PRODUCTION_*` del Environment `wordpress-production`.
 
 ## Plugins de Softaculous (pendientes de evaluación)
 
@@ -296,6 +311,9 @@ instalados/configurados en producción. Ver
 12. Revisar warnings Node.js 20→24 del workflow (no bloquean).
 13. FSE después, primero en Docker (ADR 0015).
 14. Post-deploy funcional: portada, nav, CSS/JS, plantillas, caché (SpeedyCache).
+15. Borrar a mano en GitHub (Repository secrets) `FTP_HOST`, `FTP_USERNAME`,
+    `FTP_PASSWORD`, `FTP_PORT`, `FTP_REMOTE_DIR` si ya no los usa ningún
+    workflow. No tocar `PRODUCTION_*`.
 
 ## Referencias estáticas, fixtures y restos (clasificación)
 

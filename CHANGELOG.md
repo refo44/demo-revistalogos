@@ -16,6 +16,11 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 - Despliegue: Environment `wordpress-production`, FTPS acotado, jaula FTP,
   rutas remotas relativas, activación distinta de la transferencia.
 
+### Retirado
+- Workflow estático `.github/workflows/deploy.yml` («Deploy to Hostinger»).
+  Producción de código: solo `deploy-wordpress.yml`. GitHub Pages (`pages.yml`)
+  se conserva.
+
 ### Por hacer
 - Resolver el backlog de decisiones en ADR (ver `docs/adr/BACKLOG.md`): queda **D12b** (momento de automatización CI/CD), a decidir tras la auditoría profesional.
 - Verificar tras el próximo despliegue que `http://` devuelve 301 y que las cuatro cabeceras nuevas llegan al navegador.
@@ -27,6 +32,7 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 - QA de producción clásica en `https://logo-et-spes.cenfiss.net` (permalinks, cookies, privacidad, restos HTML del estático).
 - Revisar PHP efectivo 8.0.30 vs MultiPHP Inherited 8.2; evaluar plugins Softaculous; instalar CF7 y WP Statistics.
 - Warnings Node.js 20→24 del workflow FTPS (`checkout@v4`, FTP-Deploy-Action@v4.3.6).
+- Borrar en GitHub (Repository secrets) `FTP_HOST`, `FTP_USERNAME`, `FTP_PASSWORD`, `FTP_PORT`, `FTP_REMOTE_DIR` tras retirar `deploy.yml`. No tocar `PRODUCTION_*`.
 - Bootstrap FSE en Docker (ADR 0015); el corte WordPress (ADR 0016) ya está hecho con el theme clásico.
 
 ## [0.2.0] — 2026-08-18
