@@ -179,6 +179,8 @@ revistalogos/
     └── revistalogos.pot
 ```
 
+`screenshot.png` (1200×900) es la miniatura de Apariencia → Temas (`wp-admin/themes.php`). WordPress la lee de la raíz del theme; sin ese archivo la tarjeta muestra el patrón de transparencia.
+
 ---
 
 ## 7. Estrategia CSS
