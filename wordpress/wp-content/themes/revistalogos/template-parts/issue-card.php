@@ -52,7 +52,14 @@ $revistalogos_card_class = 'card issue-card' . ( $revistalogos_featured ? ' fron
 			);
 			?>
 		<?php else : ?>
-			<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/placeholder-banner.jpg' ); ?>" alt="" class="issue-card__cover">
+			<?php
+			$revistalogos_placeholder      = get_template_directory() . '/assets/img/placeholder-banner.jpg';
+			$revistalogos_placeholder_uri = get_template_directory_uri() . '/assets/img/placeholder-banner.jpg';
+			if ( is_readable( $revistalogos_placeholder ) ) {
+				$revistalogos_placeholder_uri = add_query_arg( 'ver', (string) filemtime( $revistalogos_placeholder ), $revistalogos_placeholder_uri );
+			}
+			?>
+			<img src="<?php echo esc_url( $revistalogos_placeholder_uri ); ?>" alt="" class="issue-card__cover">
 		<?php endif; ?>
 	</div>
 
