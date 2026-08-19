@@ -96,10 +96,11 @@ WordPress añade: motor de contenido, panel editorial, roles de usuario y conten
 
 Implementación clásica (WU0–WU12) en el repositorio desde **0.2.0**. Corte
 in situ **2026-08-19:** WordPress 7.0.4 en `https://logo-et-spes.cenfiss.net`,
-theme clásico `revistalogos` y plugin `revistalogos-core` activos. Pendiente:
-QA de producción, contenido editorial real, bootstrap FSE (ADR 0015; primero
-en Docker; no bloqueó el corte). Estado operativo:
-`docs/fase3-execution-state.md`. Snapshot:
+theme clásico `revistalogos` y plugin `revistalogos-core` activos. WordPress
+clásico live en producción; carga de contenido editorial real iniciada y
+actualmente en proceso desde wp-admin. Pendiente: QA de producción, no
+importar fixtures, bootstrap FSE (ADR 0015; primero en Docker). Estado
+operativo: `docs/fase3-execution-state.md`. Snapshot:
 `docs/operations/produccion-wordpress.md`.
 
 1. **Convertir** maqueta a tema WordPress según `12-theme-file-structure`

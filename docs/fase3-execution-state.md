@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "Post-corte — QA producción clásica; FSE aplazado (ADR 0015)"
+current_work_unit: "WordPress clásico live; carga editorial real en proceso desde wp-admin; QA theme; FSE aplazado"
 current_branch: "main"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-08-19"
-next_action: "QA del theme clásico en https://logo-et-spes.cenfiss.net. No importar fixtures. deploy.yml retirado (no recrear). FSE solo después, primero en Docker. Snapshot: docs/operations/produccion-wordpress.md."
+next_action: "WordPress clásico live en producción; carga de contenido editorial real iniciada y actualmente en proceso desde wp-admin. QA del theme. No importar fixtures. FSE después, primero en Docker."
 blocked: false
 ---
 
@@ -185,18 +185,23 @@ Los de `docs/17-implementation-order` y los ADR de Fase 3. Resumen operativo:
 - **Corte producción clásica (2026-08-19):** WordPress 7.0.4 instalado con
   Softaculous in situ en `logo-et-spes.cenfiss.net` (BD nueva, sin tocar
   `cenfiss.net` ni `test.cenfiss.net`). FTPS run #1 **Success** (theme +
-  plugin). Activación **en wp-admin**, no en CI. Indexación observada
-  cerrada en el setup (verificar de nuevo; política ADR 0004). Fixtures
-  **no** importados. FSE no bloqueó el corte. Snapshot y runbook:
+  plugin). Activación **en wp-admin**, no en CI. WordPress clásico live en
+  producción; carga de contenido editorial real iniciada y actualmente en
+  proceso desde wp-admin. Fixtures **no** importados. Indexación: verificar
+  (no asumir abierta). FSE no bloqueó el corte. Snapshot y runbook:
   `docs/operations/produccion-wordpress.md`,
   `docs/operations/wordpress-manual-deployment.md`.
 
 ## Active work
 
-- QA del theme clásico en producción (`https://logo-et-spes.cenfiss.net`).
-  Backlog operativo en `docs/operations/produccion-wordpress.md`
-  (permalinks, PHP 8.0.30 vs MultiPHP 8.2, plugins Softaculous, CF7,
-  WP Statistics, cookies, restos HTML, FSE después en Docker).
+- WordPress clásico live en producción (`https://logo-et-spes.cenfiss.net`);
+  carga de contenido editorial real iniciada y actualmente en proceso desde
+  wp-admin. No importar fixtures ni correr el importador institucional
+  contra producción sin `--confirm-production` explícito.
+- QA del theme clásico en producción. Backlog operativo en
+  `docs/operations/produccion-wordpress.md` (permalinks, PHP 8.0.30 vs
+  MultiPHP 8.2, plugins Softaculous, CF7, WP Statistics, cookies, restos
+  HTML, indexación a verificar, FSE después en Docker).
 
 ## QA status of completed work
 
@@ -355,22 +360,23 @@ ADR 0009/0015/0016/0014 (notas de implementación); README, `CLAUDE.md`,
 
 ## Next exact action
 
-La implementación **clásica** está en **producción**
-(`https://logo-et-spes.cenfiss.net`, WordPress 7.0.4). Código first-party
-desplegado por FTPS; activación en wp-admin. Docker:
-`http://localhost:8080`. Runbook:
-`docs/operations/wordpress-manual-deployment.md`.
+La implementación **clásica** está live en producción
+(`https://logo-et-spes.cenfiss.net`, WordPress 7.0.4). Carga de contenido
+editorial real iniciada y actualmente en proceso desde wp-admin. Código
+first-party por FTPS. Docker: `http://localhost:8080`.
 
-Siguiente acción priorizada — **QA de producción clásica**, no FSE todavía:
+Siguiente acción priorizada — **no pisar la carga en curso**; QA del theme;
+FSE después:
 
-1. QA del theme clásico (portada, nav, CSS/JS, archivos CPT, páginas
-   institucionales, 404). Registrar en `docs/fase3-validation-matrix.md`.
-   Upload Success **no** cubre este paso.
-2. Guardar permalinks (`/%postname%/`) para regenerar rewrites de CPTs.
-3. **No** importar fixtures. **No** recrear `deploy.yml`. **No** tocar
-   `cenfiss.net` ni `test.cenfiss.net`.
-4. Verificar Ajustes → Lectura (política ADR 0004: no abrir indexación hasta
-   contenido editorial real).
+1. No importar fixtures. No lanzar el importador institucional contra
+   producción sin `--confirm-production` y backup.
+2. QA del theme clásico (portada, nav, CSS/JS, CPTs, páginas, 404) sobre
+   el sitio live, **sin** dataset dummy. Registrar en
+   `docs/fase3-validation-matrix.md`.
+3. **No** recrear `deploy.yml`. **No** tocar `cenfiss.net` ni
+   `test.cenfiss.net`.
+4. Verificar Ajustes → Lectura (abrir indexación = decisión explícita del
+   propietario, no un efecto del deploy).
 5. Luego, cuando el rollback al dummy ya no haga falta: limpiar restos HTML
    del document root; revisar PHP 8.0.30 vs MultiPHP 8.2; evaluar plugins
    Softaculous; instalar/configurar CF7 y WP Statistics; vigilar SpeedyCache.

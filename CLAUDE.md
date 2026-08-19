@@ -2,9 +2,11 @@
 
 Monorepo: a static HTML prototype (`static/`, Fase 2 — done, base visual
 frozen) and WordPress (`wordpress/wp-content/{themes,plugins}/`, Fase 3 —
-classic complete as of 0.2.0 and **live** at `https://logo-et-spes.cenfiss.net`
-since 2026-08-19). FSE (ADR 0015) is still the destination but did **not**
-block the cutover; implement it later, Docker first. See
+classic complete as of 0.2.0). WordPress clásico live en producción; carga
+de contenido editorial real iniciada y actualmente en proceso desde wp-admin
+(`https://logo-et-spes.cenfiss.net`, since 2026-08-19). FSE (ADR 0015) is
+still the destination but did **not** block the cutover; implement it later,
+Docker first. See
 `docs/operations/produccion-wordpress.md`, `docs/17-implementation-order.md`,
 and `docs/fase3-execution-state.md` (durable resume state — read it before
 resuming Fase 3 work).

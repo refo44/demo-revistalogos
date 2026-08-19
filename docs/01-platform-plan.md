@@ -282,7 +282,7 @@ sin etiquetar y se actualizan aquí.
 | Arquitectura | Implementada | Páginas: Inicio, Revista (archivos de números/artículos), Normas, Acerca, Contacto, Noticias. Maqueta en `static/`; equivalentes PHP en el theme. |
 | Modelo de contenido | Implementada | CPTs `issue`/`article`/`author` en `revistalogos-core`. Plantillas single/archive en el theme clásico. |
 | Navegación | Implementada | Nav del header, footer, CTA principal (Enviar Colaboración). |
-| Publicación | WordPress en producción | CMS operativo en `https://logo-et-spes.cenfiss.net` (WP 7.0.4). Theme clásico `revistalogos` y plugin `revistalogos-core` desplegados y activos. Contenido editorial real **pendiente**. Fixtures **no** importadas (ADR 0004). |
+| Publicación | WordPress clásico live | WordPress clásico live en producción; carga de contenido editorial real iniciada y actualmente en proceso desde wp-admin. CMS: `https://logo-et-spes.cenfiss.net` (WP 7.0.4). Theme `revistalogos` y plugin `revistalogos-core` activos. Fixtures del repo **no** importar (ADR 0004). |
 | Editorial | Implementada | Voz y tono en su lugar. Sin presión comercial. |
 | Envío de autores | Aplazado | CPT `submission` y portal de autor fuera de Fase 3 (ADR 0005 §4). |
 | Infraestructura | Producción WP + espejo Pages | Código a cPanel: `deploy-wordpress.yml` (manual, Environment `wordpress-production`). Espejo `static/`: `pages.yml`. Workflow estático `deploy.yml` («Deploy to Hostinger») **retirado** 2026-08-19. |
@@ -291,7 +291,7 @@ sin etiquetar y se actualizan aquí.
 
 ### Brechas de implementación (actual, 2026-08-19)
 
-- **WordPress:** Implementado en producción con theme clásico `revistalogos` y plugin `revistalogos-core`. FSE pendiente según ADR 0015. QA funcional de producción y contenido editorial real: pendientes. Fixtures: no importar (ADR 0004).
+- **WordPress:** WordPress clásico live en producción; carga de contenido editorial real iniciada y actualmente en proceso desde wp-admin. Theme `revistalogos` y plugin `revistalogos-core` activos. FSE pendiente según ADR 0015. QA funcional de producción: pendiente. Fixtures: no importar (ADR 0004).
 - **Deploy estático a cPanel:** `deploy.sh` eliminado 2026-07-23; `deploy.yml` («Deploy to Hostinger») retirado 2026-08-19. No recrear.
 - **Docs 02–20:** Completados para el proyecto. Trazabilidad en `00-order-documents`. Estado operativo: `docs/fase3-execution-state.md`.
 
@@ -306,8 +306,8 @@ En esa fase: publicación solo estática, sin CMS; WordPress no iniciado; 404 en
 | Etapa | Descripción |
 |-------|-------------|
 | **Hecho (Fase 2)** | Maqueta HTML estática (`static/`), referencia visual congelada. |
-| **Actual (2026-08-19)** | WordPress clásico en producción; theme + plugin por FTPS manual. |
-| **Siguiente** | QA de producción; contenido editorial real (sin fixtures); FSE incremental en Docker (ADR 0015). |
+| **Actual (2026-08-19)** | WordPress clásico live en producción; carga de contenido editorial real iniciada y actualmente en proceso desde wp-admin. |
+| **Siguiente** | QA de producción; no importar fixtures; abrir indexación solo por decisión explícita; FSE incremental en Docker (ADR 0015). |
 | **Largo plazo** | Revista académica indexada con ritmo de publicación estable. |
 
 ---

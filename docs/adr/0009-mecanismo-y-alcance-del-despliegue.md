@@ -122,6 +122,7 @@ Nota factual; no sustituye las decisiones de este ADR ni de ADR 0016.
 - El workflow acotado es `.github/workflows/deploy-wordpress.yml` (`Deploy WordPress theme+plugin to production`), Environment `wordpress-production`, secretos `PRODUCTION_*`. Primer run **Success** (~27 s). El workflow **no** activa theme/plugin.
 - Destinos remotos: relativos a la raíz FTP enjaulada (document root de la revista), no a `/home/cenfiss2/public_html/` ni paths absolutos de cPanel.
 - Un run verde **no** sustituye la QA funcional pública.
+- WordPress clásico live en producción; carga de contenido editorial real iniciada y actualmente en proceso desde wp-admin. El FTPS no despliega contenido.
 - Indexación: observada cerrada en el setup; ADR 0004 impide abrirla hasta contenido editorial real; el paso «abrir robots» de §4 **no** se ejecutó. Verificar el checkbox en cada post-deploy.
 - El workflow estático `.github/workflows/deploy.yml` («Deploy to Hostinger», secretos de repositorio `FTP_*`) existió durante la fase HTML. **Retirado** el 2026-08-19 tras el corte a WordPress. No recrearlo ni apuntarlo a `logo-et-spes.cenfiss.net`. El código de producción viaja solo por `deploy-wordpress.yml`.
 - Runbook canónico: `docs/operations/wordpress-manual-deployment.md`. Snapshot: `docs/operations/produccion-wordpress.md`.

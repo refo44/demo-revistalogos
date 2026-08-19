@@ -98,14 +98,15 @@ ScholarlyArticle). El theme replica metadatos Highwire, Schema.org y OG.
 
 ## WordPress (Fase 3)
 
-Implementación clásica en el repo y **en producción** (`logo-et-spes.cenfiss.net`):
-theme + plugin por FTPS manual (Environment `wordpress-production`). El workflow
-**no** activa theme/plugin ni despliega core/BD/`uploads`. Fixtures solo en
-Docker (ADR 0004). `static/` sigue como referencia visual (Fase 2) y espejo
-Pages. El deploy estático a cPanel (`deploy.yml`) está **retirado**.
+WordPress clásico live en producción; carga de contenido editorial real
+iniciada y actualmente en proceso desde wp-admin
+(`logo-et-spes.cenfiss.net`).
+Theme + plugin por FTPS manual (Environment `wordpress-production`). Fixtures
+solo en Docker (ADR 0004). `static/` sigue como referencia visual (Fase 2) y
+espejo Pages. El deploy estático a cPanel (`deploy.yml`) está **retirado**.
 Runbook: `docs/operations/wordpress-manual-deployment.md`.
-Siguiente: QA de producción; FSE incremental después, primero en Docker
-(ADR 0015).
+Siguiente: no pisar la carga en curso; QA de producción; FSE después, primero
+en Docker (ADR 0015).
 
 ## Licencia
 
