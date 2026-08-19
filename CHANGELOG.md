@@ -8,6 +8,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Added
+- WP-CLI `wp revistalogos fixtures bootstrap`: restricted editorial
+  bootstrap (one draft issue, one draft article, one draft author;
+  `_les_fixture=1`, kind `bootstrap`; no fake DOI/ORCID/ISSN). Production
+  writes require `--confirm-production` and `--backup`. Full demo seed
+  remains a separate command.
+
 ### Documentación
 - Corte a WordPress clásico en producción (2026-08-19): snapshot
   `docs/operations/produccion-wordpress.md`; runbook canónico PRE/DEPLOY/POST/
@@ -18,8 +25,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 - Producción: WordPress clásico live en producción; carga de contenido
   editorial real iniciada y actualmente en proceso desde wp-admin (**no**
   completa). Existe un administrador wp-admin asignado a esa gestión
-  (identidad no documentada). Fixtures: no importar. Indexación: no asumir
-  abierta.
+  (identidad no documentada). Dataset demo de fixtures: no importar.
+  Indexación: no asumir abierta.
+- Decisión de propietario 2026-08-19: bootstrap editorial restringido
+  (`wp revistalogos fixtures bootstrap`) permitido como excepción a ADR 0004
+  en implementación — un número, un artículo, un autor temporales, sin
+  identificadores falsos. No ejecutado en producción. Indexación no se abre
+  con fixtures temporales públicos.
 
 ### Retirado
 - Workflow estático `.github/workflows/deploy.yml` («Deploy to Hostinger»).

@@ -21,7 +21,7 @@ Reanudación: `docs/fase3-execution-state.md`.
 | Activación | **Manual en wp-admin.** El workflow no activa. Tras el corte, `revistalogos` (clásico) y `revistalogos-core` quedaron activos por acción administrativa. |
 | Indexación | **Considerada cerrada.** Observada en el setup del corte: Ajustes → Lectura → «Pedir a los motores de búsqueda que no indexen este sitio». **No** asumir el checkbox actual ni el `robots.txt` vigente. El FTPS **no** la abre. Completar el 100 % del contenido editorial **no** es prerequisito. Abrirla es decisión explícita del propietario tras el launch gate de abajo. **No** abrir en esta documentación. |
 | Permalinks | `/%postname%/` (Ajustes → Enlaces permanentes → Nombre de la entrada). Tras activar `revistalogos-core`, volver a guardar para regenerar rewrites de CPTs. |
-| Fixtures | **No importados** desde el repo. La carga editorial real se hace en wp-admin, no con `wp revistalogos fixtures`. |
+| Fixtures | Dataset **demo** (`wp revistalogos fixtures seed`): **no** importado y **no** permitido en el live. **Excepción de propietario 2026-08-19:** bootstrap editorial restringido (`wp revistalogos fixtures bootstrap`) — un issue, un article, un author, borradores, `_les_fixture=1`, sin DOI/ORCID/ISSN falsos. **No ejecutado** en esta tarea. |
 | Contenido | WordPress clásico live en producción; carga de contenido editorial real iniciada y actualmente en proceso desde wp-admin. **No** completa. Fuente de verdad: BD + `uploads/` (ADR 0009). El FTPS de Git no despliega contenido. |
 | Administración | Existe un usuario administrador asignado a esa gestión editorial. Identidad, correo y credenciales **no** se documentan aquí. |
 
@@ -45,7 +45,9 @@ el gate, considera que lo ya público está listo.
 Antes de abrir (este gate **no** está ejecutado; el sitemap de WordPress en
 producción **no** se da por verificado aquí):
 
-1. No hay contenido dummy/fixture público.
+1. No hay contenido dummy/fixture **público**. Preferencia de lanzamiento:
+   recuento de objetos `_les_fixture=1` = 0. Si queda alguno, debe no ser
+   accesible públicamente y estar retenido a propósito (p. ej. borrador).
 2. El contenido ahora publicado es real y apto para indexación pública.
 3. Las páginas públicas importantes funcionan.
 4. Canonical, meta, Schema.org y Highwire son coherentes.
@@ -335,7 +337,8 @@ instalados/configurados en producción. Ver
 10. Indexación: verificar (no asumir abierta). No la abre el deploy. El
     100 % del contenido editorial no es prerequisito. Launch gate arriba.
     **No** abrir en este backlog como acción automática.
-11. No importar fixtures.
+11. No importar el dataset demo de fixtures. Bootstrap editorial
+    restringido: solo tras aprobación explícita; no ejecutado aquí.
 12. Revisar warnings Node.js 20→24 del workflow (no bloquean).
 13. FSE después, primero en Docker (ADR 0015).
 14. Post-deploy funcional: portada, nav, CSS/JS, plantillas, caché (SpeedyCache).
@@ -352,7 +355,8 @@ repo. Categorías según evidencia del repositorio:
 | --------- | ----- | --------- | ----- |
 | Maqueta HTML/CSS/JS | `static/` | Referencia visual + prototipo Fase 2 congelado (ADR 0001) | Sigue siendo criterio de paridad. No borrar. |
 | Espejo beta | `refo44.github.io/demo-revistalogos` vía `pages.yml` | Copia de revisión (automática en `main`) | Deliberado; no toca cPanel. |
-| Fixtures WP | plugin `revistalogos-core` (`_les_fixture = 1`) | Test fixture (ADR 0004) | Solo Docker. **Prohibidas** en producción. |
+| Fixtures WP (demo) | plugin `revistalogos-core` (`seed`, `_les_fixture = 1`, kind `demo`) | Test fixture (ADR 0004) | Solo Docker. **Prohibido** en el live. |
+| Bootstrap editorial | `wp revistalogos fixtures bootstrap` (kind `bootstrap`) | Excepción de propietario 2026-08-19 | Un issue + un article + un author, borradores, sin identificadores falsos. **No ejecutado** en producción en esta tarea. Purga: `teardown --kind=bootstrap`. |
 | HTML residual en el document root de producción | servidor, no Git | Deuda operativa / leftover del corte | Lista arriba. No borrar en esta tarea. |
 | ZIP `logo-et-spes-static-backup-2026-08-18.zip` | cPanel `public_html/` | Backup histórico pre-WP | No es rollback de la app. |
 | Theme PHP | `wordpress/wp-content/themes/revistalogos/` | Implementación | Lo que FTPS despliega. |

@@ -7,7 +7,10 @@ Fase 2, base visual congelada) y WordPress (`wordpress/`, Fase 3 clásica).
 Producción: `https://logo-et-spes.cenfiss.net` ya live (WordPress 7.0.4, theme
 clásico `revistalogos` + `revistalogos-core` activos). Carga de contenido
 editorial real iniciada y actualmente en proceso desde wp-admin (**no**
-completa). Fixtures dummy: no importar. Indexación: no asumir abierta.
+completa). Dataset demo de fixtures: no importar. Bootstrap editorial
+restringido (`wp revistalogos fixtures bootstrap`) permitido como
+excepción de propietario 2026-08-19, **no ejecutado** aquí. Indexación:
+no asumir abierta; no abrir con fixtures temporales públicos.
 Pendiente: FSE (ADR 0015), primero en Docker. Snapshot:
 `docs/operations/produccion-wordpress.md`.
 

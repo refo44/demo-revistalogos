@@ -45,7 +45,13 @@ resuming Fase 3 work).
 - **Dummy/demo data must never reach production** (ADR 0004): the Vol. 12
   Nº 2 issue, the six sample articles, fake news posts, `1234-5678`,
   `10.1234/les.*`, `0000-0000-*`, and demo paginations are explicitly
-  forbidden in any WordPress content migration.
+  forbidden in any WordPress content migration. **Exception (owner,
+  2026-08-19):** a restricted editorial bootstrap (`wp revistalogos
+  fixtures bootstrap`) may create one temporary draft issue, one draft
+  article and one draft author tagged `_les_fixture=1` / kind
+  `bootstrap`, with **no** fake DOI/ORCID/ISSN. Do **not** run
+  `wp revistalogos fixtures seed` on production. Indexing must not open
+  while public fixture records remain; prefer `_les_fixture=1` count 0.
 - **Plugin owns the domain, theme owns presentation only** (ADR 0005) — no
   CPT/taxonomy/role registration in the theme, ever.
 - **Two live deployments, deliberately asymmetric**:

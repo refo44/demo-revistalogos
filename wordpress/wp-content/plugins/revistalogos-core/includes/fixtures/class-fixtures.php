@@ -5,10 +5,12 @@
  * minimum stubs needed to exercise pagination. Entirely separate from
  * the institutional migration.
  *
- * Every fixture object carries _les_fixture = 1 (removable) and only
- * fake identifiers (1234-5678, 10.1234/les.*, 0000-0000-*) so leakage
- * is grep-detectable. Canonical migrated content never carries the
- * marker (verified by both fixture verify and content verify).
+ * Every fixture object carries _les_fixture = 1 (removable). Demo
+ * fixtures also carry detectable fake identifiers (1234-5678,
+ * 10.1234/les.*, 0000-0000-*). The production editorial bootstrap uses
+ * the same marker with _les_fixture_kind=bootstrap and empty
+ * identifiers (never fake DOI/ORCID/ISSN). Canonical migrated content
+ * never carries the marker.
  *
  * @package Revistalogos_Core
  */
@@ -27,6 +29,14 @@ class Fixtures {
 
 	const MARKER      = '_les_fixture';
 	const FIXTURE_KEY = '_les_fixture_key';
+	const KIND        = '_les_fixture_kind';
+
+	const KIND_DEMO      = 'demo';
+	const KIND_BOOTSTRAP = 'bootstrap';
+
+	const BOOTSTRAP_AUTHOR_KEY  = 'bootstrap-author-1';
+	const BOOTSTRAP_ISSUE_KEY   = 'bootstrap-issue-1';
+	const BOOTSTRAP_ARTICLE_KEY = 'bootstrap-article-1';
 
 	const FAKE_ISSN        = '1234-5678';
 	const FAKE_DOI_PREFIX  = '10.1234/les';
@@ -41,6 +51,34 @@ class Fixtures {
 	public static function environment_guard( $allow_production ) {
 		if ( 'production' === wp_get_environment_type() && ! $allow_production ) {
 			return new \WP_Error( 'production_guard', 'Refusing to touch fixtures on a production environment. Pass --allow-production only if you are certain.' );
+		}
+
+		return true;
+	}
+
+	/**
+	 * Guard for production writes that are not the full demo seed:
+	 * bootstrap and teardown. Requires explicit confirmation and backup
+	 * evidence. Does not accept --allow-production (that flag is only
+	 * the emergency override for the local demo dataset).
+	 *
+	 * @param array $assoc_args Named CLI args.
+	 * @return true|\WP_Error
+	 */
+	public static function production_write_guard( $assoc_args ) {
+		if ( 'production' !== wp_get_environment_type() ) {
+			return true;
+		}
+
+		if ( ! isset( $assoc_args['apply'] ) ) {
+			return true;
+		}
+
+		if ( ! isset( $assoc_args['confirm-production'] ) || empty( $assoc_args['backup'] ) ) {
+			return new \WP_Error(
+				'production_write_guard',
+				'Production fixture bootstrap/teardown requires --confirm-production and --backup=<evidence> (pre-write database backup). The full demo seed remains blocked; do not pass --allow-production for this path.'
+			);
 		}
 
 		return true;
@@ -276,6 +314,7 @@ class Fixtures {
 
 			update_post_meta( $attachment_id, self::MARKER, '1' );
 			update_post_meta( $attachment_id, self::FIXTURE_KEY, $key );
+			update_post_meta( $attachment_id, self::KIND, self::KIND_DEMO );
 			$ids[ $key ] = (int) $attachment_id;
 			$report[]    = "media $key: imported (id $attachment_id)";
 		}
@@ -406,6 +445,99 @@ class Fixtures {
 	}
 
 	/**
+	 * Restricted editorial bootstrap: one draft issue, one draft
+	 * article, one draft author. Tagged _les_fixture=1 and
+	 * _les_fixture_kind=bootstrap. No fake DOI/ORCID/ISSN, no news,
+	 * no demo media, no institutional pages. Idempotent by fixture key.
+	 * Never overwrites an existing object (fixture or editorial).
+	 *
+	 * @param bool  $apply  Write when true.
+	 * @param array $author Optional keys: name, affiliation, bio. Never
+	 *                      email, ORCID or credentials. Missing name uses
+	 *                      a neutral placeholder.
+	 * @return string[] Report lines.
+	 */
+	public static function bootstrap( $apply, $author = array() ) {
+		$report = array();
+
+		$name = isset( $author['name'] ) ? trim( (string) $author['name'] ) : '';
+		if ( '' === $name ) {
+			$name = 'Autor temporal (estructura editorial)';
+		}
+
+		$affiliation = isset( $author['affiliation'] ) ? trim( (string) $author['affiliation'] ) : '';
+		$bio         = isset( $author['bio'] ) ? trim( (string) $author['bio'] ) : '';
+
+		$author_id = self::seed_post(
+			self::BOOTSTRAP_AUTHOR_KEY,
+			array(
+				'post_type'   => Content_Types::AUTHOR,
+				'post_title'  => $name,
+				'post_status' => 'draft',
+			),
+			array(
+				'afiliacion' => $affiliation,
+				'orcid'      => '',
+				'bio'        => $bio,
+			),
+			array(),
+			$apply,
+			$report,
+			0,
+			self::KIND_BOOTSTRAP
+		);
+
+		$issue_id = self::seed_post(
+			self::BOOTSTRAP_ISSUE_KEY,
+			array(
+				'post_type'    => Content_Types::ISSUE,
+				'post_title'   => 'Número temporal (estructura editorial)',
+				'post_status'  => 'draft',
+				'post_content' => 'Registro temporal de estructura editorial. Sustituir o eliminar antes de abrir la indexación. No es un número publicado.',
+			),
+			array(
+				'volume_number'  => 1,
+				'issue_number'   => 1,
+				'year'           => '',
+				'date_published' => '',
+				'issn'           => '',
+				'doi'            => '',
+			),
+			array(),
+			$apply,
+			$report,
+			0,
+			self::KIND_BOOTSTRAP
+		);
+
+		self::seed_post(
+			self::BOOTSTRAP_ARTICLE_KEY,
+			array(
+				'post_type'    => Content_Types::ARTICLE,
+				'post_title'   => 'Artículo temporal (estructura editorial)',
+				'post_status'  => 'draft',
+				'post_content' => 'Registro temporal de estructura editorial. Sustituir o eliminar antes de abrir la indexación. No es contenido académico publicado.',
+			),
+			array(
+				'abstract'         => '',
+				'doi'              => '',
+				'pages'            => '',
+				'language'         => 'es',
+				'publication_date' => '',
+				'authors'          => $author_id ? array( $author_id ) : array(),
+				'issue'            => $issue_id ? $issue_id : 0,
+			),
+			array(),
+			$apply,
+			$report,
+			0,
+			self::KIND_BOOTSTRAP
+		);
+
+		return $report;
+	}
+
+	/**
 	 * Create one fixture post when absent.
 	 *
 	 * @param string $key        Fixture key.
@@ -415,9 +547,10 @@ class Fixtures {
 	 * @param bool   $apply      Write when true.
 	 * @param array  $report     Report accumulator (by reference).
 	 * @param int    $thumbnail  Attachment ID for the featured image.
+	 * @param string $kind       KIND_DEMO or KIND_BOOTSTRAP.
 	 * @return int Post ID (0 in dry-run for new objects).
 	 */
-	private static function seed_post( $key, $postarr, $meta, $taxonomies, $apply, &$report, $thumbnail = 0 ) {
+	private static function seed_post( $key, $postarr, $meta, $taxonomies, $apply, &$report, $thumbnail = 0, $kind = self::KIND_DEMO ) {
 		$existing = self::find( $key );
 
 		if ( $existing ) {
@@ -439,6 +572,7 @@ class Fixtures {
 
 		update_post_meta( $post_id, self::MARKER, '1' );
 		update_post_meta( $post_id, self::FIXTURE_KEY, $key );
+		update_post_meta( $post_id, self::KIND, $kind );
 
 		foreach ( $meta as $meta_key => $value ) {
 			update_post_meta( $post_id, $meta_key, $value );
@@ -503,18 +637,35 @@ class Fixtures {
 			$keys[ $key ] = $id;
 		}
 
-		// Fake identifiers only.
+		// Identifiers: demo fixtures must keep detectable fakes;
+		// bootstrap fixtures must have empty DOI/ORCID/ISSN (never fakes).
 		foreach ( $ids as $id ) {
 			$post_type = get_post_type( $id );
+			$kind      = (string) get_post_meta( $id, self::KIND, true );
+			$issn      = (string) get_post_meta( $id, 'issn', true );
+			$doi       = (string) get_post_meta( $id, 'doi', true );
+			$orcid     = (string) get_post_meta( $id, 'orcid', true );
 
-			if ( Content_Types::ISSUE === $post_type && self::FAKE_ISSN !== get_post_meta( $id, 'issn', true ) ) {
+			if ( self::KIND_BOOTSTRAP === $kind ) {
+				if ( '' !== $issn || '' !== $doi || '' !== $orcid ) {
+					$report[] = "$post_type $id: bootstrap fixture must not store DOI/ORCID/ISSN";
+					$failures++;
+				}
+				if ( false !== strpos( $issn . $doi . $orcid, '1234-5678' )
+					|| false !== strpos( $doi, self::FAKE_DOI_PREFIX )
+					|| false !== strpos( $orcid, '0000-0000-' ) ) {
+					$report[] = "$post_type $id: bootstrap fixture carries a fake identifier";
+					$failures++;
+				}
+				continue;
+			}
+
+			if ( Content_Types::ISSUE === $post_type && self::FAKE_ISSN !== $issn ) {
 				$report[] = "issue $id: ISSN is not the fixture fake value";
 				$failures++;
 			}
 
 			if ( in_array( $post_type, array( Content_Types::ISSUE, Content_Types::ARTICLE ), true ) ) {
-				$doi = (string) get_post_meta( $id, 'doi', true );
-
 				if ( '' !== $doi && 0 !== strpos( $doi, self::FAKE_DOI_PREFIX ) ) {
 					$report[] = "$post_type $id: DOI is not a fixture fake value";
 					$failures++;
@@ -522,8 +673,6 @@ class Fixtures {
 			}
 
 			if ( Content_Types::AUTHOR === $post_type ) {
-				$orcid = (string) get_post_meta( $id, 'orcid', true );
-
 				if ( '' !== $orcid && 0 !== strpos( $orcid, '0000-0000-' ) ) {
 					$report[] = "author $id: ORCID is not a fixture fake value";
 					$failures++;
@@ -551,12 +700,24 @@ class Fixtures {
 	 * when no non-fixture content uses them. Never touches canonical
 	 * or unrelated content. Idempotent: an empty run is a no-op.
 	 *
-	 * @param bool $apply Write when true.
+	 * @param bool   $apply Write when true.
+	 * @param string $kind  Empty = all fixtures; KIND_DEMO or KIND_BOOTSTRAP to filter.
 	 * @return string[] Report lines.
 	 */
-	public static function teardown( $apply ) {
+	public static function teardown( $apply, $kind = '' ) {
 		$report = array();
 		$ids    = self::all_fixture_ids();
+
+		if ( '' !== $kind ) {
+			$ids = array_values(
+				array_filter(
+					$ids,
+					static function ( $id ) use ( $kind ) {
+						return $kind === (string) get_post_meta( $id, self::KIND, true );
+					}
+				)
+			);
+		}
 
 		if ( ! $ids ) {
 			$report[] = 'no fixture objects found; nothing to do';
@@ -577,6 +738,10 @@ class Fixtures {
 				: wp_delete_post( $id, true );
 
 			$report[] = $deleted ? "deleted $type $id" : "ERROR deleting $type $id";
+		}
+
+		if ( '' !== $kind ) {
+			return $report;
 		}
 
 		// Fixture-created terms now unused by real content.

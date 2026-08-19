@@ -99,8 +99,10 @@ in situ **2026-08-19:** WordPress 7.0.4 en `https://logo-et-spes.cenfiss.net`,
 theme clásico `revistalogos` y plugin `revistalogos-core` activos. WordPress
 clásico live en producción; carga de contenido editorial real iniciada y
 actualmente en proceso desde wp-admin (**no** completa). Pendiente: QA de
-producción, no importar fixtures, bootstrap FSE (ADR 0015; primero en Docker).
-Estado operativo: `docs/fase3-execution-state.md`. Snapshot:
+producción, no importar el dataset demo de fixtures, bootstrap FSE
+(ADR 0015; primero en Docker). El bootstrap editorial restringido está
+en código y **no** se ha ejecutado en producción. Estado operativo:
+`docs/fase3-execution-state.md`. Snapshot:
 `docs/operations/produccion-wordpress.md`.
 
 Plan original de esta fase (histórico; no describe el estado actual):
@@ -180,7 +182,7 @@ La maqueta estática está validada como base visual del tema WordPress. Su cont
 - [ ] Sitemap generado
 - [x] Tema WordPress desplegado (clásico `revistalogos` + `revistalogos-core`, 2026-08-19)
 - [ ] Contenido editorial real: carga iniciada y actualmente en curso desde wp-admin (no completa)
-- [x] Dataset dummy excluido de producción (fixtures no importados; mantener)
+- [x] Dataset dummy (seed demo) excluido de producción; mantener. Bootstrap editorial restringido: excepción 2026-08-19, **no ejecutado**.
 - [ ] Primera edición recibida y validada contra el PDF final
 - [ ] Primer número real cargado en el sistema
 - [ ] Todos los artículos y autores de la primera edición cargados y vinculados

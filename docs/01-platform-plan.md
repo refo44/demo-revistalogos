@@ -307,7 +307,7 @@ En esa fase: publicación solo estática, sin CMS; WordPress no iniciado; 404 en
 |-------|-------------|
 | **Hecho (Fase 2)** | Maqueta HTML estática (`static/`), referencia visual congelada. |
 | **Actual (2026-08-19)** | WordPress clásico live en producción; carga de contenido editorial real iniciada y actualmente en proceso desde wp-admin. |
-| **Siguiente** | QA de producción; no importar fixtures; indexación: verificar / abrir solo por decisión explícita del propietario (100 % de contenido no es prerequisito; launch gate en `docs/operations/produccion-wordpress.md`); FSE incremental en Docker (ADR 0015). |
+| **Siguiente** | QA de producción; no importar el dataset demo de fixtures; bootstrap editorial restringido solo con aprobación (no ejecutado); indexación: verificar / no abrir con fixtures temporales públicos (preferencia recuento `_les_fixture=1` = 0); FSE incremental en Docker (ADR 0015). |
 | **Largo plazo** | Revista académica indexada con ritmo de publicación estable. |
 
 ---

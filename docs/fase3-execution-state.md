@@ -6,7 +6,7 @@ current_branch: "main"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-08-19"
-next_action: "WordPress clásico live en producción; carga de contenido editorial real iniciada y actualmente en proceso desde wp-admin. QA del theme. No importar fixtures. FSE después, primero en Docker."
+next_action: "WordPress clásico live; carga editorial en proceso. Dataset demo de fixtures: no importar. Bootstrap editorial restringido listo en código, no ejecutado en producción. QA del theme. FSE después, primero en Docker."
 blocked: false
 ---
 
@@ -201,9 +201,12 @@ Los de `docs/17-implementation-order` y los ADR de Fase 3. Resumen operativo:
 - WordPress clásico live en producción (`https://logo-et-spes.cenfiss.net`);
   carga de contenido editorial real iniciada y actualmente en proceso desde
   wp-admin (**no** completa). Existe un administrador asignado a esa
-  gestión; no documentar identidad ni credenciales. No importar fixtures ni
-  correr el importador institucional contra producción sin
-  `--confirm-production` explícito.
+  gestión; no documentar identidad ni credenciales. No importar el dataset
+  demo de fixtures (`wp revistalogos fixtures seed`). El bootstrap
+  editorial restringido existe en código (`wp revistalogos fixtures
+  bootstrap`) y **no** se ha ejecutado en producción. No correr el
+  importador institucional contra producción sin `--confirm-production`
+  explícito.
 - QA del theme clásico en producción. Backlog operativo en
   `docs/operations/produccion-wordpress.md` (permalinks, PHP 8.0.30 vs
   MultiPHP 8.2, plugins Softaculous, CF7, WP Statistics, cookies, restos
@@ -374,8 +377,10 @@ completa). Código first-party por FTPS. Docker: `http://localhost:8080`.
 Siguiente acción priorizada — **no pisar la carga en curso**; QA del theme;
 FSE después:
 
-1. No importar fixtures. No lanzar el importador institucional contra
-   producción sin `--confirm-production` y backup.
+1. No importar el dataset demo de fixtures. El bootstrap editorial
+   restringido **no** se ejecuta en esta reanudación (espera aprobación).
+   No lanzar el importador institucional contra producción sin
+   `--confirm-production` y backup.
 2. QA del theme clásico (portada, nav, CSS/JS, CPTs, páginas, 404) sobre
    el sitio live, **sin** dataset dummy. Registrar en
    `docs/fase3-validation-matrix.md`.

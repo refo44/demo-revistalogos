@@ -107,7 +107,9 @@ Mecanismo de borrado limpio (WordPress):
 
 ## Estado de implementación (2026-08-19)
 
-Nota factual; **no** sustituye las decisiones de este ADR (dummy excluido, fixtures solo Docker, identificadores honestos).
+Nota factual; **no** sustituye las decisiones de este ADR (dummy excluido del dataset demo, identificadores falsos nunca en producción, identificadores reales «en trámite»).
 
-- WordPress clásico live; carga editorial real en proceso, **no** completa. Fixtures **no** importados.
-- Indexación **considerada cerrada** (verificar; no asumir abierta). Abrirla es decisión explícita del propietario, no un efecto del deploy. Completar el 100 % del contenido editorial **no** es prerequisito. El contenido público en el momento de abrir no puede ser dummy. Launch gate: `docs/operations/produccion-wordpress.md`.
+- WordPress clásico live; carga editorial real en proceso, **no** completa.
+- **Decisión de propietario 2026-08-19 (excepción estrecha):** se permite un *editorial bootstrap* temporal en producción — un `issue` borrador, un `article` borrador, un `author` borrador, todos con `_les_fixture = 1` y `_les_fixture_kind = bootstrap`, **sin** DOI/ORCID/ISSN falsos. No es el dataset demo (39 objetos, noticias, stubs, identificadores `1234-5678` / `10.1234/les.*` / `0000-0000-*`). Comando: `wp revistalogos fixtures bootstrap`. El seed demo (`wp revistalogos fixtures seed`) **sigue bloqueado** en producción salvo `--allow-production`, que **no** se usa en el live.
+- Indexación **considerada cerrada**. No abrir mientras queden fixtures temporales públicos. Preferencia de lanzamiento: recuento `_les_fixture=1` = 0. Launch gate: `docs/operations/produccion-wordpress.md`.
+- Este bootstrap **no** se ha ejecutado en producción en esta tarea.

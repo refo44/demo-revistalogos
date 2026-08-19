@@ -164,7 +164,7 @@ editorial; no equivalen a «migración terminada». Fixtures dummy: no importar.
 | Recibir y registrar metadatos oficiales de la primera edición | Editorial | Pendiente |
 | Añadir portada real del primer número publicado (hoy `portada-ejemplo.jpg` es una portada de ejemplo, no la oficial) | Editorial | Pendiente |
 | Recibir PDF integral y PDFs individuales de la primera edición | Editorial | Pendiente |
-| Sustituir el dataset dummy de números, artículos, autores y noticias | Dev / Editorial | En curso (wp-admin de producción; no completa; fixtures no importar) |
+| Sustituir el dataset dummy de números, artículos, autores y noticias | Dev / Editorial | En curso (wp-admin). Dataset demo de fixtures: no importar. Bootstrap editorial restringido: código listo, no ejecutado en producción. |
 | Añadir `portada-ejemplo.jpg` para validar la maqueta | Diseño | Implementado |
 | Añadir `banner-main.jpg` y `placeholder-banner.jpg` | Diseño | Implementado |
 | Construir `404.html` | Dev | Implementado |
