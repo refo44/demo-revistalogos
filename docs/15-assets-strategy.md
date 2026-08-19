@@ -124,8 +124,8 @@ Ejemplo: `assets/img/logos/logo-revista.svg`, `assets/img/placeholders/article-p
 
 | Fase | Ubicación |
 |------|-----------|
-| Maqueta (estático) | `assets/img/`, `assets/pdf/`, `assets/css/`, `assets/js/`, `assets/fonts/` |
-| WordPress | `theme-revistalogos/assets/img/`, `theme-revistalogos/assets/fonts/`. PDFs en Media Library. |
+| Maqueta (estático) | `static/assets/img/`, `static/assets/pdf/`, `static/assets/css/`, `static/assets/js/`, `static/assets/fonts/` |
+| WordPress | `wordpress/wp-content/themes/revistalogos/assets/img/`, `…/assets/fonts/`. PDFs en Media Library. |
 
 ### Estructura completa
 
@@ -155,5 +155,5 @@ assets/
 
 ---
 
-**Versión:** 1.0  
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Versión:** 1.1  
+**Proyecto:** Revista de Filosofía LOGO ET SPES 0.2.0

@@ -46,9 +46,10 @@ orden de `docs/17-implementation-order`:
 | WU11 | Workflow manual FTPS WordPress | `ci: manual wordpress deploy workflow` |
 | WU12 | Gate final + correcciones de documentación | `docs: ...` (separado) |
 
-Sin runtime PHP/WordPress local (ver Herramientas), toda QA de niveles 2-4 queda
-`Unverified` y se registra así en la matriz; la QA de nivel 1 (sintaxis, greps,
-checksums, YAML/JSON) se ejecuta siempre.
+Runtime local: Docker (ADR 0014). La QA de niveles 2–4 no dependiente del
+hosting se registra como `Pass (local)` en la matriz. La QA de nivel 1
+(sintaxis, greps, checksums, YAML/JSON) se ejecuta siempre. El corte en
+`logo-et-spes.cenfiss.net` sigue ADR 0016 y espera el gate FSE (ADR 0015).
 
 ## Acceptance criteria
 
@@ -163,9 +164,10 @@ Los de `docs/17-implementation-order` y los ADR de Fase 3. Resumen operativo:
   6.8.3 a **7.0.4** (`wordpress:7.0.4-php8.2-apache`) sin destruir `db_data`
   ni `wp_data`; core en el volumen actualizado con `wp core update
   --version=7.0.4` + `wp core update-db`. PHP 8.2.33; MariaDB 11 sin cambio.
-  Theme y plugin `Tested up to: 7.0`. Placeholder `placeholder-banner.jpg`
-  sustituido por un JPEG real (el archivo era un data URI de SVG y rompía
-  las tarjetas de número sin cover, p. ej. stub B).
+  Theme y plugin `Tested up to: 7.0`, versión de proyecto **0.2.0**.
+  Placeholder `placeholder-banner.jpg` sustituido por un JPEG real.
+  `screenshot.png` (1200×900) en la raíz del theme para Apariencia → Temas.
+  Eliminado el prompt maestro de agente FABLE5 (decisiones en ADR y `docs/17`).
 
 ## Active work
 
@@ -296,7 +298,8 @@ Registradas para corrección en commit de documentación separado (WU12):
 
 ## Repository state
 
-- Rama: `main`; HEAD al iniciar: `5fedf8a`; tag existente: `v0.1.0`.
+- Rama: `main`; tag publicado: `v0.1.0`. Versión de proyecto **0.2.0**
+  (canónica en `package.json`); tag Git `v0.2.0` pendiente (véase `VERSION.md`).
 - Despliegues: estático a `logo-et-spes.cenfiss.net` por FTPS manual
   (`deploy.yml`, `workflow_dispatch`; cuenta FTP `deploy_revista@…`,
   ADR 0016) y GitHub Pages automático desde `static/` (`pages.yml`).
@@ -307,16 +310,10 @@ Registradas para corrección en commit de documentación separado (WU12):
 Se actualiza al cierre de cada WU. WU0: artefactos del harness (execution-state,
 matriz, ledger, runbooks).
 
-**2026-08-18 (upgrade local WP 7.0.4, sin commit aún):** `docker-compose.yml`
-(tag de imagen); cabeceras `Tested up to: 7.0` (theme `style.css`, plugin
-PHP + `readme.txt`); `placeholder-banner.jpg` (theme + static) y
-`issue-card.php`; docs ADR 0014, aprendizajes Docker, matriz, este archivo,
-inventario de assets, `CLAUDE.md`.
-
-**2026-08-18 (purga):** eliminado `docs/FABLE5-Fase3-WordPress-Master-Prompt-v4.md`
-(pliego de agente de Fase 3, ya implementado; las decisiones viven en ADR y
-`docs/17`). Se conservan `fase3-execution-state.md`, `fase3-validation-matrix.md`
-y `migracion-static-wordpress.md`.
+**2026-08-18 (versión 0.2.0):** `package.json` / `VERSION.md` / `CHANGELOG.md` /
+`README.md`; cabeceras Version del theme y plugin; `screenshot.png`; docs 00,
+12, 13, 15, 17, README de docs, matriz, inventario de terceros, `CLAUDE.md`,
+este archivo. Tag Git `v0.2.0` pendiente de publicación (véase `VERSION.md`).
 
 ## Next exact action
 

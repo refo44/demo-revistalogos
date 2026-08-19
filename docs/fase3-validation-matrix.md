@@ -13,6 +13,9 @@ Desde 2026-07-31 existe runtime WordPress local vía Docker (ADR 0014):
   `wp core update-db`; cambiar el tag no basta). PHP 8.2.33; MariaDB 11.8.8
   (`mariadb:11` sin cambio). Theme `revistalogos` y plugin `revistalogos-core`
   activos. `Tested up to: 7.0` en cabeceras de theme y plugin.
+  Versión de proyecto **0.2.0** (theme `revistalogos` y plugin
+  `revistalogos-core`). Terceros en Docker: Contact Form 7 **6.1.7**,
+  WP Statistics **14.16.10**.
 
 `Pass (local)` no sustituye la validación en el hosting real (cPanel
 `cenfiss2` / ADR 0016) para lo que depende de ese entorno (FTPS,

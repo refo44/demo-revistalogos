@@ -1,7 +1,7 @@
 # Revista de Filosofía LOGO ET SPES — Orden de Implementación
 
 **Secuencia acordada para llevar el sitio a la web.** **No saltar etapas.**  
-**Versión 1.1**
+**Versión 1.3**
 
 **Depende de:** 01–16, 18–20
 
@@ -92,7 +92,12 @@ WordPress añade: motor de contenido, panel editorial, roles de usuario y conten
 
 ---
 
-## Fase 3: WordPress — SIGUIENTE
+## Fase 3: WordPress — EN CURSO
+
+Implementación clásica (WU0–WU12) en el repositorio desde **0.2.0**: plugin
+`revistalogos-core`, theme `revistalogos`, Docker local en WordPress 7.0.4.
+Pendiente: bootstrap FSE (ADR 0015) y corte en `logo-et-spes.cenfiss.net`
+(ADR 0016). Estado operativo: `docs/fase3-execution-state.md`.
 
 1. **Convertir** maqueta a tema WordPress según `12-theme-file-structure`
 2. Alinear con `03-wordpress-content-model` y `11-url-tree`; assets en el tema según `15-assets-strategy`
@@ -188,5 +193,5 @@ El trámite administrativo con Crossref **no depende de que exista el theme** (A
 
 ---
 
-**Versión:** 1.2
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Versión:** 1.3
+**Proyecto:** Revista de Filosofía LOGO ET SPES 0.2.0

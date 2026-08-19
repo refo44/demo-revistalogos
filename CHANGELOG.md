@@ -8,24 +8,6 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
-### Añadido
-- ADR 0011 — Analítica y privacidad (Aceptada): analítica propia sin cookies desde la v1 (WP Statistics), GA4 aplazado a fase posterior con asesoría legal, cero cookies y cero terceros, sin banner de consentimiento.
-- `page-privacidad.html` — Aviso de privacidad del sitio, **provisional** y pendiente de validación legal.
-- ADR 0012 — Cabeceras de seguridad HTTP (Aceptada): redirección a HTTPS y cuatro cabeceras reversibles ahora; HSTS y CSP tras la auditoría profesional; nunca `preload`.
-- `.htaccess` — redirección 301 de HTTP a HTTPS (el dominio servía contenido en claro) y cabeceras `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy` y `Permissions-Policy`.
-- ADR 0013 — Identificadores académicos: DOI y ORCID (Aceptada): arquitectura resuelta (API pública ORCID gratuita, validación por checksum, enlace y `sameAs`, generador de depósito Crossref, código propio); implementación situada en una nueva **Fase 4** de `docs/17-implementation-order`, posterior al lanzamiento de WordPress. DOI tratado como coste editorial/legal de la revista (igual que ISSN/Depósito Legal, fuera del presupuesto de software de ADR 0005) — el trámite con Crossref (Sponsors, alta de cuenta) puede avanzar ya, en paralelo, sin esperar a esa fase; análisis de privacidad/RGPD del circuito editorial (destinatarios internacionales, base jurídica, límite del derecho de supresión); confirma que no hacen falta cuentas de usuario para la primera edición.
-- `docs/22-identificadores-academicos-doi-orcid.md` — especificación operativa: validación ORCID, mapeo de campos a XML de Crossref, convención de sufijo DOI, estados «en trámite», checklist de implementación.
-
-### Corregido
-- URL absolutas del HTML: las 38 referencias —16 `canonical`, `og:url`, `twitter:url`, imágenes sociales y bloques JSON-LD— apuntaban a la copia de GitHub Pages y ahora declaran canónico el dominio principal `logo-et-spes.cenfiss.net`, sin extensión y sin barra final.
-- Aviso de privacidad: declara **GitHub Pages** como segundo proveedor de alojamiento. El sitio se publica en dos direcciones y el documento solo mencionaba Hostinger.
-- `.htaccess` pasa a versionarse: `.gitignore` lo excluía, de modo que el paso `cp .htaccess` del workflow de despliegue era un no-op silencioso y ese archivo nunca se publicó desde CI (ver ADR 0012, «Hallazgo»).
-
-### Cambiado
-- El enlace «Privacidad» del footer apunta ahora al nuevo aviso (antes iba a `page-politicas.html#politica-privacidad`, que trata la confidencialidad editorial).
-- `page-politicas.html` §6 remite al nuevo aviso para el tratamiento de datos de visitantes.
-- `sitemap.xml` incluye `/page-privacidad`.
-
 ### Por hacer
 - Resolver el backlog de decisiones en ADR (ver `docs/adr/BACKLOG.md`): queda **D12b** (momento de automatización CI/CD), a decidir tras la auditoría profesional.
 - Verificar tras el próximo despliegue que `http://` devuelve 301 y que las cuatro cabeceras nuevas llegan al navegador.
@@ -34,6 +16,39 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 - Investigar el Programa de Sponsors de Crossref para Venezuela/Latinoamérica y confirmar el coste real de membresía DOI con el volumen del primer número (ADR 0013 §2.1 — puede avanzar ya, sin esperar a la Fase 4).
 - Tramitar el ISSN electrónico (e-ISSN) ante la Biblioteca Nacional, en paralelo al DOI y sin depender de él (ADR 0013, ADR 0004).
 - Designar quién en CENFISS gestiona las solicitudes de acceso/corrección/baja de datos de autor frente a Crossref, y revisar `page-politicas` §6 y la Solicitud de Publicación/Declaración de Ética con asesoría legal (ADR 0013 §6).
+- Bootstrap FSE en Docker (ADR 0015) y corte WordPress en `logo-et-spes.cenfiss.net` (ADR 0016).
+
+## [0.2.0] — 2026-08-18
+
+Fase 3 WordPress en el monorepo, runtime Docker local en WordPress 7.0.4
+y alineación de metadatos del theme/plugin.
+
+### Añadido
+- Monorepo `static/` + `wordpress/` (ADR 0007).
+- Plugin first-party `revistalogos-core` (CPTs, taxonomías, meta, rol, migración, fixtures) y theme clásico `revistalogos`.
+- Entorno local Docker (ADR 0014): `wordpress:7.0.4-php8.2-apache`, PHP 8.2, MariaDB 11, WP-CLI.
+- Workflow manual FTPS de theme+plugin y espejo GitHub Pages desde `static/`.
+- ADR 0010–0016 (contacto, analítica, cabeceras, DOI/ORCID, Docker, FSE, topología cPanel `cenfiss2`).
+- `page-privacidad.html` — aviso de privacidad del sitio, **provisional**.
+- `.htaccess` — redirección HTTPS y cabeceras reversibles (ADR 0012).
+- `docs/22-identificadores-academicos-doi-orcid.md`.
+- `screenshot.png` (1200×900) para Apariencia → Temas.
+
+### Corregido
+- URLs canónicas del HTML estático a `logo-et-spes.cenfiss.net`.
+- Aviso de privacidad: declara GitHub Pages como segundo alojamiento.
+- `.htaccess` versionado (el workflow de despliegue ya no era un no-op).
+- `placeholder-banner.jpg` era un data URI de SVG con extensión `.jpg`; ahora es un JPEG real (fallback de números sin portada).
+
+### Cambiado
+- Core WordPress local 6.8.3 → **7.0.4**; theme y plugin `Tested up to: 7.0`.
+- Enlace «Privacidad» del footer al aviso dedicado; `sitemap.xml` incluye `/page-privacidad`.
+- Eliminado el prompt maestro de agente `docs/FABLE5-Fase3-WordPress-Master-Prompt-v4.md` (alcance ya cubierto por ADR y `docs/17`).
+- README y `docs/13`/`docs/15` alineados al layout `static/` + `wordpress/` (ADR 0007); `docs/17` deja de marcar la Fase 3 como «SIGUIENTE».
+
+### Notas
+- El contenido dummy (Vol. 12 Nº 2, ISSN/DOI/ORCID ficticios) no se publica en producción (ADR 0004).
+- Single CPT `author` (`/revista/autores/{slug}/`) sigue en 404 por colisión de query var; archivo y REST sí resuelven.
 
 ## [0.1.0] — 2026-07-23
 
@@ -55,5 +70,6 @@ con la infraestructura de gobierno del proyecto en su sitio.
 - El contenido editorial de la maqueta es demostrativo y **no** se publica en producción (ver `docs/17-implementation-order` §3.1).
 - `robots.txt` permanece en `Disallow: /` mientras el sitio es prototipo.
 
-[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.1.0...HEAD
+[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/refo44/demo-revistalogos/releases/tag/v0.2.0
 [0.1.0]: https://github.com/refo44/demo-revistalogos/releases/tag/v0.1.0

@@ -1,19 +1,19 @@
-# Logos et Spes - Prototipo HTML/CSS/JS "WP-ready"
+# Revista de Filosofía LOGO ET SPES
 
-Prototipo estático multi-página para la revista académica «Logos et Spes» (CENFISS), compatible con una futura migración a un theme de WordPress.
+**Versión:** 0.2.0 (canónica en `package.json`; ver `VERSION.md` y `CHANGELOG.md`)
 
-Este repositorio contiene:
+Monorepo de la revista académica (CENFISS): prototipo HTML estático (`static/`,
+Fase 2, base visual congelada) y WordPress (`wordpress/`, Fase 3 clásica lista).
+Pendiente: FSE (ADR 0015) y corte en `logo-et-spes.cenfiss.net` (ADR 0016).
 
-- **Documentación del proyecto** (`docs/`)
-- **Maqueta HTML** del sitio
-- **Contenido fuente editorial** (`content-source/`)
-- **Tema WordPress** (cuando se implemente, en `theme-revistalogos/`)
+## Objetivo
 
-## 🎯 Objetivo
+La maqueta estática mapea 1:1 a la *template hierarchy* y a los Custom Post
+Types de WordPress (números y artículos) y a las páginas institucionales.
+El plugin `revistalogos-core` es dueño del dominio; el theme `revistalogos`
+solo presenta (ADR 0005).
 
-Este prototipo mapea 1:1 a la template hierarchy y Custom Post Types (CPT) de WordPress para issues (números) y articles (artículos), y páginas informativas.
-
-## 📁 Estructura del Proyecto
+## Estructura
 
 Monorepo con dos implementaciones delimitadas (ADR 0007):
 
@@ -40,115 +40,66 @@ revistalogos/
 
 El detalle de las plantillas estáticas y su mapeo a WordPress está en
 `docs/17-implementation-order` §2.2 y en la matriz de cobertura de
-`docs/fase3-validation-matrix.md`.
+`docs/fase3-validation-matrix.md`. Estado de ejecución: `docs/fase3-execution-state.md`.
 
-## 🚀 Cómo usar
+## Cómo usar
 
-1. **Abrir en navegador**: Simplemente abre `front-page.html` en cualquier navegador moderno
-2. **Navegación**: Todas las páginas están interconectadas con enlaces relativos
-3. **Sin dependencias**: No requiere servidor web ni herramientas de build
+**Prototipo estático:** abrir `static/index.html` en un navegador (sin build).
 
-## 🎨 Características de Diseño
+**WordPress local (Docker, ADR 0014):** `docker compose up -d` →
+`http://localhost:8080`. Imagen `wordpress:7.0.4-php8.2-apache`. WP-CLI:
+`docker compose run --rm wpcli wp <cmd>`. No usar `docker compose down -v`
+(borra `db_data` y `wp_data`). Cambiar el tag de imagen no actualiza el core
+persistido; hace falta `wp core update` + `wp core update-db`.
 
-### Estilo Visual
-- **Paleta sobria**: Aguamarina institucional derivada del documento fuente y grises neutros
-- **Tipografía**: Sistema de fuentes (Georgia para títulos, Arial para texto)
-- **Layout**: Grid responsivo sin frameworks
-- **Accesibilidad**: Contraste AA, foco visible, skip links
+**Lint CSS:** `npm run lint:css`.
 
-### Componentes UI
-- ✅ Hero del número vigente con CTA de descarga PDF
-- ✅ Tabla de contenidos agrupada por sección con anclas locales
-- ✅ Tarjetas de artículos/números con metadatos visibles (DOI, autores)
-- ✅ Caja de metadatos académicos con definición clara (DL/DT/DD)
-- ✅ Paginación accesible con roles y etiquetas
-- ✅ Buscador con campo y resultados simulados
-- ✅ Estado vacío y página 404
+## Características de diseño
 
-## 🔧 Marcadores WP-placeholders
+- Paleta sobria: aguamarina institucional y grises neutros
+- Tipografía de sistema (Georgia / Arial)
+- Grid responsivo sin frameworks; breakpoints 640 / 768 / 1024 / 1280
+- Accesibilidad: contraste AA, foco visible, skip links
+- Hero del número vigente, TOC por sección, tarjetas con metadatos, 404 y búsqueda
 
-El HTML incluye comentarios que marcan las zonas que luego serán loops/funciones de WP:
+## Marcadores WP-placeholders (solo en `static/`)
 
-```html
-<!-- WP:LOOP_ISSUES_START --> … <!-- WP:LOOP_ISSUES_END -->
-<!-- WP:LOOP_ARTICLES_START --> … <!-- WP:LOOP_ARTICLES_END -->
-<!-- WP:THE_TITLE -->, <!-- WP:THE_CONTENT -->, <!-- WP:THE_EXCERPT -->
-<!-- WP:THE_POST_THUMBNAIL -->, <!-- WP:THE_DATE -->, <!-- WP:THE_AUTHOR -->
-<!-- WP:ARCHIVE_LINK -->, <!-- WP:SINGLE_PDF_URL -->
-<!-- WP:NAV_MENU(primary) --> (indicando ubicación de menú)
-<!-- WP:BREADCRUMBS --> (luego reemplazable por plugin o función)
-```
+El HTML estático incluye comentarios que marcan las zonas equivalentes a loops
+y template tags de WordPress (`WP:LOOP_ISSUES_*`, `WP:THE_TITLE`, etc.).
 
-## 📊 Modelos de Datos (pensados para WP)
+## Modelo de contenido (WordPress)
 
-### CPT "les_issue" (Números)
-- volumen, número, año, ISSN, Depósito Legal
-- portada (img), editorial breve, PDF completo
-- DOI del número (opcional)
+CPTs reales en el plugin: `issue`, `article`, `author` (el CPT `submission`
+está aplazado, ADR 0005). Taxonomías: `section`, `article_type`, `keyword`.
+ISSN / DOI / ORCID se almacenan inertes en Fase 3; validación y URLs derivadas
+son Fase 4 (ADR 0013). El contenido dummy (Vol. 12 Nº 2, identificadores
+ficticios) no se publica en producción (ADR 0004).
 
-### CPT "les_article" (Artículos)
-- título ES/EN, autores (Person array), afiliación, ORCID, DOI
-- páginas, sección (taxonomy section), palabras clave (taxonomy keyword)
-- resúmenes ES/EN, PDF
+## SEO y datos estructurados
 
-### Taxonomías
-- **section**: Metafísica, Ética, Epistemología, Filosofía de la Religión
-- **keyword**: palabras clave
+Cada HTML estático lleva `<title>` único, meta description, Open Graph,
+Twitter Cards, `rel="canonical"` y JSON-LD (Periodical, PublicationIssue,
+ScholarlyArticle). El theme replica metadatos Highwire, Schema.org y OG.
 
-## 🔍 SEO & Datos Estructurados
+## Criterios de la maqueta (Fase 2)
 
-### Meta Tags
-- Cada HTML con `<title>` único y `<meta name="description">`
-- Open Graph y Twitter Cards
-- Enlaces `rel="canonical"`
+- Páginas navegables desde el menú y las migas
+- Descarga de PDF en número y artículo
+- Tabla de contenidos del número agrupada por sección
+- Ficha de artículo con títulos ES/EN, autores, ORCID, DOI, palabras clave
+- HTML5, contraste AA, CSS/JS listos para enqueue (`main.css`, `main.js`)
 
-### JSON-LD
-- **front-page.html**: Periodical + Organization (CENFISS)
-- **single-issue.html**: PublicationIssue con volumen/número/año
-- **single-article.html**: ScholarlyArticle con DOI, autores con ORCID, afiliación
+## WordPress (Fase 3)
 
-## ♿ Accesibilidad
+Implementación clásica en el repo: theme + plugin, migración institucional,
+fixtures, CF7, WP Statistics, búsqueda `/buscar/?q=`, workflow FTPS manual.
+Siguiente: FSE en Docker y corte en cPanel `cenfiss2`. No desplegar el HTML
+estático (`deploy.yml`) sobre el subdominio una vez instalado WordPress
+(ADR 0016).
 
-- **WCAG AA**: Contraste suficiente, foco visible, skip links
-- **Semántica**: HTML5 semántico con roles ARIA apropiados
-- **Navegación**: Menú accesible con aria-expanded, breadcrumbs
-- **Formularios**: Labels asociados, estados de error claros
-- **Modo oscuro**: Soporte con `@media (prefers-color-scheme: dark)`
+## Licencia
 
-## 📱 Responsive Design
-
-- **Mobile-first**: Diseño adaptativo sin frameworks
-- **Breakpoints**: 640px, 768px, 1024px, 1280px
-- **Grid**: CSS Grid con fallbacks para navegadores antiguos
-- **Tipografía**: Escala fluida con clamp()
-
-## 🎯 Criterios de Aceptación Cumplidos
-
-- ✅ Todas las páginas existen y son navegables desde el menú y migas
-- ✅ single-issue.html y single-article.html incluyen botones de descarga PDF con aria-label
-- ✅ Tabla de contenidos del número agrupada por sección y con anclas
-- ✅ Ficha de artículo con títulos ES/EN, autores/afiliación/ORCID, DOI, palabras clave, páginas, cita sugerida y JSON-LD
-- ✅ HTML5 válido, contraste AA, foco visible
-- ✅ CSS/JS listos para futura enqueue en WP (main.css, main.js)
-- ✅ Comentarios WP-placeholders en todas las zonas que luego serán loop/template tags
-
-## 🔄 Migración a WordPress
-
-Para migrar este prototipo a WordPress:
-
-1. **Templates**: Renombrar archivos HTML a .php según template hierarchy
-2. **Loops**: Reemplazar comentarios WP-placeholders con funciones de WP
-3. **Partials**: Convertir partials/ a template parts con `get_template_part()`
-4. **Assets**: Enqueue CSS/JS con `wp_enqueue_style()` y `wp_enqueue_script()`
-5. **CPTs**: Crear Custom Post Types para issues y articles
-6. **Campos**: Implementar campos personalizados con ACF o campos nativos
-7. **Taxonomías**: Registrar taxonomías para sections y keywords
-
-## 📄 Licencia
-
-Licenciamiento del repositorio:
-
-- **Código** (HTML, CSS, JS, scripts y configuración): **MIT**. Ver `LICENSE`.
+- **Código** (HTML, CSS, JS, PHP, scripts y configuración): **MIT**. Ver `LICENSE`.
 - **Contenido editorial y de publicación**: **Creative Commons Atribución 4.0 Internacional (CC BY 4.0)**. Ver `LICENSE-CONTENT`.
 
 Los materiales de terceros conservan su propia licencia o atribución cuando corresponda.

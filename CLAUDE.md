@@ -1,10 +1,11 @@
 # Revista de Filosofía LOGO ET SPES — CLAUDE.md
 
 Monorepo: a static HTML prototype (`static/`, Fase 2 — done, base visual
-frozen) migrating to WordPress (`wordpress/wp-content/{themes,plugins}/`,
-Fase 3 — in progress). See `docs/17-implementation-order.md` for the phase
-plan and `docs/fase3-execution-state.md` for the current work unit — read
-that file before resuming any Fase 3 work; it's the durable resume state.
+frozen) and WordPress (`wordpress/wp-content/{themes,plugins}/`, Fase 3 —
+classic complete as of 0.2.0; FSE ADR 0015 and hosting cutover ADR 0016
+pending). See `docs/17-implementation-order.md` for the phase plan and
+`docs/fase3-execution-state.md` for the current work unit — read that file
+before resuming any Fase 3 work; it's the durable resume state.
 
 ## Binding sources, in priority order
 

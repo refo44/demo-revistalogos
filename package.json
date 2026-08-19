@@ -1,15 +1,16 @@
 {
   "name": "revistalogos",
   "private": true,
-  "version": "0.1.0",
-  "description": "Static HTML/CSS prototype for Revista de Filosofia LOGO ET SPES.",
+  "version": "0.2.0",
+  "description": "Revista de Filosofía LOGO ET SPES: static prototype (Fase 2) and WordPress theme/plugin (Fase 3).",
   "keywords": [
     "academic-journal",
     "css",
     "html",
     "static-site",
     "stylelint",
-    "wordpress-ready"
+    "wordpress",
+    "wordpress-theme"
   ],
   "homepage": "https://refo44.github.io/demo-revistalogos",
   "bugs": {

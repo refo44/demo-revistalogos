@@ -60,10 +60,12 @@ revistalogos/
 
 ```
 revistalogos/
+├── static/                          (maqueta congelada, ADR 0007)
 ├── docs/
 ├── content-source/
-└── theme-revistalogos/    (tema WordPress)
-    └── (ver 12-theme-file-structure)
+└── wordpress/wp-content/
+    ├── themes/revistalogos/         (ver 12-theme-file-structure)
+    └── plugins/revistalogos-core/
 ```
 
 ---
@@ -141,7 +143,7 @@ Los nombres de archivos siguen la jerarquía de plantillas de WordPress para fac
 | `assets/fonts/` | Fuentes web (si se usan) |
 | `assets/pdf/` | PDFs de ejemplo (normas, artículo, número) |
 
-En la fase WordPress, los assets viven dentro del tema: `theme-revistalogos/assets/`.
+En la fase WordPress, los assets de presentación viven en `wordpress/wp-content/themes/revistalogos/assets/`.
 
 ---
 
@@ -158,9 +160,9 @@ El README debe indicar el propósito del repositorio. Incluir:
 Este repositorio contiene:
 
 - Documentación del proyecto (`docs/`)
-- Maqueta HTML del sitio
+- Maqueta HTML del sitio (`static/`)
 - Contenido fuente editorial (`content-source/`)
-- Tema WordPress (cuando se implemente, en `theme-revistalogos/`)
+- Theme WordPress (`wordpress/wp-content/themes/revistalogos/`) y plugin `revistalogos-core`
 - Política de licencias del repositorio (`LICENSE` para código, `LICENSE-CONTENT` para contenido)
 
 ---
@@ -168,12 +170,12 @@ Este repositorio contiene:
 ## 7. Ruta de migración
 
 1. **Maqueta:** HTML en raíz, `partials/`, `assets/`. Validar contra `04-screen-map`, `06-wireframes`, `19-accessibility-standards`.
-2. **Creación del tema:** Crear carpeta del tema `theme-revistalogos/`. Copiar estructura de `12-theme-file-structure`.
+2. **Creación del tema:** Theme en `wordpress/wp-content/themes/revistalogos/` según `12-theme-file-structure`; dominio en el plugin `revistalogos-core` (ADR 0005).
 3. **HTML → PHP:** Convertir cada `.html` a la plantilla `.php` correspondiente. Reemplazar includes HTML por `get_template_part('template-parts/header')`, `get_template_part('template-parts/footer')`, etc.
 4. **Assets:** Mover `assets/` al tema. Actualizar rutas en encolado de `functions.php`.
 5. **Registro de CPTs:** Añadir `inc/cpt-issue.php`, `inc/cpt-article.php`, taxonomías.
 
 ---
 
-**Versión:** 1.0  
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Versión:** 1.1  
+**Proyecto:** Revista de Filosofía LOGO ET SPES 0.2.0

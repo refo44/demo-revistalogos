@@ -9,7 +9,7 @@ nuevo requiere un ADR aceptado.
 
 - **Propósito:** formulario de contacto público de `page-contacto`.
 - **ADR:** 0010.
-- **Versión instalada:** — (aún no instalado; sin runtime WordPress).
+- **Versión instalada (Docker local, 2026-08-18):** 6.1.7 (activo). No se versiona en este repositorio; se instala desde WordPress.org.
 - **Fuente:** <https://wordpress.org/plugins/contact-form-7/>.
 - **Configuración requerida (vinculante):**
   - Destinatario: `revista.cenfiss@gmail.com`.
@@ -44,7 +44,7 @@ nuevo requiere un ADR aceptado.
 
 - **Propósito:** analítica propia, autoalojada y sin cookies (ADR 0011 §2.1).
 - **ADR:** 0011.
-- **Versión instalada:** — (aún no instalado; sin runtime WordPress).
+- **Versión instalada (Docker local, 2026-08-18):** 14.16.10 (activo). No se versiona en este repositorio; se instala desde WordPress.org.
 - **Fuente:** <https://wordpress.org/plugins/wp-statistics/>.
 - **Configuración requerida (vinculante, ADR 0011 §2.1):**
   1. Sin cookies y sin almacenamiento en el cliente para visitantes anónimos —
