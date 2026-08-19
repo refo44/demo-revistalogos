@@ -272,25 +272,32 @@ Es una plataforma de publicación digital académica para el pensamiento filosó
 
 ## Estado
 
+La tabla siguiente es el **estado actual (2026-08-19)**, no el de la maqueta.
+El plan se redactó en Fase 2 (HTML estático); esas filas históricas estaban
+sin etiquetar y se actualizan aquí.
+
 | Capa | Estado | Notas |
 |------|--------|-------|
 | Identidad | Implementada | `tokens.css` y `02-corporate-identity` definen paleta y tipografía. |
-| Arquitectura | Implementada | Páginas existen: Inicio, Revista (archivos de números/artículos), Normas, Acerca, Contacto, Noticias. |
-| Modelo de contenido | Implementada | Vistas de número, artículo, ensayo, reseña. Plantillas single/archive. |
+| Arquitectura | Implementada | Páginas: Inicio, Revista (archivos de números/artículos), Normas, Acerca, Contacto, Noticias. Maqueta en `static/`; equivalentes PHP en el theme. |
+| Modelo de contenido | Implementada | CPTs `issue`/`article`/`author` en `revistalogos-core`. Plantillas single/archive en el theme clásico. |
 | Navegación | Implementada | Nav del header, footer, CTA principal (Enviar Colaboración). |
-| Publicación | Solo estático | Sin CMS. Contenido hardcodeado. Formularios enlazan a PDFs. |
+| Publicación | WordPress en producción | CMS operativo en `https://logo-et-spes.cenfiss.net` (WP 7.0.4). Theme clásico `revistalogos` y plugin `revistalogos-core` desplegados y activos. Contenido editorial real **pendiente**. Fixtures **no** importadas (ADR 0004). |
 | Editorial | Implementada | Voz y tono en su lugar. Sin presión comercial. |
-| Envío de autores | Planificado | Login, CPT de envíos, panel de autor. Implementación WordPress. |
-| Infraestructura | Parcial | **Estado 2026-08-19:** el deploy estático `.github/workflows/deploy.yml` («Deploy to Hostinger») está **retirado**. Código a cPanel: `deploy-wordpress.yml` (manual). Espejo `static/`: `pages.yml`. Histórico: FTPS a Hostinger/cPanel con `deploy.yml`; `deploy.sh` eliminado 2026-07-23. |
-| Descubribilidad | Planificada | HTML semántico en maqueta. Metadatos, DOI, indexación por implementar en WordPress. |
-| Legal | Parcial | Licencia CC en footer. Páginas de privacidad/ética existen. Placeholder ISSN. |
+| Envío de autores | Aplazado | CPT `submission` y portal de autor fuera de Fase 3 (ADR 0005 §4). |
+| Infraestructura | Producción WP + espejo Pages | Código a cPanel: `deploy-wordpress.yml` (manual, Environment `wordpress-production`). Espejo `static/`: `pages.yml`. Workflow estático `deploy.yml` («Deploy to Hostinger») **retirado** 2026-08-19. |
+| Descubribilidad | Parcial | Metadatos Highwire / Schema.org / OG en el theme. Indexación **cerrada** hasta contenido editorial real (ADR 0004). DOI/ORCID de producción: Fase 4 (ADR 0013). |
+| Legal | Parcial | Licencia CC; páginas de privacidad/ética. ISSN electrónico y aviso de privacidad pendientes de trámite/asesoría. |
 
-### Brechas de implementación
+### Brechas de implementación (actual, 2026-08-19)
 
-- **Página 404:** Implementada (`404.html` en la raíz).
-- **Script de deploy:** `deploy.sh` se eliminó el 2026-07-23. El workflow estático `.github/workflows/deploy.yml` («Deploy to Hostinger») se **retiró** el 2026-08-19. El deploy vigente a producción es `deploy-wordpress.yml`.
-- **Docs 02–20:** Completados para el proyecto. Trazabilidad en `00-order-documents`.
-- **WordPress:** No iniciado. La maqueta estática es el entregable actual.
+- **WordPress:** Implementado en producción con theme clásico `revistalogos` y plugin `revistalogos-core`. FSE pendiente según ADR 0015. QA funcional de producción y contenido editorial real: pendientes. Fixtures: no importar (ADR 0004).
+- **Deploy estático a cPanel:** `deploy.sh` eliminado 2026-07-23; `deploy.yml` («Deploy to Hostinger») retirado 2026-08-19. No recrear.
+- **Docs 02–20:** Completados para el proyecto. Trazabilidad en `00-order-documents`. Estado operativo: `docs/fase3-execution-state.md`.
+
+### Histórico (cierre de la maqueta, Fase 2)
+
+En esa fase: publicación solo estática, sin CMS; WordPress no iniciado; 404 en la raíz del prototipo; deploy FTPS mediante el workflow históricamente denominado «Deploy to Hostinger» (`deploy.yml`). Eso **ya no** es el estado actual.
 
 ---
 
@@ -298,8 +305,9 @@ Es una plataforma de publicación digital académica para el pensamiento filosó
 
 | Etapa | Descripción |
 |-------|-------------|
-| **Actual** | Maqueta HTML estática. |
-| **Siguiente** | Implementación WordPress usando la misma arquitectura. |
+| **Hecho (Fase 2)** | Maqueta HTML estática (`static/`), referencia visual congelada. |
+| **Actual (2026-08-19)** | WordPress clásico en producción; theme + plugin por FTPS manual. |
+| **Siguiente** | QA de producción; contenido editorial real (sin fixtures); FSE incremental en Docker (ADR 0015). |
 | **Largo plazo** | Revista académica indexada con ritmo de publicación estable. |
 
 ---

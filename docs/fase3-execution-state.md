@@ -12,6 +12,15 @@ blocked: false
 
 # Fase 3 execution state
 
+`last_verified_commit` y `last_checkpoint_commit` **no** son «HEAD actual» ni
+«último cambio documental». Son el último commit **ya en Git** contra el que
+hubo evidencia de harness/QA o un checkpoint de código durable. Hoy:
+`8ebc8ee` (workflow de producción FTPS; `Pass (transfer)` del primer deploy).
+Un commit posterior de solo docs (p. ej. retirar `deploy.yml`) **no** los
+mueve. Tras commitear la fila de matriz «Retirada workflow estático»,
+sustituir «pendiente» por el hash real; estos dos campos se actualizan solo
+si hay nueva QA de runtime o un checkpoint de harness, no un hash inventado.
+
 Estado de ejecución durable de la Fase 3 (WordPress). Cualquier sesión futura debe
 poder reanudar el trabajo desde este archivo sin historial de chat, siguiendo el
 protocolo de reanudación del final.
@@ -383,8 +392,10 @@ git status --short && git branch --show-current && git log -5 --oneline
 ```
 
 1. Leer `.cursor/rules/` y este archivo.
-2. Verificar que la rama/commit registrados coinciden con Git; si no, corregir
-   este archivo antes de continuar.
+2. Comparar rama con Git. `last_verified_commit` / `last_checkpoint_commit`
+   son el último checkpoint **verificado**, no tienen que igualar HEAD si
+   HEAD es solo docs. No inventar un hash; actualizarlos tras QA o tras un
+   commit de harness, no por el working tree sucio.
 3. Inspeccionar cambios sin commitear; no descartar nada ajeno.
 4. Releer las fuentes vinculantes de la WU activa.
 5. Re-ejecutar la última QA aplicable (`docs/fase3-validation-matrix.md`).

@@ -1,7 +1,11 @@
 # Fase 3 — Matriz de validación
 
 Evidencia durable de QA de la Fase 3. Estados permitidos: `Pass`, `Fail`,
-`Pass (local)`, `Unverified`. Nada se marca `Pass` sin evidencia de ejecución.
+`Pass (local)`, `Pass (transfer)`, `Pass (working tree)`, `Unverified`.
+Nada se marca `Pass` sin evidencia de ejecución.
+
+`Pass (working tree)` = comprobado en el árbol de trabajo, **sin commit**
+todavía. No inventar un hash futuro.
 
 Desde 2026-07-31 existe runtime WordPress local vía Docker (ADR 0014):
 `Pass (local)` = evidencia ejecutada en ese entorno.
@@ -34,7 +38,8 @@ Formato de cada fila: validación, método, resultado, estado, commit probado.
 | Paridad CSS tras reorg (static/) | comparación de 12 hashes contra baseline | 12/12 idénticos | Pass | 537c94e |
 | Paridad CSS theme vs static | hash agregado de ambos árboles CSS | idénticos (`550dead…`) | Pass | dfb91b8 |
 | Paridad `main.js` theme vs static | `cmp` | idénticos byte a byte | Pass | dfb91b8 |
-| YAML workflows (pages, deploy-wordpress) | `ruby -ryaml` | parsean; `deploy.yml` estático retirado 2026-08-19 | Pass | dfb91b8 |
+| YAML workflows (deploy, pages, deploy-wordpress) | `ruby -ryaml` | parsean (incluye el `deploy.yml` estático de entonces) | Pass | dfb91b8 |
+| Retirada workflow estático | inspección de `.github/workflows/` + `ruby -ryaml` | `deploy.yml` ausente; `pages.yml` y `deploy-wordpress.yml` parsean | Pass (working tree) | pendiente |
 | JSON (`theme.json`, `content-payload.json`) | `node JSON.parse` | parsean | Pass | dfb91b8 |
 | Sintaxis PHP | `php -l` (PHP 8.2, contenedor wpcli, ADR 0014) sobre los 59 archivos PHP de plugin+theme | 0 errores de sintaxis | Pass (local) | dfb91b8 |
 | stylelint | `npm run lint:css` | 16 errores, todos preexistentes en el CSS congelado (verificado contra tag `pre-fase3-reorg`); no se corrigen por inmutabilidad ADR 0003 | Pass (preexistentes aceptados) | dfb91b8 |
