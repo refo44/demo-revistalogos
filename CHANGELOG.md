@@ -16,8 +16,10 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 - Despliegue: Environment `wordpress-production`, FTPS acotado, jaula FTP,
   rutas remotas relativas, activación distinta de la transferencia.
 - Producción: WordPress clásico live en producción; carga de contenido
-  editorial real iniciada y actualmente en proceso desde wp-admin.
-  Fixtures: no importar.
+  editorial real iniciada y actualmente en proceso desde wp-admin (**no**
+  completa). Existe un administrador wp-admin asignado a esa gestión
+  (identidad no documentada). Fixtures: no importar. Indexación: no asumir
+  abierta.
 
 ### Retirado
 - Workflow estático `.github/workflows/deploy.yml` («Deploy to Hostinger»).

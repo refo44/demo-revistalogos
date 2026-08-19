@@ -187,8 +187,12 @@ Los de `docs/17-implementation-order` y los ADR de Fase 3. Resumen operativo:
   `cenfiss.net` ni `test.cenfiss.net`). FTPS run #1 **Success** (theme +
   plugin). Activación **en wp-admin**, no en CI. WordPress clásico live en
   producción; carga de contenido editorial real iniciada y actualmente en
-  proceso desde wp-admin. Fixtures **no** importados. Indexación: verificar
-  (no asumir abierta). FSE no bloqueó el corte. Snapshot y runbook:
+  proceso desde wp-admin (**no** completa). Existe un administrador
+  asignado a esa gestión (identidad no documentada). Fixtures **no**
+  importados. Indexación: verificar (no asumir abierta). Abrirla es
+  decisión explícita del propietario, no un efecto del deploy; el 100 %
+  del contenido editorial **no** es prerequisito. FSE no bloqueó el corte.
+  Launch gate, snapshot y runbook:
   `docs/operations/produccion-wordpress.md`,
   `docs/operations/wordpress-manual-deployment.md`.
 
@@ -196,8 +200,10 @@ Los de `docs/17-implementation-order` y los ADR de Fase 3. Resumen operativo:
 
 - WordPress clásico live en producción (`https://logo-et-spes.cenfiss.net`);
   carga de contenido editorial real iniciada y actualmente en proceso desde
-  wp-admin. No importar fixtures ni correr el importador institucional
-  contra producción sin `--confirm-production` explícito.
+  wp-admin (**no** completa). Existe un administrador asignado a esa
+  gestión; no documentar identidad ni credenciales. No importar fixtures ni
+  correr el importador institucional contra producción sin
+  `--confirm-production` explícito.
 - QA del theme clásico en producción. Backlog operativo en
   `docs/operations/produccion-wordpress.md` (permalinks, PHP 8.0.30 vs
   MultiPHP 8.2, plugins Softaculous, CF7, WP Statistics, cookies, restos
@@ -362,8 +368,8 @@ ADR 0009/0015/0016/0014 (notas de implementación); README, `CLAUDE.md`,
 
 La implementación **clásica** está live en producción
 (`https://logo-et-spes.cenfiss.net`, WordPress 7.0.4). Carga de contenido
-editorial real iniciada y actualmente en proceso desde wp-admin. Código
-first-party por FTPS. Docker: `http://localhost:8080`.
+editorial real iniciada y actualmente en proceso desde wp-admin (**no**
+completa). Código first-party por FTPS. Docker: `http://localhost:8080`.
 
 Siguiente acción priorizada — **no pisar la carga en curso**; QA del theme;
 FSE después:
@@ -375,8 +381,11 @@ FSE después:
    `docs/fase3-validation-matrix.md`.
 3. **No** recrear `deploy.yml`. **No** tocar `cenfiss.net` ni
    `test.cenfiss.net`.
-4. Verificar Ajustes → Lectura (abrir indexación = decisión explícita del
-   propietario, no un efecto del deploy).
+4. Indexación: **verificar** (no asumir abierta). Abrirla es decisión
+   explícita del propietario, no un efecto del deploy. El 100 % del
+   contenido editorial **no** es prerequisito. Launch gate:
+   `docs/operations/produccion-wordpress.md`. **No** abrirla en esta
+   reanudación.
 5. Luego, cuando el rollback al dummy ya no haga falta: limpiar restos HTML
    del document root; revisar PHP 8.0.30 vs MultiPHP 8.2; evaluar plugins
    Softaculous; instalar/configurar CF7 y WP Statistics; vigilar SpeedyCache.

@@ -19,16 +19,41 @@ Reanudación: `docs/fase3-execution-state.md`.
 | `test.cenfiss.net` | Sin cambios (Laravel antiguo). |
 | Theme / plugin en disco | Desplegados por FTPS el 2026-08-19 (run #1 Success) |
 | Activación | **Manual en wp-admin.** El workflow no activa. Tras el corte, `revistalogos` (clásico) y `revistalogos-core` quedaron activos por acción administrativa. |
-| Indexación | **Observada en el setup del corte:** Ajustes → Lectura → «Pedir a los motores de búsqueda que no indexen este sitio». **Política (ADR 0004):** no abrir hasta contenido editorial real. **No** asumir el valor actual: verificar en cada post-deploy. Abrir indexación es decisión del propietario, no un efecto del FTPS. |
+| Indexación | **Considerada cerrada.** Observada en el setup del corte: Ajustes → Lectura → «Pedir a los motores de búsqueda que no indexen este sitio». **No** asumir el checkbox actual ni el `robots.txt` vigente. El FTPS **no** la abre. Completar el 100 % del contenido editorial **no** es prerequisito. Abrirla es decisión explícita del propietario tras el launch gate de abajo. **No** abrir en esta documentación. |
 | Permalinks | `/%postname%/` (Ajustes → Enlaces permanentes → Nombre de la entrada). Tras activar `revistalogos-core`, volver a guardar para regenerar rewrites de CPTs. |
-| Fixtures | **No importados** desde el repo. El contenido que se publica se carga en wp-admin, no con `wp revistalogos fixtures`. |
-| Contenido | WordPress clásico live en producción; carga de contenido editorial real iniciada y actualmente en proceso desde wp-admin. Fuente de verdad: BD + `uploads/` (ADR 0009). El FTPS de Git no despliega contenido. |
+| Fixtures | **No importados** desde el repo. La carga editorial real se hace en wp-admin, no con `wp revistalogos fixtures`. |
+| Contenido | WordPress clásico live en producción; carga de contenido editorial real iniciada y actualmente en proceso desde wp-admin. **No** completa. Fuente de verdad: BD + `uploads/` (ADR 0009). El FTPS de Git no despliega contenido. |
+| Administración | Existe un usuario administrador asignado a esa gestión editorial. Identidad, correo y credenciales **no** se documentan aquí. |
 
 FSE (ADR 0015) **sigue siendo la dirección futura** y **no bloqueó** este corte.
 Orden operativo actual: WordPress clásico live; carga editorial real **en
 proceso** desde wp-admin → QA del theme → limpieza del estático residual →
-revisar PHP → plugins aprobados → abrir indexación solo con decisión
-explícita → FSE incremental primero en Docker.
+revisar PHP → plugins aprobados → indexación solo si el propietario lo
+decide (launch gate; 100 % de contenido no es prerequisito) → FSE
+incremental primero en Docker.
+
+## Launch gate de indexación
+
+**Estado actual:** indexación **considerada cerrada**. Verificar; no
+asumir abierta. **No** abrir en esta tarea ni como efecto de
+`deploy-wordpress.yml`.
+
+El sitio ya está live. Completar el **100 %** del contenido editorial
+**no** es prerequisito: el propietario puede abrir indexación antes si, tras
+el gate, considera que lo ya público está listo.
+
+Antes de abrir (este gate **no** está ejecutado; el sitemap de WordPress en
+producción **no** se da por verificado aquí):
+
+1. No hay contenido dummy/fixture público.
+2. El contenido ahora publicado es real y apto para indexación pública.
+3. Las páginas públicas importantes funcionan.
+4. Canonical, meta, Schema.org y Highwire son coherentes.
+5. `robots.txt` revisado.
+6. Visibilidad para buscadores / noindex de WordPress revisada (Ajustes → Lectura).
+7. Sitemap de WordPress verificado.
+8. Comportamiento residual de `sitemap`/`robots` del estático reconciliado.
+9. El propietario aprueba explícitamente abrir la indexación.
 
 ## Topología física
 
@@ -307,8 +332,9 @@ instalados/configurados en producción. Ver
 7. Verificar cero cookies para visitante anónimo.
 8. Revisar página de privacidad.
 9. Limpiar restos HTML del estático cuando el rollback ya no sea necesario.
-10. Verificar visibilidad para buscadores (política ADR 0004: no abrir hasta
-    contenido editorial real; no asumir el checkbox).
+10. Indexación: verificar (no asumir abierta). No la abre el deploy. El
+    100 % del contenido editorial no es prerequisito. Launch gate arriba.
+    **No** abrir en este backlog como acción automática.
 11. No importar fixtures.
 12. Revisar warnings Node.js 20→24 del workflow (no bloquean).
 13. FSE después, primero en Docker (ADR 0015).
@@ -361,7 +387,11 @@ Git ≠ JetBackup ≠ ZIP estático ≠ Backuply
 
 Sitio:
 WordPress clásico live en producción; carga de contenido editorial real
-iniciada y actualmente en proceso desde wp-admin
+iniciada y actualmente en proceso desde wp-admin (no completa)
+
+Administración:
+existe un administrador asignado a la carga editorial
+(identidad no documentada)
 
 Indexación:
 verificar (no asumir abierta)

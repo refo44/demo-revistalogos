@@ -246,3 +246,11 @@ Reafirmando la Precisión 3: nada de este ADR requiere que un autor tenga cuenta
 - WordPress.org, «Researcher Profiles for ORCID» — <https://wordpress.org/plugins/researcher-profiles-for-orcid/> (consultado 2026-07-29; enlace aportado por el propietario)
 - WordPress.org, «Linked Open Profiles» — <https://wordpress.org/plugins/linked-open-profiles/> (consultado 2026-07-29)
 - RGPD arts. 4(1), 6(1)(b)(c)(f), 13, 17(3)(d), 89, capítulo V (arts. 44-49); Considerando 30
+
+## Estado de implementación (2026-08-19)
+
+Nota factual; **no** sustituye Precisión 4 ni el resto de decisiones de este ADR.
+
+- WordPress clásico live en producción; `revistalogos-core` existe y está activo.
+- Contenido editorial real en proceso de carga desde wp-admin, **no** completa.
+- El código de validación ORCID/DOI y el generador Crossref siguen siendo Fase 4.

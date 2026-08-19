@@ -98,15 +98,17 @@ Implementación clásica (WU0–WU12) en el repositorio desde **0.2.0**. Corte
 in situ **2026-08-19:** WordPress 7.0.4 en `https://logo-et-spes.cenfiss.net`,
 theme clásico `revistalogos` y plugin `revistalogos-core` activos. WordPress
 clásico live en producción; carga de contenido editorial real iniciada y
-actualmente en proceso desde wp-admin. Pendiente: QA de producción, no
-importar fixtures, bootstrap FSE (ADR 0015; primero en Docker). Estado
-operativo: `docs/fase3-execution-state.md`. Snapshot:
+actualmente en proceso desde wp-admin (**no** completa). Pendiente: QA de
+producción, no importar fixtures, bootstrap FSE (ADR 0015; primero en Docker).
+Estado operativo: `docs/fase3-execution-state.md`. Snapshot:
 `docs/operations/produccion-wordpress.md`.
 
-1. **Convertir** maqueta a tema WordPress según `12-theme-file-structure`
-2. Alinear con `03-wordpress-content-model` y `11-url-tree`; assets en el tema según `15-assets-strategy`
-3. Implementar CPTs: `issue`, `article`, `author` (submission como CPT privado); `post` para noticias
-4. **Desplegar:** Staging para validación editorial antes de producción; configurar contenido y hosting
+Plan original de esta fase (histórico; no describe el estado actual):
+
+1. **Convertir** maqueta a tema WordPress según `12-theme-file-structure` — hecho en el repo
+2. Alinear con `03-wordpress-content-model` y `11-url-tree`; assets en el tema según `15-assets-strategy` — hecho en el repo
+3. Implementar CPTs: `issue`, `article`, `author` (submission como CPT privado); `post` para noticias — hecho en el repo
+4. **Desplegar:** Staging para validación editorial antes de producción — **no** hubo staging extra (ADR 0016). Corte in situ 2026-08-19. Contenido editorial real en proceso de carga desde wp-admin; **no** completa.
 
 ### 3.1 Separación obligatoria durante la migración
 
@@ -123,7 +125,12 @@ operativo: `docs/fase3-execution-state.md`. Snapshot:
 
 ### 3.2 Carga de la primera edición
 
-Cuando el equipo editorial entregue el PDF final:
+Carga editorial iniciada y actualmente en curso desde wp-admin de producción.
+**No** está completa. No hay subdominio de staging extra (ADR 0016). Fixtures
+dummy **no** importar. Existe un usuario administrador asignado a esta
+gestión; su identidad **no** se documenta aquí.
+
+Pasos restantes (la entrada ya empezó; no darlos por cerrados):
 
 1. Crear el `issue` con portada, número, fecha, descripción, PDF integral e identificadores oficiales.
 2. Extraer el sumario y crear un `article` por editorial, artículo, ensayo o reseña.
@@ -131,7 +138,7 @@ Cuando el equipo editorial entregue el PDF final:
 4. Asignar sección, tipo, palabras clave, páginas, fechas y PDF individual a cada artículo.
 5. Validar que títulos, orden, paginación y autoría coincidan con el PDF.
 6. Revisar descargas, citaciones, metadatos académicos, Schema.org, canonical y accesibilidad.
-7. Publicar primero en staging y obtener aprobación editorial antes de producción.
+7. Validar en el sitio live (no hay staging extra). No pisar la carga en curso con fixtures ni con el importador institucional.
 
 ---
 
@@ -154,7 +161,7 @@ Cuando el equipo editorial entregue el PDF final:
 
 ## Regla
 
-La maqueta estática está validada como base visual del tema WordPress. Su contenido demostrativo no está aprobado para publicación. Proceder al desarrollo del tema; la carga editorial real queda condicionada a la recepción y validación de la primera edición.
+La maqueta estática está validada como base visual del tema WordPress. Su contenido demostrativo no está aprobado para publicación y no se migra. WordPress clásico está live en producción; contenido editorial real en proceso de carga desde wp-admin (**no** completa).
 
 ---
 
@@ -172,13 +179,13 @@ La maqueta estática está validada como base visual del tema WordPress. Su cont
 - [ ] Favicon cargado
 - [ ] Sitemap generado
 - [x] Tema WordPress desplegado (clásico `revistalogos` + `revistalogos-core`, 2026-08-19)
-- [ ] Contenido migrado / configurado
+- [ ] Contenido editorial real: carga iniciada y actualmente en curso desde wp-admin (no completa)
 - [x] Dataset dummy excluido de producción (fixtures no importados; mantener)
 - [ ] Primera edición recibida y validada contra el PDF final
 - [ ] Primer número real cargado en el sistema
 - [ ] Todos los artículos y autores de la primera edición cargados y vinculados
 - [ ] ISSN (impreso ya obtenido; electrónico pendiente), depósito legal, DOI y ORCID confirmados o marcados honestamente como pendientes — mecanismo, costes y flujo en `22-identificadores-academicos-doi-orcid` y ADR 0013
-- [ ] Aprobación editorial completada en staging
+- [ ] Aprobación editorial de la primera edición (no hay staging extra; validar en producción). Abrir indexación es decisión aparte del propietario (launch gate en `docs/operations/produccion-wordpress.md`); el 100 % del contenido no es prerequisito.
 
 ---
 

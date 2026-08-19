@@ -21,6 +21,8 @@ Este documento cubre exclusivamente:
 
 > **Nota de fase (ADR 0013 §Contexto, «Precisión 4»):** WordPress todavía no está implementado — el repositorio sigue en la Fase 2 (maqueta estática) de `docs/17-implementation-order`; no existe `revistalogos-core`. Todo lo que este documento especifica en código (§3, §4, §6, §7.2-7.4, §9) es trabajo de la **Fase 4: Identificadores académicos**, posterior a la Fase 3 (WordPress). Se documenta ahora, completo, para que la Fase 4 no tenga que rediseñarlo — no para implementarlo antes de que exista el theme.
 
+*Estado 2026-08-19 (no reescribe la nota de fase):* WordPress clásico live en producción; `revistalogos-core` existe y está activo. Contenido editorial real en proceso de carga desde wp-admin, **no** completa. La implementación de código de este documento sigue siendo Fase 4.
+
 ---
 
 ## 2. Campos de datos

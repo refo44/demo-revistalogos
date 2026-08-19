@@ -60,8 +60,14 @@ resuming Fase 3 work).
   cutover; do not recreate it. Same hosting also runs
   `cenfiss.net` (institutional WP + Moodle) and `test.cenfiss.net` (dead
   Laravel) — do not deploy the journal there. Do not import fixtures to
-  production. Keep search-engine indexing closed until real editorial
-  content exists.
+  production. A WordPress administrator is already assigned to editorial
+  entry; do not document that account’s identity or credentials. Treat
+  search-engine indexing as **closed until verified**; do not assume it is
+  open. Opening it is an explicit owner launch decision, never an effect of
+  deploy. Completing 100% of editorial content is **not** required. Before
+  opening, run the launch gate in `docs/operations/produccion-wordpress.md`.
+  Do not open indexing in documentation or deploy work. Editorial content
+  entry is in progress, not complete.
 - **FSE is accepted** (ADR 0015): block theme + Site Editor + brand colors
   in Global Styles. The live theme is still classic; convert incrementally
   in Docker after production QA. Do not convert to Next.js. ADR 0003 §1/§3

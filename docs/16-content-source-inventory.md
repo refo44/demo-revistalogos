@@ -151,6 +151,11 @@ assets/
 
 ## 9. Acciones pendientes
 
+Estado de producción (2026-08-19): WordPress clásico live; contenido editorial
+real en proceso de carga desde wp-admin, **no** completa. Las filas de
+recepción de PDF/metadatos oficiales siguen pendientes hasta evidencia
+editorial; no equivalen a «migración terminada». Fixtures dummy: no importar.
+
 | Acción | Responsable | Estado |
 |--------|-------------|--------|
 | Crear `politicas-editoriales.pdf` | Editorial | Pendiente |
@@ -159,7 +164,7 @@ assets/
 | Recibir y registrar metadatos oficiales de la primera edición | Editorial | Pendiente |
 | Añadir portada real del primer número publicado (hoy `portada-ejemplo.jpg` es una portada de ejemplo, no la oficial) | Editorial | Pendiente |
 | Recibir PDF integral y PDFs individuales de la primera edición | Editorial | Pendiente |
-| Sustituir el dataset dummy de números, artículos, autores y noticias | Dev / Editorial | Pendiente |
+| Sustituir el dataset dummy de números, artículos, autores y noticias | Dev / Editorial | En curso (wp-admin de producción; no completa; fixtures no importar) |
 | Añadir `portada-ejemplo.jpg` para validar la maqueta | Diseño | Implementado |
 | Añadir `banner-main.jpg` y `placeholder-banner.jpg` | Diseño | Implementado |
 | Construir `404.html` | Dev | Implementado |

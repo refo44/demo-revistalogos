@@ -54,7 +54,7 @@ Harness de Fase 3 (fuera de la numeración): `fase3-execution-state.md` (reanuda
 - El contenido institucional proviene de `content-source/` y puede cargarse en páginas WordPress respetando literalmente la fuente.
 - Los números, artículos, editoriales, autores y noticias son contenido dinámico administrado en WordPress.
 - El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, ISSN, DOI, ORCID, portadas y paginación actuales son demostrativos y no deben migrarse a producción.
-- La primera edición real se cargará desde el PDF final y los metadatos oficiales entregados por el equipo editorial.
+- Contenido editorial real en proceso de carga desde wp-admin de producción; la carga **no** está completa. El PDF final y los metadatos oficiales siguen siendo la fuente para esa entrada. Dummy de la maqueta: no migrar.
 - La clasificación detallada y el checklist de sustitución están en `16-content-source-inventory` y `17-implementation-order`.
 
 ---

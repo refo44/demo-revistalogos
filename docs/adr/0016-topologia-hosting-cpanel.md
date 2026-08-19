@@ -17,7 +17,7 @@ Hechos verificados (panel + File Manager + Softaculous + MultiPHP + SSL + DNS):
 | Host | Document root | Qué hay |
 | ---- | ------------- | ------- |
 | `cenfiss.net` | `/public_html` | WordPress institucional (Softaculous: «Centro de Filosofía…») + Moodle (`cenfiss2_moodle`, `moodledata`). PHP efectivo visto por HTTP: 8.0.30 (el panel lista Inherited 8.2). **Sin cambios en el corte 2026-08-19.** |
-| `logo-et-spes.cenfiss.net` | `/public_html/logo-et-spes.cenfiss.net` | **WordPress 7.0.4 propio** (Softaculous, 2026-08-19). Theme clásico `revistalogos` y plugin `revistalogos-core` activos. BD nueva, aislada. Restos del estático aún en la raíz (temporales). AutoSSL válido. Inventario 2026-08-16: era maqueta dummy sin `wp-config.php`. |
+| `logo-et-spes.cenfiss.net` | `/public_html/logo-et-spes.cenfiss.net` | **WordPress 7.0.4 propio** (Softaculous, 2026-08-19). Theme clásico `revistalogos` y plugin `revistalogos-core` activos. WordPress clásico live en producción; carga de contenido editorial real iniciada y actualmente en proceso desde wp-admin. BD nueva, aislada. Restos del estático aún en la raíz (temporales). AutoSSL válido. Inventario 2026-08-16: era maqueta dummy sin `wp-config.php`. |
 | `test.cenfiss.net` | `/public_html/test.cenfiss.net` | Laravel 10 skeleton (Softaculous), roto desde 2024 (pide PHP ≥ 8.1; el vhost responde 8.0.30). No es staging de la revista. **Sin cambios en el corte.** |
 
 Otras cuentas cPanel vistas en la misma sesión (`confiadi` / `cenfissu`) **no** son el inventario de la revista. El File Manager vivo de la maqueta es `/home/cenfiss2/…`. No se usa `cenfissu` ni Confiadi para deploys de LOGO ET SPES.

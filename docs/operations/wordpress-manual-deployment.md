@@ -194,9 +194,11 @@ Transferencia ≠ aplicación. Completar:
    front no sirve HTML/CSS viejo; purgar en wp-admin si hace falta. El
    workflow **no** purga caché.
 7. Visibilidad para buscadores: **verificar** Ajustes → Lectura (no asumir
-   el valor). Política ADR 0004: no abrir indexación hasta contenido
-   editorial real. Abrirla es decisión explícita del propietario, no un
-   efecto del deploy.
+   el valor). El deploy **no** abre indexación. Completar el 100 % del
+   contenido editorial **no** es prerequisito. Abrirla es decisión explícita
+   del propietario tras el launch gate de
+   `docs/operations/produccion-wordpress.md`. **No** abrirla como paso de
+   este POST.
 8. Registrar commit, fecha y resultado en `docs/fase3-execution-state.md`.
 
 ---

@@ -286,7 +286,7 @@ sin etiquetar y se actualizan aquí.
 | Editorial | Implementada | Voz y tono en su lugar. Sin presión comercial. |
 | Envío de autores | Aplazado | CPT `submission` y portal de autor fuera de Fase 3 (ADR 0005 §4). |
 | Infraestructura | Producción WP + espejo Pages | Código a cPanel: `deploy-wordpress.yml` (manual, Environment `wordpress-production`). Espejo `static/`: `pages.yml`. Workflow estático `deploy.yml` («Deploy to Hostinger») **retirado** 2026-08-19. |
-| Descubribilidad | Parcial | Metadatos Highwire / Schema.org / OG en el theme. Indexación **cerrada** hasta contenido editorial real (ADR 0004). DOI/ORCID de producción: Fase 4 (ADR 0013). |
+| Descubribilidad | Parcial | Metadatos Highwire / Schema.org / OG en el theme. Indexación **considerada cerrada** (observada en el corte; **no** asumir el checkbox actual). Abrirla es decisión explícita del propietario, **no** un efecto del deploy. Completar el 100 % del contenido editorial **no** es prerequisito. Antes de abrir: launch gate en `docs/operations/produccion-wordpress.md`. Carga editorial en curso, no completa. DOI/ORCID de producción: Fase 4 (ADR 0013). |
 | Legal | Parcial | Licencia CC; páginas de privacidad/ética. ISSN electrónico y aviso de privacidad pendientes de trámite/asesoría. |
 
 ### Brechas de implementación (actual, 2026-08-19)
@@ -307,7 +307,7 @@ En esa fase: publicación solo estática, sin CMS; WordPress no iniciado; 404 en
 |-------|-------------|
 | **Hecho (Fase 2)** | Maqueta HTML estática (`static/`), referencia visual congelada. |
 | **Actual (2026-08-19)** | WordPress clásico live en producción; carga de contenido editorial real iniciada y actualmente en proceso desde wp-admin. |
-| **Siguiente** | QA de producción; no importar fixtures; abrir indexación solo por decisión explícita; FSE incremental en Docker (ADR 0015). |
+| **Siguiente** | QA de producción; no importar fixtures; indexación: verificar / abrir solo por decisión explícita del propietario (100 % de contenido no es prerequisito; launch gate en `docs/operations/produccion-wordpress.md`); FSE incremental en Docker (ADR 0015). |
 | **Largo plazo** | Revista académica indexada con ritmo de publicación estable. |
 
 ---

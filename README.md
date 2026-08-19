@@ -4,9 +4,12 @@
 
 Monorepo de la revista académica (CENFISS): prototipo HTML estático (`static/`,
 Fase 2, base visual congelada) y WordPress (`wordpress/`, Fase 3 clásica).
-Producción: `https://logo-et-spes.cenfiss.net` (WordPress 7.0.4, theme clásico
-`revistalogos` + `revistalogos-core`). Pendiente: FSE (ADR 0015), primero en
-Docker. Snapshot: `docs/operations/produccion-wordpress.md`.
+Producción: `https://logo-et-spes.cenfiss.net` ya live (WordPress 7.0.4, theme
+clásico `revistalogos` + `revistalogos-core` activos). Carga de contenido
+editorial real iniciada y actualmente en proceso desde wp-admin (**no**
+completa). Fixtures dummy: no importar. Indexación: no asumir abierta.
+Pendiente: FSE (ADR 0015), primero en Docker. Snapshot:
+`docs/operations/produccion-wordpress.md`.
 
 ## Objetivo
 
@@ -100,7 +103,7 @@ ScholarlyArticle). El theme replica metadatos Highwire, Schema.org y OG.
 
 WordPress clásico live en producción; carga de contenido editorial real
 iniciada y actualmente en proceso desde wp-admin
-(`logo-et-spes.cenfiss.net`).
+(`logo-et-spes.cenfiss.net`; **no** completa).
 Theme + plugin por FTPS manual (Environment `wordpress-production`). Fixtures
 solo en Docker (ADR 0004). `static/` sigue como referencia visual (Fase 2) y
 espejo Pages. El deploy estático a cPanel (`deploy.yml`) está **retirado**.

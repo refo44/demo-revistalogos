@@ -104,3 +104,10 @@ Mecanismo de borrado limpio (WordPress):
 - `docs/03-wordpress-content-model` (CPTs y campos; ver ADR 0005)
 - `robots.txt` (puerta de indexación; brazo de este ADR)
 - `docs/migracion-static-wordpress.md` (ledger)
+
+## Estado de implementación (2026-08-19)
+
+Nota factual; **no** sustituye las decisiones de este ADR (dummy excluido, fixtures solo Docker, identificadores honestos).
+
+- WordPress clásico live; carga editorial real en proceso, **no** completa. Fixtures **no** importados.
+- Indexación **considerada cerrada** (verificar; no asumir abierta). Abrirla es decisión explícita del propietario, no un efecto del deploy. Completar el 100 % del contenido editorial **no** es prerequisito. El contenido público en el momento de abrir no puede ser dummy. Launch gate: `docs/operations/produccion-wordpress.md`.
