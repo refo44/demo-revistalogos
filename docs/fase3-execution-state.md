@@ -6,7 +6,7 @@ current_branch: "main"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-08-19"
-next_action: "Revisión del propietario del bootstrap editorial Volume 1 (working tree). No commit/push/deploy. No ejecutar bootstrap en producción. La recuperación institucional ya está hecha; la UI temporal ya está retirada en este árbol."
+next_action: "Option 2 aprobada. Gate final del working tree Volume 1 bootstrap. No commit/push/deploy. No ejecutar bootstrap en producción."
 blocked: false
 ---
 

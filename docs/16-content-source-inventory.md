@@ -58,7 +58,7 @@ assets/
 | Institucional canónico | Enfoque y alcance, objetivos, políticas, normas, ética, origen del nombre y formularios de `content-source/` | Puede cargarse en páginas WordPress respetando literalmente la fuente |
 | Estructura del sitio | Plantillas HTML, partials, navegación, componentes, CSS y JavaScript | Se convierte en tema WordPress; no es contenido editorial |
 | Contenido dinámico | Números, artículos, editoriales, autores, noticias y sus metadatos | Se crea como contenido administrable en WordPress |
-| Demostrativo / dummy | Vol. 12 Nº 2, números históricos, seis artículos, autores, noticias, ISSN, DOI, ORCID, paginación y portadas de ejemplo | Sirve solo para validar la maqueta; no se migra como contenido real |
+| Demostrativo / dummy | Vol. 12 Nº 2, números históricos, seis artículos, autores, noticias, ISSN, DOI, ORCID, paginación y portadas de ejemplo | Sirve solo para validar la maqueta; no se migra como contenido real ni como `fixtures seed`. *Nota 2026-08-19 (Option 2):* títulos/abstracts/secciones/orden/media placeholder de ese sample **pueden** convertirse en bootstrap editorial Vol. 1 Nº 1 (`_les_bootstrap*`). La excepción **no** cubre identificadores falsos ni autores dummy. |
 | Primera edición real | Portada, sumario, editorial, artículos, autores, páginas, PDF y metadatos oficiales | Se obtiene del PDF final y de los datos entregados por el equipo editorial |
 
 ---

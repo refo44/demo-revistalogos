@@ -46,6 +46,8 @@ Modelo de contenido oficial para la implementación WordPress. Basado en el plan
 
 El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, ISSN, DOI y ORCID presentes en la maqueta son ficticios. Solo prueban el diseño y las consultas.
 
+*Nota de implementación 2026-08-19 (Option 2; no reescribe la tabla):* el bootstrap editorial Volume 1 puede adaptar campos de presentación de esa maqueta como placeholders `_les_bootstrap*` de Vol. 1 Nº 1. Eso no convierte el sample en verdad bibliográfica.
+
 ---
 
 ## 2. Campos por página

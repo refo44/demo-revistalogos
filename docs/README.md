@@ -53,9 +53,9 @@ Harness de Fase 3 (fuera de la numeración): `fase3-execution-state.md` (reanuda
 - La maqueta HTML está validada como referencia visual y estructural, no como edición publicada.
 - El contenido institucional proviene de `content-source/` y puede cargarse en páginas WordPress respetando literalmente la fuente.
 - Los números, artículos, editoriales, autores y noticias son contenido dinámico administrado en WordPress.
-- El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, ISSN, DOI, ORCID, portadas y paginación actuales son demostrativos y no deben migrarse a producción.
+- El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, ISSN, DOI, ORCID, portadas y paginación actuales son demostrativos y no deben migrarse a producción **como verdad editorial** ni como dataset demo (`fixtures seed`).
 - Contenido editorial real en proceso de carga desde wp-admin de producción; la carga **no** está completa.
-- **Excepción de propietario 2026-08-19:** un bootstrap editorial de Volume 1 (`wp revistalogos fixtures bootstrap`, `_les_bootstrap*`, sin identificadores falsos, autor canónico reutilizado) puede existir en producción para que el editor sustituya placeholders. No es el dataset demo. No ejecutar en esta tarea. Antes de indexar: recuento `_les_fixture=1` = 0 (preferido).
+- **Excepción de propietario 2026-08-19 (Option 2):** un bootstrap editorial de Volume 1 (`wp revistalogos fixtures bootstrap`, `_les_bootstrap*`) puede **adaptar** de la maqueta el conteo, títulos, abstracts, secciones, orden y media placeholder, retargeted a Vol. 1 Nº 1, para que el editor los sustituya en wp-admin. No es el dataset demo. **No** reutiliza DOI/ORCID/ISSN falsos, paginación bibliográfica dummy ni autores de la maqueta. Reutiliza el autor canónico. No ejecutar en esta tarea. Antes de indexar: recuento `_les_fixture=1` = 0 (preferido).
 - La clasificación detallada y el checklist de sustitución están en `16-content-source-inventory` y `17-implementation-order`.
 
 ---

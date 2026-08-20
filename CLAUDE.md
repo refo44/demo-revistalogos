@@ -44,14 +44,16 @@ resuming Fase 3 work).
   tree, not in Git. Treat it as a local input, not a tracked dependency.
 - **Dummy/demo data must never reach production** (ADR 0004): the Vol. 12
   Nº 2 issue, the six sample articles, fake news posts, `1234-5678`,
-  `10.1234/les.*`, `0000-0000-*`, and demo paginations are explicitly
-  forbidden in any WordPress content migration. **Exception (owner,
-  2026-08-19):** a Volume 1 editorial bootstrap (`wp revistalogos
-  fixtures bootstrap`) may create the initial Issue/Article structure so
-  editors can replace placeholders in wp-admin. It reuses the existing
-  Author `rafael-eduardo-figueredo-oropeza`, must not duplicate or mark
-  that author, and uses `_les_bootstrap*` (not disposable `_les_fixture`
-  teardown). No fake DOI/ORCID/ISSN. Do **not** run
+  `10.1234/les.*`, `0000-0000-*`, and demo paginations are excluded as
+  production editorial truth and must not be imported as `fixtures seed`.
+  **Exception (owner Option 2, 2026-08-19):** a Volume 1 editorial
+  bootstrap (`wp revistalogos fixtures bootstrap`) may **adapt** selected
+  maquette presentation fields (count, titles, abstracts, sections, order,
+  placeholder cover/PDFs) into Vol. 1 Nº 1 objects so editors can replace
+  them in wp-admin. It reuses Author `rafael-eduardo-figueredo-oropeza`,
+  must not duplicate or mark that author, and uses `_les_bootstrap*` (not
+  disposable `_les_fixture` teardown). No fake DOI/ORCID/ISSN, no dummy
+  authors, no dummy bibliographic pagination. Do **not** run
   `wp revistalogos fixtures seed` on production. Indexing must not open
   while public fixture records remain; prefer `_les_fixture=1` count 0.
 - **Plugin owns the domain, theme owns presentation only** (ADR 0005) — no

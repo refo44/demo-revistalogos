@@ -27,7 +27,7 @@
 4. **Validar** contra checklist de `18-ux-ui-trends` antes de cerrar fase
 5. **Validar responsive:** Móvil, tablet, escritorio antes de WordPress
 
-**Alcance de “HECHO”:** La estructura visual, responsive y accesible está maquetada. El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, identificadores y paginación son datos demostrativos. No están validados como contenido editorial y no deben migrarse a producción.
+**Alcance de “HECHO”:** La estructura visual, responsive y accesible está maquetada. El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, identificadores y paginación son datos demostrativos. No están validados como contenido editorial y no deben migrarse a producción como verdad bibliográfica. (Bootstrap Volume 1 Option 2: ver §3.1 nota de implementación.)
 
 ### 2.1 Estructura HTML (base para WordPress)
 
@@ -125,6 +125,8 @@ Plan original de esta fase (histórico; no describe el estado actual):
 
 **Prohibido en producción:** Migrar el Vol. 12 Nº 2, los números Vol. 11–12, los seis artículos de ejemplo, las noticias ficticias, `1234-5678`, `10.1234/les.*`, `0000-0000-*`, las paginaciones demostrativas o los canonicals del sitio demo.
 
+*Nota de implementación 2026-08-19 (Option 2; no reescribe la tabla de arriba):* esa prohibición sigue vigente para el dataset demo y para tratar la maqueta como verdad bibliográfica. El bootstrap editorial Volume 1 (`wp revistalogos fixtures bootstrap`) es una excepción de propietario distinta: puede **adaptar** títulos, abstracts, secciones y orden de la maqueta Vol. 12 Nº 2 como placeholders `_les_bootstrap*` de Vol. 1 Nº 1. No importa identificadores falsos, paginación bibliográfica dummy ni autores de la maqueta.
+
 ### 3.2 Carga de la primera edición
 
 Carga editorial iniciada y actualmente en curso desde wp-admin de producción.
@@ -163,7 +165,7 @@ Pasos restantes (la entrada ya empezó; no darlos por cerrados):
 
 ## Regla
 
-La maqueta estática está validada como base visual del tema WordPress. Su contenido demostrativo no está aprobado para publicación y no se migra. WordPress clásico está live en producción; contenido editorial real en proceso de carga desde wp-admin (**no** completa).
+La maqueta estática está validada como base visual del tema WordPress. Su contenido demostrativo no está aprobado para publicación y no se migra como verdad editorial. El bootstrap Volume 1 (Option 2, ADR 0004 nota de implementación) solo adapta campos de presentación como placeholders `_les_bootstrap*`. WordPress clásico está live en producción; contenido editorial real en proceso de carga desde wp-admin (**no** completa).
 
 ---
 

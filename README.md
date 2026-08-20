@@ -86,7 +86,9 @@ CPTs reales en el plugin: `issue`, `article`, `author` (el CPT `submission`
 está aplazado, ADR 0005). Taxonomías: `section`, `article_type`, `keyword`.
 ISSN / DOI / ORCID se almacenan inertes en Fase 3; validación y URLs derivadas
 son Fase 4 (ADR 0013). El contenido dummy (Vol. 12 Nº 2, identificadores
-ficticios) no se publica en producción (ADR 0004).
+ficticios) no se publica como verdad editorial ni como `fixtures seed`
+(ADR 0004). Excepción Option 2: el bootstrap Volume 1 puede adaptar campos
+de presentación de esa maqueta como placeholders `_les_bootstrap*`.
 
 ## SEO y datos estructurados
 

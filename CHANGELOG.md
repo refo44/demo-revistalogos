@@ -10,12 +10,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ### Changed
 - Plugin `revistalogos-core` 0.2.3: `wp revistalogos fixtures bootstrap`
-  is now a Volume 1 **editorial** bootstrap (one published issue + sample
-  article structure from the static maquette, retargeted to Vol. 1 Nº 1).
-  It reuses the existing Author `rafael-eduardo-figueredo-oropeza`, never
-  marks or deletes that author, never writes fake DOI/ORCID/ISSN, and
-  never overwrites objects whose content has drifted from the bootstrap
-  hash (`_les_bootstrap_adopted`). Plan/dry-run writes nothing. Production
+  is now a Volume 1 **editorial** bootstrap (owner Option 2: one published
+  issue + sample article structure adapted from the static Vol. 12 Nº 2
+  maquette, retargeted to Vol. 1 Nº 1). It reuses the existing Author
+  `rafael-eduardo-figueredo-oropeza`, never marks or deletes that author,
+  never writes fake DOI/ORCID/ISSN or dummy page ranges, and never
+  overwrites objects whose content has drifted from the bootstrap hash
+  (`_les_bootstrap_adopted`). Plan/dry-run writes nothing. Production
   writes still require `--confirm-production` and `--backup`. Test fixtures
   (`fixtures seed`, `_les_fixture=1`) remain disposable and separate.
 
@@ -49,9 +50,11 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   Indexación: no asumir abierta.
 - Decisión de propietario 2026-08-19: bootstrap editorial restringido
   (`wp revistalogos fixtures bootstrap`) permitido como excepción a ADR 0004
-  en implementación — un número, un artículo, un autor temporales, sin
-  identificadores falsos. No ejecutado en producción. Indexación no se abre
-  con fixtures temporales públicos.
+  en implementación — primero como 1+1+1 borradores; **Option 2** (misma
+  fecha) lo convierte en Volume 1 editable adaptando campos de presentación
+  de la maqueta Vol. 12 Nº 2, sin identificadores falsos ni autores dummy.
+  No ejecutado en producción. Indexación no se abre con fixtures demo
+  públicas.
 
 ### Retirado
 - Workflow estático `.github/workflows/deploy.yml` («Deploy to Hostinger»).

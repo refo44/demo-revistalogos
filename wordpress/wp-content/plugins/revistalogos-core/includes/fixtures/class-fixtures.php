@@ -625,9 +625,11 @@ class Fixtures {
 	}
 
 	/**
-	 * Static-maquette Volume 1 dataset. Titles/abstracts/sections come
-	 * from static/ (Vol. 12 Nº 2 dummy), retargeted to Vol. 1 Nº 1.
-	 * Dummy author identities and fake DOI/ORCID/ISSN are not used.
+	 * Static-maquette Volume 1 dataset (owner Option 2, 2026-08-19).
+	 * Titles/abstracts/sections/order come from static/ Vol. 12 Nº 2 as
+	 * bootstrap-owned placeholders, retargeted to Vol. 1 Nº 1. Dummy
+	 * author identities, fake DOI/ORCID/ISSN and bibliographic page
+	 * ranges are not used.
 	 *
 	 * @return array<string, mixed>
 	 */
@@ -664,7 +666,7 @@ class Fixtures {
 					'section'     => 'Metafísica',
 					'title_en'    => 'The Nature of Being in Contemporary Philosophy',
 					'abstract'    => 'Este artículo examina las principales corrientes del pensamiento ontológico contemporáneo, analizando las contribuciones de Heidegger, Sartre y otros filósofos modernos al problema del ser. Se propone una síntesis crítica que permita comprender la evolución del concepto de ser en la filosofía del siglo XX.',
-					'pages'       => '15-32',
+					'pages'       => '',
 					'keywords'    => array( 'ontología', 'ser', 'Heidegger', 'Sartre', 'filosofía contemporánea' ),
 					'menu_order'  => 1,
 					'link_rafael' => true,
@@ -679,7 +681,7 @@ class Fixtures {
 					'section'     => 'Ética',
 					'title_en'    => 'Foundations of Applied Ethics in the 21st Century',
 					'abstract'    => 'Este trabajo analiza los fundamentos teóricos de la ética aplicada en el contexto del siglo XXI, considerando los nuevos desafíos morales planteados por la tecnología, la globalización y los cambios sociales. Se examinan las principales corrientes éticas contemporáneas y su aplicación práctica.',
-					'pages'       => '33-48',
+					'pages'       => '',
 					'keywords'    => array( 'ética aplicada', 'moral', 'tecnología', 'globalización', 'responsabilidad' ),
 					'menu_order'  => 2,
 					'link_rafael' => false,
@@ -694,7 +696,7 @@ class Fixtures {
 					'section'     => 'Ética',
 					'title_en'    => 'Distributive Justice and Social Responsibility',
 					'abstract'    => 'Este artículo explora la relación entre justicia distributiva y responsabilidad social en el marco de las sociedades contemporáneas. Se analizan las teorías de Rawls, Sen y otros pensadores para comprender cómo se puede lograr una distribución justa de recursos y oportunidades.',
-					'pages'       => '49-65',
+					'pages'       => '',
 					'keywords'    => array( 'justicia distributiva', 'responsabilidad social', 'Rawls', 'Sen', 'equidad' ),
 					'menu_order'  => 3,
 					'link_rafael' => false,
@@ -709,7 +711,7 @@ class Fixtures {
 					'section'     => 'Epistemología',
 					'title_en'    => 'The Problem of Knowledge in the Digital Age',
 					'abstract'    => 'Este trabajo examina cómo la revolución digital ha transformado nuestra comprensión del conocimiento y la verdad. Se analizan los desafíos epistemológicos planteados por la información digital, las redes sociales y la inteligencia artificial.',
-					'pages'       => '67-82',
+					'pages'       => '',
 					'keywords'    => array( 'epistemología', 'conocimiento digital', 'verdad', 'información', 'tecnología' ),
 					'menu_order'  => 4,
 					'link_rafael' => false,
@@ -724,7 +726,7 @@ class Fixtures {
 					'section'     => 'Filosofía de la Religión',
 					'title_en'    => 'Secularization and Religious Experience in Modernity',
 					'abstract'    => 'Este artículo analiza el proceso de secularización en las sociedades modernas y su impacto en la experiencia religiosa. Se examinan las teorías de Weber, Berger y otros sociólogos de la religión para comprender la persistencia de lo religioso en contextos secularizados.',
-					'pages'       => '83-98',
+					'pages'       => '',
 					'keywords'    => array( 'secularización', 'experiencia religiosa', 'modernidad', 'Weber', 'Berger' ),
 					'menu_order'  => 5,
 					'link_rafael' => false,
@@ -739,7 +741,7 @@ class Fixtures {
 					'section'     => 'Filosofía de la Religión',
 					'title_en'    => 'Theodicy and the Problem of Evil in Contemporary Thought',
 					'abstract'    => 'Este trabajo examina las respuestas contemporáneas al problema del mal desde la perspectiva de la teodicea. Se analizan las contribuciones de Plantinga, Hick y otros filósofos de la religión para comprender cómo se puede mantener la creencia en un Dios omnibenevolente frente a la existencia del mal.',
-					'pages'       => '99-115',
+					'pages'       => '',
 					'keywords'    => array( 'teodicea', 'problema del mal', 'Dios', 'Plantinga', 'Hick', 'omnibenevolencia' ),
 					'menu_order'  => 6,
 					'link_rafael' => false,

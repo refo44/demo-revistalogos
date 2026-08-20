@@ -213,10 +213,13 @@ contenido diverge, el objeto queda `_les_bootstrap_adopted=1` (sticky). Un
 re-run no lo pisa. `teardown --kind=bootstrap` no lo borra. `teardown` sin
 `--kind` no toca objetos `_les_bootstrap`.
 
-Fuente: maqueta estática Vol. 12 Nº 2 (títulos, abstracts, secciones,
-orden), retargeted a Vol. 1 Nº 1. Identificadores falsos y autores dummy de
-la maqueta **no** se importan. Placeholder de media solo desde
-`resources/fixtures/`, marcado bootstrap.
+Fuente: **Option 2 (propietario, 2026-08-19).** La maqueta Vol. 12 Nº 2
+sigue excluida como verdad editorial y como `fixtures seed`. El bootstrap
+**adapta** títulos, abstracts, secciones, orden y media placeholder de esa
+maqueta a Vol. 1 Nº 1, marcados `_les_bootstrap*`. Identificadores falsos
+(DOI/ORCID/ISSN), paginación bibliográfica dummy y autores de la maqueta
+**no** se importan. Cover/PDF placeholder solo desde `resources/fixtures/`,
+marcados bootstrap, sustituibles en wp-admin.
 
 **No ejecutar en producción en esta tarea.**
 
