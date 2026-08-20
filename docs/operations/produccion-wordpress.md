@@ -239,6 +239,15 @@ maqueta a Vol. 1 Nº 1, marcados `_les_bootstrap*`. Identificadores falsos
 **no** se importan. Cover/PDF placeholder solo desde `resources/fixtures/`,
 marcados bootstrap, sustituibles en wp-admin.
 
+Plugin `0.2.5` (wp-admin, sin cambiar el contrato de almacenamiento):
+los autores se asignan con casillas (estado vacío explícito; sin autor
+por defecto). Publicar un artículo exige al menos un Author CPT
+publicado; borrador/pendiente pueden no tener autores. Los artículos
+bootstrap ya publicados sin autores **no** se despublican al actualizar
+el plugin. El PDF de artículo/número se elige con el selector nativo de
+Media Library (`application/pdf`); quitar desvincula y no borra el
+archivo.
+
 **No ejecutar en producción en esta tarea.**
 
 ## Restos del sitio estático (deuda operativa)

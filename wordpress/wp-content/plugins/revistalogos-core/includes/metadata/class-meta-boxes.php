@@ -22,6 +22,13 @@ class Meta_Boxes {
 	const NONCE_FIELD  = 'revistalogos_core_meta_nonce';
 
 	/**
+	 * Admin notice code for the current request (survives redirect).
+	 *
+	 * @var string
+	 */
+	private static $notice = '';
+
+	/**
 	 * Field map per post type: key => array(label, input type).
 	 *
 	 * @return array<string, array<string, array{0: string, 1: string}>>
@@ -35,7 +42,7 @@ class Meta_Boxes {
 				'date_published' => array( __( 'Fecha de publicación', 'revistalogos-core' ), 'date' ),
 				'issn'           => array( __( 'ISSN electrónico (e-ISSN)', 'revistalogos-core' ), 'text' ),
 				'doi'            => array( __( 'DOI', 'revistalogos-core' ), 'text' ),
-				'pdf_file'       => array( __( 'PDF del número (ID de adjunto)', 'revistalogos-core' ), 'attachment' ),
+				'pdf_file'       => array( __( 'PDF del número', 'revistalogos-core' ), 'attachment' ),
 			),
 			Content_Types::ARTICLE => array(
 				'title_en'         => array( __( 'Título en inglés', 'revistalogos-core' ), 'text' ),
@@ -43,7 +50,7 @@ class Meta_Boxes {
 				'abstract_en'      => array( __( 'Resumen en inglés (máx. 180 palabras)', 'revistalogos-core' ), 'textarea' ),
 				'doi'              => array( __( 'DOI', 'revistalogos-core' ), 'text' ),
 				'pages'            => array( __( 'Paginación (ej. 15-32)', 'revistalogos-core' ), 'text' ),
-				'pdf_file'         => array( __( 'PDF del artículo (ID de adjunto)', 'revistalogos-core' ), 'attachment' ),
+				'pdf_file'         => array( __( 'PDF del artículo', 'revistalogos-core' ), 'attachment' ),
 				'language'         => array( __( 'Idioma (es, en)', 'revistalogos-core' ), 'text' ),
 				'publication_date' => array( __( 'Fecha de publicación', 'revistalogos-core' ), 'date' ),
 				'received_date'    => array( __( 'Fecha de envío', 'revistalogos-core' ), 'date' ),
@@ -64,6 +71,11 @@ class Meta_Boxes {
 	public static function register_hooks() {
 		add_action( 'add_meta_boxes', array( __CLASS__, 'add_boxes' ) );
 		add_action( 'save_post', array( __CLASS__, 'save' ), 10, 2 );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin' ) );
+		add_filter( 'wp_insert_post_data', array( __CLASS__, 'guard_article_publish_status' ), 10, 2 );
+		add_filter( 'rest_pre_insert_' . Content_Types::ARTICLE, array( __CLASS__, 'rest_guard_article_publish' ), 10, 2 );
+		add_filter( 'redirect_post_location', array( __CLASS__, 'append_notice_query_arg' ) );
+		add_action( 'admin_notices', array( __CLASS__, 'render_admin_notices' ) );
 	}
 
 	/**
@@ -126,13 +138,16 @@ class Meta_Boxes {
 					break;
 
 				case 'number':
-				case 'attachment':
 					printf(
 						'<input type="number" id="%1$s" name="%2$s" value="%3$s" class="small-text" min="0" step="1">',
 						esc_attr( $id ),
 						esc_attr( $key ),
 						esc_attr( $value )
 					);
+					break;
+
+				case 'attachment':
+					self::render_pdf_field( $id, $key, $value );
 					break;
 
 				case 'date':
@@ -169,7 +184,7 @@ class Meta_Boxes {
 	}
 
 	/**
-	 * Render the article relationships box (authors multi-select, issue
+	 * Render the article relationships box (author checkboxes, issue
 	 * select). Bounded lists; an academic journal has few of each.
 	 *
 	 * @param \WP_Post $post Current article.
@@ -201,20 +216,32 @@ class Meta_Boxes {
 			)
 		);
 
-		echo '<p><label for="revistalogos-authors"><strong>' . esc_html__( 'Autores', 'revistalogos-core' ) . '</strong></label><br>';
-		echo '<select id="revistalogos-authors" name="authors[]" multiple size="6" style="width:100%">';
+		$empty_class = $selected_authors ? 'revistalogos-authors-empty hidden' : 'revistalogos-authors-empty';
 
-		foreach ( $authors as $author ) {
-			printf(
-				'<option value="%1$d"%2$s>%3$s</option>',
-				(int) $author->ID,
-				selected( in_array( (int) $author->ID, $selected_authors, true ), true, false ),
-				esc_html( get_the_title( $author ) )
-			);
+		echo '<fieldset class="revistalogos-authors">';
+		echo '<legend><strong>' . esc_html__( 'Autores', 'revistalogos-core' ) . '</strong></legend>';
+		printf(
+			'<p class="%s"><strong>%s</strong></p>',
+			esc_attr( $empty_class ),
+			esc_html__( 'Ningún autor asignado', 'revistalogos-core' )
+		);
+
+		if ( ! $authors ) {
+			echo '<p class="description">' . esc_html__( 'No hay perfiles de autor. Créalos en Autores antes de asignarlos.', 'revistalogos-core' ) . '</p>';
+		} else {
+			foreach ( $authors as $author ) {
+				$author_id = (int) $author->ID;
+				printf(
+					'<p><label><input type="checkbox" name="authors[]" value="%1$d"%2$s> %3$s</label></p>',
+					$author_id,
+					checked( in_array( $author_id, $selected_authors, true ), true, false ),
+					esc_html( get_the_title( $author ) )
+				);
+			}
 		}
 
-		echo '</select></p>';
-		echo '<p class="description">' . esc_html__( 'Mantén pulsado Ctrl/Cmd para seleccionar varios.', 'revistalogos-core' ) . '</p>';
+		echo '<p class="description">' . esc_html__( 'Marca uno o más autores. Un artículo publicado necesita al menos un autor publicado. No se asigna ninguno por defecto.', 'revistalogos-core' ) . '</p>';
+		echo '</fieldset>';
 
 		echo '<p><label for="revistalogos-issue"><strong>' . esc_html__( 'Número', 'revistalogos-core' ) . '</strong></label><br>';
 		echo '<select id="revistalogos-issue" name="issue" style="width:100%">';
@@ -273,11 +300,316 @@ class Meta_Boxes {
 		}
 
 		if ( Content_Types::ARTICLE === $post->post_type ) {
-			$authors = isset( $_POST['authors'] ) ? (array) wp_unslash( $_POST['authors'] ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			update_post_meta( $post_id, 'authors', $authors );
+			self::save_article_authors( $post_id );
 
 			$issue = isset( $_POST['issue'] ) ? absint( wp_unslash( $_POST['issue'] ) ) : 0;
 			update_post_meta( $post_id, 'issue', $issue );
 		}
+	}
+
+	/**
+	 * Media Library picker for a PDF attachment-ID field.
+	 *
+	 * @param string $html_id Input id.
+	 * @param string $name    POST key.
+	 * @param mixed  $value   Stored attachment ID.
+	 */
+	private static function render_pdf_field( $html_id, $name, $value ) {
+		$attachment_id = absint( $value );
+		$url           = $attachment_id ? wp_get_attachment_url( $attachment_id ) : '';
+		$filename      = '';
+
+		if ( $attachment_id && $url ) {
+			$file     = get_attached_file( $attachment_id );
+			$filename = $file ? wp_basename( $file ) : get_the_title( $attachment_id );
+		} else {
+			$attachment_id = 0;
+			$url           = '';
+		}
+
+		$has = ( $attachment_id > 0 && $url );
+
+		echo '<div class="revistalogos-pdf-field">';
+		printf(
+			'<input type="hidden" id="%1$s" class="revistalogos-pdf-field__id" name="%2$s" value="%3$d">',
+			esc_attr( $html_id ),
+			esc_attr( $name ),
+			$has ? $attachment_id : 0
+		);
+
+		printf(
+			'<p class="revistalogos-pdf-field__filename%s">%s</p>',
+			$has ? '' : ' hidden',
+			esc_html( $filename )
+		);
+		printf(
+			'<p class="revistalogos-pdf-field__empty%s"><strong>%s</strong></p>',
+			$has ? ' hidden' : '',
+			esc_html__( 'Ningún PDF seleccionado', 'revistalogos-core' )
+		);
+
+		echo '<p class="revistalogos-pdf-field__actions">';
+		printf(
+			'<a class="button revistalogos-pdf-field__view%s" href="%s" target="_blank" rel="noopener noreferrer">%s</a> ',
+			$has ? '' : ' hidden',
+			$has ? esc_url( $url ) : '#',
+			esc_html__( 'Ver PDF', 'revistalogos-core' )
+		);
+		printf(
+			'<button type="button" class="button revistalogos-pdf-field__select">%s</button> ',
+			esc_html( $has ? __( 'Reemplazar PDF', 'revistalogos-core' ) : __( 'Seleccionar PDF', 'revistalogos-core' ) )
+		);
+		printf(
+			'<button type="button" class="button revistalogos-pdf-field__remove%s">%s</button>',
+			$has ? '' : ' hidden',
+			esc_html__( 'Quitar PDF', 'revistalogos-core' )
+		);
+		echo '</p>';
+		echo '<p class="description">' . esc_html__( 'Un PDF por artículo o número. Quitar solo desvincula el archivo; no lo borra de la biblioteca.', 'revistalogos-core' ) . '</p>';
+		echo '</div>';
+	}
+
+	/**
+	 * wp.media + author empty-state script, only on issue/article screens.
+	 *
+	 * @param string $hook Current admin page.
+	 */
+	public static function enqueue_admin( $hook ) {
+		if ( ! in_array( $hook, array( 'post.php', 'post-new.php' ), true ) ) {
+			return;
+		}
+
+		$screen = get_current_screen();
+
+		if ( ! $screen || ! in_array( $screen->post_type, array( Content_Types::ARTICLE, Content_Types::ISSUE ), true ) ) {
+			return;
+		}
+
+		wp_enqueue_media();
+		wp_enqueue_script(
+			'revistalogos-core-admin-meta',
+			REVISTALOGOS_CORE_URL . 'assets/js/admin-meta.js',
+			array( 'jquery' ),
+			REVISTALOGOS_CORE_VERSION,
+			true
+		);
+		wp_localize_script(
+			'revistalogos-core-admin-meta',
+			'revistalogosPdfMedia',
+			array(
+				'title'   => __( 'Seleccionar PDF', 'revistalogos-core' ),
+				'button'  => __( 'Usar este PDF', 'revistalogos-core' ),
+				'select'  => __( 'Seleccionar PDF', 'revistalogos-core' ),
+				'replace' => __( 'Reemplazar PDF', 'revistalogos-core' ),
+			)
+		);
+	}
+
+	/**
+	 * Block transitions to publish when no published Author CPT is assigned.
+	 * Does not unpublish an already-published article (bootstrap leftovers).
+	 *
+	 * @param array $data    Sanitized post data.
+	 * @param array $postarr Raw post array.
+	 * @return array
+	 */
+	public static function guard_article_publish_status( $data, $postarr ) {
+		if ( Relationships::$skip_article_publish_guard ) {
+			return $data;
+		}
+
+		if ( Content_Types::ARTICLE !== $data['post_type'] ) {
+			return $data;
+		}
+
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return $data;
+		}
+
+		$post_id = isset( $postarr['ID'] ) ? absint( $postarr['ID'] ) : 0;
+
+		if ( $post_id && wp_is_post_revision( $post_id ) ) {
+			return $data;
+		}
+
+		if ( 'publish' !== $data['post_status'] ) {
+			return $data;
+		}
+
+		$intended = self::intended_author_ids( $post_id );
+
+		if ( Relationships::has_published_author( $intended ) ) {
+			return $data;
+		}
+
+		$previous = $post_id ? get_post_status( $post_id ) : '';
+
+		if ( 'publish' === $previous ) {
+			$existing = $post_id ? get_post_meta( $post_id, 'authors', true ) : array();
+			self::$notice = Relationships::has_published_author( $existing ) ? 'keep_authors' : 'published_needs_author';
+			return $data;
+		}
+
+		$data['post_status'] = self::fallback_unpublish_status( $previous );
+		self::$notice        = 'cannot_publish';
+
+		return $data;
+	}
+
+	/**
+	 * REST equivalent of the publish-without-author rule.
+	 *
+	 * @param \stdClass        $prepared Prepared post.
+	 * @param \WP_REST_Request $request  Request.
+	 * @return \stdClass|\WP_Error
+	 */
+	public static function rest_guard_article_publish( $prepared, $request ) {
+		if ( Relationships::$skip_article_publish_guard ) {
+			return $prepared;
+		}
+
+		$status  = isset( $prepared->post_status ) ? $prepared->post_status : '';
+		$post_id = ! empty( $prepared->ID ) ? (int) $prepared->ID : 0;
+		$previous = $post_id ? get_post_status( $post_id ) : '';
+		$meta     = $request->get_param( 'meta' );
+		$ids      = array();
+
+		if ( is_array( $meta ) && array_key_exists( 'authors', $meta ) ) {
+			$ids = $meta['authors'];
+		} elseif ( $post_id ) {
+			$ids = get_post_meta( $post_id, 'authors', true );
+		}
+
+		$has_published = Relationships::has_published_author( $ids );
+
+		if ( 'publish' === $status && ! $has_published && 'publish' !== $previous ) {
+			return new \WP_Error(
+				'revistalogos_article_requires_author',
+				__( 'Un artículo publicado necesita al menos un autor con estado publicado.', 'revistalogos-core' ),
+				array( 'status' => 400 )
+			);
+		}
+
+		if ( 'publish' === $status && is_array( $meta ) && array_key_exists( 'authors', $meta ) && ! $has_published && 'publish' === $previous && Relationships::has_published_author( get_post_meta( $post_id, 'authors', true ) ) ) {
+			return new \WP_Error(
+				'revistalogos_article_keep_author',
+				__( 'No se puede quitar el último autor publicado de un artículo publicado.', 'revistalogos-core' ),
+				array( 'status' => 400 )
+			);
+		}
+
+		return $prepared;
+	}
+
+	/**
+	 * Persist article authors unless this would strip the last published
+	 * author from a published article.
+	 *
+	 * @param int $post_id Article ID.
+	 */
+	private static function save_article_authors( $post_id ) {
+		$submitted = isset( $_POST['authors'] ) ? (array) wp_unslash( $_POST['authors'] ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$submitted = Relationships::sanitize_author_ids( $submitted );
+		$status    = get_post_status( $post_id );
+
+		if ( 'publish' === $status && ! Relationships::has_published_author( $submitted ) ) {
+			$existing = get_post_meta( $post_id, 'authors', true );
+
+			if ( Relationships::has_published_author( $existing ) ) {
+				if ( ! self::$notice ) {
+					self::$notice = 'keep_authors';
+				}
+				return;
+			}
+
+			if ( ! self::$notice ) {
+				self::$notice = 'published_needs_author';
+			}
+		}
+
+		update_post_meta( $post_id, 'authors', $submitted );
+	}
+
+	/**
+	 * Author IDs the editor is trying to store, or existing meta when the
+	 * metabox was not submitted (Quick Edit, REST).
+	 *
+	 * @param int $post_id Article ID.
+	 * @return int[]
+	 */
+	private static function intended_author_ids( $post_id ) {
+		if ( self::metabox_nonce_is_valid() ) {
+			$raw = isset( $_POST['authors'] ) ? (array) wp_unslash( $_POST['authors'] ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			return Relationships::sanitize_author_ids( $raw );
+		}
+
+		if ( $post_id ) {
+			return Relationships::sanitize_author_ids( get_post_meta( $post_id, 'authors', true ) );
+		}
+
+		return array();
+	}
+
+	/**
+	 * Whether this request submitted the journal metabox nonce.
+	 *
+	 * @return bool
+	 */
+	private static function metabox_nonce_is_valid() {
+		return isset( $_POST[ self::NONCE_FIELD ] ) && wp_verify_nonce( sanitize_key( wp_unslash( $_POST[ self::NONCE_FIELD ] ) ), self::NONCE_ACTION );
+	}
+
+	/**
+	 * Status to keep when refusing publish.
+	 *
+	 * @param string $previous Previous status.
+	 * @return string
+	 */
+	private static function fallback_unpublish_status( $previous ) {
+		if ( in_array( $previous, array( 'draft', 'pending', 'private' ), true ) ) {
+			return $previous;
+		}
+
+		return 'draft';
+	}
+
+	/**
+	 * Carry the notice across the post-save redirect.
+	 *
+	 * @param string $location Redirect URL.
+	 * @return string
+	 */
+	public static function append_notice_query_arg( $location ) {
+		if ( self::$notice ) {
+			$location = add_query_arg( 'revistalogos_notice', rawurlencode( self::$notice ), $location );
+		}
+
+		return $location;
+	}
+
+	/**
+	 * Print the publish-author admin notice.
+	 */
+	public static function render_admin_notices() {
+		$code = isset( $_GET['revistalogos_notice'] ) ? sanitize_key( wp_unslash( $_GET['revistalogos_notice'] ) ) : self::$notice; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+		if ( ! $code ) {
+			return;
+		}
+
+		$messages = array(
+			'cannot_publish'          => __( 'Un artículo publicado necesita al menos un autor con estado publicado. El artículo se ha guardado como borrador o pendiente; no se ha publicado.', 'revistalogos-core' ),
+			'keep_authors'            => __( 'No se puede quitar el último autor publicado de un artículo publicado. Se conservaron los autores anteriores. El resto de cambios se ha guardado.', 'revistalogos-core' ),
+			'published_needs_author'  => __( 'Este artículo publicado no tiene un autor publicado asignado. Asígnale al menos uno. El artículo no se ha despublicado.', 'revistalogos-core' ),
+		);
+
+		if ( ! isset( $messages[ $code ] ) ) {
+			return;
+		}
+
+		printf(
+			'<div class="notice notice-error is-dismissible"><p>%s</p></div>',
+			esc_html( $messages[ $code ] )
+		);
 	}
 }

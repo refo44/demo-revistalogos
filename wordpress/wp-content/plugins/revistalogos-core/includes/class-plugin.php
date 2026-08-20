@@ -40,6 +40,7 @@ class Plugin {
 		self::load_modules();
 
 		add_action( 'init', array( Content_Types::class, 'register' ) );
+		add_filter( 'use_block_editor_for_post_type', array( Content_Types::class, 'use_block_editor' ), 10, 2 );
 		add_action( 'init', array( Taxonomies::class, 'register' ), 11 ); // After CPTs.
 		add_action( 'init', array( Metadata::class, 'register' ), 12 );
 		add_action( 'init', array( Comments_Disabler::class, 'register' ), 13 );

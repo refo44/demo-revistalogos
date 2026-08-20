@@ -20,6 +20,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Relationships {
 
 	/**
+	 * When true, article publish-without-author is allowed (Volume 1
+	 * bootstrap creates published sample articles with authors=[]).
+	 * Never set from wp-admin article saves.
+	 *
+	 * @var bool
+	 */
+	public static $skip_article_publish_guard = false;
+
+	/**
 	 * Hook cleanup for deleted referenced posts.
 	 */
 	public static function register_hooks() {
@@ -49,6 +58,34 @@ class Relationships {
 		}
 
 		return $clean;
+	}
+
+	/**
+	 * Author CPT IDs that currently exist and are published.
+	 *
+	 * @param mixed $value Raw or sanitized authors value.
+	 * @return int[]
+	 */
+	public static function published_author_ids( $value ) {
+		$published = array();
+
+		foreach ( self::sanitize_author_ids( $value ) as $id ) {
+			if ( 'publish' === get_post_status( $id ) && ! in_array( $id, $published, true ) ) {
+				$published[] = $id;
+			}
+		}
+
+		return $published;
+	}
+
+	/**
+	 * Whether at least one assigned author is a published Author CPT.
+	 *
+	 * @param mixed $value Raw or sanitized authors value.
+	 * @return bool
+	 */
+	public static function has_published_author( $value ) {
+		return ! empty( self::published_author_ids( $value ) );
 	}
 
 	/**

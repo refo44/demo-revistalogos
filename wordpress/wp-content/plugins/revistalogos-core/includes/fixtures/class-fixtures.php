@@ -490,6 +490,24 @@ class Fixtures {
 			return $preflight;
 		}
 
+		Relationships::$skip_article_publish_guard = true;
+
+		try {
+			return self::bootstrap_write( $apply, $author, $dataset );
+		} finally {
+			Relationships::$skip_article_publish_guard = false;
+		}
+	}
+
+	/**
+	 * Write path for Volume 1 bootstrap. Caller owns the publish-guard skip flag.
+	 *
+	 * @param bool     $apply   Write when true.
+	 * @param \WP_Post $author  Canonical author.
+	 * @param array    $dataset Volume 1 dataset.
+	 * @return string[]|\WP_Error
+	 */
+	private static function bootstrap_write( $apply, $author, $dataset ) {
 		$report   = array();
 		$report[] = sprintf(
 			'author: reuse id %d slug %s (manual; not bootstrap-owned)',

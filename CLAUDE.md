@@ -58,7 +58,10 @@ resuming Fase 3 work).
   usable SSH/WP-CLI path; temporary Tools → Volume 1 Editorial Bootstrap
   (`Bootstrap_Admin`) is an execution bridge only — no teardown, no force,
   no backup-evidence field for this owner-approved operation. Remove the
-  UI after production bootstrap and frontend verification. Indexing must
+  UI after production bootstrap and frontend verification. Plugin 0.2.5
+  adds author checkboxes, a publish-requires-published-author rule, and a
+  native Media Library PDF picker; it does **not** unpublish existing
+  authorless bootstrap articles on load. Indexing must
   not open while public fixture records remain; prefer `_les_fixture=1`
   count 0.
 - **Plugin owns the domain, theme owns presentation only** (ADR 0005) — no

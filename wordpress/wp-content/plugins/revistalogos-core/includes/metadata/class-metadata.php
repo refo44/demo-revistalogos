@@ -33,7 +33,7 @@ class Metadata {
 		self::register_date( Content_Types::ISSUE, 'date_published', __( 'Fecha de publicación', 'revistalogos-core' ) );
 		self::register_text( Content_Types::ISSUE, 'issn', __( 'ISSN electrónico (e-ISSN)', 'revistalogos-core' ) );
 		self::register_text( Content_Types::ISSUE, 'doi', __( 'DOI del número', 'revistalogos-core' ) );
-		self::register_attachment( Content_Types::ISSUE, 'pdf_file', __( 'PDF completo del número (Media Library)', 'revistalogos-core' ) );
+		self::register_pdf_attachment( Content_Types::ISSUE, 'pdf_file', __( 'PDF completo del número (Media Library)', 'revistalogos-core' ) );
 
 		// article fields.
 		self::register_text( Content_Types::ARTICLE, 'title_en', __( 'Título en inglés', 'revistalogos-core' ) );
@@ -41,7 +41,7 @@ class Metadata {
 		self::register_textarea( Content_Types::ARTICLE, 'abstract_en', __( 'Resumen en inglés', 'revistalogos-core' ) );
 		self::register_text( Content_Types::ARTICLE, 'doi', __( 'DOI del artículo', 'revistalogos-core' ) );
 		self::register_text( Content_Types::ARTICLE, 'pages', __( 'Paginación oficial dentro del número', 'revistalogos-core' ) );
-		self::register_attachment( Content_Types::ARTICLE, 'pdf_file', __( 'PDF del artículo (Media Library)', 'revistalogos-core' ) );
+		self::register_pdf_attachment( Content_Types::ARTICLE, 'pdf_file', __( 'PDF del artículo (Media Library)', 'revistalogos-core' ) );
 		self::register_text( Content_Types::ARTICLE, 'language', __( 'Idioma principal (es, en)', 'revistalogos-core' ) );
 		self::register_date( Content_Types::ARTICLE, 'publication_date', __( 'Fecha de publicación', 'revistalogos-core' ) );
 		self::register_date( Content_Types::ARTICLE, 'received_date', __( 'Fecha de envío', 'revistalogos-core' ) );
@@ -229,14 +229,16 @@ class Metadata {
 	}
 
 	/**
-	 * Register an attachment-ID field (Media Library reference; permanent
-	 * URLs are never stored — ADR 0005 §5, prompt §6.8).
+	 * Register a PDF attachment-ID field (Media Library reference;
+	 * permanent URLs are never stored — ADR 0005 §5). MIME must be
+	 * application/pdf. Generic image attachments (featured images) use
+	 * native post thumbnails, not this helper.
 	 *
 	 * @param string $subtype Post type.
 	 * @param string $key     Meta key.
 	 * @param string $label   Field description.
 	 */
-	private static function register_attachment( $subtype, $key, $label ) {
+	private static function register_pdf_attachment( $subtype, $key, $label ) {
 		register_post_meta(
 			$subtype,
 			$key,
@@ -246,7 +248,7 @@ class Metadata {
 				'single'            => true,
 				'default'           => 0,
 				'description'       => $label,
-				'sanitize_callback' => array( __CLASS__, 'sanitize_attachment_id' ),
+				'sanitize_callback' => array( __CLASS__, 'sanitize_pdf_attachment_id' ),
 				'auth_callback'     => array( __CLASS__, 'can_edit' ),
 				'show_in_rest'      => true,
 			)
@@ -267,5 +269,22 @@ class Metadata {
 		}
 
 		return ( 'attachment' === get_post_type( $id ) ) ? $id : 0;
+	}
+
+	/**
+	 * Keep only existing application/pdf attachments. Images and other
+	 * MIME types become 0 (cleared). Used by article and issue pdf_file.
+	 *
+	 * @param mixed $value Raw value.
+	 * @return int
+	 */
+	public static function sanitize_pdf_attachment_id( $value ) {
+		$id = self::sanitize_attachment_id( $value );
+
+		if ( 0 === $id ) {
+			return 0;
+		}
+
+		return ( 'application/pdf' === get_post_mime_type( $id ) ) ? $id : 0;
 	}
 }

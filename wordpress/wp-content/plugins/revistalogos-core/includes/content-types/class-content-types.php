@@ -131,4 +131,22 @@ class Content_Types {
 			)
 		);
 	}
+
+	/**
+	 * Articles use the classic editor so author checkboxes, the PDF
+	 * picker and the publish-author rule run on the same post.php save.
+	 * Issues keep the block editor; their PDF picker still works as a
+	 * classic meta box.
+	 *
+	 * @param bool   $use       Current value.
+	 * @param string $post_type Post type.
+	 * @return bool
+	 */
+	public static function use_block_editor( $use, $post_type ) {
+		if ( self::ARTICLE === $post_type ) {
+			return false;
+		}
+
+		return $use;
+	}
 }

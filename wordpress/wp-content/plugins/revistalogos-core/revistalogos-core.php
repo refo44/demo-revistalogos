@@ -3,7 +3,7 @@
  * Plugin Name:       Revista LOGO ET SPES — Core
  * Plugin URI:        https://github.com/refo44/demo-revistalogos
  * Description:       Modelo de contenido de la Revista de Filosofía LOGO ET SPES: números, artículos, autores, taxonomías, rol Managing Editor, migración de contenido institucional y fixtures. El theme revistalogos solo presenta; este plugin es el dueño del dominio (ADR 0005).
- * Version:           0.2.4
+ * Version:           0.2.5
  * Requires at least: 6.4
  * Tested up to:      7.0
  * Requires PHP:      7.4
@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'REVISTALOGOS_CORE_VERSION', '0.2.4' );
+define( 'REVISTALOGOS_CORE_VERSION', '0.2.5' );
 define( 'REVISTALOGOS_CORE_FILE', __FILE__ );
 define( 'REVISTALOGOS_CORE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'REVISTALOGOS_CORE_URL', plugin_dir_url( __FILE__ ) );

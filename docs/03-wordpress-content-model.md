@@ -117,7 +117,7 @@ El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, ISSN,
 | date_published | date | Fecha de publicación |
 | issn | text | ISSN **electrónico** (e-ISSN), cuando esté disponible. Distinto del ISSN de la versión impresa (ya obtenido por CENFISS); son dos trámites separados ante la Biblioteca Nacional — ver `22-identificadores-academicos-doi-orcid` §2.2 y ADR 0013 |
 | doi | text | Prefijo/sufijo DOI |
-| pdf_file | file | PDF completo del número (Media Library) |
+| pdf_file | file | Un PDF por número: ID de adjunto en Media Library, MIME `application/pdf`. Mismo selector nativo que el PDF de artículo. Quitar desvincula; no borra el adjunto. |
 
 **Relaciones:** Artículos vinculados al número vía post meta. El conteo de artículos es derivado (no almacenar).
 
@@ -133,11 +133,11 @@ El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, ISSN,
 | abstract | textarea | Resumen en español (máx 250 palabras) |
 | abstract_en | textarea | Resumen en inglés |
 | article_type | taxonomy | article \| essay \| review \| editorial |
-| authors | relation | Enlaces al CPT author (muchos a muchos) |
+| authors | relation | Enlaces al CPT author (muchos a muchos). Array de IDs; varios autores permitidos. **No hay autor por defecto:** el editor asigna explícitamente. Borrador y pendiente pueden tener cero autores. **Publicar** exige al menos un Author CPT existente con `post_status=publish`. Un artículo publicado ya existente sin autores no se despublica al cargar el plugin; la regla se aplica al guardar/publicar desde wp-admin. |
 | doi | text | DOI del artículo |
 | doi_url | url | URL completo DOI (https://doi.org/xxxxx) |
 | pages | text | Paginación oficial dentro del número |
-| pdf_file | file | PDF del artículo (Media Library) |
+| pdf_file | file | Un PDF por artículo: ID de adjunto en Media Library, MIME `application/pdf`. El editor elige o sube el archivo con el selector nativo. Quitar desvincula la relación; **no** borra el adjunto. |
 | issue | relation | Número padre |
 | section | taxonomy | Metafísica, Ética, Epistemología, etc. |
 | keyword | taxonomy | 3–5 palabras clave (búsqueda, filtro, SEO) |

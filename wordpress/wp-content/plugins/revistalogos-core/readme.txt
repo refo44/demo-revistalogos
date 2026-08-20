@@ -3,7 +3,7 @@ Contributors: cenfiss
 Requires at least: 6.4
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.2.4
+Stable tag: 0.2.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,15 @@ Fase 3: los campos `issn`, `doi` y `orcid` son almacenamiento base inerte;
 la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
 
 == Changelog ==
+
+= 0.2.5 =
+* Author assignment uses checkboxes (explicit empty state; no default
+  author). Publishing an article requires at least one published Author
+  CPT; draft/pending may have none. Existing published authorless
+  articles are not unpublished on upgrade.
+* Article/issue PDF fields use the native Media Library picker and
+  accept only application/pdf. Removing the relation does not delete
+  the attachment.
 
 = 0.2.4 =
 * Adds a temporary Tools → Volume 1 Editorial Bootstrap screen so

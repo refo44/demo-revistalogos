@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "UI temporal wp-admin para Volume 1 bootstrap (sin SSH/WP-CLI); QA local; no commit/push/deploy; no ejecutar en producción"
+current_work_unit: "Authors checkbox UX + publish-author rule + Article PDF Media Library picker (0.2.5); QA local; no commit/push/deploy; no producción"
 current_branch: "main"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
-updated_at: "2026-08-19"
-next_action: "Revisión del propietario de Bootstrap_Admin 0.2.4. No commit/push/deploy. No ejecutar bootstrap en producción."
+updated_at: "2026-08-20"
+next_action: "Revisión del propietario de plugin 0.2.5 (autores, publicación, PDF). No commit/push/deploy. No tocar producción. Bootstrap_Admin se conserva."
 blocked: false
 ---
 
@@ -443,19 +443,15 @@ institucional **ya hecha** (Pages reales permanentes). Carga editorial real
 en proceso desde wp-admin (**no** completa). Docker: `http://localhost:8080`.
 
 Siguiente acción priorizada — **revisión del propietario de este working
-tree; no commit/push/deploy; no ejecutar bootstrap en producción**:
+tree; no commit/push/deploy; no tocar producción**:
 
-1. revisar el informe de la UI temporal Tools → Volume 1 Editorial Bootstrap;
-2. si se aprueba: commit/push, luego deploy manual FTPS del plugin 0.2.4;
-3. en producción: Validate and Plan → STOP ante colisión/Rafael → confirmar
-   explícitamente → apply una vez → Verify → QA de URLs → retirar la UI
-   en un parche posterior.
-   **No** exigir evidencia de backup fresco en esa UI (excepción de
-   propietario). El CLI de teardown/migración institucional conserva su
-   política de backup.
+1. revisar plugin `revistalogos-core` 0.2.5 (checkboxes de autores, regla
+   de publicación, selector nativo de PDF);
+2. si se aprueba: commit/push, luego deploy manual FTPS del plugin;
+3. no re-ejecutar bootstrap en producción;
+4. Bootstrap_Admin se conserva hasta una tarea posterior.
 
-No importar el dataset demo de fixtures. El bootstrap editorial **no** se
-ejecuta en esta reanudación (espera aprobación). After ordinary theme QA,
+No importar el dataset demo de fixtures. After ordinary theme QA,
 FSE remains deferred:
 
 1. No importar el dataset demo de fixtures.
