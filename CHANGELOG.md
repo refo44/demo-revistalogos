@@ -15,6 +15,12 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   One rewrite flush is required after this plugin version lands.
 
 ### Added
+- Plugin `revistalogos-core` 0.2.2: temporary administrator-only tool at
+  Tools → Institutional Content Import. It reuses `Content_Migrator`,
+  requires a nonce, `manage_options`, a signed read-only plan, fresh backup
+  evidence and explicit confirmation; blocks protected-slug collisions and
+  exposes no force mode. Local isolated Docker QA passed. Not deployed or
+  executed in production; remove it after institutional recovery.
 - WP-CLI `wp revistalogos fixtures bootstrap`: restricted editorial
   bootstrap (one draft issue, one draft article, one draft author;
   `_les_fixture=1`, kind `bootstrap`; no fake DOI/ORCID/ISSN). Production

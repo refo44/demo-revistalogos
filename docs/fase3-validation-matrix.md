@@ -28,6 +28,13 @@ Corte 2026-08-19: WP 7.0.4 en `https://logo-et-spes.cenfiss.net`; PHP
 efectivo **8.0.30**; transfer FTPS OK. Snapshot:
 `docs/operations/produccion-wordpress.md`.
 
+- **2026-08-19, recuperación institucional (working tree):** plugin
+  `revistalogos-core` **0.2.2**; QA en proyecto Docker aislado
+  `revistalogos-recovery-qa` sobre WordPress 7.0.4/PHP 8.2/MariaDB 11,
+  puerto 8081. El harness destruyó solo sus volúmenes efímeros al terminar;
+  no modificó la BD Docker principal ni producción. Evidencia:
+  `tools/qa-content-recovery-admin.sh`.
+
 Formato de cada fila: validación, método, resultado, estado, commit probado.
 
 ## Nivel 1 — Estático
@@ -54,6 +61,7 @@ Formato de cada fila: validación, método, resultado, estado, commit probado.
 | Despliegue WP solo manual y acotado | revisión de `deploy-wordpress.yml` | solo `workflow_dispatch`; rutas acotadas theme/plugin; sin delete/mirror | Pass | dfb91b8 |
 | Sin secretos en el repo | grep de credenciales; secretos solo como `${{ secrets.* }}` | limpio | Pass | dfb91b8 |
 | Generador de payload | `node tools/generate-content-payload.mjs` | 12 entradas, 3 semillas de media; integridad estricta de `etica` en verde; cobertura canónica normas 18/27, politicas 10/18 (informativa, pendiente de confirmación editorial) | Pass | 5c1697b |
+| Sintaxis PHP de recuperación institucional | `php -l` en Docker sobre migrador, admin temporal y comando CLI | 0 errores de sintaxis | Pass (working tree) | working tree 2026-08-19 |
 
 ## Nivel 2 — Componente
 
@@ -77,6 +85,15 @@ relaciones al borrar posts referenciados.
 | Ciclo completo de fixtures | `teardown --apply` → `verify` → `seed --apply` → `verify` | teardown limpio de posts/media/términos propios; verify reporta 0; reseed 39; verify OK | Pass (local) | dfb91b8 |
 | Registro de CPTs/taxonomías con slugs ADR 0008 | activación + resolución de `/revista/numeros|articulos|autores/` y términos de fixtures | archivos y singles de issue/article 200 (dfb91b8). Single CPT `author`: 404 histórico 2026-08-18; `query_var=journal_author` corrige el single localmente (ver `tools/qa-author-permalinks.sh`) | Pass (local) | working tree 2026-08-19 |
 | Meta boxes admin (nonce/capacidad/sanitización), esquemas REST, limpieza de relaciones al borrar | requiere ejercicio manual en admin/REST | — | Unverified | dfb91b8 |
+| Acceso a herramienta temporal | HTTP autenticado: administrador, suscriptor y anónimo | administrador 200; suscriptor 403; anónimo redirigido a login | Pass (local) | working tree 2026-08-19 |
+| Nonce de herramienta temporal | POST real a Tools sin nonce | rechazado con HTTP 403 antes de enviar cabecera admin; cero importación | Pass (local) | working tree 2026-08-19 |
+| `Validate and Plan` sin escritura | hash SHA-256 de filas completas de posts/postmeta, opciones de lectura/theme mods y tablas de términos/relaciones antes/después | hash before/after idéntico (assert automático); 12 slugs `MISSING`, 12 acciones `create` | Pass (local) | working tree 2026-08-19 |
+| Preflight `MANUAL EXISTING` | Page local `normas` sin `_les_source_key`, plan + intento de importación | bloqueado; no creó `normas-2`; Page de prueba eliminada | Pass (local) | working tree 2026-08-19 |
+| Preflight `AMBIGUOUS` | Page local `acerca` con `_les_source_key=wrong-source` y Page `etica` contaminada con `_les_fixture=1` | ambos bloqueados; no creó `acerca-2`; objetos efímeros eliminados con el entorno aislado | Pass (local) | working tree 2026-08-19 |
+| Guards de importación admin | POST sin evidencia, sin confirmación, sin plan firmado, parámetro `force=1` inyectado | cada ausencia bloquea; UI sin campo force; controlador fija `import_report(true, false)` | Pass (local) | working tree 2026-08-19 |
+| Error runtime de media | `upload_path` efímero apuntado a un archivo no escribible durante el import admin | errores visibles; Verify FAIL; no se ejecutan etapas de Pages/settings; 0 Pages y 0 adjuntos migrados | Pass (local) | working tree 2026-08-19 |
+| Importación institucional admin | POST real con plan vigente, evidencia local y confirmación | 12 Pages, 3 adjuntos, 3 menús; 21 items/títulos y 3 locations exactos; 4 opciones de lectura exactas; 5 marcadores `_les_source_*` en cada Page; ningún `_les_fixture`; usuarios y CPT issue/article/author sin cambios | Pass (local) | working tree 2026-08-19 |
+| Verify + idempotencia admin | Verify automático, acción Verify separada y nuevo Validate/Plan | 15/15 OK (12 Pages + 3 media); 12 `MIGRATION OWNED`; re-plan 12 `skip`; 0 missing/stale/drifted/contaminated | Pass (local) | working tree 2026-08-19 |
 
 ## Nivel 3 — Integración
 
@@ -89,6 +106,7 @@ relaciones al borrar posts referenciados.
 | WP Statistics instalado y sirviendo assets localmente (ADR 0011) | instalación 14.16.10 + inspección de HTML | activo; tracker JS servido desde el propio sitio; configuración operativa de `docs/operations/third-party-plugins.md` pendiente en producción | Pass (local) | dfb91b8 |
 | Despliegue FTPS a producción (workflow WU11) | GitHub Actions run #1, Environment `wordpress-production` | Jobs theme + plugin **Success** (~27 s). Theme y plugin activos en `logo-et-spes.cenfiss.net`. QA de paridad/cookies/CF7/cabeceras en el hosting sigue abierta. | Pass (transfer) | 8ebc8ee |
 | Cabeceras de seguridad del hosting (ADR 0012) | requiere curl al hosting real | — | Unverified | dfb91b8 |
+| Smoke HTTP tras recuperación institucional | `curl` contra Docker aislado | 200 en `/`, `/normas/`, `/enviar-colaboracion/`, `/acerca/`, `/contacto/`, `/noticias/`, `/etica/`, `/politicas/`, `/comite-editorial/`, `/privacidad/`, `/buscar/`, `/enlaces/` | Pass (local) | working tree 2026-08-19 |
 
 ## Nivel 4 — Regresión de cara al usuario
 

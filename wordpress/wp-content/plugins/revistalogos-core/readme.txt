@@ -3,7 +3,7 @@ Contributors: cenfiss
 Requires at least: 6.4
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.2.1
+Stable tag: 0.2.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,11 +30,21 @@ Dueño del dominio de publicación de la revista (ADR 0005): el theme
 * Comandos WP-CLI de migración institucional (`wp revistalogos content
   validate|plan|import|verify`, dry-run por defecto) y de fixtures
   (`wp revistalogos fixtures seed|verify|teardown`).
+* Herramienta temporal y exclusiva para administradores en Herramientas →
+  Institutional Content Import. Reutiliza el mismo migrador, bloquea
+  colisiones de slugs y no expone modo force. Debe retirarse tras recuperar
+  las páginas institucionales en producción.
 
 Fase 3: los campos `issn`, `doi` y `orcid` son almacenamiento base inerte;
 la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
 
 == Changelog ==
+
+= 0.2.2 =
+* Añade la herramienta temporal de recuperación institucional en wp-admin.
+
+= 0.2.1 =
+* Corrige el query var de los singles del CPT author.
 
 = 0.2.0 =
 * Alineado con la versión de proyecto 0.2.0.

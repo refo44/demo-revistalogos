@@ -4,8 +4,9 @@
  * the generated payload shipped under resources/ (never repository
  * paths) and creates or updates WordPress objects idempotently.
  *
- * Never runs on activation, on normal requests, through any public
- * endpoint or during deployment: only the WP-CLI command calls in.
+ * Never runs on activation, on public requests or during deployment:
+ * only operator-run WP-CLI commands and the temporary administrator-only
+ * recovery screen call in.
  *
  * @package Revistalogos_Core
  */
@@ -34,6 +35,29 @@ class Content_Migrator {
 	const META_VERSION = '_les_migration_version';
 	const META_OWNED = '_les_migration_owned';
 	const META_IMPORTED_HASH = '_les_imported_hash';
+
+	const SLUG_MISSING = 'MISSING';
+	const SLUG_MIGRATION_OWNED = 'MIGRATION OWNED';
+	const SLUG_MANUAL_EXISTING = 'MANUAL EXISTING';
+	const SLUG_AMBIGUOUS = 'AMBIGUOUS';
+
+	/**
+	 * Institutional routes protected by the recovery preflight.
+	 */
+	const PROTECTED_SLUGS = array(
+		'inicio'             => 'home',
+		'noticias'           => 'noticias',
+		'buscar'             => 'buscar',
+		'normas'             => 'normas',
+		'etica'              => 'etica',
+		'politicas'          => 'politicas',
+		'acerca'             => 'acerca',
+		'contacto'           => 'contacto',
+		'enviar-colaboracion' => 'enviar-colaboracion',
+		'comite-editorial'   => 'comite-editorial',
+		'enlaces'            => 'enlaces',
+		'privacidad'         => 'privacidad',
+	);
 
 	/**
 	 * Decoded payload.
@@ -87,6 +111,279 @@ class Content_Migrator {
 	}
 
 	/**
+	 * Validate the payload and its media seeds for every operator surface.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function validation_report() {
+		$report = array(
+			'valid'    => false,
+			'summary'  => array(),
+			'warnings' => array(),
+			'errors'   => array(),
+			'coverage' => array(),
+		);
+		$loaded = $this->load();
+
+		if ( is_wp_error( $loaded ) ) {
+			$report['errors'][] = $loaded->get_error_message();
+			return $report;
+		}
+
+		$payload = $this->payload();
+
+		$report['summary'] = array(
+			'payload_version'   => (string) $payload['payload_version'],
+			'generator_version' => (string) ( $payload['generator_version'] ?? '' ),
+			'generated_at'      => (string) ( $payload['generated_at'] ?? '' ),
+			'entries'           => count( (array) $payload['entries'] ),
+			'media'             => count( (array) ( $payload['media'] ?? array() ) ),
+		);
+		$report['warnings'] = (array) ( $payload['warnings'] ?? array() );
+		$report['coverage'] = (array) ( $payload['coverage_report'] ?? array() );
+
+		foreach ( (array) ( $payload['media'] ?? array() ) as $media ) {
+			if ( empty( $media['file'] ) || empty( $media['sha256'] ) ) {
+				$report['errors'][] = 'Media seed is missing file or sha256 metadata.';
+				continue;
+			}
+
+			$file = REVISTALOGOS_CORE_DIR . 'resources/' . $media['file'];
+
+			if ( ! file_exists( $file ) ) {
+				$report['errors'][] = sprintf( 'media seed missing: %s', $media['file'] );
+			} elseif ( hash_file( 'sha256', $file ) !== $media['sha256'] ) {
+				$report['errors'][] = sprintf( 'media seed checksum mismatch: %s', $media['file'] );
+			}
+		}
+
+		$report['valid'] = empty( $report['errors'] );
+
+		return $report;
+	}
+
+	/**
+	 * Build the complete dry-run report used by WP-CLI and wp-admin.
+	 *
+	 * @param bool $force Plan forced updates for the WP-CLI surface.
+	 * @return array<string, mixed>
+	 */
+	public function plan( $force = false ) {
+		$entries      = array();
+		$fatal_errors = array();
+
+		foreach ( $this->payload()['entries'] as $entry ) {
+			$row       = array_merge(
+				array(
+					'key'   => $entry['source_key'],
+					'slug'  => $entry['slug'],
+					'title' => $entry['title'],
+				),
+				$this->plan_entry( $entry, $force )
+			);
+			$entries[] = $row;
+
+			if ( 'conflict' === $row['action'] || 0 === strpos( $row['action'], 'ERROR' ) ) {
+				$fatal_errors[] = sprintf( '%s: %s', $row['key'], $row['reason'] );
+			}
+		}
+
+		$media = $this->import_media( false );
+
+		foreach ( $media as $row ) {
+			if ( 0 === strpos( $row['action'], 'ERROR' ) ) {
+				$fatal_errors[] = sprintf( '%s: %s', $row['key'], $row['action'] );
+			}
+		}
+
+		$site = $this->apply_site_settings( false, $force );
+
+		foreach ( $site as $line ) {
+			if ( false !== strpos( $line, 'ERROR' ) ) {
+				$fatal_errors[] = $line;
+			}
+		}
+
+		return array(
+			'media'        => $media,
+			'entries'      => $entries,
+			'site'         => $site,
+			'slugs'        => $this->preflight_slugs(),
+			'fatal_errors' => $fatal_errors,
+		);
+	}
+
+	/**
+	 * Run the existing migration operations and return their shared report.
+	 *
+	 * @param bool $apply Write when true.
+	 * @param bool $force Reassert migration-owned fields for WP-CLI only.
+	 * @return array<string, mixed>
+	 */
+	public function import_report( $apply, $force = false ) {
+		$report = array(
+			'media'   => array(),
+			'entries' => array(),
+			'site'    => array(),
+		);
+
+		if ( $apply ) {
+			foreach ( $this->preflight_slugs() as $row ) {
+				if ( in_array( $row['status'], array( self::SLUG_MANUAL_EXISTING, self::SLUG_AMBIGUOUS ), true ) ) {
+					$report['site'][] = sprintf( 'ERROR: protected slug %s is %s; import not started.', $row['slug'], $row['status'] );
+				}
+			}
+
+			if ( $report['site'] ) {
+				return $report;
+			}
+		}
+
+		$report['media'] = $this->import_media( $apply );
+
+		if ( $apply && $this->import_report_errors( $report ) ) {
+			$report['site'][] = 'ERROR: Page and site-setting stages were not run because media import failed.';
+			return $report;
+		}
+
+		$report['entries'] = $this->import_entries( $apply, $force );
+
+		if ( $apply && $this->import_report_errors( $report ) ) {
+			$report['site'][] = 'ERROR: Site-setting stage was not run because Page import failed or left unresolved tokens.';
+			return $report;
+		}
+
+		$report['site'] = $this->apply_site_settings( $apply, $force );
+
+		return $report;
+	}
+
+	/**
+	 * Collect runtime errors and unresolved tokens from an import report.
+	 *
+	 * @param array $report Import report.
+	 * @return string[]
+	 */
+	public function import_report_errors( $report ) {
+		$errors = array();
+
+		foreach ( (array) ( $report['media'] ?? array() ) as $row ) {
+			if ( 0 === strpos( $row['action'], 'ERROR' ) ) {
+				$errors[] = sprintf( 'media %s: %s', $row['key'], $row['action'] );
+			}
+		}
+
+		foreach ( (array) ( $report['entries'] ?? array() ) as $row ) {
+			if ( 0 === strpos( $row['action'], 'ERROR' ) ) {
+				$errors[] = sprintf( 'entry %s: %s', $row['key'], $row['reason'] ?? $row['action'] );
+			}
+
+			if ( ! empty( $row['unresolved'] ) ) {
+				$errors[] = sprintf( 'entry %s unresolved tokens: %s', $row['key'], implode( ', ', $row['unresolved'] ) );
+			}
+		}
+
+		foreach ( (array) ( $report['site'] ?? array() ) as $line ) {
+			if ( false !== strpos( $line, 'ERROR' ) ) {
+				$errors[] = $line;
+			}
+		}
+
+		return $errors;
+	}
+
+	/**
+	 * Classify every protected institutional slug before a recovery import.
+	 *
+	 * @return array<int, array<string, mixed>>
+	 */
+	public function preflight_slugs() {
+		$results = array();
+
+		foreach ( self::PROTECTED_SLUGS as $slug => $source_key ) {
+			$slug_pages   = $this->find_pages_by_slug( $slug );
+			$source_pages = $this->find_all_by_source_key( $source_key, 'page' );
+			$row          = array(
+				'slug'       => $slug,
+				'source_key' => $source_key,
+				'status'     => self::SLUG_MISSING,
+				'post_id'    => 0,
+				'title'      => '',
+				'detail'     => 'No Page has this slug or migration source key.',
+			);
+
+			if ( count( $slug_pages ) > 1 ) {
+				$row['status'] = self::SLUG_AMBIGUOUS;
+				$row['detail'] = 'Multiple Pages have this protected slug.';
+				$results[]     = $row;
+				continue;
+			}
+
+			if ( count( $source_pages ) > 1 ) {
+				$row['status'] = self::SLUG_AMBIGUOUS;
+				$row['detail'] = 'Multiple Pages have the expected migration source key.';
+				$results[]     = $row;
+				continue;
+			}
+
+			if ( ! $slug_pages ) {
+				if ( $source_pages ) {
+					$row['status']  = self::SLUG_AMBIGUOUS;
+					$row['post_id'] = (int) $source_pages[0]->ID;
+					$row['title']   = (string) $source_pages[0]->post_title;
+					$row['detail']  = sprintf( 'The expected migration-owned Page exists under the slug "%s".', $source_pages[0]->post_name );
+				}
+
+				$results[] = $row;
+				continue;
+			}
+
+			$page              = $slug_pages[0];
+			$current_source    = (string) get_post_meta( $page->ID, self::META_SOURCE_KEY, true );
+			$fixture_marker    = (string) get_post_meta( $page->ID, '_les_fixture', true );
+			$row['post_id']    = (int) $page->ID;
+			$row['title']      = (string) $page->post_title;
+			$row['detail']     = 'Existing Page is owned by the institutional migration.';
+
+			if ( '' !== $fixture_marker ) {
+				$row['status'] = self::SLUG_AMBIGUOUS;
+				$row['detail'] = 'The protected slug is contaminated by a fixture marker.';
+			} elseif ( $source_pages && (int) $source_pages[0]->ID !== (int) $page->ID ) {
+				$row['status'] = self::SLUG_AMBIGUOUS;
+				$row['detail'] = 'The expected migration source key belongs to a different Page.';
+			} elseif ( '' === $current_source ) {
+				$row['status'] = self::SLUG_MANUAL_EXISTING;
+				$row['detail'] = 'A Page has this slug without a migration source key.';
+			} elseif ( $source_key !== $current_source ) {
+				$row['status'] = self::SLUG_AMBIGUOUS;
+				$row['detail'] = sprintf( 'The Page source key is "%s", expected "%s".', $current_source, $source_key );
+			} else {
+				$row['status'] = self::SLUG_MIGRATION_OWNED;
+			}
+
+			$results[] = $row;
+		}
+
+		return $results;
+	}
+
+	/**
+	 * Determine whether a slug preflight contains a blocking state.
+	 *
+	 * @param array $rows Slug preflight rows.
+	 * @return bool
+	 */
+	public function has_blocking_slug_collisions( $rows ) {
+		foreach ( $rows as $row ) {
+			if ( in_array( $row['status'], array( self::SLUG_MANUAL_EXISTING, self::SLUG_AMBIGUOUS ), true ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Find a migrated object by its stable source key.
 	 *
 	 * @param string $source_key Source key.
@@ -94,16 +391,7 @@ class Content_Migrator {
 	 * @return \WP_Post|null
 	 */
 	public function find_by_source_key( $source_key, $post_type = 'page' ) {
-		$posts = get_posts(
-			array(
-				'post_type'      => $post_type,
-				'post_status'    => 'any',
-				'posts_per_page' => 1,
-				'meta_key'       => self::META_SOURCE_KEY,
-				'meta_value'     => $source_key,
-				'no_found_rows'  => true,
-			)
-		);
+		$posts = $this->find_all_by_source_key( $source_key, $post_type );
 
 		return $posts ? $posts[0] : null;
 	}
@@ -339,6 +627,15 @@ class Content_Migrator {
 				continue;
 			}
 
+			if ( ! $plan['post_id'] && $this->find_pages_by_slug( $entry['slug'] ) ) {
+				$results[] = array(
+					'key'    => $entry['source_key'],
+					'action' => 'ERROR',
+					'reason' => 'protected slug collision detected immediately before insert',
+				);
+				continue;
+			}
+
 			$resolved = $this->resolve_tokens( (string) $entry['content_html'] );
 
 			$postarr = array(
@@ -373,6 +670,20 @@ class Content_Migrator {
 					'reason' => $post_id->get_error_message(),
 				);
 				continue;
+			}
+
+			if ( ! $plan['post_id'] ) {
+				$created = get_post( $post_id );
+
+				if ( ! $created || (string) $created->post_name !== (string) $entry['slug'] ) {
+					wp_delete_post( $post_id, true );
+					$results[] = array(
+						'key'    => $entry['source_key'],
+						'action' => 'ERROR',
+						'reason' => 'WordPress changed the protected slug during insert; the new Page was removed',
+					);
+					continue;
+				}
 			}
 
 			$written = get_post_field( 'post_content', $post_id );
@@ -439,7 +750,12 @@ class Content_Migrator {
 
 			if ( $apply ) {
 				update_option( $option, $value );
-				$report[] = sprintf( '%s set to %s', $option, (string) $value );
+
+				if ( (string) get_option( $option ) === (string) $value ) {
+					$report[] = sprintf( '%s set to %s', $option, (string) $value );
+				} else {
+					$report[] = sprintf( '%s ERROR: update did not persist expected value %s', $option, (string) $value );
+				}
 			} else {
 				$report[] = sprintf( '%s would change %s -> %s', $option, (string) $current, (string) $value );
 			}
@@ -465,6 +781,7 @@ class Content_Migrator {
 		$report = array();
 		$name   = (string) $cfg['name'];
 		$menu   = wp_get_nav_menu_object( $name );
+		$menu_existed = (bool) $menu;
 
 		if ( $menu && ! $force ) {
 			$report[] = sprintf( 'menu "%s" exists; left untouched (owner-managed; --force rebuilds)', $name );
@@ -485,16 +802,40 @@ class Content_Migrator {
 				}
 			}
 
+			$item_error = null;
+
 			foreach ( (array) $cfg['items'] as $item ) {
 				$parent_id = $this->insert_menu_item( $menu_id, $item, 0 );
 
-				foreach ( (array) ( $item['children'] ?? array() ) as $child ) {
-					$this->insert_menu_item( $menu_id, $child, $parent_id );
+				if ( is_wp_error( $parent_id ) ) {
+					$item_error = $parent_id;
+					break;
 				}
+
+				foreach ( (array) ( $item['children'] ?? array() ) as $child ) {
+					$child_id = $this->insert_menu_item( $menu_id, $child, $parent_id );
+
+					if ( is_wp_error( $child_id ) ) {
+						$item_error = $child_id;
+						break 2;
+					}
+				}
+			}
+
+			if ( $item_error ) {
+				if ( ! $menu_existed ) {
+					wp_delete_nav_menu( $menu_id );
+				}
+
+				return array( sprintf( 'menu "%s" ERROR: %s', $name, $item_error->get_error_message() ) );
 			}
 
 			$report[] = sprintf( 'menu "%s" %s', $name, $menu ? 'rebuilt' : 'created' );
 			$menu     = wp_get_nav_menu_object( $name );
+
+			if ( ! $menu ) {
+				return array( sprintf( 'menu "%s" ERROR: created menu could not be reloaded', $name ) );
+			}
 		}
 
 		// Assign the location only when it is empty (never steal an
@@ -505,7 +846,13 @@ class Content_Migrator {
 			if ( $apply ) {
 				$locations[ $location ] = $menu->term_id;
 				set_theme_mod( 'nav_menu_locations', $locations );
-				$report[] = sprintf( 'location %s assigned to "%s"', $location, $name );
+				$saved_locations = get_theme_mod( 'nav_menu_locations', array() );
+
+				if ( isset( $saved_locations[ $location ] ) && (int) $saved_locations[ $location ] === (int) $menu->term_id ) {
+					$report[] = sprintf( 'location %s assigned to "%s"', $location, $name );
+				} else {
+					$report[] = sprintf( 'location %s ERROR: assignment to "%s" did not persist', $location, $name );
+				}
 			} else {
 				$report[] = sprintf( 'location %s would be assigned to "%s"', $location, $name );
 			}
@@ -522,7 +869,7 @@ class Content_Migrator {
 	 * @param int   $menu_id   Menu ID.
 	 * @param array $item      Item config.
 	 * @param int   $parent_id Parent menu item ID.
-	 * @return int Menu item ID.
+	 * @return int|\WP_Error Menu item ID or insertion error.
 	 */
 	private function insert_menu_item( $menu_id, $item, $parent_id ) {
 		$args = array(
@@ -539,8 +886,7 @@ class Content_Migrator {
 				$args['menu-item-object']    = 'page';
 				$args['menu-item-object-id'] = $page->ID;
 			} else {
-				$args['menu-item-type'] = 'custom';
-				$args['menu-item-url']  = home_url( '/' );
+				return new \WP_Error( 'missing_menu_page', sprintf( 'Page source "%s" was not found for menu item "%s".', $item['page'], $item['title'] ) );
 			}
 		} else {
 			$url = (string) $item['url'];
@@ -557,7 +903,7 @@ class Content_Migrator {
 
 		$item_id = wp_update_nav_menu_item( $menu_id, 0, $args );
 
-		return is_wp_error( $item_id ) ? 0 : (int) $item_id;
+		return is_wp_error( $item_id ) ? $item_id : (int) $item_id;
 	}
 
 	/**
@@ -566,7 +912,12 @@ class Content_Migrator {
 	 * @return array<int, array<string, string>>
 	 */
 	public function verify() {
-		$results = array();
+		$results     = array();
+		$slug_states = array();
+
+		foreach ( $this->preflight_slugs() as $row ) {
+			$slug_states[ $row['source_key'] ] = $row;
+		}
 
 		foreach ( $this->payload['entries'] as $entry ) {
 			$existing = $this->find_by_source_key( $entry['source_key'], $entry['post_type'] );
@@ -586,6 +937,10 @@ class Content_Migrator {
 
 			if ( $has_fixture ) {
 				$status = 'ERROR: canonical object carries fixture marker';
+			} elseif ( isset( $slug_states[ $entry['source_key'] ] ) && self::SLUG_MIGRATION_OWNED !== $slug_states[ $entry['source_key'] ]['status'] ) {
+				$status = 'ERROR: protected slug is ' . $slug_states[ $entry['source_key'] ]['status'];
+			} elseif ( (string) $existing->post_name !== (string) $entry['slug'] ) {
+				$status = sprintf( 'ERROR: unexpected slug "%s" (expected "%s")', $existing->post_name, $entry['slug'] );
 			} elseif ( $stored_source !== (string) $entry['content_text_sha256'] ) {
 				$status = 'STALE (payload newer than imported version)';
 			} elseif ( $stored_imported !== $current ) {
@@ -600,6 +955,81 @@ class Content_Migrator {
 			);
 		}
 
+		foreach ( (array) ( $this->payload['media'] ?? array() ) as $media ) {
+			$attachment_id = $this->find_attachment( $media['source_key'] );
+
+			if ( ! $attachment_id ) {
+				$results[] = array(
+					'key'    => $media['source_key'],
+					'status' => 'MISSING',
+				);
+				continue;
+			}
+
+			$stored_source = (string) get_post_meta( $attachment_id, self::META_SOURCE_HASH, true );
+			$has_fixture   = '' !== (string) get_post_meta( $attachment_id, '_les_fixture', true );
+			$file          = get_attached_file( $attachment_id );
+
+			if ( $has_fixture ) {
+				$status = 'ERROR: canonical media carries fixture marker';
+			} elseif ( $stored_source !== (string) $media['sha256'] ) {
+				$status = 'STALE (payload newer than imported version)';
+			} elseif ( ! $file || ! file_exists( $file ) ) {
+				$status = 'ERROR: imported media file is missing';
+			} elseif ( hash_file( 'sha256', $file ) !== (string) $media['sha256'] ) {
+				$status = 'DRIFTED (imported media checksum changed)';
+			} else {
+				$status = 'OK';
+			}
+
+			$results[] = array(
+				'key'    => $media['source_key'],
+				'status' => $status,
+			);
+		}
+
 		return $results;
+	}
+
+	/**
+	 * Find all objects carrying one migration source key.
+	 *
+	 * @param string $source_key Source key.
+	 * @param string $post_type  Post type.
+	 * @return \WP_Post[]
+	 */
+	private function find_all_by_source_key( $source_key, $post_type ) {
+		return get_posts(
+			array(
+				'post_type'      => $post_type,
+				'post_status'    => array( 'publish', 'future', 'draft', 'pending', 'private', 'trash' ),
+				'posts_per_page' => -1,
+				'meta_key'       => self::META_SOURCE_KEY,
+				'meta_value'     => $source_key,
+				'orderby'        => 'ID',
+				'order'          => 'ASC',
+				'no_found_rows'  => true,
+			)
+		);
+	}
+
+	/**
+	 * Find every Page with an exact protected slug, including trash.
+	 *
+	 * @param string $slug Page slug.
+	 * @return \WP_Post[]
+	 */
+	private function find_pages_by_slug( $slug ) {
+		return get_posts(
+			array(
+				'post_type'      => 'page',
+				'post_status'    => array( 'publish', 'future', 'draft', 'pending', 'private', 'trash' ),
+				'posts_per_page' => -1,
+				'name'           => $slug,
+				'orderby'        => 'ID',
+				'order'          => 'ASC',
+				'no_found_rows'  => true,
+			)
+		);
 	}
 }

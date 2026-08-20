@@ -152,6 +152,57 @@ No confundir. El workflow de GitHub **no** incluye rollback de BD.
 
 Rollback por escenario: [wordpress-manual-deployment.md](wordpress-manual-deployment.md) § ROLLBACK.
 
+## Recuperación temporal de páginas institucionales (pendiente)
+
+**Estado 2026-08-19:** rutas institucionales como `/normas/` responden 404
+porque las Pages reales no fueron importadas a la BD de producción. El
+payload y `Content_Migrator` ya existen. El workflow FTPS solo transfiere
+theme/plugin y nunca escribe la BD.
+
+SSH no estaba disponible en el hosting al preparar esta recuperación. Por
+eso se implementó una vía temporal en wp-admin:
+**Herramientas → Institutional Content Import**. No es UI permanente ni
+reemplaza WP-CLI en Docker. El código está validado solo en el working tree
+local, plugin `revistalogos-core` 0.2.2; **no está desplegado ni ejecutado en
+producción**.
+
+Controles:
+
+- solo usuario autenticado con `manage_options`;
+- POST con nonce para cada acción;
+- primer paso `Validate and Plan`, sin escrituras;
+- preflight de los 12 slugs institucionales; `MANUAL EXISTING` o
+  `AMBIGUOUS` bloquea;
+- plan firmado ligado al usuario y al estado mostrado; un plan viejo bloquea;
+- evidencia de backup fresco + confirmación explícita;
+- importación directa mediante `Content_Migrator`, siempre sin force;
+- un error runtime de media detiene las etapas de Pages/settings y queda
+  visible; Verify también comprueba slug exacto y checksum de los 3 media;
+- no llama fixtures, no toca usuarios ni CPTs issue/article/author;
+- Verify usa el mismo servicio que `wp revistalogos content verify`;
+- no cambia robots, sitemap ni visibilidad para buscadores.
+
+Procedimiento futuro exacto — ejecutar solo tras aprobación del propietario:
+
+1. commit/push only after owner approval;
+2. deploy plugin via existing manual production workflow;
+3. open temporary wp-admin import tool;
+4. run Validate and Plan;
+5. STOP if collision/error;
+6. create fresh JetBackup On Demand;
+7. enter real backup evidence;
+8. explicitly confirm;
+9. run institutional import;
+10. inspect Verify;
+11. test public P0 routes;
+12. after recovery, remove temporary admin tool in a follow-up patch.
+
+La retirada debe eliminar
+`includes/migration/class-content-recovery-admin.php`, su `require_once` y
+`Content_Recovery_Admin::register_hooks()` en `includes/class-plugin.php`,
+subir un nuevo patch del plugin y repetir la QA aplicable. No retirar ni
+modificar `Content_Migrator` ni los comandos WP-CLI.
+
 ## Restos del sitio estático (deuda operativa)
 
 WordPress se instaló sobre la carpeta del estático. Siguen en el document

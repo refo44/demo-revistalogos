@@ -33,36 +33,18 @@ class Content_Command {
 	 */
 	public function validate( $args, $assoc_args ) {
 		$migrator = new Content_Migrator();
-		$loaded   = $migrator->load();
+		$report   = $migrator->validation_report();
 
-		if ( is_wp_error( $loaded ) ) {
-			WP_CLI::error( $loaded->get_error_message() );
+		if ( $report['summary'] ) {
+			WP_CLI::log( sprintf( 'Payload version %s, generator %s, generated %s.', $report['summary']['payload_version'], $report['summary']['generator_version'], $report['summary']['generated_at'] ) );
+			WP_CLI::log( sprintf( '%d entries, %d media seeds.', $report['summary']['entries'], $report['summary']['media'] ) );
 		}
 
-		$payload = $migrator->payload();
-
-		WP_CLI::log( sprintf( 'Payload version %s, generator %s, generated %s.', $payload['payload_version'], $payload['generator_version'], $payload['generated_at'] ) );
-		WP_CLI::log( sprintf( '%d entries, %d media seeds.', count( $payload['entries'] ), count( $payload['media'] ?? array() ) ) );
-
-		$problems = 0;
-
-		foreach ( (array) ( $payload['media'] ?? array() ) as $media ) {
-			$file = REVISTALOGOS_CORE_DIR . 'resources/' . $media['file'];
-
-			if ( ! file_exists( $file ) ) {
-				WP_CLI::warning( sprintf( 'media seed missing: %s', $media['file'] ) );
-				$problems++;
-			} elseif ( hash_file( 'sha256', $file ) !== $media['sha256'] ) {
-				WP_CLI::warning( sprintf( 'media seed checksum mismatch: %s', $media['file'] ) );
-				$problems++;
-			}
-		}
-
-		foreach ( (array) ( $payload['warnings'] ?? array() ) as $warning ) {
+		foreach ( $report['warnings'] as $warning ) {
 			WP_CLI::log( 'generator warning: ' . $warning );
 		}
 
-		foreach ( (array) ( $payload['coverage_report'] ?? array() ) as $coverage ) {
+		foreach ( $report['coverage'] as $coverage ) {
 			WP_CLI::log(
 				sprintf(
 					'canonical coverage %s: %d/%d paragraphs verbatim (%s)',
@@ -74,8 +56,12 @@ class Content_Command {
 			);
 		}
 
-		if ( $problems > 0 ) {
-			WP_CLI::error( sprintf( '%d problem(s) found.', $problems ) );
+		foreach ( $report['errors'] as $error ) {
+			WP_CLI::warning( $error );
+		}
+
+		if ( ! $report['valid'] ) {
+			WP_CLI::error( sprintf( '%d problem(s) found.', count( $report['errors'] ) ) );
 		}
 
 		WP_CLI::success( 'Payload is valid.' );
@@ -95,17 +81,17 @@ class Content_Command {
 	public function plan( $args, $assoc_args ) {
 		$migrator = $this->load_or_die();
 		$force    = isset( $assoc_args['force'] );
+		$report   = $migrator->plan( $force );
 
-		foreach ( $migrator->import_media( false ) as $row ) {
+		foreach ( $report['media'] as $row ) {
 			WP_CLI::log( sprintf( 'media %-45s %s', $row['key'], $row['action'] ) );
 		}
 
-		foreach ( $migrator->payload()['entries'] as $entry ) {
-			$plan = $migrator->plan_entry( $entry, $force );
-			WP_CLI::log( sprintf( 'entry %-25s %-14s %s', $entry['source_key'], $plan['action'], $plan['reason'] ) );
+		foreach ( $report['entries'] as $row ) {
+			WP_CLI::log( sprintf( 'entry %-25s %-14s %s', $row['key'], $row['action'], $row['reason'] ) );
 		}
 
-		foreach ( $migrator->apply_site_settings( false, $force ) as $line ) {
+		foreach ( $report['site'] as $line ) {
 			WP_CLI::log( 'site  ' . $line );
 		}
 
@@ -151,17 +137,29 @@ class Content_Command {
 			WP_CLI::log( 'Dry-run (pass --apply to write).' );
 		}
 
-		foreach ( $migrator->import_media( $apply ) as $row ) {
+		$report = $migrator->import_report( $apply, $force );
+
+		foreach ( $report['media'] as $row ) {
 			WP_CLI::log( sprintf( 'media %-45s %s (id %d)', $row['key'], $row['action'], $row['id'] ) );
 		}
 
-		foreach ( $migrator->import_entries( $apply, $force ) as $row ) {
+		foreach ( $report['entries'] as $row ) {
 			$extra = ! empty( $row['unresolved'] ) ? ' UNRESOLVED: ' . implode( ', ', $row['unresolved'] ) : '';
 			WP_CLI::log( sprintf( 'entry %-25s %-14s %s%s', $row['key'], $row['action'], $row['reason'] ?? '', $extra ) );
 		}
 
-		foreach ( $migrator->apply_site_settings( $apply, $force ) as $line ) {
+		foreach ( $report['site'] as $line ) {
 			WP_CLI::log( 'site  ' . $line );
+		}
+
+		$errors = $migrator->import_report_errors( $report );
+
+		foreach ( $errors as $error ) {
+			WP_CLI::warning( $error );
+		}
+
+		if ( $errors ) {
+			WP_CLI::error( sprintf( 'Import stopped with %d error(s).', count( $errors ) ) );
 		}
 
 		WP_CLI::success( $apply ? 'Import applied.' : 'Dry-run complete; nothing written.' );
