@@ -162,9 +162,11 @@ assert_contains "$TMP/apply.txt" "volume-1-issue-1: created"
 assert_contains "$TMP/apply.txt" "volume-1-article-1: created"
 ISSUE_ID="$(cli post list --post_type=issue --meta_key=_les_bootstrap_key --meta_value=volume-1-issue-1 --format=ids)"
 ARTICLE1_ID="$(cli post list --post_type=article --meta_key=_les_bootstrap_key --meta_value=volume-1-article-1 --format=ids)"
+ARTICLE2_ID="$(cli post list --post_type=article --meta_key=_les_bootstrap_key --meta_value=volume-1-article-2 --format=ids)"
 EDITORIAL_ID="$(cli post list --post_type=article --meta_key=_les_bootstrap_key --meta_value=volume-1-editorial --format=ids)"
 [[ "$ISSUE_ID" =~ ^[0-9]+$ ]] || fail "missing Volume 1 issue"
 [[ "$ARTICLE1_ID" =~ ^[0-9]+$ ]] || fail "missing article 1"
+[[ "$ARTICLE2_ID" =~ ^[0-9]+$ ]] || fail "missing article 2"
 [[ "$EDITORIAL_ID" =~ ^[0-9]+$ ]] || fail "missing editorial"
 ISSUE_COUNT="$(cli post list --post_type=issue --post_status=any --format=count)"
 ARTICLE_COUNT="$(cli post list --post_type=article --post_status=any --format=count)"
@@ -242,25 +244,82 @@ TITLE_AFTER="$(cli post get "$ARTICLE1_ID" --field=post_title)"
 pass "adopted article is classified and not overwritten"
 
 echo "== teardown refuses adopted content and leaves Rafael/Pages =="
+MANUAL_POST_ID="$(cli post create --post_type=post --post_title='Nota manual no bootstrap' --post_status=publish --porcelain)"
+[[ "$MANUAL_POST_ID" =~ ^[0-9]+$ ]] || fail "could not create unrelated manual post"
+
+echo "== editorial ownership immediately before teardown =="
+cli eval '$id = (int) '"$EDITORIAL_ID"';
+$p = get_post($id);
+if ( ! $p ) { echo "missing editorial"; exit(1); }
+$ref = new ReflectionMethod("Revistalogos_Core\\Fixtures", "snapshot_hash");
+$ref->setAccessible(true);
+$computed = $ref->invoke(null, $id);
+$stored = (string) get_post_meta($id, "_les_bootstrap_source_hash", true);
+$ids = Revistalogos_Core\Fixtures::all_bootstrap_ids();
+echo "post_type=" . $p->post_type . PHP_EOL;
+echo "slug=" . $p->post_name . PHP_EOL;
+echo "post_status=" . $p->post_status . PHP_EOL;
+echo "_les_bootstrap=" . get_post_meta($id, "_les_bootstrap", true) . PHP_EOL;
+echo "_les_bootstrap_key=" . get_post_meta($id, "_les_bootstrap_key", true) . PHP_EOL;
+echo "_les_bootstrap_kind=" . get_post_meta($id, "_les_bootstrap_kind", true) . PHP_EOL;
+echo "_les_bootstrap_version=" . get_post_meta($id, "_les_bootstrap_version", true) . PHP_EOL;
+echo "_les_bootstrap_source_hash=" . $stored . PHP_EOL;
+echo "_les_bootstrap_adopted=" . get_post_meta($id, "_les_bootstrap_adopted", true) . PHP_EOL;
+echo "_les_fixture=" . get_post_meta($id, "_les_fixture", true) . PHP_EOL;
+echo "computed_hash=" . $computed . PHP_EOL;
+echo "hash_match=" . ( $computed === $stored ? "1" : "0" ) . PHP_EOL;
+echo "is_adopted=" . ( Revistalogos_Core\Fixtures::is_adopted($id) ? "1" : "0" ) . PHP_EOL;
+echo "in_all_bootstrap_ids=" . ( in_array($id, $ids, true) ? "1" : "0" ) . PHP_EOL;
+echo "all_bootstrap_count=" . count($ids) . PHP_EOL;
+'
+
 cli revistalogos fixtures teardown --kind=bootstrap >"$TMP/teardown-plan.txt"
-assert_contains "$TMP/teardown-plan.txt" "would delete"
+assert_contains "$TMP/teardown-plan.txt" "would delete article ${EDITORIAL_ID}"
+assert_contains "$TMP/teardown-plan.txt" "would delete issue ${ISSUE_ID}"
+assert_contains "$TMP/teardown-plan.txt" "would delete article ${ARTICLE2_ID}"
 assert_contains "$TMP/teardown-plan.txt" "adopted Volume 1 content; teardown refused"
-if rg -q " $AUTHOR_ID" "$TMP/teardown-plan.txt" && rg -q "would delete author $AUTHOR_ID" "$TMP/teardown-plan.txt"; then
+assert_contains "$TMP/teardown-plan.txt" "kept article ${ARTICLE1_ID} (adopted Volume 1 content; teardown refused)"
+if rg -q "would delete author ${AUTHOR_ID}" "$TMP/teardown-plan.txt"; then
 	fail "teardown dry-run would delete Rafael"
+fi
+if rg -q "would delete post ${MANUAL_POST_ID}" "$TMP/teardown-plan.txt"; then
+	fail "teardown dry-run would delete unrelated manual content"
 fi
 cli revistalogos fixtures teardown --kind=bootstrap --apply >"$TMP/teardown-apply.txt"
 assert_contains "$TMP/teardown-apply.txt" "adopted Volume 1 content; teardown refused"
+assert_contains "$TMP/teardown-apply.txt" "deleted article ${EDITORIAL_ID}"
+assert_contains "$TMP/teardown-apply.txt" "deleted issue ${ISSUE_ID}"
+assert_contains "$TMP/teardown-apply.txt" "deleted article ${ARTICLE2_ID}"
+if rg -q "kept article ${EDITORIAL_ID}" "$TMP/teardown-apply.txt"; then
+	fail "teardown classified unadopted editorial as adopted"
+fi
 STILL_ARTICLE="$(cli post get "$ARTICLE1_ID" --field=ID)"
 [[ "$STILL_ARTICLE" == "$ARTICLE1_ID" ]] || fail "teardown deleted the adopted article"
 STILL_AUTHOR="$(cli post get "$AUTHOR_ID" --field=ID)"
 [[ "$STILL_AUTHOR" == "$AUTHOR_ID" ]] || fail "teardown deleted Rafael"
 STILL_PAGE="$(cli post list --post_type=page --name=normas --format=ids)"
 [[ -n "$STILL_PAGE" ]] || fail "teardown deleted institutional Page normas"
-GONE_EDITORIAL="$(cli post list --post_type=article --meta_key=_les_bootstrap_key --meta_value=volume-1-editorial --format=ids || true)"
-[[ -z "$GONE_EDITORIAL" ]] || fail "unadopted editorial should have been removed"
+STILL_MANUAL="$(cli post get "$MANUAL_POST_ID" --field=ID)"
+[[ "$STILL_MANUAL" == "$MANUAL_POST_ID" ]] || fail "teardown deleted unrelated manual content"
+if cli post get "$EDITORIAL_ID" --field=ID >/dev/null 2>&1; then
+	fail "unadopted editorial should have been removed"
+fi
+if cli post get "$ISSUE_ID" --field=ID >/dev/null 2>&1; then
+	fail "unadopted issue should have been removed"
+fi
+if cli post get "$ARTICLE2_ID" --field=ID >/dev/null 2>&1; then
+	fail "unadopted article 2 should have been removed"
+fi
 cli revistalogos fixtures teardown --kind=bootstrap --apply >"$TMP/teardown-2.txt"
 STILL_ARTICLE2="$(cli post get "$ARTICLE1_ID" --field=ID)"
 [[ "$STILL_ARTICLE2" == "$ARTICLE1_ID" ]] || fail "second teardown deleted the adopted article"
+STILL_AUTHOR2="$(cli post get "$AUTHOR_ID" --field=ID)"
+[[ "$STILL_AUTHOR2" == "$AUTHOR_ID" ]] || fail "second teardown deleted Rafael"
+STILL_MANUAL2="$(cli post get "$MANUAL_POST_ID" --field=ID)"
+[[ "$STILL_MANUAL2" == "$MANUAL_POST_ID" ]] || fail "second teardown deleted unrelated manual content"
+if rg -q "ERROR deleting" "$TMP/teardown-2.txt"; then
+	fail "second teardown was not safe"
+fi
 pass "teardown removes only unadopted bootstrap objects; second run is safe"
 
 echo "== HTTP after teardown =="

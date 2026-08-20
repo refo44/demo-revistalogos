@@ -1481,6 +1481,13 @@ class Fixtures {
 			$report[] = 'no matching fixture/bootstrap objects found; nothing to do';
 		}
 
+		// Classify keep vs delete before any wp_delete_post(). Deleting an
+		// unadopted issue fires Relationships::cleanup_references, which
+		// strips `issue` meta from remaining articles. That meta is part of
+		// snapshot_hash(), so classifying after that mutation would make
+		// still-unadopted articles look adopted and survive teardown.
+		$delete_ids = array();
+
 		foreach ( $ids as $id ) {
 			$type = get_post_type( $id );
 
@@ -1504,6 +1511,11 @@ class Fixtures {
 				continue;
 			}
 
+			$delete_ids[] = $id;
+		}
+
+		foreach ( $delete_ids as $id ) {
+			$type    = get_post_type( $id );
 			$deleted = ( 'attachment' === $type )
 				? wp_delete_attachment( $id, true )
 				: wp_delete_post( $id, true );
