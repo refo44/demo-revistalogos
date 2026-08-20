@@ -12,8 +12,9 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 - Plugin `revistalogos-core` 0.2.5: author checkboxes with an explicit
   empty state; publish requires at least one published Author CPT
   (draft/pending may have none); Article/Issue PDF Media Library picker
-  with `application/pdf` sanitization. Isolated QA:
-  `tools/qa-article-editorial-ux.sh`. No formal test suite.
+  with `application/pdf` sanitization. Gutenberg remains the Article
+  editor; the publication rule is server-side (post.php and REST).
+  Isolated QA: `tools/qa-article-editorial-ux.sh`. No formal test suite.
 
 - Plugin `revistalogos-core` 0.2.4: temporary wp-admin tool Tools →
   Volume 1 Editorial Bootstrap (`Bootstrap_Admin`). Hosting has no usable

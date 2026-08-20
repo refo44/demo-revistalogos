@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "Authors checkbox UX + publish-author rule + Article PDF Media Library picker (0.2.5); QA local; no commit/push/deploy; no producción"
+current_work_unit: "Authors checkbox UX + publish-author rule + Article PDF Media Library picker (0.2.5); Gutenberg kept on article; QA local; no commit/push/deploy; no producción"
 current_branch: "main"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-08-20"
-next_action: "Revisión del propietario de plugin 0.2.5 (autores, publicación, PDF). No commit/push/deploy. No tocar producción. Bootstrap_Admin se conserva."
+next_action: "Revisión del propietario de plugin 0.2.5 (autores, publicación, PDF; Gutenberg en article). No commit/push/deploy. No tocar producción. Bootstrap_Admin se conserva."
 blocked: false
 ---
 
@@ -446,7 +446,7 @@ Siguiente acción priorizada — **revisión del propietario de este working
 tree; no commit/push/deploy; no tocar producción**:
 
 1. revisar plugin `revistalogos-core` 0.2.5 (checkboxes de autores, regla
-   de publicación, selector nativo de PDF);
+   de publicación, selector nativo de PDF; `article` sigue en Gutenberg);
 2. si se aprueba: commit/push, luego deploy manual FTPS del plugin;
 3. no re-ejecutar bootstrap en producción;
 4. Bootstrap_Admin se conserva hasta una tarea posterior.

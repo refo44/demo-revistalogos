@@ -133,7 +133,7 @@ El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, ISSN,
 | abstract | textarea | Resumen en español (máx 250 palabras) |
 | abstract_en | textarea | Resumen en inglés |
 | article_type | taxonomy | article \| essay \| review \| editorial |
-| authors | relation | Enlaces al CPT author (muchos a muchos). Array de IDs; varios autores permitidos. **No hay autor por defecto:** el editor asigna explícitamente. Borrador y pendiente pueden tener cero autores. **Publicar** exige al menos un Author CPT existente con `post_status=publish`. Un artículo publicado ya existente sin autores no se despublica al cargar el plugin; la regla se aplica al guardar/publicar desde wp-admin. |
+| authors | relation | Enlaces al CPT author (muchos a muchos). Array de IDs; varios autores permitidos. **No hay autor por defecto:** el editor asigna explícitamente. Borrador y pendiente pueden tener cero autores. **Publicar** exige al menos un Author CPT existente con `post_status=publish`. Un artículo publicado ya existente sin autores no se despublica al cargar el plugin; la regla se aplica al guardar/publicar (wp-admin y REST). El CPT `article` sigue usando el editor de bloques; asignar autores, guardar y después publicar. |
 | doi | text | DOI del artículo |
 | doi_url | url | URL completo DOI (https://doi.org/xxxxx) |
 | pages | text | Paginación oficial dentro del número |

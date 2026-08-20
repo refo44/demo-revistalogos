@@ -29,6 +29,15 @@ class Meta_Boxes {
 	private static $notice = '';
 
 	/**
+	 * Author IDs already accepted by rest_guard_article_publish for the
+	 * current insert. rest_do_request does not define REST_REQUEST, so
+	 * wp_insert_post_data must reuse this instead of empty post meta.
+	 *
+	 * @var int[]|null
+	 */
+	private static $rest_insert_authors = null;
+
+	/**
 	 * Field map per post type: key => array(label, input type).
 	 *
 	 * @return array<string, array<string, array{0: string, 1: string}>>
@@ -240,7 +249,7 @@ class Meta_Boxes {
 			}
 		}
 
-		echo '<p class="description">' . esc_html__( 'Marca uno o más autores. Un artículo publicado necesita al menos un autor publicado. No se asigna ninguno por defecto.', 'revistalogos-core' ) . '</p>';
+		echo '<p class="description">' . esc_html__( 'Marca uno o más autores. Un artículo publicado necesita al menos un autor publicado. No se asigna ninguno por defecto. Guarda el artículo después de asignar autores y luego publícalo.', 'revistalogos-core' ) . '</p>';
 		echo '</fieldset>';
 
 		echo '<p><label for="revistalogos-issue"><strong>' . esc_html__( 'Número', 'revistalogos-core' ) . '</strong></label><br>';
@@ -483,6 +492,7 @@ class Meta_Boxes {
 		$has_published = Relationships::has_published_author( $ids );
 
 		if ( 'publish' === $status && ! $has_published && 'publish' !== $previous ) {
+			self::$rest_insert_authors = null;
 			return new \WP_Error(
 				'revistalogos_article_requires_author',
 				__( 'Un artículo publicado necesita al menos un autor con estado publicado.', 'revistalogos-core' ),
@@ -491,12 +501,15 @@ class Meta_Boxes {
 		}
 
 		if ( 'publish' === $status && is_array( $meta ) && array_key_exists( 'authors', $meta ) && ! $has_published && 'publish' === $previous && Relationships::has_published_author( get_post_meta( $post_id, 'authors', true ) ) ) {
+			self::$rest_insert_authors = null;
 			return new \WP_Error(
 				'revistalogos_article_keep_author',
 				__( 'No se puede quitar el último autor publicado de un artículo publicado.', 'revistalogos-core' ),
 				array( 'status' => 400 )
 			);
 		}
+
+		self::$rest_insert_authors = Relationships::sanitize_author_ids( $ids );
 
 		return $prepared;
 	}
@@ -541,6 +554,12 @@ class Meta_Boxes {
 		if ( self::metabox_nonce_is_valid() ) {
 			$raw = isset( $_POST['authors'] ) ? (array) wp_unslash( $_POST['authors'] ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			return Relationships::sanitize_author_ids( $raw );
+		}
+
+		if ( null !== self::$rest_insert_authors ) {
+			$ids = self::$rest_insert_authors;
+			self::$rest_insert_authors = null;
+			return $ids;
 		}
 
 		if ( $post_id ) {

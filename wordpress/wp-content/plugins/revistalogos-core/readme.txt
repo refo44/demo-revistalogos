@@ -42,7 +42,8 @@ la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
 * Author assignment uses checkboxes (explicit empty state; no default
   author). Publishing an article requires at least one published Author
   CPT; draft/pending may have none. Existing published authorless
-  articles are not unpublished on upgrade.
+  articles are not unpublished on upgrade. Article CPT keeps the block
+  editor; save after assigning authors, then publish.
 * Article/issue PDF fields use the native Media Library picker and
   accept only application/pdf. Removing the relation does not delete
   the attachment.

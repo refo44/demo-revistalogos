@@ -90,6 +90,14 @@ rg -F -q "library: { type: 'application/pdf' }" "$ROOT/wordpress/wp-content/plug
 	|| fail "PDF picker JS must filter application/pdf"
 pass "PDF picker JS filters application/pdf"
 
+if rg -q "use_block_editor_for_post_type" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/class-plugin.php"; then
+	fail "plugin must not register use_block_editor_for_post_type"
+fi
+if rg -q "function use_block_editor" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/content-types/class-content-types.php"; then
+	fail "Content_Types must not force Classic Editor"
+fi
+pass "Classic Editor override absent"
+
 echo "== canonical author + Volume 1 bootstrap (must still publish authorless samples) =="
 AUTHOR_ID="$(cli post create \
 	--post_type=author \
@@ -336,6 +344,58 @@ update_post_meta( $multi_id, 'issue', $issue->ID );
 $names = revistalogos_article_author_names( $article2->ID );
 qa_ok( false !== strpos( $names, 'Rafael Eduardo Figueredo Oropeza' ), 'Queries resolve saved published author' );
 
+qa_ok( use_block_editor_for_post_type( 'article' ), 'article still uses Gutenberg' );
+qa_ok( false === has_filter( 'use_block_editor_for_post_type', array( 'Revistalogos_Core\\Content_Types', 'use_block_editor' ) ), 'plugin does not force Classic Editor' );
+
+$_POST = array();
+
+function qa_rest_article( $params, $id = 0 ) {
+	$route   = $id ? '/wp/v2/article/' . $id : '/wp/v2/article';
+	$request = new WP_REST_Request( 'POST', $route );
+	$request->set_header( 'Content-Type', 'application/json' );
+	foreach ( $params as $key => $value ) {
+		$request->set_param( $key, $value );
+	}
+	return rest_do_request( $request );
+}
+
+$rest_draft = qa_rest_article( array(
+	'title'   => 'QA REST draft no authors',
+	'status'  => 'draft',
+	'content' => 'draft',
+	'slug'    => 'qa-rest-draft-no-authors',
+) );
+$rest_draft_data = $rest_draft->get_data();
+qa_ok( ! $rest_draft->is_error() && in_array( (int) $rest_draft->get_status(), array( 200, 201 ), true ), 'REST draft without author saves' );
+
+$rest_denied = qa_rest_article( array(
+	'title'   => 'QA REST publish no authors',
+	'status'  => 'publish',
+	'content' => 'no',
+	'slug'    => 'qa-rest-publish-no-authors',
+) );
+qa_ok( $rest_denied->is_error() || (int) $rest_denied->get_status() >= 400, 'REST publication without author refused' );
+
+$rest_ok = qa_rest_article( array(
+	'title'   => 'QA REST publish with author',
+	'status'  => 'publish',
+	'content' => 'yes',
+	'slug'    => 'qa-rest-publish-with-author',
+	'meta'    => array( 'authors' => array( (int) $rafael->ID ) ),
+) );
+$rest_ok_data = $rest_ok->get_data();
+qa_ok( ! $rest_ok->is_error() && isset( $rest_ok_data['status'] ) && 'publish' === $rest_ok_data['status'], 'REST publication with valid author succeeds' );
+
+if ( ! $rest_draft->is_error() && ! empty( $rest_draft_data['id'] ) ) {
+	$saved_id = (int) $rest_draft_data['id'];
+	update_post_meta( $saved_id, 'authors', array( (int) $rafael->ID ) );
+	$rest_saved_pub  = qa_rest_article( array( 'status' => 'publish' ), $saved_id );
+	$rest_saved_data = $rest_saved_pub->get_data();
+	qa_ok( ! $rest_saved_pub->is_error() && isset( $rest_saved_data['status'] ) && 'publish' === $rest_saved_data['status'], 'publication with saved valid author succeeds' );
+} else {
+	qa_ok( false, 'publication with saved valid author succeeds' );
+}
+
 echo 'FAIL_COUNT=' . $fail . "\n";
 echo 'ARTICLE1=' . $article1->ID . "\n";
 echo 'ARTICLE2=' . $article2->ID . "\n";
@@ -359,6 +419,26 @@ ARTICLE1_ID="$(rg -o 'ARTICLE1=[0-9]+' "$TMP/domain.txt" | cut -d= -f2)"
 ARTICLE2_ID="$(rg -o 'ARTICLE2=[0-9]+' "$TMP/domain.txt" | cut -d= -f2)"
 MULTI_ID="$(rg -o 'MULTI=[0-9]+' "$TMP/domain.txt" | cut -d= -f2)"
 REAL_PDF="$(rg -o 'REAL_PDF=[0-9]+' "$TMP/domain.txt" | cut -d= -f2)"
+RAFAEL_ID="$(rg -o 'RAFAEL=[0-9]+' "$TMP/domain.txt" | cut -d= -f2)"
+
+echo "== Gutenberg REST HTTP =="
+APP_PASS="$(cli user application-password create "$ADMIN_USER" editorial-ux-qa --porcelain)"
+[[ -n "$APP_PASS" && -n "$RAFAEL_ID" ]] || fail "missing application password or Rafael ID"
+code="$(curl -sS -o "$TMP/rest-no-author.json" -w '%{http_code}' \
+	-u "${ADMIN_USER}:${APP_PASS}" \
+	-H 'Content-Type: application/json' \
+	-d '{"title":"HTTP REST no author","status":"publish","content":"x","slug":"http-rest-no-author"}' \
+	"${BASE_URL}/wp-json/wp/v2/article")"
+[[ "$code" == "400" ]] || fail "expected 400 REST publish without author, got ${code}: $(cat "$TMP/rest-no-author.json")"
+pass "HTTP REST publication without author refused"
+
+code="$(curl -sS -o "$TMP/rest-with-author.json" -w '%{http_code}' \
+	-u "${ADMIN_USER}:${APP_PASS}" \
+	-H 'Content-Type: application/json' \
+	-d "{\"title\":\"HTTP REST with author\",\"status\":\"publish\",\"content\":\"x\",\"slug\":\"http-rest-with-author\",\"meta\":{\"authors\":[${RAFAEL_ID}]}}" \
+	"${BASE_URL}/wp-json/wp/v2/article")"
+[[ "$code" == "201" ]] || fail "expected 201 REST publish with author, got ${code}: $(cat "$TMP/rest-with-author.json")"
+pass "HTTP REST publication with valid author succeeds"
 
 echo "== HTTP regression =="
 A1_URL="$(cli post url "$ARTICLE1_ID")"
