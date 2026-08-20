@@ -21,7 +21,7 @@ Reanudación: `docs/fase3-execution-state.md`.
 | Activación | **Manual en wp-admin.** El workflow no activa. Tras el corte, `revistalogos` (clásico) y `revistalogos-core` quedaron activos por acción administrativa. |
 | Indexación | **Considerada cerrada.** Observada en el setup del corte: Ajustes → Lectura → «Pedir a los motores de búsqueda que no indexen este sitio». **No** asumir el checkbox actual ni el `robots.txt` vigente. El FTPS **no** la abre. Completar el 100 % del contenido editorial **no** es prerequisito. Abrirla es decisión explícita del propietario tras el launch gate de abajo. **No** abrir en esta documentación. |
 | Permalinks | `/%postname%/` (Ajustes → Enlaces permanentes → Nombre de la entrada). Tras activar `revistalogos-core`, volver a guardar para regenerar rewrites de CPTs. Plugin `0.2.1`: el single `/revista/autores/{slug}/` exige un flush tras desplegar (upgrade `maybe_upgrade` o Guardar enlaces permanentes). El 404 no se corrige solo con un flush sobre `0.2.0`. |
-| Fixtures | Dataset **demo** (`wp revistalogos fixtures seed`): **no** importado y **no** permitido en el live. **Excepción de propietario 2026-08-19:** bootstrap editorial restringido (`wp revistalogos fixtures bootstrap`) — un issue, un article, un author, borradores, `_les_fixture=1`, sin DOI/ORCID/ISSN falsos. **No ejecutado** en esta tarea. |
+| Fixtures | Dataset **demo** (`wp revistalogos fixtures seed`): **no** importado y **no** permitido en el live. **Excepción de propietario 2026-08-19 (actualizada):** bootstrap editorial Volume 1 (`wp revistalogos fixtures bootstrap`) — estructura Issue/Articles editable, reutiliza el autor canónico, `_les_bootstrap*`, sin DOI/ORCID/ISSN falsos. **No ejecutado** en esta tarea. |
 | Contenido | WordPress clásico live en producción; carga de contenido editorial real iniciada y actualmente en proceso desde wp-admin. **No** completa. Fuente de verdad: BD + `uploads/` (ADR 0009). El FTPS de Git no despliega contenido. |
 | Administración | Existe un usuario administrador asignado a esa gestión editorial. Identidad, correo y credenciales **no** se documentan aquí. |
 
@@ -152,39 +152,22 @@ No confundir. El workflow de GitHub **no** incluye rollback de BD.
 
 Rollback por escenario: [wordpress-manual-deployment.md](wordpress-manual-deployment.md) § ROLLBACK.
 
-## Recuperación temporal de páginas institucionales (pendiente)
+## Recuperación institucional (completada)
 
-**Estado 2026-08-19:** rutas institucionales como `/normas/` responden 404
-porque las Pages reales no fueron importadas a la BD de producción. El
-payload y `Content_Migrator` ya existen. El workflow FTPS solo transfiere
-theme/plugin y nunca escribe la BD.
+**Estado 2026-08-19 (declaración del propietario):** las Pages
+institucionales se importaron en producción, Verify pasó y la navegación
+pública funciona de nuevo. Ese contenido es **permanente**. No hay cleanup
+que lo borre.
 
-SSH no estaba disponible en el hosting al preparar esta recuperación. Por
-eso se implementó una vía temporal en wp-admin:
-**Herramientas → Institutional Content Import**. No es UI permanente ni
-reemplaza WP-CLI en Docker. El código está validado solo en el working tree
-local, plugin `revistalogos-core` 0.2.2; **no está desplegado ni ejecutado en
-producción**.
+La vía temporal Tools → Institutional Content Import (`Content_Recovery_Admin`)
+completó su propósito y está **retirada** en `revistalogos-core` 0.2.3. Se
+conservan `Content_Migrator` y `wp revistalogos content
+validate|plan|import|verify`. SSH no estaba disponible al diseñar esa
+recuperación; la UI fue un puente, no un reemplazo de WP-CLI.
 
-Controles:
+Histórico del procedimiento (ya ejecutado; no repetir el import):
 
-- solo usuario autenticado con `manage_options`;
-- POST con nonce para cada acción;
-- primer paso `Validate and Plan`, sin escrituras;
-- preflight de los 12 slugs institucionales; `MANUAL EXISTING` o
-  `AMBIGUOUS` bloquea;
-- plan firmado ligado al usuario y al estado mostrado; un plan viejo bloquea;
-- evidencia de backup fresco + confirmación explícita;
-- importación directa mediante `Content_Migrator`, siempre sin force;
-- un error runtime de media detiene las etapas de Pages/settings y queda
-  visible; Verify también comprueba slug exacto y checksum de los 3 media;
-- no llama fixtures, no toca usuarios ni CPTs issue/article/author;
-- Verify usa el mismo servicio que `wp revistalogos content verify`;
-- no cambia robots, sitemap ni visibilidad para buscadores.
-
-Procedimiento futuro exacto — ejecutar solo tras aprobación del propietario:
-
-1. commit/push only after owner approval;
+1. commit/push after owner approval;
 2. deploy plugin via existing manual production workflow;
 3. open temporary wp-admin import tool;
 4. run Validate and Plan;
@@ -195,13 +178,47 @@ Procedimiento futuro exacto — ejecutar solo tras aprobación del propietario:
 9. run institutional import;
 10. inspect Verify;
 11. test public P0 routes;
-12. after recovery, remove temporary admin tool in a follow-up patch.
+12. remove temporary admin tool in a follow-up patch (hecho en 0.2.3, este
+    árbol; pendiente de deploy).
 
-La retirada debe eliminar
-`includes/migration/class-content-recovery-admin.php`, su `require_once` y
-`Content_Recovery_Admin::register_hooks()` en `includes/class-plugin.php`,
-subir un nuevo patch del plugin y repetir la QA aplicable. No retirar ni
-modificar `Content_Migrator` ni los comandos WP-CLI.
+## Bootstrap editorial Volume 1
+
+No es el dataset demo (`fixtures seed`). Es un **bootstrap editorial de
+producción**: crea la estructura inicial del Vol. 1 Nº 1 para que el editor
+sustituya placeholders en wp-admin sobre los mismos objetos. Ciclo esperado:
+`plan` → `bootstrap --apply` → edición en wp-admin → adopción. No hay ciclo
+borrar/recrear.
+
+Comandos (Docker / WP-CLI; dry-run por defecto):
+
+```text
+wp revistalogos fixtures plan
+wp revistalogos fixtures bootstrap
+wp revistalogos fixtures bootstrap --apply
+wp revistalogos fixtures verify
+wp revistalogos fixtures teardown --kind=bootstrap
+```
+
+En producción, `--apply` exige `--confirm-production` y `--backup`. No hay
+modo force. Colisión de un Vol. 1 Nº 1 manual, slug ocupado, o autor canónico
+ausente/ambiguo: fail-safe, cero escrituras.
+
+Autor canónico: `rafael-eduardo-figueredo-oropeza` (Rafael Eduardo Figueredo
+Oropeza). El bootstrap lo reutiliza si hay exactamente un Author CPT con ese
+slug; no lo crea, no lo marca `_les_bootstrap` / `_les_fixture`, no lo borra.
+0 o >1 coincidencias: aborta.
+
+Adopción: hash `_les_bootstrap_source_hash` de campos editoriales. Si el
+contenido diverge, el objeto queda `_les_bootstrap_adopted=1` (sticky). Un
+re-run no lo pisa. `teardown --kind=bootstrap` no lo borra. `teardown` sin
+`--kind` no toca objetos `_les_bootstrap`.
+
+Fuente: maqueta estática Vol. 12 Nº 2 (títulos, abstracts, secciones,
+orden), retargeted a Vol. 1 Nº 1. Identificadores falsos y autores dummy de
+la maqueta **no** se importan. Placeholder de media solo desde
+`resources/fixtures/`, marcado bootstrap.
+
+**No ejecutar en producción en esta tarea.**
 
 ## Restos del sitio estático (deuda operativa)
 
@@ -407,7 +424,7 @@ repo. Categorías según evidencia del repositorio:
 | Maqueta HTML/CSS/JS | `static/` | Referencia visual + prototipo Fase 2 congelado (ADR 0001) | Sigue siendo criterio de paridad. No borrar. |
 | Espejo beta | `refo44.github.io/demo-revistalogos` vía `pages.yml` | Copia de revisión (automática en `main`) | Deliberado; no toca cPanel. |
 | Fixtures WP (demo) | plugin `revistalogos-core` (`seed`, `_les_fixture = 1`, kind `demo`) | Test fixture (ADR 0004) | Solo Docker. **Prohibido** en el live. |
-| Bootstrap editorial | `wp revistalogos fixtures bootstrap` (kind `bootstrap`) | Excepción de propietario 2026-08-19 | Un issue + un article + un author, borradores, sin identificadores falsos. **No ejecutado** en producción en esta tarea. Purga: `teardown --kind=bootstrap`. |
+| Bootstrap editorial | `wp revistalogos fixtures bootstrap` (`_les_bootstrap*`, kind `volume-1`) | Excepción de propietario 2026-08-19 (ciclo seed→edit→adopt) | Vol. 1 Nº 1 + artículos de la maqueta, autor canónico reutilizado, sin identificadores falsos. **No ejecutado** en producción en esta tarea. Purga: `teardown --kind=bootstrap` solo de objetos no adoptados; nunca borra Rafael ni Pages. |
 | HTML residual en el document root de producción | servidor, no Git | Deuda operativa / leftover del corte | Lista arriba. No borrar en esta tarea. |
 | ZIP `logo-et-spes-static-backup-2026-08-18.zip` | cPanel `public_html/` | Backup histórico pre-WP | No es rollback de la app. |
 | Theme PHP | `wordpress/wp-content/themes/revistalogos/` | Implementación | Lo que FTPS despliega. |

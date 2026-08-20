@@ -55,7 +55,7 @@ Harness de Fase 3 (fuera de la numeración): `fase3-execution-state.md` (reanuda
 - Los números, artículos, editoriales, autores y noticias son contenido dinámico administrado en WordPress.
 - El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, ISSN, DOI, ORCID, portadas y paginación actuales son demostrativos y no deben migrarse a producción.
 - Contenido editorial real en proceso de carga desde wp-admin de producción; la carga **no** está completa.
-- **Excepción de propietario 2026-08-19:** un bootstrap editorial temporal (un número, un artículo, un autor, `_les_fixture=1`, sin identificadores falsos) puede existir en producción durante la carga. No es el dataset demo. No ejecutar en esta tarea. Antes de indexar: recuento de fixtures = 0 (preferido).
+- **Excepción de propietario 2026-08-19:** un bootstrap editorial de Volume 1 (`wp revistalogos fixtures bootstrap`, `_les_bootstrap*`, sin identificadores falsos, autor canónico reutilizado) puede existir en producción para que el editor sustituya placeholders. No es el dataset demo. No ejecutar en esta tarea. Antes de indexar: recuento `_les_fixture=1` = 0 (preferido).
 - La clasificación detallada y el checklist de sustitución están en `16-content-source-inventory` y `17-implementation-order`.
 
 ---

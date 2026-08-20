@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "Recuperación institucional temporal implementada y validada solo en Docker; pendiente revisión del propietario; no desplegada"
+current_work_unit: "Volume 1 editorial bootstrap implementado y QA local pendiente de revisión del propietario; no desplegado; no ejecutado en producción"
 current_branch: "main"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-08-19"
-next_action: "Revisión del propietario del recovery tool local. No commit/push/deploy hasta aprobación. Después: workflow FTPS manual, Validate and Plan, STOP ante colisión/error, JetBackup fresco, import, Verify, P0 y retirada del tool."
+next_action: "Revisión del propietario del bootstrap editorial Volume 1 (working tree). No commit/push/deploy. No ejecutar bootstrap en producción. La recuperación institucional ya está hecha; la UI temporal ya está retirada en este árbol."
 blocked: false
 ---
 
@@ -207,24 +207,34 @@ Los de `docs/17-implementation-order` y los ADR de Fase 3. Resumen operativo:
   de lectura/theme mods y tablas de términos antes/después del plan y exigió
   igualdad exacta.
   No se tocó producción, no se ejecutó workflow, no hubo commit/push.
+- **Recuperación institucional en producción (2026-08-19, declaración del
+  propietario):** Pages importadas, Verify pasó, navegación pública
+  restaurada. Contenido institucional permanente. UI temporal retirada en
+  el working tree 0.2.3; migrador/CLI conservados.
+- **Volume 1 editorial bootstrap (working tree, 2026-08-19):** plugin
+  0.2.3 adapta `fixtures bootstrap` a estructura editorial reutilizable
+  (no disposable). Autor canónico reutilizado; adopción por hash. QA
+  aislada: `tools/qa-editorial-bootstrap.sh`. No deploy, no ejecución en
+  producción.
 
 ## Active work
 
-- Recovery de Pages institucionales: implementación y QA local terminadas en
-  el working tree; esperando revisión del propietario. Producción sigue sin
-  cambios. SSH no estaba disponible al diseñar la recuperación, de ahí la
-  vía temporal `manage_options` en wp-admin. Retirar la clase y su wiring
-  después de recuperar y verificar producción.
+- Recuperación institucional **completada en producción** (2026-08-19,
+  declaración del propietario): Pages importadas, Verify pasó, navegación
+  pública restaurada. Las Pages institucionales son contenido real y
+  permanente. La UI temporal Tools → Institutional Content Import está
+  **retirada en este working tree** (plugin 0.2.3); `Content_Migrator` y
+  `wp revistalogos content *` se conservan. No hay cleanup que borre Pages.
+- Volume 1 editorial bootstrap implementado en el working tree (plugin
+  0.2.3): `wp revistalogos fixtures bootstrap|plan`. No es dataset demo.
+  Reutiliza el autor canónico `rafael-eduardo-figueredo-oropeza`; nunca lo
+  crea, marca ni borra. Adopción por hash (`_les_bootstrap_source_hash` /
+  `_les_bootstrap_adopted`). **No ejecutado en producción. No desplegado.**
 - WordPress clásico live en producción (`https://logo-et-spes.cenfiss.net`);
   carga de contenido editorial real iniciada y actualmente en proceso desde
   wp-admin (**no** completa). Existe un administrador asignado a esa
   gestión; no documentar identidad ni credenciales. No importar el dataset
-  demo de fixtures (`wp revistalogos fixtures seed`). El bootstrap
-  editorial restringido existe en código (`wp revistalogos fixtures
-  bootstrap`) y **no** se ha ejecutado en producción. No correr el
-  importador institucional contra producción sin backup fresco y
-  confirmación explícita; el nuevo wp-admin path exige además un plan
-  read-only vigente y sin colisiones.
+  demo de fixtures (`wp revistalogos fixtures seed`).
 - QA del theme clásico en producción. Backlog operativo en
   `docs/operations/produccion-wordpress.md` (permalinks, PHP 8.0.30 vs
   MultiPHP 8.2, plugins Softaculous, CF7, WP Statistics, cookies, restos
@@ -270,6 +280,15 @@ marcadores `_les_source_*`, cero `_les_fixture`; cero cambios en
 issue/article/author/users; Verify 15/15; re-plan 12 skip; 12 rutas 200.
 Volúmenes QA efímeros retirados al terminar. Producción no consultada ni
 modificada.
+
+**Actualización Volume 1 bootstrap 2026-08-19 (working tree):** QA
+`tools/qa-editorial-bootstrap.sh` en Docker aislado
+`revistalogos-bootstrap-qa` (puerto 8082, WordPress 7.0.4): plugin carga
+sin `Content_Recovery_Admin`; `content validate/import/verify` OK; plan
+sin escritura; bootstrap 1 issue + 7 articles; Rafael reutilizado y sin
+marcadores; HTTP 200 institucionales + archivos + singles; adopción no
+pisada; teardown no borra adoptado/Rafael/Pages. Volúmenes QA efímeros
+retirados al terminar. Producción no consultada ni modificada.
 
 ## Validation evidence
 
@@ -379,8 +398,9 @@ Registradas para corrección en commit de documentación separado (WU12):
 
 - Rama: `main`; tag publicado: `v0.1.0`. Versión de proyecto **0.2.0**
   (canónica en `package.json`); tag Git `v0.2.0` pendiente (véase `VERSION.md`).
-  Plugin `revistalogos-core` **0.2.2** en el working tree por el recovery
-  temporal; versión de proyecto/theme sin cambio.
+  Plugin `revistalogos-core` **0.2.3** en el working tree (UI de recovery
+  retirada; bootstrap editorial Volume 1); versión de proyecto/theme 0.2.0
+  sin cambio.
 - Despliegues: WordPress de la revista en `logo-et-spes.cenfiss.net`
   (`deploy-wordpress.yml`, `workflow_dispatch`, Environment
   `wordpress-production`, cuenta FTP `deploy_revista@…`). El workflow
@@ -409,37 +429,33 @@ compartidos; nueva clase admin temporal; bootstrap/version/readme del plugin;
 harness `tools/qa-content-recovery-admin.sh`; CHANGELOG; matriz; snapshot de
 operaciones y este estado. Sin commit, push ni deploy.
 
+**2026-08-19 (Volume 1 editorial bootstrap, working tree):** retirada de
+`Content_Recovery_Admin` y `tools/qa-content-recovery-admin.sh`; bootstrap
+editorial Volume 1 en `class-fixtures.php` / CLI; harness
+`tools/qa-editorial-bootstrap.sh`; plugin 0.2.3; docs de operaciones y
+matriz. Sin commit, push ni deploy.
+
 ## Next exact action
 
 La implementación **clásica** está live en producción
-(`https://logo-et-spes.cenfiss.net`, WordPress 7.0.4). Carga de contenido
-editorial real iniciada y actualmente en proceso desde wp-admin (**no**
-completa). Código first-party por FTPS. Docker: `http://localhost:8080`.
+(`https://logo-et-spes.cenfiss.net`, WordPress 7.0.4). Recuperación
+institucional **ya hecha** (Pages reales permanentes). Carga editorial real
+en proceso desde wp-admin (**no** completa). Docker: `http://localhost:8080`.
 
-Siguiente acción priorizada — **revisión del propietario; no pisar la carga
-en curso**:
+Siguiente acción priorizada — **revisión del propietario de este working
+tree; no commit/push/deploy; no ejecutar bootstrap en producción**:
 
-1. commit/push only after owner approval;
-2. deploy plugin via existing manual production workflow;
-3. open temporary wp-admin import tool;
-4. run Validate and Plan;
-5. STOP if collision/error;
-6. create fresh JetBackup On Demand;
-7. enter real backup evidence;
-8. explicitly confirm;
-9. run institutional import;
-10. inspect Verify;
-11. test public P0 routes;
-12. after recovery, remove temporary admin tool in a follow-up patch.
+1. revisar el informe de Volume 1 editorial bootstrap;
+2. decidir publicación vs borrador de los objetos bootstrap;
+3. si se aprueba el código: commit/push, luego deploy manual FTPS;
+4. en producción, solo después: backup fresco, `wp revistalogos fixtures plan`,
+   STOP ante colisión, `--confirm-production --backup --apply`.
 
-No se ejecutó ninguno de esos pasos de producción. Después continúa la QA
-ordinaria del theme; FSE sigue aplazado:
+No importar el dataset demo de fixtures. El bootstrap editorial **no** se
+ejecuta en esta reanudación (espera aprobación). After ordinary theme QA,
+FSE remains deferred:
 
-1. No importar el dataset demo de fixtures. El bootstrap editorial
-   restringido **no** se ejecuta en esta reanudación (espera aprobación).
-   No lanzar ningún import fuera del procedimiento temporal de arriba.
-   `--confirm-production` + backup sigue siendo el guard de WP-CLI; la vía
-   wp-admin usa plan firmado + backup + checkbox explícito.
+1. No importar el dataset demo de fixtures.
 2. QA del theme clásico (portada, nav, CSS/JS, CPTs, páginas, 404) sobre
    el sitio live, **sin** dataset dummy. Registrar en
    `docs/fase3-validation-matrix.md`.

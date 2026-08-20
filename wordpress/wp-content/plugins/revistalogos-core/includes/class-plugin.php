@@ -47,9 +47,6 @@ class Plugin {
 		Meta_Boxes::register_hooks();
 		Relationships::register_hooks();
 		Contact_Form_Integration::register_hooks();
-		// Temporary recovery surface; remove this hook and its class after
-		// the institutional production import has been verified.
-		Content_Recovery_Admin::register_hooks();
 
 		// Idempotent upgrade: late on init so CPT rewrite args are
 		// registered before a version-gated rewrite flush.
@@ -81,7 +78,6 @@ class Plugin {
 		require_once $includes . 'integrations/class-comments-disabler.php';
 		require_once $includes . 'integrations/class-contact-form-integration.php';
 		require_once $includes . 'migration/class-content-migrator.php';
-		require_once $includes . 'migration/class-content-recovery-admin.php';
 		require_once $includes . 'fixtures/class-fixtures.php';
 	}
 

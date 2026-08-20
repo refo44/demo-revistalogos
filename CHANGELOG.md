@@ -8,6 +8,24 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Changed
+- Plugin `revistalogos-core` 0.2.3: `wp revistalogos fixtures bootstrap`
+  is now a Volume 1 **editorial** bootstrap (one published issue + sample
+  article structure from the static maquette, retargeted to Vol. 1 Nº 1).
+  It reuses the existing Author `rafael-eduardo-figueredo-oropeza`, never
+  marks or deletes that author, never writes fake DOI/ORCID/ISSN, and
+  never overwrites objects whose content has drifted from the bootstrap
+  hash (`_les_bootstrap_adopted`). Plan/dry-run writes nothing. Production
+  writes still require `--confirm-production` and `--backup`. Test fixtures
+  (`fixtures seed`, `_les_fixture=1`) remain disposable and separate.
+
+### Removed
+- Temporary wp-admin tool Tools → Institutional Content Import
+  (`Content_Recovery_Admin`). Institutional recovery in production
+  completed successfully; Pages already imported are real content. Durable
+  `Content_Migrator` and `wp revistalogos content validate|plan|import|verify`
+  are unchanged. No cleanup deletes imported Pages.
+
 ### Fixed
 - CPT `author` singles at `/revista/autores/{slug}/` 404ed because the
   default query var collided with WordPress’s native user `author` var.
@@ -15,17 +33,7 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   One rewrite flush is required after this plugin version lands.
 
 ### Added
-- Plugin `revistalogos-core` 0.2.2: temporary administrator-only tool at
-  Tools → Institutional Content Import. It reuses `Content_Migrator`,
-  requires a nonce, `manage_options`, a signed read-only plan, fresh backup
-  evidence and explicit confirmation; blocks protected-slug collisions and
-  exposes no force mode. Local isolated Docker QA passed. Not deployed or
-  executed in production; remove it after institutional recovery.
-- WP-CLI `wp revistalogos fixtures bootstrap`: restricted editorial
-  bootstrap (one draft issue, one draft article, one draft author;
-  `_les_fixture=1`, kind `bootstrap`; no fake DOI/ORCID/ISSN). Production
-  writes require `--confirm-production` and `--backup`. Full demo seed
-  remains a separate command.
+- WP-CLI `wp revistalogos fixtures plan`: read-only Volume 1 bootstrap plan.
 
 ### Documentación
 - Corte a WordPress clásico en producción (2026-08-19): snapshot

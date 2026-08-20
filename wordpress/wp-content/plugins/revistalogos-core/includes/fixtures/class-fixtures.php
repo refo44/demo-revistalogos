@@ -1,16 +1,19 @@
 <?php
 /**
- * Fixture system (prompt §14 Phase 7, ADR 0004): one realistic
- * first-edition-shaped issue with its articles and authors, plus the
- * minimum stubs needed to exercise pagination. Entirely separate from
- * the institutional migration.
+ * Fixture system (prompt §14 Phase 7, ADR 0004) plus Volume 1 editorial
+ * bootstrap. Entirely separate from the institutional migration.
  *
- * Every fixture object carries _les_fixture = 1 (removable). Demo
- * fixtures also carry detectable fake identifiers (1234-5678,
- * 10.1234/les.*, 0000-0000-*). The production editorial bootstrap uses
- * the same marker with _les_fixture_kind=bootstrap and empty
- * identifiers (never fake DOI/ORCID/ISSN). Canonical migrated content
- * never carries the marker.
+ * Test fixtures (disposable demo): _les_fixture = 1, kind demo, fake
+ * identifiers 1234-5678 / 10.1234/les.* / 0000-0000-*. Teardown deletes
+ * them. Never run the demo seed on production.
+ *
+ * Editorial bootstrap (Volume 1): _les_bootstrap = 1 with a stable key
+ * and source hash. Objects are normal editable posts expected to become
+ * the real first issue through wp-admin. Teardown never deletes adopted
+ * or manual objects, never deletes the canonical author, and never
+ * touches institutional Pages. No fake DOI/ORCID/ISSN.
+ *
+ * Canonical migrated content never carries either marker.
  *
  * @package Revistalogos_Core
  */
@@ -33,6 +36,24 @@ class Fixtures {
 
 	const KIND_DEMO      = 'demo';
 	const KIND_BOOTSTRAP = 'bootstrap';
+
+	const BOOTSTRAP_MARKER      = '_les_bootstrap';
+	const BOOTSTRAP_KEY         = '_les_bootstrap_key';
+	const BOOTSTRAP_KIND        = '_les_bootstrap_kind';
+	const BOOTSTRAP_VERSION     = '_les_bootstrap_version';
+	const BOOTSTRAP_SOURCE_HASH = '_les_bootstrap_source_hash';
+	const BOOTSTRAP_ADOPTED     = '_les_bootstrap_adopted';
+
+	const BOOTSTRAP_KIND_VOLUME_1 = 'volume-1';
+	const BOOTSTRAP_VERSION_VALUE = '1';
+
+	const CANONICAL_AUTHOR_SLUG = 'rafael-eduardo-figueredo-oropeza';
+
+	const VOLUME1_ISSUE_KEY     = 'volume-1-issue-1';
+	const VOLUME1_EDITORIAL_KEY = 'volume-1-editorial';
+	const VOLUME1_COVER_KEY     = 'volume-1-media-cover';
+	const VOLUME1_ISSUE_PDF_KEY = 'volume-1-media-issue-pdf';
+	const VOLUME1_ARTICLE_PDF_KEY = 'volume-1-media-article-pdf';
 
 	const BOOTSTRAP_AUTHOR_KEY  = 'bootstrap-author-1';
 	const BOOTSTRAP_ISSUE_KEY   = 'bootstrap-issue-1';
@@ -445,96 +466,750 @@ class Fixtures {
 	}
 
 	/**
-	 * Restricted editorial bootstrap: one draft issue, one draft
-	 * article, one draft author. Tagged _les_fixture=1 and
-	 * _les_fixture_kind=bootstrap. No fake DOI/ORCID/ISSN, no news,
-	 * no demo media, no institutional pages. Idempotent by fixture key.
-	 * Never overwrites an existing object (fixture or editorial).
+	 * Volume 1 editorial bootstrap. Creates one published issue and the
+	 * sample-structure articles as normal editable objects. Reuses the
+	 * canonical author by slug; never creates, marks or deletes that
+	 * author. Idempotent by bootstrap key. Never overwrites adopted or
+	 * existing objects. No fake DOI/ORCID/ISSN.
 	 *
-	 * @param bool  $apply  Write when true.
-	 * @param array $author Optional keys: name, affiliation, bio. Never
-	 *                      email, ORCID or credentials. Missing name uses
-	 *                      a neutral placeholder.
-	 * @return string[] Report lines.
+	 * @param bool   $apply       Write when true.
+	 * @param string $author_slug Canonical author post_name.
+	 * @return string[]|\WP_Error Report lines, or error on fail-safe.
 	 */
-	public static function bootstrap( $apply, $author = array() ) {
-		$report = array();
+	public static function bootstrap( $apply, $author_slug = self::CANONICAL_AUTHOR_SLUG ) {
+		$author = self::resolve_canonical_author( $author_slug );
 
-		$name = isset( $author['name'] ) ? trim( (string) $author['name'] ) : '';
-		if ( '' === $name ) {
-			$name = 'Autor temporal (estructura editorial)';
+		if ( is_wp_error( $author ) ) {
+			return $author;
 		}
 
-		$affiliation = isset( $author['affiliation'] ) ? trim( (string) $author['affiliation'] ) : '';
-		$bio         = isset( $author['bio'] ) ? trim( (string) $author['bio'] ) : '';
+		if ( '1' === (string) get_post_meta( $author->ID, self::BOOTSTRAP_MARKER, true )
+			|| '1' === (string) get_post_meta( $author->ID, self::MARKER, true ) ) {
+			return new \WP_Error(
+				'author_marked',
+				sprintf(
+					'Canonical author id %d slug %s carries a fixture or bootstrap marker. Refusing to proceed; resolve manually. Do not create a duplicate.',
+					$author->ID,
+					$author->post_name
+				)
+			);
+		}
 
-		$author_id = self::seed_post(
-			self::BOOTSTRAP_AUTHOR_KEY,
-			array(
-				'post_type'   => Content_Types::AUTHOR,
-				'post_title'  => $name,
-				'post_status' => 'draft',
-			),
-			array(
-				'afiliacion' => $affiliation,
-				'orcid'      => '',
-				'bio'        => $bio,
-			),
-			array(),
-			$apply,
-			$report,
-			0,
-			self::KIND_BOOTSTRAP
+		$dataset = self::volume1_dataset();
+		$preflight = self::bootstrap_preflight( $dataset, $author );
+
+		if ( is_wp_error( $preflight ) ) {
+			return $preflight;
+		}
+
+		$report   = array();
+		$report[] = sprintf(
+			'author: reuse id %d slug %s (manual; not bootstrap-owned)',
+			$author->ID,
+			$author->post_name
 		);
 
-		$issue_id = self::seed_post(
-			self::BOOTSTRAP_ISSUE_KEY,
+		$ids = array();
+
+		foreach ( array(
+			self::VOLUME1_COVER_KEY       => array( 'portada-ejemplo.jpg', 'vol-1-n-1-portada.jpg', 'Portada placeholder Vol. 1 Nº 1' ),
+			self::VOLUME1_ISSUE_PDF_KEY   => array( 'numero-v12n2-2025.pdf', 'vol-1-n-1.pdf', 'PDF placeholder del número Vol. 1 Nº 1' ),
+			self::VOLUME1_ARTICLE_PDF_KEY => array( 'articulo-01.pdf', 'vol-1-articulo-01.pdf', 'PDF placeholder del artículo 1' ),
+		) as $key => $cfg ) {
+			$media_id = self::seed_bootstrap_media( $key, $cfg[0], $cfg[1], $cfg[2], $apply, $report );
+
+			if ( is_wp_error( $media_id ) ) {
+				return $media_id;
+			}
+
+			$ids[ $key ] = $media_id;
+		}
+
+		$issue_meta = array(
+			'volume_number'  => 1,
+			'issue_number'   => 1,
+			'year'           => '',
+			'date_published' => '',
+			'issn'           => '',
+			'doi'            => '',
+		);
+
+		if ( ! empty( $ids[ self::VOLUME1_ISSUE_PDF_KEY ] ) ) {
+			$issue_meta['pdf_file'] = $ids[ self::VOLUME1_ISSUE_PDF_KEY ];
+		}
+
+		$issue_id = self::seed_bootstrap_post(
+			self::VOLUME1_ISSUE_KEY,
 			array(
 				'post_type'    => Content_Types::ISSUE,
-				'post_title'   => 'Número temporal (estructura editorial)',
-				'post_status'  => 'draft',
-				'post_content' => 'Registro temporal de estructura editorial. Sustituir o eliminar antes de abrir la indexación. No es un número publicado.',
+				'post_title'   => $dataset['issue']['title'],
+				'post_name'    => $dataset['issue']['slug'],
+				'post_status'  => 'publish',
+				'post_content' => $dataset['issue']['content'],
 			),
-			array(
-				'volume_number'  => 1,
-				'issue_number'   => 1,
-				'year'           => '',
-				'date_published' => '',
-				'issn'           => '',
-				'doi'            => '',
-			),
+			$issue_meta,
 			array(),
 			$apply,
 			$report,
-			0,
-			self::KIND_BOOTSTRAP
+			isset( $ids[ self::VOLUME1_COVER_KEY ] ) ? $ids[ self::VOLUME1_COVER_KEY ] : 0
 		);
 
-		self::seed_post(
-			self::BOOTSTRAP_ARTICLE_KEY,
-			array(
-				'post_type'    => Content_Types::ARTICLE,
-				'post_title'   => 'Artículo temporal (estructura editorial)',
-				'post_status'  => 'draft',
-				'post_content' => 'Registro temporal de estructura editorial. Sustituir o eliminar antes de abrir la indexación. No es contenido académico publicado.',
-			),
-			array(
-				'abstract'         => '',
+		if ( is_wp_error( $issue_id ) ) {
+			return $issue_id;
+		}
+
+		foreach ( $dataset['articles'] as $article ) {
+			$author_ids = ! empty( $article['link_rafael'] ) ? array( (int) $author->ID ) : array();
+			$meta       = array(
+				'title_en'         => $article['title_en'],
+				'abstract'         => $article['abstract'],
+				'abstract_en'      => '',
 				'doi'              => '',
-				'pages'            => '',
+				'pages'            => $article['pages'],
 				'language'         => 'es',
 				'publication_date' => '',
-				'authors'          => $author_id ? array( $author_id ) : array(),
+				'received_date'    => '',
+				'accepted_date'    => '',
+				'authors'          => $author_ids,
 				'issue'            => $issue_id ? $issue_id : 0,
-			),
-			array(),
-			$apply,
-			$report,
-			0,
-			self::KIND_BOOTSTRAP
-		);
+			);
+
+			if ( ! empty( $article['pdf'] ) && ! empty( $ids[ self::VOLUME1_ARTICLE_PDF_KEY ] ) ) {
+				$meta['pdf_file'] = $ids[ self::VOLUME1_ARTICLE_PDF_KEY ];
+			}
+
+			$taxonomies = array(
+				Taxonomies::ARTICLE_TYPE => array( $article['type'] ),
+			);
+
+			if ( $article['section'] ) {
+				$taxonomies[ Taxonomies::SECTION ] = array( $article['section'] );
+			}
+
+			if ( ! empty( $article['keywords'] ) ) {
+				$taxonomies[ Taxonomies::KEYWORD ] = $article['keywords'];
+			}
+
+			$created = self::seed_bootstrap_post(
+				$article['key'],
+				array(
+					'post_type'    => Content_Types::ARTICLE,
+					'post_title'   => $article['title'],
+					'post_name'    => $article['slug'],
+					'post_status'  => 'publish',
+					'post_content' => $article['content'],
+					'menu_order'   => $article['menu_order'],
+				),
+				$meta,
+				$taxonomies,
+				$apply,
+				$report
+			);
+
+			if ( is_wp_error( $created ) ) {
+				return $created;
+			}
+		}
 
 		return $report;
+	}
+
+	/**
+	 * Read-only Volume 1 plan (same as bootstrap dry-run).
+	 *
+	 * @param string $author_slug Canonical author post_name.
+	 * @return string[]|\WP_Error
+	 */
+	public static function plan( $author_slug = self::CANONICAL_AUTHOR_SLUG ) {
+		return self::bootstrap( false, $author_slug );
+	}
+
+	/**
+	 * Static-maquette Volume 1 dataset. Titles/abstracts/sections come
+	 * from static/ (Vol. 12 Nº 2 dummy), retargeted to Vol. 1 Nº 1.
+	 * Dummy author identities and fake DOI/ORCID/ISSN are not used.
+	 *
+	 * @return array<string, mixed>
+	 */
+	private static function volume1_dataset() {
+		$placeholder_body = 'Contenido placeholder del Volume 1. Sustituir en wp-admin por el texto editorial real.';
+
+		return array(
+			'issue'    => array(
+				'title'   => 'Filosofía Contemporánea: Nuevas Perspectivas',
+				'slug'    => 'vol-1-n-1',
+				'content' => 'Este número presenta una selección de artículos que abordan temas fundamentales de la filosofía contemporánea, desde la metafísica hasta la ética aplicada. Los trabajos incluidos reflejan la diversidad y riqueza del pensamiento filosófico actual, ofreciendo nuevas perspectivas sobre problemas clásicos y emergentes en el campo de la filosofía.',
+			),
+			'articles' => array(
+				array(
+					'key'         => self::VOLUME1_EDITORIAL_KEY,
+					'title'       => 'Editorial',
+					'slug'        => 'editorial-vol-1-n-1',
+					'type'        => 'editorial',
+					'section'     => null,
+					'title_en'    => '',
+					'abstract'    => '',
+					'pages'       => '',
+					'keywords'    => array(),
+					'menu_order'  => 0,
+					'link_rafael' => false,
+					'pdf'         => false,
+					'content'     => "Es un honor presentar este nuevo número de Logos et Spes, que continúa con nuestra tradición de publicar investigaciones rigurosas y originales en el campo de la filosofía. Los seis artículos que componen este volumen abordan cuestiones fundamentales que han ocupado a los filósofos a lo largo de la historia, pero desde perspectivas contemporáneas que reflejan los desafíos y oportunidades de nuestro tiempo.\n\nLa diversidad temática de este número es particularmente notable. Desde las reflexiones metafísicas sobre la naturaleza del ser hasta los análisis éticos sobre la responsabilidad social, pasando por las consideraciones epistemológicas sobre el conocimiento en la era digital y las exploraciones en filosofía de la religión, cada contribución ofrece una perspectiva única y valiosa.",
+				),
+				array(
+					'key'         => 'volume-1-article-1',
+					'title'       => 'La naturaleza del ser en la filosofía contemporánea',
+					'slug'        => 'la-naturaleza-del-ser-en-la-filosofia-contemporanea',
+					'type'        => 'article',
+					'section'     => 'Metafísica',
+					'title_en'    => 'The Nature of Being in Contemporary Philosophy',
+					'abstract'    => 'Este artículo examina las principales corrientes del pensamiento ontológico contemporáneo, analizando las contribuciones de Heidegger, Sartre y otros filósofos modernos al problema del ser. Se propone una síntesis crítica que permita comprender la evolución del concepto de ser en la filosofía del siglo XX.',
+					'pages'       => '15-32',
+					'keywords'    => array( 'ontología', 'ser', 'Heidegger', 'Sartre', 'filosofía contemporánea' ),
+					'menu_order'  => 1,
+					'link_rafael' => true,
+					'pdf'         => true,
+					'content'     => $placeholder_body,
+				),
+				array(
+					'key'         => 'volume-1-article-2',
+					'title'       => 'Fundamentos de la ética aplicada en el siglo XXI',
+					'slug'        => 'fundamentos-de-la-etica-aplicada-en-el-siglo-xxi',
+					'type'        => 'article',
+					'section'     => 'Ética',
+					'title_en'    => 'Foundations of Applied Ethics in the 21st Century',
+					'abstract'    => 'Este trabajo analiza los fundamentos teóricos de la ética aplicada en el contexto del siglo XXI, considerando los nuevos desafíos morales planteados por la tecnología, la globalización y los cambios sociales. Se examinan las principales corrientes éticas contemporáneas y su aplicación práctica.',
+					'pages'       => '33-48',
+					'keywords'    => array( 'ética aplicada', 'moral', 'tecnología', 'globalización', 'responsabilidad' ),
+					'menu_order'  => 2,
+					'link_rafael' => false,
+					'pdf'         => false,
+					'content'     => $placeholder_body,
+				),
+				array(
+					'key'         => 'volume-1-article-3',
+					'title'       => 'Justicia distributiva y responsabilidad social',
+					'slug'        => 'justicia-distributiva-y-responsabilidad-social',
+					'type'        => 'article',
+					'section'     => 'Ética',
+					'title_en'    => 'Distributive Justice and Social Responsibility',
+					'abstract'    => 'Este artículo explora la relación entre justicia distributiva y responsabilidad social en el marco de las sociedades contemporáneas. Se analizan las teorías de Rawls, Sen y otros pensadores para comprender cómo se puede lograr una distribución justa de recursos y oportunidades.',
+					'pages'       => '49-65',
+					'keywords'    => array( 'justicia distributiva', 'responsabilidad social', 'Rawls', 'Sen', 'equidad' ),
+					'menu_order'  => 3,
+					'link_rafael' => false,
+					'pdf'         => false,
+					'content'     => $placeholder_body,
+				),
+				array(
+					'key'         => 'volume-1-article-4',
+					'title'       => 'El problema del conocimiento en la era digital',
+					'slug'        => 'el-problema-del-conocimiento-en-la-era-digital',
+					'type'        => 'article',
+					'section'     => 'Epistemología',
+					'title_en'    => 'The Problem of Knowledge in the Digital Age',
+					'abstract'    => 'Este trabajo examina cómo la revolución digital ha transformado nuestra comprensión del conocimiento y la verdad. Se analizan los desafíos epistemológicos planteados por la información digital, las redes sociales y la inteligencia artificial.',
+					'pages'       => '67-82',
+					'keywords'    => array( 'epistemología', 'conocimiento digital', 'verdad', 'información', 'tecnología' ),
+					'menu_order'  => 4,
+					'link_rafael' => false,
+					'pdf'         => false,
+					'content'     => $placeholder_body,
+				),
+				array(
+					'key'         => 'volume-1-article-5',
+					'title'       => 'Secularización y experiencia religiosa en la modernidad',
+					'slug'        => 'secularizacion-y-experiencia-religiosa-en-la-modernidad',
+					'type'        => 'article',
+					'section'     => 'Filosofía de la Religión',
+					'title_en'    => 'Secularization and Religious Experience in Modernity',
+					'abstract'    => 'Este artículo analiza el proceso de secularización en las sociedades modernas y su impacto en la experiencia religiosa. Se examinan las teorías de Weber, Berger y otros sociólogos de la religión para comprender la persistencia de lo religioso en contextos secularizados.',
+					'pages'       => '83-98',
+					'keywords'    => array( 'secularización', 'experiencia religiosa', 'modernidad', 'Weber', 'Berger' ),
+					'menu_order'  => 5,
+					'link_rafael' => false,
+					'pdf'         => false,
+					'content'     => $placeholder_body,
+				),
+				array(
+					'key'         => 'volume-1-article-6',
+					'title'       => 'Teodicea y el problema del mal en el pensamiento contemporáneo',
+					'slug'        => 'teodicea-y-el-problema-del-mal-en-el-pensamiento-contemporaneo',
+					'type'        => 'article',
+					'section'     => 'Filosofía de la Religión',
+					'title_en'    => 'Theodicy and the Problem of Evil in Contemporary Thought',
+					'abstract'    => 'Este trabajo examina las respuestas contemporáneas al problema del mal desde la perspectiva de la teodicea. Se analizan las contribuciones de Plantinga, Hick y otros filósofos de la religión para comprender cómo se puede mantener la creencia en un Dios omnibenevolente frente a la existencia del mal.',
+					'pages'       => '99-115',
+					'keywords'    => array( 'teodicea', 'problema del mal', 'Dios', 'Plantinga', 'Hick', 'omnibenevolencia' ),
+					'menu_order'  => 6,
+					'link_rafael' => false,
+					'pdf'         => false,
+					'content'     => $placeholder_body,
+				),
+			),
+		);
+	}
+
+	/**
+	 * Find the canonical Author CPT by slug. Fail-safe on 0 or >1 matches.
+	 *
+	 * @param string $slug Author post_name.
+	 * @return \WP_Post|\WP_Error
+	 */
+	public static function resolve_canonical_author( $slug ) {
+		$slug = sanitize_title( (string) $slug );
+
+		if ( '' === $slug ) {
+			return new \WP_Error( 'author_slug_empty', 'Author slug is empty.' );
+		}
+
+		$posts = get_posts(
+			array(
+				'post_type'      => Content_Types::AUTHOR,
+				'name'           => $slug,
+				'post_status'    => 'any',
+				'posts_per_page' => -1,
+				'no_found_rows'  => true,
+			)
+		);
+
+		if ( count( $posts ) > 1 ) {
+			$ids = implode( ', ', wp_list_pluck( $posts, 'ID' ) );
+
+			return new \WP_Error(
+				'author_ambiguous',
+				sprintf(
+					'Ambiguous author slug %s (ids %s). Refusing to choose. Do not create another duplicate.',
+					$slug,
+					$ids
+				)
+			);
+		}
+
+		if ( ! $posts ) {
+			return new \WP_Error(
+				'author_missing',
+				sprintf(
+					'No Author CPT with slug %s. Create that author manually (not as a bootstrap object), then re-run. Bootstrap never creates this author.',
+					$slug
+				)
+			);
+		}
+
+		return $posts[0];
+	}
+
+	/**
+	 * Fail-safe collisions: leftover disposable bootstrap, manual Vol. 1
+	 * issue, or a slug already owned by a non-bootstrap object.
+	 *
+	 * @param array    $dataset Volume 1 dataset.
+	 * @param \WP_Post $author  Canonical author.
+	 * @return true|\WP_Error
+	 */
+	private static function bootstrap_preflight( $dataset, $author ) {
+		$errors = array();
+
+		$issues = get_posts(
+			array(
+				'post_type'      => Content_Types::ISSUE,
+				'post_status'    => 'any',
+				'posts_per_page' => -1,
+				'meta_query'     => array(
+					array(
+						'key'   => 'volume_number',
+						'value' => '1',
+					),
+					array(
+						'key'   => 'issue_number',
+						'value' => '1',
+					),
+				),
+				'no_found_rows'  => true,
+			)
+		);
+
+		foreach ( $issues as $issue ) {
+			$bootstrap_key = (string) get_post_meta( $issue->ID, self::BOOTSTRAP_KEY, true );
+			$fixture_key   = (string) get_post_meta( $issue->ID, self::FIXTURE_KEY, true );
+
+			if ( self::VOLUME1_ISSUE_KEY === $bootstrap_key ) {
+				continue;
+			}
+
+			if ( self::BOOTSTRAP_ISSUE_KEY === $fixture_key ) {
+				$errors[] = sprintf(
+					'Existing issue id %d is leftover disposable bootstrap (fixture key %s). Run `wp revistalogos fixtures teardown --kind=bootstrap` before Volume 1 bootstrap.',
+					$issue->ID,
+					$fixture_key
+				);
+				continue;
+			}
+
+			$errors[] = sprintf(
+				'Existing issue id %d slug %s is already Vol. 1 Nº 1 and is not Volume 1 bootstrap-owned. Refusing to overwrite or adopt it automatically.',
+				$issue->ID,
+				$issue->post_name
+			);
+		}
+
+		$candidates = array(
+			array( Content_Types::ISSUE, $dataset['issue']['slug'], self::VOLUME1_ISSUE_KEY ),
+		);
+
+		foreach ( $dataset['articles'] as $article ) {
+			$candidates[] = array( Content_Types::ARTICLE, $article['slug'], $article['key'] );
+		}
+
+		foreach ( $candidates as $candidate ) {
+			list( $post_type, $slug, $key ) = $candidate;
+			$owned = self::find_bootstrap( $key );
+
+			$existing = get_posts(
+				array(
+					'post_type'      => $post_type,
+					'name'           => $slug,
+					'post_status'    => 'any',
+					'posts_per_page' => -1,
+					'no_found_rows'  => true,
+				)
+			);
+
+			foreach ( $existing as $post ) {
+				$post_key = (string) get_post_meta( $post->ID, self::BOOTSTRAP_KEY, true );
+
+				if ( $key === $post_key ) {
+					continue;
+				}
+
+				$errors[] = sprintf(
+					'Slug %s already exists on %s id %d and is not bootstrap key %s. Refusing to create a duplicate.',
+					$slug,
+					$post_type,
+					$post->ID,
+					$key
+				);
+			}
+
+			unset( $owned );
+		}
+
+		if ( Content_Types::AUTHOR !== $author->post_type ) {
+			$errors[] = sprintf( 'Canonical author id %d is not post_type=author.', $author->ID );
+		}
+
+		if ( $errors ) {
+			return new \WP_Error( 'bootstrap_collision', implode( ' ', $errors ) );
+		}
+
+		return true;
+	}
+
+	/**
+	 * Find a Volume 1 bootstrap object by stable key.
+	 *
+	 * @param string $key Bootstrap key.
+	 * @return \WP_Post|null
+	 */
+	private static function find_bootstrap( $key ) {
+		$args = array(
+			'post_status'    => 'any',
+			'posts_per_page' => 1,
+			'meta_key'       => self::BOOTSTRAP_KEY,
+			'meta_value'     => $key,
+			'no_found_rows'  => true,
+		);
+
+		$posts = get_posts( array_merge( $args, array( 'post_type' => 'any' ) ) );
+
+		if ( $posts ) {
+			return $posts[0];
+		}
+
+		$attachments = get_posts( array_merge( $args, array( 'post_type' => 'attachment' ) ) );
+
+		return $attachments ? $attachments[0] : null;
+	}
+
+	/**
+	 * Every Volume 1 bootstrap post/attachment ID.
+	 *
+	 * @return int[]
+	 */
+	public static function all_bootstrap_ids() {
+		$args = array(
+			'post_status'    => 'any',
+			'posts_per_page' => -1,
+			'fields'         => 'ids',
+			'meta_key'       => self::BOOTSTRAP_MARKER,
+			'meta_value'     => '1',
+			'no_found_rows'  => true,
+		);
+
+		$posts       = get_posts( array_merge( $args, array( 'post_type' => 'any' ) ) );
+		$attachments = get_posts( array_merge( $args, array( 'post_type' => 'attachment' ) ) );
+
+		return array_values( array_unique( array_map( 'absint', array_merge( $posts, $attachments ) ) ) );
+	}
+
+	/**
+	 * Sideload one bootstrap-owned attachment. Idempotent by key.
+	 *
+	 * @param string $key         Bootstrap key.
+	 * @param string $source_name File under resources/fixtures/.
+	 * @param string $dest_name   Uploaded filename.
+	 * @param string $title       Attachment title.
+	 * @param bool   $apply       Write when true.
+	 * @param array  $report      Report accumulator.
+	 * @return int|\WP_Error Attachment ID (0 in dry-run for new objects).
+	 */
+	private static function seed_bootstrap_media( $key, $source_name, $dest_name, $title, $apply, &$report ) {
+		$existing = self::find_bootstrap( $key );
+
+		if ( $existing ) {
+			self::refresh_adoption( $existing->ID, false );
+			$state    = self::is_adopted( $existing->ID ) ? 'adopted' : 'exists';
+			$report[] = "media $key: $state (id {$existing->ID})";
+			return (int) $existing->ID;
+		}
+
+		if ( ! $apply ) {
+			$report[] = "media $key: would import $dest_name";
+			return 0;
+		}
+
+		$source = REVISTALOGOS_CORE_DIR . 'resources/fixtures/' . $source_name;
+
+		if ( ! file_exists( $source ) ) {
+			return new \WP_Error( 'bootstrap_media_missing', "media $key: seed file missing ($source_name)" );
+		}
+
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		require_once ABSPATH . 'wp-admin/includes/media.php';
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+
+		$tmp = wp_tempnam( $dest_name );
+		copy( $source, $tmp );
+
+		$attachment_id = media_handle_sideload(
+			array(
+				'name'     => $dest_name,
+				'tmp_name' => $tmp,
+			),
+			0,
+			$title
+		);
+
+		if ( is_wp_error( $attachment_id ) ) {
+			return $attachment_id;
+		}
+
+		self::mark_bootstrap( $attachment_id, $key );
+		update_post_meta( $attachment_id, self::BOOTSTRAP_SOURCE_HASH, self::snapshot_hash( $attachment_id ) );
+		$report[] = "media $key: imported (id $attachment_id)";
+
+		return (int) $attachment_id;
+	}
+
+	/**
+	 * Create one Volume 1 bootstrap post when absent. Never overwrites.
+	 *
+	 * @param string $key        Bootstrap key.
+	 * @param array  $postarr    wp_insert_post args.
+	 * @param array  $meta       Meta key => value.
+	 * @param array  $taxonomies Taxonomy => term names.
+	 * @param bool   $apply      Write when true.
+	 * @param array  $report     Report accumulator.
+	 * @param int    $thumbnail  Featured image ID.
+	 * @return int|\WP_Error Post ID (0 in dry-run for new objects).
+	 */
+	private static function seed_bootstrap_post( $key, $postarr, $meta, $taxonomies, $apply, &$report, $thumbnail = 0 ) {
+		$existing = self::find_bootstrap( $key );
+
+		if ( $existing ) {
+			self::refresh_adoption( $existing->ID, $apply );
+
+			if ( self::is_adopted( $existing->ID ) ) {
+				$report[] = "$key: adopted (id {$existing->ID}); left untouched";
+			} else {
+				$report[] = "$key: exists (id {$existing->ID})";
+			}
+
+			return (int) $existing->ID;
+		}
+
+		if ( ! $apply ) {
+			$report[] = "$key: would create {$postarr['post_type']} {$postarr['post_name']}";
+			return 0;
+		}
+
+		$post_id = wp_insert_post( wp_slash( $postarr ), true );
+
+		if ( is_wp_error( $post_id ) ) {
+			return $post_id;
+		}
+
+		self::mark_bootstrap( $post_id, $key );
+
+		foreach ( $meta as $meta_key => $value ) {
+			update_post_meta( $post_id, $meta_key, $value );
+		}
+
+		foreach ( $taxonomies as $taxonomy => $terms ) {
+			$term_ids = array();
+
+			foreach ( $terms as $term_name ) {
+				$existing_term = term_exists( $term_name, $taxonomy );
+
+				if ( ! $existing_term ) {
+					$new_term = wp_insert_term( $term_name, $taxonomy );
+
+					if ( ! is_wp_error( $new_term ) ) {
+						$term_ids[] = (int) $new_term['term_id'];
+					}
+				} else {
+					$term_ids[] = (int) ( is_array( $existing_term ) ? $existing_term['term_id'] : $existing_term );
+				}
+			}
+
+			wp_set_object_terms( $post_id, $term_ids, $taxonomy );
+		}
+
+		if ( $thumbnail ) {
+			set_post_thumbnail( $post_id, $thumbnail );
+		}
+
+		update_post_meta( $post_id, self::BOOTSTRAP_SOURCE_HASH, self::snapshot_hash( $post_id ) );
+		$report[] = "$key: created (id $post_id)";
+
+		return (int) $post_id;
+	}
+
+	/**
+	 * Mark an object as Volume 1 bootstrap-owned. Never used on the
+	 * canonical author.
+	 *
+	 * @param int    $post_id Post ID.
+	 * @param string $key     Bootstrap key.
+	 */
+	private static function mark_bootstrap( $post_id, $key ) {
+		update_post_meta( $post_id, self::BOOTSTRAP_MARKER, '1' );
+		update_post_meta( $post_id, self::BOOTSTRAP_KEY, $key );
+		update_post_meta( $post_id, self::BOOTSTRAP_KIND, self::BOOTSTRAP_KIND_VOLUME_1 );
+		update_post_meta( $post_id, self::BOOTSTRAP_VERSION, self::BOOTSTRAP_VERSION_VALUE );
+	}
+
+	/**
+	 * Hash of the editable editorial fields used to detect adoption.
+	 *
+	 * @param int $post_id Post ID.
+	 * @return string
+	 */
+	private static function snapshot_hash( $post_id ) {
+		$post = get_post( $post_id );
+
+		if ( ! $post ) {
+			return '';
+		}
+
+		$payload = array(
+			$post->post_title,
+			$post->post_content,
+			$post->post_name,
+			$post->post_status,
+			(string) $post->menu_order,
+			(string) get_post_thumbnail_id( $post_id ),
+		);
+
+		foreach ( array(
+			'abstract',
+			'abstract_en',
+			'title_en',
+			'pages',
+			'language',
+			'doi',
+			'issn',
+			'volume_number',
+			'issue_number',
+			'year',
+			'date_published',
+			'publication_date',
+			'pdf_file',
+			'issue',
+		) as $meta_key ) {
+			$value     = get_post_meta( $post_id, $meta_key, true );
+			$payload[] = is_array( $value ) ? wp_json_encode( $value ) : (string) $value;
+		}
+
+		$authors   = get_post_meta( $post_id, 'authors', true );
+		$payload[] = is_array( $authors ) ? implode( ',', array_map( 'absint', $authors ) ) : '';
+
+		foreach ( array( Taxonomies::SECTION, Taxonomies::ARTICLE_TYPE, Taxonomies::KEYWORD ) as $taxonomy ) {
+			if ( ! taxonomy_exists( $taxonomy ) ) {
+				$payload[] = '';
+				continue;
+			}
+
+			$terms     = wp_get_object_terms( $post_id, $taxonomy, array( 'fields' => 'slugs' ) );
+			$payload[] = is_wp_error( $terms ) ? '' : implode( ',', $terms );
+		}
+
+		return hash( 'sha256', implode( '|', $payload ) );
+	}
+
+	/**
+	 * Whether a bootstrap object has been editorially adopted.
+	 *
+	 * @param int $post_id Post ID.
+	 * @return bool
+	 */
+	public static function is_adopted( $post_id ) {
+		if ( '1' === (string) get_post_meta( $post_id, self::BOOTSTRAP_ADOPTED, true ) ) {
+			return true;
+		}
+
+		if ( '1' !== (string) get_post_meta( $post_id, self::BOOTSTRAP_MARKER, true ) ) {
+			return false;
+		}
+
+		$stored = (string) get_post_meta( $post_id, self::BOOTSTRAP_SOURCE_HASH, true );
+
+		if ( '' === $stored ) {
+			return false;
+		}
+
+		return self::snapshot_hash( $post_id ) !== $stored;
+	}
+
+	/**
+	 * Persist the adopted flag when content has drifted. Sticky: never
+	 * cleared automatically.
+	 *
+	 * @param int  $post_id Post ID.
+	 * @param bool $persist Write the flag when true.
+	 */
+	private static function refresh_adoption( $post_id, $persist ) {
+		if ( ! $persist || self::is_adopted( $post_id ) === false ) {
+			return;
+		}
+
+		if ( '1' !== (string) get_post_meta( $post_id, self::BOOTSTRAP_ADOPTED, true ) ) {
+			update_post_meta( $post_id, self::BOOTSTRAP_ADOPTED, '1' );
+		}
+	}
+
+	/**
+	 * Canonical author must never be deleted by fixture/bootstrap cleanup.
+	 *
+	 * @param int $post_id Post ID.
+	 * @return bool
+	 */
+	private static function is_protected_author( $post_id ) {
+		$post = get_post( $post_id );
+
+		return $post
+			&& Content_Types::AUTHOR === $post->post_type
+			&& self::CANONICAL_AUTHOR_SLUG === $post->post_name;
 	}
 
 	/**
@@ -611,9 +1286,9 @@ class Fixtures {
 	}
 
 	/**
-	 * Verify fixture state: expected objects exist, all carry fake
-	 * identifiers, no canonical object carries the marker, no
-	 * duplicates per fixture key.
+	 * Verify fixture and Volume 1 bootstrap state: keys unique, demo
+	 * identifiers fake, bootstrap identifiers empty, canonical author
+	 * unmarked, no migration-source contamination.
 	 *
 	 * @return array{report: string[], failures: int}
 	 */
@@ -621,12 +1296,13 @@ class Fixtures {
 		$report   = array();
 		$failures = 0;
 
-		$ids = self::all_fixture_ids();
-		$report[] = sprintf( '%d fixture objects present', count( $ids ) );
+		$fixture_ids   = self::all_fixture_ids();
+		$bootstrap_ids = self::all_bootstrap_ids();
+		$report[]      = sprintf( '%d demo/legacy fixture objects present', count( $fixture_ids ) );
+		$report[]      = sprintf( '%d Volume 1 bootstrap objects present', count( $bootstrap_ids ) );
 
-		// Duplicate fixture keys mean seed idempotency broke.
 		$keys = array();
-		foreach ( $ids as $id ) {
+		foreach ( $fixture_ids as $id ) {
 			$key = (string) get_post_meta( $id, self::FIXTURE_KEY, true );
 
 			if ( isset( $keys[ $key ] ) ) {
@@ -637,9 +1313,59 @@ class Fixtures {
 			$keys[ $key ] = $id;
 		}
 
-		// Identifiers: demo fixtures must keep detectable fakes;
-		// bootstrap fixtures must have empty DOI/ORCID/ISSN (never fakes).
-		foreach ( $ids as $id ) {
+		$bootstrap_keys = array();
+		foreach ( $bootstrap_ids as $id ) {
+			$key = (string) get_post_meta( $id, self::BOOTSTRAP_KEY, true );
+
+			if ( isset( $bootstrap_keys[ $key ] ) ) {
+				$report[] = "DUPLICATE bootstrap key: $key (ids {$bootstrap_keys[$key]}, $id)";
+				$failures++;
+			}
+
+			$bootstrap_keys[ $key ] = $id;
+
+			if ( self::is_protected_author( $id ) ) {
+				$report[] = "canonical author $id carries _les_bootstrap; must never be bootstrap-owned";
+				$failures++;
+			}
+
+			if ( self::is_adopted( $id ) ) {
+				$report[] = sprintf(
+					'%s %d (%s): adopted; left as editorial content',
+					get_post_type( $id ),
+					$id,
+					$key
+				);
+			}
+
+			$issn  = (string) get_post_meta( $id, 'issn', true );
+			$doi   = (string) get_post_meta( $id, 'doi', true );
+			$orcid = (string) get_post_meta( $id, 'orcid', true );
+
+			if ( '' !== $issn || '' !== $doi || '' !== $orcid ) {
+				$report[] = get_post_type( $id ) . " $id: Volume 1 bootstrap must not store DOI/ORCID/ISSN";
+				$failures++;
+			}
+
+			if ( false !== strpos( $issn . $doi . $orcid, '1234-5678' )
+				|| false !== strpos( $doi, self::FAKE_DOI_PREFIX )
+				|| false !== strpos( $orcid, '0000-0000-' ) ) {
+				$report[] = get_post_type( $id ) . " $id: Volume 1 bootstrap carries a fake identifier";
+				$failures++;
+			}
+
+			if ( '' !== (string) get_post_meta( $id, Content_Migrator::META_SOURCE_KEY, true ) ) {
+				$report[] = "object $id carries BOTH bootstrap marker and migration source key";
+				$failures++;
+			}
+
+			if ( '1' === (string) get_post_meta( $id, self::MARKER, true ) ) {
+				$report[] = "object $id carries BOTH _les_bootstrap and _les_fixture";
+				$failures++;
+			}
+		}
+
+		foreach ( $fixture_ids as $id ) {
 			$post_type = get_post_type( $id );
 			$kind      = (string) get_post_meta( $id, self::KIND, true );
 			$issn      = (string) get_post_meta( $id, 'issn', true );
@@ -648,13 +1374,7 @@ class Fixtures {
 
 			if ( self::KIND_BOOTSTRAP === $kind ) {
 				if ( '' !== $issn || '' !== $doi || '' !== $orcid ) {
-					$report[] = "$post_type $id: bootstrap fixture must not store DOI/ORCID/ISSN";
-					$failures++;
-				}
-				if ( false !== strpos( $issn . $doi . $orcid, '1234-5678' )
-					|| false !== strpos( $doi, self::FAKE_DOI_PREFIX )
-					|| false !== strpos( $orcid, '0000-0000-' ) ) {
-					$report[] = "$post_type $id: bootstrap fixture carries a fake identifier";
+					$report[] = "$post_type $id: leftover bootstrap fixture must not store DOI/ORCID/ISSN";
 					$failures++;
 				}
 				continue;
@@ -678,12 +1398,33 @@ class Fixtures {
 					$failures++;
 				}
 			}
-		}
 
-		// Canonical migrated objects must never carry the marker.
-		foreach ( $ids as $id ) {
 			if ( '' !== (string) get_post_meta( $id, Content_Migrator::META_SOURCE_KEY, true ) ) {
 				$report[] = "object $id carries BOTH fixture marker and migration source key";
+				$failures++;
+			}
+		}
+
+		$canonical = get_posts(
+			array(
+				'post_type'      => Content_Types::AUTHOR,
+				'name'           => self::CANONICAL_AUTHOR_SLUG,
+				'post_status'    => 'any',
+				'posts_per_page' => -1,
+				'no_found_rows'  => true,
+			)
+		);
+
+		if ( count( $canonical ) > 1 ) {
+			$report[] = 'Ambiguous canonical author slug ' . self::CANONICAL_AUTHOR_SLUG;
+			$failures++;
+		} elseif ( 1 === count( $canonical ) ) {
+			$author_id = $canonical[0]->ID;
+			$report[]  = sprintf( 'canonical author id %d slug %s present', $author_id, self::CANONICAL_AUTHOR_SLUG );
+
+			if ( '1' === (string) get_post_meta( $author_id, self::BOOTSTRAP_MARKER, true )
+				|| '1' === (string) get_post_meta( $author_id, self::MARKER, true ) ) {
+				$report[] = "canonical author $author_id must not carry fixture or bootstrap markers";
 				$failures++;
 			}
 		}
@@ -695,44 +1436,72 @@ class Fixtures {
 	}
 
 	/**
-	 * Remove every fixture object: posts, attachments (with files),
-	 * meta and term relationships; fixture-created terms are removed
-	 * when no non-fixture content uses them. Never touches canonical
-	 * or unrelated content. Idempotent: an empty run is a no-op.
+	 * Remove disposable fixtures and unadopted Volume 1 bootstrap
+	 * objects. Never deletes adopted bootstrap content, the canonical
+	 * author, institutional migration objects, or unmarked posts.
+	 * Idempotent: an empty run is a no-op.
 	 *
 	 * @param bool   $apply Write when true.
-	 * @param string $kind  Empty = all fixtures; KIND_DEMO or KIND_BOOTSTRAP to filter.
+	 * @param string $kind  Empty = demo+legacy fixtures only (not Volume 1);
+	 *                      KIND_DEMO; KIND_BOOTSTRAP = leftover fixture
+	 *                      bootstrap + unadopted Volume 1 objects.
 	 * @return string[] Report lines.
 	 */
 	public static function teardown( $apply, $kind = '' ) {
 		$report = array();
-		$ids    = self::all_fixture_ids();
+		$ids    = array();
 
-		if ( '' !== $kind ) {
-			$ids = array_values(
+		if ( self::KIND_BOOTSTRAP === $kind ) {
+			$legacy = array_values(
 				array_filter(
-					$ids,
-					static function ( $id ) use ( $kind ) {
-						return $kind === (string) get_post_meta( $id, self::KIND, true );
+					self::all_fixture_ids(),
+					static function ( $id ) {
+						return self::KIND_BOOTSTRAP === (string) get_post_meta( $id, self::KIND, true );
 					}
 				)
 			);
+			$ids    = array_values( array_unique( array_merge( $legacy, self::all_bootstrap_ids() ) ) );
+		} elseif ( self::KIND_DEMO === $kind ) {
+			$ids = array_values(
+				array_filter(
+					self::all_fixture_ids(),
+					static function ( $id ) {
+						return self::KIND_DEMO === (string) get_post_meta( $id, self::KIND, true )
+							|| '' === (string) get_post_meta( $id, self::KIND, true );
+					}
+				)
+			);
+		} else {
+			$ids = self::all_fixture_ids();
 		}
 
 		if ( ! $ids ) {
-			$report[] = 'no fixture objects found; nothing to do';
+			$report[] = 'no matching fixture/bootstrap objects found; nothing to do';
 		}
 
 		foreach ( $ids as $id ) {
 			$type = get_post_type( $id );
+
+			if ( self::is_protected_author( $id ) ) {
+				$report[] = "kept author $id (canonical slug; never deleted)";
+				continue;
+			}
+
+			if ( '' !== (string) get_post_meta( $id, Content_Migrator::META_SOURCE_KEY, true ) ) {
+				$report[] = "kept $type $id (institutional migration object)";
+				continue;
+			}
+
+			if ( '1' === (string) get_post_meta( $id, self::BOOTSTRAP_MARKER, true ) && self::is_adopted( $id ) ) {
+				$report[] = "kept $type $id (adopted Volume 1 content; teardown refused)";
+				continue;
+			}
 
 			if ( ! $apply ) {
 				$report[] = "would delete $type $id";
 				continue;
 			}
 
-			// wp_delete_post also deletes post meta and term
-			// relationships; attachments delete their files.
 			$deleted = ( 'attachment' === $type )
 				? wp_delete_attachment( $id, true )
 				: wp_delete_post( $id, true );
@@ -744,7 +1513,6 @@ class Fixtures {
 			return $report;
 		}
 
-		// Fixture-created terms now unused by real content.
 		foreach ( array( Taxonomies::SECTION, Taxonomies::ARTICLE_TYPE, Taxonomies::KEYWORD ) as $taxonomy ) {
 			$terms = get_terms(
 				array(

@@ -46,10 +46,12 @@ resuming Fase 3 work).
   Nº 2 issue, the six sample articles, fake news posts, `1234-5678`,
   `10.1234/les.*`, `0000-0000-*`, and demo paginations are explicitly
   forbidden in any WordPress content migration. **Exception (owner,
-  2026-08-19):** a restricted editorial bootstrap (`wp revistalogos
-  fixtures bootstrap`) may create one temporary draft issue, one draft
-  article and one draft author tagged `_les_fixture=1` / kind
-  `bootstrap`, with **no** fake DOI/ORCID/ISSN. Do **not** run
+  2026-08-19):** a Volume 1 editorial bootstrap (`wp revistalogos
+  fixtures bootstrap`) may create the initial Issue/Article structure so
+  editors can replace placeholders in wp-admin. It reuses the existing
+  Author `rafael-eduardo-figueredo-oropeza`, must not duplicate or mark
+  that author, and uses `_les_bootstrap*` (not disposable `_les_fixture`
+  teardown). No fake DOI/ORCID/ISSN. Do **not** run
   `wp revistalogos fixtures seed` on production. Indexing must not open
   while public fixture records remain; prefer `_les_fixture=1` count 0.
 - **Plugin owns the domain, theme owns presentation only** (ADR 0005) — no

@@ -99,6 +99,7 @@ Estado en el repo: `.github/workflows/deploy.yml` («Deploy to Hostinger») **el
 ### Añadidas el 2026-08-19
 
 - **Bootstrap editorial temporal en producción:** el administrador de wp-admin puede recibir **una** estructura temporal (un número, un artículo, un autor) para sustituirla por el primer volumen real. No es el dataset demo. Sin DOI/ORCID/ISSN falsos. Marcados `_les_fixture=1`. Indexación cerrada mientras queden fixtures temporales públicos (preferencia: recuento 0). Comando: `wp revistalogos fixtures bootstrap`. **No ejecutado** en esta fecha. Matiza D4/ADR 0004 en implementación, no reescribe la decisión original.
+  *Nota de implementación 2026-08-19:* el código vigente (plugin 0.2.3) convierte ese bootstrap en Volume 1 editorial (`_les_bootstrap*`, adopción por hash, reutiliza `rafael-eduardo-figueredo-oropeza`, no crea autor). Sigue sin ejecutarse en producción.
 
 ---
 
