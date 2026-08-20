@@ -3,7 +3,7 @@ Contributors: cenfiss
 Requires at least: 6.4
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.2.5
+Stable tag: 0.2.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,13 @@ Fase 3: los campos `issn`, `doi` y `orcid` son almacenamiento base inerte;
 la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
 
 == Changelog ==
+
+= 0.2.6 =
+* Author assignment uses a searchable picker (core REST `/wp/v2/author`);
+  the full Author catalog is not preloaded. Multiple authors; no default.
+  Save, then publish. Gutenberg remains enabled.
+* Removes the temporary Tools → Volume 1 Editorial Bootstrap screen.
+  Fixtures domain and WP-CLI remain.
 
 = 0.2.5 =
 * Author assignment uses checkboxes (explicit empty state; no default

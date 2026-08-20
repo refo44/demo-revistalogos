@@ -1,0 +1,46 @@
+/* Article author picker (wp-admin meta box). */
+.revistalogos-authors-results,
+.revistalogos-authors-assigned {
+	margin: 8px 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.revistalogos-authors-results:not([hidden]) {
+	border: 1px solid #c3c4c7;
+	max-height: 16rem;
+	overflow: auto;
+}
+
+.revistalogos-authors-results li,
+.revistalogos-authors-assigned li {
+	margin: 0;
+}
+
+.revistalogos-authors-results button {
+	display: block;
+	width: 100%;
+	text-align: left;
+	padding: 6px 8px;
+	border: 0;
+	border-bottom: 1px solid #dcdcde;
+	background: #fff;
+	cursor: pointer;
+}
+
+.revistalogos-authors-results button:hover,
+.revistalogos-authors-results button:focus-visible {
+	background: #f0f0f1;
+}
+
+.revistalogos-authors-assigned li {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 4px 0;
+}
+
+.revistalogos-authors-empty.hidden {
+	display: none;
+}

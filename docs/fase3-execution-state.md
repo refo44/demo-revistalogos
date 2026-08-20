@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "Authors checkbox UX + publish-author rule + Article PDF Media Library picker (0.2.5); Gutenberg kept on article; QA local; no commit/push/deploy; no producción"
+current_work_unit: "0.2.6/0.2.1 on origin/main; no deploy; 320px/200% zoom NOT LIVE-VERIFIED"
 current_branch: "main"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-08-20"
-next_action: "Revisión del propietario de plugin 0.2.5 (autores, publicación, PDF; Gutenberg en article). No commit/push/deploy. No tocar producción. Bootstrap_Admin se conserva."
+next_action: "Deploy es decisión aparte. Tras deploy: verificar 320px/200% zoom en navegador (NOT LIVE-VERIFIED). No bootstrap ni teardown en producción."
 blocked: false
 ---
 
@@ -400,9 +400,9 @@ Registradas para corrección en commit de documentación separado (WU12):
 
 - Rama: `main`; tag publicado: `v0.1.0`. Versión de proyecto **0.2.0**
   (canónica en `package.json`); tag Git `v0.2.0` pendiente (véase `VERSION.md`).
-  Plugin `revistalogos-core` **0.2.3** en el working tree (UI de recovery
-  retirada; bootstrap editorial Volume 1); versión de proyecto/theme 0.2.0
-  sin cambio.
+  Plugin `revistalogos-core` **0.2.6** y theme `revistalogos` **0.2.1** en el
+  working tree (picker de autores, retiro de `Bootstrap_Admin`, CTA `:visited`);
+  versión de proyecto 0.2.0 sin cambio.
 - Despliegues: WordPress de la revista en `logo-et-spes.cenfiss.net`
   (`deploy-wordpress.yml`, `workflow_dispatch`, Environment
   `wordpress-production`, cuenta FTP `deploy_revista@…`). El workflow
@@ -435,6 +435,13 @@ operaciones y este estado. Sin commit, push ni deploy.
 `Bootstrap_Admin` + `tools/qa-volume1-bootstrap-admin.sh`; helpers de plan/
 verify en `Fixtures`; docs de operaciones. Sin commit, push ni deploy.
 
+**2026-08-20 (plugin 0.2.6 / theme 0.2.1, working tree):** picker de autores
+con REST de núcleo; retiro de `Bootstrap_Admin`; CTA `:visited` en
+`components.css`; harnesses `qa-article-editorial-ux.sh` y
+`qa-volume1-bootstrap-admin.sh` (ausencia de UI). 320px / 200% zoom del CTA:
+solo preflight estático de CSS (**NOT LIVE-VERIFIED**; verificación manual
+tras deploy).
+
 ## Next exact action
 
 La implementación **clásica** está live en producción
@@ -442,14 +449,15 @@ La implementación **clásica** está live en producción
 institucional **ya hecha** (Pages reales permanentes). Carga editorial real
 en proceso desde wp-admin (**no** completa). Docker: `http://localhost:8080`.
 
-Siguiente acción priorizada — **revisión del propietario de este working
-tree; no commit/push/deploy; no tocar producción**:
+Siguiente acción priorizada — **plugin 0.2.6 / theme 0.2.1 en Git; deploy
+aparte; no tocar producción**:
 
-1. revisar plugin `revistalogos-core` 0.2.5 (checkboxes de autores, regla
-   de publicación, selector nativo de PDF; `article` sigue en Gutenberg);
-2. si se aprueba: commit/push, luego deploy manual FTPS del plugin;
-3. no re-ejecutar bootstrap en producción;
-4. Bootstrap_Admin se conserva hasta una tarea posterior.
+1. deploy de plugin `revistalogos-core` 0.2.6 y theme `revistalogos` 0.2.1
+   es decisión del propietario;
+2. tras deploy: verificar 320px / 200% zoom de CTAs en navegador
+   (**NOT LIVE-VERIFIED**);
+3. no re-ejecutar bootstrap ni teardown en producción;
+4. Bootstrap_Admin ya no forma parte del plugin.
 
 No importar el dataset demo de fixtures. After ordinary theme QA,
 FSE remains deferred:

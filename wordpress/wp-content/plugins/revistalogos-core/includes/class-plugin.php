@@ -47,7 +47,6 @@ class Plugin {
 		Meta_Boxes::register_hooks();
 		Relationships::register_hooks();
 		Contact_Form_Integration::register_hooks();
-		Bootstrap_Admin::register_hooks();
 
 		// Idempotent upgrade: late on init so CPT rewrite args are
 		// registered before a version-gated rewrite flush.
@@ -80,7 +79,6 @@ class Plugin {
 		require_once $includes . 'integrations/class-contact-form-integration.php';
 		require_once $includes . 'migration/class-content-migrator.php';
 		require_once $includes . 'fixtures/class-fixtures.php';
-		require_once $includes . 'fixtures/class-bootstrap-admin.php';
 	}
 
 	/**

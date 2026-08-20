@@ -9,6 +9,10 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Added
+- Plugin `revistalogos-core` 0.2.6: searchable Author picker (WordPress
+  REST `/wp/v2/author`, on demand, published Authors, bounded results).
+  Storage remains `authors` int[]. Gutenberg stays enabled; Save → Publish.
+
 - Plugin `revistalogos-core` 0.2.5: author checkboxes with an explicit
   empty state; publish requires at least one published Author CPT
   (draft/pending may have none); Article/Issue PDF Media Library picker
@@ -25,6 +29,10 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   bootstrap and frontend verification.
 
 ### Changed
+- Theme `revistalogos` 0.2.1: CTA `.btn` anchors keep an accessible
+  foreground in `:link` and `:visited`. Global `a:visited` no longer
+  overrides button-like CTAs. Ordinary content links are unchanged.
+
 - Plugin `revistalogos-core` 0.2.3: `wp revistalogos fixtures bootstrap`
   is now a Volume 1 **editorial** bootstrap (owner Option 2: one published
   issue + sample article structure adapted from the static Vol. 12 Nº 2
@@ -37,6 +45,10 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   (`fixtures seed`, `_les_fixture=1`) remain disposable and separate.
 
 ### Removed
+- Plugin `revistalogos-core` 0.2.6: temporary wp-admin tool Tools →
+  Volume 1 Editorial Bootstrap (`Bootstrap_Admin`). Production bootstrap
+  already completed; Fixtures domain and CLI remain. No teardown.
+
 - Temporary wp-admin tool Tools → Institutional Content Import
   (`Content_Recovery_Admin`). Institutional recovery in production
   completed successfully; Pages already imported are real content. Durable

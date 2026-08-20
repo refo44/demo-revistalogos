@@ -15,13 +15,38 @@
   font-size: var(--font-size-base);
 }
 
+/*
+ * a:visited (0,1,1) beats a single class such as .btn--primary (0,1,0).
+ * CTA anchors must keep their component foreground after being visited.
+ */
+.btn:link,
+.btn:visited {
+  text-decoration: none;
+}
+
+.btn:focus-visible,
+.btn:visited:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
 .btn--primary {
   background-color: var(--color-primary);
   color: var(--color-text-inverse);
   border-color: var(--color-primary);
 }
 
-.btn--primary:hover {
+.btn--primary:link,
+.btn--primary:visited {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  border-color: var(--color-primary);
+}
+
+.btn--primary:hover,
+.btn--primary:visited:hover,
+.btn--primary:active,
+.btn--primary:visited:active {
   background-color: var(--color-primary-dark);
   border-color: var(--color-primary-dark);
   color: var(--color-text-inverse);
@@ -34,7 +59,17 @@
   border-color: var(--color-primary);
 }
 
-.btn--secondary:hover {
+.btn--secondary:link,
+.btn--secondary:visited {
+  background-color: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn--secondary:hover,
+.btn--secondary:visited:hover,
+.btn--secondary:active,
+.btn--secondary:visited:active {
   background-color: var(--color-primary);
   color: var(--color-text-inverse);
   text-decoration: none;
@@ -46,7 +81,17 @@
   border-color: var(--color-primary);
 }
 
-.btn--outline:hover {
+.btn--outline:link,
+.btn--outline:visited {
+  background-color: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn--outline:hover,
+.btn--outline:visited:hover,
+.btn--outline:active,
+.btn--outline:visited:active {
   background-color: var(--color-primary);
   color: var(--color-text-inverse);
   border-color: var(--color-primary);
@@ -59,7 +104,17 @@
   border: var(--border-width) solid var(--color-btn-login);
 }
 
-.btn--login:hover {
+.btn--login:link,
+.btn--login:visited {
+  background-color: var(--color-btn-login);
+  color: var(--color-text-primary);
+  border: var(--border-width) solid var(--color-btn-login);
+}
+
+.btn--login:hover,
+.btn--login:visited:hover,
+.btn--login:active,
+.btn--login:visited:active {
   background-color: var(--color-btn-login);
   filter: brightness(0.9);
   text-decoration: none;
@@ -71,7 +126,17 @@
   border: var(--border-width) solid var(--color-btn-register);
 }
 
-.btn--register:hover {
+.btn--register:link,
+.btn--register:visited {
+  background-color: var(--color-btn-register);
+  color: var(--color-text-primary);
+  border: var(--border-width) solid var(--color-btn-register);
+}
+
+.btn--register:hover,
+.btn--register:visited:hover,
+.btn--register:active,
+.btn--register:visited:active {
   background-color: var(--color-btn-register);
   filter: brightness(0.9);
   text-decoration: none;
@@ -83,7 +148,17 @@
   border-color: var(--color-link);
 }
 
-.btn--pdf:hover {
+.btn--pdf:link,
+.btn--pdf:visited {
+  background-color: var(--color-link);
+  color: var(--color-text-inverse);
+  border-color: var(--color-link);
+}
+
+.btn--pdf:hover,
+.btn--pdf:visited:hover,
+.btn--pdf:active,
+.btn--pdf:visited:active {
   background-color: var(--color-link-hover);
   border-color: var(--color-link-hover);
   color: var(--color-text-inverse);
@@ -543,13 +618,29 @@
   transition: all var(--transition-fast);
 }
 
-.pagination__link:hover {
-  background-color: var(--color-bg-primary);
-  border-color: var(--color-primary);
+.pagination__link:link,
+.pagination__link:visited {
+  color: var(--color-text-primary);
   text-decoration: none;
 }
 
-.pagination__link--current {
+.pagination__link:hover,
+.pagination__link:visited:hover {
+  background-color: var(--color-bg-primary);
+  border-color: var(--color-primary);
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+.pagination__link:focus-visible,
+.pagination__link:visited:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.pagination__link--current,
+.pagination__link--current:link,
+.pagination__link--current:visited {
   background-color: var(--color-primary);
   color: var(--color-text-inverse);
   border-color: var(--color-primary);

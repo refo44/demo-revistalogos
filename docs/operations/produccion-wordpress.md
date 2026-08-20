@@ -207,19 +207,25 @@ Tools → Volume 1 Editorial Bootstrap (`Bootstrap_Admin`, plugin 0.2.4)
 reutiliza el mismo dominio `Fixtures`; no expone teardown ni force; exige
 confirmación explícita y exactamente un Author canónico. No reescribe la
 política general de backup del CLI ni de la migración institucional.
+**Ejecutado en producción.** Plugin **0.2.6 retira esa UI**; el dominio y
+el CLI `wp revistalogos fixtures bootstrap|plan|verify|teardown` permanecen.
+No volver a abrir esa pantalla; no re-ejecutar bootstrap ni teardown en
+producción en esta tarea.
 
-Procedimiento futuro (no ejecutar en esta tarea):
+Plugin `0.2.6` (wp-admin, sin cambiar el contrato de almacenamiento ni
+el editor del CPT): los autores se asignan con un buscador (REST de
+núcleo; sin precargar el catálogo). Publicar un artículo exige al menos
+un Author CPT publicado; borrador/pendiente pueden no tener autores.
+Los artículos bootstrap ya publicados sin autores **no** se despublican
+al actualizar el plugin. El CPT `article` sigue en el editor de bloques;
+guardar después de asignar autores y luego publicar. El PDF de
+artículo/número se elige con el selector nativo de Media Library
+(`application/pdf`); quitar desvincula y no borra el archivo.
 
-1. commit/push after owner approval;
-2. deploy plugin through existing manual FTPS workflow;
-3. open Tools → Volume 1 Editorial Bootstrap;
-4. run Validate and Plan;
-5. STOP on any collision or Rafael problem;
-6. explicitly confirm production bootstrap;
-7. run bootstrap once;
-8. inspect Verify;
-9. manually test issue/article/author URLs;
-10. remove temporary admin UI in a follow-up patch.
+Theme `revistalogos` 0.2.1: los CTAs `.btn` conservan color de primer
+plano accesible en `:link` y `:visited`.
+
+**No ejecutar en producción en esta tarea.**
 
 Autor canónico: `rafael-eduardo-figueredo-oropeza` (Rafael Eduardo Figueredo
 Oropeza). El bootstrap lo reutiliza si hay exactamente un Author CPT con ese
@@ -238,18 +244,6 @@ maqueta a Vol. 1 Nº 1, marcados `_les_bootstrap*`. Identificadores falsos
 (DOI/ORCID/ISSN), paginación bibliográfica dummy y autores de la maqueta
 **no** se importan. Cover/PDF placeholder solo desde `resources/fixtures/`,
 marcados bootstrap, sustituibles en wp-admin.
-
-Plugin `0.2.5` (wp-admin, sin cambiar el contrato de almacenamiento ni
-el editor del CPT): los autores se asignan con casillas (estado vacío
-explícito; sin autor por defecto). Publicar un artículo exige al menos
-un Author CPT publicado; borrador/pendiente pueden no tener autores.
-Los artículos bootstrap ya publicados sin autores **no** se despublican
-al actualizar el plugin. El CPT `article` sigue en el editor de bloques;
-guardar después de asignar autores y luego publicar. El PDF de
-artículo/número se elige con el selector nativo de Media Library
-(`application/pdf`); quitar desvincula y no borra el archivo.
-
-**No ejecutar en producción en esta tarea.**
 
 ## Restos del sitio estático (deuda operativa)
 

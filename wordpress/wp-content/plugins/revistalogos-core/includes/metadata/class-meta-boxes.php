@@ -193,26 +193,49 @@ class Meta_Boxes {
 	}
 
 	/**
-	 * Render the article relationships box (author checkboxes, issue
-	 * select). Bounded lists; an academic journal has few of each.
+	 * Render the article relationships box (searchable author picker,
+	 * issue select). Authors are loaded on demand; only assigned IDs
+	 * appear in the initial HTML.
 	 *
 	 * @param \WP_Post $post Current article.
 	 */
 	public static function render_relationships_box( $post ) {
-		$selected_authors = get_post_meta( $post->ID, 'authors', true );
-		$selected_authors = is_array( $selected_authors ) ? array_map( 'absint', $selected_authors ) : array();
-		$selected_issue   = absint( get_post_meta( $post->ID, 'issue', true ) );
+		$selected_ids = get_post_meta( $post->ID, 'authors', true );
+		$selected_ids = is_array( $selected_ids ) ? array_map( 'absint', $selected_ids ) : array();
+		$selected_ids = array_values( array_filter( $selected_ids ) );
+		$selected_issue = absint( get_post_meta( $post->ID, 'issue', true ) );
 
-		$authors = get_posts(
-			array(
-				'post_type'      => Content_Types::AUTHOR,
-				'post_status'    => array( 'publish', 'draft', 'pending' ),
-				'posts_per_page' => 500,
-				'orderby'        => 'title',
-				'order'          => 'ASC',
-				'no_found_rows'  => true,
-			)
+		$empty_class = $selected_ids ? 'revistalogos-authors-empty hidden' : 'revistalogos-authors-empty';
+
+		echo '<fieldset class="revistalogos-authors">';
+		echo '<legend><strong>' . esc_html__( 'Autores', 'revistalogos-core' ) . '</strong></legend>';
+
+		echo '<p><label for="revistalogos-author-search">' . esc_html__( 'Buscar autor por nombre', 'revistalogos-core' ) . '</label><br>';
+		echo '<input type="search" id="revistalogos-author-search" class="widefat" autocomplete="off" placeholder="' . esc_attr__( 'Buscar autor por nombre…', 'revistalogos-core' ) . '"></p>';
+		echo '<ul id="revistalogos-author-results" class="revistalogos-authors-results hidden" hidden aria-label="' . esc_attr__( 'Resultados de búsqueda', 'revistalogos-core' ) . '"></ul>';
+		echo '<p id="revistalogos-author-status" class="screen-reader-text" role="status" aria-live="polite"></p>';
+
+		echo '<p class="revistalogos-authors-assigned-label"><strong>' . esc_html__( 'Autores asignados', 'revistalogos-core' ) . '</strong></p>';
+		printf(
+			'<p class="%s"><strong>%s</strong></p>',
+			esc_attr( $empty_class ),
+			esc_html__( 'Ningún autor asignado', 'revistalogos-core' )
 		);
+		echo '<ul class="revistalogos-authors-assigned" aria-label="' . esc_attr__( 'Autores asignados', 'revistalogos-core' ) . '">';
+
+		foreach ( $selected_ids as $author_id ) {
+			$author = get_post( $author_id );
+
+			if ( ! $author || Content_Types::AUTHOR !== $author->post_type ) {
+				continue;
+			}
+
+			self::render_assigned_author_item( $author_id, get_the_title( $author ) );
+		}
+
+		echo '</ul>';
+		echo '<p class="description">' . esc_html__( 'Busca y asigna uno o más autores. Un artículo publicado necesita al menos un autor publicado. No se asigna ninguno por defecto. Guarda el artículo después de asignar autores y luego publícalo.', 'revistalogos-core' ) . '</p>';
+		echo '</fieldset>';
 
 		$issues = get_posts(
 			array(
@@ -224,33 +247,6 @@ class Meta_Boxes {
 				'no_found_rows'  => true,
 			)
 		);
-
-		$empty_class = $selected_authors ? 'revistalogos-authors-empty hidden' : 'revistalogos-authors-empty';
-
-		echo '<fieldset class="revistalogos-authors">';
-		echo '<legend><strong>' . esc_html__( 'Autores', 'revistalogos-core' ) . '</strong></legend>';
-		printf(
-			'<p class="%s"><strong>%s</strong></p>',
-			esc_attr( $empty_class ),
-			esc_html__( 'Ningún autor asignado', 'revistalogos-core' )
-		);
-
-		if ( ! $authors ) {
-			echo '<p class="description">' . esc_html__( 'No hay perfiles de autor. Créalos en Autores antes de asignarlos.', 'revistalogos-core' ) . '</p>';
-		} else {
-			foreach ( $authors as $author ) {
-				$author_id = (int) $author->ID;
-				printf(
-					'<p><label><input type="checkbox" name="authors[]" value="%1$d"%2$s> %3$s</label></p>',
-					$author_id,
-					checked( in_array( $author_id, $selected_authors, true ), true, false ),
-					esc_html( get_the_title( $author ) )
-				);
-			}
-		}
-
-		echo '<p class="description">' . esc_html__( 'Marca uno o más autores. Un artículo publicado necesita al menos un autor publicado. No se asigna ninguno por defecto. Guarda el artículo después de asignar autores y luego publícalo.', 'revistalogos-core' ) . '</p>';
-		echo '</fieldset>';
 
 		echo '<p><label for="revistalogos-issue"><strong>' . esc_html__( 'Número', 'revistalogos-core' ) . '</strong></label><br>';
 		echo '<select id="revistalogos-issue" name="issue" style="width:100%">';
@@ -266,6 +262,34 @@ class Meta_Boxes {
 		}
 
 		echo '</select></p>';
+	}
+
+	/**
+	 * One assigned Author row: hidden ID plus a real Remove button.
+	 *
+	 * @param int    $author_id Author CPT ID.
+	 * @param string $title     Author title.
+	 */
+	private static function render_assigned_author_item( $author_id, $title ) {
+		$author_id = absint( $author_id );
+		$remove    = sprintf(
+			/* translators: %s: author display name */
+			__( 'Quitar %s', 'revistalogos-core' ),
+			$title
+		);
+
+		echo '<li data-author-id="' . esc_attr( (string) $author_id ) . '">';
+		echo '<span class="revistalogos-authors-assigned__name">' . esc_html( $title ) . '</span>';
+		printf(
+			'<input type="hidden" name="authors[]" value="%d">',
+			$author_id
+		);
+		printf(
+			'<button type="button" class="button-link revistalogos-authors-remove" aria-label="%s">%s</button>',
+			esc_attr( $remove ),
+			esc_html__( 'Quitar', 'revistalogos-core' )
+		);
+		echo '</li>';
 	}
 
 	/**
@@ -395,10 +419,16 @@ class Meta_Boxes {
 		}
 
 		wp_enqueue_media();
+		wp_enqueue_style(
+			'revistalogos-core-admin-meta',
+			REVISTALOGOS_CORE_URL . 'assets/css/admin-meta.css',
+			array(),
+			REVISTALOGOS_CORE_VERSION
+		);
 		wp_enqueue_script(
 			'revistalogos-core-admin-meta',
 			REVISTALOGOS_CORE_URL . 'assets/js/admin-meta.js',
-			array( 'jquery' ),
+			array( 'jquery', 'wp-api-fetch' ),
 			REVISTALOGOS_CORE_VERSION,
 			true
 		);
@@ -410,6 +440,29 @@ class Meta_Boxes {
 				'button'  => __( 'Usar este PDF', 'revistalogos-core' ),
 				'select'  => __( 'Seleccionar PDF', 'revistalogos-core' ),
 				'replace' => __( 'Reemplazar PDF', 'revistalogos-core' ),
+			)
+		);
+
+		$author_route = function_exists( 'rest_get_route_for_post_type_items' )
+			? rest_get_route_for_post_type_items( Content_Types::AUTHOR )
+			: '/wp/v2/author';
+
+		wp_localize_script(
+			'revistalogos-core-admin-meta',
+			'revistalogosAuthorPicker',
+			array(
+				'restPath'  => $author_route,
+				'minLength' => 2,
+				'perPage'   => 15,
+				'i18n'      => array(
+					'add'       => __( 'Añadir', 'revistalogos-core' ),
+					'remove'    => __( 'Quitar', 'revistalogos-core' ),
+					/* translators: %s: author display name */
+					'removeNamed' => __( 'Quitar %s', 'revistalogos-core' ),
+					'noResults' => __( 'No se encontraron autores.', 'revistalogos-core' ),
+					'searching' => __( 'Buscando autores…', 'revistalogos-core' ),
+					'results'   => __( 'Resultados de búsqueda', 'revistalogos-core' ),
+				),
 			)
 		);
 	}

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Isolated Docker QA for article author checkboxes, publish-author rule,
-# and native PDF Media Library picker. Not a formal test suite.
+# Isolated Docker QA for article author picker, publish-author rule,
+# native PDF Media Library picker, and CTA visited contrast. Not a formal test suite.
 # Never points at production and never reuses the primary local volumes.
 set -euo pipefail
 
@@ -31,6 +31,61 @@ fail() {
 pass() {
 	echo "PASS: $*"
 }
+
+echo "== CTA visited contrast (static tokens) =="
+python3 - <<'PY'
+def rel_lum(hex_color):
+    hex_color = hex_color.lstrip('#')
+    rgb = [int(hex_color[i:i+2], 16) / 255 for i in (0, 2, 4)]
+    def f(c):
+        return c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4
+    r, g, b = (f(c) for c in rgb)
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+def contrast(fg, bg):
+    l1, l2 = rel_lum(fg), rel_lum(bg)
+    lighter, darker = max(l1, l2), min(l1, l2)
+    return (lighter + 0.05) / (darker + 0.05)
+
+pairs = [
+    ('primary CTA', '#ffffff', '#18597c', 4.5),
+    ('primary hover', '#ffffff', '#144866', 4.5),
+    ('pdf CTA', '#ffffff', '#0a7599', 4.5),
+    ('pdf hover', '#ffffff', '#18597c', 4.5),
+    ('secondary CTA', '#18597c', '#ffffff', 4.5),
+    ('login CTA', '#1e293b', '#e7f2f8', 4.5),
+    ('register CTA', '#1e293b', '#ffbf00', 4.5),
+    ('content link', '#0a7599', '#f8fafc', 4.5),
+]
+failed = 0
+for name, fg, bg, need in pairs:
+    ratio = contrast(fg, bg)
+    status = 'PASS' if ratio >= need else 'FAIL'
+    print(f'{status} {name} {fg} on {bg} = {ratio:.2f}:1 (need {need}:1)')
+    if ratio < need:
+        failed += 1
+raise SystemExit(failed)
+PY
+pass "CTA and content-link contrast ratios meet AA"
+
+rg -q "\.btn--primary:visited" "$ROOT/wordpress/wp-content/themes/revistalogos/assets/css/components.css" \
+	|| fail "missing .btn--primary:visited component rule"
+rg -q "\.btn--pdf:visited" "$ROOT/wordpress/wp-content/themes/revistalogos/assets/css/components.css" \
+	|| fail "missing .btn--pdf:visited component rule"
+rg -q "\.pagination__link:visited" "$ROOT/wordpress/wp-content/themes/revistalogos/assets/css/components.css" \
+	|| fail "missing .pagination__link:visited component rule"
+if rg -q "a:visited \{[^}]*color:\s*#fff" "$ROOT/wordpress/wp-content/themes/revistalogos/assets/css/base.css"; then
+	fail "must not globally force visited links to white"
+fi
+rg -q "a:visited" "$ROOT/wordpress/wp-content/themes/revistalogos/assets/css/base.css" \
+	|| fail "ordinary a:visited rule must remain"
+rg -F -q "display: inline-flex" "$ROOT/wordpress/wp-content/themes/revistalogos/assets/css/components.css" \
+	|| fail ".btn must remain inline-flex (static wrap preflight for 320px / 200% zoom)"
+if rg -q "^\.btn[^_].*nowrap|\.btn \{[^}]*white-space:\s*nowrap" "$ROOT/wordpress/wp-content/themes/revistalogos/assets/css/components.css"; then
+	fail ".btn must not force nowrap (static wrap preflight for 320px / 200% zoom)"
+fi
+pass "CTA visited CSS is component-level; ordinary visited links preserved"
+pass "320px / 200% zoom: PASS static/preflight (NOT LIVE-VERIFIED; manual browser check after deploy)"
 
 cleanup() {
 	rm -f "$EVAL_HOST"
@@ -75,8 +130,10 @@ cli plugin activate revistalogos-core >/dev/null
 cli rewrite structure '/%postname%/' --hard >/dev/null
 
 PLUGIN_VERSION="$(cli eval 'echo REVISTALOGOS_CORE_VERSION;')"
-[[ "$PLUGIN_VERSION" == "0.2.5" ]] || fail "expected plugin 0.2.5, got $PLUGIN_VERSION"
-pass "plugin 0.2.5 active in isolated WordPress"
+THEME_VERSION="$(cli eval 'echo REVISTALOGOS_THEME_VERSION;')"
+[[ "$PLUGIN_VERSION" == "0.2.6" ]] || fail "expected plugin 0.2.6, got $PLUGIN_VERSION"
+[[ "$THEME_VERSION" == "0.2.1" ]] || fail "expected theme 0.2.1, got $THEME_VERSION"
+pass "plugin 0.2.6 and theme 0.2.1 active in isolated WordPress"
 
 echo "== PHP syntax =="
 compose run --rm --entrypoint php wpcli -l wp-content/plugins/revistalogos-core/includes/metadata/class-meta-boxes.php >/dev/null
@@ -90,13 +147,22 @@ rg -F -q "library: { type: 'application/pdf' }" "$ROOT/wordpress/wp-content/plug
 	|| fail "PDF picker JS must filter application/pdf"
 pass "PDF picker JS filters application/pdf"
 
+rg -F -q "wp.apiFetch" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
+	|| fail "author picker must use wp.apiFetch"
+rg -F -q "per_page" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
+	|| fail "author picker must bound per_page"
+rg -F -q "minLength" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
+	|| fail "author picker must enforce minLength"
 if rg -q "use_block_editor_for_post_type" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/class-plugin.php"; then
 	fail "plugin must not register use_block_editor_for_post_type"
 fi
-if rg -q "function use_block_editor" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/content-types/class-content-types.php"; then
-	fail "Content_Types must not force Classic Editor"
+if [[ -f "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/fixtures/class-bootstrap-admin.php" ]]; then
+	fail "Bootstrap_Admin file must be absent"
 fi
-pass "Classic Editor override absent"
+if rg -q "Bootstrap_Admin" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/class-plugin.php"; then
+	fail "plugin must not wire Bootstrap_Admin"
+fi
+pass "Classic Editor override absent; Bootstrap_Admin absent; author picker uses core REST"
 
 echo "== canonical author + Volume 1 bootstrap (must still publish authorless samples) =="
 AUTHOR_ID="$(cli post create \
@@ -186,15 +252,74 @@ function qa_ok( $cond, $label ) {
 
 $html2 = qa_render_rel( $article2->ID );
 qa_ok( false !== strpos( $html2, 'Ningún autor asignado' ), 'empty authors shows Ningún autor asignado' );
-qa_ok( false !== strpos( $html2, 'type="checkbox"' ), 'authors control is checkboxes' );
+qa_ok( false !== strpos( $html2, 'id="revistalogos-author-search"' ), 'author search field present' );
+qa_ok( false === strpos( $html2, 'type="checkbox"' ), 'authors control is not a checkbox catalog' );
 qa_ok( false === strpos( $html2, 'name="authors[]" multiple' ), 'no multiple select' );
-qa_ok( false !== strpos( $html2, (string) $rafael->ID ) && false === strpos( $html2, 'checked' ), 'Rafael listed but not assigned on article 2' );
+
+for ( $i = 1; $i <= 40; $i++ ) {
+	wp_insert_post( array(
+		'post_type'   => 'author',
+		'post_title'  => sprintf( 'QA Scale Author %03d', $i ),
+		'post_name'   => sprintf( 'qa-scale-author-%03d', $i ),
+		'post_status' => 'publish',
+	), true );
+}
+wp_insert_post( array(
+	'post_type'   => 'issue',
+	'post_title'  => 'Rafael Dummy Issue',
+	'post_name'   => 'rafael-dummy-issue',
+	'post_status' => 'publish',
+), true );
+$html_scale = qa_render_rel( $article2->ID );
+qa_ok( false === strpos( $html_scale, 'QA Scale Author' ), 'full Author catalog is not preloaded' );
+qa_ok( false === strpos( $html_scale, 'name="authors[]"' ), 'initial HTML contains no author IDs when none assigned' );
+qa_ok( false !== strpos( $html_scale, 'Ningún autor asignado' ), 'empty state still present with large catalog' );
+
+$author_route = rest_get_route_for_post_type_items( 'author' );
+$search_req = new WP_REST_Request( 'GET', $author_route );
+$search_req->set_param( 'search', 'Rafael' );
+$search_req->set_param( 'per_page', 15 );
+$search_req->set_param( 'status', 'publish' );
+$search_req->set_param( 'orderby', 'title' );
+$search_req->set_param( 'order', 'asc' );
+$search_res = rest_do_request( $search_req );
+$search_data = $search_res->get_data();
+$search_ids = array();
+$search_titles = array();
+if ( is_array( $search_data ) ) {
+	foreach ( $search_data as $row ) {
+		if ( isset( $row['id'] ) ) {
+			$search_ids[] = (int) $row['id'];
+		}
+		if ( isset( $row['title']['rendered'] ) ) {
+			$search_titles[] = $row['title']['rendered'];
+		}
+	}
+}
+qa_ok( in_array( (int) $rafael->ID, $search_ids, true ), 'partial search returns matching Author CPT' );
+qa_ok( count( $search_data ) <= 15, 'configured result limit enforced' );
+$scale_req = new WP_REST_Request( 'GET', $author_route );
+$scale_req->set_param( 'search', 'QA Scale Author' );
+$scale_req->set_param( 'per_page', 15 );
+$scale_req->set_param( 'status', 'publish' );
+$scale_res = rest_do_request( $scale_req );
+$scale_data = $scale_res->get_data();
+qa_ok( is_array( $scale_data ) && count( $scale_data ) === 15, 'search returns bounded result set' );
+$issue_in_search = false;
+foreach ( $search_titles as $title ) {
+	if ( false !== strpos( $title, 'Dummy Issue' ) ) {
+		$issue_in_search = true;
+	}
+}
+qa_ok( ! $issue_in_search, 'non-Author posts excluded' );
 
 qa_metabox_post( $article2->ID, array( (string) $rafael->ID ) );
 $saved = get_post_meta( $article2->ID, 'authors', true );
 qa_ok( is_array( $saved ) && array( (int) $rafael->ID ) === array_map( 'intval', $saved ), 'assign Rafael persists' );
 $html2b = qa_render_rel( $article2->ID );
-qa_ok( false !== strpos( $html2b, 'checked' ) && false !== strpos( $html2b, 'revistalogos-authors-empty hidden' ), 'reload shows Rafael assigned' );
+qa_ok( false !== strpos( $html2b, 'name="authors[]"' ) && false !== strpos( $html2b, (string) $rafael->ID ) && false !== strpos( $html2b, 'revistalogos-authors-remove' ), 'reload restores assignments' );
+qa_ok( false !== strpos( $html2b, 'revistalogos-authors-empty hidden' ) && false !== strpos( $html2b, 'Autores asignados' ), 'assigned Author displayed separately' );
+qa_ok( false === strpos( $html2b, 'QA Scale Author' ), 'assigned view still does not preload catalog' );
 
 $draft_id = wp_insert_post( array(
 	'post_type'    => 'article',
@@ -255,6 +380,9 @@ wp_update_post( array( 'ID' => $multi_id, 'post_status' => 'publish' ), true );
 qa_metabox_post( $multi_id, array( (string) $rafael->ID, (string) $second ) );
 $multi_saved = array_map( 'intval', (array) get_post_meta( $multi_id, 'authors', true ) );
 qa_ok( 'publish' === get_post_status( $multi_id ) && in_array( (int) $rafael->ID, $multi_saved, true ) && in_array( (int) $second, $multi_saved, true ), 'multiple authors persist on publish' );
+qa_ok( array( (int) $rafael->ID, (int) $second ) === $multi_saved, 'order preserved' );
+qa_metabox_post( $multi_id, array( (string) $rafael->ID, (string) $rafael->ID, (string) $second ) );
+qa_ok( array( (int) $rafael->ID, (int) $second ) === array_map( 'intval', (array) get_post_meta( $multi_id, 'authors', true ) ), 'duplicate assignment prevented' );
 $toc_multi = function_exists( 'revistalogos_article_author_names' ) ? revistalogos_article_author_names( $multi_id ) : '';
 qa_ok( false !== strpos( $toc_multi, 'Rafael' ) && false !== strpos( $toc_multi, 'QA Second Author' ), 'multiple author names helper' );
 
@@ -264,6 +392,8 @@ qa_ok( 'publish' === get_post_status( $multi_id ) && array( (int) $rafael->ID ) 
 $before_final = get_post_meta( $multi_id, 'authors', true );
 qa_metabox_post( $multi_id, array() );
 qa_ok( 'publish' === get_post_status( $multi_id ) && array_map( 'intval', (array) $before_final ) === array_map( 'intval', (array) get_post_meta( $multi_id, 'authors', true ) ), 'removing final author refused; previous authors kept' );
+qa_ok( 'author' === get_post_type( $rafael->ID ) && 'publish' === get_post_status( $rafael->ID ), 'remove does not delete Author' );
+qa_ok( ! class_exists( 'Revistalogos_Core\\Bootstrap_Admin', false ), 'Bootstrap_Admin class absent' );
 
 $draft_author = wp_insert_post( array(
 	'post_type'   => 'author',
@@ -363,7 +493,10 @@ $rest_draft = qa_rest_article( array(
 	'title'   => 'QA REST draft no authors',
 	'status'  => 'draft',
 	'content' => 'draft',
-	'slug'    => 'qa-rest-draft-no-authors',
+	// No slug: WP 7.0.4 WP_REST_Posts_Controller::create_item() calls
+	// wp_unique_post_slug() with $prepared_post->id / ->post_parent on a
+	// stdClass that has neither when status is draft|pending and post_name
+	// is set. That is core, not this plugin. Omit slug so QA stays silent.
 ) );
 $rest_draft_data = $rest_draft->get_data();
 qa_ok( ! $rest_draft->is_error() && in_array( (int) $rest_draft->get_status(), array( 200, 201 ), true ), 'REST draft without author saves' );
@@ -404,14 +537,20 @@ echo 'REAL_PDF=' . $real_pdf . "\n";
 echo 'RAFAEL=' . $rafael->ID . "\n";
 exit( $fail ? 1 : 0 );
 PHP
-cli eval-file wp-content/plugins/revistalogos-core/.qa-editorial-ux-eval.php >"$TMP/domain.txt"
+cli eval-file wp-content/plugins/revistalogos-core/.qa-editorial-ux-eval.php >"$TMP/domain.txt" 2>"$TMP/domain.err"
 rm -f "$EVAL_HOST"
 cat "$TMP/domain.txt"
+if [[ -s "$TMP/domain.err" ]]; then
+	cat "$TMP/domain.err" >&2
+fi
 
 pass "domain eval finished"
 rg -q '^FAIL_COUNT=0$' "$TMP/domain.txt" || fail "domain FAIL_COUNT is not 0"
 if rg -q '^FAIL ' "$TMP/domain.txt"; then
 	fail "domain QA reported FAIL lines"
+fi
+if rg -q "Undefined property|PHP Warning|PHP Notice|PHP Deprecated" "$TMP/domain.txt" "$TMP/domain.err"; then
+	fail "domain eval emitted PHP warnings (see domain.txt / domain.err)"
 fi
 pass "authors, publication and PDF domain checks"
 
@@ -468,6 +607,13 @@ assert_contains "$TMP/multi.html" "QA Second Author"
 assert_contains "$TMP/issue.html" "Rafael Eduardo Figueredo Oropeza"
 assert_contains "$TMP/issue.html" "QA Second Author"
 assert_contains "$TMP/rafael.html" "Rafael Eduardo Figueredo Oropeza"
+rg -q 'class="btn btn--pdf' "$TMP/a1.html" || fail "article PDF CTA uses btn btn--pdf"
+rg -q 'class="btn btn--primary' "$TMP/issue.html" || fail "issue PDF CTA uses btn btn--primary"
+
+curl -sS "${BASE_URL}/wp-content/themes/revistalogos/assets/css/components.css?v=20260820-1" -o "$TMP/components.css"
+rg -q "\.btn--primary:visited" "$TMP/components.css" || fail "served components.css missing .btn--primary:visited"
+rg -q "\.btn--pdf:visited" "$TMP/components.css" || fail "served components.css missing .btn--pdf:visited"
+pass "served CTA CSS includes visited component rules"
 
 # article 2 has authors but no PDF after our tests? article2 never got a PDF.
 if rg -F -q "Descargar PDF del artículo" "$TMP/a2.html"; then

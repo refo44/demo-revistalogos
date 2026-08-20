@@ -55,12 +55,12 @@ resuming Fase 3 work).
   disposable `_les_fixture` teardown). No fake DOI/ORCID/ISSN, no dummy
   authors, no dummy bibliographic pagination. Do **not** run
   `wp revistalogos fixtures seed` on production. Production hosting has no
-  usable SSH/WP-CLI path; temporary Tools → Volume 1 Editorial Bootstrap
-  (`Bootstrap_Admin`) is an execution bridge only — no teardown, no force,
-  no backup-evidence field for this owner-approved operation. Remove the
-  UI after production bootstrap and frontend verification. Plugin 0.2.5
-  adds author checkboxes, a publish-requires-published-author rule, and a
-  native Media Library PDF picker; it does **not** unpublish existing
+  usable SSH/WP-CLI path; the temporary Tools → Volume 1 Editorial Bootstrap
+  (`Bootstrap_Admin`) was an execution bridge and was **removed in plugin
+  0.2.6** after production bootstrap. Fixtures domain and CLI remain.
+  Plugin 0.2.6 replaces author checkboxes with a searchable picker (core
+  REST; no full catalog preload). 0.2.5 added the publish-requires-published-author
+  rule and native Media Library PDF picker; it does **not** unpublish existing
   authorless bootstrap articles on load and does **not** force Classic
   Editor on `article`. Indexing must
   not open while public fixture records remain; prefer `_les_fixture=1`

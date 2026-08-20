@@ -71,6 +71,7 @@ Estrategia, principios, reglas de diseño, HTML semántico, ARIA, contenido edit
 - **Landmarks:** Un `<main>` por página; header/nav/main/footer consistentes.
 - **Encabezados:** Sin saltos (H1→H3); jerarquía sigue el contenido.
 - **Enlaces:** Distinguibles sin depender solo del color (subrayado o estilo claro).
+- **Anclas con aspecto de botón:** un `a.btn` debe conservar un color de primer plano accesible en `:link` y `:visited`. El estilo global de enlaces visitados no debe pisar los colores del componente CTA.
 - **Formularios:** `<label>` asociada mediante `for`/`id`. Ejemplo: `<label for="email">Correo electrónico</label>` y `<input id="email" type="email">`. Autocompletado, mensajes de error claros.
 
 ---
