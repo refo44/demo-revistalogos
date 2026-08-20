@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "Volume 1 editorial bootstrap implementado y QA local pendiente de revisión del propietario; no desplegado; no ejecutado en producción"
+current_work_unit: "UI temporal wp-admin para Volume 1 bootstrap (sin SSH/WP-CLI); QA local; no commit/push/deploy; no ejecutar en producción"
 current_branch: "main"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-08-19"
-next_action: "Option 2 aprobada. Gate final del working tree Volume 1 bootstrap. No commit/push/deploy. No ejecutar bootstrap en producción."
+next_action: "Revisión del propietario de Bootstrap_Admin 0.2.4. No commit/push/deploy. No ejecutar bootstrap en producción."
 blocked: false
 ---
 
@@ -225,11 +225,13 @@ Los de `docs/17-implementation-order` y los ADR de Fase 3. Resumen operativo:
   permanente. La UI temporal Tools → Institutional Content Import está
   **retirada en este working tree** (plugin 0.2.3); `Content_Migrator` y
   `wp revistalogos content *` se conservan. No hay cleanup que borre Pages.
-- Volume 1 editorial bootstrap implementado en el working tree (plugin
-  0.2.3): `wp revistalogos fixtures bootstrap|plan`. No es dataset demo.
-  Reutiliza el autor canónico `rafael-eduardo-figueredo-oropeza`; nunca lo
-  crea, marca ni borra. Adopción por hash (`_les_bootstrap_source_hash` /
-  `_les_bootstrap_adopted`). **No ejecutado en producción. No desplegado.**
+- Volume 1 editorial bootstrap implementado (plugin 0.2.3+): dominio
+  `Fixtures` + CLI. **0.2.4** añade Tools → Volume 1 Editorial Bootstrap
+  como puente temporal (hosting sin SSH/WP-CLI usable). Reutiliza plan/
+  bootstrap/verify. Sin teardown, sin force, sin campo de backup (excepción
+  de propietario para esta operación). Confirmación explícita obligatoria.
+  **No ejecutado en producción. No desplegado.** Retirar la UI tras Verify
+  y QA de front.
 - WordPress clásico live en producción (`https://logo-et-spes.cenfiss.net`);
   carga de contenido editorial real iniciada y actualmente en proceso desde
   wp-admin (**no** completa). Existe un administrador asignado a esa
@@ -429,11 +431,9 @@ compartidos; nueva clase admin temporal; bootstrap/version/readme del plugin;
 harness `tools/qa-content-recovery-admin.sh`; CHANGELOG; matriz; snapshot de
 operaciones y este estado. Sin commit, push ni deploy.
 
-**2026-08-19 (Volume 1 editorial bootstrap, working tree):** retirada de
-`Content_Recovery_Admin` y `tools/qa-content-recovery-admin.sh`; bootstrap
-editorial Volume 1 en `class-fixtures.php` / CLI; harness
-`tools/qa-editorial-bootstrap.sh`; plugin 0.2.3; docs de operaciones y
-matriz. Sin commit, push ni deploy.
+**2026-08-19 (UI temporal Volume 1 bootstrap, working tree):** plugin 0.2.4
+`Bootstrap_Admin` + `tools/qa-volume1-bootstrap-admin.sh`; helpers de plan/
+verify en `Fixtures`; docs de operaciones. Sin commit, push ni deploy.
 
 ## Next exact action
 
@@ -445,11 +445,14 @@ en proceso desde wp-admin (**no** completa). Docker: `http://localhost:8080`.
 Siguiente acción priorizada — **revisión del propietario de este working
 tree; no commit/push/deploy; no ejecutar bootstrap en producción**:
 
-1. revisar el informe de Volume 1 editorial bootstrap;
-2. decidir publicación vs borrador de los objetos bootstrap;
-3. si se aprueba el código: commit/push, luego deploy manual FTPS;
-4. en producción, solo después: backup fresco, `wp revistalogos fixtures plan`,
-   STOP ante colisión, `--confirm-production --backup --apply`.
+1. revisar el informe de la UI temporal Tools → Volume 1 Editorial Bootstrap;
+2. si se aprueba: commit/push, luego deploy manual FTPS del plugin 0.2.4;
+3. en producción: Validate and Plan → STOP ante colisión/Rafael → confirmar
+   explícitamente → apply una vez → Verify → QA de URLs → retirar la UI
+   en un parche posterior.
+   **No** exigir evidencia de backup fresco en esa UI (excepción de
+   propietario). El CLI de teardown/migración institucional conserva su
+   política de backup.
 
 No importar el dataset demo de fixtures. El bootstrap editorial **no** se
 ejecuta en esta reanudación (espera aprobación). After ordinary theme QA,

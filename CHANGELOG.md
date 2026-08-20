@@ -8,6 +8,15 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Added
+- Plugin `revistalogos-core` 0.2.4: temporary wp-admin tool Tools →
+  Volume 1 Editorial Bootstrap (`Bootstrap_Admin`). Hosting has no usable
+  SSH/WP-CLI path; the screen is an execution bridge over the existing
+  `Fixtures::plan` / `bootstrap` / `verify` methods. No teardown, no force,
+  no backup-evidence field (owner exception for this Volume 1 operation
+  only). Explicit confirmation remains mandatory. Remove after production
+  bootstrap and frontend verification.
+
 ### Changed
 - Plugin `revistalogos-core` 0.2.3: `wp revistalogos fixtures bootstrap`
   is now a Volume 1 **editorial** bootstrap (owner Option 2: one published

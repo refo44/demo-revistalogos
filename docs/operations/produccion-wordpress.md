@@ -199,9 +199,27 @@ wp revistalogos fixtures verify
 wp revistalogos fixtures teardown --kind=bootstrap
 ```
 
-En producción, `--apply` exige `--confirm-production` y `--backup`. No hay
-modo force. Colisión de un Vol. 1 Nº 1 manual, slug ocupado, o autor canónico
-ausente/ambiguo: fail-safe, cero escrituras.
+En producción, el CLI `--apply` sigue exigiendo `--confirm-production` y
+`--backup`. El hosting **no** ofrece una vía práctica de SSH/WP-CLI (sin
+Terminal cPanel; SSH no alcanzable). Para **esta** ejecución de Volume 1
+el propietario exceptúa la evidencia de backup fresco. La vía temporal
+Tools → Volume 1 Editorial Bootstrap (`Bootstrap_Admin`, plugin 0.2.4)
+reutiliza el mismo dominio `Fixtures`; no expone teardown ni force; exige
+confirmación explícita y exactamente un Author canónico. No reescribe la
+política general de backup del CLI ni de la migración institucional.
+
+Procedimiento futuro (no ejecutar en esta tarea):
+
+1. commit/push after owner approval;
+2. deploy plugin through existing manual FTPS workflow;
+3. open Tools → Volume 1 Editorial Bootstrap;
+4. run Validate and Plan;
+5. STOP on any collision or Rafael problem;
+6. explicitly confirm production bootstrap;
+7. run bootstrap once;
+8. inspect Verify;
+9. manually test issue/article/author URLs;
+10. remove temporary admin UI in a follow-up patch.
 
 Autor canónico: `rafael-eduardo-figueredo-oropeza` (Rafael Eduardo Figueredo
 Oropeza). El bootstrap lo reutiliza si hay exactamente un Author CPT con ese

@@ -54,8 +54,13 @@ resuming Fase 3 work).
   must not duplicate or mark that author, and uses `_les_bootstrap*` (not
   disposable `_les_fixture` teardown). No fake DOI/ORCID/ISSN, no dummy
   authors, no dummy bibliographic pagination. Do **not** run
-  `wp revistalogos fixtures seed` on production. Indexing must not open
-  while public fixture records remain; prefer `_les_fixture=1` count 0.
+  `wp revistalogos fixtures seed` on production. Production hosting has no
+  usable SSH/WP-CLI path; temporary Tools → Volume 1 Editorial Bootstrap
+  (`Bootstrap_Admin`) is an execution bridge only — no teardown, no force,
+  no backup-evidence field for this owner-approved operation. Remove the
+  UI after production bootstrap and frontend verification. Indexing must
+  not open while public fixture records remain; prefer `_les_fixture=1`
+  count 0.
 - **Plugin owns the domain, theme owns presentation only** (ADR 0005) — no
   CPT/taxonomy/role registration in the theme, ever.
 - **Two live deployments, deliberately asymmetric**:

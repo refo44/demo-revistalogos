@@ -3,7 +3,7 @@ Contributors: cenfiss
 Requires at least: 6.4
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.2.3
+Stable tag: 0.2.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,13 @@ Fase 3: los campos `issn`, `doi` y `orcid` son almacenamiento base inerte;
 la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
 
 == Changelog ==
+
+= 0.2.4 =
+* Adds a temporary Tools → Volume 1 Editorial Bootstrap screen so
+  administrators can plan/apply/verify Volume 1 without SSH/WP-CLI.
+  Reuses Fixtures domain methods. No teardown, no force, no backup
+  evidence field (owner exception for this operation). Remove after
+  production bootstrap and frontend verification.
 
 = 0.2.3 =
 * Retira la herramienta temporal de recuperación institucional en wp-admin.

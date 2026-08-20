@@ -483,18 +483,6 @@ class Fixtures {
 			return $author;
 		}
 
-		if ( '1' === (string) get_post_meta( $author->ID, self::BOOTSTRAP_MARKER, true )
-			|| '1' === (string) get_post_meta( $author->ID, self::MARKER, true ) ) {
-			return new \WP_Error(
-				'author_marked',
-				sprintf(
-					'Canonical author id %d slug %s carries a fixture or bootstrap marker. Refusing to proceed; resolve manually. Do not create a duplicate.',
-					$author->ID,
-					$author->post_name
-				)
-			);
-		}
-
 		$dataset = self::volume1_dataset();
 		$preflight = self::bootstrap_preflight( $dataset, $author );
 
@@ -511,11 +499,7 @@ class Fixtures {
 
 		$ids = array();
 
-		foreach ( array(
-			self::VOLUME1_COVER_KEY       => array( 'portada-ejemplo.jpg', 'vol-1-n-1-portada.jpg', 'Portada placeholder Vol. 1 Nº 1' ),
-			self::VOLUME1_ISSUE_PDF_KEY   => array( 'numero-v12n2-2025.pdf', 'vol-1-n-1.pdf', 'PDF placeholder del número Vol. 1 Nº 1' ),
-			self::VOLUME1_ARTICLE_PDF_KEY => array( 'articulo-01.pdf', 'vol-1-articulo-01.pdf', 'PDF placeholder del artículo 1' ),
-		) as $key => $cfg ) {
+		foreach ( self::volume1_media_dataset() as $key => $cfg ) {
 			$media_id = self::seed_bootstrap_media( $key, $cfg[0], $cfg[1], $cfg[2], $apply, $report );
 
 			if ( is_wp_error( $media_id ) ) {
@@ -753,16 +737,29 @@ class Fixtures {
 	}
 
 	/**
-	 * Find the canonical Author CPT by slug. Fail-safe on 0 or >1 matches.
+	 * Inspect the canonical Author CPT by slug. Never creates, marks or
+	 * deletes that author. Fail-safe on 0 or >1 matches and on fixture
+	 * or bootstrap markers.
 	 *
 	 * @param string $slug Author post_name.
-	 * @return \WP_Post|\WP_Error
+	 * @return array<string, mixed>
 	 */
-	public static function resolve_canonical_author( $slug ) {
+	public static function inspect_canonical_author( $slug = self::CANONICAL_AUTHOR_SLUG ) {
 		$slug = sanitize_title( (string) $slug );
+		$result = array(
+			'slug'    => $slug,
+			'count'   => 0,
+			'matches' => array(),
+			'author'  => null,
+			'pass'    => false,
+			'code'    => 'missing',
+			'errors'  => array(),
+		);
 
 		if ( '' === $slug ) {
-			return new \WP_Error( 'author_slug_empty', 'Author slug is empty.' );
+			$result['code']     = 'empty';
+			$result['errors'][] = 'Author slug is empty.';
+			return $result;
 		}
 
 		$posts = get_posts(
@@ -771,45 +768,363 @@ class Fixtures {
 				'name'           => $slug,
 				'post_status'    => 'any',
 				'posts_per_page' => -1,
+				'numberposts'    => -1,
 				'no_found_rows'  => true,
 			)
 		);
 
-		if ( count( $posts ) > 1 ) {
-			$ids = implode( ', ', wp_list_pluck( $posts, 'ID' ) );
+		$result['count']   = count( $posts );
+		$result['matches'] = $posts;
 
-			return new \WP_Error(
-				'author_ambiguous',
-				sprintf(
-					'Ambiguous author slug %s (ids %s). Refusing to choose. Do not create another duplicate.',
-					$slug,
-					$ids
-				)
+		if ( count( $posts ) > 1 ) {
+			$ids            = implode( ', ', wp_list_pluck( $posts, 'ID' ) );
+			$result['code'] = 'ambiguous';
+			$result['errors'][] = sprintf(
+				'Ambiguous author slug %s (ids %s). Refusing to choose. Do not create another duplicate.',
+				$slug,
+				$ids
 			);
+			return $result;
 		}
 
 		if ( ! $posts ) {
-			return new \WP_Error(
-				'author_missing',
-				sprintf(
-					'No Author CPT with slug %s. Create that author manually (not as a bootstrap object), then re-run. Bootstrap never creates this author.',
-					$slug
-				)
+			$result['code']     = 'missing';
+			$result['errors'][] = sprintf(
+				'No Author CPT with slug %s. Create that author manually (not as a bootstrap object), then re-run. Bootstrap never creates this author.',
+				$slug
 			);
+			return $result;
 		}
 
-		return $posts[0];
+		$author = $posts[0];
+		$result['author'] = $author;
+
+		if ( Content_Types::AUTHOR !== $author->post_type ) {
+			$result['code']     = 'wrong_type';
+			$result['errors'][] = sprintf( 'Canonical author id %d is not post_type=author.', $author->ID );
+			return $result;
+		}
+
+		if ( '1' === (string) get_post_meta( $author->ID, self::BOOTSTRAP_MARKER, true )
+			|| '1' === (string) get_post_meta( $author->ID, self::MARKER, true ) ) {
+			$result['code']     = 'marked';
+			$result['errors'][] = sprintf(
+				'Canonical author id %d slug %s carries a fixture or bootstrap marker. Refusing to proceed; resolve manually. Do not create a duplicate.',
+				$author->ID,
+				$author->post_name
+			);
+			return $result;
+		}
+
+		$result['pass'] = true;
+		$result['code'] = 'ok';
+		return $result;
 	}
 
 	/**
-	 * Fail-safe collisions: leftover disposable bootstrap, manual Vol. 1
-	 * issue, or a slug already owned by a non-bootstrap object.
+	 * Find the canonical Author CPT by slug. Fail-safe on 0 or >1 matches.
+	 *
+	 * @param string $slug Author post_name.
+	 * @return \WP_Post|\WP_Error
+	 */
+	public static function resolve_canonical_author( $slug ) {
+		$inspection = self::inspect_canonical_author( $slug );
+
+		if ( $inspection['pass'] ) {
+			return $inspection['author'];
+		}
+
+		return new \WP_Error( 'author_' . $inspection['code'], implode( ' ', $inspection['errors'] ) );
+	}
+
+	/**
+	 * Read-only structured Volume 1 plan for the temporary admin screen.
+	 * Writes nothing. Uses the same author, collision and dataset rules
+	 * as Fixtures::plan() / bootstrap().
+	 *
+	 * @param string $author_slug Canonical author post_name.
+	 * @return array<string, mixed>
+	 */
+	public static function bootstrap_plan_state( $author_slug = self::CANONICAL_AUTHOR_SLUG ) {
+		$author_slug = sanitize_title( (string) $author_slug );
+		$author_gate = self::inspect_canonical_author( $author_slug );
+		$dataset     = self::volume1_dataset();
+		$objects     = self::bootstrap_object_rows( $dataset, $author_gate );
+		$collisions  = array();
+		$lines       = array();
+		$can_apply   = false;
+
+		if ( $author_gate['pass'] ) {
+			$collisions = self::bootstrap_preflight_errors( $dataset, $author_gate['author'] );
+
+			if ( ! $collisions ) {
+				$planned = self::bootstrap( false, $author_slug );
+
+				if ( is_wp_error( $planned ) ) {
+					$collisions[] = $planned->get_error_message();
+				} else {
+					$lines     = $planned;
+					$can_apply = true;
+				}
+			}
+		} else {
+			$collisions = $author_gate['errors'];
+		}
+
+		$gate = ( $author_gate['pass'] && ! $collisions && $can_apply ) ? 'PASS' : 'BLOCKED';
+
+		return array(
+			'author'     => $author_gate,
+			'objects'    => $objects,
+			'collisions' => $collisions,
+			'lines'      => $lines,
+			'can_apply'  => $can_apply,
+			'gate'       => $gate,
+			'source'     => 'static Vol. 12 Nº 2 maquette (Option 2), retargeted to Vol. 1 Nº 1',
+		);
+	}
+
+	/**
+	 * Structured verify for the temporary admin screen. Reuses
+	 * Fixtures::verify() and adds public URLs and relationship rows.
+	 *
+	 * @param string $author_slug Canonical author post_name.
+	 * @return array<string, mixed>
+	 */
+	public static function bootstrap_verify_state( $author_slug = self::CANONICAL_AUTHOR_SLUG ) {
+		$verify      = self::verify();
+		$author_gate = self::inspect_canonical_author( $author_slug );
+		$dataset     = self::volume1_dataset();
+		$issue       = self::find_bootstrap( self::VOLUME1_ISSUE_KEY );
+		$articles    = array();
+
+		foreach ( $dataset['articles'] as $article ) {
+			$post     = self::find_bootstrap( $article['key'] );
+			$issue_id = $post ? absint( get_post_meta( $post->ID, 'issue', true ) ) : 0;
+			$authors  = $post ? get_post_meta( $post->ID, 'authors', true ) : array();
+			$pages    = $post ? (string) get_post_meta( $post->ID, 'pages', true ) : '';
+
+			$articles[] = array(
+				'key'        => $article['key'],
+				'slug'       => $article['slug'],
+				'found'      => (bool) $post,
+				'post_id'    => $post ? (int) $post->ID : 0,
+				'url'        => $post ? get_permalink( $post ) : home_url( user_trailingslashit( 'revista/articulos/' . $article['slug'] ) ),
+				'issue_id'   => $issue_id,
+				'authors'    => is_array( $authors ) ? array_map( 'absint', $authors ) : array(),
+				'link_rafael'=> ! empty( $article['link_rafael'] ),
+				'pages'      => $pages,
+				'adopted'    => $post ? self::is_adopted( $post->ID ) : false,
+			);
+		}
+
+		$urls = array(
+			home_url( user_trailingslashit( 'revista/numeros' ) ),
+			home_url( user_trailingslashit( 'revista/articulos' ) ),
+			home_url( user_trailingslashit( 'revista/autores' ) ),
+		);
+
+		if ( $issue ) {
+			$urls[] = get_permalink( $issue );
+		}
+
+		foreach ( $articles as $row ) {
+			$urls[] = $row['url'];
+		}
+
+		if ( $author_gate['author'] ) {
+			$urls[] = get_permalink( $author_gate['author'] );
+		}
+
+		return array(
+			'verify'     => $verify,
+			'author'     => $author_gate,
+			'issue'      => $issue,
+			'articles'   => $articles,
+			'urls'       => array_values( array_unique( array_filter( $urls ) ) ),
+			'pass'       => 0 === (int) $verify['failures'],
+		);
+	}
+
+	/**
+	 * Placeholder media sideloaded for Volume 1 (source file, dest name, title).
+	 *
+	 * @return array<string, array{0:string,1:string,2:string}>
+	 */
+	private static function volume1_media_dataset() {
+		return array(
+			self::VOLUME1_COVER_KEY       => array( 'portada-ejemplo.jpg', 'vol-1-n-1-portada.jpg', 'Portada placeholder Vol. 1 Nº 1' ),
+			self::VOLUME1_ISSUE_PDF_KEY   => array( 'numero-v12n2-2025.pdf', 'vol-1-n-1.pdf', 'PDF placeholder del número Vol. 1 Nº 1' ),
+			self::VOLUME1_ARTICLE_PDF_KEY => array( 'articulo-01.pdf', 'vol-1-articulo-01.pdf', 'PDF placeholder del artículo 1' ),
+		);
+	}
+
+	/**
+	 * Classify each Volume 1 target for the admin plan table.
+	 *
+	 * @param array $dataset     Volume 1 dataset.
+	 * @param array $author_gate inspect_canonical_author() result.
+	 * @return array<int, array<string, mixed>>
+	 */
+	private static function bootstrap_object_rows( $dataset, $author_gate ) {
+		$rows   = array();
+		$author = $author_gate['author'];
+
+		$author_status = 'BLOCKED';
+		$author_detail = implode( ' ', $author_gate['errors'] );
+
+		if ( $author_gate['pass'] ) {
+			$author_status = 'REUSE';
+			$author_detail = sprintf(
+				'manual Author CPT id %d; never created, marked or overwritten',
+				$author->ID
+			);
+		} elseif ( 'ambiguous' === $author_gate['code'] ) {
+			$author_status = 'CONFLICT';
+		}
+
+		$rows[] = array(
+			'kind'      => 'author',
+			'key'       => 'canonical-author',
+			'title'     => 'Rafael Eduardo Figueredo Oropeza',
+			'slug'      => $author_gate['slug'],
+			'post_type' => Content_Types::AUTHOR,
+			'path'      => user_trailingslashit( 'revista/autores/' . $author_gate['slug'] ),
+			'status'    => $author_status,
+			'post_id'   => $author ? (int) $author->ID : 0,
+			'detail'    => $author_detail,
+			'source'    => 'manual Author CPT (never bootstrap-owned)',
+		);
+
+		foreach ( self::volume1_media_dataset() as $key => $cfg ) {
+			$rows[] = self::classify_bootstrap_target(
+				'attachment',
+				sanitize_title( pathinfo( $cfg[1], PATHINFO_FILENAME ) ),
+				$key,
+				$cfg[2],
+				'media',
+				'resources/fixtures/' . $cfg[0]
+			);
+		}
+
+		$rows[] = self::classify_bootstrap_target(
+			Content_Types::ISSUE,
+			$dataset['issue']['slug'],
+			self::VOLUME1_ISSUE_KEY,
+			$dataset['issue']['title'],
+			'issue',
+			'static Vol. 12 Nº 2 maquette (Option 2)'
+		);
+
+		foreach ( $dataset['articles'] as $article ) {
+			$rows[] = self::classify_bootstrap_target(
+				Content_Types::ARTICLE,
+				$article['slug'],
+				$article['key'],
+				$article['title'],
+				'article',
+				'static Vol. 12 Nº 2 maquette (Option 2)'
+			);
+		}
+
+		return $rows;
+	}
+
+	/**
+	 * Classify one bootstrap target as CREATE, REUSE, ADOPTED or CONFLICT.
+	 *
+	 * @param string $post_type Post type.
+	 * @param string $slug      Planned public slug.
+	 * @param string $key       Bootstrap key.
+	 * @param string $title     Planned title.
+	 * @param string $kind      issue, article or media.
+	 * @param string $source    Human-readable source.
+	 * @return array<string, mixed>
+	 */
+	private static function classify_bootstrap_target( $post_type, $slug, $key, $title, $kind, $source ) {
+		$owned    = self::find_bootstrap( $key );
+		$path     = ( 'attachment' === $post_type )
+			? $slug
+			: user_trailingslashit(
+				( Content_Types::ISSUE === $post_type ? 'revista/numeros/' : 'revista/articulos/' ) . $slug
+			);
+		$row      = array(
+			'kind'      => $kind,
+			'key'       => $key,
+			'title'     => $title,
+			'slug'      => $owned ? $owned->post_name : $slug,
+			'post_type' => $post_type,
+			'path'      => $path,
+			'status'    => 'CREATE',
+			'post_id'   => 0,
+			'detail'    => 'would create',
+			'source'    => $source,
+		);
+
+		if ( $owned ) {
+			$row['post_id'] = (int) $owned->ID;
+			$row['slug']    = $owned->post_name;
+			$owned_kind     = (string) get_post_meta( $owned->ID, self::BOOTSTRAP_KIND, true );
+
+			if ( '' !== $owned_kind && self::BOOTSTRAP_KIND_VOLUME_1 !== $owned_kind ) {
+				$row['status'] = 'CONFLICT';
+				$row['detail'] = sprintf( 'bootstrap key %s has unexpected kind %s', $key, $owned_kind );
+				return $row;
+			}
+
+			if ( self::is_adopted( $owned->ID ) ) {
+				$row['status'] = 'ADOPTED';
+				$row['detail'] = sprintf( 'id %d adopted; left untouched', $owned->ID );
+				return $row;
+			}
+
+			$row['status'] = 'REUSE';
+			$row['detail'] = sprintf( 'id %d exists; skip overwrite', $owned->ID );
+			return $row;
+		}
+
+		$existing = get_posts(
+			array(
+				'post_type'      => $post_type,
+				'name'           => $slug,
+				'post_status'    => 'any',
+				'posts_per_page' => -1,
+				'numberposts'    => -1,
+				'no_found_rows'  => true,
+			)
+		);
+
+		foreach ( $existing as $post ) {
+			$post_key = (string) get_post_meta( $post->ID, self::BOOTSTRAP_KEY, true );
+
+			if ( $key === $post_key ) {
+				continue;
+			}
+
+			$row['status']  = 'CONFLICT';
+			$row['post_id'] = (int) $post->ID;
+			$row['detail']  = sprintf(
+				'slug %s already exists on %s id %d and is not bootstrap key %s',
+				$slug,
+				$post_type,
+				$post->ID,
+				$key
+			);
+			return $row;
+		}
+
+		return $row;
+	}
+
+	/**
+	 * Collision messages for leftover disposable bootstrap, a manual
+	 * Vol. 1 issue, or a slug owned by a non-bootstrap object.
 	 *
 	 * @param array    $dataset Volume 1 dataset.
 	 * @param \WP_Post $author  Canonical author.
-	 * @return true|\WP_Error
+	 * @return string[]
 	 */
-	private static function bootstrap_preflight( $dataset, $author ) {
+	private static function bootstrap_preflight_errors( $dataset, $author ) {
 		$errors = array();
 
 		$issues = get_posts(
@@ -899,6 +1214,19 @@ class Fixtures {
 		if ( Content_Types::AUTHOR !== $author->post_type ) {
 			$errors[] = sprintf( 'Canonical author id %d is not post_type=author.', $author->ID );
 		}
+
+		return $errors;
+	}
+
+	/**
+	 * Wrap preflight errors for CLI/bootstrap apply.
+	 *
+	 * @param array    $dataset Volume 1 dataset.
+	 * @param \WP_Post $author  Canonical author.
+	 * @return true|\WP_Error
+	 */
+	private static function bootstrap_preflight( $dataset, $author ) {
+		$errors = self::bootstrap_preflight_errors( $dataset, $author );
 
 		if ( $errors ) {
 			return new \WP_Error( 'bootstrap_collision', implode( ' ', $errors ) );
@@ -1363,6 +1691,13 @@ class Fixtures {
 
 			if ( '1' === (string) get_post_meta( $id, self::MARKER, true ) ) {
 				$report[] = "object $id carries BOTH _les_bootstrap and _les_fixture";
+				$failures++;
+			}
+
+			$pages = (string) get_post_meta( $id, 'pages', true );
+
+			if ( preg_match( '/\d+\s*[–-]\s*\d/', $pages ) ) {
+				$report[] = get_post_type( $id ) . " $id: Volume 1 bootstrap must not store dummy bibliographic page ranges";
 				$failures++;
 			}
 		}
