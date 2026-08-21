@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "PHP lint + Composer audit gates landed; ADR 0017 still unimplemented"
+current_work_unit: "CI regression: lockfile vs config.platform.php 8.2.0; owner review; no commit/push/deploy; ADR 0017 still unimplemented"
 current_branch: "main"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-08-21"
-next_action: "Do not implement ADR 0017 unless asked. Deploy of plugin 0.2.6 / theme 0.2.1 remains a separate owner decision. No deploy from this commit."
+next_action: "Owner review of Composer lockfile platform fix. No commit/push/deploy unless asked. Do not implement ADR 0017."
 blocked: false
 ---
 
@@ -466,7 +466,14 @@ PHPUnit 9.6 (Composer `require-dev` en la raíz); `composer test:unit` /
 / `composer audit:deps` en el gate rápido y en CI (lint → audit → units).
 Solo lockfile Composer de raíz; no garantizado offline. 0 advisories. Sin
 PHPStan/Psalm/PHPCS ni escáner extra. ADR 0017 **no** implementado. Sin
-deploy.
+deploy. Commit y push: `85b843b`.
+
+**2026-08-21 (CI lockfile vs platform, working tree):** `composer install`
+fallaba (exit 2) porque `doctrine/instantiator` 2.1.0 exige `php ^8.4` y
+`config.platform.php` es 8.2.0. Lock generado con `--ignore-platform-reqs`
+vía `composer:2` (PHP 8.5). Reparación: instantiator **2.0.0** (`php ^8.1`);
+PHPUnit 9.6.36 sin cambio; wrapper local sin `--ignore-platform-reqs`. ADR
+0017 **no** implementado. Sin commit, push ni deploy.
 
 ## Next exact action
 
@@ -475,16 +482,18 @@ La implementación **clásica** está live en producción
 institucional **ya hecha** (Pages reales permanentes). Carga editorial real
 en proceso desde wp-admin (**no** completa). Docker: `http://localhost:8080`.
 
-Siguiente acción priorizada — **no implementar ADR 0017 ahora; no
-desplegar desde este commit**:
+Siguiente acción priorizada — **revisión del propietario del fix de
+lockfile/plataforma; no commit/push/deploy; no implementar ADR 0017 ahora**:
 
-1. deploy de plugin `revistalogos-core` 0.2.6 y theme `revistalogos` 0.2.1
+1. revisar `composer.lock` (`doctrine/instantiator` 2.0.0) y que CI
+   `composer install` respete `config.platform.php` 8.2.0;
+2. deploy de plugin `revistalogos-core` 0.2.6 y theme `revistalogos` 0.2.1
    sigue siendo decisión aparte del propietario;
-2. tras deploy: verificar 320px / 200% zoom de CTAs en navegador
+3. tras deploy: verificar 320px / 200% zoom de CTAs en navegador
    (**NOT LIVE-VERIFIED**);
-3. no re-ejecutar bootstrap ni teardown en producción;
-4. Bootstrap_Admin ya no forma parte del plugin.
-5. ADR 0017 (PDF automático) puede arrancar con TDD **después** de aceptar
+4. no re-ejecutar bootstrap ni teardown en producción;
+5. Bootstrap_Admin ya no forma parte del plugin.
+6. ADR 0017 (PDF automático) puede arrancar con TDD **después** de aceptar
    esta foundation; no en esta pausa.
 
 No importar el dataset demo de fixtures. After ordinary theme QA,

@@ -18,7 +18,7 @@ install_dev_dependencies() {
 		--volume "$ROOT":/app \
 		--workdir /app \
 		composer:2 \
-		composer install --no-interaction --ignore-platform-reqs
+		composer install --no-interaction
 }
 
 run_phpunit() {

@@ -67,6 +67,7 @@ Formato de cada fila: validación, método, resultado, estado, commit probado.
 | Sintaxis PHP de recuperación institucional | `php -l` en Docker sobre migrador, admin temporal y comando CLI | 0 errores de sintaxis | Pass (working tree) | working tree 2026-08-19 |
 | PHPUnit unit suite (Testing Foundation) | `composer test:unit` / `./tools/run-phpunit.sh` (PHP 8.2, sin WordPress) | 2 tests de `revistalogos_split_name` | Pass (working tree) | working tree 2026-08-20 |
 | PHP syntax gate (`php -l`) | `./tools/php-lint.sh` / `composer lint:php` sobre plugin, theme y `tests/` | 0 errores de sintaxis | Pass (working tree) | working tree 2026-08-20 |
+| Composer lockfile platform compatibility | `composer install --no-interaction --prefer-dist --no-progress` sin `--ignore-platform-reqs` (`config.platform.php` 8.2.0; `doctrine/instantiator` 2.0.0) | install exit 0 | Pass (working tree) | working tree 2026-08-21 |
 | Composer lockfile audit | `composer audit --locked` (PHPUnit + transitivas; no WP/npm/hosting) | 0 advisories | Pass (working tree) | working tree 2026-08-20 |
 
 ## Nivel 2 — Componente

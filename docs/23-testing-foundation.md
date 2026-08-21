@@ -101,6 +101,11 @@ Composer y PHPUnit viven en la **raíz** del repo (`composer.json`,
   No ejecuta `tools/qa-*.sh`.
 - Composer **solo** para tooling de test. El plugin y el theme siguen con
   `require_once` (ADR 0006). El workflow FTPS no sube `vendor/` ni `tests/`.
+- `config.platform.php` es **8.2.0**: baseline de resolución del tooling
+  de test (Docker/CI), no el `Requires PHP: 7.4` del plugin ni el PHP
+  8.0.30 de producción. `composer.lock` debe instalarse **sin**
+  `--ignore-platform-reqs`. Un clone limpio con el lockfile tiene que
+  resolver contra esa plataforma.
 
 ## Integración WordPress
 
@@ -236,10 +241,11 @@ PHPUnit/WP, se añadirá ese script y nada más.
 ## CI
 
 Workflow `.github/workflows/test.yml`: `pull_request` y `push` a `main`.
-PHP 8.2, `composer lint:php`, `composer audit --locked`, después
-`composer test:unit`. Sin environment de producción, sin secretos FTPS, sin
-deploy. No cierra D12b. Sin matriz PHP/WP. La integración en CI es el
-siguiente incremento (harness o PHPUnit/WP), no este.
+PHP 8.2, `composer install` (respeta `config.platform.php` 8.2.0; sin
+`--ignore-platform-reqs`), `composer lint:php`, `composer audit --locked`,
+después `composer test:unit`. Sin environment de producción, sin secretos
+FTPS, sin deploy. No cierra D12b. Sin matriz PHP/WP. La integración en CI
+es el siguiente incremento (harness o PHPUnit/WP), no este.
 
 ## Accesibilidad
 
@@ -266,7 +272,10 @@ No es un sustituto de revisión de seguridad del producto y no cierra D12b.
 | Docker / CI tests | **8.2** | **7.1** (integración) |
 
 No se redefine el mínimo 7.4. PHPUnit 9.6 puede correr en 7.4; CI no lo
-hace todavía (una sola línea canónica).
+hace todavía (una sola línea canónica). `config.platform.php` 8.2.0
+obliga a que las transitivas del lockfile (p. ej. `doctrine/instantiator`)
+sean instalables en PHP 8.2; no se genera ni se instala el lock con
+`--ignore-platform-reqs`.
 
 ## Expansión futura
 

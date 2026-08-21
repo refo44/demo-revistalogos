@@ -8,6 +8,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Fixed
+- Composer lockfile vs PHP platform: `doctrine/instantiator` 2.1.0
+  (`php ^8.4`) replaced with 2.0.0 so `composer install` respects
+  `config.platform.php` 8.2.0 on CI PHP 8.2. PHPUnit remains 9.6.36.
+  `tools/run-phpunit.sh` no longer uses `--ignore-platform-reqs`.
+  No runtime bump. ADR 0017 remains unimplemented.
+
 ### Added
 - Composer lockfile security audit in the fast gate: native
   `composer audit --locked` / `composer audit:deps`. `composer test` runs
