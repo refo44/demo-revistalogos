@@ -46,7 +46,7 @@ Requieren elegir entre alternativas antes o durante la construcción del theme. 
 | D14 | Clasificación de la sección de noticias/blog (CPT nativo `post`) → ¿se le añade una taxonomía (propia, tipo `keyword`, o nativa `category`/`post_tag` reactivada) para agrupar noticias, o se mantiene sin clasificar? Detectado 2026-07-31: `post_tag`/`category` existen en WordPress por defecto pero ni el plugin ni el theme las registran, renderizan ni enlazan — hoy son datos muertos si se usan desde el panel. **No se implementa todavía**; se abre solo para no perder el hallazgo. | Alcance de una futura plantilla `category.php`/`tag.php` si se resuelve por «sí» | ⏳ Pendiente |
 | D15 | Tipo de theme → **block theme (FSE)** + Site Editor + paleta en Estilos; Next.js / headless **rechazado** | FSE incremental en Docker **después** de estabilizar producción clásica (el corte 2026-08-19 no esperó al gate FSE) | ✅ Resuelta ([0015](0015-block-theme-fse-site-editor.md)); implementación pendiente |
 | D16 | Topología de hosting → **cPanel `cenfiss2`**, no panel Hostinger; corte WP **in situ** en `logo-et-spes.cenfiss.net`; sin subdominios nuevos | Secretos FTPS y Softaculous | ✅ Resuelta ([0016](0016-topologia-hosting-cpanel.md)); **corte ejecutado 2026-08-19** |
-| D17 | Generación automática del PDF de artículo al publicar → **arquitectura aceptada** ([0017](0017-generacion-automatica-pdf-articulo.md)): `pdf_file` sigue siendo un ID de Media Library; publicar exigirá PDF válido; si falta, generar; si falla, bloquear; no pisar un PDF válido; no regenerar al guardar; no backfill en upgrade. **Implementación aplazada** hasta Testing Foundation + TDD. Librería PHP: elección de implementación. PDF de número: fuera de v1. Hoy el PDF sigue siendo opcional y manual. | Publicar sin PDF maquetado a mano (tras Testing Foundation) | ✅ Resuelta ([0017](0017-generacion-automatica-pdf-articulo.md)); implementación pendiente |
+| D17 | Generación automática del PDF de artículo al publicar → **arquitectura aceptada** ([0017](0017-generacion-automatica-pdf-articulo.md)): `pdf_file` sigue siendo un ID de Media Library; publicar exigirá PDF válido; si falta, generar; si falla, bloquear; no pisar un PDF válido; no regenerar al guardar; no backfill en upgrade. **Testing Foundation hecha** ([0018](0018-testing-foundation.md), `docs/23`). **Implementación pendiente** (TDD). Librería PHP: elección de implementación. PDF de número: fuera de v1. Hoy el PDF sigue siendo opcional y manual. | Publicar sin PDF maquetado a mano (TDD sobre 0018) | ✅ Resuelta ([0017](0017-generacion-automatica-pdf-articulo.md)); implementación pendiente |
 
 ---
 
@@ -109,7 +109,7 @@ Estado en el repo: `.github/workflows/deploy.yml` («Deploy to Hostinger») **el
 
 ### Añadidas el 2026-08-20
 
-- **PDF de artículo al publicar (arquitectura, no código):** el contenido WordPress del artículo es la fuente del PDF **generado**; `pdf_file` sigue siendo un ID de adjunto. Hoy el PDF es **opcional** y **manual**. Tras implementar ADR 0017 (solo después de Testing Foundation, con TDD): un artículo publicado exigirá PDF válido; si no hay, se intenta generar; si falla, no se publica; un PDF válido no se pisa ni se regenera al guardar; el upgrade no rellena ni despublica. FSE solo lee `pdf_file`. PDF de número fuera de v1. → [ADR 0017](0017-generacion-automatica-pdf-articulo.md).
+- **PDF de artículo al publicar (arquitectura, no código):** el contenido WordPress del artículo es la fuente del PDF **generado**; `pdf_file` sigue siendo un ID de adjunto. Hoy el PDF es **opcional** y **manual**. Testing Foundation **hecha** ([0018](0018-testing-foundation.md)). Tras implementar ADR 0017 (TDD): un artículo publicado exigirá PDF válido; si no hay, se intenta generar; si falla, no se publica; un PDF válido no se pisa ni se regenera al guardar; el upgrade no rellena ni despublica. FSE solo lee `pdf_file`. PDF de número fuera de v1. → [ADR 0017](0017-generacion-automatica-pdf-articulo.md).
 
 ---
 
@@ -119,6 +119,6 @@ Estado en el repo: `.github/workflows/deploy.yml` («Deploy to Hostinger») **el
 2. Grupo B por dependencia: **D6 → D7 → D8** primero (desbloquean tareas de enlaces, despliegue y scaffold).
 3. D9–D12 después; no bloquean la construcción.
 4. D16 corte **hecho** (2026-08-19, theme clásico). D15 → FSE incremental en Docker **después** de QA de producción (sin esperar D12b ni D14).
-5. D17 arquitectura **hecha** (2026-08-20). Implementación **después** de Testing Foundation, con TDD; no bloquea el deploy de 0.2.6 ni FSE.
+5. D17 arquitectura **hecha** (2026-08-20). Testing Foundation **hecha** (ADR 0018, 2026-08-20). Implementación de 0017 **con TDD**; no bloquea el deploy de 0.2.6 ni FSE.
 
 Regla: se resuelve **una decisión a la vez**, con sus alternativas y consecuencias, para conservar el razonamiento.

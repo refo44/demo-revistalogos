@@ -168,7 +168,7 @@ Restricciones que la implementación deberá cumplir:
 
 **Trabajo futuro:**
 
-1. Testing Foundation (prerrequisito).
+1. Testing Foundation (prerrequisito). **Cubierto** el 2026-08-20 por ADR 0018 / `docs/23-testing-foundation.md`. Este ADR **sigue sin implementar**.
 2. Implementar en `revistalogos-core` con TDD, sin cambiar el contrato de `pdf_file`.
 3. Elegir librería en esa implementación.
 4. PDF de número: ADR o ítem de backlog aparte.

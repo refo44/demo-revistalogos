@@ -66,6 +66,7 @@ Usar `TEMPLATE.md` como punto de partida. Estructura mínima: Estado · Fecha ·
 | [0015](0015-block-theme-fse-site-editor.md) | Block theme, Gutenberg y Site Editor | Aceptada |
 | [0016](0016-topologia-hosting-cpanel.md) | Topología de hosting (cPanel cenfiss2) | Aceptada |
 | [0017](0017-generacion-automatica-pdf-articulo.md) | Generación automática del PDF de artículo al publicar | Aceptada |
+| [0018](0018-testing-foundation.md) | Testing Foundation (PHPUnit, Composer dev-only, Gherkin sin Behat) | Aceptada |
 
 > El backlog de decisiones a resolver se lleva en `docs/adr/BACKLOG.md`. Cada decisión resuelta añade su fila a esta tabla y se retira del backlog.
 

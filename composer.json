@@ -1,0 +1,20 @@
+{
+  "name": "cenfiss/revistalogos",
+  "description": "Development/test tooling for Revista de Filosofía LOGO ET SPES. Not a runtime plugin dependency.",
+  "license": "MIT",
+  "type": "project",
+  "require": {},
+  "require-dev": {
+    "phpunit/phpunit": "^9.6"
+  },
+  "config": {
+    "sort-packages": true,
+    "platform": {
+      "php": "8.2.0"
+    }
+  },
+  "scripts": {
+    "test": "phpunit --testsuite unit",
+    "test:unit": "phpunit --testsuite unit"
+  }
+}

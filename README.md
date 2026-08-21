@@ -38,7 +38,8 @@ revistalogos/
 │       ├── themes/revistalogos/     → Theme clásico (solo presentación)
 │       └── plugins/revistalogos-core/ → CPTs, taxonomías, campos, roles,
 │                                        migración de contenido y fixtures
-├── tools/                           → Generador del payload de migración
+├── tests/                           → PHPUnit unitario + Gherkin (ADR 0018)
+├── tools/                           → Payload generator, PHPUnit wrapper, qa-*.sh
 ├── docs/                            → Documentación numerada, ADRs, harness Fase 3
 ├── content-source/                  → Fuente canónica (no versionada)
 └── .github/workflows/               → deploy-wordpress.yml (producción WP, manual),
@@ -66,6 +67,12 @@ El espejo beta es GitHub Pages (`pages.yml`). El workflow estático
 «Deploy to Hostinger» (`deploy.yml`) **está retirado**; no recrearlo.
 
 **Lint CSS:** `npm run lint:css`.
+
+**Tests (ADR 0018, `docs/23-testing-foundation.md`):** `composer test` /
+`composer test:unit` when PHP 8.2 + Composer are available. On this laptop
+(no native PHP): `./tools/run-phpunit.sh`. WordPress workflows remain the
+isolated `tools/qa-*.sh` harnesses. Root Composer is **dev/test only**; it
+is not a plugin runtime dependency.
 
 ## Características de diseño
 

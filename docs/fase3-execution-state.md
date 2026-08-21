@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "0.2.6/0.2.1 on origin/main; no deploy; 320px/200% zoom NOT LIVE-VERIFIED"
+current_work_unit: "Testing Foundation (ADR 0018) in working tree; owner review; no commit/push/deploy; ADR 0017 still unimplemented"
 current_branch: "main"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-08-20"
-next_action: "Deploy es decisión aparte. Tras deploy: verificar 320px/200% zoom en navegador (NOT LIVE-VERIFIED). No bootstrap ni teardown en producción."
+next_action: "Owner review of Testing Foundation working tree. No commit/push/deploy unless asked. Do not implement ADR 0017 in this pause. Deploy of 0.2.6/0.2.1 remains a separate owner decision."
 blocked: false
 ---
 
@@ -451,8 +451,15 @@ opcional y manual en producción.
 WordPress **7.1** (`wordpress:7.1.0-php8.2-apache`); PHP 8.2.33 sin cambio.
 QA aislada + permalinks: PASS. Workflows: `actions/checkout@v5`,
 `FTP-Deploy-Action@v4.4.0`, Pages `upload-pages-artifact@v5` /
-`deploy-pages@v5`. Sin deploy, sin commit. Testing Foundation sigue
-**después** de este mantenimiento.
+`deploy-pages@v5`. Sin deploy, sin commit. Testing Foundation: ver párrafo
+siguiente.
+
+**2026-08-20 (Testing Foundation, working tree):** ADR 0018 + `docs/23`;
+PHPUnit 9.6 (Composer `require-dev` en la raíz); `composer test:unit` /
+`./tools/run-phpunit.sh`; 2 unit tests de `revistalogos_split_name`; CI
+`.github/workflows/test.yml` (sin secretos, sin deploy). Harnesses
+`tools/qa-*.sh` conservados. ADR 0017 **no** implementado. Sin commit,
+push ni deploy.
 
 ## Next exact action
 
@@ -461,15 +468,18 @@ La implementación **clásica** está live en producción
 institucional **ya hecha** (Pages reales permanentes). Carga editorial real
 en proceso desde wp-admin (**no** completa). Docker: `http://localhost:8080`.
 
-Siguiente acción priorizada — **plugin 0.2.6 / theme 0.2.1 en Git; deploy
-aparte; no tocar producción**:
+Siguiente acción priorizada — **Testing Foundation en working tree; revisión
+del propietario; no commit/push/deploy; no implementar ADR 0017 ahora**:
 
-1. deploy de plugin `revistalogos-core` 0.2.6 y theme `revistalogos` 0.2.1
-   es decisión del propietario;
-2. tras deploy: verificar 320px / 200% zoom de CTAs en navegador
+1. revisar ADR 0018 / `docs/23` / PHPUnit / CI `test.yml`;
+2. deploy de plugin `revistalogos-core` 0.2.6 y theme `revistalogos` 0.2.1
+   sigue siendo decisión aparte del propietario;
+3. tras deploy: verificar 320px / 200% zoom de CTAs en navegador
    (**NOT LIVE-VERIFIED**);
-3. no re-ejecutar bootstrap ni teardown en producción;
-4. Bootstrap_Admin ya no forma parte del plugin.
+4. no re-ejecutar bootstrap ni teardown en producción;
+5. Bootstrap_Admin ya no forma parte del plugin.
+6. ADR 0017 (PDF automático) puede arrancar con TDD **después** de aceptar
+   esta foundation; no en esta pausa.
 
 No importar el dataset demo de fixtures. After ordinary theme QA,
 FSE remains deferred:
@@ -490,7 +500,9 @@ FSE remains deferred:
    Softaculous; instalar/configurar CF7 y WP Statistics; vigilar SpeedyCache.
 6. **FSE (ADR 0015) después**, incremental, **primero en Docker**.
 
-D12b (checks CI sin deploy) sigue pendiente de la auditoría (ADR 0012 §6).
+D12b (checks CI de seguridad/stylelint ligados al deploy) sigue pendiente
+de la auditoría (ADR 0012 §6). El workflow `test.yml` (PHPUnit unitario)
+es Testing Foundation (ADR 0018), no cierra D12b.
 
 Acciones del propietario pendientes (no bloquean la QA):
 
@@ -505,7 +517,8 @@ Acciones del propietario pendientes (no bloquean la QA):
 git status --short && git branch --show-current && git log -5 --oneline
 ```
 
-1. Leer `.cursor/rules/` y este archivo.
+1. Leer `CLAUDE.md`, este archivo y los `docs/` / ADR de la WU activa.
+   No tratar `.cursor/` como fuente versionada (está gitignored).
 2. Comparar rama con Git. `last_verified_commit` / `last_checkpoint_commit`
    son el último checkpoint **verificado**, no tienen que igualar HEAD si
    HEAD es solo docs. No inventar un hash; actualizarlos tras QA o tras un

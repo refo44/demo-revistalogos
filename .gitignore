@@ -26,6 +26,11 @@ $RECYCLE.BIN/
 *.swp
 *.swo
 
+# PHP test tooling (Composer dev-only at repo root; never ship in the plugin)
+/vendor/
+.phpunit.result.cache
+.phpunit.cache/
+
 # Node.js (if you add any build tools later)
 node_modules/
 .stylelintcache

@@ -33,8 +33,9 @@ Documentación para el sitio web de la revista académica. CENFISS (Centro de Fi
 | 20 | layout-principles | Ancho de lectura, ritmo, responsive |
 | 21 | user-journey-diagram | Diagrama Mermaid de recorridos |
 | 22 | identificadores-academicos-doi-orcid | Registro DOI (Crossref) y reconocimiento de autoría (ORCID): validación, flujo de depósito, costes |
+| 23 | testing-foundation | Testing Foundation: PHPUnit, taxonomía, Gherkin, TDD, harnesses QA, CI |
 
-Harness de Fase 3 (fuera de la numeración): `fase3-execution-state.md` (reanudación), `fase3-validation-matrix.md` (QA), `migracion-static-wordpress.md` (ledger ADR 0001–0003), `operations/` ([runbook de producción](operations/wordpress-manual-deployment.md), [snapshot](operations/produccion-wordpress.md), Docker, plugins de terceros).
+Harness de Fase 3 (fuera de la numeración): `fase3-execution-state.md` (reanudación), `fase3-validation-matrix.md` (QA), `migracion-static-wordpress.md` (ledger ADR 0001–0003), `operations/` ([runbook de producción](operations/wordpress-manual-deployment.md), [snapshot](operations/produccion-wordpress.md), Docker, plugins de terceros). ADR de pruebas: [0018](adr/0018-testing-foundation.md).
 
 ---
 
@@ -74,5 +75,5 @@ Ningún documento puede depender de uno con número mayor. Ver `00-order-documen
 
 ---
 
-**Versión:** 1.3
+**Versión:** 1.4
 **Proyecto:** Revista de Filosofía LOGO ET SPES 0.2.0

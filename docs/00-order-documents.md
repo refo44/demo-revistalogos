@@ -29,6 +29,7 @@ Todos los documentos de arquitectura del sitio se redactan en español. Los tér
 | **20** | Principios de maquetación | Ancho de lectura, ritmo vertical, uso del espacio en blanco, relación tipografía/imagen. Cierra el sistema visual antes de escribir HTML. |
 | **21** | Diagrama de recorrido del usuario | Diagrama Mermaid de flujos del visitante. Validación visual de 10-user-journey. |
 | **22** | Identificadores académicos | DOI (Crossref) y ORCID: validación, flujo de depósito, costes. Depende del modelo de contenido (03) y del orden de implementación (17); documenta ADR 0013. |
+| **23** | Pruebas | Testing Foundation (PHPUnit, Gherkin, TDD). Siguiente número libre; no reordena 18–22. |
 
 ---
 
@@ -62,6 +63,7 @@ Ningún documento puede depender de uno con número mayor. Las referencias cruza
 20. `20-layout-principles`
 21. `21-user-journey-diagram`
 22. `22-identificadores-academicos-doi-orcid`
+23. `23-testing-foundation`
 
 ---
 

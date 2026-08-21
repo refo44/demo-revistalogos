@@ -9,6 +9,12 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Added
+- Testing Foundation (ADR 0018, `docs/23-testing-foundation.md`): PHPUnit
+  9.6 via root Composer **dev-only**, `tests/Unit` proof tests,
+  `tests/Features/` for Gherkin (no Behat), `./tools/run-phpunit.sh`, CI
+  workflow `test.yml` (unit only, no production secrets). Does not bump
+  plugin/theme runtime versions. ADR 0017 remains unimplemented.
+
 - Plugin `revistalogos-core` 0.2.6: searchable Author picker (WordPress
   REST `/wp/v2/author`, on demand, published Authors, bounded results).
   Storage remains `authors` int[]. Gutenberg stays enabled; Save → Publish.

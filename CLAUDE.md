@@ -13,19 +13,24 @@ resuming Fase 3 work).
 
 ## Binding sources, in priority order
 
+Tracked Git files are the durable source of truth. Local editor config is not.
+
 1. **`content-source/`** — canonical content/text. Never modify wording;
    use exactly as written.
 2. **`docs/`** — architecture, content model, IA, URL policy, implementation
-   order, etc. Must not contradict content-source; if it does,
-   content-source wins and the doc gets flagged for correction.
+   order, testing strategy (`docs/23-testing-foundation.md`), etc. Must not
+   contradict content-source; if it does, content-source wins and the doc
+   gets flagged for correction.
 3. **`docs/adr/`** — binding decisions (numbered ADRs + `BACKLOG.md`). Don't
    relitigate a resolved ADR; if new information contradicts one, raise it
    explicitly rather than silently deviating.
-4. **`.cursor/rules/*.mdc`** — read these; they carry the same weight as this
-   file. In particular `php-wordpress-engineering-standards.mdc` governs all
-   PHP in the plugin and theme (SOLID/KISS/YAGNI, WordPress style, escaping/
-   sanitization, no-Composer, idempotency) — apply it to every PHP change,
-   not just Fase 3 work.
+4. **This file (`CLAUDE.md`)** — agent-facing operational constraints. Must
+   not contradict 1–3. Testing policy is **not** defined here in full: follow
+   `docs/23-testing-foundation.md` and ADR 0018.
+
+**`.cursor/` is gitignored by design.** Cursor rules a developer may keep
+locally are optional convenience mirrors only: not authoritative, not
+required, not shared via Git, not a substitute for the files above.
 
 ## Project-specific constraints that aren't obvious from the code
 
@@ -97,9 +102,14 @@ resuming Fase 3 work).
   no validation, no derived URLs.
 - **Automatic Article PDF on publish is accepted architecture (ADR 0017)
   and is not implemented.** Current behavior: `pdf_file` is optional; editors
-  upload manually; publish does not require a PDF. After Testing Foundation,
-  implement in the plugin with TDD. Do not generate PDFs in the theme or
-  during FSE conversion. Do not start this feature before Testing Foundation.
+  upload manually; publish does not require a PDF. Testing Foundation
+  (ADR 0018, `docs/23-testing-foundation.md`) is the prerequisite; implement
+  0017 in the plugin with TDD. Do not generate PDFs in the theme or during
+  FSE conversion. Do not start 0017 in a session that is not that work unit.
+- **Testing:** follow `docs/23-testing-foundation.md` and ADR 0018. New
+  domain behavior uses TDD; run `composer test:unit` or
+  `./tools/run-phpunit.sh` before reporting completion. Root `composer.json`
+  is test-only and is not a plugin runtime dependency.
 
 ## Working style
 

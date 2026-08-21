@@ -34,7 +34,7 @@ assets/
     └── numero-v12n2-2025.pdf
 ```
 
-**Regla:** `content-source/` es canónico. No modificar; usar tal cual está escrito. El documento fuente define el proyecto, la estructura y la normativa editorial, pero **no contiene la primera edición publicada**. WordPress es el sistema de publicación. Los assets en `assets/` son copias para implementación o recursos demostrativos. Ver `.cursor/rules/content-source-priority.mdc`.
+**Regla:** `content-source/` es canónico. No modificar; usar tal cual está escrito. El documento fuente define el proyecto, la estructura y la normativa editorial, pero **no contiene la primera edición publicada**. WordPress es el sistema de publicación. Los assets en `assets/` son copias para implementación o recursos demostrativos. Ver `CLAUDE.md` (fuentes vinculantes).
 
 ---
 
