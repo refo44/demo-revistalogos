@@ -118,7 +118,8 @@ Reglas que demostraron su valor:
    convivir con otros proyectos dockerizados en la misma máquina.
 
 6. **Fijar versiones de imagen que imiten al hosting**
-   (`wordpress:7.0.4-php8.2-apache` y no `latest` ni tags flotantes `7`/`7.0`):
+   (`wordpress:7.1.0-php8.2-apache` y no `latest` ni tags flotantes `7`/`7.1`;
+   el ejemplo 7.0.4 del 2026-08-18 queda como evidencia histórica):
    la paridad de versión PHP con el hosting real es lo que da valor
    probatorio a `php -l` y a la QA local.
 

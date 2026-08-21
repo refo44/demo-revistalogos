@@ -137,9 +137,10 @@ dangerous-clean-slate: false
 ```
 
 Primer run (2026-08-19): **Success** (~27 s), ambos jobs. Warnings Node.js
-20→24 (`actions/checkout@v4`, `SamKirkland/FTP-Deploy-Action@v4.3.6`): no
-fallaron el deploy; son deuda de mantenimiento. No cambiar versiones solo
-para silenciar el warning.
+20→24 de ese run (`actions/checkout@v4`, `FTP-Deploy-Action@v4.3.6`) son
+históricos. Desde 2026-08-20 el workflow usa `checkout@v5` y
+`FTP-Deploy-Action@v4.4.0`. Confirmar anotaciones en el próximo
+`workflow_dispatch`; no disparar deploy solo para comprobarlo.
 
 ---
 

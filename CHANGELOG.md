@@ -29,6 +29,12 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   bootstrap and frontend verification.
 
 ### Changed
+- Baseline local Docker: WordPress 7.0.4 → **7.1**
+  (`wordpress:7.1.0-php8.2-apache`). PHP 8.2 y MariaDB 11 sin cambio.
+- GitHub Actions a runtime Node 24: `actions/checkout@v5`,
+  `SamKirkland/FTP-Deploy-Action@v4.4.0`, `actions/upload-pages-artifact@v5`,
+  `actions/deploy-pages@v5`. Semántica FTPS sin cambio. Sin deploy en este
+  mantenimiento.
 - Theme `revistalogos` 0.2.1: CTA `.btn` anchors keep an accessible
   foreground in `:link` and `:visited`. Global `a:visited` no longer
   overrides button-like CTAs. Ordinary content links are unchanged.
@@ -102,7 +108,10 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 - Designar quién en CENFISS gestiona las solicitudes de acceso/corrección/baja de datos de autor frente a Crossref, y revisar `page-politicas` §6 y la Solicitud de Publicación/Declaración de Ética con asesoría legal (ADR 0013 §6).
 - QA de producción clásica en `https://logo-et-spes.cenfiss.net` (permalinks, cookies, privacidad, restos HTML del estático) **sin** importar fixtures ni pisar el contenido cargado en wp-admin.
 - Revisar PHP efectivo 8.0.30 vs MultiPHP Inherited 8.2; evaluar plugins Softaculous; instalar CF7 y WP Statistics.
-- Warnings Node.js 20→24 del workflow FTPS (`checkout@v4`, FTP-Deploy-Action@v4.3.6).
+- Confirmar en el próximo `workflow_dispatch` FTPS (y en el próximo push a
+  `main` de Pages) que desaparecen las anotaciones Node.js 20. La
+  configuración ya apunta a acciones Node 24; este mantenimiento no dispara
+  esos workflows.
 - Borrar en GitHub (Repository secrets) `FTP_HOST`, `FTP_USERNAME`, `FTP_PASSWORD`, `FTP_PORT`, `FTP_REMOTE_DIR` tras retirar `deploy.yml`. No tocar `PRODUCTION_*`.
 - Bootstrap FSE en Docker (ADR 0015); el corte WordPress (ADR 0016) ya está hecho con el theme clásico.
 

@@ -447,10 +447,17 @@ del PDF de artículo al publicar **aceptada**; implementación **aplazada**
 hasta Testing Foundation + TDD. El código de 0.2.6 no cambia. PDF sigue
 opcional y manual en producción.
 
+**2026-08-20 (infra, working tree):** baseline local Docker alineada a
+WordPress **7.1** (`wordpress:7.1.0-php8.2-apache`); PHP 8.2.33 sin cambio.
+QA aislada + permalinks: PASS. Workflows: `actions/checkout@v5`,
+`FTP-Deploy-Action@v4.4.0`, Pages `upload-pages-artifact@v5` /
+`deploy-pages@v5`. Sin deploy, sin commit. Testing Foundation sigue
+**después** de este mantenimiento.
+
 ## Next exact action
 
 La implementación **clásica** está live en producción
-(`https://logo-et-spes.cenfiss.net`, WordPress 7.0.4). Recuperación
+(`https://logo-et-spes.cenfiss.net`, WordPress 7.1). Recuperación
 institucional **ya hecha** (Pages reales permanentes). Carga editorial real
 en proceso desde wp-admin (**no** completa). Docker: `http://localhost:8080`.
 

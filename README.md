@@ -4,7 +4,7 @@
 
 Monorepo de la revista académica (CENFISS): prototipo HTML estático (`static/`,
 Fase 2, base visual congelada) y WordPress (`wordpress/`, Fase 3 clásica).
-Producción: `https://logo-et-spes.cenfiss.net` ya live (WordPress 7.0.4, theme
+Producción: `https://logo-et-spes.cenfiss.net` ya live (WordPress 7.1, theme
 clásico `revistalogos` + `revistalogos-core` activos). Carga de contenido
 editorial real iniciada y actualmente en proceso desde wp-admin (**no**
 completa). Dataset demo de fixtures: no importar. Bootstrap editorial
@@ -52,7 +52,7 @@ El detalle de las plantillas estáticas y su mapeo a WordPress está en
 ## Cómo usar
 
 **WordPress local (Docker, ADR 0014):** `docker compose up -d` →
-`http://localhost:8080`. Imagen `wordpress:7.0.4-php8.2-apache`. WP-CLI:
+`http://localhost:8080`. Imagen `wordpress:7.1.0-php8.2-apache`. WP-CLI:
 `docker compose run --rm wpcli wp <cmd>`. No usar `docker compose down -v`
 (borra `db_data` y `wp_data`). Cambiar el tag de imagen no actualiza el core
 persistido; hace falta `wp core update` + `wp core update-db`.

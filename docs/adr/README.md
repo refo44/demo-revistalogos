@@ -62,7 +62,7 @@ Usar `TEMPLATE.md` como punto de partida. Estructura mínima: Estado · Fecha ·
 | [0011](0011-analitica-y-privacidad.md) | Analítica y privacidad | Aceptada |
 | [0012](0012-cabeceras-de-seguridad.md) | Cabeceras de seguridad HTTP | Aceptada |
 | [0013](0013-identificadores-academicos-doi-orcid.md) | Identificadores académicos — DOI y ORCID | Aceptada |
-| [0014](0014-entorno-local-de-desarrollo-docker.md) | Entorno local de desarrollo WordPress con Docker (`wordpress:7.0.4-php8.2-apache`) | Aceptada |
+| [0014](0014-entorno-local-de-desarrollo-docker.md) | Entorno local de desarrollo WordPress con Docker (`wordpress:7.1.0-php8.2-apache`) | Aceptada |
 | [0015](0015-block-theme-fse-site-editor.md) | Block theme, Gutenberg y Site Editor | Aceptada |
 | [0016](0016-topologia-hosting-cpanel.md) | Topología de hosting (cPanel cenfiss2) | Aceptada |
 | [0017](0017-generacion-automatica-pdf-articulo.md) | Generación automática del PDF de artículo al publicar | Aceptada |

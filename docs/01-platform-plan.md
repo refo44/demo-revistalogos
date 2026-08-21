@@ -282,7 +282,7 @@ sin etiquetar y se actualizan aquí.
 | Arquitectura | Implementada | Páginas: Inicio, Revista (archivos de números/artículos), Normas, Acerca, Contacto, Noticias. Maqueta en `static/`; equivalentes PHP en el theme. |
 | Modelo de contenido | Implementada | CPTs `issue`/`article`/`author` en `revistalogos-core`. Plantillas single/archive en el theme clásico. |
 | Navegación | Implementada | Nav del header, footer, CTA principal (Enviar Colaboración). |
-| Publicación | WordPress clásico live | WordPress clásico live en producción; carga de contenido editorial real iniciada y actualmente en proceso desde wp-admin. CMS: `https://logo-et-spes.cenfiss.net` (WP 7.0.4). Theme `revistalogos` y plugin `revistalogos-core` activos. Fixtures del repo **no** importar (ADR 0004). |
+| Publicación | WordPress clásico live | WordPress clásico live en producción; carga de contenido editorial real iniciada y actualmente en proceso desde wp-admin. CMS: `https://logo-et-spes.cenfiss.net` (WP 7.1). Theme `revistalogos` y plugin `revistalogos-core` activos. Fixtures del repo **no** importar (ADR 0004). |
 | Editorial | Implementada | Voz y tono en su lugar. Sin presión comercial. |
 | Envío de autores | Aplazado | CPT `submission` y portal de autor fuera de Fase 3 (ADR 0005 §4). |
 | Infraestructura | Producción WP + espejo Pages | Código a cPanel: `deploy-wordpress.yml` (manual, Environment `wordpress-production`). Espejo `static/`: `pages.yml`. Workflow estático `deploy.yml` («Deploy to Hostinger») **retirado** 2026-08-19. |

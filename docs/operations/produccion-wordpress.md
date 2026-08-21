@@ -109,11 +109,15 @@ Discrepancia pendiente de revisar. **No** se cambió PHP durante el corte.
 Docker local (sin cambio de política; alineado en versión de WordPress):
 
 ```text
-WordPress: 7.0.4
-PHP: 8.2
+WordPress: 7.1 (imagen wordpress:7.1.0-php8.2-apache)
+PHP: 8.2 (sin cambio)
 MariaDB: sin cambios (11)
 URL: http://localhost:8080
 ```
+
+Nota 2026-08-20: el core de producción autoactualizó a WordPress **7.1**.
+El bloque de arriba conserva el runtime **observado en el corte** (7.0.4).
+PHP de producción no se tocó. Docker local se alineó a 7.1; PHP local 8.2.
 
 ## Instalación Softaculous
 
@@ -350,9 +354,11 @@ Upload theme via FTPS     success
 Upload plugin via FTPS    success
 ```
 
-Warnings de Actions: `actions/checkout@v4` y
-`SamKirkland/FTP-Deploy-Action@v4.3.6` declaran Node.js 20; GitHub los fuerza
-a Node.js 24. No rompió el deploy; queda como mantenimiento del workflow.
+Warnings de Actions en el run #1 (histórico): `actions/checkout@v4` y
+`SamKirkland/FTP-Deploy-Action@v4.3.6` declaraban Node.js 20. El 2026-08-20
+el workflow se actualizó a `checkout@v5` y `FTP-Deploy-Action@v4.4.0` (Node 24).
+Confirmar la desaparición de anotaciones en el próximo `workflow_dispatch`;
+este mantenimiento no dispara deploy.
 
 ## Barreras operativas del deploy
 

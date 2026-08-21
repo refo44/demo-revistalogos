@@ -20,6 +20,9 @@ Desde 2026-07-31 existe runtime WordPress local vía Docker (ADR 0014):
   Versión de proyecto **0.2.0** (theme `revistalogos` y plugin
   `revistalogos-core`). Terceros en Docker: Contact Form 7 **6.1.7**,
   WP Statistics **14.16.10**.
+- **2026-08-20 (baseline vigente):** imagen `wordpress:7.1.0-php8.2-apache`;
+  core local **7.1**; PHP 8.2 sin cambio; MariaDB `mariadb:11` sin cambio.
+  Las filas de 7.0.4 de abajo son evidencia histórica, no el baseline actual.
 
 `Pass (local)` no sustituye la validación en el hosting real (cPanel
 `cenfiss2` / ADR 0016) para lo que depende de ese entorno (FTPS,
@@ -121,6 +124,7 @@ relaciones al borrar posts referenciados.
 | Sin recursos externos en el front-end (ADR 0011) | grep de `src`/`srcset` en HTML renderizado de portada | 0 recursos de hosts externos (los hosts externos presentes son solo `href` de enlaces y JSON-LD/comentarios) | Pass (local) | dfb91b8 |
 | Smoke visual (escritorio) | screenshots de portada, archivo de números y single de número en navegador | renderizan con el diseño del theme, navegación migrada y fixtures | Pass (local) | dfb91b8 |
 | Smoke post-upgrade WordPress 7.0.4 | curl + navegador sobre portada, nav, archivos/singles CPT, páginas institucionales, `/buscar/?q=`, 404, media, login wp-admin; `wp core version` / `php -v` / MariaDB | Core 7.0.4, PHP 8.2.33, MariaDB 11.8.8; theme y plugin activos; 200 en portada, issues, articles, institucionales, búsqueda, 404; media JPEG/PDF 200. Single CPT `author` 404 histórico; arreglo local `query_var=journal_author` (plugin 0.2.1, no desplegado). Placeholder de número sin cover corregido a JPEG real. | Pass (local) | working tree 2026-08-19 |
+| Smoke post-upgrade WordPress 7.1 | `wp core version` / PHP; HTTP archivos CPT; harnesses aislados `qa-article-editorial-ux.sh`, `qa-editorial-bootstrap.sh`, `qa-volume1-bootstrap-admin.sh`; `qa-author-permalinks.sh` | Core **7.1**, PHP **8.2.33** sin cambio; plugin 0.2.6 y theme 0.2.1 activos; portada/archivos 200; Gutenberg, picker REST, guards de publicación, PDF, bootstrap y teardown sin PHP Warning/Notice/Deprecated nuevos. | Pass (local) | working tree 2026-08-20 |
 | Paridad visual static↔WP (móvil/tablet/escritorio/200%/320px), teclado, foco, almacenamiento, copy ES | protocolo completo de paridad, pendiente | — | Unverified | dfb91b8 |
 
 ## Matriz de cobertura static → WordPress

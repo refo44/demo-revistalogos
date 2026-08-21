@@ -103,7 +103,10 @@ No se inventa un pipeline nuevo para FSE. Theme y plugin viajan por FTPS acotado
 - FSE incremental **después**, primero en Docker (ADR 0015). El corte §3 ya está hecho.
 - Bloquear la ruta anidada bajo `cenfiss.net`.
 - Actualizar menciones operativas «Hostinger» en runbooks cuando se toquen por otra razón.
-- Warnings Node.js 20→24 del workflow (`checkout@v4`, FTP-Deploy-Action@v4.3.6): mantenimiento futuro, no bloquearon el deploy.
+- Warnings Node.js 20→24 del workflow: configuración actualizada a
+  `checkout@v5` y `FTP-Deploy-Action@v4.4.0` (más Pages `upload-pages-artifact@v5`
+  / `deploy-pages@v5`). Confirmar la desaparición de anotaciones en el
+  próximo `workflow_dispatch` manual; este mantenimiento no dispara deploy.
 
 ## Referencias
 
@@ -112,3 +115,10 @@ No se inventa un pipeline nuevo para FSE. Theme y plugin viajan por FTPS acotado
 - ADR 0004, 0009, 0012, 0014, 0015
 - `.github/workflows/deploy-wordpress.yml` (producción); `deploy.yml` retirado 2026-08-19
 - `docs/operations/wordpress-manual-deployment.md`
+
+## Estado de implementación (2026-08-20)
+
+Nota factual; no cambia §1–§3. Softaculous instaló **7.0.4** el 2026-08-19.
+El core de producción autoactualizó después a **7.1**. Docker local se
+alineó a `wordpress:7.1.0-php8.2-apache` (PHP 8.2 sin cambio). Este
+mantenimiento no despliega ni toca datos de producción.

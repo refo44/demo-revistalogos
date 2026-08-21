@@ -124,7 +124,13 @@ Nota factual; no cambia §1–§4 (Compose solo local; `Pass (local)` no sustitu
 el hosting).
 
 - El gate de hosting ya no es un «staging Hostinger»: es
-  `https://logo-et-spes.cenfiss.net` (WordPress 7.0.4, PHP efectivo **8.0.30**).
+  `https://logo-et-spes.cenfiss.net` (WordPress 7.0.4 en el corte 2026-08-19;
+  core de producción autoactualizado a **7.1**). PHP efectivo **8.0.30**.
   Docker local sigue en PHP 8.2. La discrepancia está abierta; no se cambió
   PHP en el corte (ADR 0016).
 - Fixtures se siembran solo aquí. Producción no las importó.
+
+Nota factual 2026-08-20 (no cambia §1–§4): la imagen canónica local es
+`wordpress:7.1.0-php8.2-apache` (core **7.1**). PHP del compose permanece
+**8.2**. El tag exacto y `wp core update` + `wp core update-db` tras recrear
+el contenedor siguen siendo el procedimiento de §1.

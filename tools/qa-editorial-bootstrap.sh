@@ -91,10 +91,10 @@ cli rewrite structure '/%postname%/' --hard >/dev/null
 CORE_VERSION="$(cli core version)"
 PLUGIN_STATUS="$(cli plugin status revistalogos-core)"
 THEME_STATUS="$(cli theme status revistalogos)"
-[[ "$CORE_VERSION" == "7.0.4" ]] || fail "expected WordPress 7.0.4, got $CORE_VERSION"
+[[ "$CORE_VERSION" == "7.1" ]] || fail "expected WordPress 7.1, got $CORE_VERSION"
 printf '%s' "$PLUGIN_STATUS" | rg -F -q "Status: Active" || fail "plugin not active"
 printf '%s' "$THEME_STATUS" | rg -F -q "Status: Active" || fail "theme not active"
-pass "WordPress 7.0.4, revistalogos theme and revistalogos-core plugin available"
+pass "WordPress 7.1, revistalogos theme and revistalogos-core plugin available"
 
 echo "== PHP syntax and recovery UI removal =="
 compose run --rm --entrypoint php wpcli -l wp-content/plugins/revistalogos-core/includes/class-plugin.php >/dev/null
