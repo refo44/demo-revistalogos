@@ -137,7 +137,7 @@ El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, ISSN,
 | doi | text | DOI del artículo |
 | doi_url | url | URL completo DOI (https://doi.org/xxxxx) |
 | pages | text | Paginación oficial dentro del número |
-| pdf_file | file | Un PDF por artículo: ID de adjunto en Media Library, MIME `application/pdf`. El editor elige o sube el archivo con el selector nativo. Quitar desvincula la relación; **no** borra el adjunto. |
+| pdf_file | file | Un PDF por artículo: ID de adjunto en Media Library, MIME `application/pdf`. **Hoy** el campo es opcional: el editor elige o sube el archivo; publicar no exige PDF. Quitar desvincula la relación; **no** borra el adjunto. Arquitectura futura (ADR 0017, **no implementada**; tras Testing Foundation): publicar exigirá un PDF válido y, si falta, el plugin intentará generarlo. |
 | issue | relation | Número padre |
 | section | taxonomy | Metafísica, Ética, Epistemología, etc. |
 | keyword | taxonomy | 3–5 palabras clave (búsqueda, filtro, SEO) |

@@ -113,7 +113,7 @@ Proporcionar nombre accesible: (1) texto visible, (2) texto `.visually-hidden`, 
 - **Enlaces externos:** Indicar "se abre en nueva pestaña" cuando `target="_blank"`; identificarlos para lectores de pantalla.
 - **Media:** Subtítulos o transcripción para video/audio informativo.
 - **Tablas:** Usar `<th>` y `scope` para encabezados de tabla (metadatos, citas).
-- **PDFs:** Proporcionar alternativa HTML cuando el PDF sea el contenido principal. Los PDFs pueden ser difíciles de leer con lectores de pantalla.
+- **PDFs:** Proporcionar alternativa HTML cuando el PDF sea el contenido principal. Los PDFs pueden ser difíciles de leer con lectores de pantalla. El HTML del artículo es la representación accesible principal; un PDF (manual o, en el futuro, generado según ADR 0017) es alternativa de descarga. No se afirma conformidad PDF/UA.
 
 ---
 

@@ -119,3 +119,4 @@ Nota factual; **no** sustituye las decisiones §1–§6 (block theme, Site Edito
 - Orden operativo actual: WordPress clásico live en producción; carga de contenido editorial real iniciada y actualmente en proceso desde wp-admin → QA → limpieza del estático residual → revisar PHP → plugins aprobados → **luego** FSE incremental, **primero en Docker**.
 - Snapshot: `docs/operations/produccion-wordpress.md`.
 - El riesgo de volcar HTML estático sobre WP (`deploy.yml`, consecuencia arriba) queda cerrado: ese workflow se **retiró** el 2026-08-19. `pages.yml` no despliega a cPanel.
+- Nota factual 2026-08-20 (no cambia §1–§6): la generación automática de PDF de artículo, cuando se implemente, es dominio del plugin ([ADR 0017](0017-generacion-automatica-pdf-articulo.md)). FSE y el theme clásico solo consumen `pdf_file`. La conversión a block theme **no** regenera PDFs ni migra adjuntos.

@@ -95,6 +95,11 @@ resuming Fase 3 work).
 - **Identifiers (DOI/ORCID/ISSN) are Fase 4, deliberately deferred** past
   the WordPress launch (ADR 0013). Fase 3 stores them as inert fields only —
   no validation, no derived URLs.
+- **Automatic Article PDF on publish is accepted architecture (ADR 0017)
+  and is not implemented.** Current behavior: `pdf_file` is optional; editors
+  upload manually; publish does not require a PDF. After Testing Foundation,
+  implement in the plugin with TDD. Do not generate PDFs in the theme or
+  during FSE conversion. Do not start this feature before Testing Foundation.
 
 ## Working style
 

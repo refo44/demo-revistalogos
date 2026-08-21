@@ -65,6 +65,9 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 - WP-CLI `wp revistalogos fixtures plan`: read-only Volume 1 bootstrap plan.
 
 ### Documentación
+- ADR 0017 (2026-08-20): generación automática del PDF de artículo al
+  publicar, arquitectura aceptada, implementación aplazada (Testing
+  Foundation + TDD). El PDF sigue siendo opcional y manual hasta entonces.
 - Corte a WordPress clásico en producción (2026-08-19): snapshot
   `docs/operations/produccion-wordpress.md`; runbook canónico PRE/DEPLOY/POST/
   ROLLBACK en `docs/operations/wordpress-manual-deployment.md`; notas de

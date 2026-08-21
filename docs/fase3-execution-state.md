@@ -442,6 +442,11 @@ con REST de núcleo; retiro de `Bootstrap_Admin`; CTA `:visited` en
 solo preflight estático de CSS (**NOT LIVE-VERIFIED**; verificación manual
 tras deploy).
 
+**2026-08-20 (ADR 0017, working tree):** arquitectura de generación automática
+del PDF de artículo al publicar **aceptada**; implementación **aplazada**
+hasta Testing Foundation + TDD. El código de 0.2.6 no cambia. PDF sigue
+opcional y manual en producción.
+
 ## Next exact action
 
 La implementación **clásica** está live en producción

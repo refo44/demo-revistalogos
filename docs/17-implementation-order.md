@@ -208,5 +208,13 @@ El trámite administrativo con Crossref **no depende de que exista el theme** (A
 
 ---
 
+## Posterior: Testing Foundation y PDF automático de artículo
+
+No forma parte del cierre de Fase 3 ni de Fase 4. **Hoy** el PDF de artículo se sube a mano y publicar **no** lo exige.
+
+Cuando exista una Testing Foundation en el repositorio, se podrá implementar ADR 0017 en `revistalogos-core` con TDD: al publicar, si `pdf_file` está vacío se genera un adjunto; si la generación falla no se publica; un PDF válido no se pisa. El PDF integral del número sigue siendo carga editorial manual. Ver ADR 0017.
+
+---
+
 **Versión:** 1.3
 **Proyecto:** Revista de Filosofía LOGO ET SPES 0.2.0
