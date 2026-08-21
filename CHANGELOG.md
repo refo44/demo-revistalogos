@@ -8,14 +8,15 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
-### Fixed
-- Composer lockfile vs PHP platform: `doctrine/instantiator` 2.1.0
-  (`php ^8.4`) replaced with 2.0.0 so `composer install` respects
-  `config.platform.php` 8.2.0 on CI PHP 8.2. PHPUnit remains 9.6.36.
-  `tools/run-phpunit.sh` no longer uses `--ignore-platform-reqs`.
-  No runtime bump. ADR 0017 remains unimplemented.
-
 ### Added
+- Dependabot (`.github/dependabot.yml`): weekly Composer and GitHub
+  Actions PRs, limit 5 each, **no auto-merge**. Does not cover npm or
+  Docker. GitHub Dependabot alerts/security updates require owner
+  verification in the repository UI. ADR 0017 remains unimplemented.
+
+- Tests workflow uses `actions/cache@v5` (Node 24). Same path/key/
+  restore-keys. No deploy-workflow change.
+
 - Composer lockfile security audit in the fast gate: native
   `composer audit --locked` / `composer audit:deps`. `composer test` runs
   lint → audit → PHPUnit. CI `test.yml` audits before units. Covers root
@@ -50,6 +51,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   no backup-evidence field (owner exception for this Volume 1 operation
   only). Explicit confirmation remains mandatory. Remove after production
   bootstrap and frontend verification.
+
+### Fixed
+- Composer lockfile vs PHP platform: `doctrine/instantiator` 2.1.0
+  (`php ^8.4`) replaced with 2.0.0 so `composer install` respects
+  `config.platform.php` 8.2.0 on CI PHP 8.2. PHPUnit remains 9.6.36.
+  `tools/run-phpunit.sh` no longer uses `--ignore-platform-reqs`.
+  No runtime bump. ADR 0017 remains unimplemented.
 
 ### Changed
 - Baseline local Docker: WordPress 7.0.4 → **7.1**

@@ -243,9 +243,14 @@ PHPUnit/WP, se añadirá ese script y nada más.
 Workflow `.github/workflows/test.yml`: `pull_request` y `push` a `main`.
 PHP 8.2, `composer install` (respeta `config.platform.php` 8.2.0; sin
 `--ignore-platform-reqs`), `composer lint:php`, `composer audit --locked`,
-después `composer test:unit`. Sin environment de producción, sin secretos
-FTPS, sin deploy. No cierra D12b. Sin matriz PHP/WP. La integración en CI
-es el siguiente incremento (harness o PHPUnit/WP), no este.
+después `composer test:unit`. `actions/cache@v5` (Node 24). Dependabot
+abre PRs semanales de Composer y GitHub Actions; **sin auto-merge**. Cada
+PR corre este workflow y necesita revisión del propietario. `composer
+audit --locked` detecta advisories; Dependabot propone actualizaciones.
+Alerts y Security Updates de GitHub: verificar en la UI del repositorio.
+Sin environment de producción, sin secretos FTPS, sin deploy. No cierra
+D12b. Sin matriz PHP/WP. La integración en CI es el siguiente incremento
+(harness o PHPUnit/WP), no este.
 
 ## Accesibilidad
 
@@ -261,7 +266,10 @@ toquen ese código.
 
 `composer audit --locked` cubre **solo** dependencias Composer de la raíz
 (dev/test). No escanea WordPress Core, plugins, themes, npm ni el hosting.
-No es un sustituto de revisión de seguridad del producto y no cierra D12b.
+No es un sustituto de revisión de seguridad del producto, no cierra D12b
+y no aplica parches. Dependabot (Composer + GitHub Actions, semanal)
+abre PRs; no sustituye el audit ni se auto-mergea. Un major de PHPUnit
+que suba el baseline de PHP no se acepta por inercia.
 
 ## Compatibilidad
 

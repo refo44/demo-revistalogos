@@ -114,7 +114,9 @@ required, not shared via Git, not a substitute for the files above.
   `tools/qa-*.sh` if WordPress integration behavior changed. `composer test`
   runs lint, audit, then units — not acceptance harnesses. Root
   `composer.json` is test-only. Composer audit does not scan WordPress,
-  npm, or hosting.
+  npm, or hosting. Dependabot may open weekly Composer and GitHub Actions
+  PRs; they are not auto-merged. Review them after CI. Do not treat a
+  PHPUnit major as an automatic policy change.
 
 ## Working style
 

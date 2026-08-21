@@ -75,7 +75,9 @@ and its transitives only — not WordPress, npm, or hosting). Units:
 `composer test:unit` or `./tools/run-phpunit.sh`. Fast gate: `composer test`
 (lint → audit → units; not `qa-*.sh`). On this laptop (no native PHP) use
 the `./tools/*.sh` wrappers and `composer:2` for audit. WordPress workflows
-remain isolated `tools/qa-*.sh`. Root Composer is **dev/test only**.
+remain isolated `tools/qa-*.sh`. Root Composer is **dev/test only**. Dependabot: weekly Composer + GitHub
+Actions PRs, no auto-merge; CI + owner review. `composer audit --locked`
+stays the lockfile advisory check.
 
 ## Características de diseño
 

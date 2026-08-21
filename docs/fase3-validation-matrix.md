@@ -69,6 +69,8 @@ Formato de cada fila: validación, método, resultado, estado, commit probado.
 | PHP syntax gate (`php -l`) | `./tools/php-lint.sh` / `composer lint:php` sobre plugin, theme y `tests/` | 0 errores de sintaxis | Pass (working tree) | working tree 2026-08-20 |
 | Composer lockfile platform compatibility | `composer install --no-interaction --prefer-dist --no-progress` sin `--ignore-platform-reqs` (`config.platform.php` 8.2.0; `doctrine/instantiator` 2.0.0) | install exit 0 | Pass (working tree) | working tree 2026-08-21 |
 | Composer lockfile audit | `composer audit --locked` (PHPUnit + transitivas; no WP/npm/hosting) | 0 advisories | Pass (working tree) | working tree 2026-08-20 |
+| YAML `dependabot.yml` + `test.yml` | `ruby -ryaml` | parsean | Pass (working tree) | working tree 2026-08-21 |
+| Tests cache action Node 24 | `actions/cache@v5` en `test.yml`; mismos `path`/`key`/`restore-keys` | declarado | Pass (working tree) | working tree 2026-08-21 |
 
 ## Nivel 2 — Componente
 

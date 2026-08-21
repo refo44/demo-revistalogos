@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "CI regression: lockfile vs config.platform.php 8.2.0; owner review; no commit/push/deploy; ADR 0017 still unimplemented"
+current_work_unit: "Dependabot + actions/cache@v5; owner review; no commit/push/deploy; ADR 0017 still unimplemented"
 current_branch: "main"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-08-21"
-next_action: "Owner review of Composer lockfile platform fix. No commit/push/deploy unless asked. Do not implement ADR 0017."
+next_action: "Owner review of Dependabot + cache@v5 working tree. No commit/push/deploy unless asked. Verify Dependabot alerts/security updates in GitHub UI. Do not implement ADR 0017."
 blocked: false
 ---
 
@@ -473,6 +473,12 @@ fallaba (exit 2) porque `doctrine/instantiator` 2.1.0 exige `php ^8.4` y
 `config.platform.php` es 8.2.0. Lock generado con `--ignore-platform-reqs`
 vía `composer:2` (PHP 8.5). Reparación: instantiator **2.0.0** (`php ^8.1`);
 PHPUnit 9.6.36 sin cambio; wrapper local sin `--ignore-platform-reqs`. ADR
+0017 **no** implementado. Commit: `f057412`.
+
+**2026-08-21 (Dependabot + cache@v5, working tree):**
+`.github/dependabot.yml` (Composer + GitHub Actions, semanal, límite 5,
+sin auto-merge). `actions/cache@v5` en `test.yml`. Deploy FTPS sigue
+`workflow_dispatch`. Alerts/Security Updates: verificar en GitHub UI. ADR
 0017 **no** implementado. Sin commit, push ni deploy.
 
 ## Next exact action
@@ -482,11 +488,11 @@ La implementación **clásica** está live en producción
 institucional **ya hecha** (Pages reales permanentes). Carga editorial real
 en proceso desde wp-admin (**no** completa). Docker: `http://localhost:8080`.
 
-Siguiente acción priorizada — **revisión del propietario del fix de
-lockfile/plataforma; no commit/push/deploy; no implementar ADR 0017 ahora**:
+Siguiente acción priorizada — **revisión del propietario de Dependabot +
+`actions/cache@v5`; no commit/push/deploy; no implementar ADR 0017 ahora**:
 
-1. revisar `composer.lock` (`doctrine/instantiator` 2.0.0) y que CI
-   `composer install` respete `config.platform.php` 8.2.0;
+1. revisar `.github/dependabot.yml` y `actions/cache@v5`; verificar en
+   GitHub UI Dependabot alerts y security updates;
 2. deploy de plugin `revistalogos-core` 0.2.6 y theme `revistalogos` 0.2.1
    sigue siendo decisión aparte del propietario;
 3. tras deploy: verificar 320px / 200% zoom de CTAs en navegador
