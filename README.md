@@ -68,11 +68,14 @@ El espejo beta es GitHub Pages (`pages.yml`). El workflow estático
 
 **Lint CSS:** `npm run lint:css`.
 
-**Tests (ADR 0018, `docs/23-testing-foundation.md`):** `composer test` /
-`composer test:unit` when PHP 8.2 + Composer are available. On this laptop
-(no native PHP): `./tools/run-phpunit.sh`. WordPress workflows remain the
-isolated `tools/qa-*.sh` harnesses. Root Composer is **dev/test only**; it
-is not a plugin runtime dependency.
+**Tests (ADR 0018, `docs/23-testing-foundation.md`):** PHP syntax
+`./tools/php-lint.sh` / `composer lint:php` (`php -l` only). Composer
+lockfile audit: `composer audit:deps` (`composer audit --locked`; PHPUnit
+and its transitives only — not WordPress, npm, or hosting). Units:
+`composer test:unit` or `./tools/run-phpunit.sh`. Fast gate: `composer test`
+(lint → audit → units; not `qa-*.sh`). On this laptop (no native PHP) use
+the `./tools/*.sh` wrappers and `composer:2` for audit. WordPress workflows
+remain isolated `tools/qa-*.sh`. Root Composer is **dev/test only**.
 
 ## Características de diseño
 

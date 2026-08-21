@@ -65,6 +65,13 @@ automatización de seguridad) **no** se cierra con este ADR.
 aislado cuando un contrato WP no quepa en un harness; runner Gherkin si el
 volumen de `.feature` lo justifica; matriz PHP 7.4/8.0 solo si aporta.
 
+## Estado de implementación (2026-08-20)
+
+Nota factual; no cambia §1–§6. El PHP de primer partido se valida con
+`php -l` nativo (`tools/php-lint.sh`, `composer lint:php`). El lockfile de
+Composer de la raíz se audita con `composer audit --locked`. No se añadió
+PHPStan, Psalm, PHPCS, ni otro escáner de seguridad. No cierra D12b.
+
 ## Referencias
 
 - `docs/23-testing-foundation.md` (reglas operativas)

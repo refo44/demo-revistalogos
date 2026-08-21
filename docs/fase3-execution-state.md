@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "Testing Foundation (ADR 0018) in working tree; owner review; no commit/push/deploy; ADR 0017 still unimplemented"
+current_work_unit: "PHP lint + Composer audit gates landed; ADR 0017 still unimplemented"
 current_branch: "main"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
-updated_at: "2026-08-20"
-next_action: "Owner review of Testing Foundation working tree. No commit/push/deploy unless asked. Do not implement ADR 0017 in this pause. Deploy of 0.2.6/0.2.1 remains a separate owner decision."
+updated_at: "2026-08-21"
+next_action: "Do not implement ADR 0017 unless asked. Deploy of plugin 0.2.6 / theme 0.2.1 remains a separate owner decision. No deploy from this commit."
 blocked: false
 ---
 
@@ -458,8 +458,15 @@ siguiente.
 PHPUnit 9.6 (Composer `require-dev` en la raíz); `composer test:unit` /
 `./tools/run-phpunit.sh`; 2 unit tests de `revistalogos_split_name`; CI
 `.github/workflows/test.yml` (sin secretos, sin deploy). Harnesses
-`tools/qa-*.sh` conservados. ADR 0017 **no** implementado. Sin commit,
-push ni deploy.
+`tools/qa-*.sh` conservados. ADR 0017 **no** implementado. Commit y push:
+`9fc88b1`.
+
+**2026-08-21 (PHP syntax gate + Composer audit):** `tools/php-lint.sh` +
+`composer lint:php` (`php -l` nativo, PHP 8.2). `composer audit --locked`
+/ `composer audit:deps` en el gate rápido y en CI (lint → audit → units).
+Solo lockfile Composer de raíz; no garantizado offline. 0 advisories. Sin
+PHPStan/Psalm/PHPCS ni escáner extra. ADR 0017 **no** implementado. Sin
+deploy.
 
 ## Next exact action
 
@@ -468,17 +475,16 @@ La implementación **clásica** está live en producción
 institucional **ya hecha** (Pages reales permanentes). Carga editorial real
 en proceso desde wp-admin (**no** completa). Docker: `http://localhost:8080`.
 
-Siguiente acción priorizada — **Testing Foundation en working tree; revisión
-del propietario; no commit/push/deploy; no implementar ADR 0017 ahora**:
+Siguiente acción priorizada — **no implementar ADR 0017 ahora; no
+desplegar desde este commit**:
 
-1. revisar ADR 0018 / `docs/23` / PHPUnit / CI `test.yml`;
-2. deploy de plugin `revistalogos-core` 0.2.6 y theme `revistalogos` 0.2.1
+1. deploy de plugin `revistalogos-core` 0.2.6 y theme `revistalogos` 0.2.1
    sigue siendo decisión aparte del propietario;
-3. tras deploy: verificar 320px / 200% zoom de CTAs en navegador
+2. tras deploy: verificar 320px / 200% zoom de CTAs en navegador
    (**NOT LIVE-VERIFIED**);
-4. no re-ejecutar bootstrap ni teardown en producción;
-5. Bootstrap_Admin ya no forma parte del plugin.
-6. ADR 0017 (PDF automático) puede arrancar con TDD **después** de aceptar
+3. no re-ejecutar bootstrap ni teardown en producción;
+4. Bootstrap_Admin ya no forma parte del plugin.
+5. ADR 0017 (PDF automático) puede arrancar con TDD **después** de aceptar
    esta foundation; no en esta pausa.
 
 No importar el dataset demo de fixtures. After ordinary theme QA,

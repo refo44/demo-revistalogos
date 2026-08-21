@@ -9,6 +9,16 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Added
+- Composer lockfile security audit in the fast gate: native
+  `composer audit --locked` / `composer audit:deps`. `composer test` runs
+  lint → audit → PHPUnit. CI `test.yml` audits before units. Covers root
+  Composer dev/test deps only (not WordPress, npm, or hosting). No extra
+  scanner package. No runtime bump. ADR 0017 remains unimplemented.
+
+- First-party PHP syntax gate: native `php -l` via `tools/php-lint.sh` and
+  `composer lint:php`. No PHPStan/Psalm/PHPCS. No runtime bump.
+  ADR 0017 remains unimplemented.
+
 - Testing Foundation (ADR 0018, `docs/23-testing-foundation.md`): PHPUnit
   9.6 via root Composer **dev-only**, `tests/Unit` proof tests,
   `tests/Features/` for Gherkin (no Behat), `./tools/run-phpunit.sh`, CI

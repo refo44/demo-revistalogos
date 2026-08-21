@@ -66,6 +66,8 @@ Formato de cada fila: validación, método, resultado, estado, commit probado.
 | Generador de payload | `node tools/generate-content-payload.mjs` | 12 entradas, 3 semillas de media; integridad estricta de `etica` en verde; cobertura canónica normas 18/27, politicas 10/18 (informativa, pendiente de confirmación editorial) | Pass | 5c1697b |
 | Sintaxis PHP de recuperación institucional | `php -l` en Docker sobre migrador, admin temporal y comando CLI | 0 errores de sintaxis | Pass (working tree) | working tree 2026-08-19 |
 | PHPUnit unit suite (Testing Foundation) | `composer test:unit` / `./tools/run-phpunit.sh` (PHP 8.2, sin WordPress) | 2 tests de `revistalogos_split_name` | Pass (working tree) | working tree 2026-08-20 |
+| PHP syntax gate (`php -l`) | `./tools/php-lint.sh` / `composer lint:php` sobre plugin, theme y `tests/` | 0 errores de sintaxis | Pass (working tree) | working tree 2026-08-20 |
+| Composer lockfile audit | `composer audit --locked` (PHPUnit + transitivas; no WP/npm/hosting) | 0 advisories | Pass (working tree) | working tree 2026-08-20 |
 
 ## Nivel 2 — Componente
 

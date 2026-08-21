@@ -1,9 +1,9 @@
-# PHPUnit unit tests (Testing Foundation, ADR 0018).
+# PHP lint, Composer lockfile audit, PHPUnit units (Testing Foundation, ADR 0018).
 #
 # Comprobar no es desplegar: no FTPS, no Pages, no production environment,
 # no secrets. Does not close D12b (security-audit automation). WordPress
 # integration remains isolated tools/qa-*.sh until a PHPUnit integration
-# suite is added.
+# suite is added. composer audit --locked covers root Composer deps only.
 name: Tests
 
 on:
@@ -21,8 +21,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  phpunit-unit:
-    name: PHPUnit unit (PHP 8.2)
+  php-lint-and-unit:
+    name: PHP lint, Composer audit, and unit (PHP 8.2)
     runs-on: ubuntu-latest
 
     steps:
@@ -50,6 +50,12 @@ jobs:
 
       - name: Validate composer.json and composer.lock
         run: composer validate --no-check-publish
+
+      - name: PHP syntax lint
+        run: composer lint:php
+
+      - name: Composer dependency audit
+        run: composer audit --locked
 
       - name: Run unit tests
         run: composer test:unit

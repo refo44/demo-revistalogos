@@ -107,9 +107,14 @@ required, not shared via Git, not a substitute for the files above.
   0017 in the plugin with TDD. Do not generate PDFs in the theme or during
   FSE conversion. Do not start 0017 in a session that is not that work unit.
 - **Testing:** follow `docs/23-testing-foundation.md` and ADR 0018. New
-  domain behavior uses TDD; run `composer test:unit` or
-  `./tools/run-phpunit.sh` before reporting completion. Root `composer.json`
-  is test-only and is not a plugin runtime dependency.
+  domain behavior uses TDD. For PHP changes, before completion: (1) syntax
+  gate `./tools/php-lint.sh` or `composer lint:php`; (2) Composer lockfile
+  audit `composer audit:deps` (`composer audit --locked`); (3) relevant
+  PHPUnit (`composer test:unit` or `./tools/run-phpunit.sh`); (4) relevant
+  `tools/qa-*.sh` if WordPress integration behavior changed. `composer test`
+  runs lint, audit, then units — not acceptance harnesses. Root
+  `composer.json` is test-only. Composer audit does not scan WordPress,
+  npm, or hosting.
 
 ## Working style
 

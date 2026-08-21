@@ -27,6 +27,28 @@ fuente de verdad, no se versionan, no se exigen en otros clones ni en CI.
 
 ## Taxonomía
 
+### PHP syntax (`php -l`)
+
+Sintaxis nativa únicamente. No es análisis estático, estilo ni tipos.
+
+- Canónico local: `./tools/php-lint.sh`
+- Composer: `composer lint:php`
+- Ámbito: `wordpress/wp-content/plugins/revistalogos-core/**/*.php`,
+  `wordpress/wp-content/themes/revistalogos/**/*.php`, `tests/**/*.php`.
+  Excluye `vendor/`, WordPress Core, plugins/themes de terceros, caché y
+  temporales (no se recorre la instalación montada completa).
+
+### Composer dependency audit (`composer audit --locked`)
+
+Advisories conocidas sobre el **lockfile de Composer de la raíz** (hoy:
+PHPUnit y sus transitivas, `require-dev`). `composer audit:deps` es el
+alias. Falla con el exit status nativo de Composer. Sin reglas de ignore.
+**No está garantizado offline:** puede requerir metadatos/red de advisories
+de Composer/Packagist. No requiere `vendor/`.
+
+No sustituye revisión de WordPress Core, plugins, themes, dependencias npm
+ni el hosting de producción. No cierra D12b.
+
 ### Nivel 1 — Unitario (PHPUnit)
 
 Comportamiento de dominio puro: milisegundos, determinista.
@@ -74,6 +96,9 @@ Composer y PHPUnit viven en la **raíz** del repo (`composer.json`,
 ## PHPUnit y Composer
 
 - Runner: **PHPUnit 9.6** (`phpunit/phpunit`, `require-dev`).
+- Sintaxis: nativo `php -l` vía `tools/php-lint.sh` / `composer lint:php`. Sin PHPStan, Psalm ni PHPCS.
+- `composer test` = lint PHP + `composer audit --locked` + suite unitaria.
+  No ejecuta `tools/qa-*.sh`.
 - Composer **solo** para tooling de test. El plugin y el theme siguen con
   `require_once` (ADR 0006). El workflow FTPS no sube `vendor/` ni `tests/`.
 
@@ -171,20 +196,26 @@ comportamiento es de WordPress, integración real.
   como prerrequisito.
 - Archivos generados: directorio temporal y limpieza. Los tests futuros de
   PDF no acumulan PDFs en Git.
-- Suite por defecto **offline** tras tener dependencias e imágenes. No
-  producción, GitHub, Crossref, ORCID, CDN ni APIs remotas. Eso, si acaso,
-  es smoke manual aparte.
+- Suite por defecto **offline** tras tener dependencias e imágenes, salvo
+  `composer audit --locked`, que **no está garantizado offline** (puede
+  requerir metadatos/red de advisories de Composer/Packagist; no requiere
+  `vendor/`). No producción, GitHub, Crossref, ORCID, CDN ni APIs remotas
+  de producto. Eso, si acaso, es smoke manual aparte.
 
 ## Comandos canónicos
 
 ```bash
-# Nivel 1 (CI y local con PHP+Composer)
+# Gate rápido — CI y local con PHP+Composer
 composer install --no-interaction
-composer test
-composer test:unit    # alias
+composer lint:php
+composer audit:deps    # composer audit --locked
+composer test:unit
+composer test          # lint → audit --locked → units; not qa-*.sh
 
-# Nivel 1 en el portátil sin PHP (ADR 0014)
+# Portátil sin PHP nativo (ADR 0014)
+./tools/php-lint.sh
 ./tools/run-phpunit.sh
+# audit: docker run --rm -v "$PWD":/app -w /app composer:2 composer audit --locked
 
 # Nivel 2/3 — Docker aislado (nunca producción)
 ./tools/qa-editorial-bootstrap.sh
@@ -193,15 +224,22 @@ composer test:unit    # alias
 ./tools/qa-author-permalinks.sh         # excepción: volúmenes primarios
 ```
 
+`php -l` comprueba **sintaxis**. `composer audit --locked` comprueba
+**advisories del lockfile de Composer**. PHPUnit comprueba
+**comportamiento**. Los `qa-*.sh` comprueban **WordPress integrado**. Los
+harnesses que ya llaman `php -l` sobre archivos sueltos se conservan; el
+gate global los complementa.
+
 `composer test:integration` **no existe aún**. Cuando exista una suite
 PHPUnit/WP, se añadirá ese script y nada más.
 
 ## CI
 
 Workflow `.github/workflows/test.yml`: `pull_request` y `push` a `main`.
-PHP 8.2, `composer test:unit`. Sin environment de producción, sin secretos
-FTPS, sin deploy. No cierra D12b. Sin matriz PHP/WP. La integración en CI
-es el siguiente incremento (harness o PHPUnit/WP), no este.
+PHP 8.2, `composer lint:php`, `composer audit --locked`, después
+`composer test:unit`. Sin environment de producción, sin secretos FTPS, sin
+deploy. No cierra D12b. Sin matriz PHP/WP. La integración en CI es el
+siguiente incremento (harness o PHPUnit/WP), no este.
 
 ## Accesibilidad
 
@@ -213,7 +251,11 @@ y 200% zoom. Inspección estática de CSS no es verificación en navegador.
 
 Caps, nonces de **nuestro** contrato, permisos REST, meta inválida,
 invariantes de publicación y guards destructivos merecen tests cuando
-toquen ese código. Esta foundation no es un escáner de seguridad.
+toquen ese código.
+
+`composer audit --locked` cubre **solo** dependencias Composer de la raíz
+(dev/test). No escanea WordPress Core, plugins, themes, npm ni el hosting.
+No es un sustituto de revisión de seguridad del producto y no cierra D12b.
 
 ## Compatibilidad
 

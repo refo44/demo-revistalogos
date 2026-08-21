@@ -14,7 +14,13 @@
     }
   },
   "scripts": {
-    "test": "phpunit --testsuite unit",
+    "audit:deps": "composer audit --locked",
+    "lint:php": "./tools/php-lint.sh",
+    "test": [
+      "@lint:php",
+      "@audit:deps",
+      "@test:unit"
+    ],
     "test:unit": "phpunit --testsuite unit"
   }
 }
