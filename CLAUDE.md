@@ -36,7 +36,7 @@ required, not shared via Git, not a substitute for the files above.
 
 - **No native PHP/WP-CLI/Composer on the developer laptop; WordPress runs
   locally via Docker** (ADR 0014, `docker-compose.yml`: site at
-  `localhost:8080`, image `wordpress:7.1.0-php8.2-apache`, WP-CLI via
+  `localhost:8080`, image `wordpress:7.1.0-php8.3-apache`, WP-CLI via
   `docker compose run --rm wpcli wp <cmd>`). Changing that image tag does
   not update core files inside the `wp_data` volume — follow the comments
   in `docker-compose.yml`. Use the containers to actually execute/verify

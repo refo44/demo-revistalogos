@@ -481,15 +481,26 @@ sin auto-merge). `actions/cache@v5` en `test.yml`. Deploy FTPS sigue
 `workflow_dispatch`. Alerts/Security Updates: verificar en GitHub UI. ADR
 0017 **no** implementado. Sin commit, push ni deploy.
 
+**2026-08-21 (PHP 8.3 local + CI, working tree):** runtime canónico
+Docker `wordpress:7.1.0-php8.3-apache` + `wordpress:cli-php8.3`; CI
+`php-version: "8.3"`. `config.platform.php` permanece **8.2.0**.
+`Requires PHP: 7.4` sin cambio. Producción **sigue 8.0.30**. Volúmenes
+primarios conservados (recreate del contenedor wordpress, sin
+`down -v`). QA: lint 61, PHPUnit 2/2, harnesses permalinks / bootstrap /
+editorial-ux / bootstrap-admin PASS. ADR 0017 **no** implementado. Sin
+commit, push, deploy ni cambio de cPanel.
+
 ## Next exact action
 
 La implementación **clásica** está live en producción
-(`https://logo-et-spes.cenfiss.net`, WordPress 7.1). Recuperación
-institucional **ya hecha** (Pages reales permanentes). Carga editorial real
-en proceso desde wp-admin (**no** completa). Docker: `http://localhost:8080`.
+(`https://logo-et-spes.cenfiss.net`, WordPress 7.1, PHP **8.0.30**).
+Recuperación institucional **ya hecha** (Pages reales permanentes). Carga
+editorial real en proceso desde wp-admin (**no** completa). Docker local:
+`http://localhost:8080` (WordPress 7.1, PHP **8.3**).
 
-Siguiente acción priorizada — **revisión del propietario de Dependabot +
-`actions/cache@v5`; no commit/push/deploy; no implementar ADR 0017 ahora**:
+Siguiente acción priorizada — **revisión del propietario de la alineación
+PHP 8.3 local/CI; no commit/push/deploy; no cambiar PHP de producción;
+no implementar ADR 0017 ahora**:
 
 1. revisar `.github/dependabot.yml` y `actions/cache@v5`; verificar en
    GitHub UI Dependabot alerts y security updates;

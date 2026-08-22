@@ -106,18 +106,22 @@ cPanel MultiPHP mostraba PHP 8.2 heredado; WordPress reportó **8.0.30**.
 Discrepancia pendiente de revisar. **No** se cambió PHP durante el corte.
 **No** aplicar MultiPHP global para «alinear» (ADR 0016 §2).
 
-Docker local (sin cambio de política; alineado en versión de WordPress):
+Docker local (sin cambio de política de hosting; alineado en WordPress 7.1):
 
 ```text
-WordPress: 7.1 (imagen wordpress:7.1.0-php8.2-apache)
-PHP: 8.2 (sin cambio)
+WordPress: 7.1 (imagen wordpress:7.1.0-php8.3-apache)
+PHP: 8.3 (local/CI; no es el PHP de producción)
 MariaDB: sin cambios (11)
 URL: http://localhost:8080
 ```
 
 Nota 2026-08-20: el core de producción autoactualizó a WordPress **7.1**.
-El bloque de arriba conserva el runtime **observado en el corte** (7.0.4).
-PHP de producción no se tocó. Docker local se alineó a 7.1; PHP local 8.2.
+El bloque de corte conserva el runtime **observado entonces** (7.0.4 /
+PHP 8.0.30). PHP de producción **no** se tocó.
+
+Nota 2026-08-21: Docker local y CI usan PHP **8.3**. Producción sigue en
+**8.0.30**. `config.platform.php` sigue **8.2.0**. `Requires PHP: 7.4`
+sigue siendo el mínimo declarado, no el runtime.
 
 ## Instalación Softaculous
 

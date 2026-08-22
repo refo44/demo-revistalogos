@@ -122,3 +122,7 @@ Nota factual; no cambia §1–§3. Softaculous instaló **7.0.4** el 2026-08-19.
 El core de producción autoactualizó después a **7.1**. Docker local se
 alineó a `wordpress:7.1.0-php8.2-apache` (PHP 8.2 sin cambio). Este
 mantenimiento no despliega ni toca datos de producción.
+
+Nota factual 2026-08-21 (no cambia §1–§3): Docker local y CI usan PHP
+**8.3** (`wordpress:7.1.0-php8.3-apache`). El PHP efectivo de producción
+sigue **8.0.30**. No se tocó MultiPHP ni cPanel.

@@ -27,13 +27,13 @@ run_phpunit() {
 		return
 	fi
 
-	# wordpress:cli-php8.2 matches local PHP 8.2 and includes mbstring.
+	# wordpress:cli-php8.3 matches local PHP 8.3 and includes mbstring.
 	# Do not use compose wpcli here: that service does not mount the repo root.
 	docker run --rm \
 		--user "$(id -u):$(id -g)" \
 		--volume "$ROOT":/app \
 		--workdir /app \
-		wordpress:cli-php8.2 \
+		wordpress:cli-php8.3 \
 		php vendor/bin/phpunit --testsuite unit "$@"
 }
 

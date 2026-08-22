@@ -89,13 +89,13 @@ if command -v php >/dev/null 2>&1; then
 	exit $?
 fi
 
-# Find and php -l run inside one PHP 8.2 container. Extra paths must be under $ROOT.
+# Find and php -l run inside one PHP 8.3 container. Extra paths must be under $ROOT.
 docker run --rm \
 	--user "$(id -u):$(id -g)" \
 	--volume "$ROOT":/app \
 	--workdir /app \
 	--entrypoint sh \
-	wordpress:cli-php8.2 \
+	wordpress:cli-php8.3 \
 	-c '
 set -eu
 # php -l reads stdin; keep the file list on another path and close stdin per file.

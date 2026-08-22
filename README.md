@@ -53,7 +53,7 @@ El detalle de las plantillas estáticas y su mapeo a WordPress está en
 ## Cómo usar
 
 **WordPress local (Docker, ADR 0014):** `docker compose up -d` →
-`http://localhost:8080`. Imagen `wordpress:7.1.0-php8.2-apache`. WP-CLI:
+`http://localhost:8080`. Imagen `wordpress:7.1.0-php8.3-apache`. WP-CLI:
 `docker compose run --rm wpcli wp <cmd>`. No usar `docker compose down -v`
 (borra `db_data` y `wp_data`). Cambiar el tag de imagen no actualiza el core
 persistido; hace falta `wp core update` + `wp core update-db`.

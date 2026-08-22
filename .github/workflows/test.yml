@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   php-lint-and-unit:
-    name: PHP lint, Composer audit, and unit (PHP 8.2)
+    name: PHP lint, Composer audit, and unit (PHP 8.3)
     runs-on: ubuntu-latest
 
     steps:
@@ -32,7 +32,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.2"
+          php-version: "8.3"
           extensions: mbstring
           coverage: none
           tools: composer
@@ -41,9 +41,9 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ~/.composer/cache
-          key: composer-${{ runner.os }}-8.2-${{ hashFiles('composer.lock') }}
+          key: composer-${{ runner.os }}-8.3-${{ hashFiles('composer.lock') }}
           restore-keys: |
-            composer-${{ runner.os }}-8.2-
+            composer-${{ runner.os }}-8.3-
 
       - name: Install development dependencies
         run: composer install --no-interaction --prefer-dist --no-progress

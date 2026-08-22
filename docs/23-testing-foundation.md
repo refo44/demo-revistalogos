@@ -102,10 +102,11 @@ Composer y PHPUnit viven en la **raíz** del repo (`composer.json`,
 - Composer **solo** para tooling de test. El plugin y el theme siguen con
   `require_once` (ADR 0006). El workflow FTPS no sube `vendor/` ni `tests/`.
 - `config.platform.php` es **8.2.0**: baseline de resolución del tooling
-  de test (Docker/CI), no el `Requires PHP: 7.4` del plugin ni el PHP
-  8.0.30 de producción. `composer.lock` debe instalarse **sin**
-  `--ignore-platform-reqs`. Un clone limpio con el lockfile tiene que
-  resolver contra esa plataforma.
+  de test, no el `Requires PHP: 7.4` del plugin, no el PHP 8.3 de
+  Docker/CI, ni el PHP 8.0.30 de producción. Runtime local/CI y
+  resolución de Composer son conceptos distintos. `composer.lock` debe
+  instalarse **sin** `--ignore-platform-reqs`. Un clone limpio con el
+  lockfile tiene que resolver contra esa plataforma.
 
 ## Integración WordPress
 
@@ -241,7 +242,7 @@ PHPUnit/WP, se añadirá ese script y nada más.
 ## CI
 
 Workflow `.github/workflows/test.yml`: `pull_request` y `push` a `main`.
-PHP 8.2, `composer install` (respeta `config.platform.php` 8.2.0; sin
+PHP 8.3, `composer install` (respeta `config.platform.php` 8.2.0; sin
 `--ignore-platform-reqs`), `composer lint:php`, `composer audit --locked`,
 después `composer test:unit`. `actions/cache@v5` (Node 24). Dependabot
 abre PRs semanales de Composer y GitHub Actions; **sin auto-merge**. Cada
@@ -277,13 +278,14 @@ que suba el baseline de PHP no se acepta por inercia.
 | ---------- | --- | --------- |
 | Declarado (plugin/theme) | `>= 7.4` | Requires 6.4; cabecera Tested up to histórica 7.0 |
 | Producción (cPanel) | 8.0.30 | 7.1 (live) |
-| Docker / CI tests | **8.2** | **7.1** (integración) |
+| Docker / CI tests | **8.3** | **7.1** (integración) |
 
-No se redefine el mínimo 7.4. PHPUnit 9.6 puede correr en 7.4; CI no lo
-hace todavía (una sola línea canónica). `config.platform.php` 8.2.0
-obliga a que las transitivas del lockfile (p. ej. `doctrine/instantiator`)
-sean instalables en PHP 8.2; no se genera ni se instala el lock con
-`--ignore-platform-reqs`.
+No se redefine el mínimo 7.4 (runtime canónico ≠ compatibilidad
+declarada). PHPUnit 9.6 puede correr en 7.4; CI no lo hace todavía (una
+sola línea canónica). `config.platform.php` 8.2.0 obliga a que las
+transitivas del lockfile (p. ej. `doctrine/instantiator`) sean
+instalables en PHP 8.2; no se genera ni se instala el lock con
+`--ignore-platform-reqs`. Producción sigue en **8.0.30**.
 
 ## Expansión futura
 

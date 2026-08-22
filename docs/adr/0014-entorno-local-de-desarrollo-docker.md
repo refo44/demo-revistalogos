@@ -134,3 +134,8 @@ Nota factual 2026-08-20 (no cambia §1–§4): la imagen canónica local es
 `wordpress:7.1.0-php8.2-apache` (core **7.1**). PHP del compose permanece
 **8.2**. El tag exacto y `wp core update` + `wp core update-db` tras recrear
 el contenedor siguen siendo el procedimiento de §1.
+
+Nota factual 2026-08-21 (no cambia §1–§4): runtime canónico local
+`wordpress:7.1.0-php8.3-apache` + `wordpress:cli-php8.3` (core **7.1**,
+PHP **8.3**). Producción sigue en PHP **8.0.30**. `config.platform.php`
+permanece **8.2.0**. No se usó `docker compose down -v`.

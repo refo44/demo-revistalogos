@@ -3,10 +3,11 @@
 # despliegue es FTPS manual, ver .github/workflows/deploy-wordpress.yml
 # y ADR 0016). El core de WordPress y la base de datos viven en volúmenes;
 # el repo solo monta plugin y theme. Imagen fijada a
-# `wordpress:7.1.0-php8.2-apache` (no `latest` ni tags flotantes). Cambiar
+# `wordpress:7.1.0-php8.3-apache` (no `latest` ni tags flotantes). Cambiar
 # el tag no actualiza el core persistido en `wp_data`: tras recrear el
 # contenedor hay que `wp core update --version=7.1` y `wp core update-db`.
 # Nunca `docker compose down -v` para un upgrade (destruye db_data/wp_data).
+# PHP local 8.3 no implica PHP de producción (sigue 8.0.30).
 #
 # Credenciales: en `.env` (gitignored). Primer uso: `cp .env.example .env`
 # y rellenar con valores aleatorios (`openssl rand -hex 16`).
@@ -35,7 +36,7 @@ services:
       retries: 12
 
   wordpress:
-    image: wordpress:7.1.0-php8.2-apache
+    image: wordpress:7.1.0-php8.3-apache
     depends_on:
       db:
         condition: service_healthy
@@ -57,7 +58,7 @@ services:
       - ./wordpress/wp-content/themes/revistalogos:/var/www/html/wp-content/themes/revistalogos
 
   wpcli:
-    image: wordpress:cli-php8.2
+    image: wordpress:cli-php8.3
     depends_on:
       db:
         condition: service_healthy

@@ -75,6 +75,10 @@ instalarse respetando `config.platform.php` 8.2.0 (Docker/CI), sin
 GitHub Actions, sin auto-merge. No se añadió PHPStan, Psalm, PHPCS, ni otro
 escáner de seguridad. No cierra D12b.
 
+Nota factual 2026-08-21 (no cambia §1–§6): el runtime canónico de
+Docker/CI es **PHP 8.3**. `config.platform.php` permanece **8.2.0**.
+Producción sigue en **8.0.30**. `Requires PHP: 7.4` no se redefinió.
+
 ## Referencias
 
 - `docs/23-testing-foundation.md` (reglas operativas)
