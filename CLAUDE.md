@@ -102,12 +102,14 @@ required, not shared via Git, not a substitute for the files above.
 - **Identifiers (DOI/ORCID/ISSN) are Fase 4, deliberately deferred** past
   the WordPress launch (ADR 0013). Fase 3 stores them as inert fields only —
   no validation, no derived URLs.
-- **Automatic Article PDF on publish is accepted architecture (ADR 0017)
-  and is not implemented.** Current behavior: `pdf_file` is optional; editors
-  upload manually; publish does not require a PDF. Testing Foundation
-  (ADR 0018, `docs/23-testing-foundation.md`) is the prerequisite; implement
-  0017 in the plugin with TDD. Do not generate PDFs in the theme or during
-  FSE conversion. Do not start 0017 in a session that is not that work unit.
+- **Automatic Article PDF on publish is accepted architecture (ADR 0017).
+  Implementation started (work unit 1 only):** a pure domain
+  keep/generate/block policy exists in the plugin and is **not** wired
+  to WordPress. Current runtime: `pdf_file` is optional; editors upload
+  manually; publish does not require a PDF. Do not generate PDFs in the
+  theme or during FSE conversion. Next 0017 slices (hooks, renderer,
+  Media Library) are separate TDD work units; do not start them in a
+  session that is not that work unit.
 - **Testing:** follow `docs/23-testing-foundation.md` and ADR 0018. New
   domain behavior uses TDD. For PHP changes, before completion: (1) syntax
   gate `./tools/php-lint.sh` or `composer lint:php`; (2) Composer lockfile

@@ -79,6 +79,7 @@ class Plugin {
 		require_once $includes . 'integrations/class-contact-form-integration.php';
 		require_once $includes . 'migration/class-content-migrator.php';
 		require_once $includes . 'fixtures/class-fixtures.php';
+		require_once $includes . 'article-pdf/class-article-pdf-publication-policy.php';
 	}
 
 	/**

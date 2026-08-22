@@ -212,7 +212,7 @@ El trámite administrativo con Crossref **no depende de que exista el theme** (A
 
 No forma parte del cierre de Fase 3 ni de Fase 4. **Hoy** el PDF de artículo se sube a mano y publicar **no** lo exige.
 
-**Testing Foundation: IMPLEMENTADA** (ADR 0018, `docs/23-testing-foundation.md`, PHPUnit 9.6, `composer test:unit`). ADR 0017 permanece **aceptado y no implementado**. El siguiente trabajo de PDF se hace en `revistalogos-core` con TDD: al publicar, si `pdf_file` está vacío se genera un adjunto; si la generación falla no se publica; un PDF válido no se pisa. El PDF integral del número sigue siendo carga editorial manual. Ver ADR 0017.
+**Testing Foundation: IMPLEMENTADA** (ADR 0018, `docs/23-testing-foundation.md`, PHPUnit 9.6, `composer test:unit`). ADR 0017 permanece **aceptado**. Work unit 1 (política de dominio pura keep / generate / block) **iniciada** en `revistalogos-core`; **no** hay renderer, **no** hay creación de adjuntos, **no** hay cableado WordPress. Publicar **sigue** sin exigir PDF. El PDF integral del número sigue siendo carga editorial manual. Ver ADR 0017.
 
 ---
 

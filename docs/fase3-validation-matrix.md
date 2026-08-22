@@ -75,8 +75,8 @@ Formato de cada fila: validación, método, resultado, estado, commit probado.
 | Sin secretos en el repo | grep de credenciales; secretos solo como `${{ secrets.* }}` | limpio | Pass | dfb91b8 |
 | Generador de payload | `node tools/generate-content-payload.mjs` | 12 entradas, 3 semillas de media; integridad estricta de `etica` en verde; cobertura canónica normas 18/27, politicas 10/18 (informativa, pendiente de confirmación editorial) | Pass | 5c1697b |
 | Sintaxis PHP de recuperación institucional | `php -l` en Docker sobre migrador, admin temporal y comando CLI | 0 errores de sintaxis | Pass (working tree) | working tree 2026-08-19 |
-| PHPUnit unit suite (Testing Foundation) | `composer test:unit` / `./tools/run-phpunit.sh` (PHP 8.2 histórico; **8.3** vigente, sin WordPress) | 2 tests de `revistalogos_split_name` | Pass (working tree) | working tree 2026-08-21 |
-| PHP syntax gate (`php -l`) | `./tools/php-lint.sh` / `composer lint:php` sobre plugin, theme y `tests/` (PHP **8.3**, 61 archivos) | 0 errores de sintaxis | Pass (working tree) | working tree 2026-08-21 |
+| PHPUnit unit suite (Testing Foundation + ADR 0017 WU1) | `composer test:unit` / `./tools/run-phpunit.sh` (PHP **8.3**, sin WordPress) | 6 tests / 12 assertions (`revistalogos_split_name` + política PDF keep/generate/block) | Pass (working tree) | working tree 2026-08-22 |
+| PHP syntax gate (`php -l`) | `./tools/php-lint.sh` / `composer lint:php` sobre plugin, theme y `tests/` (PHP **8.3**, 63 archivos) | 0 errores de sintaxis | Pass (working tree) | working tree 2026-08-22 |
 | Composer lockfile platform compatibility | `composer install --no-interaction --prefer-dist --no-progress` sin `--ignore-platform-reqs` (`config.platform.php` 8.2.0; `doctrine/instantiator` 2.0.0) | install exit 0 | Pass (working tree) | working tree 2026-08-21 |
 | Composer lockfile audit | `composer audit --locked` (PHPUnit + transitivas; no WP/npm/hosting) | 0 advisories | Pass (working tree) | working tree 2026-08-20 |
 | YAML `dependabot.yml` + `test.yml` | `ruby -ryaml` | parsean | Pass (working tree) | working tree 2026-08-21 |

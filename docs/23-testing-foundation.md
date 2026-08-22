@@ -9,8 +9,9 @@ reescribe ADR 0006, 0009, 0014 ni 0017.
 Proteger comportamiento de dominio, contratos e integraciones reales —
 sobre todo contenido editorial, relaciones, URLs, importers y guards —
 con la pila más pequeña que lo permita. No maximizar recuento ni
-cobertura. ADR 0017 (PDF automático) se implementa **después**, con TDD,
-usando esta base.
+cobertura. ADR 0017 work unit 1 (política de publicación/PDF pura) usa esta
+base en TDD. El renderer, Media Library y el cableado WordPress
+siguen pendientes.
 
 ## Autoridad
 
@@ -18,7 +19,8 @@ Fuente durable (Git), en este orden cuando hablen de pruebas:
 
 1. `content-source/` (texto editorial; no política de tests).
 2. `docs/` — este documento es la guía operativa de testing.
-3. `docs/adr/` — ADR 0018 (decisiones); ADR 0017 (PDF, no implementado).
+3. `docs/adr/` — ADR 0018 (decisiones); ADR 0017 (PDF: política de
+   dominio iniciada; WordPress y renderer no implementados).
 4. `CLAUDE.md` — resumen para agentes; apunta aquí, no duplica el manual.
 
 **`.cursor/` está gitignored a propósito.** Si un desarrollador mantiene
@@ -138,7 +140,9 @@ PHPUnit no replica estos flujos enteros.
   versionada; PHPUnit y los harnesses ejecutan.
 - Prohibido: selectores CSS, nombres de clase/método, IDs de BD, `sleep`,
   hooks internos salvo que el hook sea el contrato público.
-- Ejemplo futuro (no crear ahora): `tests/Features/article-pdf-generation.feature`.
+- ADR 0017 work unit 1: `tests/Features/article-pdf-generation.feature`
+  (especificación de negocio; sin Behat). La política pura se verifica
+  en PHPUnit. El cableado WordPress y el renderer siguen pendientes.
 
 Gherkin describe comportamiento observable. PHPUnit verifica PHP. Los
 harnesses verifican el flujo integrado. Pueden complementarse; no hace falta
@@ -291,8 +295,8 @@ suelo de resolución Composer sigue **8.2.0**.
 
 Añadir una herramienta (Behat, Brain Monkey, Playwright, suite WP oficial,
 matriz de versiones) solo con necesidad arquitectónica demostrada. ADR 0017
-introduce sus propias costuras por TDD; no adelantar `PdfGenerator` ni
-librerías PDF aquí.
+work unit 1 ya tiene la política pura; no adelantar `PdfGenerator` ni
+librerías PDF hasta la unidad de renderer.
 
 **Versión:** 1.0
 **Proyecto:** Revista de Filosofía LOGO ET SPES 0.2.0

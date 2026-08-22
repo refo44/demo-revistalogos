@@ -9,6 +9,15 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Added
+- ADR 0017 work unit 1: pure domain publication/PDF policy in
+  `revistalogos-core` (`Article_Pdf_Publication_Policy`). Gherkin
+  `tests/Features/article-pdf-generation.feature` (Spanish, not
+  executable). PHPUnit covers keep-existing / generate-required /
+  block-on-failure / allow-on-success. No WordPress hook, no renderer,
+  no Media Library creation, no publication-rule change. No plugin
+  version bump (runtime behavior unchanged). ADR 0017 remains
+  accepted and only partially started.
+
 - Dependabot (`.github/dependabot.yml`): weekly Composer and GitHub
   Actions PRs, limit 5 each, **no auto-merge**. Does not cover npm or
   Docker. GitHub Dependabot alerts/security updates require owner

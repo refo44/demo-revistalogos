@@ -15,3 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $citations = dirname( __DIR__, 2 ) . '/wordpress/wp-content/themes/revistalogos/inc/citations.php';
 
 require_once $citations;
+
+$article_pdf_policy = dirname( __DIR__, 2 ) . '/wordpress/wp-content/plugins/revistalogos-core/includes/article-pdf/class-article-pdf-publication-policy.php';
+
+require_once $article_pdf_policy;

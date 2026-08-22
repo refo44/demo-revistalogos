@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "Dependabot + actions/cache@v5; owner review; no commit/push/deploy; ADR 0017 still unimplemented"
+current_work_unit: "ADR 0017 TDD WU1: pure domain publication/PDF policy; owner review; no commit/push/deploy"
 current_branch: "main"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
-updated_at: "2026-08-21"
-next_action: "Owner review of Dependabot + cache@v5 working tree. No commit/push/deploy unless asked. Verify Dependabot alerts/security updates in GitHub UI. Do not implement ADR 0017."
+updated_at: "2026-08-22"
+next_action: "Owner review of ADR 0017 work unit 1. No commit/push/deploy unless asked. Do not wire WordPress hooks, do not install a PDF library, do not deploy."
 blocked: false
 ---
 
@@ -447,6 +447,13 @@ del PDF de artículo al publicar **aceptada**; implementación **aplazada**
 hasta Testing Foundation + TDD. El código de 0.2.6 no cambia. PDF sigue
 opcional y manual en producción.
 
+**2026-08-22 (ADR 0017 WU1, working tree):**
+`includes/article-pdf/class-article-pdf-publication-policy.php`;
+`tests/Features/article-pdf-generation.feature`;
+`tests/Unit/ArticlePdfPublicationPolicyTest.php`; bootstrap PHPUnit;
+`Plugin::load_modules` require (sin hooks). Docs de estado/matriz/ADR.
+Sin bump de plugin. Sin commit, push ni deploy.
+
 **2026-08-20 (infra, working tree):** baseline local Docker alineada a
 WordPress **7.1** (`wordpress:7.1.0-php8.2-apache`); PHP 8.2.33 sin cambio.
 QA aislada + permalinks: PASS. Workflows: `actions/checkout@v5`,
@@ -497,8 +504,15 @@ dominio. `cenfiss.net` y `test.cenfiss.net` intactos. MultiPHP Manager
 no se usó. Validación **manual** en frontend, wp-admin, Gutenberg,
 picker, Media Library, PDF y Site Health «Bueno». Esta unidad
 **solo documenta**; no toca cPanel ni despliega. `config.platform.php`
-**8.2.0**. `Requires PHP: 7.4`. ADR 0017 **no** implementado. Sin
-commit/push en esta unidad.
+**8.2.0**. `Requires PHP: 7.4`. Sin commit/push en esa unidad.
+
+**2026-08-22 (ADR 0017 work unit 1, working tree):** política de
+dominio pura keep / generate / block en
+`includes/article-pdf/class-article-pdf-publication-policy.php`.
+Gherkin `tests/Features/article-pdf-generation.feature`. PHPUnit 6/6.
+Sin librería PDF, sin hooks WordPress, sin cambio de publicación en
+runtime. Plugin **0.2.6** sin bump (nada cableado). Sin commit, push
+ni deploy.
 
 ## Next exact action
 
@@ -508,20 +522,17 @@ Recuperación institucional **ya hecha** (Pages reales permanentes). Carga
 editorial real en proceso desde wp-admin (**no** completa). Docker local:
 `http://localhost:8080` (WordPress 7.1, PHP **8.3**).
 
-Siguiente acción priorizada — **revisión del propietario del cierre
-documental PHP 8.3; no commit/push/deploy en esta unidad; no
-implementar ADR 0017 ahora**:
+Siguiente acción priorizada — **revisión del propietario de ADR 0017
+work unit 1 (política de dominio pura); no commit/push/deploy en esta
+unidad; no cablear WordPress ni instalar renderer**:
 
-1. revisar `.github/dependabot.yml` y `actions/cache@v5`; verificar en
-   GitHub UI Dependabot alerts y security updates;
-2. deploy de plugin `revistalogos-core` 0.2.6 y theme `revistalogos` 0.2.1
+1. revisar la política pura, Gherkin y PHPUnit de esta unidad;
+2. no cablear `wp_insert_post_data` / REST / Meta_Boxes / Media Library;
+3. no elegir ni instalar librería PDF;
+4. deploy de plugin `revistalogos-core` 0.2.6 y theme `revistalogos` 0.2.1
    sigue siendo decisión aparte del propietario;
-3. tras deploy: verificar 320px / 200% zoom de CTAs en navegador
-   (**NOT LIVE-VERIFIED**);
-4. no re-ejecutar bootstrap ni teardown en producción;
-5. Bootstrap_Admin ya no forma parte del plugin.
-6. ADR 0017 (PDF automático) puede arrancar con TDD **después** de aceptar
-   esta foundation; no en esta pausa.
+5. no re-ejecutar bootstrap ni teardown en producción;
+6. Bootstrap_Admin ya no forma parte del plugin.
 
 No importar el dataset demo de fixtures. After ordinary theme QA,
 FSE remains deferred:
