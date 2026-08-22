@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "ADR 0017 TDD WU1: pure domain publication/PDF policy; owner review; no commit/push/deploy"
+current_work_unit: "ADR 0017 TDD WU1: pure domain publication/PDF policy committed; no deploy; do not start WU2"
 current_branch: "main"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-08-22"
-next_action: "Owner review of ADR 0017 work unit 1. No commit/push/deploy unless asked. Do not wire WordPress hooks, do not install a PDF library, do not deploy."
+next_action: "Observe Tests workflow after push. Do not deploy. Do not start ADR 0017 WU2 (WordPress wiring / renderer) unless asked."
 blocked: false
 ---
 
@@ -452,7 +452,8 @@ opcional y manual en producción.
 `tests/Features/article-pdf-generation.feature`;
 `tests/Unit/ArticlePdfPublicationPolicyTest.php`; bootstrap PHPUnit;
 `Plugin::load_modules` require (sin hooks). Docs de estado/matriz/ADR.
-Sin bump de plugin. Sin commit, push ni deploy.
+Sin bump de plugin. Fuente del plugin cambia; comportamiento de
+publicación sin cambio. No deploy. No WU2.
 
 **2026-08-20 (infra, working tree):** baseline local Docker alineada a
 WordPress **7.1** (`wordpress:7.1.0-php8.2-apache`); PHP 8.2.33 sin cambio.
@@ -511,8 +512,8 @@ dominio pura keep / generate / block en
 `includes/article-pdf/class-article-pdf-publication-policy.php`.
 Gherkin `tests/Features/article-pdf-generation.feature`. PHPUnit 6/6.
 Sin librería PDF, sin hooks WordPress, sin cambio de publicación en
-runtime. Plugin **0.2.6** sin bump (nada cableado). Sin commit, push
-ni deploy.
+runtime. Plugin **0.2.6** sin bump (código de dominio cargado, no
+cableado a WordPress). Commit de esta unidad en el mismo árbol.
 
 ## Next exact action
 
@@ -522,11 +523,10 @@ Recuperación institucional **ya hecha** (Pages reales permanentes). Carga
 editorial real en proceso desde wp-admin (**no** completa). Docker local:
 `http://localhost:8080` (WordPress 7.1, PHP **8.3**).
 
-Siguiente acción priorizada — **revisión del propietario de ADR 0017
-work unit 1 (política de dominio pura); no commit/push/deploy en esta
-unidad; no cablear WordPress ni instalar renderer**:
+Siguiente acción priorizada — **WU1 commiteada; observar CI; no
+desplegar; no iniciar WU2**:
 
-1. revisar la política pura, Gherkin y PHPUnit de esta unidad;
+1. observar el workflow Tests (lint → audit → PHPUnit);
 2. no cablear `wp_insert_post_data` / REST / Meta_Boxes / Media Library;
 3. no elegir ni instalar librería PDF;
 4. deploy de plugin `revistalogos-core` 0.2.6 y theme `revistalogos` 0.2.1

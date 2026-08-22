@@ -14,8 +14,9 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   `tests/Features/article-pdf-generation.feature` (Spanish, not
   executable). PHPUnit covers keep-existing / generate-required /
   block-on-failure / allow-on-success. No WordPress hook, no renderer,
-  no Media Library creation, no publication-rule change. No plugin
-  version bump (runtime behavior unchanged). ADR 0017 remains
+  no Media Library creation, no publication-rule change. Plugin source
+  adds the class and a `require_once`; publication/runtime behavior is
+  unchanged (loaded, not wired). No plugin version bump. ADR 0017 remains
   accepted and only partially started.
 
 - Dependabot (`.github/dependabot.yml`): weekly Composer and GitHub
