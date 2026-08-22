@@ -490,17 +490,27 @@ primarios conservados (recreate del contenedor wordpress, sin
 editorial-ux / bootstrap-admin PASS. ADR 0017 **no** implementado. Sin
 commit, push, deploy ni cambio de cPanel.
 
+**2026-08-22 (PHP 8.3 producción, working tree):** el propietario migró
+a mano `logo-et-spes.cenfiss.net` a PHP **8.3** (WP **7.1**) con
+CloudLinux PHP Selector, Site Isolation y PHP per-domain. Solo ese
+dominio. `cenfiss.net` y `test.cenfiss.net` intactos. MultiPHP Manager
+no se usó. Validación **manual** en frontend, wp-admin, Gutenberg,
+picker, Media Library, PDF y Site Health «Bueno». Esta unidad
+**solo documenta**; no toca cPanel ni despliega. `config.platform.php`
+**8.2.0**. `Requires PHP: 7.4`. ADR 0017 **no** implementado. Sin
+commit/push en esta unidad.
+
 ## Next exact action
 
 La implementación **clásica** está live en producción
-(`https://logo-et-spes.cenfiss.net`, WordPress 7.1, PHP **8.0.30**).
+(`https://logo-et-spes.cenfiss.net`, WordPress 7.1, PHP **8.3**).
 Recuperación institucional **ya hecha** (Pages reales permanentes). Carga
 editorial real en proceso desde wp-admin (**no** completa). Docker local:
 `http://localhost:8080` (WordPress 7.1, PHP **8.3**).
 
-Siguiente acción priorizada — **revisión del propietario de la alineación
-PHP 8.3 local/CI; no commit/push/deploy; no cambiar PHP de producción;
-no implementar ADR 0017 ahora**:
+Siguiente acción priorizada — **revisión del propietario del cierre
+documental PHP 8.3; no commit/push/deploy en esta unidad; no
+implementar ADR 0017 ahora**:
 
 1. revisar `.github/dependabot.yml` y `actions/cache@v5`; verificar en
    GitHub UI Dependabot alerts y security updates;
@@ -528,8 +538,11 @@ FSE remains deferred:
    `docs/operations/produccion-wordpress.md`. **No** abrirla en esta
    reanudación.
 5. Luego, cuando el rollback al dummy ya no haga falta: limpiar restos HTML
-   del document root; revisar PHP 8.0.30 vs MultiPHP 8.2; evaluar plugins
-   Softaculous; instalar/configurar CF7 y WP Statistics; vigilar SpeedyCache.
+   del document root; evaluar plugins Softaculous; instalar/configurar CF7
+   y WP Statistics; vigilar SpeedyCache. La discrepancia PHP 8.0.30 vs
+   MultiPHP Inherited 8.2 de la revista quedó **cerrada** (2026-08-22:
+   PHP 8.3 vía CloudLinux PHP Selector + Site Isolation). Site Health
+   residual (OPcache, módulos, tamaños de upload) es otra unidad.
 6. **FSE (ADR 0015) después**, incremental, **primero en Docker**.
 
 D12b (checks CI de seguridad/stylelint ligados al deploy) sigue pendiente

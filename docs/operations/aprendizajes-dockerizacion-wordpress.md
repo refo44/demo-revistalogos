@@ -120,9 +120,10 @@ Reglas que demostraron su valor:
 6. **Fijar versiones de imagen que imiten al hosting**
    (`wordpress:7.1.0-php8.3-apache` y no `latest` ni tags flotantes `7`/`7.1`;
    7.0.4/PHP 8.2 quedan como evidencia histórica). Fijar el tag sigue
-   siendo el aprendizaje; la paridad PHP con producción (hoy 8.0.30) no
-   se reclama: local/CI validan **8.3** antes de un posible cambio de
-   MultiPHP.
+   siendo el aprendizaje. Desde 2026-08-22 local/CI y producción de la
+   revista usan PHP **8.3**. El mecanismo de hosting no fue MultiPHP
+   Manager: CloudLinux PHP Selector + Site Isolation, solo
+   `logo-et-spes.cenfiss.net`.
 
 7. **Cambiar el tag de la imagen no actualiza el core en `wp_data`.** El
    servicio monta `wp_data:/var/www/html`, así que los archivos de WordPress

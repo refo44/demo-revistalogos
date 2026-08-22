@@ -126,3 +126,11 @@ mantenimiento no despliega ni toca datos de producción.
 Nota factual 2026-08-21 (no cambia §1–§3): Docker local y CI usan PHP
 **8.3** (`wordpress:7.1.0-php8.3-apache`). El PHP efectivo de producción
 sigue **8.0.30**. No se tocó MultiPHP ni cPanel.
+
+Nota factual 2026-08-22 (no cambia §1–§3): el PHP de
+`logo-et-spes.cenfiss.net` pasó a **8.3** (WordPress **7.1**) vía
+**CloudLinux PHP Selector**, con Site Isolation y PHP per-domain. Solo
+ese host. `cenfiss.net` y `test.cenfiss.net` no se modificaron. MultiPHP
+Manager **no** fue el mecanismo. El §2 (no alinear PHP de los sitios
+ajenos) se respeta. `config.platform.php` permanece **8.2.0**.
+`Requires PHP: 7.4` no se redefinió. Esta nota no ejecuta el cambio.

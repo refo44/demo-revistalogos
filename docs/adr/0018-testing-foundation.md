@@ -79,6 +79,11 @@ Nota factual 2026-08-21 (no cambia §1–§6): el runtime canónico de
 Docker/CI es **PHP 8.3**. `config.platform.php` permanece **8.2.0**.
 Producción sigue en **8.0.30**. `Requires PHP: 7.4` no se redefinió.
 
+Nota factual 2026-08-22 (no cambia §1–§6): producción
+(`logo-et-spes.cenfiss.net`) también corre **PHP 8.3**. El suelo de
+resolución Composer sigue **8.2.0**. `Requires PHP: 7.4` no se
+redefinió. PHPUnit 9.6 sin cambio de major.
+
 ## Referencias
 
 - `docs/23-testing-foundation.md` (reglas operativas)

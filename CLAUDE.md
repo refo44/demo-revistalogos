@@ -74,7 +74,9 @@ required, not shared via Git, not a substitute for the files above.
   CPT/taxonomy/role registration in the theme, ever.
 - **Two live deployments, deliberately asymmetric**:
   `logo-et-spes.cenfiss.net` (cPanel `cenfiss2`, **WordPress classic** since
-  2026-08-19, manual `workflow_dispatch` FTPS via `deploy_revista@…`,
+  2026-08-19, PHP **8.3** via CloudLinux PHP Selector + Site Isolation,
+  per-domain; `cenfiss.net` / `test.cenfiss.net` untouched; manual
+  `workflow_dispatch` FTPS via `deploy_revista@…`,
   Environment `wordpress-production`) and GitHub Pages
   (`refo44.github.io/demo-revistalogos`, beta review mirror, auto-publishes
   on every push to `main` — this is intentional, not a bug). Never make the

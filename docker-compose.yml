@@ -7,7 +7,8 @@
 # el tag no actualiza el core persistido en `wp_data`: tras recrear el
 # contenedor hay que `wp core update --version=7.1` y `wp core update-db`.
 # Nunca `docker compose down -v` para un upgrade (destruye db_data/wp_data).
-# PHP local 8.3 no implica PHP de producción (sigue 8.0.30).
+# PHP local 8.3 coincide con producción de la revista (PHP 8.3).
+# No implica config.platform.php (8.2.0) ni Requires PHP (7.4).
 #
 # Credenciales: en `.env` (gitignored). Primer uso: `cp .env.example .env`
 # y rellenar con valores aleatorios (`openssl rand -hex 16`).

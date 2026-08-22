@@ -139,3 +139,7 @@ Nota factual 2026-08-21 (no cambia §1–§4): runtime canónico local
 `wordpress:7.1.0-php8.3-apache` + `wordpress:cli-php8.3` (core **7.1**,
 PHP **8.3**). Producción sigue en PHP **8.0.30**. `config.platform.php`
 permanece **8.2.0**. No se usó `docker compose down -v`.
+
+Nota factual 2026-08-22 (no cambia §1–§4): producción de la revista
+también usa PHP **8.3** (WP 7.1). Compose local no se cambia en esta
+nota. `config.platform.php` permanece **8.2.0**.

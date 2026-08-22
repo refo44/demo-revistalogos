@@ -23,10 +23,16 @@ Desde 2026-07-31 existe runtime WordPress local vía Docker (ADR 0014):
 - **2026-08-20:** imagen `wordpress:7.1.0-php8.2-apache`;
   core local **7.1**; PHP 8.2; MariaDB `mariadb:11`. Evidencia histórica
   del baseline anterior.
-- **2026-08-21 (baseline vigente):** imagen `wordpress:7.1.0-php8.3-apache`;
+- **2026-08-21:** imagen `wordpress:7.1.0-php8.3-apache`;
   core local **7.1**; PHP **8.3**; MariaDB `mariadb:11` sin cambio.
-  Producción sigue en PHP **8.0.30**. `config.platform.php` sigue **8.2.0**.
-  Las filas de 7.0.4 / PHP 8.2 de abajo son evidencia histórica.
+  En esa fecha producción seguía en PHP **8.0.30**.
+  `config.platform.php` sigue **8.2.0**.
+- **2026-08-22 (baseline vigente):** local/CI PHP **8.3** (WP 7.1);
+  producción `logo-et-spes.cenfiss.net` PHP **8.3** (WP 7.1), vía
+  CloudLinux PHP Selector + Site Isolation (no MultiPHP Manager).
+  `config.platform.php` **8.2.0**. `Requires PHP: 7.4`.
+  Las filas de 7.0.4 / PHP 8.2 / producción 8.0.30 de abajo son
+  evidencia histórica.
 
 `Pass (local)` no sustituye la validación en el hosting real (cPanel
 `cenfiss2` / ADR 0016) para lo que depende de ese entorno (FTPS,
@@ -135,7 +141,8 @@ relaciones al borrar posts referenciados.
 | Smoke visual (escritorio) | screenshots de portada, archivo de números y single de número en navegador | renderizan con el diseño del theme, navegación migrada y fixtures | Pass (local) | dfb91b8 |
 | Smoke post-upgrade WordPress 7.0.4 | curl + navegador sobre portada, nav, archivos/singles CPT, páginas institucionales, `/buscar/?q=`, 404, media, login wp-admin; `wp core version` / `php -v` / MariaDB | Core 7.0.4, PHP 8.2.33, MariaDB 11.8.8; theme y plugin activos; 200 en portada, issues, articles, institucionales, búsqueda, 404; media JPEG/PDF 200. Single CPT `author` 404 histórico; arreglo local `query_var=journal_author` (plugin 0.2.1, no desplegado). Placeholder de número sin cover corregido a JPEG real. | Pass (local) | working tree 2026-08-19 |
 | Smoke post-upgrade WordPress 7.1 | `wp core version` / PHP; HTTP archivos CPT; harnesses aislados `qa-article-editorial-ux.sh`, `qa-editorial-bootstrap.sh`, `qa-volume1-bootstrap-admin.sh`; `qa-author-permalinks.sh` | Core **7.1**, PHP **8.2.33** sin cambio; plugin 0.2.6 y theme 0.2.1 activos; portada/archivos 200; Gutenberg, picker REST, guards de publicación, PDF, bootstrap y teardown sin PHP Warning/Notice/Deprecated nuevos. | Pass (local) | working tree 2026-08-20 |
-| Smoke local PHP 8.3 (WP 7.1) | Recreate contenedor wordpress (sin `down -v`); `wp core version` / `php -v`; HTTP archivos; `qa-author-permalinks.sh`; aislados `qa-editorial-bootstrap.sh`, `qa-article-editorial-ux.sh`, `qa-volume1-bootstrap-admin.sh` | Core **7.1**, PHP **8.3.33**; 57 posts conservados; plugin 0.2.6 y theme 0.2.1 activos; archivos 200; Gutenberg, picker REST, guards, PDF, bootstrap y teardown sin PHP Warning/Notice/Deprecated. Producción no tocada. | Pass (local) | working tree 2026-08-21 |
+| Smoke local PHP 8.3 (WP 7.1) | Recreate contenedor wordpress (sin `down -v`); `wp core version` / `php -v`; HTTP archivos; `qa-author-permalinks.sh`; aislados `qa-editorial-bootstrap.sh`, `qa-article-editorial-ux.sh`, `qa-volume1-bootstrap-admin.sh` | Core **7.1**, PHP **8.3.33**; 57 posts conservados; plugin 0.2.6 y theme 0.2.1 activos; archivos 200; Gutenberg, picker REST, guards, PDF, bootstrap y teardown sin PHP Warning/Notice/Deprecated. Producción no tocada en esa unidad. | Pass (local) | working tree 2026-08-21 |
+| Migración PHP producción 8.0.30 → 8.3 | **Validación manual del propietario** en `https://logo-et-spes.cenfiss.net` (no es `qa-*.sh` ni PHPUnit). CloudLinux PHP Selector + Site Isolation; solo ese dominio. | Portada y archivos `/revista/numeros/`, `/revista/articulos/`, `/revista/autores/` OK; wp-admin OK; Gutenberg Article OK; picker de autores OK; Media Library OK; PDF existente OK; Site Health «Bueno»; desapareció el aviso de PHP 8.0.30 obsoleto; sin errores/warnings visibles de la migración. Recomendaciones residuales de Site Health **no** se resolvieron aquí. | Pass (working tree) | working tree 2026-08-22 |
 | Paridad visual static↔WP (móvil/tablet/escritorio/200%/320px), teclado, foco, almacenamiento, copy ES | protocolo completo de paridad, pendiente | — | Unverified | dfb91b8 |
 
 ## Matriz de cobertura static → WordPress

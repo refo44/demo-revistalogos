@@ -60,12 +60,21 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   No runtime bump. ADR 0017 remains unimplemented.
 
 ### Changed
+- Production PHP for `logo-et-spes.cenfiss.net`: **8.0.30 → 8.3**
+  (owner, cPanel CloudLinux PHP Selector, Site Isolation,
+  per-domain). `cenfiss.net` and `test.cenfiss.net` unchanged.
+  MultiPHP Manager was not the path used. WordPress stays **7.1**.
+  `config.platform.php` stays **8.2.0**. `Requires PHP: 7.4`
+  unchanged. No plugin/theme/project version bump. Documentation
+  close only; this changelog entry does not execute the hosting
+  change. ADR 0017 remains unimplemented.
 - Local Docker and CI runtime: PHP 8.2 → **8.3**
   (`wordpress:7.1.0-php8.3-apache`, `wordpress:cli-php8.3`,
   `test.yml` `php-version: "8.3"`). WordPress stays **7.1**. MariaDB 11
   unchanged. `config.platform.php` stays **8.2.0**. Plugin/theme
-  `Requires PHP: 7.4` unchanged. Production stays PHP **8.0.30**.
-  No runtime version bump. ADR 0017 remains unimplemented.
+  `Requires PHP: 7.4` unchanged. Production was still PHP **8.0.30**
+  when this local/CI alignment landed. No runtime version bump.
+  ADR 0017 remains unimplemented.
 - Baseline local Docker: WordPress 7.0.4 → **7.1**
   (`wordpress:7.1.0-php8.2-apache`). PHP 8.2 y MariaDB 11 sin cambio.
 - GitHub Actions a runtime Node 24: `actions/checkout@v5`,

@@ -28,7 +28,7 @@ Reanudación: `docs/fase3-execution-state.md`.
 FSE (ADR 0015) **sigue siendo la dirección futura** y **no bloqueó** este corte.
 Orden operativo actual: WordPress clásico live; carga editorial real **en
 proceso** desde wp-admin → QA del theme → limpieza del estático residual →
-revisar PHP → plugins aprobados → indexación solo si el propietario lo
+PHP 8.3 (revista, 2026-08-22) → plugins aprobados → indexación solo si el propietario lo
 decide (launch gate; 100 % de contenido no es prerequisito) → FSE
 incremental primero en Docker.
 
@@ -110,18 +110,62 @@ Docker local (sin cambio de política de hosting; alineado en WordPress 7.1):
 
 ```text
 WordPress: 7.1 (imagen wordpress:7.1.0-php8.3-apache)
-PHP: 8.3 (local/CI; no es el PHP de producción)
+PHP: 8.3 (local/CI)
 MariaDB: sin cambios (11)
 URL: http://localhost:8080
 ```
 
 Nota 2026-08-20: el core de producción autoactualizó a WordPress **7.1**.
 El bloque de corte conserva el runtime **observado entonces** (7.0.4 /
-PHP 8.0.30). PHP de producción **no** se tocó.
+PHP 8.0.30). PHP de producción **no** se tocó en esa fecha.
 
-Nota 2026-08-21: Docker local y CI usan PHP **8.3**. Producción sigue en
-**8.0.30**. `config.platform.php` sigue **8.2.0**. `Requires PHP: 7.4`
-sigue siendo el mínimo declarado, no el runtime.
+Nota 2026-08-21: Docker local y CI usan PHP **8.3**. En esa fecha
+producción seguía en **8.0.30**. `config.platform.php` sigue **8.2.0**.
+`Requires PHP: 7.4` sigue siendo el mínimo declarado, no el runtime.
+
+### Runtime vigente (2026-08-22)
+
+Migración de PHP de la revista **ya ejecutada a mano** en cPanel
+(propietario). Esta unidad solo documenta. WordPress de producción
+sigue **7.1**. PHP de `logo-et-spes.cenfiss.net`: **8.3** (sin patch
+concreto documentado).
+
+Ruta efectiva (no MultiPHP Manager):
+
+```text
+logo-et-spes.cenfiss.net
+→ cPanel (cuenta cenfiss2)
+→ CloudLinux PHP Selector
+→ Site Isolation enabled
+→ PHP per-domain
+→ PHP 8.3
+```
+
+Site Isolation + PHP per-domain fue deliberado: no cambiar PHP de
+`cenfiss.net` ni de `test.cenfiss.net`. El control «Use MultiPHP
+Manager» **no** fue la ruta usada. No aplicar PHP a toda la cuenta.
+
+`config.platform.php` permanece **8.2.0** (suelo de resolución Composer).
+`Requires PHP` permanece **7.4** (mínimo declarado). Runtime 8.3 ≠
+esos dos conceptos.
+
+Validación manual del propietario (no automatizada): portada,
+`/revista/numeros/`, `/revista/articulos/`, `/revista/autores/`;
+wp-admin; editor Gutenberg de Article; picker de autores; Media
+Library; PDF existente; Site Health «Bueno»; desapareció la
+advertencia de PHP 8.0.30 obsoleto; sin errores/warnings visibles
+atribuibles a la migración.
+
+Recomendaciones restantes de Site Health (plugin inactivo, tema por
+defecto, módulos PHP, `post_max_size` / `upload_max_filesize`,
+motores de búsqueda, OPcache) **no** forman parte de esta migración.
+
+#### Rollback de PHP (no ejecutado)
+
+Si aparece una regresión atribuible a PHP 8.3: en la configuración
+per-domain de `logo-et-spes.cenfiss.net`, volver temporalmente a
+PHP 8.0; verificar recuperación; investigar antes de reintentar.
+No cambiar `cenfiss.net` ni `test.cenfiss.net`. No requiere SSH.
 
 ## Instalación Softaculous
 
@@ -430,7 +474,12 @@ instalados/configurados en producción. Ver
 
 1. QA completo del theme clásico en producción.
 2. Guardar permalinks tras activar `revistalogos-core`.
-3. Revisar discrepancia PHP 8.0.30 vs MultiPHP 8.2 inherited.
+3. ~~Revisar discrepancia PHP 8.0.30 vs MultiPHP 8.2 inherited.~~
+   **Cerrado 2026-08-22 para la revista:** PHP **8.3** vía CloudLinux
+   PHP Selector + Site Isolation en `logo-et-spes.cenfiss.net` solo.
+   `cenfiss.net` y `test.cenfiss.net` no se tocaron. MultiPHP Manager
+   no fue el mecanismo. Site Health residual (OPcache, módulos,
+   tamaños de upload, etc.) es otra unidad.
 4. Evaluar plugins Softaculous instalados.
 5. Instalar/configurar Contact Form 7 (ADR 0010).
 6. Instalar/configurar WP Statistics (ADR 0011).
