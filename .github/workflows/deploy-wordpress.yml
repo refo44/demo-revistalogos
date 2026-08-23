@@ -35,7 +35,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Deploy theme directory
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
@@ -58,7 +58,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       # Runner-only: build vendor/ on Actions. Does not change hosting PHP.
       - name: Setup PHP
