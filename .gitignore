@@ -110,6 +110,9 @@ wordpress/wp-content/uploads/
 # Content source: reference material from author
 /content-source/
 
+# Local patch/review artifact; never version.
+PR.diff
+
 # Cursor rules
 .cursorrules
 .cursorrules.md
