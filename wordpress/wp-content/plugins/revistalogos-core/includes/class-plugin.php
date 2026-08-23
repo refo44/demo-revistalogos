@@ -80,6 +80,8 @@ class Plugin {
 		require_once $includes . 'migration/class-content-migrator.php';
 		require_once $includes . 'fixtures/class-fixtures.php';
 		require_once $includes . 'article-pdf/class-article-pdf-publication-policy.php';
+		require_once $includes . 'article-pdf/interface-article-pdf-renderer.php';
+		require_once $includes . 'article-pdf/class-article-pdf-generation-orchestrator.php';
 		require_once $includes . 'article-pdf/class-article-pdf-wordpress-adapter.php';
 	}
 

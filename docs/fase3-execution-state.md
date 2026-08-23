@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "ADR 0017 TDD WU2: read-only WordPress PDF adapter; owner review; no commit/push/deploy"
+current_work_unit: "ADR 0017 TDD WU3: generation orchestration + renderer seam; owner review; no commit/push/deploy"
 current_branch: "main"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-08-23"
-next_action: "Owner review of ADR 0017 WU2. No commit/push/deploy unless asked. Do not start generation orchestration or install a PDF library."
+next_action: "Owner review of ADR 0017 WU3. No commit/push/deploy unless asked. Do not start WU4, a real PDF library, Media Library persistence, or WordPress publication wiring."
 blocked: false
 ---
 
@@ -527,6 +527,15 @@ WordPress de solo lectura; `tools/qa-article-pdf-adapter.sh` PASS;
 `qa-article-editorial-ux.sh` PASS. Publicación sin PDF sigue
 permitida. Plugin **0.2.6** sin bump. Sin commit, push ni deploy.
 
+**2026-08-23 (ADR 0017 work unit 3, working tree):** orquestación de
+generación + seam de renderer (`Article_Pdf_Renderer`,
+`Article_Pdf_Generation_Orchestrator`). PHPUnit 9/9.
+`tools/qa-article-pdf-adapter.sh` PASS (carga de módulos). Sin
+librería PDF, sin persistencia, sin hooks. Publicación sin PDF
+sigue permitida. Plugin **0.2.6** sin bump. Sin commit, push ni
+deploy. `qa-article-editorial-ux.sh` no re-ejecutado: no se
+tocaron guards, Meta_Boxes ni REST.
+
 ## Next exact action
 
 La implementación **clásica** está live en producción
@@ -536,12 +545,13 @@ editorial real en proceso desde wp-admin (**no** completa). Docker local:
 `http://localhost:8080` (WordPress 7.1, PHP **8.3**).
 
 Siguiente acción priorizada — **revisión del propietario de ADR 0017
-WU2 (adaptador de solo lectura); no commit/push/deploy; no orquestar
-generación**:
+WU3 (orquestación + seam de renderer); no commit/push/deploy; no
+iniciar WU4**:
 
-1. revisar adaptador, harness y que publicar sin PDF sigue permitido;
+1. revisar orquestador, contrato de renderer y que publicar sin PDF
+   sigue permitido;
 2. no cablear `wp_insert_post_data` / REST / Meta_Boxes / Media Library;
-3. no elegir ni instalar librería PDF;
+3. no elegir ni instalar librería PDF; no persistir bytes generados;
 4. deploy de plugin `revistalogos-core` 0.2.6 y theme `revistalogos` 0.2.1
    sigue siendo decisión aparte del propietario;
 5. no re-ejecutar bootstrap ni teardown en producción;

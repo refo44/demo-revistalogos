@@ -9,6 +9,14 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Added
+- ADR 0017 work unit 3: generation orchestration and replaceable
+  renderer seam (`Article_Pdf_Generation_Orchestrator`,
+  `Article_Pdf_Renderer`). KEEP_EXISTING skips rendering;
+  GENERATE_REQUIRED calls the renderer; empty output is generation
+  failure and blocks publication via the WU1 policy. No real PDF
+  library, no Media Library write, no publication hooks. Plugin
+  `require_once` only (loaded, not wired). No plugin version bump.
+
 - ADR 0017 work unit 2: read-only WordPress adapter
   (`Article_Pdf_WordPress_Adapter`) that inspects `pdf_file` and returns
   the WU1 keep/generate decision. Isolated QA:

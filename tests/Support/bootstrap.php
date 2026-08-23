@@ -16,6 +16,8 @@ $citations = dirname( __DIR__, 2 ) . '/wordpress/wp-content/themes/revistalogos/
 
 require_once $citations;
 
-$article_pdf_policy = dirname( __DIR__, 2 ) . '/wordpress/wp-content/plugins/revistalogos-core/includes/article-pdf/class-article-pdf-publication-policy.php';
+$article_pdf_dir = dirname( __DIR__, 2 ) . '/wordpress/wp-content/plugins/revistalogos-core/includes/article-pdf';
 
-require_once $article_pdf_policy;
+require_once $article_pdf_dir . '/class-article-pdf-publication-policy.php';
+require_once $article_pdf_dir . '/interface-article-pdf-renderer.php';
+require_once $article_pdf_dir . '/class-article-pdf-generation-orchestrator.php';
