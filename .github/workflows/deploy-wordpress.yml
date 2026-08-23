@@ -11,6 +11,9 @@
 # - FTPS with dangerous-clean-slate disabled and no delete/mirror mode
 #   against shared WordPress directories; each artifact goes to its own
 #   bounded remote directory (never the WordPress installation root).
+# - setup-php in this workflow configures ONLY the GitHub Actions runner
+#   that runs Composer. It does NOT change cPanel, CloudLinux PHP
+#   Selector, MultiPHP, or the production PHP 8.3 already in use.
 #
 # Required production secrets (see docs/operations/wordpress-manual-deployment.md):
 #   PRODUCTION_FTP_SERVER, PRODUCTION_FTP_USERNAME, PRODUCTION_FTP_PASSWORD,
@@ -57,6 +60,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
+      # Runner-only: build vendor/ on Actions. Does not change hosting PHP.
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: mbstring, dom
+          coverage: none
+          tools: composer
+
+      - name: Install plugin runtime dependencies
+        run: composer --working-dir=wordpress/wp-content/plugins/revistalogos-core install --no-dev --no-interaction --prefer-dist --no-progress
+
       - name: Deploy plugin directory
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
@@ -69,3 +84,4 @@ jobs:
           dangerous-clean-slate: false
           exclude: |
             **/.DS_Store
+            **/.qa-*.php

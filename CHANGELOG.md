@@ -9,6 +9,16 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Added
+- ADR 0017 work unit 4: real Dompdf renderer
+  (`Dompdf_Article_Pdf_Renderer`, `dompdf/dompdf` ^3.1.6) owned by
+  plugin-local Composer (`composer.json` + tracked lock, generated
+  `vendor/` ignored). Isolated QA:
+  `tools/qa-article-pdf-renderer.sh`. CI installs/audits plugin
+  Composer. Deploy packages `vendor/` with `--no-dev` before FTPS
+  (`setup-php` is the Actions runner only; production PHP stays 8.3).
+  Still unwired: no Media Library write, no publication-rule change.
+  No plugin version bump.
+
 - ADR 0017 work unit 3: generation orchestration and replaceable
   renderer seam (`Article_Pdf_Generation_Orchestrator`,
   `Article_Pdf_Renderer`). KEEP_EXISTING skips rendering;

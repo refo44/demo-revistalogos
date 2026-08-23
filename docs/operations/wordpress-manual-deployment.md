@@ -134,6 +134,9 @@ cancel-in-progress: false
 jobs: deploy-theme  →  deploy-plugin (needs: deploy-theme)
 protocol: ftps
 dangerous-clean-slate: false
+plugin job: runner-only PHP 8.3 + ext-dom/ext-mbstring (does NOT
+           change cPanel PHP); composer install --no-dev from plugin
+           lock, then FTPS (generated vendor/ uploaded; never committed)
 ```
 
 Primer run (2026-08-19): **Success** (~27 s), ambos jobs. Warnings Node.js
@@ -164,6 +167,11 @@ históricos. Desde 2026-08-20 el workflow usa `checkout@v5` y
      **pre-migración** del estático; no es rollback normal de la app.
    - Git — código; no restaura BD.
 7. **No exponer secretos** en issues, logs pegados ni commits.
+8. **PHP de producción no se toca.** Hosting ya corre PHP **8.3**.
+   `setup-php` en `deploy-wordpress.yml` es solo el runner de Actions
+   para Composer. Antes del primer deploy de WU4 (plugin con `vendor/`
+   Dompdf): **verificar** `ext-dom` y `ext-mbstring` en ese PHP 8.3.
+   No cambiar CloudLinux PHP Selector, MultiPHP ni la versión PHP.
 
 ---
 

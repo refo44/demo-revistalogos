@@ -9,8 +9,8 @@ reescribe ADR 0006, 0009, 0014 ni 0017.
 Proteger comportamiento de dominio, contratos e integraciones reales —
 sobre todo contenido editorial, relaciones, URLs, importers y guards —
 con la pila más pequeña que lo permita. No maximizar recuento ni
-cobertura. ADR 0017 work unit 1 (política de publicación/PDF pura) usa esta
-base en TDD. El renderer, Media Library y el cableado WordPress
+cobertura. ADR 0017 WU1–WU4 usan esta base en TDD (política, adaptador,
+orquestación, renderer Dompdf). Media Library y el cableado WordPress
 siguen pendientes.
 
 ## Autoridad
@@ -19,8 +19,8 @@ Fuente durable (Git), en este orden cuando hablen de pruebas:
 
 1. `content-source/` (texto editorial; no política de tests).
 2. `docs/` — este documento es la guía operativa de testing.
-3. `docs/adr/` — ADR 0018 (decisiones); ADR 0017 (PDF: política de
-   dominio iniciada; WordPress y renderer no implementados).
+3. `docs/adr/` — ADR 0018 (decisiones); ADR 0017 (PDF: renderer Dompdf
+   real; persistencia y publicación WordPress no cableadas).
 4. `CLAUDE.md` — resumen para agentes; apunta aquí, no duplica el manual.
 
 **`.cursor/` está gitignored a propósito.** Si un desarrollador mantiene
@@ -42,11 +42,13 @@ Sintaxis nativa únicamente. No es análisis estático, estilo ni tipos.
 
 ### Composer dependency audit (`composer audit --locked`)
 
-Advisories conocidas sobre el **lockfile de Composer de la raíz** (hoy:
-PHPUnit y sus transitivas, `require-dev`). `composer audit:deps` es el
-alias. Falla con el exit status nativo de Composer. Sin reglas de ignore.
-**No está garantizado offline:** puede requerir metadatos/red de advisories
-de Composer/Packagist. No requiere `vendor/`.
+Advisories conocidas sobre lockfiles Composer. La raíz cubre tooling de
+test (PHPUnit). El plugin cubre runtime Dompdf
+(`wordpress/wp-content/plugins/revistalogos-core/composer.lock`).
+`composer audit:deps` audita la raíz. CI también audita el lock del
+plugin. Falla con el exit status nativo de Composer. Sin reglas de
+ignore. **No está garantizado offline.** No requiere `vendor/` para
+auditar.
 
 No sustituye revisión de WordPress Core, plugins, themes, dependencias npm
 ni el hosting de producción. No cierra D12b.
@@ -92,8 +94,11 @@ tests/
 
 No hay `tests/Integration/` hasta que exista un bootstrap PHPUnit/WP.
 
-Composer y PHPUnit viven en la **raíz** del repo (`composer.json`,
-`phpunit.xml.dist`). `vendor/` no se versiona ni se despliega.
+Composer de **test** vive en la **raíz** (`composer.json`,
+`phpunit.xml.dist`). Composer de **runtime** vive en
+`wordpress/wp-content/plugins/revistalogos-core/` (Dompdf). Ningún
+`vendor/` se versiona. El deploy FTPS genera el `vendor/` del plugin
+con `--no-dev` y lo sube.
 
 ## PHPUnit y Composer
 
@@ -101,8 +106,10 @@ Composer y PHPUnit viven en la **raíz** del repo (`composer.json`,
 - Sintaxis: nativo `php -l` vía `tools/php-lint.sh` / `composer lint:php`. Sin PHPStan, Psalm ni PHPCS.
 - `composer test` = lint PHP + `composer audit --locked` + suite unitaria.
   No ejecuta `tools/qa-*.sh`.
-- Composer **solo** para tooling de test. El plugin y el theme siguen con
-  `require_once` (ADR 0006). El workflow FTPS no sube `vendor/` ni `tests/`.
+- Composer de raíz: **solo** tooling de test. El plugin carga su
+  `vendor/autoload.php` si existe y sigue usando `require_once` para
+  código propio (ADR 0006). El workflow FTPS sube el `vendor/` generado
+  del plugin; no sube `tests/` ni el `vendor/` de la raíz.
 - `config.platform.php` es **8.2.0**: baseline de resolución del tooling
   de test, no el `Requires PHP: 7.4` del plugin ni el runtime PHP **8.3**
   de Docker/CI/producción. Son cuatro conceptos distintos. `composer.lock`
@@ -127,6 +134,7 @@ excepción conocida; no tomarlo como modelo para tests nuevos.
 | `tools/qa-fixtures-bootstrap.sh` | Alias del anterior | No duplicar |
 | `tools/qa-article-editorial-ux.sh` | Aceptación: picker de autores, publicar-con-autor, PDF picker, CTA | Aislado, puerto 8084 |
 | `tools/qa-article-pdf-adapter.sh` | Integración: adaptador PDF de solo lectura (ADR 0017 WU2) | Aislado, puerto 8085 |
+| `tools/qa-article-pdf-renderer.sh` | Integración: renderer Dompdf en memoria (ADR 0017 WU4), PHP Apache + WP-CLI | Aislado, puerto 8086 |
 | `tools/qa-author-permalinks.sh` | Integración: `journal_author`, permalinks | Volúmenes **primarios** |
 | `tools/qa-volume1-bootstrap-admin.sh` | Regresión de **ausencia**: UI `Bootstrap_Admin` retirada en 0.2.6 | No es pilar permanente; no ampliar |
 
@@ -231,6 +239,7 @@ composer test          # lint → audit --locked → units; not qa-*.sh
 ./tools/qa-editorial-bootstrap.sh
 ./tools/qa-article-editorial-ux.sh
 ./tools/qa-article-pdf-adapter.sh   # ADR 0017 WU2, aislado
+./tools/qa-article-pdf-renderer.sh  # ADR 0017 WU4, aislado
 ./tools/qa-volume1-bootstrap-admin.sh   # ausencia de UI temporal
 ./tools/qa-author-permalinks.sh         # excepción: volúmenes primarios
 ```
@@ -270,8 +279,9 @@ Caps, nonces de **nuestro** contrato, permisos REST, meta inválida,
 invariantes de publicación y guards destructivos merecen tests cuando
 toquen ese código.
 
-`composer audit --locked` cubre **solo** dependencias Composer de la raíz
-(dev/test). No escanea WordPress Core, plugins, themes, npm ni el hosting.
+`composer audit --locked` cubre dependencias Composer de la raíz
+(dev/test). CI también audita el lock runtime del plugin (Dompdf).
+No escanea WordPress Core, plugins/themes de terceros, npm ni el hosting.
 No es un sustituto de revisión de seguridad del producto, no cierra D12b
 y no aplica parches. Dependabot (Composer + GitHub Actions, semanal)
 abre PRs; no sustituye el audit ni se auto-mergea. Un major de PHPUnit
@@ -291,7 +301,11 @@ sola línea canónica). `config.platform.php` 8.2.0 obliga a que las
 transitivas del lockfile (p. ej. `doctrine/instantiator`) sean
 instalables en PHP 8.2; no se genera ni se instala el lock con
 `--ignore-platform-reqs`. Producción, Docker y CI corren **8.3**; el
-suelo de resolución Composer sigue **8.2.0**.
+suelo de resolución Composer de raíz sigue **8.2.0**. El `setup-php`
+de CI/deploy es **solo** el runner de GitHub Actions; **no** cambia el
+PHP 8.3 de cPanel. El `platform: 7.4.0` del plugin solo acota
+dependencias runtime. Antes de un deploy WU4: verificar `ext-dom` y
+`ext-mbstring` en ese PHP 8.3 existente; no cambiar la versión PHP.
 
 ## Expansión futura
 

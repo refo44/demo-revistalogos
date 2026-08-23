@@ -37,8 +37,34 @@ run_phpunit() {
 		php vendor/bin/phpunit --testsuite unit "$@"
 }
 
+PLUGIN_COMPOSER_DIR="$ROOT/wordpress/wp-content/plugins/revistalogos-core"
+
+install_plugin_runtime_dependencies() {
+	if [[ ! -f "$PLUGIN_COMPOSER_DIR/composer.json" ]]; then
+		return
+	fi
+	if [[ -f "$PLUGIN_COMPOSER_DIR/vendor/autoload.php" ]]; then
+		return
+	fi
+
+	if command -v composer >/dev/null 2>&1; then
+		composer --working-dir="$PLUGIN_COMPOSER_DIR" install --no-interaction --prefer-dist --no-progress
+		return
+	fi
+
+	docker run --rm \
+		--user "$(id -u):$(id -g)" \
+		-e COMPOSER_HOME=/tmp/composer \
+		--volume "$ROOT":/app \
+		--workdir /app \
+		composer:2 \
+		composer --working-dir=wordpress/wp-content/plugins/revistalogos-core install --no-interaction --prefer-dist --no-progress
+}
+
 if [[ ! -x vendor/bin/phpunit ]]; then
 	install_dev_dependencies
 fi
+
+install_plugin_runtime_dependencies
 
 run_phpunit "$@"

@@ -20,7 +20,7 @@ emit_php_files() {
 	local path
 	for path in "$@"; do
 		if [[ -d "$path" ]]; then
-			find "$path" -type f -name '*.php' -print
+			find "$path" -type f -name '*.php' ! -path '*/vendor/*' -print
 		elif [[ -f "$path" ]]; then
 			printf '%s\n' "$path"
 		else
@@ -105,7 +105,7 @@ failed=0
 count=0
 for path in "$@"; do
 	if [ -d "$path" ]; then
-		find "$path" -type f -name "*.php" -print >> "$list"
+		find "$path" -type f -name "*.php" ! -path "*/vendor/*" -print >> "$list"
 	elif [ -f "$path" ]; then
 		printf "%s\n" "$path" >> "$list"
 	else

@@ -103,15 +103,20 @@ required, not shared via Git, not a substitute for the files above.
   the WordPress launch (ADR 0013). Fase 3 stores them as inert fields only —
   no validation, no derived URLs.
 - **Automatic Article PDF on publish is accepted architecture (ADR 0017).
-  Implementation started (work units 1–3):** a pure domain
-  keep/generate/block policy, a read-only WordPress adapter, and
-  generation orchestration with a replaceable renderer seam exist in
-  the plugin and are **not** wired to publication hooks. Current runtime:
-  `pdf_file` is optional; editors upload manually; publish does not
-  require a PDF. Do not generate PDFs in the theme or during FSE
-  conversion. Next 0017 slices (real renderer, Media Library
-  persistence, publication wiring) are separate TDD work units; do not
-  start them in a session that is not that work unit.
+  Implementation started (work units 1–4):** a pure domain
+  keep/generate/block policy, a read-only WordPress adapter,
+  generation orchestration with a replaceable renderer seam, and a
+  real Dompdf renderer (plugin-local Composer, `vendor/` generated)
+  exist in the plugin and are **not** wired to publication hooks.
+  Current runtime: `pdf_file` is optional; editors upload manually;
+  publish does not require a PDF. Do not generate PDFs in the theme
+  or during FSE conversion. Next 0017 slices (Media Library
+  persistence, publication wiring) are separate TDD work units; do
+  not start them in a session that is not that work unit.
+  Production PHP remains **8.3**. `setup-php` in CI/deploy configures
+  only the GitHub Actions runner. Before a future WU4 deploy, verify
+  `ext-dom` and `ext-mbstring` on that existing 8.3 runtime; do not
+  change CloudLinux PHP Selector, MultiPHP, or the hosting PHP version.
 - **Testing:** follow `docs/23-testing-foundation.md` and ADR 0018. New
   domain behavior uses TDD. For PHP changes, before completion: (1) syntax
   gate `./tools/php-lint.sh` or `composer lint:php`; (2) Composer lockfile

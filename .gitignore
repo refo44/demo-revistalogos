@@ -26,8 +26,10 @@ $RECYCLE.BIN/
 *.swp
 *.swo
 
-# PHP test tooling (Composer dev-only at repo root; never ship in the plugin)
+# Composer: root vendor is test-only; plugin vendor is generated for
+# runtime/deploy and is never committed.
 /vendor/
+wordpress/wp-content/plugins/revistalogos-core/vendor/
 .phpunit.result.cache
 .phpunit.cache/
 wordpress/wp-content/plugins/revistalogos-core/.qa-*.php

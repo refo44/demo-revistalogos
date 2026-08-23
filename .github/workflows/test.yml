@@ -3,7 +3,8 @@
 # Comprobar no es desplegar: no FTPS, no Pages, no production environment,
 # no secrets. Does not close D12b (security-audit automation). WordPress
 # integration remains isolated tools/qa-*.sh until a PHPUnit integration
-# suite is added. composer audit --locked covers root Composer deps only.
+# suite is added. Root composer audit covers test tooling. Plugin
+# composer audit covers runtime Dompdf (ADR 0017 WU4).
 name: Tests
 
 on:
@@ -33,7 +34,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.3"
-          extensions: mbstring
+          extensions: mbstring, dom
           coverage: none
           tools: composer
 
@@ -41,7 +42,7 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ~/.composer/cache
-          key: composer-${{ runner.os }}-8.3-${{ hashFiles('composer.lock') }}
+          key: composer-${{ runner.os }}-8.3-${{ hashFiles('composer.lock', 'wordpress/wp-content/plugins/revistalogos-core/composer.lock') }}
           restore-keys: |
             composer-${{ runner.os }}-8.3-
 
@@ -51,11 +52,20 @@ jobs:
       - name: Validate composer.json and composer.lock
         run: composer validate --no-check-publish
 
+      - name: Install plugin runtime dependencies
+        run: composer --working-dir=wordpress/wp-content/plugins/revistalogos-core install --no-interaction --prefer-dist --no-progress
+
+      - name: Validate plugin composer.json and composer.lock
+        run: composer --working-dir=wordpress/wp-content/plugins/revistalogos-core validate --no-check-publish
+
       - name: PHP syntax lint
         run: composer lint:php
 
       - name: Composer dependency audit
         run: composer audit --locked
+
+      - name: Plugin Composer dependency audit
+        run: composer --working-dir=wordpress/wp-content/plugins/revistalogos-core audit --locked
 
       - name: Run unit tests
         run: composer test:unit

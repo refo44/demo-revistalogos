@@ -66,6 +66,11 @@ class Plugin {
 	 * Require module files.
 	 */
 	private static function load_modules() {
+		$autoload = REVISTALOGOS_CORE_DIR . 'vendor/autoload.php';
+		if ( is_readable( $autoload ) ) {
+			require_once $autoload;
+		}
+
 		$includes = REVISTALOGOS_CORE_DIR . 'includes/';
 
 		require_once $includes . 'content-types/class-content-types.php';
@@ -82,6 +87,7 @@ class Plugin {
 		require_once $includes . 'article-pdf/class-article-pdf-publication-policy.php';
 		require_once $includes . 'article-pdf/interface-article-pdf-renderer.php';
 		require_once $includes . 'article-pdf/class-article-pdf-generation-orchestrator.php';
+		require_once $includes . 'article-pdf/class-dompdf-article-pdf-renderer.php';
 		require_once $includes . 'article-pdf/class-article-pdf-wordpress-adapter.php';
 	}
 

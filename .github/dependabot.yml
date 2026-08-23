@@ -1,10 +1,17 @@
-# Weekly update PRs for root Composer (dev/test only) and GitHub Actions.
-# Opens PRs only. No auto-merge. CI (test.yml) + owner review required.
-# Does not deploy. Does not cover npm, Docker, or WordPress plugins/themes.
+# Weekly update PRs for root Composer (dev/test), plugin runtime Composer
+# (ADR 0017 WU4), and GitHub Actions. Opens PRs only. No auto-merge.
+# CI (test.yml) + owner review required. Does not deploy.
+# Does not cover npm, Docker, or third-party WordPress plugins/themes.
 version: 2
 updates:
   - package-ecosystem: composer
     directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: composer
+    directory: /wordpress/wp-content/plugins/revistalogos-core
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
