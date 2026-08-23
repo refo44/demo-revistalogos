@@ -29,8 +29,9 @@ Restricciones que siguen vigentes:
 ### 1. Arquitectura aceptada; implementación aplazada
 
 La arquitectura de este ADR está **aceptada**. Work unit 1 (2026-08-22)
-escribió solo la política de dominio pura; el producto WordPress **no**
-cambia todavía.
+escribió la política de dominio pura. Work unit 2 (2026-08-23) añadió
+un adaptador WordPress de solo lectura. El producto **no** exige PDF
+al publicar todavía.
 
 **Prerrequisito duro:** una Testing Foundation en el repositorio (estrategia de pruebas, PHPUnit, ubicación y reglas BDD/Gherkin, política TDD, estrategia de integración, reglas Cursor/Claude de testing). Esta función será una de las primeras features significativas en TDD.
 
@@ -171,11 +172,11 @@ Restricciones que la implementación deberá cumplir:
 **Trabajo futuro:**
 
 1. Testing Foundation (prerrequisito). **Cubierto** el 2026-08-20 por ADR 0018 / `docs/23-testing-foundation.md`.
-2. Implementar en `revistalogos-core` con TDD, sin cambiar el contrato de `pdf_file`. **Work unit 1 iniciado** (2026-08-22): política de dominio pura keep / generate / block. **Aún no:** renderer, adjunto de Media Library, hooks WordPress, REST, UI de error, regla de publicación activa.
+2. Implementar en `revistalogos-core` con TDD, sin cambiar el contrato de `pdf_file`. **WU1** (2026-08-22): política de dominio pura. **WU2** (2026-08-23): adaptador WordPress de solo lectura. **Aún no:** renderer, adjunto de Media Library, orquestación en hooks/REST, UI de error, regla de publicación activa.
 3. Elegir librería en una unidad posterior (no en la política pura).
 4. PDF de número: ADR o ítem de backlog aparte.
 
-Comportamiento de negocio a preservar: publicar sin PDF genera uno; un PDF válido se conserva; un fallo bloquea la publicación; el editor puede adjuntar a mano; draft/pending no genera; guardar un publicado no regenera; el upgrade no genera; el permalink no cambia; FSE no altera `pdf_file`; no se borra el adjunto al desvincular. Work unit 1 cubre solo la política pura y `tests/Features/article-pdf-generation.feature` (sin Behat).
+Comportamiento de negocio a preservar: publicar sin PDF genera uno; un PDF válido se conserva; un fallo bloquea la publicación; el editor puede adjuntar a mano; draft/pending no genera; guardar un publicado no regenera; el upgrade no genera; el permalink no cambia; FSE no altera `pdf_file`; no se borra el adjunto al desvincular. WU1 cubre la política pura y `tests/Features/article-pdf-generation.feature` (sin Behat). WU2 cubre el adaptador de solo lectura (`tools/qa-article-pdf-adapter.sh`).
 
 ## Referencias
 

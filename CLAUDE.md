@@ -103,11 +103,12 @@ required, not shared via Git, not a substitute for the files above.
   the WordPress launch (ADR 0013). Fase 3 stores them as inert fields only —
   no validation, no derived URLs.
 - **Automatic Article PDF on publish is accepted architecture (ADR 0017).
-  Implementation started (work unit 1 only):** a pure domain
-  keep/generate/block policy exists in the plugin and is **not** wired
-  to WordPress. Current runtime: `pdf_file` is optional; editors upload
-  manually; publish does not require a PDF. Do not generate PDFs in the
-  theme or during FSE conversion. Next 0017 slices (hooks, renderer,
+  Implementation started (work units 1–2):** a pure domain
+  keep/generate/block policy and a read-only WordPress adapter exist in
+  the plugin and are **not** wired to publication hooks. Current runtime:
+  `pdf_file` is optional; editors upload manually; publish does not
+  require a PDF. Do not generate PDFs in the theme or during FSE
+  conversion. Next 0017 slices (generation orchestration, renderer,
   Media Library) are separate TDD work units; do not start them in a
   session that is not that work unit.
 - **Testing:** follow `docs/23-testing-foundation.md` and ADR 0018. New

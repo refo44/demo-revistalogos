@@ -9,6 +9,14 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Added
+- ADR 0017 work unit 2: read-only WordPress adapter
+  (`Article_Pdf_WordPress_Adapter`) that inspects `pdf_file` and returns
+  the WU1 keep/generate decision. Isolated QA:
+  `tools/qa-article-pdf-adapter.sh`. No hooks, no renderer, no attachment
+  creation, no publication-rule change. Plugin source adds the class and
+  a `require_once`; publication/runtime behavior is unchanged (loaded,
+  not wired). No plugin version bump.
+
 - ADR 0017 work unit 1: pure domain publication/PDF policy in
   `revistalogos-core` (`Article_Pdf_Publication_Policy`). Gherkin
   `tests/Features/article-pdf-generation.feature` (Spanish, not

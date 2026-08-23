@@ -126,6 +126,7 @@ excepción conocida; no tomarlo como modelo para tests nuevos.
 | `tools/qa-editorial-bootstrap.sh` | Aceptación: bootstrap Vol. 1, adopción, teardown, guards, HTTP | Aislado, puerto 8082 |
 | `tools/qa-fixtures-bootstrap.sh` | Alias del anterior | No duplicar |
 | `tools/qa-article-editorial-ux.sh` | Aceptación: picker de autores, publicar-con-autor, PDF picker, CTA | Aislado, puerto 8084 |
+| `tools/qa-article-pdf-adapter.sh` | Integración: adaptador PDF de solo lectura (ADR 0017 WU2) | Aislado, puerto 8085 |
 | `tools/qa-author-permalinks.sh` | Integración: `journal_author`, permalinks | Volúmenes **primarios** |
 | `tools/qa-volume1-bootstrap-admin.sh` | Regresión de **ausencia**: UI `Bootstrap_Admin` retirada en 0.2.6 | No es pilar permanente; no ampliar |
 
@@ -229,6 +230,7 @@ composer test          # lint → audit --locked → units; not qa-*.sh
 # Nivel 2/3 — Docker aislado (nunca producción)
 ./tools/qa-editorial-bootstrap.sh
 ./tools/qa-article-editorial-ux.sh
+./tools/qa-article-pdf-adapter.sh   # ADR 0017 WU2, aislado
 ./tools/qa-volume1-bootstrap-admin.sh   # ausencia de UI temporal
 ./tools/qa-author-permalinks.sh         # excepción: volúmenes primarios
 ```

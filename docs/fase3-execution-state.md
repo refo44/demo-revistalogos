@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "ADR 0017 TDD WU1: pure domain publication/PDF policy committed; no deploy; do not start WU2"
+current_work_unit: "ADR 0017 TDD WU2: read-only WordPress PDF adapter; owner review; no commit/push/deploy"
 current_branch: "main"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
-updated_at: "2026-08-22"
-next_action: "Observe Tests workflow after push. Do not deploy. Do not start ADR 0017 WU2 (WordPress wiring / renderer) unless asked."
+updated_at: "2026-08-23"
+next_action: "Owner review of ADR 0017 WU2. No commit/push/deploy unless asked. Do not start generation orchestration or install a PDF library."
 blocked: false
 ---
 
@@ -453,7 +453,14 @@ opcional y manual en producción.
 `tests/Unit/ArticlePdfPublicationPolicyTest.php`; bootstrap PHPUnit;
 `Plugin::load_modules` require (sin hooks). Docs de estado/matriz/ADR.
 Sin bump de plugin. Fuente del plugin cambia; comportamiento de
-publicación sin cambio. No deploy. No WU2.
+publicación sin cambio. No deploy.
+
+**2026-08-23 (ADR 0017 WU2, working tree):**
+`includes/article-pdf/class-article-pdf-wordpress-adapter.php`;
+`Plugin::load_modules` require (sin hooks);
+`tools/qa-article-pdf-adapter.sh`. Keep / generate-required de solo
+lectura. Publicar sin PDF sigue permitido. Sin renderer, sin adjuntos
+nuevos de ADR 0017, sin bump. No commit, push ni deploy.
 
 **2026-08-20 (infra, working tree):** baseline local Docker alineada a
 WordPress **7.1** (`wordpress:7.1.0-php8.2-apache`); PHP 8.2.33 sin cambio.
@@ -515,6 +522,11 @@ Sin librería PDF, sin hooks WordPress, sin cambio de publicación en
 runtime. Plugin **0.2.6** sin bump (código de dominio cargado, no
 cableado a WordPress). Commit de esta unidad en el mismo árbol.
 
+**2026-08-23 (ADR 0017 work unit 2, working tree):** adaptador
+WordPress de solo lectura; `tools/qa-article-pdf-adapter.sh` PASS;
+`qa-article-editorial-ux.sh` PASS. Publicación sin PDF sigue
+permitida. Plugin **0.2.6** sin bump. Sin commit, push ni deploy.
+
 ## Next exact action
 
 La implementación **clásica** está live en producción
@@ -523,10 +535,11 @@ Recuperación institucional **ya hecha** (Pages reales permanentes). Carga
 editorial real en proceso desde wp-admin (**no** completa). Docker local:
 `http://localhost:8080` (WordPress 7.1, PHP **8.3**).
 
-Siguiente acción priorizada — **WU1 commiteada; observar CI; no
-desplegar; no iniciar WU2**:
+Siguiente acción priorizada — **revisión del propietario de ADR 0017
+WU2 (adaptador de solo lectura); no commit/push/deploy; no orquestar
+generación**:
 
-1. observar el workflow Tests (lint → audit → PHPUnit);
+1. revisar adaptador, harness y que publicar sin PDF sigue permitido;
 2. no cablear `wp_insert_post_data` / REST / Meta_Boxes / Media Library;
 3. no elegir ni instalar librería PDF;
 4. deploy de plugin `revistalogos-core` 0.2.6 y theme `revistalogos` 0.2.1

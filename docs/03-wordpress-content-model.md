@@ -137,7 +137,7 @@ El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, ISSN,
 | doi | text | DOI del artículo |
 | doi_url | url | URL completo DOI (https://doi.org/xxxxx) |
 | pages | text | Paginación oficial dentro del número |
-| pdf_file | file | Un PDF por artículo: ID de adjunto en Media Library, MIME `application/pdf`. **Hoy** el campo es opcional: el editor elige o sube el archivo; publicar no exige PDF. Quitar desvincula la relación; **no** borra el adjunto. ADR 0017 work unit 1: política de dominio pura (conservar / generar / bloquear) existe en el plugin y **no** está cableada a WordPress. Publicar exigirá un PDF válido solo cuando se implemente el adaptador. |
+| pdf_file | file | Un PDF por artículo: ID de adjunto en Media Library, MIME `application/pdf`. **Hoy** el campo es opcional: el editor elige o sube el archivo; publicar no exige PDF. Quitar desvincula la relación; **no** borra el adjunto. ADR 0017: política de dominio pura (WU1) y adaptador WordPress de solo lectura (WU2) existen en el plugin. El adaptador **no** está cableado a los guards de publicación. Publicar exigirá un PDF válido solo cuando exista orquestación de generación. |
 | issue | relation | Número padre |
 | section | taxonomy | Metafísica, Ética, Epistemología, etc. |
 | keyword | taxonomy | 3–5 palabras clave (búsqueda, filtro, SEO) |

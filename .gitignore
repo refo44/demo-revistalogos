@@ -30,6 +30,7 @@ $RECYCLE.BIN/
 /vendor/
 .phpunit.result.cache
 .phpunit.cache/
+wordpress/wp-content/plugins/revistalogos-core/.qa-*.php
 
 # Node.js (if you add any build tools later)
 node_modules/
