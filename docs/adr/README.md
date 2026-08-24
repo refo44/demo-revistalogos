@@ -68,7 +68,7 @@ Usar `TEMPLATE.md` como punto de partida. Estructura mínima: Estado · Fecha ·
 | [0017](0017-generacion-automatica-pdf-articulo.md) | Generación automática del PDF de artículo al publicar | Aceptada |
 | [0018](0018-testing-foundation.md) | Testing Foundation (PHPUnit, Composer dev-only, Gherkin sin Behat) | Aceptada |
 
-> El backlog de decisiones a resolver se lleva en `docs/adr/BACKLOG.md`. Cada decisión resuelta añade su fila a esta tabla y se retira del backlog.
+> El backlog de decisiones a resolver, y el trabajo aceptado aún no hecho, se lleva en `docs/adr/BACKLOG.md`. Cada decisión resuelta añade su fila a esta tabla. El trabajo de implementación no retira la fila del ADR.
 
 ---
 
@@ -76,7 +76,7 @@ Usar `TEMPLATE.md` como punto de partida. Estructura mínima: Estado · Fecha ·
 
 - **`17-implementation-order`:** orden de fases y criterios de cierre; los ADR fijan sus invariantes.
 - **`docs/` numerados:** guías de implementación; deben respetar los ADR en estado **Aceptada**.
-- **`docs/adr/BACKLOG.md`:** lista de decisiones pendientes de convertir en ADR.
+- **`docs/adr/BACKLOG.md`:** decisiones pendientes de ADR y [trabajo pendiente aceptado](BACKLOG.md#trabajo-pendiente-aceptado) (implementación/proceso). No duplicar listas operativas de producción.
 
 La implementación y la documentación general del proyecto deben mantenerse alineadas con los ADR en estado **Aceptada**.
 

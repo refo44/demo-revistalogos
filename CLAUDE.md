@@ -21,9 +21,10 @@ Tracked Git files are the durable source of truth. Local editor config is not.
    order, testing strategy (`docs/23-testing-foundation.md`), etc. Must not
    contradict content-source; if it does, content-source wins and the doc
    gets flagged for correction.
-3. **`docs/adr/`** — binding decisions (numbered ADRs + `BACKLOG.md`). Don't
-   relitigate a resolved ADR; if new information contradicts one, raise it
-   explicitly rather than silently deviating.
+3. **`docs/adr/`** — binding decisions (numbered ADRs + `BACKLOG.md`).
+   Accepted pending work is listed in `docs/adr/BACKLOG.md` (not `.cursor/`).
+   Don't relitigate a resolved ADR; if new information contradicts one, raise
+   it explicitly rather than silently deviating.
 4. **This file (`CLAUDE.md`)** — agent-facing operational constraints. Must
    not contradict 1–3. Testing policy is **not** defined here in full: follow
    `docs/23-testing-foundation.md` and ADR 0018.

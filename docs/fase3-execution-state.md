@@ -594,7 +594,9 @@ Siguiente acción priorizada — **commit manual del propietario del
 hotfix de plugin 0.2.8** (Gutenberg meta-box-loader no debe borrar
 el `pdf_file` generado). Producción sigue en **0.2.7** (payload
 roto para ese follow-up) hasta que el propietario despliegue 0.2.8.
-No activar la exigencia; sin backfill; WU7 no iniciado:
+No activar la exigencia; sin backfill; WU7 no iniciado.
+Trabajo pendiente aceptado (no duplicar aquí):
+`docs/adr/BACKLOG.md` § Trabajo pendiente aceptado.
 
 1. el default OFF sigue permitiendo publicar sin PDF;
 2. no activar `revistalogos_article_pdf_publication_enforcement`

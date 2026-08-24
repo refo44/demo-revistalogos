@@ -2,6 +2,8 @@
 
 Lista de decisiones a convertir en ADR, **una por una**. Al resolver cada una: se escribe el archivo `NNNN-*.md`, se añade su fila al índice de `README.md` y se marca aquí como resuelta.
 
+El trabajo de **implementación o proceso ya aceptado y aún no hecho** vive en [Trabajo pendiente aceptado](#trabajo-pendiente-aceptado). No es un segundo ADR: enlaza las decisiones ya tomadas. No implementar desde este archivo.
+
 Origen: análisis comparativo con el proyecto hermano *Camino del Dharma* (mismo patrón «maqueta estática → WordPress, sin rediseño») y con los invariantes ya afirmados en `docs/17-implementation-order` y `docs/12-theme-file-structure`.
 
 > **Numeración:** el número de ADR se asigna **secuencialmente al redactar**. Los números de la columna «ADR propuesto» de abajo son **indicativos** y se desplazan si se intercalan decisiones nuevas (p. ej. la política de plugins tomó el 0006).
@@ -46,7 +48,7 @@ Requieren elegir entre alternativas antes o durante la construcción del theme. 
 | D14 | Clasificación de la sección de noticias/blog (CPT nativo `post`) → ¿se le añade una taxonomía (propia, tipo `keyword`, o nativa `category`/`post_tag` reactivada) para agrupar noticias, o se mantiene sin clasificar? Detectado 2026-07-31: `post_tag`/`category` existen en WordPress por defecto pero ni el plugin ni el theme las registran, renderizan ni enlazan — hoy son datos muertos si se usan desde el panel. **No se implementa todavía**; se abre solo para no perder el hallazgo. | Alcance de una futura plantilla `category.php`/`tag.php` si se resuelve por «sí» | ⏳ Pendiente |
 | D15 | Tipo de theme → **block theme (FSE)** + Site Editor + paleta en Estilos; Next.js / headless **rechazado** | FSE incremental en Docker **después** de estabilizar producción clásica (el corte 2026-08-19 no esperó al gate FSE) | ✅ Resuelta ([0015](0015-block-theme-fse-site-editor.md)); implementación pendiente |
 | D16 | Topología de hosting → **cPanel `cenfiss2`**, no panel Hostinger; corte WP **in situ** en `logo-et-spes.cenfiss.net`; sin subdominios nuevos | Secretos FTPS y Softaculous | ✅ Resuelta ([0016](0016-topologia-hosting-cpanel.md)); **corte ejecutado 2026-08-19** |
-| D17 | Generación automática del PDF de artículo al publicar → **arquitectura aceptada** ([0017](0017-generacion-automatica-pdf-articulo.md)): `pdf_file` sigue siendo un ID de Media Library; ajuste wp-admin **OFF por defecto**; ON: PDF válido se conserva; si falta, generar; si falla, bloquear; no pisar un PDF válido; no regenerar al guardar; no backfill en upgrade. **Testing Foundation hecha** ([0018](0018-testing-foundation.md), `docs/23`). **WU1–WU6B** política, adaptador, orquestación, renderer, persistencia, source HTML, composición explícita y enforcement classic/REST. PDF de número: fuera de v1. Producción permanece OFF hasta decisión del propietario. | Activación en producción: decisión aparte del propietario (no auto-enable) | ✅ Resuelta ([0017](0017-generacion-automatica-pdf-articulo.md)); implementación local completa (WU1–WU6B) |
+| D17 | Generación automática del PDF de artículo al publicar → **arquitectura aceptada** ([0017](0017-generacion-automatica-pdf-articulo.md)): `pdf_file` sigue siendo un ID de Media Library; ajuste wp-admin **OFF por defecto**; ON: PDF válido se conserva; si falta, generar; si falla, bloquear; no pisar un PDF válido; no regenerar al guardar; no backfill en upgrade. **Testing Foundation hecha** ([0018](0018-testing-foundation.md), `docs/23`). **WU1–WU6B** política, adaptador, orquestación, renderer, persistencia, source HTML, composición explícita y enforcement classic/REST. PDF de número: fuera de v1. Producción permanece OFF hasta decisión del propietario. | Activación en producción: decisión aparte del propietario (no auto-enable). Hotfix 0.2.8 y WU7: [trabajo pendiente](#trabajo-pendiente-aceptado) | ✅ Resuelta ([0017](0017-generacion-automatica-pdf-articulo.md)); implementación local WU1–WU6B; hotfix 0.2.8 en working tree (no desplegado); WU7 no iniciado |
 
 ---
 
@@ -119,6 +121,122 @@ Estado en el repo: `.github/workflows/deploy.yml` («Deploy to Hostinger») **el
 2. Grupo B por dependencia: **D6 → D7 → D8** primero (desbloquean tareas de enlaces, despliegue y scaffold).
 3. D9–D12 después; no bloquean la construcción.
 4. D16 corte **hecho** (2026-08-19, theme clásico). D15 → FSE incremental en Docker **después** de QA de producción (sin esperar D12b ni D14).
-5. D17 arquitectura **hecha** (2026-08-20). Testing Foundation **hecha** (ADR 0018, 2026-08-20). Implementación de 0017 **WU1–WU6B completa en local** (enforcement default OFF). Activación en producción y FSE siguen siendo decisiones aparte.
+5. D17 arquitectura **hecha** (2026-08-20). Testing Foundation **hecha** (ADR 0018, 2026-08-20). Implementación de 0017 **WU1–WU6B completa en local** (enforcement default OFF). Hotfix 0.2.8, FSE, PDF de número y WU7: ver [Trabajo pendiente aceptado](#trabajo-pendiente-aceptado). Activación en producción sigue siendo decisión aparte.
+
+---
+
+## Trabajo pendiente aceptado
+
+Trabajo **ya aceptado** y **no iniciado** (o no cerrado en producción). No es un ADR nuevo: las decisiones siguen en los ADR enlazados. Estados: **NEXT**, **PLANNED**, **DEFERRED**. Sin fechas ni puntos. Cursor no implementa, no commitea, no despliega desde esta lista.
+
+**Completado — no es backlog:** ADR 0017 WU1–WU6B (generación al publicar, enforcement configurable, default OFF). El bug Gutenberg `meta-box-loader` pertenece al hotfix **0.2.8**, no a WU7.
+
+**No forma parte de ADR 0017 WU7:** backfill automático; regeneración al guardar un artículo; PDF de número; FSE; borrado permanente de PDFs históricos; regeneración masiva (salvo aprobación posterior aparte).
+
+> **Homónimo:** el WU7 de la tabla Fase 3 en `docs/fase3-execution-state.md` es **fixtures** (hecho). **ADR 0017 WU7** es generación/regeneración/historial manual de PDF de artículo (no iniciado).
+
+### NEXT / estabilización
+
+#### 1. Checkpoint de producción — plugin 0.2.8
+
+**Estado:** NEXT (working tree; **no** desplegado).
+
+Hotfix de `revistalogos-core` **0.2.8**: Gutenberg REST publica y genera el PDF; el follow-up `meta-box-loader` no debe borrar `pdf_file`. Theme **0.2.1**. Proyecto **0.2.0**. Enforcement default **OFF**. Sin backfill. Producción sigue en **0.2.7** hasta deploy del propietario (`docs/fase3-execution-state.md`).
+
+Aceptación eventual (cuando el propietario despliegue y compruebe; **no** afirmar smoke hasta evidencia en docs):
+
+- plugin 0.2.8 desplegado;
+- Gutenberg Draft/Pending → Publish con exigencia ON;
+- exactamente un PDF generado;
+- `pdf_file` conservado tras `meta-box-loader`;
+- CTA individual del artículo visible y funcional;
+- sin regresión de Quitar PDF.
+
+No es una feature nueva.
+
+#### 2. Proteger `main` + trunk-based ligero
+
+**Estado:** NEXT, **después** del checkpoint 0.2.8.
+
+Un solo desarrollador hoy. Evitar GitFlow. `main` es el trunk y permanece desplegable. Implementar en ramas cortas.
+
+Ruleset de GitHub previsto para `main`: proteger `main`; bloquear force-push y borrado; exigir Pull Request; approvals requeridas = **0**; exigir el check Tests existente; **no** exigir branch up-to-date al inicio; sin merge queue; sin rama `develop`; sin ramas de release largas; sin CODEOWNERS; sin commits firmados salvo justificación posterior.
+
+Flujo: `feat/*` | `fix/*` | `chore/*` → PR pequeño + CI verde → `main`.
+
+Tras adoptarlo: no implementar directo en `main`; rama corta por WU. Cursor **sigue sin** commit, push, merge ni deploy; el propietario lo hace a mano.
+
+KISS/YAGNI. Aún no hay ADR; no relitiga ADR 0009.
+
+### PLANNED
+
+No hay dependencia ADR que fuerce el orden entre diseño editorial y WU7. Se planifica **diseño antes de WU7** para que Generate/Regenerate consuman la misma plantilla (evitar dos sistemas de presentación).
+
+#### 3. Diseño editorial profesional del PDF de artículo
+
+**Estado:** PLANNED. No iniciado.
+
+El PDF individual debe parecer un artículo de revista académica arbitrada: sobrio, imprimible, citable, autónomo fuera del sitio, reconocible como LOGO ET SPES. Coherente con la web, **no** un printout de la página.
+
+Antes de implementar: mockup de referencia aprobado (primera página, interior, referencias). Ese mockup es la aceptación visual.
+
+Explorar/implementar en esa WU (ADR 0017 §5/§7 y diferidos de WU6A: número, DOI, páginas, taxonomías, resúmenes, imágenes remotas — no reabrir WU6A):
+
+- portada: identidad LOGO ET SPES, volumen, número, año, ISSN si hay, título, autores, afiliación/ORCID/DOI/fechas editoriales si hay, resumen/abstract, palabras clave;
+- cuerpo: tipografía académica, A4, márgenes, jerarquía, citas, imágenes, tablas, pies, bibliografía, saltos de página razonables;
+- marco: números de página; encabezado/pie si Dompdf lo sostiene; DOI/ORCID/URL clicables si es práctico.
+
+Arquitectura: Article WP → Source Builder → HTML semántico → plantilla/CSS PDF → **Dompdf** → PDF. Presentación separada de enforcement y persistencia. Dominio en `revistalogos-core` (ADR 0005). FSE/theme no genera PDFs. No cambiar de Dompdf salvo prueba concreta de insuficiencia.
+
+WU7 debe usar esta plantilla canónica.
+
+#### 4. ADR 0017 WU7 — Generar / Regenerar / historial recuperable / Restaurar
+
+**Estado:** PLANNED. **No iniciado.** Independiente de exigencia ON/OFF.
+
+Problema: hay artículos ya publicados sin PDF; ADR 0017 **no** hace backfill.
+
+1. Publicado sin `pdf_file` válido: acción wp-admin «Generar PDF» desde el contenido actual; adjunto normal de Media Library; asignar `pdf_file`; el artículo sigue publicado.
+2. Con PDF válido: «Regenerar PDF» con confirmación explícita.
+3. Regeneración segura: **nunca** borrar ni desvincular el PDF actual antes de generar el nuevo con éxito; si falla, `pdf_file` no se toca; si acierta, el nuevo pasa a activo.
+4. Historial recuperable: el PDF activo anterior entra en historial del artículo; el adjunto **no** se borra solo; el historial se ve en wp-admin.
+5. Restaurar: PDF histórico → activo con confirmación; el que estaba activo pasa a historial; reversible.
+6. Regresión: A activo y B histórico; restaurar B; A sigue recuperable y se puede restaurar otra vez.
+7. Sin acción de borrado permanente en esta WU. Sin borrado automático de adjuntos.
+8. Un save ordinario **no** genera, **no** regenera, **no** cambia el historial.
+9. Sin backfill masivo en esta WU.
+10. Reutilizar meta/persistencia actuales. Sin tabla SQL ni CPT nuevos salvo requisito demostrado.
+
+Pruebas (cuando se implemente): Gherkin de negocio; QA WordPress aislada de IDs/`pdf_file`/historial; fallo de regeneración conserva el PDF viejo; restore reversible; adjuntos no borrados. TDD. No implementar ahora.
+
+### DEFERRED
+
+#### 5. PDF de número / número completo
+
+**Estado:** DEFERRED. [ADR 0017](0017-generacion-automatica-pdf-articulo.md) §7 (fuera de v1) y D17. Ítem de backlog o ADR **aparte**. No inferir comportamiento. **No** mezclar con WU7.
+
+#### 6. Procedencia / linaje de versión del PDF
+
+**Estado:** DEFERRED. ADR 0017 §4/§7 (`_les_pdf_origin`, hash) aplazado en v1. El historial de WU7 puede informar un diseño futuro. **No** diseñar campos ahora.
+
+#### 7. Migración FSE
+
+**Estado:** DEFERRED. Decisión **aceptada** ([ADR 0015](0015-block-theme-fse-site-editor.md), D15); implementación pendiente. Incremental, **primero en Docker**, después de estabilizar el clásico. Theme/FSE **consume** datos de dominio; **no** genera ni sustituye PDFs. `revistalogos-core` sigue dueño de Article/Issue/Author (ADR 0005).
+
+#### 8. Otros ítems ya documentados (sin reinventar)
+
+Solo trabajo o proceso **ya decidido** y aún no cerrado. Las decisiones **abiertas** (D12b, D14) quedan únicamente en la tabla de Grupo B.
+
+| Ítem | Estado | Autoridad |
+| ---- | ------ | --------- |
+| Fase 4 — validación/URLs DOI–ORCID, depósito Crossref (trámites admin pueden ir en paralelo) | DEFERRED | [ADR 0013](0013-identificadores-academicos-doi-orcid.md); `docs/17` Fase 4; `docs/22` |
+| Subsistema de envíos / portal de autor / CPT `submission` | DEFERRED | [ADR 0005](0005-modelo-de-contenido-cpts-y-taxonomias.md) §4 |
+| Taxonomía `philosopher` | DEFERRED (aplazada en ADR 0005; no es una decisión abierta) | ADR 0005 |
+| HSTS y CSP tras auditoría profesional; GA4 en fase posterior con asesoría legal | DEFERRED | ADR 0012 §3/§6 (D12a, no D12b); ADR 0011 §2 |
+| Activar exigencia PDF en producción | LATER (decisión del propietario; default OFF) | ADR 0017; no es auto-enable |
+| Indexación pública | LATER (launch gate; no la abre el deploy) | ADR 0004; `docs/operations/produccion-wordpress.md` |
+| Tag Git `v0.2.0` | LATER | `VERSION.md` |
+| e-ISSN digital / ISSN «en trámite» | LATER (trámite editorial, no software) | ADR 0013; ADR 0004 |
+| Backlog **operativo** de producción (CF7/WP Statistics en el live, Softaculous, restos HTML, permalinks, SpeedyCache, secreto FTP legado, fuente de GitHub Pages) | no duplicar aquí | `docs/operations/produccion-wordpress.md` § Pendientes inmediatos; `docs/fase3-execution-state.md` |
 
 Regla: se resuelve **una decisión a la vez**, con sus alternativas y consecuencias, para conservar el razonamiento.
