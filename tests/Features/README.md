@@ -13,7 +13,7 @@ inside one feature.
 Write observable business behavior, not class or method names. Rules:
 `docs/23-testing-foundation.md`.
 
-ADR 0017 work unit 1 lives in `article-pdf-generation.feature`
-(business specification only; no Behat). Later work units add
-WordPress wiring and a renderer; do not expand this file for those
-until that TDD slice starts.
+ADR 0017 lives in `article-pdf-generation.feature` (business
+specification only; no Behat). Scenarios cover enforcement OFF
+(publish without PDF remains allowed) and ON (keep, generate, or
+block). Do not mention classes, hooks, or renderer internals.

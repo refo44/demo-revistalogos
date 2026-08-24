@@ -194,6 +194,33 @@ $invalid_source = $builder->build( 999999 );
 qa_ok( is_wp_error( $invalid_source ), 'invalid Article source returns WP_Error' );
 qa_ok( is_wp_error( $invalid_source ) && 'article_pdf_invalid_article' === $invalid_source->get_error_code(), 'invalid Article source uses article_pdf_invalid_article' );
 
+$stale_title = 'Título anterior';
+$stale_body  = 'Contenido anterior';
+$new_title   = 'Título nuevo';
+$new_body    = 'Contenido nuevo';
+$stale_id    = wp_insert_post(
+	array(
+		'post_type'    => 'article',
+		'post_title'   => $stale_title,
+		'post_status'  => 'draft',
+		'post_content' => '<!-- wp:paragraph --><p>' . $stale_body . '</p><!-- /wp:paragraph -->',
+		'post_name'    => 'qa-composition-candidate-source',
+		'meta_input'   => array(
+			'authors' => array( (int) $author_id ),
+		),
+	),
+	true
+);
+$cand_html = $builder->build_for_publication(
+	$stale_id,
+	$new_title,
+	'<!-- wp:paragraph --><p>' . $new_body . '</p><!-- /wp:paragraph -->'
+);
+qa_ok( is_string( $cand_html ) && false !== strpos( $cand_html, $new_title ), 'candidate source uses publication title' );
+qa_ok( is_string( $cand_html ) && false !== strpos( $cand_html, $new_body ), 'candidate source uses publication body' );
+qa_ok( is_string( $cand_html ) && false === strpos( $cand_html, $stale_body ), 'candidate source does not use stale body as primary content' );
+qa_ok( $stale_title === get_the_title( $stale_id ), 'candidate source build leaves persisted title unchanged' );
+
 if ( ! class_exists( 'Revistalogos_Core\\Article_Pdf_WordPress_Generator' ) ) {
 	fwrite( STDERR, "Article_Pdf_WordPress_Generator not found\n" );
 	exit( 1 );

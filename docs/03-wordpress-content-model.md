@@ -137,7 +137,7 @@ El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, ISSN,
 | doi | text | DOI del artículo |
 | doi_url | url | URL completo DOI (https://doi.org/xxxxx) |
 | pages | text | Paginación oficial dentro del número |
-| pdf_file | file | Un PDF por artículo: ID de adjunto en Media Library, MIME `application/pdf`. **Hoy** el campo es opcional: el editor elige o sube el archivo; publicar no exige PDF. Quitar desvincula la relación; **no** borra el adjunto. ADR 0017 WU1–WU6A existen en el plugin (política, adaptador, orquestación, renderer Dompdf, persistencia, source HTML y composición explícita). **No** están cableados a los guards de publicación. `Article_Pdf_WordPress_Generator` puede asociar un PDF generado cuando se invoca explícitamente; no se invoca al publicar. La regla futura de exigir PDF será un ajuste de wp-admin (WU6B) con valor por defecto OFF. |
+| pdf_file | file | Un PDF por artículo: ID de adjunto en Media Library, MIME `application/pdf`. Quitar desvincula la relación; **no** borra el adjunto. ADR 0017 WU1–WU6B están implementados. La exigencia al publicar es un ajuste de wp-admin (`revistalogos_article_pdf_publication_enforcement`), **OFF por defecto** (opción ausente = OFF). OFF: publicar con autor válido y sin PDF sigue permitido; no se genera PDF. ON: un PDF válido (almacenado o elegido en la misma operación) se conserva; si falta, se genera y se asocia; si falla, no se publica. Classic y REST comparten la misma opción. Activar o desactivar no rellena, no regenera y no borra. |
 | issue | relation | Número padre |
 | section | taxonomy | Metafísica, Ética, Epistemología, etc. |
 | keyword | taxonomy | 3–5 palabras clave (búsqueda, filtro, SEO) |

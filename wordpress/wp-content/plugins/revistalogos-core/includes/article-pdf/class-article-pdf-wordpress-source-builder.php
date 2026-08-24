@@ -30,9 +30,34 @@ class Article_Pdf_WordPress_Source_Builder {
 			return $article;
 		}
 
-		return $this->document(
+		return $this->build_for_publication(
+			$article_id,
 			get_the_title( $article ),
-			$this->render_body( $article ),
+			is_string( $article->post_content ) ? $article->post_content : ''
+		);
+	}
+
+	/**
+	 * Build source HTML from the Article being published in this request.
+	 * Authors still come from stored relationships.
+	 *
+	 * @param mixed  $article_id        Article post ID.
+	 * @param mixed  $candidate_title   Title of the publication request.
+	 * @param mixed  $candidate_content Raw post_content of the request.
+	 * @return string|\WP_Error
+	 */
+	public function build_for_publication( $article_id, $candidate_title, $candidate_content ) {
+		$article = $this->validate_article( $article_id );
+		if ( is_wp_error( $article ) ) {
+			return $article;
+		}
+
+		$title = is_string( $candidate_title ) ? $candidate_title : get_the_title( $article );
+		$raw   = is_string( $candidate_content ) ? $candidate_content : '';
+
+		return $this->document(
+			$title,
+			$this->render_body_from_raw( $raw ),
 			$this->author_names( (int) $article->ID )
 		);
 	}
@@ -67,12 +92,11 @@ class Article_Pdf_WordPress_Source_Builder {
 	 * filters, and apply_filters( 'the_content' ) would also run embeds
 	 * and shortcodes that can reach the network.
 	 *
-	 * @param \WP_Post $article Article post.
+	 * @param string $raw Raw post_content.
 	 * @return string
 	 */
-	private function render_body( $article ) {
-		$raw = is_string( $article->post_content ) ? $article->post_content : '';
-		if ( '' === $raw ) {
+	private function render_body_from_raw( $raw ) {
+		if ( ! is_string( $raw ) || '' === $raw ) {
 			return '';
 		}
 

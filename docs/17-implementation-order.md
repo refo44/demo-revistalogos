@@ -212,7 +212,7 @@ El trámite administrativo con Crossref **no depende de que exista el theme** (A
 
 No forma parte del cierre de Fase 3 ni de Fase 4. **Hoy** el PDF de artículo se sube a mano y publicar **no** lo exige.
 
-**Testing Foundation: IMPLEMENTADA** (ADR 0018, `docs/23-testing-foundation.md`, PHPUnit 9.6, `composer test:unit`). ADR 0017 permanece **aceptado**. WU1–WU6A están en `revistalogos-core` (política, adaptador, orquestación, renderer Dompdf, persistencia, source HTML y composición explícita). **No** hay orquestación de publicación en WordPress: el generador no se invoca al publicar. Publicar **sigue** sin exigir PDF. La enforcement futura será configurable en wp-admin y arrancará en OFF (WU6B). El PDF integral del número sigue siendo carga editorial manual. Ver ADR 0017.
+**Testing Foundation: IMPLEMENTADA** (ADR 0018, `docs/23-testing-foundation.md`, PHPUnit 9.6, `composer test:unit`). ADR 0017 permanece **aceptado**. WU1–WU6B están en `revistalogos-core` (política, adaptador, orquestación, renderer Dompdf, persistencia, source HTML, composición explícita y enforcement de publicación configurable). El ajuste wp-admin **arranca en OFF** (opción ausente = OFF). OFF: publicar sin PDF sigue permitido. ON: PDF válido se conserva; si falta, se genera; si falla, se bloquea. Desplegar o actualizar **no** activa la exigencia. El PDF integral del número sigue siendo carga editorial manual. Ver ADR 0017.
 
 ---
 

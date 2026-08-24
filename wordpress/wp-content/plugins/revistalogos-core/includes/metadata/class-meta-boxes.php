@@ -328,6 +328,18 @@ class Meta_Boxes {
 				continue;
 			}
 
+			if (
+				'pdf_file' === $key
+				&& Content_Types::ARTICLE === $post->post_type
+				&& class_exists( __NAMESPACE__ . '\\Article_Pdf_Publication_Enforcer' )
+			) {
+				$submitted = Metadata::sanitize_pdf_attachment_id( wp_unslash( $_POST[ $key ] ) );
+				$protected = Article_Pdf_Publication_Enforcer::protected_pdf_file_id( $post_id );
+				if ( 0 === $submitted && $protected > 0 ) {
+					continue;
+				}
+			}
+
 			// Sanitization happens in the registered sanitize_callback.
 			update_post_meta( $post_id, $key, wp_unslash( $_POST[ $key ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		}

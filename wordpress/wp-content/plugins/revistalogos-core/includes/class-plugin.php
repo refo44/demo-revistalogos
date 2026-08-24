@@ -47,6 +47,8 @@ class Plugin {
 		Meta_Boxes::register_hooks();
 		Relationships::register_hooks();
 		Contact_Form_Integration::register_hooks();
+		Article_Pdf_Publication_Settings::register_hooks();
+		Article_Pdf_Publication_Enforcer::register_hooks();
 
 		// Idempotent upgrade: late on init so CPT rewrite args are
 		// registered before a version-gated rewrite flush.
@@ -92,6 +94,8 @@ class Plugin {
 		require_once $includes . 'article-pdf/class-article-pdf-wordpress-persister.php';
 		require_once $includes . 'article-pdf/class-article-pdf-wordpress-source-builder.php';
 		require_once $includes . 'article-pdf/class-article-pdf-wordpress-generator.php';
+		require_once $includes . 'article-pdf/class-article-pdf-publication-settings.php';
+		require_once $includes . 'article-pdf/class-article-pdf-publication-enforcer.php';
 	}
 
 	/**

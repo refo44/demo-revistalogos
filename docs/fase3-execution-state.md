@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "ADR 0017 TDD WU6A: source HTML + explicit generation composition; owner review; no commit/push/deploy"
+current_work_unit: "ADR 0017 TDD WU6B: admin-configurable publication enforcement; owner review; no commit/push/deploy"
 current_branch: "main"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-08-23"
-next_action: "Owner review of ADR 0017 WU6A. No commit/push/deploy unless asked. Do not start WU6B or WordPress publication wiring."
+next_action: "Owner review of ADR 0017 WU6B. No commit/push/deploy unless asked. Do not auto-enable enforcement on production."
 blocked: false
 ---
 
@@ -562,6 +562,16 @@ PHP 8.3). Publicación sin PDF sigue permitida; enforcement
 inactiva. Enforcement futura: wp-admin, default OFF (WU6B).
 Plugin **0.2.6** sin bump. Sin commit, push ni deploy.
 
+**2026-08-23 (ADR 0017 work unit 6B, working tree):** ajuste
+wp-admin `revistalogos_article_pdf_publication_enforcement`
+(default OFF; ausente = OFF) +
+`Article_Pdf_Publication_Enforcer` classic/REST.
+`tools/qa-article-pdf-publication-enforcement.sh` PASS
+(WordPress 7.1 / PHP 8.3). Toggle no muta artículos. REST
+delta +1, no doble generación. Plugin **0.2.6** sin bump.
+Sin commit, push ni deploy. Activación en producción:
+decisión del propietario.
+
 ## Next exact action
 
 La implementación **clásica** está live en producción
@@ -571,16 +581,15 @@ editorial real en proceso desde wp-admin (**no** completa). Docker local:
 `http://localhost:8080` (WordPress 7.1, PHP **8.3**).
 
 Siguiente acción priorizada — **revisión del propietario de ADR 0017
-WU6A (source HTML + composición explícita); no commit/push/deploy;
-no iniciar WU6B**:
+WU6B (ajuste wp-admin + enforcement classic/REST); no commit/push/deploy;
+no activar la exigencia en producción**:
 
-1. revisar `Article_Pdf_WordPress_Source_Builder` /
-   `Article_Pdf_WordPress_Generator` y que publicar sin PDF
-   sigue permitido;
-2. no cablear `wp_insert_post_data` / REST / Meta_Boxes;
-   no implementar el ajuste de enforcement;
-3. la composición existe pero **no** se invoca al publicar;
-   **no cambiar** el PHP 8.3 de producción. Antes del primer deploy
+1. revisar `Article_Pdf_Publication_Settings` /
+   `Article_Pdf_Publication_Enforcer` y que el default OFF
+   sigue permitiendo publicar sin PDF;
+2. no activar `revistalogos_article_pdf_publication_enforcement`
+   en producción ni en upgrade/deploy;
+3. **no cambiar** el PHP 8.3 de producción. Antes del primer deploy
    que suba `vendor/`, solo **verificar** que `ext-dom` y
    `ext-mbstring` estén habilitadas en ese PHP 8.3 ya configurado.
    `setup-php` del workflow es solo el runner de Actions, no el

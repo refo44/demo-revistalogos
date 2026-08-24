@@ -54,16 +54,45 @@ class Article_Pdf_WordPress_Generator {
 	 * @return int|\WP_Error Attachment ID on success.
 	 */
 	public function generate_for_article( $article_id ) {
-		$decision = $this->adapter->decide_pdf_action_for_article( $article_id );
+		return $this->generate_for_publication( $article_id, null, null, null );
+	}
+
+	/**
+	 * Keep or generate using candidate publication values.
+	 *
+	 * Null candidate PDF reads stored pdf_file. Null title/content
+	 * fall back to the persisted Article (explicit WU6A generation).
+	 *
+	 * @param mixed $article_id          Article post ID.
+	 * @param mixed $candidate_pdf_file  Candidate attachment ID or null.
+	 * @param mixed $candidate_title     Publication title or null.
+	 * @param mixed $candidate_content   Publication content or null.
+	 * @return int|\WP_Error Attachment ID on success.
+	 */
+	public function generate_for_publication( $article_id, $candidate_pdf_file, $candidate_title, $candidate_content ) {
+		$decision = $this->adapter->decide_pdf_action_for_article( $article_id, $candidate_pdf_file );
 
 		if ( Article_Pdf_Publication_Policy::KEEP_EXISTING === $decision ) {
+			$candidate = Metadata::sanitize_pdf_attachment_id( $candidate_pdf_file );
+			if ( $candidate > 0 ) {
+				return $candidate;
+			}
+
 			$existing = $this->adapter->existing_valid_pdf_file_id( $article_id );
 			if ( $existing > 0 ) {
 				return $existing;
 			}
 		}
 
-		$source = $this->source_builder->build( $article_id );
+		if ( is_string( $candidate_title ) && is_string( $candidate_content ) ) {
+			$source = $this->source_builder->build_for_publication(
+				$article_id,
+				$candidate_title,
+				$candidate_content
+			);
+		} else {
+			$source = $this->source_builder->build( $article_id );
+		}
 		if ( is_wp_error( $source ) ) {
 			return $source;
 		}

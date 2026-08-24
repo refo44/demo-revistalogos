@@ -36,10 +36,11 @@ Work unit 4 (2026-08-23) añadió el renderer real Dompdf
 (`dompdf/dompdf` ^3.1.6) con Composer local del plugin.
 Work unit 5 (2026-08-23) añadió persistencia Media Library.
 Work unit 6A (2026-08-23) añadió el source HTML del artículo y una
-composición explícita (`Article_Pdf_WordPress_Generator`). El producto
-**no** exige PDF al publicar todavía. La enforcement futura (WU6B) será
-un ajuste de wp-admin, **OFF por defecto**; desplegar o actualizar el
-plugin no la activa.
+composición explícita (`Article_Pdf_WordPress_Generator`). Work unit
+6B (2026-08-23) añadió el ajuste wp-admin y el cableado classic/REST
+(`revistalogos_article_pdf_publication_enforcement`). El producto
+**arranca con la exigencia OFF** (opción ausente = OFF). Desplegar o
+actualizar el plugin no la activa.
 
 **Prerrequisito duro:** una Testing Foundation en el repositorio (estrategia de pruebas, PHPUnit, ubicación y reglas BDD/Gherkin, política TDD, estrategia de integración, reglas Cursor/Claude de testing). Esta función será una de las primeras features significativas en TDD.
 
@@ -60,7 +61,7 @@ La presentación (theme clásico hoy; bloques/FSE después) **solo consume** `pd
 
 Migrar de classic a FSE **no** regenera PDFs, no migra valores de `pdf_file`, no sustituye adjuntos y no cambia la relación pública.
 
-### 3. Invariante de publicación (futuro, tras implementar)
+### 3. Invariante de publicación (implementado; default OFF)
 
 Un artículo **publicado** exigirá:
 
@@ -172,7 +173,7 @@ Restricciones que la implementación deberá cumplir:
 
 **Riesgos / costes:**
 
-- Hasta implementar, **sí** se puede publicar sin PDF (comportamiento actual).
+- Con la exigencia OFF (default, y estado de producción hasta decisión del propietario), **sí** se puede publicar sin PDF.
 - Un generador síncrono puede fallar por memoria/tiempo; el bloqueo de publicación es deliberado.
 - Un PDF generado desde HTML no reproducirá la paginación del PDF impreso; la coincidencia bibliográfica con el papel sigue siendo responsabilidad editorial cuando el editor sube el PDF de la edición.
 - Añadir una librería PHP exigirá justificar ADR 0006 y el empaquetado.
@@ -180,11 +181,11 @@ Restricciones que la implementación deberá cumplir:
 **Trabajo futuro:**
 
 1. Testing Foundation (prerrequisito). **Cubierto** el 2026-08-20 por ADR 0018 / `docs/23-testing-foundation.md`.
-2. Implementar en `revistalogos-core` con TDD, sin cambiar el contrato de `pdf_file`. **WU1** (2026-08-22): política de dominio pura. **WU2** (2026-08-23): adaptador WordPress de solo lectura. **WU3** (2026-08-23): orquestación de generación + contrato de renderer reemplazable. **WU4** (2026-08-23): renderer real Dompdf + Composer runtime del plugin + QA Docker. **WU5** (2026-08-23): persistencia Media Library (`Article_Pdf_WordPress_Persister`) + `pdf_file` = ID de adjunto. **WU6A** (2026-08-23): source HTML local (`Article_Pdf_WordPress_Source_Builder`; `do_blocks()` + `wp_kses_post`, sin `the_content`) y composición explícita (`Article_Pdf_WordPress_Generator`). PDF v1: título, cuerpo y nombres de autores (ADR §5). Diferidos: número, DOI, páginas, taxonomías, resúmenes, imágenes remotas. **Aún no (WU6B):** ajuste wp-admin de enforcement (opción conceptual `revistalogos_article_pdf_publication_enforcement`, default OFF), hooks classic/REST, UI de error.
+2. Implementar en `revistalogos-core` con TDD, sin cambiar el contrato de `pdf_file`. **WU1** (2026-08-22): política de dominio pura. **WU2** (2026-08-23): adaptador WordPress de solo lectura. **WU3** (2026-08-23): orquestación de generación + contrato de renderer reemplazable. **WU4** (2026-08-23): renderer real Dompdf + Composer runtime del plugin + QA Docker. **WU5** (2026-08-23): persistencia Media Library (`Article_Pdf_WordPress_Persister`) + `pdf_file` = ID de adjunto. **WU6A** (2026-08-23): source HTML local (`Article_Pdf_WordPress_Source_Builder`; `do_blocks()` + `wp_kses_post`, sin `the_content`) y composición explícita (`Article_Pdf_WordPress_Generator`). PDF v1: título, cuerpo y nombres de autores (ADR §5). Diferidos: número, DOI, páginas, taxonomías, resúmenes, imágenes remotas. **WU6B** (2026-08-23): ajuste wp-admin `revistalogos_article_pdf_publication_enforcement` (default OFF; ausente = OFF) + `Article_Pdf_Publication_Enforcer` en classic (`wp_insert_post_data` prioridad 11) y REST (`rest_pre_insert_article` prioridad 11). El guard de autor sigue en prioridad 10 y corre antes de generar.
 3. Librería elegida en WU4: `dompdf/dompdf` ^3.1.6 (PHP 7.4+8.3, HTML→PDF en memoria, remote/PHP embebido desactivados). mPDF descartado (más pesado, `gd` obligatorio, GPL). tc-lib-pdf / TCPDF 7 descartados (PHP ≥8.2 o deprecados; no HTML-to-PDF acotado).
 4. PDF de número: ADR o ítem de backlog aparte.
 
-Comportamiento de negocio a preservar: publicar sin PDF genera uno; un PDF válido se conserva; un fallo bloquea la publicación; el editor puede adjuntar a mano; draft/pending no genera; guardar un publicado no regenera; el upgrade no genera; el permalink no cambia; FSE no altera `pdf_file`; no se borra el adjunto al desvincular. WU1 cubre la política pura y `tests/Features/article-pdf-generation.feature` (sin Behat). WU2 cubre el adaptador de solo lectura (`tools/qa-article-pdf-adapter.sh`). WU3 cubre orquestación + seam de renderer (`ArticlePdfGenerationOrchestratorTest`). WU4 cubre el renderer real (`ArticlePdfDompdfRendererTest`, `tools/qa-article-pdf-renderer.sh`). WU5 cubre persistencia (`tools/qa-article-pdf-persistence.sh`). WU6A cubre source + composición explícita (`tools/qa-article-pdf-composition.sh`); no se invoca al publicar. Pendiente WU6B: ajuste wp-admin (default OFF; no backfill/despublicar/borrar al conmutar) y cableado classic + REST. Extensiones required: `dom`, `mbstring` (verificadas en Docker local). `setup-php` en CI/deploy configura **solo** el runner temporal de GitHub Actions; **no** cambia el PHP 8.3 de producción. Antes del primer deploy que suba `vendor/`, **solo verificar** que `ext-dom` y `ext-mbstring` estén habilitadas en ese PHP 8.3 ya configurado en cPanel. **No** cambiar CloudLinux PHP Selector, MultiPHP ni la versión de PHP del hosting.
+Comportamiento de negocio: con exigencia OFF, publicar sin PDF sigue permitido y no se genera. Con exigencia ON: publicar sin PDF genera uno; un PDF válido se conserva; un fallo bloquea la publicación; el editor puede adjuntar a mano; draft/pending no genera; guardar un publicado no regenera; el upgrade no genera ni activa la opción; el permalink no cambia; FSE no altera `pdf_file`; no se borra el adjunto al desvincular. WU1 cubre la política pura y `tests/Features/article-pdf-generation.feature` (sin Behat). WU2 cubre el adaptador de solo lectura (`tools/qa-article-pdf-adapter.sh`). WU3 cubre orquestación + seam de renderer (`ArticlePdfGenerationOrchestratorTest`). WU4 cubre el renderer real (`ArticlePdfDompdfRendererTest`, `tools/qa-article-pdf-renderer.sh`). WU5 cubre persistencia (`tools/qa-article-pdf-persistence.sh`). WU6A cubre source + composición explícita (`tools/qa-article-pdf-composition.sh`). WU6B cubre el ajuste y el cableado (`tools/qa-article-pdf-publication-enforcement.sh`). Extensiones required: `dom`, `mbstring` (verificadas en Docker local). `setup-php` en CI/deploy configura **solo** el runner temporal de GitHub Actions; **no** cambia el PHP 8.3 de producción. Antes del primer deploy que suba `vendor/`, **solo verificar** que `ext-dom` y `ext-mbstring` estén habilitadas en ese PHP 8.3 ya configurado en cPanel. **No** cambiar CloudLinux PHP Selector, MultiPHP ni la versión de PHP del hosting.
 
 ## Referencias
 

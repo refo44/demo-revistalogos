@@ -9,6 +9,18 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Added
+- ADR 0017 work unit 6B: admin-configurable Article PDF publication
+  enforcement (`Article_Pdf_Publication_Settings`,
+  `Article_Pdf_Publication_Enforcer`). Option
+  `revistalogos_article_pdf_publication_enforcement` defaults OFF
+  (missing option = OFF). Settings → LOGO ET SPES. Classic and
+  REST/Gutenberg share the setting. ON preserves a valid PDF,
+  generates a missing one from the publication candidate, and
+  blocks publish on failure. Toggling does not backfill or mutate
+  Articles. Isolated QA:
+  `tools/qa-article-pdf-publication-enforcement.sh`. No plugin
+  version bump.
+
 - ADR 0017 work unit 6A: Article PDF source HTML
   (`Article_Pdf_WordPress_Source_Builder`) and explicit end-to-end
   composition (`Article_Pdf_WordPress_Generator`). Isolated QA:

@@ -103,24 +103,24 @@ required, not shared via Git, not a substitute for the files above.
   the WordPress launch (ADR 0013). Fase 3 stores them as inert fields only —
   no validation, no derived URLs.
 - **Automatic Article PDF on publish is accepted architecture (ADR 0017).
-  Implementation started (work units 1–6A):** a pure domain
-  keep/generate/block policy, a read-only WordPress adapter,
-  generation orchestration with a replaceable renderer seam, a
-  real Dompdf renderer (plugin-local Composer, `vendor/` generated),
-  Media Library persistence, an Article source builder, and an
-  explicit generator (`Article_Pdf_WordPress_Generator`) exist in
-  the plugin and are **not** wired to publication hooks.
-  Current runtime: `pdf_file` is optional; editors upload manually;
-  publish does not require a PDF. WU5/WU6A write an attachment ID
-  only when called explicitly. Do not generate PDFs in the theme
-  or during FSE conversion. Future publication enforcement is
-  admin-configurable and **defaults OFF**; WU6B owns the setting
-  and classic/REST wiring. Do not start WU6B in a session that is
-  not that work unit.
+  Implementation complete locally (work units 1–6B).** Domain policy,
+  read-only adapter, orchestrator, Dompdf renderer, Media Library
+  persistence, source builder, explicit generator, and
+  admin-configurable publication enforcement exist in the plugin.
+  **Default enforcement is OFF** (missing option = OFF). Deploy or
+  upgrade does **not** turn it ON. When OFF, `pdf_file` remains
+  optional and publish with a valid Author and no PDF still succeeds.
+  When ON, a valid stored or same-request manual PDF is preserved;
+  a missing PDF is generated from the publication candidate and
+  persisted; generation/persistence failure blocks publish.
+  Classic and REST share `revistalogos_article_pdf_publication_enforcement`.
+  Do not generate PDFs in the theme or during FSE conversion.
+  Production activation remains a separate owner decision.
   Production PHP remains **8.3**. `setup-php` in CI/deploy configures
-  only the GitHub Actions runner. Before a future WU4 deploy, verify
-  `ext-dom` and `ext-mbstring` on that existing 8.3 runtime; do not
-  change CloudLinux PHP Selector, MultiPHP, or the hosting PHP version.
+  only the GitHub Actions runner. Before a future deploy that ships
+  plugin `vendor/`, verify `ext-dom` and `ext-mbstring` on that
+  existing 8.3 runtime; do not change CloudLinux PHP Selector,
+  MultiPHP, or the hosting PHP version.
 - **Testing:** follow `docs/23-testing-foundation.md` and ADR 0018. New
   domain behavior uses TDD. For PHP changes, before completion: (1) syntax
   gate `./tools/php-lint.sh` or `composer lint:php`; (2) Composer lockfile
