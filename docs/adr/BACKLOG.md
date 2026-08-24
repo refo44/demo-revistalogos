@@ -129,7 +129,7 @@ Estado en el repo: `.github/workflows/deploy.yml` («Deploy to Hostinger») **el
 
 Trabajo **ya aceptado** y **no iniciado** (o no cerrado en producción). No es un ADR nuevo: las decisiones siguen en los ADR enlazados. Estados: **NEXT**, **PLANNED**, **DEFERRED**. Sin fechas ni puntos. Cursor no implementa, no commitea, no despliega desde esta lista.
 
-**Completado — no es backlog:** ADR 0017 WU1–WU6B (generación al publicar, enforcement configurable, default OFF). El bug Gutenberg `meta-box-loader` pertenece al hotfix **0.2.8**, no a WU7.
+**Completado — no es backlog:** ADR 0017 WU1–WU6B (generación al publicar, enforcement configurable, default OFF). El bug Gutenberg `meta-box-loader` pertenece al hotfix **0.2.8**, no a WU7. ADR [0019](0019-proteger-main-trunk-based.md) (ruleset de `main` activo; docs por PR).
 
 **No forma parte de ADR 0017 WU7:** backfill automático; regeneración al guardar un artículo; PDF de número; FSE; borrado permanente de PDFs históricos; regeneración masiva (salvo aprobación posterior aparte).
 
@@ -139,7 +139,7 @@ Trabajo **ya aceptado** y **no iniciado** (o no cerrado en producción). No es u
 
 #### 1. Checkpoint de producción — plugin 0.2.8
 
-**Estado:** NEXT (working tree; **no** desplegado).
+**Estado:** NEXT (en Git `d9bf6d2`; **no** desplegado).
 
 Hotfix de `revistalogos-core` **0.2.8**: Gutenberg REST publica y genera el PDF; el follow-up `meta-box-loader` no debe borrar `pdf_file`. Theme **0.2.1**. Proyecto **0.2.0**. Enforcement default **OFF**. Sin backfill. Producción sigue en **0.2.7** hasta deploy del propietario (`docs/fase3-execution-state.md`).
 
@@ -156,17 +156,9 @@ No es una feature nueva.
 
 #### 2. Proteger `main` + trunk-based ligero
 
-**Estado:** NEXT, **después** del checkpoint 0.2.8.
+**Estado:** HECHO (ruleset GitHub 2026-08-24; ADR [0019](0019-proteger-main-trunk-based.md)). Documentación de esta decisión entra por PR en `chore/protect-main-ruleset`.
 
-Un solo desarrollador hoy. Evitar GitFlow. `main` es el trunk y permanece desplegable. Implementar en ramas cortas.
-
-Ruleset de GitHub previsto para `main`: proteger `main`; bloquear force-push y borrado; exigir Pull Request; approvals requeridas = **0**; exigir el check Tests existente; **no** exigir branch up-to-date al inicio; sin merge queue; sin rama `develop`; sin ramas de release largas; sin CODEOWNERS; sin commits firmados salvo justificación posterior.
-
-Flujo: `feat/*` | `fix/*` | `chore/*` → PR pequeño + CI verde → `main`.
-
-Tras adoptarlo: no implementar directo en `main`; rama corta por WU. Cursor **sigue sin** commit, push, merge ni deploy; el propietario lo hace a mano.
-
-KISS/YAGNI. Aún no hay ADR; no relitiga ADR 0009.
+Ruleset `Protect main (trunk-based)` (`21337399`), activo, sin bypass. `main` exige PR; 0 approvals base (ver ADR 0019 sobre la regla de +1 approval para PRs de Copilot sin atribución); check `PHP lint, Composer audit, and unit (PHP 8.3)`; sin force-push ni borrado. Trunk-Based Development: ramas cortas, sin `develop`. Nombres: [Conventional Branch 1.1.0](https://conventionalbranch.org/). Mensajes: [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/). Ambos por convención, no en el ruleset. Preferir squash. Cursor **sigue sin** commit, push, merge ni deploy.
 
 ### PLANNED
 
