@@ -39,7 +39,7 @@ jobs:
           tools: composer
 
       - name: Cache Composer packages
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.composer/cache
           key: composer-${{ runner.os }}-8.3-${{ hashFiles('composer.lock', 'wordpress/wp-content/plugins/revistalogos-core/composer.lock') }}
