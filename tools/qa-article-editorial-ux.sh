@@ -131,9 +131,9 @@ cli rewrite structure '/%postname%/' --hard >/dev/null
 
 PLUGIN_VERSION="$(cli eval 'echo REVISTALOGOS_CORE_VERSION;')"
 THEME_VERSION="$(cli eval 'echo REVISTALOGOS_THEME_VERSION;')"
-[[ "$PLUGIN_VERSION" == "0.2.7" ]] || fail "expected plugin 0.2.7, got $PLUGIN_VERSION"
+[[ "$PLUGIN_VERSION" == "0.2.8" ]] || fail "expected plugin 0.2.8, got $PLUGIN_VERSION"
 [[ "$THEME_VERSION" == "0.2.1" ]] || fail "expected theme 0.2.1, got $THEME_VERSION"
-pass "plugin 0.2.7 and theme 0.2.1 active in isolated WordPress"
+pass "plugin 0.2.8 and theme 0.2.1 active in isolated WordPress"
 
 echo "== PHP syntax =="
 compose run --rm --entrypoint php wpcli -l wp-content/plugins/revistalogos-core/includes/metadata/class-meta-boxes.php >/dev/null

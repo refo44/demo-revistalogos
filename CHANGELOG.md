@@ -9,6 +9,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Added
+- Plugin `revistalogos-core` 0.2.8: Gutenberg REST publish still
+  generates/persists the Article PDF; the later meta-box-loader
+  request no longer clears `pdf_file` when it submits stale `0`.
+  Cross-request keep is a one-shot transient consumed only by that
+  follow-up. Ordinary "Quitar PDF" still clears immediately. Default
+  OFF, no backfill, no regenerate-on-save.
+
 - Plugin `revistalogos-core` 0.2.7: admin-configurable Article PDF
   publication enforcement (ADR 0017 WU6B). Default OFF (missing
   option = OFF). Classic and REST/Gutenberg share the setting.

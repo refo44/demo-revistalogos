@@ -11,6 +11,9 @@ PORT="${LES_PDF_ENFORCEMENT_QA_PORT:-8089}"
 BASE_URL="http://localhost:${PORT}"
 TMP="$(mktemp -d "${TMPDIR:-/tmp}/les-article-pdf-enforcement-qa.XXXXXX")"
 EVAL_HOST="$PLUGIN_DIR/.qa-article-pdf-enforcement-eval.php"
+FOLLOWUP_HOST="$PLUGIN_DIR/.qa-article-pdf-enforcement-followup.php"
+QUITAR_HOST="$PLUGIN_DIR/.qa-article-pdf-enforcement-quitar.php"
+STATE_HOST="$PLUGIN_DIR/.qa-article-pdf-enforcement-state.json"
 ADMIN_USER="les_pdf_enforcement_admin"
 ADMIN_PASSWORD="local-qa-admin-$(openssl rand -hex 8)"
 
@@ -34,7 +37,7 @@ pass() {
 }
 
 cleanup() {
-	rm -f "$EVAL_HOST"
+	rm -f "$EVAL_HOST" "$FOLLOWUP_HOST" "$QUITAR_HOST" "$STATE_HOST"
 	compose down -v --remove-orphans >/dev/null 2>&1 || true
 	rm -rf "$TMP"
 }
@@ -81,13 +84,13 @@ cli theme activate revistalogos >/dev/null
 cli plugin activate revistalogos-core >/dev/null
 
 PLUGIN_VERSION="$(cli eval 'echo REVISTALOGOS_CORE_VERSION;')"
-[[ "$PLUGIN_VERSION" == "0.2.7" ]] || fail "expected plugin 0.2.7, got $PLUGIN_VERSION"
+[[ "$PLUGIN_VERSION" == "0.2.8" ]] || fail "expected plugin 0.2.8, got $PLUGIN_VERSION"
 WP_VERSION="$(cli core version)"
 WPCLI_PHP="$(cli eval 'echo PHP_VERSION;')"
 echo "WordPress $WP_VERSION / WP-CLI PHP $WPCLI_PHP"
 [[ "$WP_VERSION" == "7.1" ]] || fail "expected WordPress 7.1, got $WP_VERSION"
 [[ "$WPCLI_PHP" == 8.3.* ]] || fail "expected WP-CLI PHP 8.3, got $WPCLI_PHP"
-pass "plugin 0.2.7 active in isolated WordPress 7.1 / WP-CLI PHP 8.3"
+pass "plugin 0.2.8 active in isolated WordPress 7.1 / WP-CLI PHP 8.3"
 
 echo "== publication enforcement acceptance =="
 cat >"$EVAL_HOST" <<'PHP'
@@ -230,6 +233,10 @@ function qa_rest_error( $response ) {
 		return $response->as_error();
 	}
 	return null;
+}
+
+function qa_rest_publish_with_meta( $article_id, $title, $content, $meta ) {
+	return qa_rest_publish( $article_id, $title, $content, $meta );
 }
 
 if ( ! did_action( 'admin_menu' ) ) {
@@ -492,6 +499,49 @@ qa_ok( 'pending' === get_post_status( $pending_save ), 'ON pending save stays pe
 qa_ok( 0 === absint( get_post_meta( $pending_save, 'pdf_file', true ) ), 'ON pending save does not write pdf_file' );
 qa_ok( qa_count_attachments() === $pending_count, 'ON pending save creates no attachment' );
 
+delete_option( Revistalogos_Core\Article_Pdf_Publication_Settings::OPTION_NAME );
+$late_draft = qa_create_article( 'qa-enforcement-late-enable', $old_title, $old_content, $author_id );
+qa_ok( 0 === absint( get_post_meta( $late_draft, 'pdf_file', true ) ), 'draft created while OFF has no pdf_file' );
+qa_ok( 'draft' === get_post_status( $late_draft ), 'draft created while OFF stays draft' );
+update_option( Revistalogos_Core\Article_Pdf_Publication_Settings::OPTION_NAME, 1 );
+qa_ok( true === Revistalogos_Core\Article_Pdf_Publication_Settings::is_enabled(), 'enabling after draft persists as ON' );
+$late_count = qa_count_attachments();
+qa_classic_publish( $late_draft, $new_title, $new_content, array( $author_id ), 0 );
+$late_pdf = absint( get_post_meta( $late_draft, 'pdf_file', true ) );
+qa_ok( 'publish' === get_post_status( $late_draft ), 'draft created OFF then published ON becomes publish' );
+qa_ok( $late_pdf > 0, 'draft created OFF then published ON gets pdf_file' );
+qa_ok( qa_count_attachments() === $late_count + 1, 'draft created OFF then published ON attachment delta +1' );
+
+$rest_zero = qa_create_article( 'qa-enforcement-rest-pdf-zero', $old_title, $old_content, $author_id );
+$rest_zero_count = qa_count_attachments();
+$rest_zero_res   = qa_rest_publish_with_meta( $rest_zero, $new_title, $new_content, array( 'pdf_file' => 0 ) );
+$rest_zero_pdf   = absint( get_post_meta( $rest_zero, 'pdf_file', true ) );
+qa_ok( ! $rest_zero_res->is_error(), 'ON REST publish with explicit pdf_file 0 succeeds' );
+qa_ok( 'publish' === get_post_status( $rest_zero ), 'ON REST explicit 0 status is publish' );
+qa_ok( $rest_zero_pdf > 0, 'ON REST explicit 0 generates pdf_file' );
+qa_ok( qa_count_attachments() === $rest_zero_count + 1, 'ON REST explicit 0 attachment delta +1' );
+
+$gutenberg = qa_create_article( 'qa-enforcement-gutenberg-metabox', $old_title, $old_content, $author_id );
+$gutenberg_count = qa_count_attachments();
+$gutenberg_res   = qa_rest_publish( $gutenberg, $new_title, $new_content );
+$gutenberg_pdf   = absint( get_post_meta( $gutenberg, 'pdf_file', true ) );
+qa_ok( ! $gutenberg_res->is_error() && $gutenberg_pdf > 0, 'Gutenberg REST publish generates pdf_file before metabox follow-up' );
+file_put_contents(
+	WP_PLUGIN_DIR . '/revistalogos-core/.qa-article-pdf-enforcement-state.json',
+	wp_json_encode(
+		array(
+			'article'           => $gutenberg,
+			'author'            => (int) $author_id,
+			'pdf'               => $gutenberg_pdf,
+			'count'             => $gutenberg_count,
+			'permalink'         => get_permalink( $gutenberg ),
+			'href'              => $gutenberg_pdf ? wp_get_attachment_url( $gutenberg_pdf ) : '',
+			'quitar_live_id'    => $rest_zero,
+			'quitar_live_pdf'   => $rest_zero_pdf,
+		)
+	)
+);
+
 if ( $GLOBALS['qa_fail'] ) {
 	exit( 1 );
 }
@@ -499,6 +549,216 @@ PHP
 
 cli eval-file wp-content/plugins/revistalogos-core/.qa-article-pdf-enforcement-eval.php
 pass "publication enforcement acceptance"
+
+echo "== Gutenberg metabox follow-up (separate PHP process) =="
+[[ -f "$STATE_HOST" ]] || fail "Gutenberg follow-up state file missing"
+cat >"$FOLLOWUP_HOST" <<'PHP'
+<?php
+$state_path = WP_PLUGIN_DIR . '/revistalogos-core/.qa-article-pdf-enforcement-state.json';
+$state      = json_decode( (string) file_get_contents( $state_path ), true );
+if ( ! is_array( $state ) || empty( $state['article'] ) ) {
+	fwrite( STDERR, "gutenberg follow-up state missing\n" );
+	exit( 1 );
+}
+
+$admin = get_user_by( 'login', getenv( 'QA_ADMIN' ) ?: 'les_pdf_enforcement_admin' );
+if ( ! $admin ) {
+	$users = get_users( array( 'role' => 'administrator', 'number' => 1 ) );
+	$admin = $users ? $users[0] : null;
+}
+if ( ! $admin ) {
+	fwrite( STDERR, "no admin\n" );
+	exit( 1 );
+}
+wp_set_current_user( $admin->ID );
+
+$GLOBALS['qa_fail'] = 0;
+function qa_ok( $cond, $label ) {
+	if ( $cond ) {
+		echo "PASS $label\n";
+	} else {
+		echo "FAIL $label\n";
+		$GLOBALS['qa_fail']++;
+	}
+}
+
+$article_id = (int) $state['article'];
+$authors    = array( (int) $state['author'] );
+$pdf_before = absint( get_post_meta( $article_id, 'pdf_file', true ) );
+$count_before = count(
+	get_posts(
+		array(
+			'post_type'      => 'attachment',
+			'post_status'    => 'any',
+			'posts_per_page' => -1,
+			'fields'         => 'ids',
+		)
+	)
+);
+
+$_POST = array();
+$_POST['revistalogos_core_meta_nonce'] = wp_create_nonce( 'revistalogos_core_meta' );
+foreach ( array( 'title_en', 'abstract', 'abstract_en', 'doi', 'pages', 'language', 'publication_date', 'received_date', 'accepted_date' ) as $key ) {
+	$_POST[ $key ] = (string) get_post_meta( $article_id, $key, true );
+}
+$_POST['authors']         = $authors;
+$_POST['pdf_file']        = '0';
+$_POST['issue']           = (string) get_post_meta( $article_id, 'issue', true );
+$_GET['meta-box-loader']  = '1';
+$_POST['meta-box-loader'] = '1';
+
+Revistalogos_Core\Meta_Boxes::save( $article_id, get_post( $article_id ) );
+
+$pdf_after = absint( get_post_meta( $article_id, 'pdf_file', true ) );
+$count_after = count(
+	get_posts(
+		array(
+			'post_type'      => 'attachment',
+			'post_status'    => 'any',
+			'posts_per_page' => -1,
+			'fields'         => 'ids',
+		)
+	)
+);
+
+qa_ok( $pdf_before > 0 && $pdf_before === (int) $state['pdf'], 'separate-process follow-up starts from generated pdf_file' );
+qa_ok( 'publish' === get_post_status( $article_id ), 'Gutenberg metabox follow-up leaves Article published' );
+qa_ok( $pdf_before === $pdf_after, 'Gutenberg metabox follow-up does not clear generated pdf_file' );
+qa_ok( $count_before === $count_after, 'Gutenberg metabox follow-up creates no extra attachment' );
+$keep_key = Revistalogos_Core\Article_Pdf_Publication_Enforcer::PROTECTED_PDF_TRANSIENT_PREFIX . $article_id;
+qa_ok( false === get_transient( $keep_key ), 'Gutenberg meta-box-loader consumes keep transient one-shot' );
+qa_ok( $pdf_after === Revistalogos_Core\Article_Pdf_Publication_Enforcer::protected_pdf_file_id( $article_id ), 'consumed protection remains request-local for this PHP request' );
+echo 'EVIDENCE_GUTENBERG article=' . $article_id . ' pdf_before=' . $pdf_before . ' pdf_after=' . $pdf_after . "\n";
+
+$state['pdf_after']  = $pdf_after;
+$state['permalink']  = get_permalink( $article_id );
+$state['href']       = $pdf_after ? wp_get_attachment_url( $pdf_after ) : ( isset( $state['href'] ) ? $state['href'] : '' );
+file_put_contents( $state_path, wp_json_encode( $state ) );
+
+if ( $GLOBALS['qa_fail'] ) {
+	exit( 1 );
+}
+PHP
+cli eval-file --use-include wp-content/plugins/revistalogos-core/.qa-article-pdf-enforcement-followup.php
+pass "Gutenberg metabox follow-up (separate PHP process)"
+
+echo "== public Article page =="
+PERMALINK="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("permalink",""))' "$STATE_HOST")"
+PDF_HREF="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("href",""))' "$STATE_HOST")"
+[[ -n "$PERMALINK" ]] || fail "public Article permalink missing"
+PUBLIC_HTML="$(curl -fsSL --max-time 20 "$PERMALINK" || true)"
+if [[ -n "$PUBLIC_HTML" ]]; then
+	pass "public Article page returns HTML"
+else
+	echo "FAIL: public Article page returns HTML" >&2
+	fail "public Article page returns HTML from $PERMALINK"
+fi
+if [[ "$PUBLIC_HTML" == *"Descargar PDF del artículo"* ]]; then
+	pass "public Article page shows individual PDF CTA"
+else
+	fail "public Article page shows individual PDF CTA"
+fi
+if [[ -n "$PDF_HREF" && "$PUBLIC_HTML" == *"$PDF_HREF"* ]]; then
+	pass "public Article PDF href is the generated attachment URL"
+else
+	fail "public Article PDF href is the generated attachment URL"
+fi
+echo "EVIDENCE_PUBLIC permalink=$PERMALINK href=$PDF_HREF"
+
+echo "== Quitar PDF on a normal request =="
+cat >"$QUITAR_HOST" <<'PHP'
+<?php
+$state_path = WP_PLUGIN_DIR . '/revistalogos-core/.qa-article-pdf-enforcement-state.json';
+$state      = json_decode( (string) file_get_contents( $state_path ), true );
+$article_id = isset( $state['article'] ) ? (int) $state['article'] : 0;
+$live_id    = isset( $state['quitar_live_id'] ) ? (int) $state['quitar_live_id'] : 0;
+$live_pdf   = isset( $state['quitar_live_pdf'] ) ? (int) $state['quitar_live_pdf'] : 0;
+if ( $article_id <= 0 || $live_id <= 0 ) {
+	fwrite( STDERR, "quitar state missing\n" );
+	exit( 1 );
+}
+
+$admin = get_user_by( 'login', getenv( 'QA_ADMIN' ) ?: 'les_pdf_enforcement_admin' );
+if ( ! $admin ) {
+	$users = get_users( array( 'role' => 'administrator', 'number' => 1 ) );
+	$admin = $users ? $users[0] : null;
+}
+if ( ! $admin ) {
+	fwrite( STDERR, "no admin\n" );
+	exit( 1 );
+}
+wp_set_current_user( $admin->ID );
+
+$GLOBALS['qa_fail'] = 0;
+function qa_ok( $cond, $label ) {
+	if ( $cond ) {
+		echo "PASS $label\n";
+	} else {
+		echo "FAIL $label\n";
+		$GLOBALS['qa_fail']++;
+	}
+}
+
+function qa_count_attachments() {
+	return count(
+		get_posts(
+			array(
+				'post_type'      => 'attachment',
+				'post_status'    => 'any',
+				'posts_per_page' => -1,
+				'fields'         => 'ids',
+			)
+		)
+	);
+}
+
+function qa_quitar_pdf( $target_id, $author_id ) {
+	unset( $_GET['meta-box-loader'], $_POST['meta-box-loader'] );
+	$_POST = array();
+	$_POST['revistalogos_core_meta_nonce'] = wp_create_nonce( 'revistalogos_core_meta' );
+	foreach ( array( 'title_en', 'abstract', 'abstract_en', 'doi', 'pages', 'language', 'publication_date', 'received_date', 'accepted_date' ) as $key ) {
+		$_POST[ $key ] = (string) get_post_meta( $target_id, $key, true );
+	}
+	$_POST['authors']  = array( (int) $author_id );
+	$_POST['pdf_file'] = '0';
+	$_POST['issue']    = (string) get_post_meta( $target_id, 'issue', true );
+	Revistalogos_Core\Meta_Boxes::save( $target_id, get_post( $target_id ) );
+}
+
+$prefix   = Revistalogos_Core\Article_Pdf_Publication_Enforcer::PROTECTED_PDF_TRANSIENT_PREFIX;
+$live_key = $prefix . $live_id;
+$live_meta_before = absint( get_post_meta( $live_id, 'pdf_file', true ) );
+$live_keep_before = absint( get_transient( $live_key ) );
+qa_ok( $live_pdf === $live_meta_before, 'live-transient Article still has generated pdf_file' );
+qa_ok( $live_pdf === $live_keep_before, 'keep transient still present before normal Quitar' );
+
+$live_count = qa_count_attachments();
+qa_quitar_pdf( $live_id, $state['author'] );
+$live_meta_after = absint( get_post_meta( $live_id, 'pdf_file', true ) );
+$live_keep_after = absint( get_transient( $live_key ) );
+$live_status     = get_post_status( $live_id );
+$live_attachment = get_post( $live_pdf );
+qa_ok( 0 === $live_meta_after, 'normal Quitar immediately after generation clears pdf_file' );
+qa_ok( 'publish' === $live_status, 'normal Quitar immediately after generation leaves Article published' );
+qa_ok( $live_pdf === $live_keep_after, 'normal Quitar does not consume the keep transient' );
+qa_ok( $live_count === qa_count_attachments() && $live_attachment, 'normal Quitar does not delete the attachment' );
+
+$generated_id = isset( $state['pdf_after'] ) ? absint( $state['pdf_after'] ) : absint( $state['pdf'] );
+$before_count = qa_count_attachments();
+qa_quitar_pdf( $article_id, $state['author'] );
+$after_meta   = absint( get_post_meta( $article_id, 'pdf_file', true ) );
+$after_status = get_post_status( $article_id );
+$after_att    = get_post( $generated_id );
+qa_ok( 0 === $after_meta, 'normal Quitar after metabox follow-up clears pdf_file' );
+qa_ok( 'publish' === $after_status, 'normal Quitar after metabox follow-up leaves Article published' );
+qa_ok( $before_count === qa_count_attachments() && $after_att, 'Quitar after metabox follow-up does not delete the attachment' );
+
+if ( $GLOBALS['qa_fail'] ) {
+	exit( 1 );
+}
+PHP
+cli eval-file --use-include wp-content/plugins/revistalogos-core/.qa-article-pdf-enforcement-quitar.php
+pass "Quitar PDF on a normal request"
 
 SETTINGS="$PLUGIN_DIR/includes/article-pdf/class-article-pdf-publication-settings.php"
 ENFORCER="$PLUGIN_DIR/includes/article-pdf/class-article-pdf-publication-enforcer.php"

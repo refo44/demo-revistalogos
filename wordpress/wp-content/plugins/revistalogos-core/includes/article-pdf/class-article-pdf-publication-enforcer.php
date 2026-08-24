@@ -26,6 +26,13 @@ class Article_Pdf_Publication_Enforcer {
 	const ERROR_STATUS = 400;
 
 	/**
+	 * Short-lived bridge for Gutenberg's later meta-box-loader request.
+	 * Consumed once on that request only; ignored by ordinary saves.
+	 */
+	const PROTECTED_PDF_TRANSIENT_PREFIX = 'revistalogos_pdf_keep_';
+	const PROTECTED_PDF_TRANSIENT_TTL    = 120;
+
+	/**
 	 * REST path already performed PDF side effects for this request.
 	 *
 	 * @var bool
@@ -65,20 +72,37 @@ class Article_Pdf_Publication_Enforcer {
 	/**
 	 * Attachment ID generated in this request for an Article, or 0.
 	 *
+	 * Gutenberg meta-box-loader may one-shot-consume the short-lived
+	 * keep transient into this request's statics. Ordinary saves do
+	 * not read that transient.
+	 *
 	 * @param int $article_id Article post ID.
 	 * @return int
 	 */
 	public static function protected_pdf_file_id( $article_id ) {
 		$article_id = absint( $article_id );
+		if ( isset( self::$protected_pdf_ids[ $article_id ] ) ) {
+			return (int) self::$protected_pdf_ids[ $article_id ];
+		}
 
-		return isset( self::$protected_pdf_ids[ $article_id ] )
-			? (int) self::$protected_pdf_ids[ $article_id ]
-			: 0;
+		if ( ! self::is_gutenberg_metabox_loader_request() ) {
+			return 0;
+		}
+
+		$key            = self::PROTECTED_PDF_TRANSIENT_PREFIX . $article_id;
+		$attachment_id  = absint( get_transient( $key ) );
+		delete_transient( $key );
+		if ( $attachment_id > 0 ) {
+			self::$protected_pdf_ids[ $article_id ] = $attachment_id;
+		}
+
+		return $attachment_id;
 	}
 
 	/**
-	 * Remember a generated pdf_file so the same-request meta save
-	 * cannot clear an empty submitted field.
+	 * Remember a generated pdf_file so a later meta save — same
+	 * request or Gutenberg meta-box-loader — cannot clear an empty
+	 * submitted field.
 	 *
 	 * @param int $article_id    Article post ID.
 	 * @param int $attachment_id Generated attachment ID.
@@ -88,7 +112,27 @@ class Article_Pdf_Publication_Enforcer {
 		$attachment_id = absint( $attachment_id );
 		if ( $article_id && $attachment_id ) {
 			self::$protected_pdf_ids[ $article_id ] = $attachment_id;
+			set_transient(
+				self::PROTECTED_PDF_TRANSIENT_PREFIX . $article_id,
+				$attachment_id,
+				self::PROTECTED_PDF_TRANSIENT_TTL
+			);
 		}
+	}
+
+	/**
+	 * Gutenberg follows REST publish with post.php?meta-box-loader=1.
+	 *
+	 * @return bool
+	 */
+	private static function is_gutenberg_metabox_loader_request() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- request-shape detection only.
+		if ( isset( $_GET['meta-box-loader'] ) ) {
+			return true;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- request-shape detection only.
+		return isset( $_POST['meta-box-loader'] );
 	}
 
 	/**

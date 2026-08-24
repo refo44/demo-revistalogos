@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "revistalogos-core 0.2.7 version bump; owner review; no commit/push/deploy"
+current_work_unit: "revistalogos-core 0.2.8 Gutenberg pdf_file hotfix; owner review; no commit/push/deploy"
 current_branch: "main"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
-updated_at: "2026-08-23"
-next_action: "Owner review of ADR 0017 WU6B. No commit/push/deploy unless asked. Do not auto-enable enforcement on production."
+updated_at: "2026-08-24"
+next_action: "Owner commit of plugin 0.2.8. Production still runs 0.2.7 until owner deploys. Default OFF. No backfill. WU7 not started."
 blocked: false
 ---
 
@@ -400,9 +400,11 @@ Registradas para corrección en commit de documentación separado (WU12):
 
 - Rama: `main`; tag publicado: `v0.1.0`. Versión de proyecto **0.2.0**
   (canónica en `package.json`); tag Git `v0.2.0` pendiente (véase `VERSION.md`).
-  Plugin `revistalogos-core` **0.2.7** y theme `revistalogos` **0.2.1** en el
-  working tree (ADR 0017 WU6B enforcement, default OFF);
-  versión de proyecto 0.2.0 sin cambio.
+  Plugin `revistalogos-core` **0.2.8** y theme `revistalogos` **0.2.1** en el
+  working tree (hotfix: Gutenberg meta-box-loader no debe borrar el
+  `pdf_file` generado; enforcement default OFF). Producción sigue en
+  **0.2.7** hasta que el propietario despliegue 0.2.8. Versión de
+  proyecto **0.2.0** sin cambio. Sin backfill. WU7 no iniciado.
 - Despliegues: WordPress de la revista en `logo-et-spes.cenfiss.net`
   (`deploy-wordpress.yml`, `workflow_dispatch`, Environment
   `wordpress-production`, cuenta FTP `deploy_revista@…`). El workflow
@@ -572,6 +574,14 @@ delta +1, no doble generación. Plugin **0.2.6** sin bump.
 Sin commit, push ni deploy. Activación en producción:
 decisión del propietario.
 
+**2026-08-24 (plugin 0.2.8 hotfix, working tree):** Gutenberg REST
+publish genera el PDF; el follow-up `meta-box-loader` ya no borra
+`pdf_file` (keep one-shot, solo esa petición). Quitar PDF en un
+save normal sigue limpiando de inmediato. Default OFF. Sin
+backfill. WU7 no iniciado. Producción permanece en **0.2.7**
+hasta el deploy del propietario. Theme **0.2.1**. Proyecto
+**0.2.0**. Sin commit, push ni deploy.
+
 ## Next exact action
 
 La implementación **clásica** está live en producción
@@ -580,13 +590,13 @@ Recuperación institucional **ya hecha** (Pages reales permanentes). Carga
 editorial real en proceso desde wp-admin (**no** completa). Docker local:
 `http://localhost:8080` (WordPress 7.1, PHP **8.3**).
 
-Siguiente acción priorizada — **revisión del propietario de ADR 0017
-WU6B (ajuste wp-admin + enforcement classic/REST); no commit/push/deploy;
-no activar la exigencia en producción**:
+Siguiente acción priorizada — **commit manual del propietario del
+hotfix de plugin 0.2.8** (Gutenberg meta-box-loader no debe borrar
+el `pdf_file` generado). Producción sigue en **0.2.7** (payload
+roto para ese follow-up) hasta que el propietario despliegue 0.2.8.
+No activar la exigencia; sin backfill; WU7 no iniciado:
 
-1. revisar `Article_Pdf_Publication_Settings` /
-   `Article_Pdf_Publication_Enforcer` y que el default OFF
-   sigue permitiendo publicar sin PDF;
+1. el default OFF sigue permitiendo publicar sin PDF;
 2. no activar `revistalogos_article_pdf_publication_enforcement`
    en producción ni en upgrade/deploy;
 3. **no cambiar** el PHP 8.3 de producción. Antes del primer deploy
@@ -594,8 +604,9 @@ no activar la exigencia en producción**:
    `ext-mbstring` estén habilitadas en ese PHP 8.3 ya configurado.
    `setup-php` del workflow es solo el runner de Actions, no el
    hosting;
-4. deploy de plugin `revistalogos-core` 0.2.7 y theme `revistalogos` 0.2.1
-   sigue siendo decisión aparte del propietario;
+4. deploy de plugin `revistalogos-core` **0.2.8** y theme
+   `revistalogos` **0.2.1** sigue siendo decisión aparte del
+   propietario (producción actualmente sirve **0.2.7**);
 5. no re-ejecutar bootstrap ni teardown en producción;
 6. Bootstrap_Admin ya no forma parte del plugin.
 
