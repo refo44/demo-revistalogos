@@ -9,6 +9,11 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Added
+- Plugin `revistalogos-core` 0.2.7: admin-configurable Article PDF
+  publication enforcement (ADR 0017 WU6B). Default OFF (missing
+  option = OFF). Classic and REST/Gutenberg share the setting.
+  Deploy or upgrade does not enable it.
+
 - ADR 0017 work unit 6B: admin-configurable Article PDF publication
   enforcement (`Article_Pdf_Publication_Settings`,
   `Article_Pdf_Publication_Enforcer`). Option
@@ -18,8 +23,8 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   generates a missing one from the publication candidate, and
   blocks publish on failure. Toggling does not backfill or mutate
   Articles. Isolated QA:
-  `tools/qa-article-pdf-publication-enforcement.sh`. No plugin
-  version bump.
+  `tools/qa-article-pdf-publication-enforcement.sh`. Shipped as
+  plugin 0.2.7.
 
 - ADR 0017 work unit 6A: Article PDF source HTML
   (`Article_Pdf_WordPress_Source_Builder`) and explicit end-to-end

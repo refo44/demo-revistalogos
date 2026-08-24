@@ -1,7 +1,7 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "ADR 0017 TDD WU6B: admin-configurable publication enforcement; owner review; no commit/push/deploy"
+current_work_unit: "revistalogos-core 0.2.7 version bump; owner review; no commit/push/deploy"
 current_branch: "main"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
@@ -400,8 +400,8 @@ Registradas para corrección en commit de documentación separado (WU12):
 
 - Rama: `main`; tag publicado: `v0.1.0`. Versión de proyecto **0.2.0**
   (canónica en `package.json`); tag Git `v0.2.0` pendiente (véase `VERSION.md`).
-  Plugin `revistalogos-core` **0.2.6** y theme `revistalogos` **0.2.1** en el
-  working tree (picker de autores, retiro de `Bootstrap_Admin`, CTA `:visited`);
+  Plugin `revistalogos-core` **0.2.7** y theme `revistalogos` **0.2.1** en el
+  working tree (ADR 0017 WU6B enforcement, default OFF);
   versión de proyecto 0.2.0 sin cambio.
 - Despliegues: WordPress de la revista en `logo-et-spes.cenfiss.net`
   (`deploy-wordpress.yml`, `workflow_dispatch`, Environment
@@ -594,7 +594,7 @@ no activar la exigencia en producción**:
    `ext-mbstring` estén habilitadas en ese PHP 8.3 ya configurado.
    `setup-php` del workflow es solo el runner de Actions, no el
    hosting;
-4. deploy de plugin `revistalogos-core` 0.2.6 y theme `revistalogos` 0.2.1
+4. deploy de plugin `revistalogos-core` 0.2.7 y theme `revistalogos` 0.2.1
    sigue siendo decisión aparte del propietario;
 5. no re-ejecutar bootstrap ni teardown en producción;
 6. Bootstrap_Admin ya no forma parte del plugin.
