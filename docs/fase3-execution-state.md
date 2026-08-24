@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "ADR 0019 protect main (ruleset live); docs on chore/protect-main-ruleset"
-current_branch: "chore/protect-main-ruleset"
+current_work_unit: "Add Copilot PR review instructions; ADR 0019 merged"
+current_branch: "chore/add-copilot-review-instructions"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-08-24"
-next_action: "Owner commit+PR of ADR 0019 docs. Production still 0.2.7 until owner deploys 0.2.8. Default OFF. No backfill. WU7 not started."
+next_action: "Owner commit+PR of .github/copilot-instructions.md. Production still 0.2.7 until owner deploys 0.2.8. Default OFF. No backfill. WU7 not started."
 blocked: false
 ---
 

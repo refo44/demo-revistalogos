@@ -84,7 +84,13 @@ Nota factual 2026-08-22 (no cambia §1–§6): producción
 resolución Composer sigue **8.2.0**. `Requires PHP: 7.4` no se
 redefinió. PHPUnit 9.6 sin cambio de major.
 
+Nota factual 2026-08-24 (no cambia §1–§6): el oficio de cómo escribir un
+test vive en `docs/24-project-testing-standard.md`. Complementa `docs/23`
+(taxonomía, CI, comandos). No añade runners ni cambia PHPUnit 9.6, Gherkin
+sin Behat, ni la exclusión de Brain Monkey / Mockery / Pest.
+
 ## Referencias
 
 - `docs/23-testing-foundation.md` (reglas operativas)
+- `docs/24-project-testing-standard.md` (oficio: sociable-first, BDD, AAA, dobles)
 - ADR 0006, 0009, 0014, 0016, 0017

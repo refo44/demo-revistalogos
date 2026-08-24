@@ -154,6 +154,15 @@ Cursor no commitea, no pushea, no mergea ni despliega salvo petición
 explícita del propietario. Nombra ramas según §3 y redacta mensajes
 según §4.
 
+La revisión automática de Copilot (plan Pro, comentario, no bloquea)
+usa `.github/copilot-instructions.md`. Es un apuntador a estos ADR,
+no una segunda fuente de verdad.
+
+Los comentarios de review (humano o Copilot) siguen
+[Conventional Comments](https://conventionalcomments.org/):
+`<label> [decorations]: <subject>`. Por defecto `(non-blocking)`.
+`(blocking)` es guía para el autor, no un candado de GitHub.
+
 ## Alternativas consideradas
 
 | Alternativa | Motivo de descarte |
@@ -194,9 +203,12 @@ aparte. No añadir approvals obligatorias.
 - [Trunk-Based Development](https://trunkbaseddevelopment.com/)
 - [Conventional Branch 1.1.0](https://conventionalbranch.org/)
 - [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/)
+- [Conventional Comments](https://conventionalcomments.org/)
 - [Acerca de los conjuntos de reglas](https://docs.github.com/es/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets)
 - [Creación de conjuntos de reglas de un repositorio](https://docs.github.com/es/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/creating-rulesets-for-a-repository)
 - [Reglas disponibles](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets)
 - ADR 0009 (despliegue; no se modifica)
 - ADR 0018 / `docs/23-testing-foundation.md` (workflow `Tests`)
 - `docs/adr/BACKLOG.md` § Trabajo pendiente aceptado, ítem 2 (origen)
+- [Copilot code review — instrucciones](https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/copilot-code-review#customize-reviews-with-custom-instructions)
+  (`.github/copilot-instructions.md`)

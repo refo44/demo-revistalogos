@@ -18,7 +18,8 @@ Tracked Git files are the durable source of truth. Local editor config is not.
 1. **`content-source/`** — canonical content/text. Never modify wording;
    use exactly as written.
 2. **`docs/`** — architecture, content model, IA, URL policy, implementation
-   order, testing strategy (`docs/23-testing-foundation.md`), etc. Must not
+   order, testing strategy (`docs/23-testing-foundation.md`,
+   `docs/24-project-testing-standard.md`), etc. Must not
    contradict content-source; if it does, content-source wins and the doc
    gets flagged for correction.
 3. **`docs/adr/`** — binding decisions (numbered ADRs + `BACKLOG.md`).
@@ -27,7 +28,8 @@ Tracked Git files are the durable source of truth. Local editor config is not.
    it explicitly rather than silently deviating.
 4. **This file (`CLAUDE.md`)** — agent-facing operational constraints. Must
    not contradict 1–3. Testing policy is **not** defined here in full: follow
-   `docs/23-testing-foundation.md` and ADR 0018.
+   `docs/23-testing-foundation.md`, `docs/24-project-testing-standard.md`
+   and ADR 0018.
 
 **`.cursor/` is gitignored by design.** Cursor rules a developer may keep
 locally are optional convenience mirrors only: not authoritative, not
@@ -122,7 +124,8 @@ required, not shared via Git, not a substitute for the files above.
   plugin `vendor/`, verify `ext-dom` and `ext-mbstring` on that
   existing 8.3 runtime; do not change CloudLinux PHP Selector,
   MultiPHP, or the hosting PHP version.
-- **Testing:** follow `docs/23-testing-foundation.md` and ADR 0018. New
+- **Testing:** follow `docs/23-testing-foundation.md`,
+  `docs/24-project-testing-standard.md` and ADR 0018. New
   domain behavior uses TDD. For PHP changes, before completion: (1) syntax
   gate `./tools/php-lint.sh` or `composer lint:php`; (2) Composer lockfile
   audit `composer audit:deps` (`composer audit --locked`); (3) relevant
@@ -154,6 +157,9 @@ required, not shared via Git, not a substitute for the files above.
   enforce names in GitHub (`dependabot/*` stays). Commit messages follow
   [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/)
   (`type(scope): description`; types `feat`/`fix`/`docs`/`chore`/`refactor`/`ci`/`test`/`perf`/`revert`).
-  Prefer squash merge. No `develop`. The owner commits, pushes the feature
+  Prefer squash merge. Review comments follow
+  [Conventional Comments](https://conventionalcomments.org/)
+  (`label (non-blocking): subject` by default). No `develop`. The owner
+  commits, pushes the feature
   branch, merges, and deploys. Cursor still does not commit, push, merge,
   or deploy unless the owner explicitly asks.
