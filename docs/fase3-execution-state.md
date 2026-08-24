@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "ADR 0017 TDD WU4: real Dompdf renderer + plugin Composer; owner review; no commit/push/deploy"
+current_work_unit: "ADR 0017 TDD WU5: Media Library persistence + pdf_file; owner review; no commit/push/deploy"
 current_branch: "main"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-08-23"
-next_action: "Owner review of ADR 0017 WU4. No commit/push/deploy unless asked. Do not start WU5, Media Library persistence, or WordPress publication wiring."
+next_action: "Owner review of ADR 0017 WU5. No commit/push/deploy unless asked. Do not start WU6 or WordPress publication wiring."
 blocked: false
 ---
 
@@ -545,6 +545,15 @@ Publicación sin PDF sigue permitida. Plugin **0.2.6** sin bump.
 Sin commit, push ni deploy. `qa-article-editorial-ux.sh` no
 re-ejecutado: no se tocaron guards, Meta_Boxes ni REST.
 
+**2026-08-23 (ADR 0017 work unit 5, working tree):** persistencia
+Media Library (`Article_Pdf_WordPress_Persister`).
+`tools/qa-article-pdf-persistence.sh` PASS (WordPress 7.1 /
+PHP 8.3; bytes Dompdf → adjunto `application/pdf` → `pdf_file`
+ID; artifact inválido no escribe). Publicación sin PDF sigue
+permitida. Plugin **0.2.6** sin bump. Sin commit, push ni
+deploy. `qa-article-editorial-ux.sh` no re-ejecutado: no se
+tocaron guards, Meta_Boxes ni REST.
+
 ## Next exact action
 
 La implementación **clásica** está live en producción
@@ -554,17 +563,18 @@ editorial real en proceso desde wp-admin (**no** completa). Docker local:
 `http://localhost:8080` (WordPress 7.1, PHP **8.3**).
 
 Siguiente acción priorizada — **revisión del propietario de ADR 0017
-WU4 (renderer Dompdf + Composer del plugin); no commit/push/deploy;
-no iniciar WU5**:
+WU5 (persistencia Media Library); no commit/push/deploy;
+no iniciar WU6**:
 
-1. revisar renderer, lockfile del plugin y que publicar sin PDF
+1. revisar `Article_Pdf_WordPress_Persister` y que publicar sin PDF
    sigue permitido;
-2. no cablear `wp_insert_post_data` / REST / Meta_Boxes / Media Library;
-3. no persistir bytes generados; **no cambiar** el PHP 8.3 de
-   producción. Antes del primer deploy que suba `vendor/`, solo
-   **verificar** que `ext-dom` y `ext-mbstring` estén habilitadas en
-   ese PHP 8.3 ya configurado. `setup-php` del workflow es solo el
-   runner de Actions, no el hosting;
+2. no cablear `wp_insert_post_data` / REST / Meta_Boxes;
+3. la persistencia existe pero **no** se invoca al publicar;
+   **no cambiar** el PHP 8.3 de producción. Antes del primer deploy
+   que suba `vendor/`, solo **verificar** que `ext-dom` y
+   `ext-mbstring` estén habilitadas en ese PHP 8.3 ya configurado.
+   `setup-php` del workflow es solo el runner de Actions, no el
+   hosting;
 4. deploy de plugin `revistalogos-core` 0.2.6 y theme `revistalogos` 0.2.1
    sigue siendo decisión aparte del propietario;
 5. no re-ejecutar bootstrap ni teardown en producción;

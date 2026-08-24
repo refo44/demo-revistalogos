@@ -89,6 +89,7 @@ class Plugin {
 		require_once $includes . 'article-pdf/class-article-pdf-generation-orchestrator.php';
 		require_once $includes . 'article-pdf/class-dompdf-article-pdf-renderer.php';
 		require_once $includes . 'article-pdf/class-article-pdf-wordpress-adapter.php';
+		require_once $includes . 'article-pdf/class-article-pdf-wordpress-persister.php';
 	}
 
 	/**

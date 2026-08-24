@@ -9,6 +9,16 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Added
+- ADR 0017 work unit 5: persist generated article PDF bytes as a
+  normal Media Library `application/pdf` attachment and set Article
+  `pdf_file` to that attachment ID
+  (`Article_Pdf_WordPress_Persister`). Isolated QA:
+  `tools/qa-article-pdf-persistence.sh`. Invalid artifact or
+  non-Article ID returns `WP_Error` and writes nothing. Same-call
+  rollback only. Still unwired: no publication hook, no REST change,
+  no source builder. Publish with a valid Author and no PDF remains
+  allowed. No plugin version bump.
+
 - ADR 0017 work unit 4: real Dompdf renderer
   (`Dompdf_Article_Pdf_Renderer`, `dompdf/dompdf` ^3.1.6) owned by
   plugin-local Composer (`composer.json` + tracked lock, generated

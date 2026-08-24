@@ -137,7 +137,7 @@ El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, ISSN,
 | doi | text | DOI del artículo |
 | doi_url | url | URL completo DOI (https://doi.org/xxxxx) |
 | pages | text | Paginación oficial dentro del número |
-| pdf_file | file | Un PDF por artículo: ID de adjunto en Media Library, MIME `application/pdf`. **Hoy** el campo es opcional: el editor elige o sube el archivo; publicar no exige PDF. Quitar desvincula la relación; **no** borra el adjunto. ADR 0017 WU1–WU4 existen en el plugin (política, adaptador de solo lectura, orquestación, renderer Dompdf). **No** están cableados a los guards de publicación. WU4 genera bytes en memoria desde HTML autocontenido; no persiste. Publicar exigirá un PDF válido solo cuando la orquestación se cablee a WordPress. |
+| pdf_file | file | Un PDF por artículo: ID de adjunto en Media Library, MIME `application/pdf`. **Hoy** el campo es opcional: el editor elige o sube el archivo; publicar no exige PDF. Quitar desvincula la relación; **no** borra el adjunto. ADR 0017 WU1–WU5 existen en el plugin (política, adaptador de solo lectura, orquestación, renderer Dompdf, persistencia Media Library). **No** están cableados a los guards de publicación. WU5 puede persistir bytes PDF reales como adjunto normal y guardar su ID en `pdf_file`; no se invoca al publicar. Publicar exigirá un PDF válido solo cuando la orquestación se cablee a WordPress. |
 | issue | relation | Número padre |
 | section | taxonomy | Metafísica, Ética, Epistemología, etc. |
 | keyword | taxonomy | 3–5 palabras clave (búsqueda, filtro, SEO) |
