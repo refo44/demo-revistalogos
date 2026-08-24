@@ -6,7 +6,7 @@ current_branch: "chore/add-copilot-review-instructions"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-08-24"
-next_action: "Owner commit+PR of .github/copilot-instructions.md. Production still 0.2.7 until owner deploys 0.2.8. Default OFF. No backfill. WU7 not started."
+next_action: "Owner deploys 0.2.8. Default OFF. No backfill. WU7 not started."
 blocked: false
 ---
 
