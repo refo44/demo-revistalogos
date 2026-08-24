@@ -144,3 +144,16 @@ required, not shared via Git, not a substitute for the files above.
   it's the source of truth for "what's actually done," not git log alone.
 - Small, reviewable commits per work unit (see the WU table in
   `docs/fase3-execution-state.md`), not one large commit spanning several.
+- **Do not implement on `main`** (ADR 0019, [Trunk-Based
+  Development](https://trunkbaseddevelopment.com/)). Short-lived branches,
+  then a PR. GitHub requires the existing Tests check; required approvals
+  are 0 so no person can block another. Anyone with write can merge a green
+  PR. Branch names follow [Conventional Branch 1.1.0](https://conventionalbranch.org/):
+  prefer purpose prefixes (`feat`/`feature`, `fix`/`bugfix`, `hotfix`,
+  `chore`); agent prefixes (`cursor/`, `ai/`, …) are allowed; do not
+  enforce names in GitHub (`dependabot/*` stays). Commit messages follow
+  [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/)
+  (`type(scope): description`; types `feat`/`fix`/`docs`/`chore`/`refactor`/`ci`/`test`/`perf`/`revert`).
+  Prefer squash merge. No `develop`. The owner commits, pushes the feature
+  branch, merges, and deploys. Cursor still does not commit, push, merge,
+  or deploy unless the owner explicitly asks.

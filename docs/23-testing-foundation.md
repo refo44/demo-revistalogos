@@ -266,7 +266,9 @@ PHP 8.3, `composer install` (respeta `config.platform.php` 8.2.0; sin
 `--ignore-platform-reqs`), `composer lint:php`, `composer audit --locked`,
 después `composer test:unit`. `actions/cache@v5` (Node 24). Dependabot
 abre PRs semanales de Composer y GitHub Actions; **sin auto-merge**. Cada
-PR corre este workflow y necesita revisión del propietario. `composer
+PR corre este workflow. GitHub exige el check, **no** approvals (ADR 0019:
+quien tenga write puede mergear con CI verde; nadie queda bloqueado
+esperando a otra persona). `composer
 audit --locked` detecta advisories; Dependabot propone actualizaciones.
 Alerts y Security Updates de GitHub: verificar en la UI del repositorio.
 Sin environment de producción, sin secretos FTPS, sin deploy. No cierra

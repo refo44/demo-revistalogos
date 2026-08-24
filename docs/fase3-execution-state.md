@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "revistalogos-core 0.2.8 Gutenberg pdf_file hotfix; owner review; no commit/push/deploy"
-current_branch: "main"
+current_work_unit: "ADR 0019 protect main (ruleset live); docs on chore/protect-main-ruleset"
+current_branch: "chore/protect-main-ruleset"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-08-24"
-next_action: "Owner commit of plugin 0.2.8. Production still runs 0.2.7 until owner deploys. Default OFF. No backfill. WU7 not started."
+next_action: "Owner commit+PR of ADR 0019 docs. Production still 0.2.7 until owner deploys 0.2.8. Default OFF. No backfill. WU7 not started."
 blocked: false
 ---
 
@@ -574,13 +574,18 @@ delta +1, no doble generación. Plugin **0.2.6** sin bump.
 Sin commit, push ni deploy. Activación en producción:
 decisión del propietario.
 
-**2026-08-24 (plugin 0.2.8 hotfix, working tree):** Gutenberg REST
-publish genera el PDF; el follow-up `meta-box-loader` ya no borra
-`pdf_file` (keep one-shot, solo esa petición). Quitar PDF en un
-save normal sigue limpiando de inmediato. Default OFF. Sin
-backfill. WU7 no iniciado. Producción permanece en **0.2.7**
-hasta el deploy del propietario. Theme **0.2.1**. Proyecto
-**0.2.0**. Sin commit, push ni deploy.
+**2026-08-24 (plugin 0.2.8 hotfix):** Gutenberg REST publish genera
+el PDF; el follow-up `meta-box-loader` ya no borra `pdf_file` (keep
+one-shot, solo esa petición). Quitar PDF en un save normal sigue
+limpiando de inmediato. Default OFF. Sin backfill. WU7 no iniciado.
+Commit en Git `d9bf6d2`. Producción permanece en **0.2.7** hasta el
+deploy del propietario. Theme **0.2.1**. Proyecto **0.2.0**.
+
+**2026-08-24 (ADR 0019, ruleset GitHub):** `main` protegida con
+ruleset `Protect main (trunk-based)` (`21337399`), activo, sin
+bypass. Exige PR + check Tests; 0 approvals; sin force-push ni
+borrado. Documentación en working tree de `chore/protect-main-ruleset`
+(sin commit hasta el propietario). No relitiga ADR 0009.
 
 ## Next exact action
 
@@ -590,11 +595,13 @@ Recuperación institucional **ya hecha** (Pages reales permanentes). Carga
 editorial real en proceso desde wp-admin (**no** completa). Docker local:
 `http://localhost:8080` (WordPress 7.1, PHP **8.3**).
 
-Siguiente acción priorizada — **commit manual del propietario del
-hotfix de plugin 0.2.8** (Gutenberg meta-box-loader no debe borrar
-el `pdf_file` generado). Producción sigue en **0.2.7** (payload
-roto para ese follow-up) hasta que el propietario despliegue 0.2.8.
-No activar la exigencia; sin backfill; WU7 no iniciado.
+Siguiente acción priorizada — **commit+PR del propietario de ADR 0019**
+(rama `chore/protect-main-ruleset`). El ruleset de `main` **ya está
+activo** (GitHub `21337399`; no es un commit). Plugin **0.2.8** ya está
+en Git (`d9bf6d2`); producción sigue en **0.2.7** hasta que el
+propietario despliegue. No activar la exigencia PDF; sin backfill;
+WU7 no iniciado. Tras mergear 0019: no pushear a `main`; ramas cortas
++ PR (ADR 0019).
 Trabajo pendiente aceptado (no duplicar aquí):
 `docs/adr/BACKLOG.md` § Trabajo pendiente aceptado.
 
