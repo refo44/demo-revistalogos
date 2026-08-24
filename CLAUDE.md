@@ -103,18 +103,20 @@ required, not shared via Git, not a substitute for the files above.
   the WordPress launch (ADR 0013). Fase 3 stores them as inert fields only —
   no validation, no derived URLs.
 - **Automatic Article PDF on publish is accepted architecture (ADR 0017).
-  Implementation started (work units 1–5):** a pure domain
+  Implementation started (work units 1–6A):** a pure domain
   keep/generate/block policy, a read-only WordPress adapter,
   generation orchestration with a replaceable renderer seam, a
   real Dompdf renderer (plugin-local Composer, `vendor/` generated),
-  and Media Library persistence (`Article_Pdf_WordPress_Persister`)
-  exist in the plugin and are **not** wired to publication hooks.
+  Media Library persistence, an Article source builder, and an
+  explicit generator (`Article_Pdf_WordPress_Generator`) exist in
+  the plugin and are **not** wired to publication hooks.
   Current runtime: `pdf_file` is optional; editors upload manually;
-  publish does not require a PDF. The WU5 persister writes an
-  attachment ID only when called explicitly. Do not generate PDFs
-  in the theme or during FSE conversion. Next 0017 slice
-  (publication wiring) is a separate TDD work unit; do not start
-  it in a session that is not that work unit.
+  publish does not require a PDF. WU5/WU6A write an attachment ID
+  only when called explicitly. Do not generate PDFs in the theme
+  or during FSE conversion. Future publication enforcement is
+  admin-configurable and **defaults OFF**; WU6B owns the setting
+  and classic/REST wiring. Do not start WU6B in a session that is
+  not that work unit.
   Production PHP remains **8.3**. `setup-php` in CI/deploy configures
   only the GitHub Actions runner. Before a future WU4 deploy, verify
   `ext-dom` and `ext-mbstring` on that existing 8.3 runtime; do not

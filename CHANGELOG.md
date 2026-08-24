@@ -9,6 +9,14 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Added
+- ADR 0017 work unit 6A: Article PDF source HTML
+  (`Article_Pdf_WordPress_Source_Builder`) and explicit end-to-end
+  composition (`Article_Pdf_WordPress_Generator`). Isolated QA:
+  `tools/qa-article-pdf-composition.sh`. Valid existing `pdf_file` is
+  preserved; missing PDF builds local HTML → Dompdf → Media Library.
+  Publication enforcement remains inactive. Future enforcement will be
+  a wp-admin setting defaulting to OFF (WU6B). No plugin version bump.
+
 - ADR 0017 work unit 5: persist generated article PDF bytes as a
   normal Media Library `application/pdf` attachment and set Article
   `pdf_file` to that attachment ID

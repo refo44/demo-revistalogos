@@ -53,4 +53,26 @@ class Article_Pdf_WordPress_Adapter {
 	public function is_valid_pdf_file( $pdf_file ) {
 		return 0 !== Metadata::sanitize_pdf_attachment_id( $pdf_file );
 	}
+
+	/**
+	 * Current valid pdf_file attachment ID, or 0. Read-only.
+	 *
+	 * @param int $article_id Article post ID.
+	 * @return int
+	 */
+	public function existing_valid_pdf_file_id( $article_id ) {
+		$article_id = absint( $article_id );
+		if ( ! $article_id ) {
+			return 0;
+		}
+
+		$post = get_post( $article_id );
+		if ( ! $post || Content_Types::ARTICLE !== $post->post_type ) {
+			return 0;
+		}
+
+		return Metadata::sanitize_pdf_attachment_id(
+			get_post_meta( $article_id, 'pdf_file', true )
+		);
+	}
 }

@@ -9,9 +9,9 @@ reescribe ADR 0006, 0009, 0014 ni 0017.
 Proteger comportamiento de dominio, contratos e integraciones reales —
 sobre todo contenido editorial, relaciones, URLs, importers y guards —
 con la pila más pequeña que lo permita. No maximizar recuento ni
-cobertura. ADR 0017 WU1–WU5 usan esta base en TDD (política, adaptador,
-orquestación, renderer Dompdf, persistencia Media Library). El cableado
-WordPress de publicación sigue pendiente.
+cobertura. ADR 0017 WU1–WU6A usan esta base en TDD (política, adaptador,
+orquestación, renderer Dompdf, persistencia, source HTML y composición
+explícita). El cableado WordPress de publicación sigue pendiente (WU6B).
 
 ## Autoridad
 
@@ -136,6 +136,7 @@ excepción conocida; no tomarlo como modelo para tests nuevos.
 | `tools/qa-article-pdf-adapter.sh` | Integración: adaptador PDF de solo lectura (ADR 0017 WU2) | Aislado, puerto 8085 |
 | `tools/qa-article-pdf-renderer.sh` | Integración: renderer Dompdf en memoria (ADR 0017 WU4), PHP Apache + WP-CLI | Aislado, puerto 8086 |
 | `tools/qa-article-pdf-persistence.sh` | Integración: persistencia Media Library + `pdf_file` (ADR 0017 WU5) | Aislado, puerto 8087 |
+| `tools/qa-article-pdf-composition.sh` | Integración: source HTML + composición explícita (ADR 0017 WU6A) | Aislado, puerto 8088 |
 | `tools/qa-author-permalinks.sh` | Integración: `journal_author`, permalinks | Volúmenes **primarios** |
 | `tools/qa-volume1-bootstrap-admin.sh` | Regresión de **ausencia**: UI `Bootstrap_Admin` retirada en 0.2.6 | No es pilar permanente; no ampliar |
 
@@ -242,6 +243,7 @@ composer test          # lint → audit --locked → units; not qa-*.sh
 ./tools/qa-article-pdf-adapter.sh   # ADR 0017 WU2, aislado
 ./tools/qa-article-pdf-renderer.sh  # ADR 0017 WU4, aislado
 ./tools/qa-article-pdf-persistence.sh  # ADR 0017 WU5, aislado
+./tools/qa-article-pdf-composition.sh  # ADR 0017 WU6A, aislado
 ./tools/qa-volume1-bootstrap-admin.sh   # ausencia de UI temporal
 ./tools/qa-author-permalinks.sh         # excepción: volúmenes primarios
 ```

@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "ADR 0017 TDD WU5: Media Library persistence + pdf_file; owner review; no commit/push/deploy"
+current_work_unit: "ADR 0017 TDD WU6A: source HTML + explicit generation composition; owner review; no commit/push/deploy"
 current_branch: "main"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-08-23"
-next_action: "Owner review of ADR 0017 WU5. No commit/push/deploy unless asked. Do not start WU6 or WordPress publication wiring."
+next_action: "Owner review of ADR 0017 WU6A. No commit/push/deploy unless asked. Do not start WU6B or WordPress publication wiring."
 blocked: false
 ---
 
@@ -554,6 +554,14 @@ permitida. Plugin **0.2.6** sin bump. Sin commit, push ni
 deploy. `qa-article-editorial-ux.sh` no re-ejecutado: no se
 tocaron guards, Meta_Boxes ni REST.
 
+**2026-08-23 (ADR 0017 work unit 6A, working tree):** source HTML
+(`Article_Pdf_WordPress_Source_Builder`) + composición explícita
+(`Article_Pdf_WordPress_Generator`).
+`tools/qa-article-pdf-composition.sh` PASS (WordPress 7.1 /
+PHP 8.3). Publicación sin PDF sigue permitida; enforcement
+inactiva. Enforcement futura: wp-admin, default OFF (WU6B).
+Plugin **0.2.6** sin bump. Sin commit, push ni deploy.
+
 ## Next exact action
 
 La implementación **clásica** está live en producción
@@ -563,13 +571,15 @@ editorial real en proceso desde wp-admin (**no** completa). Docker local:
 `http://localhost:8080` (WordPress 7.1, PHP **8.3**).
 
 Siguiente acción priorizada — **revisión del propietario de ADR 0017
-WU5 (persistencia Media Library); no commit/push/deploy;
-no iniciar WU6**:
+WU6A (source HTML + composición explícita); no commit/push/deploy;
+no iniciar WU6B**:
 
-1. revisar `Article_Pdf_WordPress_Persister` y que publicar sin PDF
+1. revisar `Article_Pdf_WordPress_Source_Builder` /
+   `Article_Pdf_WordPress_Generator` y que publicar sin PDF
    sigue permitido;
 2. no cablear `wp_insert_post_data` / REST / Meta_Boxes;
-3. la persistencia existe pero **no** se invoca al publicar;
+   no implementar el ajuste de enforcement;
+3. la composición existe pero **no** se invoca al publicar;
    **no cambiar** el PHP 8.3 de producción. Antes del primer deploy
    que suba `vendor/`, solo **verificar** que `ext-dom` y
    `ext-mbstring` estén habilitadas en ese PHP 8.3 ya configurado.
