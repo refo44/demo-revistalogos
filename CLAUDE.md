@@ -147,7 +147,7 @@ required, not shared via Git, not a substitute for the files above.
 - **Do not implement on `main`** (ADR 0019, [Trunk-Based
   Development](https://trunkbaseddevelopment.com/)). Short-lived branches,
   then a PR. GitHub requires the existing Tests check; required approvals
-  are 0 so no person can block another. Anyone with write can merge a green
+  are 0 (see ADR 0019 for the Copilot-unattributed PR exception). Anyone with write can merge a green
   PR. Branch names follow [Conventional Branch 1.1.0](https://conventionalbranch.org/):
   prefer purpose prefixes (`feat`/`feature`, `fix`/`bugfix`, `hotfix`,
   `chore`); agent prefixes (`cursor/`, `ai/`, …) are allowed; do not

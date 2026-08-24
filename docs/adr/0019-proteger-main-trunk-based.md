@@ -142,8 +142,8 @@ Reglas:
 - **no** exigir que la rama esté al día con `main` al inicio.
 
 GitHub activa por defecto *Require an additional approval for unattributed
-Copilot pull requests*. Con 0 approvals **no tiene efecto**; se deja el
-default.
+Copilot pull requests*. Si está activa, suma +1 approval (0 → 1) para PRs
+de Copilot sin atribución; desactivarla si se quiere mantener 0 siempre.
 
 Identificador: ruleset `21337399`
 ([vista](https://github.com/refo44/demo-revistalogos/rules/21337399)).

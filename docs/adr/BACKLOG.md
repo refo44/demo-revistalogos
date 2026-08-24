@@ -158,7 +158,7 @@ No es una feature nueva.
 
 **Estado:** HECHO (ruleset GitHub 2026-08-24; ADR [0019](0019-proteger-main-trunk-based.md)). Documentación de esta decisión entra por PR en `chore/protect-main-ruleset`.
 
-Ruleset `Protect main (trunk-based)` (`21337399`), activo, sin bypass. `main` exige PR; 0 approvals (nadie bloquea a nadie; write + CI verde basta); check `PHP lint, Composer audit, and unit (PHP 8.3)`; sin force-push ni borrado. TBD: ramas cortas, sin `develop`. Nombres: [Conventional Branch 1.1.0](https://conventionalbranch.org/). Mensajes: [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/). Ambos por convención, no en el ruleset. Preferir squash. Cursor **sigue sin** commit, push, merge ni deploy.
+Ruleset `Protect main (trunk-based)` (`21337399`), activo, sin bypass. `main` exige PR; 0 approvals base (ver ADR 0019 sobre la regla de +1 approval para PRs de Copilot sin atribución); check `PHP lint, Composer audit, and unit (PHP 8.3)`; sin force-push ni borrado. Trunk-Based Development: ramas cortas, sin `develop`. Nombres: [Conventional Branch 1.1.0](https://conventionalbranch.org/). Mensajes: [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/). Ambos por convención, no en el ruleset. Preferir squash. Cursor **sigue sin** commit, push, merge ni deploy.
 
 ### PLANNED
 
