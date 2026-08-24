@@ -18,7 +18,8 @@ explícita y enforcement de publicación configurable, default OFF).
 Fuente durable (Git), en este orden cuando hablen de pruebas:
 
 1. `content-source/` (texto editorial; no política de tests).
-2. `docs/` — este documento es la guía operativa de testing.
+2. `docs/` — este documento es la guía operativa de testing (taxonomía,
+   CI, comandos).
 3. `docs/adr/` — ADR 0018 (decisiones); ADR 0017 (PDF: renderer Dompdf
    real; persistencia y publicación WordPress no cableadas).
 4. `CLAUDE.md` — resumen para agentes; apunta aquí, no duplica el manual.
@@ -178,9 +179,18 @@ Un test debe proteger al menos uno de: invariante de dominio; comportamiento
 observable; contrato de integración; permiso/seguridad; integridad de datos;
 fallo importante; regresión ocurrida o realista.
 
+Puerta de calidad: **conductual** (si cambia el comportamiento, cambia el
+resultado) e **insensible a la estructura** (un refactor equivalente no
+rompe el test). Preferir pruebas **sociables**: colaboradores internos
+reales; doblar solo sistemas externos. Cada test PHPUnit es plano y
+autocontenido: sin SUT asignado en `setUp()`, sin estado mutable
+compartido. Cuerpo Arrange-Act-Assert. Nombre
+`test_<observable_behavior>`.
+
 Evitar: constantes vs sí mismas; getters triviales; «WordPress hace lo que
 dice el handbook»; whitespace de markup; orden incidental de arrays; métodos
-privados; estructura interna de clases; tests solo para subir cobertura.
+privados; estructura interna de clases; tests solo para subir cobertura;
+`expects()` / orden de llamadas sobre colaboradores internos.
 
 Nombres: el comportamiento que falló (`test_last_token_is_the_surname_used_in_citation_formats`),
 no el nombre del método de producción. Sin numerar tests.
@@ -204,10 +214,13 @@ solo, repetido y en cualquier orden. Sin fixtures persistentes ocultos.
 
 ## Mocks
 
-Objetos reales simples en unitarios. Mockear límites significativos
-(renderer PDF, persistencia de adjuntos, servicio externo). No mockear la
-clase bajo prueba, value objects, ni cada función de WordPress. Si el
-comportamiento es de WordPress, integración real.
+Objetos reales simples en unitarios. Doblar solo límites significativos
+(renderer PDF, persistencia de adjuntos, servicio externo). Preferir una
+clase pequeña que implementa la interfaz pública (doble de grabación) a
+`$this->createMock()`. No mockear la clase bajo prueba, value objects,
+colaboradores internos de dominio, ni cada función de WordPress. Si el
+comportamiento es de WordPress, integración real. No instalar Mockery,
+Brain Monkey, WP_Mock ni Pest.
 
 ## Base de datos, archivos, red
 
@@ -322,5 +335,5 @@ matriz de versiones) solo con necesidad arquitectónica demostrada. ADR 0017
 work unit 1 ya tiene la política pura; no adelantar `PdfGenerator` ni
 librerías PDF hasta la unidad de renderer.
 
-**Versión:** 1.0
+**Versión:** 1.1
 **Proyecto:** Revista de Filosofía LOGO ET SPES 0.2.0

@@ -68,7 +68,7 @@ El espejo beta es GitHub Pages (`pages.yml`). El workflow estático
 
 **Lint CSS:** `npm run lint:css`.
 
-**Tests (ADR 0018, `docs/23-testing-foundation.md`):** PHP syntax
+**Tests (ADR 0018, `docs/23-testing-foundation.md`, `docs/24-project-testing-standard.md`):** PHP syntax
 `./tools/php-lint.sh` / `composer lint:php` (`php -l` only). Composer
 lockfile audit: `composer audit:deps` (`composer audit --locked`; PHPUnit
 and its transitives only — not WordPress, npm, or hosting). Units:
