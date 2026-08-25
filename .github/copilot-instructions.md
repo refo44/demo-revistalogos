@@ -2,6 +2,7 @@
 
 Pointer only. Do not invent policy. Priority: `content-source/` > `docs/` > ADRs.
 Does not replace ADR 0005–0006, 0018, 0019, `docs/23`, `docs/24`, or `CLAUDE.md`.
+Copilot code review loads [`.github/skills/code-review/SKILL.md`](skills/code-review/SKILL.md); that skill points here.
 
 Paths: plugin `wordpress/wp-content/plugins/revistalogos-core/`, theme `wordpress/wp-content/themes/revistalogos/`. Never review or suggest edits to WordPress core.
 

@@ -156,7 +156,9 @@ según §4.
 
 La revisión automática de Copilot (plan Pro, comentario, no bloquea)
 usa `.github/copilot-instructions.md`. Es un apuntador a estos ADR,
-no una segunda fuente de verdad.
+no una segunda fuente de verdad. Si carga skills, usa
+`.github/skills/code-review/SKILL.md`, que apunta al mismo archivo;
+no añade política. No hace falta un MCP extra (el de GitHub basta).
 
 Los comentarios de review (humano o Copilot) siguen
 [Conventional Comments](https://conventionalcomments.org/):
@@ -212,3 +214,5 @@ aparte. No añadir approvals obligatorias.
 - `docs/adr/BACKLOG.md` § Trabajo pendiente aceptado, ítem 2 (origen)
 - [Copilot code review — instrucciones](https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/copilot-code-review#customize-reviews-with-custom-instructions)
   (`.github/copilot-instructions.md`)
+- [Agent skills](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/add-skills)
+  (`.github/skills/code-review/SKILL.md`)
