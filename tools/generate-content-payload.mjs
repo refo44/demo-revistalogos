@@ -83,12 +83,12 @@ function htmlVisibleText(html) {
       .replace(/<[^>]+>/g, " ")
       .replace(/&lt;/g, "<")
       .replace(/&gt;/g, ">")
-      .replace(/&amp;/g, "&")
       .replace(/&quot;/g, '"')
       .replace(/&#0?39;/g, "'")
       .replace(/&hellip;/g, "…")
       .replace(/&bull;/g, "•")
       .replace(/&nbsp;/g, " ")
+      .replace(/&amp;/g, "&")
   );
 }
 
