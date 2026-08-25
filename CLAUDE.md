@@ -80,7 +80,8 @@ required, not shared via Git, not a substitute for the files above.
   2026-08-19, PHP **8.3** via CloudLinux PHP Selector + Site Isolation,
   per-domain; `cenfiss.net` / `test.cenfiss.net` untouched; manual
   `workflow_dispatch` FTPS via `deploy_revista@…`,
-  Environment `wordpress-production`) and GitHub Pages
+  Environment `wordpress-production`; **only from an annotated `vX.Y.Z`
+  tag**, never after every merge to `main` (ADR 0020)) and GitHub Pages
   (`refo44.github.io/demo-revistalogos`, beta review mirror, auto-publishes
   on every push to `main` — this is intentional, not a bug). Never make the
   static-site deploy workflow auto-trigger on push; never suggest removing
@@ -149,7 +150,8 @@ required, not shared via Git, not a substitute for the files above.
   `docs/fase3-execution-state.md`), not one large commit spanning several.
 - **Do not implement on `main`** (ADR 0019, [Trunk-Based
   Development](https://trunkbaseddevelopment.com/)). Short-lived branches,
-  then a PR. GitHub requires the existing Tests check; required approvals
+  then a PR. GitHub deletes the PR head branch on merge
+  (`delete_branch_on_merge`). GitHub requires the existing Tests check; required approvals
   are 0 (see ADR 0019 for the Copilot-unattributed PR exception). Anyone with write can merge a green
   PR. Branch names follow [Conventional Branch 1.1.0](https://conventionalbranch.org/):
   prefer purpose prefixes (`feat`/`feature`, `fix`/`bugfix`, `hotfix`,
@@ -161,5 +163,7 @@ required, not shared via Git, not a substitute for the files above.
   [Conventional Comments](https://conventionalcomments.org/)
   (`label (non-blocking): subject` by default). No `develop`. The owner
   commits, pushes the feature
-  branch, merges, and deploys. Cursor still does not commit, push, merge,
-  or deploy unless the owner explicitly asks.
+  branch, and merges. Production FTPS is a **separate** tagged release
+  (ADR 0020): bump version, annotated `vX.Y.Z`, then `workflow_dispatch`
+  from that tag. Do not deploy after every merge. Cursor still does not
+  commit, push, merge, or deploy unless the owner explicitly asks.

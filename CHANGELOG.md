@@ -138,6 +138,14 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   No runtime bump. ADR 0017 remains unimplemented.
 
 ### Changed
+- ADR 0020: production WordPress FTPS only from an annotated git tag
+  `vMAJOR.MINOR.PATCH`. Merge to `main` is not a deploy. GitHub Pages
+  auto-publish on `main` is unchanged. `deploy-wordpress.yml` fails
+  without that tag (`tools/require-production-release-tag.sh`). Do not
+  dispatch from `v0.2.0` (live plugin is 0.2.8).
+- GitHub *Automatically delete head branches* (`delete_branch_on_merge`)
+  enabled. Merged PR head branches are deleted; `main` and tags are not.
+
 - Production PHP for `logo-et-spes.cenfiss.net`: **8.0.30 → 8.3**
   (owner, cPanel CloudLinux PHP Selector, Site Isolation,
   per-domain). `cenfiss.net` and `test.cenfiss.net` unchanged.

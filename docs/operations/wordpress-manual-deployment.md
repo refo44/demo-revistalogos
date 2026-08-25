@@ -29,24 +29,27 @@ staging WordPress. El Environment de este workflow es solo
 
 1. Despliegue de producción solo manual (`workflow_dispatch`).
 2. Requiere iniciación humana explícita.
-3. GitHub Actions **no** despliega el core de WordPress (`wp-admin`, `wp-includes`).
-4. GitHub Actions **no** despliega la base de datos ni dumps.
-5. GitHub Actions **no** despliega `uploads/` ni la biblioteca de medios.
-6. GitHub Actions **no** modifica `wp-config.php`.
-7. GitHub Actions **no** modifica el `.htaccess` de la raíz del document root.
-8. GitHub Actions **no** despliega plugins de terceros.
-9. GitHub Actions despliega **solo** `revistalogos` y `revistalogos-core`.
-10. Theme y plugin tienen destinos remotos **separados y acotados**.
-11. `dangerous-clean-slate` permanece `false`.
-12. Sin delete/mirror sobre directorios compartidos de `wp-content`.
-13. La cuenta FTP está enjaulada al sitio de la revista, no a
+3. Merge a `main` **no** es un deploy (ADR 0020). HEAD debe llevar una
+   etiqueta anotada `vMAJOR.MINOR.PATCH`. Run workflow **desde esa
+   etiqueta**, no desde `main` suelto.
+4. GitHub Actions **no** despliega el core de WordPress (`wp-admin`, `wp-includes`).
+5. GitHub Actions **no** despliega la base de datos ni dumps.
+6. GitHub Actions **no** despliega `uploads/` ni la biblioteca de medios.
+7. GitHub Actions **no** modifica `wp-config.php`.
+8. GitHub Actions **no** modifica el `.htaccess` de la raíz del document root.
+9. GitHub Actions **no** despliega plugins de terceros.
+10. GitHub Actions despliega **solo** `revistalogos` y `revistalogos-core`.
+11. Theme y plugin tienen destinos remotos **separados y acotados**.
+12. `dangerous-clean-slate` permanece `false`.
+13. Sin delete/mirror sobre directorios compartidos de `wp-content`.
+14. La cuenta FTP está enjaulada al sitio de la revista, no a
     `/home/cenfiss2/public_html/` (CENFISS + Moodle).
-14. Credenciales en el GitHub Environment `wordpress-production`.
-15. Los secretos **nunca** van al repositorio.
-16. Activar theme/plugin es una acción **aparte** en wp-admin. El workflow no
+15. Credenciales en el GitHub Environment `wordpress-production`.
+16. Los secretos **nunca** van al repositorio.
+17. Activar theme/plugin es una acción **aparte** en wp-admin. El workflow no
     activa nada. No añadir WP-CLI de activación sin un ADR nuevo.
-17. Migraciones, fixtures e importación de contenido quedan fuera de este FTPS.
-18. Éxito del Action ≠ sitio correcto. Siempre hay verificación post-despliegue.
+18. Migraciones, fixtures e importación de contenido quedan fuera de este FTPS.
+19. Éxito del Action ≠ sitio correcto. Siempre hay verificación post-despliegue.
 
 ## Destino (qué es y qué no es)
 
@@ -131,7 +134,8 @@ on: workflow_dispatch          # solo manual
 environment: wordpress-production
 concurrency.group: deploy-wordpress-production
 cancel-in-progress: false
-jobs: deploy-theme  →  deploy-plugin (needs: deploy-theme)
+jobs: require-release-tag → deploy-theme → deploy-plugin
+      (plugin also needs the tag job)
 protocol: ftps
 dangerous-clean-slate: false
 plugin job: runner-only PHP 8.3 + ext-dom/ext-mbstring (does NOT
@@ -149,25 +153,29 @@ históricos. Desde 2026-08-20 el workflow usa `checkout@v5` y
 
 ## PRE-DESPLIEGUE
 
-1. **Commit y rama:** `git rev-parse HEAD` y `git branch --show-current`.
-   Desplegar desde `main` salvo decisión explícita en contrario. Working tree
-   limpio (`git status --short`).
-2. **Cambios incluidos:** solo theme y/o plugin first-party. Sin fixtures,
+1. **Release etiquetado (ADR 0020):** `./tools/require-production-release-tag.sh`
+   debe pasar. Si falla, no hay deploy: bump de `package.json` /
+   `VERSION.md` / `CHANGELOG.md`, PR `chore(release): vX.Y.Z`, etiqueta
+   anotada, y Run workflow **desde esa tag**. Merge a `main` no basta.
+   No despachar desde `v0.2.0` (producción ya sirve plugin 0.2.8).
+2. **Commit y rama:** `git rev-parse HEAD` y la etiqueta (`git describe --exact-match --tags`).
+   Working tree limpio (`git status --short`).
+3. **Cambios incluidos:** solo theme y/o plugin first-party. Sin fixtures,
    sin dumps, sin `static/`.
-3. **Destino:** `https://logo-et-spes.cenfiss.net` — WordPress de la revista.
+4. **Destino:** `https://logo-et-spes.cenfiss.net` — WordPress de la revista.
    No `cenfiss.net`, no `test.cenfiss.net`, no `/home/cenfiss2/public_html/`.
-4. **Environment:** `wordpress-production`. Confirmar en el run de Actions.
-5. **Límites remotos:** `PRODUCTION_THEME_REMOTE_DIR` y
+5. **Environment:** `wordpress-production`. Confirmar en el run de Actions.
+6. **Límites remotos:** `PRODUCTION_THEME_REMOTE_DIR` y
    `PRODUCTION_PLUGIN_REMOTE_DIR` son rutas **relativas a la jaula FTP**,
    cada una el directorio del artefacto. No el document root.
-6. **Backup disponible (no lo hace el workflow):**
+7. **Backup disponible (no lo hace el workflow):**
    - JetBackup 5 (cuenta cPanel) — rollback de hosting/archivos.
    - Backuply (plugin en el WP; no forma parte del deploy de Git).
    - ZIP `logo-et-spes-static-backup-2026-08-18.zip` — artefacto
      **pre-migración** del estático; no es rollback normal de la app.
    - Git — código; no restaura BD.
-7. **No exponer secretos** en issues, logs pegados ni commits.
-8. **PHP de producción no se toca.** Hosting ya corre PHP **8.3**.
+8. **No exponer secretos** en issues, logs pegados ni commits.
+9. **PHP de producción no se toca.** Hosting ya corre PHP **8.3**.
    `setup-php` en `deploy-wordpress.yml` es solo el runner de Actions
    para Composer. Antes del primer deploy de WU4 (plugin con `vendor/`
    Dompdf): **verificar** `ext-dom` y `ext-mbstring` en ese PHP 8.3.
@@ -178,10 +186,13 @@ históricos. Desde 2026-08-20 el workflow usa `checkout@v5` y
 ## DESPLIEGUE
 
 1. GitHub → Actions → **Deploy WordPress theme+plugin to production**.
-2. **Run workflow**. Confirmar la rama (normalmente `main`).
-3. Disparo **manual**. Esperar ambos jobs: primero *Upload theme via FTPS*,
-   luego *Upload plugin via FTPS* (`needs: deploy-theme`).
-4. Si el theme falla, el plugin **no** corre.
+2. **Run workflow**. En *Use workflow from* elegir la **etiqueta**
+   `vX.Y.Z`, no `main` (salvo que `main` coincida exactamente con esa
+   etiqueta). El job *Require annotated release tag* corre primero y
+   aborta si HEAD no está etiquetado.
+3. Disparo **manual**. Esperar: *Require annotated release tag*, luego
+   *Upload theme via FTPS*, luego *Upload plugin via FTPS*.
+4. Si el chequeo de etiqueta o el theme fallan, el plugin **no** corre.
 
 El workflow **no** activa el theme ni el plugin.
 

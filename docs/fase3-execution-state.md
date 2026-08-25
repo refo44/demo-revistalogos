@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "Add Copilot PR review instructions; ADR 0019 merged"
-current_branch: "chore/add-copilot-review-instructions"
+current_work_unit: "ADR 0020 production release tags; 0.2.8 transfer recorded"
+current_branch: "docs/adr-0020-production-release-tags"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-08-24"
-next_action: "Owner deploys 0.2.8. Default OFF. No backfill. WU7 not started."
+next_action: "Owner Gutenberg smoke of 0.2.8. Do not workflow_dispatch again until a new vX.Y.Z tag (ADR 0020). Default OFF after smoke. No backfill. WU7 not started."
 blocked: false
 ---
 
@@ -398,16 +398,21 @@ Registradas para corrección en commit de documentación separado (WU12):
 
 ## Repository state
 
-- Rama: `main`; tag publicado: `v0.1.0`. Versión de proyecto **0.2.0**
-  (canónica en `package.json`); tag Git `v0.2.0` pendiente (véase `VERSION.md`).
-  Plugin `revistalogos-core` **0.2.8** y theme `revistalogos` **0.2.1** en el
-  working tree (hotfix: Gutenberg meta-box-loader no debe borrar el
-  `pdf_file` generado; enforcement default OFF). Producción sigue en
-  **0.2.7** hasta que el propietario despliegue 0.2.8. Versión de
-  proyecto **0.2.0** sin cambio. Sin backfill. WU7 no iniciado.
+- Rama: `main`; tags publicados: `v0.1.0`, `v0.2.0` (anotadas). Versión de
+  proyecto **0.2.0** (canónica en `package.json`). Plugin
+  `revistalogos-core` **0.2.8** y theme `revistalogos` **0.2.1**
+  en Git y **en producción** (hotfix: Gutenberg meta-box-loader no debe
+  borrar el `pdf_file` generado; enforcement default OFF). Primer
+  transfer 0.2.8: Actions run `32698488419` (`d9bf6d2`, 2026-08-24
+  06:43 UTC); `readme.txt` live `Stable tag: 0.2.8`. Smoke Gutenberg
+  del checkpoint ([issue #9](https://github.com/refo44/demo-revistalogos/issues/9))
+  **pendiente**. ADR 0020: el próximo FTPS exige un **nuevo** `vX.Y.Z`;
+  no despachar desde `v0.2.0` ni tras cada merge. Sin backfill. WU7 no
+  iniciado.
 - Despliegues: WordPress de la revista en `logo-et-spes.cenfiss.net`
-  (`deploy-wordpress.yml`, `workflow_dispatch`, Environment
-  `wordpress-production`, cuenta FTP `deploy_revista@…`). El workflow
+  (`deploy-wordpress.yml`, `workflow_dispatch` **desde etiqueta
+  `vX.Y.Z`**, ADR 0020, Environment `wordpress-production`, cuenta FTP
+  `deploy_revista@…`). Merge a `main` no es un deploy. El workflow
   estático `deploy.yml` está **retirado**. GitHub Pages automático
   desde `static/` (`pages.yml`) sigue como espejo beta. Panel: cPanel
   `cenfiss2`, no Hostinger.
@@ -420,7 +425,7 @@ matriz, ledger, runbooks).
 **2026-08-18 (versión 0.2.0):** `package.json` / `VERSION.md` / `CHANGELOG.md` /
 `README.md`; cabeceras Version del theme y plugin; `screenshot.png`; docs 00,
 12, 13, 15, 17, README de docs, matriz, inventario de terceros, `CLAUDE.md`,
-este archivo. Tag Git `v0.2.0` pendiente de publicación (véase `VERSION.md`).
+este archivo. Tag Git `v0.2.0` anotada el mismo día.
 
 **2026-08-19 (corte + runbook de producción):** snapshot
 `docs/operations/produccion-wordpress.md`; runbook canónico
@@ -578,14 +583,38 @@ decisión del propietario.
 el PDF; el follow-up `meta-box-loader` ya no borra `pdf_file` (keep
 one-shot, solo esa petición). Quitar PDF en un save normal sigue
 limpiando de inmediato. Default OFF. Sin backfill. WU7 no iniciado.
-Commit en Git `d9bf6d2`. Producción permanece en **0.2.7** hasta el
-deploy del propietario. Theme **0.2.1**. Proyecto **0.2.0**.
+Commit en Git `d9bf6d2`. Theme **0.2.1**. Proyecto **0.2.0**.
+
+**2026-08-24 (plugin 0.2.8 en producción, Pass (transfer)):** el
+propietario disparó `deploy-wordpress.yml`. Primer Success con 0.2.8:
+[run 32698488419](https://github.com/refo44/demo-revistalogos/actions/runs/32698488419)
+(`d9bf6d2`, 06:43 UTC). Re-runs Success
+[32785940259](https://github.com/refo44/demo-revistalogos/actions/runs/32785940259)
+(22:42 UTC, `b5d5bd3`) y
+[32799914335](https://github.com/refo44/demo-revistalogos/actions/runs/32799914335)
+(2026-08-25 02:03 UTC, `58e7566`). Evidencia live: `readme.txt` del
+plugin en `logo-et-spes.cenfiss.net` responde 200, `Stable tag: 0.2.8`,
+`Last-Modified: Mon, 24 Aug 2026 06:44:05 GMT`. Theme `style.css`
+`Version: 0.2.1`. CTA PDF de un artículo bootstrap ya publicado
+sigue visible (PDF del 2026-08-20; **no** es evidencia de generación
+Gutenberg). Smoke wp-admin del checkpoint **no** hecho: Draft/Pending
+→ Publish con exigencia ON, un solo PDF, `pdf_file` tras
+`meta-box-loader`, sin regresión de Quitar PDF. Default OFF no se
+activó por el deploy. Sin backfill.
 
 **2026-08-24 (ADR 0019, ruleset GitHub):** `main` protegida con
 ruleset `Protect main (trunk-based)` (`21337399`), activo, sin
 bypass. Exige PR + check Tests; 0 approvals; sin force-push ni
 borrado. Documentación en working tree de `chore/protect-main-ruleset`
 (sin commit hasta el propietario). No relitiga ADR 0009.
+`delete_branch_on_merge` **activado** el mismo día (ajuste de repo,
+no ruleset); cinco ramas remotas ya mergeadas eliminadas.
+
+**2026-08-24 (ADR 0020):** FTPS de producción solo desde etiqueta
+anotada `vMAJOR.MINOR.PATCH`. Merge a `main` no es un deploy. Gate en
+`deploy-wordpress.yml` + `tools/require-production-release-tag.sh`.
+No disparo al pushear el tag. Plugin 0.2.8 live es excepción histórica
+(sin tag de proyecto de ese transfer). Próximo envío: release nuevo.
 
 ## Next exact action
 
@@ -595,27 +624,29 @@ Recuperación institucional **ya hecha** (Pages reales permanentes). Carga
 editorial real en proceso desde wp-admin (**no** completa). Docker local:
 `http://localhost:8080` (WordPress 7.1, PHP **8.3**).
 
-Siguiente acción priorizada — **commit+PR del propietario de ADR 0019**
-(rama `chore/protect-main-ruleset`). El ruleset de `main` **ya está
-activo** (GitHub `21337399`; no es un commit). Plugin **0.2.8** ya está
-en Git (`d9bf6d2`); producción sigue en **0.2.7** hasta que el
-propietario despliegue. No activar la exigencia PDF; sin backfill;
-WU7 no iniciado. Tras mergear 0019: no pushear a `main`; ramas cortas
-+ PR (ADR 0019).
+Siguiente acción priorizada — **smoke Gutenberg del checkpoint 0.2.8**
+([issue #9](https://github.com/refo44/demo-revistalogos/issues/9)) en
+wp-admin de producción, **después** de dejar constancia de que el
+plugin ya está en disco. El ruleset de `main` **ya está activo**
+(GitHub `21337399`). Plugin **0.2.8** está en Git (`d9bf6d2`) **y**
+en producción (primer transfer: run `32698488419`). No dejar la
+exigencia PDF ON al terminar el smoke; sin backfill; WU7 no iniciado.
+No pushear a `main`; ramas cortas + PR (ADR 0019).
 Trabajo pendiente aceptado (no duplicar aquí):
 `docs/adr/BACKLOG.md` § Trabajo pendiente aceptado.
 
 1. el default OFF sigue permitiendo publicar sin PDF;
-2. no activar `revistalogos_article_pdf_publication_enforcement`
-   en producción ni en upgrade/deploy;
+2. no dejar `revistalogos_article_pdf_publication_enforcement` ON
+   en producción tras el smoke; el deploy **no** la activó;
 3. **no cambiar** el PHP 8.3 de producción. Antes del primer deploy
    que suba `vendor/`, solo **verificar** que `ext-dom` y
    `ext-mbstring` estén habilitadas en ese PHP 8.3 ya configurado.
    `setup-php` del workflow es solo el runner de Actions, no el
    hosting;
-4. deploy de plugin `revistalogos-core` **0.2.8** y theme
-   `revistalogos` **0.2.1** sigue siendo decisión aparte del
-   propietario (producción actualmente sirve **0.2.7**);
+4. plugin `revistalogos-core` **0.2.8** y theme `revistalogos`
+   **0.2.1** ya están en el live; **no** otro `workflow_dispatch` para
+   este checkpoint. El próximo FTPS es un release etiquetado nuevo
+   (ADR 0020), no `v0.2.0`;
 5. no re-ejecutar bootstrap ni teardown en producción;
 6. Bootstrap_Admin ya no forma parte del plugin.
 

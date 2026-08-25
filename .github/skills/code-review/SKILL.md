@@ -30,8 +30,10 @@ behaviour and a running app is in scope.
 `develop`, GitFlow, CODEOWNERS, commitlint, required reviews, extra CI runners,
 PHPCS/PHPStan/Psalm, Playwright, the official WP test suite, DI containers, or
 new Composer/plugin dependencies without an ADR. Do not change deploy
-(`workflow_dispatch`, ADR 0009) or hosting PHP. Pages auto-publish on `main` is
-deliberate.
+(`workflow_dispatch` from an annotated `vX.Y.Z` tag, ADR 0009 + ADR 0020)
+or hosting PHP. Merge to `main` is not a production deploy. Pages
+auto-publish on `main` is deliberate. Do not suggest keeping merged
+feature branches; GitHub deletes the PR head branch on merge.
 
 ## Paths
 
