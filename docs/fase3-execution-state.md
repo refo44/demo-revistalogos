@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "ADR 0020 production release tags; 0.2.8 transfer recorded"
-current_branch: "docs/adr-0020-production-release-tags"
+current_work_unit: "0.2.8 checkpoint closed (issue #9)"
+current_branch: "docs/close-0.2.8-checkpoint-issue-9"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-08-24"
-next_action: "Owner Gutenberg smoke of 0.2.8. Do not workflow_dispatch again until a new vX.Y.Z tag (ADR 0020). Default OFF after smoke. No backfill. WU7 not started."
+next_action: "Next FTPS needs a new vX.Y.Z tag (ADR 0020). Default OFF. No backfill. WU7 not started."
 blocked: false
 ---
 
@@ -597,10 +597,11 @@ plugin en `logo-et-spes.cenfiss.net` responde 200, `Stable tag: 0.2.8`,
 `Last-Modified: Mon, 24 Aug 2026 06:44:05 GMT`. Theme `style.css`
 `Version: 0.2.1`. CTA PDF de un artículo bootstrap ya publicado
 sigue visible (PDF del 2026-08-20; **no** es evidencia de generación
-Gutenberg). Smoke wp-admin del checkpoint **no** hecho: Draft/Pending
-→ Publish con exigencia ON, un solo PDF, `pdf_file` tras
-`meta-box-loader`, sin regresión de Quitar PDF. Default OFF no se
-activó por el deploy. Sin backfill.
+Gutenberg). Smoke wp-admin del checkpoint **no** hecho como Pass de
+matriz. [Issue #9](https://github.com/refo44/demo-revistalogos/issues/9)
+**cerrado** 2026-08-24 por el propietario: el checkpoint queda en el
+transfer registrado. Default OFF no se activó por el deploy. Sin
+backfill.
 
 **2026-08-24 (ADR 0019, ruleset GitHub):** `main` protegida con
 ruleset `Protect main (trunk-based)` (`21337399`), activo, sin
@@ -624,14 +625,12 @@ Recuperación institucional **ya hecha** (Pages reales permanentes). Carga
 editorial real en proceso desde wp-admin (**no** completa). Docker local:
 `http://localhost:8080` (WordPress 7.1, PHP **8.3**).
 
-Siguiente acción priorizada — **smoke Gutenberg del checkpoint 0.2.8**
-([issue #9](https://github.com/refo44/demo-revistalogos/issues/9)) en
-wp-admin de producción, **después** de dejar constancia de que el
-plugin ya está en disco. El ruleset de `main` **ya está activo**
-(GitHub `21337399`). Plugin **0.2.8** está en Git (`d9bf6d2`) **y**
-en producción (primer transfer: run `32698488419`). No dejar la
-exigencia PDF ON al terminar el smoke; sin backfill; WU7 no iniciado.
-No pushear a `main`; ramas cortas + PR (ADR 0019).
+Siguiente acción priorizada — **no** reabrir el checkpoint 0.2.8
+([issue #9](https://github.com/refo44/demo-revistalogos/issues/9)
+cerrado). Plugin **0.2.8** está en Git y en producción. El próximo FTPS
+exige un **nuevo** `vX.Y.Z` (ADR 0020); no despachar desde `v0.2.0`.
+Default OFF; sin backfill; WU7 no iniciado. No pushear a `main`; ramas
+cortas + PR (ADR 0019).
 Trabajo pendiente aceptado (no duplicar aquí):
 `docs/adr/BACKLOG.md` § Trabajo pendiente aceptado.
 
