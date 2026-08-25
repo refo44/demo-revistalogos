@@ -5,7 +5,7 @@ current_work_unit: "0.2.8 checkpoint closed (issue #9)"
 current_branch: "docs/close-0.2.8-checkpoint-issue-9"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
-updated_at: "2026-08-24"
+updated_at: "2026-08-25"
 next_action: "Next FTPS needs a new vX.Y.Z tag (ADR 0020). Default OFF. No backfill. WU7 not started."
 blocked: false
 ---
@@ -599,7 +599,7 @@ plugin en `logo-et-spes.cenfiss.net` responde 200, `Stable tag: 0.2.8`,
 sigue visible (PDF del 2026-08-20; **no** es evidencia de generación
 Gutenberg). Smoke wp-admin del checkpoint **no** hecho como Pass de
 matriz. [Issue #9](https://github.com/refo44/demo-revistalogos/issues/9)
-**cerrado** 2026-08-24 por el propietario: el checkpoint queda en el
+**cerrado** 2026-08-25 por el propietario: el checkpoint queda en el
 transfer registrado. Default OFF no se activó por el deploy. Sin
 backfill.
 

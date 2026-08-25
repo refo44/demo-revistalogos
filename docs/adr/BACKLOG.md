@@ -144,7 +144,7 @@ Trabajo **ya aceptado** y **no iniciado** (o no cerrado en producción). No es u
 
 #### 1. Checkpoint de producción — plugin 0.2.8
 
-**Estado:** HECHO ([issue #9](https://github.com/refo44/demo-revistalogos/issues/9) cerrado 2026-08-24 por el propietario).
+**Estado:** HECHO ([issue #9](https://github.com/refo44/demo-revistalogos/issues/9) cerrado 2026-08-25 por el propietario).
 
 Plugin `revistalogos-core` **0.2.8** y theme **0.2.1** en producción. Transfer: Actions run `32698488419` (`d9bf6d2`); live `readme.txt` `Stable tag: 0.2.8`. Default OFF. Sin backfill. Smoke Gutenberg wp-admin no anotado como Pass aparte. Próximo FTPS: etiqueta nueva (ADR 0020), no `v0.2.0`. WU7 no iniciado.
 
