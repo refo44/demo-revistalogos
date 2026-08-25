@@ -48,7 +48,7 @@ Requieren elegir entre alternativas antes o durante la construcción del theme. 
 | D14 | Clasificación de la sección de noticias/blog (CPT nativo `post`) → ¿se le añade una taxonomía (propia, tipo `keyword`, o nativa `category`/`post_tag` reactivada) para agrupar noticias, o se mantiene sin clasificar? Detectado 2026-07-31: `post_tag`/`category` existen en WordPress por defecto pero ni el plugin ni el theme las registran, renderizan ni enlazan — hoy son datos muertos si se usan desde el panel. **No se implementa todavía**; se abre solo para no perder el hallazgo. | Alcance de una futura plantilla `category.php`/`tag.php` si se resuelve por «sí» | ⏳ Pendiente |
 | D15 | Tipo de theme → **block theme (FSE)** + Site Editor + paleta en Estilos; Next.js / headless **rechazado** | FSE incremental en Docker **después** de estabilizar producción clásica (el corte 2026-08-19 no esperó al gate FSE) | ✅ Resuelta ([0015](0015-block-theme-fse-site-editor.md)); implementación pendiente |
 | D16 | Topología de hosting → **cPanel `cenfiss2`**, no panel Hostinger; corte WP **in situ** en `logo-et-spes.cenfiss.net`; sin subdominios nuevos | Secretos FTPS y Softaculous | ✅ Resuelta ([0016](0016-topologia-hosting-cpanel.md)); **corte ejecutado 2026-08-19** |
-| D17 | Generación automática del PDF de artículo al publicar → **arquitectura aceptada** ([0017](0017-generacion-automatica-pdf-articulo.md)): `pdf_file` sigue siendo un ID de Media Library; ajuste wp-admin **OFF por defecto**; ON: PDF válido se conserva; si falta, generar; si falla, bloquear; no pisar un PDF válido; no regenerar al guardar; no backfill en upgrade. **Testing Foundation hecha** ([0018](0018-testing-foundation.md), `docs/23`). **WU1–WU6B** política, adaptador, orquestación, renderer, persistencia, source HTML, composición explícita y enforcement classic/REST. PDF de número: fuera de v1. Producción permanece OFF hasta decisión del propietario. | Activación en producción: decisión aparte del propietario (no auto-enable). Hotfix 0.2.8 y WU7: [trabajo pendiente](#trabajo-pendiente-aceptado) | ✅ Resuelta ([0017](0017-generacion-automatica-pdf-articulo.md)); implementación local WU1–WU6B; hotfix 0.2.8 en working tree (no desplegado); WU7 no iniciado |
+| D17 | Generación automática del PDF de artículo al publicar → **arquitectura aceptada** ([0017](0017-generacion-automatica-pdf-articulo.md)): `pdf_file` sigue siendo un ID de Media Library; ajuste wp-admin **OFF por defecto**; ON: PDF válido se conserva; si falta, generar; si falla, bloquear; no pisar un PDF válido; no regenerar al guardar; no backfill en upgrade. **Testing Foundation hecha** ([0018](0018-testing-foundation.md), `docs/23`). **WU1–WU6B** política, adaptador, orquestación, renderer, persistencia, source HTML, composición explícita y enforcement classic/REST. PDF de número: fuera de v1. Producción permanece OFF hasta decisión del propietario. | Activación en producción: decisión aparte del propietario (no auto-enable). Hotfix 0.2.8 y WU7: [trabajo pendiente](#trabajo-pendiente-aceptado) | ✅ Resuelta ([0017](0017-generacion-automatica-pdf-articulo.md)); implementación local WU1–WU6B; hotfix 0.2.8 desplegado (smoke Gutenberg pendiente); WU7 no iniciado |
 
 ---
 
@@ -113,6 +113,11 @@ Estado en el repo: `.github/workflows/deploy.yml` («Deploy to Hostinger») **el
 
 - **PDF de artículo al publicar:** el contenido WordPress del artículo es la fuente del PDF **generado**; `pdf_file` sigue siendo un ID de adjunto. Ajuste wp-admin `revistalogos_article_pdf_publication_enforcement`, **OFF por defecto** (ausente = OFF). Testing Foundation **hecha** ([0018](0018-testing-foundation.md)). ADR 0017 WU1–WU6B implementados. OFF: PDF opcional y manual; publicar sin PDF permitido. ON: PDF válido se conserva; si falta, se genera; si falla, no se publica; guardar un publicado no regenera; el upgrade no rellena ni despublica ni activa la opción. FSE solo lee `pdf_file`. PDF de número fuera de v1. Activación en producción: decisión del propietario. → [ADR 0017](0017-generacion-automatica-pdf-articulo.md).
 
+### Añadidas el 2026-08-24
+
+- **Producción WordPress solo desde release etiquetado:** merge a `main` no es un FTPS. GitHub Pages sigue automático. Antes de `deploy-wordpress.yml`: versionar (`package.json` / `VERSION.md` / `CHANGELOG.md`), etiqueta anotada `vX.Y.Z`, Run workflow **desde esa tag**. El workflow aborta sin ella. No disparo al pushear el tag (ADR 0009 §5 intacto). Plugin 0.2.8 live no se retiqueta; el próximo envío es un tag **nuevo**. → [ADR 0020](0020-despliegue-produccion-desde-etiqueta.md).
+- **Borrar rama al mergear:** Settings → General → Pull Requests → *Automatically delete head branches* (`delete_branch_on_merge`) **activado**. No es una regla del ruleset. `main` y las etiquetas no se tocan. Ramas remotas ya mergeadas que quedaban: eliminadas. → [ADR 0019](0019-proteger-main-trunk-based.md) § Estado de implementación.
+
 ---
 
 ## Orden sugerido
@@ -121,7 +126,7 @@ Estado en el repo: `.github/workflows/deploy.yml` («Deploy to Hostinger») **el
 2. Grupo B por dependencia: **D6 → D7 → D8** primero (desbloquean tareas de enlaces, despliegue y scaffold).
 3. D9–D12 después; no bloquean la construcción.
 4. D16 corte **hecho** (2026-08-19, theme clásico). D15 → FSE incremental en Docker **después** de QA de producción (sin esperar D12b ni D14).
-5. D17 arquitectura **hecha** (2026-08-20). Testing Foundation **hecha** (ADR 0018, 2026-08-20). Implementación de 0017 **WU1–WU6B completa en local** (enforcement default OFF). Hotfix 0.2.8, FSE, PDF de número y WU7: ver [Trabajo pendiente aceptado](#trabajo-pendiente-aceptado). Activación en producción sigue siendo decisión aparte.
+5. D17 arquitectura **hecha** (2026-08-20). Testing Foundation **hecha** (ADR 0018, 2026-08-20). Implementación de 0017 **WU1–WU6B completa en local** (enforcement default OFF). Hotfix 0.2.8 (desplegado; smoke Gutenberg pendiente), FSE, PDF de número y WU7: ver [Trabajo pendiente aceptado](#trabajo-pendiente-aceptado). Activación PDF en producción sigue siendo decisión aparte. FTPS de producción: [ADR 0020](0020-despliegue-produccion-desde-etiqueta.md).
 
 ---
 
@@ -129,7 +134,7 @@ Estado en el repo: `.github/workflows/deploy.yml` («Deploy to Hostinger») **el
 
 Trabajo **ya aceptado** y **no iniciado** (o no cerrado en producción). No es un ADR nuevo: las decisiones siguen en los ADR enlazados. Estados: **NEXT**, **PLANNED**, **DEFERRED**. Sin fechas ni puntos. Cursor no implementa, no commitea, no despliega desde esta lista.
 
-**Completado — no es backlog:** ADR 0017 WU1–WU6B (generación al publicar, enforcement configurable, default OFF). El bug Gutenberg `meta-box-loader` pertenece al hotfix **0.2.8**, no a WU7. ADR [0019](0019-proteger-main-trunk-based.md) (ruleset de `main` activo; docs por PR).
+**Completado — no es backlog:** ADR 0017 WU1–WU6B (generación al publicar, enforcement configurable, default OFF). El bug Gutenberg `meta-box-loader` pertenece al hotfix **0.2.8**, no a WU7. ADR [0019](0019-proteger-main-trunk-based.md) (ruleset de `main` activo; docs por PR). ADR [0020](0020-despliegue-produccion-desde-etiqueta.md) (FTPS de producción solo desde etiqueta `vX.Y.Z`; merge ≠ deploy). Tag Git `v0.2.0` **existe** (anotada, 2026-08-18).
 
 **No forma parte de ADR 0017 WU7:** backfill automático; regeneración al guardar un artículo; PDF de número; FSE; borrado permanente de PDFs históricos; regeneración masiva (salvo aprobación posterior aparte).
 
@@ -139,11 +144,11 @@ Trabajo **ya aceptado** y **no iniciado** (o no cerrado en producción). No es u
 
 #### 1. Checkpoint de producción — plugin 0.2.8
 
-**Estado:** NEXT (en Git `d9bf6d2`; **no** desplegado).
+**Estado:** NEXT (desplegado; smoke Gutenberg **pendiente**). Issue: [#9](https://github.com/refo44/demo-revistalogos/issues/9).
 
-Hotfix de `revistalogos-core` **0.2.8**: Gutenberg REST publica y genera el PDF; el follow-up `meta-box-loader` no debe borrar `pdf_file`. Theme **0.2.1**. Proyecto **0.2.0**. Enforcement default **OFF**. Sin backfill. Producción sigue en **0.2.7** hasta deploy del propietario (`docs/fase3-execution-state.md`).
+Hotfix de `revistalogos-core` **0.2.8**: Gutenberg REST publica y genera el PDF; el follow-up `meta-box-loader` no debe borrar `pdf_file`. Theme **0.2.1**. Proyecto **0.2.0**. Enforcement default **OFF**. Sin backfill. Transfer: Actions run `32698488419` (`d9bf6d2`, 2026-08-24 06:43 UTC); live `readme.txt` `Stable tag: 0.2.8`. Re-runs `32785940259` y `32799914335` también Success. **No** hace falta otro `workflow_dispatch` para este ítem (ADR 0020: el próximo FTPS exige un **nuevo** tag; no despachar desde `v0.2.0`). Cerrar el issue solo con evidencia wp-admin en `docs/fase3-execution-state.md`.
 
-Aceptación eventual (cuando el propietario despliegue y compruebe; **no** afirmar smoke hasta evidencia en docs):
+Aceptación eventual (transfer **hecho**; smoke wp-admin **no** afirmar hasta evidencia en docs):
 
 - plugin 0.2.8 desplegado;
 - Gutenberg Draft/Pending → Publish con exigencia ON;
@@ -158,7 +163,7 @@ No es una feature nueva.
 
 **Estado:** HECHO (ruleset GitHub 2026-08-24; ADR [0019](0019-proteger-main-trunk-based.md)). Documentación de esta decisión entra por PR en `chore/protect-main-ruleset`.
 
-Ruleset `Protect main (trunk-based)` (`21337399`), activo, sin bypass. `main` exige PR; 0 approvals base (ver ADR 0019 sobre la regla de +1 approval para PRs de Copilot sin atribución); check `PHP lint, Composer audit, and unit (PHP 8.3)`; sin force-push ni borrado. Trunk-Based Development: ramas cortas, sin `develop`. Nombres: [Conventional Branch 1.1.0](https://conventionalbranch.org/). Mensajes: [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/). Ambos por convención, no en el ruleset. Preferir squash. Cursor **sigue sin** commit, push, merge ni deploy.
+Ruleset `Protect main (trunk-based)` (`21337399`), activo, sin bypass. `main` exige PR; 0 approvals base (ver ADR 0019 sobre la regla de +1 approval para PRs de Copilot sin atribución); check `PHP lint, Composer audit, and unit (PHP 8.3)`; sin force-push ni borrado. Trunk-Based Development: ramas cortas, sin `develop`. GitHub **borra la rama head al mergear** (`delete_branch_on_merge`; no es el ruleset). Nombres: [Conventional Branch 1.1.0](https://conventionalbranch.org/). Mensajes: [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/). Ambos por convención, no en el ruleset. Preferir squash. Cursor **sigue sin** commit, push, merge ni deploy.
 
 ### PLANNED
 
@@ -241,7 +246,6 @@ Solo trabajo o proceso **ya decidido** y aún no cerrado. Las decisiones **abier
 | HSTS y CSP tras auditoría profesional; GA4 en fase posterior con asesoría legal | DEFERRED | ADR 0012 §3/§6 (D12a, no D12b); ADR 0011 §2 |
 | Activar exigencia PDF en producción | LATER (decisión del propietario; default OFF) | ADR 0017; no es auto-enable |
 | Indexación pública | LATER (launch gate; no la abre el deploy) | ADR 0004; `docs/operations/produccion-wordpress.md` |
-| Tag Git `v0.2.0` | LATER | `VERSION.md` |
 | e-ISSN digital / ISSN «en trámite» | LATER (trámite editorial, no software) | ADR 0013; ADR 0004 |
 | Backlog **operativo** de producción (CF7/WP Statistics en el live, Softaculous, restos HTML, permalinks, SpeedyCache, secreto FTP legado, fuente de GitHub Pages) | no duplicar aquí | `docs/operations/produccion-wordpress.md` § Pendientes inmediatos; `docs/fase3-execution-state.md` |
 

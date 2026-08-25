@@ -197,8 +197,19 @@ cuenta personal: perder esa cuenta es un riesgo de GitHub, no de este
 ruleset.
 
 **Trabajo futuro:** activar «branch up to date» solo si el desfase se
-vuelve un problema. Borrar la rama al mergear es un ajuste de repo
-aparte. No añadir approvals obligatorias.
+vuelve un problema. No añadir approvals obligatorias.
+
+## Estado de implementación (2026-08-24)
+
+Nota factual; no sustituye las decisiones de este ADR.
+
+- Ruleset `Protect main (trunk-based)` (`21337399`) activo, sin bypass.
+- Ajuste de repositorio (Settings → General → Pull Requests; **no** es
+  una regla del ruleset): [*Automatically delete head branches*](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-the-automatic-deletion-of-branches)
+  (`delete_branch_on_merge`) **activado**. GitHub borra la rama head del
+  PR al mergear. No borra `main` (el ruleset lo impide). No borra
+  etiquetas `vX.Y.Z`. Las cinco ramas remotas ya mergeadas que habían
+  quedado se eliminaron el mismo día.
 
 ## Referencias
 
@@ -211,6 +222,8 @@ aparte. No añadir approvals obligatorias.
 - [Reglas disponibles](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets)
 - ADR 0009 (despliegue; no se modifica)
 - ADR 0018 / `docs/23-testing-foundation.md` (workflow `Tests`)
+- ADR 0020 (el ref de `workflow_dispatch` de producción es la etiqueta
+  `vX.Y.Z`, no HEAD suelto de `main` tras cada merge; no relitiga este ADR)
 - `docs/adr/BACKLOG.md` § Trabajo pendiente aceptado, ítem 2 (origen)
 - [Copilot code review — instrucciones](https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/copilot-code-review#customize-reviews-with-custom-instructions)
   (`.github/copilot-instructions.md`)

@@ -4,6 +4,9 @@
 # - workflow_dispatch ONLY: no push/pull_request/schedule/tag triggers and
 #   no automatic promotion. Creating or validating this workflow does not
 #   authorize executing it; every run needs an explicit owner decision.
+# - ADR 0020: HEAD must carry an annotated vMAJOR.MINOR.PATCH tag. Merge
+#   to main is not a deploy. Run the workflow from that tag, not from
+#   untagged main. Still no on.push tags (that would auto-promote).
 # - Scope is exactly the first-party theme and plugin directories. It
 #   never touches wp-content/uploads/, wp-config.php, WordPress core,
 #   database content, third-party plugins or the server-root .htaccess,
@@ -28,10 +31,25 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  require-release-tag:
+    name: Require annotated release tag
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          fetch-tags: true
+
+      - name: HEAD must be vMAJOR.MINOR.PATCH
+        run: ./tools/require-production-release-tag.sh
+
   deploy-theme:
     name: Upload theme via FTPS
     runs-on: ubuntu-latest
     environment: wordpress-production
+    needs: require-release-tag
 
     steps:
       - name: Checkout repository
@@ -54,7 +72,9 @@ jobs:
     name: Upload plugin via FTPS
     runs-on: ubuntu-latest
     environment: wordpress-production
-    needs: deploy-theme
+    needs:
+      - require-release-tag
+      - deploy-theme
 
     steps:
       - name: Checkout repository

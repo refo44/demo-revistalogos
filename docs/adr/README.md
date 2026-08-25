@@ -68,6 +68,7 @@ Usar `TEMPLATE.md` como punto de partida. Estructura mínima: Estado · Fecha ·
 | [0017](0017-generacion-automatica-pdf-articulo.md) | Generación automática del PDF de artículo al publicar | Aceptada |
 | [0018](0018-testing-foundation.md) | Testing Foundation (PHPUnit, Composer dev-only, Gherkin sin Behat) | Aceptada |
 | [0019](0019-proteger-main-trunk-based.md) | Proteger `main` — TBD, Conventional Branch/Commits, ruleset | Aceptada |
+| [0020](0020-despliegue-produccion-desde-etiqueta.md) | Despliegue de producción solo desde versión etiquetada | Aceptada |
 
 > El backlog de decisiones a resolver, y el trabajo aceptado aún no hecho, se lleva en `docs/adr/BACKLOG.md`. Cada decisión resuelta añade su fila a esta tabla. El trabajo de implementación no retira la fila del ADR.
 

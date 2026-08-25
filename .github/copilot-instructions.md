@@ -13,7 +13,7 @@ Paths: plugin `wordpress/wp-content/plugins/revistalogos-core/`, theme `wordpres
 - Labels: `praise`, `nitpick`, `suggestion`, `issue`, `todo`, `question`, `thought`, `chore`, `note`, `typo`. At most one extra decoration (`security`, `test`, `if-minor`).
 - Leave a **Comment** review. Merge lock is CI `PHP lint, Composer audit, and unit (PHP 8.3)`. Approvals = 0 (ADR 0019).
 - KISS/YAGNI. Do not suggest `develop`, GitFlow, CODEOWNERS, commitlint, required reviews, extra CI runners, PHPCS/PHPStan/Psalm, Playwright, the official WP test suite, DI containers, or new Composer/plugin dependencies without an ADR.
-- Do not suggest changing deploy (manual `workflow_dispatch`, ADR 0009) or hosting PHP. Pages auto-publish after merge to `main` is deliberate.
+- Do not suggest changing deploy (manual `workflow_dispatch` from an annotated `vX.Y.Z` tag, ADR 0009 + ADR 0020) or hosting PHP. Merge to `main` is not a production deploy. Pages auto-publish after merge to `main` is deliberate. Do not suggest keeping merged feature branches; GitHub deletes PR head branches on merge.
 
 ## Scope — do not demand
 
