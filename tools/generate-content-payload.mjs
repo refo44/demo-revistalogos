@@ -52,15 +52,34 @@ const normalizeText = (text) =>
     .replace(/\s+/g, " ")
     .trim();
 
+/** Repeat replacement until no further changes are produced. */
+function replaceUntilStable(text, pattern, replacement) {
+  let current = text;
+  let next = current.replace(pattern, replacement);
+  while (next !== current) {
+    current = next;
+    next = current.replace(pattern, replacement);
+  }
+  return current;
+}
+
 /** Visible text of an HTML fragment (tags stripped, entities decoded). */
 function htmlVisibleText(html) {
+  // Generated assistive notes are presentation, not canonical text.
+  const withoutAssistiveNotes = replaceUntilStable(
+    html,
+    /<span class="visually-hidden">[^<]*<\/span>/g,
+    ""
+  );
+  // Inline tags vanish without inserting whitespace; block tags separate words.
+  const withoutInlineTags = replaceUntilStable(
+    withoutAssistiveNotes,
+    /<\/?(strong|em|a|span|sup|sub|b|i|code)\b[^>]*>/g,
+    ""
+  );
+
   return normalizeText(
-    html
-      // Generated assistive notes are presentation, not canonical text.
-      .replace(/<span class="visually-hidden">[^<]*<\/span>/g, "")
-      // Inline tags vanish without inserting whitespace; block tags
-      // separate words.
-      .replace(/<\/?(strong|em|a|span|sup|sub|b|i|code)\b[^>]*>/g, "")
+    withoutInlineTags
       .replace(/<[^>]+>/g, " ")
       .replace(/&lt;/g, "<")
       .replace(/&gt;/g, ">")
