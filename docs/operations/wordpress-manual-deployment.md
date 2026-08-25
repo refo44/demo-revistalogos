@@ -134,8 +134,8 @@ on: workflow_dispatch          # solo manual
 environment: wordpress-production
 concurrency.group: deploy-wordpress-production
 cancel-in-progress: false
-jobs: require-release-tag → deploy-theme → deploy-plugin
-      (plugin also needs the tag job)
+jobs: require-release-tag → deploy-theme → deploy-plugin (plugin also needs the tag job)
+checkout: actions/checkout@v7 (tag gate uses fetch-tags: true)
 protocol: ftps
 dangerous-clean-slate: false
 plugin job: runner-only PHP 8.3 + ext-dom/ext-mbstring (does NOT
