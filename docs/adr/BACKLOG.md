@@ -162,7 +162,7 @@ Ruleset `Protect main (trunk-based)` (`21337399`), activo, sin bypass. `main` ex
 
 ### PLANNED
 
-No hay dependencia ADR que fuerce el orden entre diseño editorial y WU7. Se planifica **diseño antes de WU7** para que Generate/Regenerate consuman la misma plantilla (evitar dos sistemas de presentación).
+No hay dependencia ADR que fuerce el orden entre diseño editorial y WU7. Se planifica **diseño antes de WU7** para que Generate/Regenerate consuman la misma plantilla (evitar dos sistemas de presentación). El spike de la sección «Cómo Citar» (ítem 9) es **independiente** de 3 y 4: presentación del theme clásico, no PDF.
 
 #### 3. Diseño editorial profesional del PDF de artículo
 
@@ -200,6 +200,20 @@ Problema: hay artículos ya publicados sin PDF; ADR 0017 **no** hace backfill.
 10. Reutilizar meta/persistencia actuales. Sin tabla SQL ni CPT nuevos salvo requisito demostrado.
 
 Pruebas (cuando se implemente): Gherkin de negocio; QA WordPress aislada de IDs/`pdf_file`/historial; fallo de regeneración conserva el PDF viejo; restore reversible; adjuntos no borrados. TDD. No implementar ahora.
+
+#### 9. Spike — sección «Cómo Citar» (`.citation-section`) como collapsible vertical
+
+**Estado:** PLANNED. Spike de investigación; **no** implementar el colapso hasta go del spike. Issue: [#15](https://github.com/refo44/demo-revistalogos/issues/15).
+
+El bloque de formatos de cita en `single-article` está siempre abierto (grid de 6 tarjetas). No hay disclosure en el theme. Investigar convertirlo en desplegable vertical con HTML/CSS nativos (BEM + tokens; sin Tailwind ni librerías; sin JS de abrir/cerrar).
+
+**As-Is (ya confirmado en código):** `section.citation-section` → `h2` + `.citation-formats` (grid `auto-fit minmax(280px, 1fr)`) → `.citation-format` × N → `#citation-copy-status` + `.citation-actions` + `.citation-info`. Sin `height` / `overflow` / `transition` en `.citation-*`. `citation.js` exige `.citation-copy` + `previousElementSibling` = `.citation-text`, e IDs `#export-all-citations`, `#download-ris`, `#ris-data`. Superficies: `single-article.php` + `static/single-article.html` + `pages/article.css` (×2).
+
+**To-Be (propuesta a validar):** envolver el interior en `<details class="citation-section__disclosure">` / `<summary>` (el `h2` «Cómo Citar» es el disparador) + `.citation-section__panel` (`grid-template-rows: 0fr → 1fr`) + `.citation-section__panel-inner` (`overflow: hidden`; truco Powell/Tsonev). No tocar el grid de tarjetas, `inc/citations.php`, ni el copy. `hidden="until-found"` **no** se aplica a `<details>`.
+
+Preguntas del spike: qué se pliega; estado inicial (`open` vs cerrado); si el snap al cerrar (limitación nativa de `<details>`) es aceptable; paridad estático ↔ WP; Find in page de «Vancouver» (Chromium sí, resto no portable); `h2` en `<summary>` frente a AT (`docs/19`).
+
+Cierre: As-Is/To-Be rellenados; go / no-go / go con snap al cerrar. Si go, WU aparte `feat/collapse-citation-section`. Sin commit ni deploy desde este ítem.
 
 ### DEFERRED
 
