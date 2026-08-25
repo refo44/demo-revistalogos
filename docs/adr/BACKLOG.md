@@ -134,7 +134,7 @@ Estado en el repo: `.github/workflows/deploy.yml` («Deploy to Hostinger») **el
 
 Trabajo **ya aceptado** y **no iniciado** (o no cerrado en producción). No es un ADR nuevo: las decisiones siguen en los ADR enlazados. Estados: **NEXT**, **PLANNED**, **DEFERRED**. Sin fechas ni puntos. Cursor no implementa, no commitea, no despliega desde esta lista.
 
-**Completado — no es backlog:** ADR 0017 WU1–WU6B (generación al publicar, enforcement configurable, default OFF). Hotfix plugin **0.2.8** en producción ([issue #9](https://github.com/refo44/demo-revistalogos/issues/9) cerrado 2026-08-24; transfer Pass). ADR [0019](0019-proteger-main-trunk-based.md) (ruleset de `main` activo; docs por PR). ADR [0020](0020-despliegue-produccion-desde-etiqueta.md) (FTPS de producción solo desde etiqueta `vX.Y.Z`; merge ≠ deploy). Tag Git `v0.2.0` **existe** (anotada, 2026-08-18).
+**Completado — no es backlog:** ADR 0017 WU1–WU6B (generación al publicar, enforcement configurable, default OFF). Hotfix plugin **0.2.8** en producción ([issue #9](https://github.com/refo44/demo-revistalogos/issues/9) cerrado 2026-08-25; transfer Pass). ADR [0019](0019-proteger-main-trunk-based.md) (ruleset de `main` activo; docs por PR). ADR [0020](0020-despliegue-produccion-desde-etiqueta.md) (FTPS de producción solo desde etiqueta `vX.Y.Z`; merge ≠ deploy). Tag Git `v0.2.0` **existe** (anotada, 2026-08-18).
 
 **No forma parte de ADR 0017 WU7:** backfill automático; regeneración al guardar un artículo; PDF de número; FSE; borrado permanente de PDFs históricos; regeneración masiva (salvo aprobación posterior aparte).
 
