@@ -5,7 +5,8 @@ WordPress clásico). Complementa [23-testing-foundation](23-testing-foundation.m
 (taxonomía, CI, comandos) y no reescribe [ADR 0018](adr/0018-testing-foundation.md).
 
 **Aplica a:** `tests/Unit/**/*Test.php`, `tests/Support/**/*.php`,
-`tests/Features/**/*.feature`, `tools/qa-*.sh`
+`tests/WordPress/**/*Test.php`, `phpunit-wp.xml.dist`,
+`tests/Features/**/*.feature`, `tools/qa-*.sh`, `tools/run-phpunit-wp.sh`
 
 **`.cursor/` está gitignored a propósito.** Si un desarrollador mantiene
 reglas Cursor locales, son espejos opcionales: no son fuente de verdad, no
@@ -21,10 +22,10 @@ se versionan, no se exigen en otros clones ni en CI.
 | ¿Qué asertar? | **Resultados observables** por métodos públicos, HTTP o comportamiento wp-admin |
 | ¿Qué evitar? | `expects()` / `method()` / orden de llamadas sobre colaboradores **internos** |
 | ¿Cómo estructurar? | Plano, autocontenido, nombre de comportamiento + cuerpo AAA, sin estado mutable compartido |
-| ¿Cuándo arrancar WordPress? | Integración estrecha/amplia vía `tools/qa-*.sh` aislado — no en cada unitario sociable |
+| ¿Cuándo arrancar WordPress? | Contrato WP in-process → `tests/WordPress/` (`composer test:wp`). HTTP / wp-admin / CLI → `tools/qa-*.sh` aislado. Nunca en `tests/Unit/` |
 | ¿Cuándo vale un test solitario? | Lógica pura con ramificación compleja donde el aislamiento aclara |
 | ¿Puerta de calidad? | **Conductual** + **insensible a la estructura** |
-| ¿Cómo correr la suite? | `composer test` (lint + audit + units); **un** `tools/qa-*.sh` relevante si cambió WordPress |
+| ¿Cómo correr la suite? | `composer test` (lint + audit + units); `composer test:wp` si cambió un contrato WP in-process; **un** `tools/qa-*.sh` si cambió HTTP/admin/CLI |
 
 ---
 
@@ -59,13 +60,13 @@ recibir otra de mayor valor.**
 - **Rápido** — milisegundos en nivel 1; no arrancar WordPress/Docker salvo que el objetivo lo exija
 - **Legible** — nombres y variables de negocio explican por qué existe el test
 - **Específico** — al fallar, el escenario y la causa deben ser obvios
-- **Automatizado** — nivel 1 en CI; harnesses de nivel 2/3 deterministas y seguros en local
+- **Automatizado** — nivel 1 en CI; `composer test:wp` y harnesses de nivel 2/3 deterministas y seguros en local (Docker; no en el gate por defecto)
 - **Escribible** — el coste debe ser proporcionado; preferir cableado sociable a coreografía de mocks
 
 **Diferidas a tipos concretos:**
 
 - **Inspirador** — pasar debe dar confianza; los sociables lo logran con colaboradores internos reales
-- **Predictivo** — todo verde debe aproximar aptitud de producción; QA Docker aislado y contratos en fronteras WordPress
+- **Predictivo** — todo verde debe aproximar aptitud de producción; QA Docker aislado, `composer test:wp` y contratos en fronteras WordPress
 
 Validar comportamiento observable: reglas de negocio, errores, transiciones
 de estado, corrección de frontera, guards de publicación/capacidad/nonce
@@ -98,8 +99,10 @@ unitario puede incluir un helper del theme libre de WordPress
 theme, ni generar PDF de artículo en el theme (ADR 0017).
 
 No fingir APIs de WordPress cuando el objeto de la prueba **es** el
-comportamiento de WordPress. Eso es nivel 2/3: Docker aislado, WordPress 7.1
-real.
+comportamiento de WordPress. Eso es nivel 2: suite PHPUnit/WordPress
+(`tests/WordPress/`, `WP_UnitTestCase`) o un harness `tools/qa-*.sh`,
+ambos en Docker aislado contra WordPress 7.1 real. No Brain Monkey /
+WP_Mock.
 
 ### 1.1 Observación de frontera cambiada (upgrades de dependencia o adaptador)
 
@@ -141,14 +144,36 @@ Correspondencia con los tres niveles de `docs/23-testing-foundation.md`:
 | Este estándar | Nivel | Dónde vive |
 |---------------|-------|------------|
 | Programador sociable / solitario | Nivel 1 | `tests/Unit/`, PHPUnit, sin WordPress |
-| Integración estrecha | Nivel 2 | `tools/qa-*.sh` aislado (contratos WordPress) |
+| Integración estrecha | Nivel 2 | `tests/WordPress/` (wp-phpunit, `composer test:wp`) |
 | Contrato / aceptación | Nivel 3 | Gherkin en `tests/Features/` + `tools/qa-*.sh` |
-| Integración amplia | Nivel 2/3 | Harnesses Docker aislados; nunca producción |
+| Integración amplia | Nivel 2/3 | Harnesses Docker (`tools/qa-*.sh`) para HTTP / wp-admin / CLI; nunca producción |
 
-`tests/Integration/` y `composer test:integration` **aún no existen**. No
-inventar un bootstrap PHPUnit/WordPress para evitar un harness. No instalar
-Behat, Brain Monkey, WP_Mock, Mockery, Pest ni Playwright sin necesidad
-arquitectónica (ADR 0018).
+`tests/WordPress/` y `composer test:wp` **existen** desde 2026-08-28
+(autorización del propietario; ADR 0018 nota factual). Es el runner de
+nivel 2 in-process: framework `wp-phpunit/wp-phpunit` 7.1,
+`WP_UnitTestCase`, factories de posts, meta y taxonomías, tablas
+`wptests_`, Compose efímero (`tools/run-phpunit-wp.sh`). No existe
+`tests/Integration/` ni `composer test:integration` — no inventar un
+segundo bootstrap en paralelo.
+
+**Cuándo wp-phpunit y cuándo un harness**
+
+- **`tests/WordPress/` (por defecto para contratos WP in-process):**
+  mapeo post/meta/taxonomía → HTML o DTO; registro de CPT/taxonomía/rol;
+  adaptador o builder que llama APIs de WP; `render_callback` de un
+  bloque de dominio con posts de factory; un guard de publicación
+  invocable como PHP.
+- **`tools/qa-*.sh`:** petición HTTP, pantalla wp-admin, Media Library
+  picker, ajuste de opciones en el admin, comando WP-CLI del plugin tal
+  como lo corre un editor, flujo de varios pasos (bootstrap, teardown,
+  permalinks).
+- **No** reescribir un harness que ya cubre HTTP/admin a PHPUnit por
+  uniformidad. **No** usar un harness para evitar wp-phpunit cuando el
+  contrato es mapeo in-process.
+
+No instalar Behat, Brain Monkey, WP_Mock, Mockery, Pest ni Playwright
+sin necesidad arquitectónica (ADR 0018). `wp-phpunit` no es una de esas
+exclusiones: es el mecanismo de nivel 2.
 
 ### Sociable vs solitario
 
@@ -184,13 +209,17 @@ delegación u orden de llamadas.
 
 2. **Integración estrecha** (nivel 2)  
    Cableado, mapping, adaptadores, configuración y transformación de
-   entrada **en WordPress real**.  
+   entrada **en WordPress real**, in-process.  
+   Vive en `tests/WordPress/` y se corre con `composer test:wp` /
+   `./tools/run-phpunit-wp.sh`. Ejemplo vigente:
+   `ArticlePdfEditorialSourceBuilderTest`.  
    No llamar sistemas fuera de WordPress (host de producción, Crossref,
    ORCID, CDN).  
-   `docker compose -p <proyecto-efímero>` pertenece aquí, no como arranque
-   de cada unitario sociable.  
-   Excepción conocida: `tools/qa-author-permalinks.sh` usa volúmenes
-   primarios; no copiar ese patrón.
+   `docker compose -p <proyecto-efímero>` pertenece aquí (el runner WP
+   ya lo hace), no como arranque de cada unitario sociable.  
+   Los flujos HTTP/admin/CLI no son este tipo: van al harness
+   (`tools/qa-*.sh`). Excepción conocida: `tools/qa-author-permalinks.sh`
+   usa volúmenes primarios; no copiar ese patrón.
 
 3. **Pruebas solitarias** (restringidas, nivel 1)  
    Solo lógica pura con ramificación compleja donde el aislamiento aclara.  
@@ -207,8 +236,8 @@ delegación u orden de llamadas.
 
 4. **Tests de contrato**  
    Forma y semántica de la frontera.  
-   Gherkin enuncia el contrato de negocio en español. PHPUnit o un harness
-   lo ejecuta.  
+   Gherkin enuncia el contrato de negocio en español. PHPUnit nivel 1,
+   `composer test:wp` o un harness lo ejecuta.  
    No asertar detalles internos. No poner selectores CSS, nombres de clase,
    IDs de BD ni `sleep` en `.feature`.
 
@@ -379,7 +408,14 @@ cabe en clases planas.
 
 No arrancar WordPress dentro de `tests/Unit/`.
 
-- Proyecto compose aislado + `down -v` si el harness muta datos.
+Nivel 2 in-process: `tests/WordPress/` **solo** vía
+`./tools/run-phpunit-wp.sh` / `composer test:wp`. Ese runner levanta un
+Compose efímero (`revistalogos-wp-phpunit`, puerto 8090), instala tablas
+`wptests_` y hace `down -v` al salir. No apuntar `phpunit-wp.xml.dist`
+al volumen primario (`localhost:8080`) ni a producción.
+
+- Proyecto compose aislado + `down -v` si el harness o la suite WP muta
+  datos.
 - No reutilizar los volúmenes primarios (`localhost:8080`) en tests nuevos
   que mutan.
 - No apuntar harnesses a producción (`logo-et-spes.cenfiss.net`).
@@ -398,8 +434,10 @@ WP-CLI `eval`, sitio aislado).
 
 - Cada harness construye su propia URL (`http://localhost:<puerto-aislado>`).
 - Payloads en línea o vía WP-CLI; no depender de contenido residual.
-- No mezclar una llamada PHPUnit in-process y HTTP en vivo en el mismo
-  test de nivel 1 — no hay WordPress en nivel 1.
+- No mezclar una llamada PHPUnit in-process de nivel 1 y HTTP en vivo en el
+  mismo test — no hay WordPress en nivel 1. Los tests de
+  `tests/WordPress/` son in-process contra wp-phpunit; no hagan `curl`
+  al sitio primario.
 
 No instalar Supertest, Pest ni un cliente HTTP PHP para imitar NestJS.
 
@@ -415,7 +453,9 @@ Evitar factories globales, fixtures mutables compartidos y estado oculto.
 
 Factories y helpers compartidos al inicio del archivo (o en
 `tests/Support/`) solo si son puros, sin estado y devuelven valores
-frescos.
+frescos. En `tests/WordPress/`, `self::factory()->post->create()` y
+helpers de instancia que crean posts/meta **por test** están permitidos;
+no reutilizar IDs entre métodos.
 
 No deben:
 
@@ -484,18 +524,21 @@ agotar la máquina apilando QA Docker.
 | Regla | Requisito |
 |-------|-----------|
 | **Nivel 1 (gate por defecto)** | `composer test` o `./tools/run-phpunit.sh` — lint, audit del lockfile, suite unitaria completa. La suite es pequeña; correrla entera. |
-| **Nivel 2/3** | El `tools/qa-*.sh` **relevante** cuando cambió integración WordPress. Un harness a la vez. Cada uno debe hacer `down -v` y salir. |
-| **Prohibido** | BD de producción; volúmenes primarios en tests nuevos que mutan; todos los harnesses «por si acaso» en un cambio solo unitario; instalar runners extra por teatro de cobertura |
-| **CI** | `.github/workflows/test.yml` es lint + audit Composer (raíz y plugin) + `composer test:unit`. No corre `qa-*.sh`. No exigir Docker QA en un PR solo de docs o solo unitario. SonarQube Cloud es Automatic Analysis (`.sonarcloud.properties`); no es un gate de cobertura ni un paso de `test.yml`. |
+| **Nivel 2 in-process** | `composer test:wp` / `./tools/run-phpunit-wp.sh` cuando cambió un contrato WordPress que se ejercita en PHP (meta, CPT, builder, adaptador, `render_callback`). Requiere Docker. No entra en `composer test` ni en CI. |
+| **Nivel 2/3 HTTP** | El `tools/qa-*.sh` **relevante** cuando cambió HTTP, wp-admin o CLI. Un harness a la vez. Cada uno debe hacer `down -v` y salir. |
+| **Prohibido** | BD de producción; volúmenes primarios en tests nuevos que mutan; todos los harnesses «por si acaso» en un cambio solo unitario; usar un harness para evitar wp-phpunit en un mapeo in-process; instalar runners extra por teatro de cobertura |
+| **CI** | `.github/workflows/test.yml` es lint + audit Composer (raíz y plugin) + `composer test:unit`. No corre `composer test:wp` ni `qa-*.sh`. No exigir Docker QA en un PR solo de docs o solo unitario. SonarQube Cloud es Automatic Analysis (`.sonarcloud.properties`); no es un gate de cobertura ni un paso de `test.yml`. |
 
 Portátil sin PHP nativo: `./tools/php-lint.sh` y `./tools/run-phpunit.sh`
-(ADR 0014).
+(ADR 0014). `./tools/run-phpunit-wp.sh` requiere Docker (el portátil no
+necesita PHP nativo; sí el daemon).
 
 ---
 
 ## 10. Nombres (contexto de negocio obligatorio)
 
-Seguir el nombrado WordPress PHP de `includes/` y `tests/Unit/`:
+Seguir el nombrado WordPress PHP de `includes/`, `tests/Unit/` y
+`tests/WordPress/`:
 
 - Clases de test: `PascalCase` + sufijo `Test` (`ArticlePdfPublicationPolicyTest`)
 - Métodos: `test_` + `snake_case` de comportamiento
@@ -586,7 +629,7 @@ Reglas:
 - No mockear la clase bajo prueba
 - No mockear value objects
 - No mockear cada función de WordPress; si el comportamiento es WordPress,
-  usar un harness
+  usar `tests/WordPress/` (wp-phpunit) o un harness `tools/qa-*.sh`
 - No extender una clase de producción solo para anular un método, salvo
   que esa clase sea la costura documentada y aún no exista interfaz
 
@@ -671,17 +714,20 @@ Los comandos, el alcance de CI y la lista de harnesses están en
 [23-testing-foundation](23-testing-foundation.md). Resumen:
 
 ```bash
-composer test              # lint → audit --locked → units; no qa-*.sh
+composer test              # lint → audit --locked → units; no test:wp ni qa-*.sh
 composer test:unit
+composer test:wp           # PHPUnit/WordPress aislado (Docker); no CI
 ./tools/php-lint.sh
 ./tools/run-phpunit.sh
+./tools/run-phpunit-wp.sh
 ```
 
 `php -l` comprueba **sintaxis**. `composer audit --locked` comprueba
-**advisories del lockfile**. PHPUnit comprueba **comportamiento**.
-`qa-*.sh` comprueba **WordPress integrado**.
+**advisories del lockfile**. PHPUnit nivel 1 comprueba **comportamiento
+puro**. `composer test:wp` comprueba **contratos WordPress in-process**.
+`qa-*.sh` comprueba **flujos HTTP / wp-admin / CLI**.
 
 ---
 
-**Versión:** 1.1
+**Versión:** 1.2
 **Proyecto:** Revista de Filosofía LOGO ET SPES 0.2.0

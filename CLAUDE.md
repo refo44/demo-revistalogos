@@ -130,9 +130,12 @@ required, not shared via Git, not a substitute for the files above.
   domain behavior uses TDD. For PHP changes, before completion: (1) syntax
   gate `./tools/php-lint.sh` or `composer lint:php`; (2) Composer lockfile
   audit `composer audit:deps` (`composer audit --locked`); (3) relevant
-  PHPUnit (`composer test:unit` or `./tools/run-phpunit.sh`); (4) relevant
-  `tools/qa-*.sh` if WordPress integration behavior changed. `composer test`
-  runs lint, audit, then units — not acceptance harnesses. Root
+  PHPUnit units (`composer test:unit` or `./tools/run-phpunit.sh`);
+  (4) `composer test:wp` / `./tools/run-phpunit-wp.sh` when an in-process
+  WordPress contract changed (meta, CPT, adapter, source builder, block
+  `render_callback`); (5) the relevant `tools/qa-*.sh` if HTTP, wp-admin
+  or plugin CLI behavior changed. `composer test` runs lint, audit, then
+  units — not `test:wp` and not acceptance harnesses. Root
   `composer.json` is test-only. Composer audit does not scan WordPress,
   npm, or hosting. Dependabot may open weekly Composer and GitHub Actions
   PRs; they are not auto-merged. Review them after CI. Do not treat a
