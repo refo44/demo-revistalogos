@@ -105,6 +105,13 @@ http_code() {
 	curl -sS -o /dev/null -w '%{http_code}' "$1"
 }
 
+# Read the numeric value of a `KEY=ID` line from a file. Uses awk (POSIX)
+# instead of `grep -Eo | cut`, since `-o` is a GNU/BSD extension, not POSIX.
+kv_id() {
+	local key="$1" file="$2"
+	awk -F= -v k="$key" '$1 == k { v = $2; gsub(/[^0-9].*/, "", v); print v; exit }' "$file"
+}
+
 echo "== isolated Docker environment =="
 compose down -v --remove-orphans >/dev/null 2>&1 || true
 compose up -d db wordpress
@@ -554,11 +561,11 @@ if grep -Eq "Undefined property|PHP Warning|PHP Notice|PHP Deprecated" "$TMP/dom
 fi
 pass "authors, publication and PDF domain checks"
 
-ARTICLE1_ID="$(grep -Eo 'ARTICLE1=[0-9]+' "$TMP/domain.txt" | cut -d= -f2)"
-ARTICLE2_ID="$(grep -Eo 'ARTICLE2=[0-9]+' "$TMP/domain.txt" | cut -d= -f2)"
-MULTI_ID="$(grep -Eo 'MULTI=[0-9]+' "$TMP/domain.txt" | cut -d= -f2)"
-REAL_PDF="$(grep -Eo 'REAL_PDF=[0-9]+' "$TMP/domain.txt" | cut -d= -f2)"
-RAFAEL_ID="$(grep -Eo 'RAFAEL=[0-9]+' "$TMP/domain.txt" | cut -d= -f2)"
+ARTICLE1_ID="$(kv_id ARTICLE1 "$TMP/domain.txt")"
+ARTICLE2_ID="$(kv_id ARTICLE2 "$TMP/domain.txt")"
+MULTI_ID="$(kv_id MULTI "$TMP/domain.txt")"
+REAL_PDF="$(kv_id REAL_PDF "$TMP/domain.txt")"
+RAFAEL_ID="$(kv_id RAFAEL "$TMP/domain.txt")"
 
 echo "== Gutenberg REST HTTP =="
 APP_PASS="$(cli user application-password create "$ADMIN_USER" editorial-ux-qa --porcelain)"

@@ -141,9 +141,20 @@ pass "fixtures verify still available via CLI"
 
 cli revistalogos fixtures teardown --help >"$TMP/teardown-help.txt"
 grep -Eqi "teardown" "$TMP/teardown-help.txt" || fail "teardown CLI must remain"
-if grep -REq "add_management_page|add_submenu_page" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/fixtures" 2>/dev/null; then
-	fail "fixtures includes must not register an admin Tools page"
-fi
+
+# Recursive guard over a directory: treat grep's exit codes explicitly
+# (0 = match, 1 = no match, >=2 = grep error) so a real failure — e.g. the
+# path is gone or -R is unsupported — cannot masquerade as "no admin page",
+# which is exactly the silent-pass this harness change is meant to remove.
+FIXTURES_INCLUDES="$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/fixtures"
+[[ -d "$FIXTURES_INCLUDES" ]] || fail "fixtures includes directory missing: $FIXTURES_INCLUDES"
+GREP_RC=0
+grep -REq "add_management_page|add_submenu_page" "$FIXTURES_INCLUDES" || GREP_RC=$?
+case "$GREP_RC" in
+	0) fail "fixtures includes must not register an admin Tools page" ;;
+	1) ;;
+	*) fail "grep failed (exit $GREP_RC) scanning $FIXTURES_INCLUDES" ;;
+esac
 pass "teardown remains CLI/dev only"
 
 echo "== HTTP routes =="
