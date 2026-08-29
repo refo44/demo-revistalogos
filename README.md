@@ -189,6 +189,32 @@ Runbook: `docs/operations/wordpress-manual-deployment.md`.
 Siguiente: no pisar la carga en curso; QA de producción; FSE después, primero
 en Docker (ADR 0015).
 
+## Flujo de trabajo (ADR 0019)
+
+No se commitea directo a `main`: rama corta, PR, CI verde, merge (squash
+preferido). Ramas según [Conventional Branch 1.1.0](https://conventionalbranch.org/),
+commits según [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/),
+comentarios de review según [Conventional Comments](https://conventionalcomments.org/).
+
+**Etiquetas.** Un PR o issue admite varias; hay tres ejes que conviven:
+
+| Eje | Dónde | Cuántas | Quién la pone |
+|---|---|---|---|
+| `type: *` (`feat`, `fix`, `docs`, `chore`, `refactor`, `ci`, `test`, `perf`, `revert`) | PRs e issues | **exactamente una** | el workflow `Labels`, derivándola del prefijo del título |
+| `next` / `planned` / `deferred` | **solo** issues | máximo una | a mano, según `docs/adr/BACKLOG.md` |
+| `documentation`, `bug`, `enhancement`, `help wanted`, `dependencies`… | PRs e issues | las que aporten | a mano (Dependabot pone las suyas) |
+
+Dos reglas que se olvidan y por eso están automatizadas:
+
+- **La etiqueta de tipo sale del título.** Si el título no empieza por un
+  prefijo válido (`docs:`, `fix(tools):`, `feat!:` …), el workflow avisa y
+  no etiqueta. Se arregla corrigiendo el título, no la etiqueta.
+- **`next`/`planned`/`deferred` es estado, no historia.** Al cerrar el
+  issue se retiran solas. Retirarlas no cierra el ítem: sigue habiendo que
+  moverlo en `docs/adr/BACKLOG.md` y anotar `CHANGELOG.md`.
+
+Detalle y motivos: `docs/adr/0019-proteger-main-trunk-based.md` §7.
+
 ## Licencia
 
 - **Código** (HTML, CSS, JS, PHP, scripts y configuración): **MIT**. Ver `LICENSE`.

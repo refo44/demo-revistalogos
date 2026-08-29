@@ -168,7 +168,7 @@ Ruleset `Protect main (trunk-based)` (`21337399`), activo, sin bypass. `main` ex
 
 No hay dependencia ADR que fuerce el orden entre diseño editorial y WU7. Se planificó **diseño antes de WU7** para que Generate/Regenerate consuman la misma plantilla (evitar dos sistemas de presentación); el ítem 3 ya está **completado y en `main`**, así que WU7 (ítem 4) es lo siguiente y debe consumir esa plantilla. El spike de la sección «Cómo Citar» (ítem 9) es **independiente** de 3 y 4: presentación del theme clásico, no PDF.
 
-Un ítem que termina se cierra en los tres sitios a la vez: este estado, el issue de GitHub (cerrar y quitar la etiqueta `next`/`planned`/`deferred`) y `CHANGELOG.md`. Si además tocó theme o plugin, entra en el siguiente release etiquetado (ADR 0020); `tools/check-release-pending.sh` avisa cuando ese último paso queda pendiente.
+Un ítem que termina se cierra en los tres sitios a la vez: este estado, el issue de GitHub y `CHANGELOG.md`. La etiqueta `next`/`planned`/`deferred` la retira sola el workflow `Labels` al cerrar el issue (ADR 0019 §7); mover la entrada **aquí** no lo hace nadie. Si además tocó theme o plugin, entra en el siguiente release etiquetado (ADR 0020); `tools/check-release-pending.sh` avisa cuando ese último paso queda pendiente.
 
 #### 3. Diseño editorial profesional del PDF de artículo
 

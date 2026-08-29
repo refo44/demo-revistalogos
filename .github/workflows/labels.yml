@@ -1,0 +1,126 @@
+# Etiquetado automático de PRs e issues (ADR 0019 §7).
+#
+# Existe porque la etiqueta es otro de esos pasos que nadie está obligado a
+# recordar: de los 21 primeros PRs solo tres humanos llevaban una, y dos la
+# llevaban mal. Documentar la regla no habría bastado — es exactamente el
+# fallo que ya se repitió con el release etiquetado (ADR 0020).
+#
+# Dos trabajos independientes:
+#
+#   1. PR abierto, reabierto, retitulado o sacado de draft -> se deriva
+#      `type: <tipo>` del prefijo Conventional Commits del título y se
+#      retiran las demás `type: *`. El título ya es obligatorio y ya está
+#      normalizado (ADR 0019 §4), así que no hay criterio nuevo que aplicar
+#      ni juicio que delegar en quien abre el PR.
+#
+#   2. Issue cerrado -> se retiran `next` / `planned` / `deferred`. Son
+#      estado de backlog, no historia: un issue resuelto que conserva
+#      `next` miente sobre lo que queda por hacer (pasó con #9).
+#
+# Solo toca esas dos familias. Las demás etiquetas —los defaults de GitHub
+# (`documentation`, `bug`, `enhancement`, `help wanted`…) y las de
+# Dependabot— son un eje aparte que se pone a mano y que este workflow no
+# añade ni retira nunca: un PR lleva las que hagan falta (ADR 0019 §7).
+#
+# No usa acciones de terceros ni secretos: `gh` viene en el runner y
+# `github.token` basta. Nunca hace checkout del código del PR, así que
+# `pull_request_target` no ejecuta nada que venga de la rama.
+name: Labels
+
+on:
+  pull_request_target:
+    types: [opened, reopened, edited, ready_for_review]
+  issues:
+    types: [closed]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: labels-${{ github.event_name }}-${{ github.event.pull_request.number || github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  pr-type:
+    name: Etiquetar el PR según su título
+    if: github.event_name == 'pull_request_target'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Derivar type:* del prefijo Conventional Commits
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.pull_request.number }}
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          set -uo pipefail
+
+          # feat(scope)!: asunto  ->  feat
+          TYPE="$(printf '%s' "$TITLE" \
+            | sed -n -E 's/^([a-z]+)(\([^)]*\))?!?:[[:space:]].*/\1/p')"
+
+          case "$TYPE" in
+            feat|fix|docs|chore|refactor|ci|test|perf|revert) ;;
+            *)
+              echo "::warning::El título del PR #${NUMBER} no empieza por un tipo Conventional Commits válido, así que no hay etiqueta que derivar (ADR 0019 §4)."
+              echo "  título: ${TITLE}"
+              echo "  tipos:  feat fix docs chore refactor ci test perf revert"
+              exit 0
+              ;;
+          esac
+
+          WANTED="type: ${TYPE}"
+          echo "Título: ${TITLE}"
+          echo "Tipo derivado: ${WANTED}"
+
+          CURRENT="$(gh pr view "$NUMBER" --repo "$REPO" --json labels \
+            --jq '.labels[].name | select(startswith("type: "))')"
+
+          # Un PR es de un tipo. Las que sobran se quitan aunque la correcta
+          # ya esté: un retitulado de docs: a fix: no debe dejar las dos.
+          while IFS= read -r label; do
+            [[ -n "$label" && "$label" != "$WANTED" ]] || continue
+            echo "Quitando ${label}"
+            gh pr edit "$NUMBER" --repo "$REPO" --remove-label "$label"
+          done <<<"$CURRENT"
+
+          if grep -qxF "$WANTED" <<<"$CURRENT"; then
+            echo "Ya lleva ${WANTED}; nada que hacer."
+            exit 0
+          fi
+
+          gh pr edit "$NUMBER" --repo "$REPO" --add-label "$WANTED"
+          echo "Aplicada ${WANTED}"
+
+  issue-closed:
+    name: Retirar el estado de backlog al cerrar
+    if: github.event_name == 'issues'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Quitar next / planned / deferred
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.issue.number }}
+        run: |
+          set -uo pipefail
+
+          CURRENT="$(gh issue view "$NUMBER" --repo "$REPO" --json labels \
+            --jq '.labels[].name | select(. == "next" or . == "planned" or . == "deferred")')"
+
+          if [[ -z "$CURRENT" ]]; then
+            echo "El issue #${NUMBER} no llevaba estado de backlog; nada que retirar."
+            exit 0
+          fi
+
+          while IFS= read -r label; do
+            [[ -n "$label" ]] || continue
+            echo "Quitando ${label} del issue cerrado #${NUMBER}"
+            gh issue edit "$NUMBER" --repo "$REPO" --remove-label "$label"
+          done <<<"$CURRENT"
+
+          echo "Recordatorio: mover también su entrada en docs/adr/BACKLOG.md (ADR 0019 §7)."

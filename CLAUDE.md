@@ -157,26 +157,39 @@ required, not shared via Git, not a substitute for the files above.
 - Small, reviewable commits per work unit (see the WU table in
   `docs/fase3-execution-state.md`), not one large commit spanning several.
 - **Merging a feature does not finish it.** A work unit is closed only when
-  all four are true, and they are easy to forget once the PR goes green:
-  (1) `docs/fase3-execution-state.md` updated; (2) the GitHub issue closed
-  **and** its `next`/`planned`/`deferred` label removed, plus its
-  `docs/adr/BACKLOG.md` entry moved out of the pending section; (3) an entry
-  under `## [Sin publicar]` in `CHANGELOG.md`; (4) if it touched
+  all four are true, and they are easy to forget once the PR goes green: (1)
+  `docs/fase3-execution-state.md` updated; (2) the GitHub issue closed (the
+  `Labels` workflow strips its `next`/`planned`/`deferred` label on close —
+  verify it did) **and** its `docs/adr/BACKLOG.md` entry moved out of the
+  pending section, which nothing automates; (3) an entry under
+  `## [Sin publicar]` in `CHANGELOG.md`; (4) if it touched
   `wordpress/wp-content/themes/` or `.../plugins/`, **bump the version that
   component declares, in the same PR** — the theme only in `Version:` of
   `style.css`; the plugin in three places that must stay identical: the
   `Version:` header and `REVISTALOGOS_CORE_VERSION` in
   `revistalogos-core.php`, plus `Stable tag:` in its `readme.txt`
   (`maybe_upgrade()` compares the constant, wp-admin shows the header, and
-  `check-release-pending.sh` only reads the constant) — shipping changed code under a
-  version string already live in production means `Plugin::maybe_upgrade()`
-  never fires. Flag any of these that is missing instead of assuming the owner
-  will remember. Only (4) is automated: `tools/check-release-pending.sh`
-  reports deployable commits the trunk has accumulated since the last
-  annotated tag, and shipped code whose declared version did not move. It
-  cannot see issue state, labels or `CHANGELOG.md`, so (2) and (3) stay a
-  manual check. The `Release pending` workflow runs the script on every push
-  to `main` and is advisory — it never blocks a merge.
+  `check-release-pending.sh` only reads the constant) — shipping changed code
+  under a version string already live in production means
+  `Plugin::maybe_upgrade()` never fires. Flag any of these that is missing
+  instead of assuming the owner will remember. Only (4) is automated:
+  `tools/check-release-pending.sh` reports deployable commits the trunk has
+  accumulated since the last annotated tag, and shipped code whose declared
+  version did not move. It cannot see issue state, labels or `CHANGELOG.md`,
+  so (2) and (3) stay a manual check. The `Release pending` workflow runs the
+  script on every push to `main` and is advisory — it never blocks a merge.
+- **Labels are part of opening a PR, not an afterthought** (ADR 0019 §7).
+  Three axes coexist and a PR may carry several: exactly one `type: *`
+  (`feat`/`fix`/`docs`/`chore`/`refactor`/`ci`/`test`/`perf`/`revert`),
+  derived from the Conventional Commits prefix of the title by the `Labels`
+  workflow; `next`/`planned`/`deferred` on **issues only**, mirroring
+  `docs/adr/BACKLOG.md` and stripped automatically when the issue closes;
+  and GitHub's defaults (`documentation`, `bug`, `enhancement`,
+  `help wanted`, `dependencies`, …) as an optional complementary axis, added
+  by hand when they say something the type does not. Never put a backlog
+  state on a PR. If the workflow warns that no type could be derived, fix
+  the **title** — it is the title that violates Conventional Commits, and
+  the label is only the symptom.
 - **Production deploy is its own release, never a follow-up to a merge**
   (ADR 0020). It needs an annotated `vX.Y.Z` on a commit that already went
   through the `VERSION.md` procedure; `deploy-wordpress.yml` refuses an
