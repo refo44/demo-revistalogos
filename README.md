@@ -70,26 +70,42 @@ Dos reglas que evitan los dos errores que este flujo permite (ADR 0020):
    etiquetado*, no de «lo último de `main`». Antes de desplegar: subir
    `"version"` en `package.json`, pasar `CHANGELOG.md` de
    `## [Sin publicar]` a `## [X.Y.Z]`, actualizar `VERSION.md`, subir la
-   cabecera `Version` del theme o del plugin **si cambiaron**, aterrizar por
-   PR `chore(release): vX.Y.Z`, y solo entonces:
+   versión que declara el theme o el plugin **si cambiaron** (`Version:` en
+   el `style.css` del theme; la constante `REVISTALOGOS_CORE_VERSION` en el
+   plugin), aterrizar por PR `chore(release): vX.Y.Z`, y solo entonces:
 
    ```bash
+   git fetch --tags origin main
    git tag -a vX.Y.Z -m "vX.Y.Z" origin/main && git push origin vX.Y.Z
    ```
+
+   El `fetch` no es ceremonia: `origin/main` es una copia local y, si está
+   vieja, la etiqueta acaba en un commit que no es el del release.
 
 2. **Al lanzar el workflow, en *Use workflow from* elegir `Tags → vX.Y.Z`,
    nunca `main`.** El gate (`tools/require-production-release-tag.sh`) exige
    una etiqueta anotada en HEAD, así que despachar desde `main` falla y
    nada se sube — molesto, pero seguro.
 
-**El fallo peligroso es el otro:** el gate comprueba que *exista* una
-etiqueta anotada `vX.Y.Z` en HEAD, **no** que su contenido corresponda a esa
-versión. Una etiqueta bien formada pero puesta en el commit equivocado
-—por ejemplo sobre una rama de trabajo en vez de sobre el commit del
-release— **pasa el gate y despliega el código equivocado en silencio**,
-incluso reinstalando sobre producción una versión de plugin anterior a la
-que ya sirve. Ocurrió el 2026-08-29 con `v0.3.0`. Antes de desplegar,
-verificar que la etiqueta es lo que dice ser:
+**El otro error era peor, y hasta hace poco nada lo frenaba:** el gate
+comprobaba que *exista* una etiqueta anotada `vX.Y.Z` en HEAD, no que su
+contenido correspondiera a esa versión. Una etiqueta bien formada sobre el
+commit equivocado —sobre una rama de trabajo en vez de sobre el commit del
+release— pasaba, y habría desplegado el código equivocado en silencio,
+reinstalando sobre producción una versión de plugin anterior a la que ya
+sirve. Ocurrió el 2026-08-29 con `v0.3.0`.
+
+Desde ese mismo día el gate lo verifica: exige además que `package.json`
+declare exactamente la versión de la etiqueta y que el commit etiquetado
+sea alcanzable desde `main`. Aun así conviene comprobarlo **antes** de
+etiquetar, por dos razones: el gate falla cuando la etiqueta ya está
+publicada y el run despachado, y deshacer eso obliga a borrarla y recrearla
+en local y en el remoto; y hay algo que el gate no puede saber, que es qué
+versión de plugin corre producción ahora mismo.
+
+```bash
+git fetch --tags origin main
+```
 
 ```bash
 git show vX.Y.Z:package.json | grep '"version"'

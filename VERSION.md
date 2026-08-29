@@ -34,14 +34,27 @@ desde la etiqueta, no desde HEAD suelto de `main`.
 1. Actualizar `"version"` en `package.json`.
 2. Mover los cambios de `## [Sin publicar]` a una nueva sección `## [X.Y.Z] — AAAA-MM-DD` en `CHANGELOG.md`.
 3. Actualizar «Versión vigente» en este archivo.
-4. Si el theme o el plugin cambian en ese release, subir sus cabeceras
-   `Version` / `Stable tag` (pueden diferir de X.Y.Z).
+4. Si el theme o el plugin cambian en ese release, subir la versión que
+   declara cada uno (pueden diferir de X.Y.Z): `Version:` y `Stable tag:`
+   en el `style.css` del theme, y la constante `REVISTALOGOS_CORE_VERSION`
+   en el plugin — no una cabecera.
 5. Commit por PR: `chore(release): vX.Y.Z` (ADR 0019: no pushear a `main`).
-6. Etiquetar **sobre el commit del release ya en `main`**:
-   `git tag -a vX.Y.Z -m "vX.Y.Z" origin/main` y `git push origin vX.Y.Z`.
+6. Etiquetar **sobre el commit del release ya en `main`**, con las refs
+   recién traídas:
+
+   ```bash
+   git fetch --tags origin main
+   git tag -a vX.Y.Z -m "vX.Y.Z" origin/main
+   git push origin vX.Y.Z
+   ```
+
    Etiquetar el HEAD local sin comprobar dónde está apunta a la rama en la
-   que se esté trabajando: el gate del deploy acepta esa etiqueta igualmente
-   y desplegaría el contenido equivocado.
+   que se esté trabajando; sin el `fetch`, `origin/main` puede estar vieja y
+   apuntar a un commit anterior al release. Desde el 2026-08-29 el gate del
+   deploy rechaza una etiqueta así —comprueba que `package.json` declare la
+   versión de la etiqueta y que el commit esté en `main`—, pero para
+   entonces ya está publicada, y corregirla obliga a borrarla y recrearla en
+   local y en el remoto.
 7. Desplegar theme+plugin desde GitHub Actions → «Deploy WordPress theme+plugin
    to production» → Run workflow **desde esa etiqueta** (Use workflow from:
    Tags). El workflow falla si HEAD no tiene `vMAJOR.MINOR.PATCH` anotada.
