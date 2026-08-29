@@ -92,6 +92,7 @@ class Plugin {
 		require_once $includes . 'article-pdf/class-dompdf-article-pdf-renderer.php';
 		require_once $includes . 'article-pdf/class-article-pdf-wordpress-adapter.php';
 		require_once $includes . 'article-pdf/class-article-pdf-wordpress-persister.php';
+		require_once $includes . 'article-pdf/class-article-pdf-editorial-template.php';
 		require_once $includes . 'article-pdf/class-article-pdf-wordpress-source-builder.php';
 		require_once $includes . 'article-pdf/class-article-pdf-wordpress-generator.php';
 		require_once $includes . 'article-pdf/class-article-pdf-publication-settings.php';

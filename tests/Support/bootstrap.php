@@ -25,6 +25,7 @@ if ( is_readable( $autoload ) ) {
 $article_pdf_dir = $plugin_root . '/includes/article-pdf';
 
 require_once $article_pdf_dir . '/class-article-pdf-publication-policy.php';
+require_once $article_pdf_dir . '/class-article-pdf-editorial-template.php';
 require_once $article_pdf_dir . '/interface-article-pdf-renderer.php';
 require_once $article_pdf_dir . '/class-article-pdf-generation-orchestrator.php';
 require_once $article_pdf_dir . '/class-dompdf-article-pdf-renderer.php';

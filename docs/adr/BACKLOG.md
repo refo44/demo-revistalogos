@@ -160,7 +160,16 @@ No hay dependencia ADR que fuerce el orden entre diseño editorial y WU7. Se pla
 
 #### 3. Diseño editorial profesional del PDF de artículo
 
-**Estado:** PLANNED. No iniciado.
+**Estado:** IMPLEMENTADO en rama `feat/article-pdf-editorial-design`
+(2026-08-28, [issue #10](https://github.com/refo44/demo-revistalogos/issues/10));
+pendiente de PR/merge del propietario. Mockup aprobado: **opción 1 «Clásico
+filológico»** (separata centrada, DejaVu Serif, **escala de grises, sin
+color** — decisión del propietario). Plantilla:
+`Article_Pdf_Editorial_Template` (pura, PHPUnit) + Source Builder como
+recolector (issue publicado, resúmenes, palabras clave, afiliación/ORCID/DOI
+inertes, fechas en español; campos vacíos omitidos). TDD: unit +
+suite PHPUnit/WordPress (`tools/run-phpunit-wp.sh`, autorizada por el
+propietario) + re-run composición. WU7 (ítem 4) debe consumir esta plantilla.
 
 El PDF individual debe parecer un artículo de revista académica arbitrada: sobrio, imprimible, citable, autónomo fuera del sitio, reconocible como LOGO ET SPES. Coherente con la web, **no** un printout de la página.
 

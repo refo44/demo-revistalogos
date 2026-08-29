@@ -71,9 +71,18 @@ deterministas.
 Contratos que **son** WordPress: meta, hooks, CPT, REST, adjuntos, caps,
 sanitizers que llaman APIs de WP.
 
-Hoy: harnesses Docker aislados (`tools/qa-*.sh`) contra WordPress **7.1**.
-No se instala la test suite oficial de WordPress en este incremento (duplicaría
-Compose). Un `composer test:integration` PHPUnit queda como trabajo futuro.
+Hoy: dos mecanismos, ambos Docker aislado contra WordPress **7.1**.
+
+1. **Suite PHPUnit/WordPress** (`tests/WordPress/`, autorizada por el
+   propietario 2026-08-28 para el diseño editorial del PDF): framework
+   oficial `wp-phpunit/wp-phpunit` 7.1 + `yoast/phpunit-polyfills`
+   (`require-dev` raíz). Runner: `./tools/run-phpunit-wp.sh`
+   (`composer test:wp`) — proyecto Compose propio
+   (`revistalogos-wp-phpunit`, puerto 8090), tablas `wptests_` propias,
+   `down -v` al salir. Config: `phpunit-wp.xml.dist`,
+   `tests/WordPress/bootstrap.php`, `tests/WordPress/wp-tests-config.php`.
+2. **Harnesses** `tools/qa-*.sh` para flujos integrados completos
+   (HTTP, wp-admin, CLI del plugin).
 
 No fingir APIs de WordPress cuando el objeto de la prueba es el comportamiento
 de WordPress.
@@ -90,10 +99,9 @@ uniformidad.
 tests/
   Unit/         PHPUnit nivel 1
   Support/      bootstrap unitario (sin WordPress)
-  Features/     Gherkin (.feature); hoy solo README de convención
+  WordPress/    PHPUnit nivel 2 (wp-phpunit; solo vía tools/run-phpunit-wp.sh)
+  Features/     Gherkin (.feature)
 ```
-
-No hay `tests/Integration/` hasta que exista un bootstrap PHPUnit/WP.
 
 Composer de **test** vive en la **raíz** (`composer.json`,
 `phpunit.xml.dist`). Composer de **runtime** vive en
@@ -252,6 +260,7 @@ composer test          # lint → audit --locked → units; not qa-*.sh
 # audit: docker run --rm -v "$PWD":/app -w /app composer:2 composer audit --locked
 
 # Nivel 2/3 — Docker aislado (nunca producción)
+./tools/run-phpunit-wp.sh               # suite PHPUnit/WordPress (wp-phpunit)
 ./tools/qa-editorial-bootstrap.sh
 ./tools/qa-article-editorial-ux.sh
 ./tools/qa-article-pdf-adapter.sh   # ADR 0017 WU2, aislado
@@ -269,8 +278,9 @@ composer test          # lint → audit --locked → units; not qa-*.sh
 harnesses que ya llaman `php -l` sobre archivos sueltos se conservan; el
 gate global los complementa.
 
-`composer test:integration` **no existe aún**. Cuando exista una suite
-PHPUnit/WP, se añadirá ese script y nada más.
+La suite PHPUnit/WP existe desde 2026-08-28 como `composer test:wp`
+(`./tools/run-phpunit-wp.sh`). No entra en `composer test` ni en CI:
+requiere Docker (mismo estatus que los `qa-*.sh`).
 
 ## CI
 
