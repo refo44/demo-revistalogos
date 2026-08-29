@@ -157,7 +157,23 @@ históricos. Desde 2026-08-20 el workflow usa `checkout@v5` y
    debe pasar. Si falla, no hay deploy: bump de `package.json` /
    `VERSION.md` / `CHANGELOG.md`, PR `chore(release): vX.Y.Z`, etiqueta
    anotada, y Run workflow **desde esa tag**. Merge a `main` no basta.
-   No despachar desde `v0.2.0` (producción ya sirve plugin 0.2.8).
+   Nunca despachar desde una etiqueta anterior a lo que producción ya
+   sirve: reinstalaría una versión más vieja.
+
+   **Verificar además que la etiqueta es lo que dice ser.** El gate
+   comprueba que *exista* una etiqueta anotada `vX.Y.Z` en HEAD, **no** que
+   su contenido corresponda a esa versión: una etiqueta bien formada sobre
+   el commit equivocado pasa el gate y despliega código equivocado en
+   silencio (ocurrido el 2026-08-29 con `v0.3.0`, colocada sobre una rama
+   de CI que llevaba el plugin 0.2.8 ya live). Comprobar las tres cosas:
+
+   ```bash
+   git merge-base --is-ancestor vX.Y.Z origin/main && echo "en main"
+   git show vX.Y.Z:package.json | grep '"version"'
+   git show vX.Y.Z:wordpress/wp-content/plugins/revistalogos-core/revistalogos-core.php | grep REVISTALOGOS_CORE_VERSION
+   ```
+
+   La versión del plugin debe ser **mayor** que la que corre producción.
 2. **Commit y rama:** `git rev-parse HEAD` y la etiqueta (`git describe --exact-match --tags`).
    Working tree limpio (`git status --short`).
 3. **Cambios incluidos:** solo theme y/o plugin first-party. Sin fixtures,
