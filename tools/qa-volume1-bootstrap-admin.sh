@@ -151,10 +151,19 @@ grep -Eqi "teardown" "$TMP/teardown-help.txt" || fail "teardown CLI must remain"
 FIXTURES_INCLUDES="$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/fixtures"
 [[ -d "$FIXTURES_INCLUDES" ]] || fail "fixtures includes directory missing: $FIXTURES_INCLUDES"
 
+# The list is materialised to a file rather than read from a process
+# substitution: there, find's exit code is unreachable, so a partial listing
+# (an unreadable subdirectory, say) would scan fewer files and still report
+# "no admin page" — the same silent pass in a new place.
+FIXTURES_LIST="$TMP/fixtures-php-files.txt"
+FIND_RC=0
+find "$FIXTURES_INCLUDES" -type f -name '*.php' >"$FIXTURES_LIST" || FIND_RC=$?
+[[ "$FIND_RC" -eq 0 ]] || fail "find failed (exit $FIND_RC) listing PHP files under $FIXTURES_INCLUDES"
+
 FIXTURES_FILES=()
 while IFS= read -r fixture_file; do
 	FIXTURES_FILES+=("$fixture_file")
-done < <(find "$FIXTURES_INCLUDES" -type f -name '*.php')
+done <"$FIXTURES_LIST"
 [[ "${#FIXTURES_FILES[@]}" -gt 0 ]] || fail "no PHP files found under $FIXTURES_INCLUDES"
 
 GREP_RC=0
