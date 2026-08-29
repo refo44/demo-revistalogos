@@ -130,7 +130,7 @@ VERSION_AFTER="$(cli eval 'echo get_option( Revistalogos_Core\Plugin::VERSION_OP
 [[ "$AUTHORS_BEFORE" == "$AUTHORS_AFTER" ]] || fail "upgrade mutated authors"
 [[ "$RAFAEL_STATUS" == "$RAFAEL_AFTER" && "$RAFAEL_AFTER" == "publish" ]] || fail "upgrade mutated Rafael"
 [[ "$PAGE_CONTENT_BEFORE" == "$PAGE_CONTENT_AFTER" ]] || fail "upgrade mutated institutional page"
-[[ "$VERSION_AFTER" == "0.2.8" ]] || fail "upgrade did not record plugin version 0.2.8"
+[[ "$VERSION_AFTER" == "0.2.9" ]] || fail "upgrade did not record plugin version 0.2.9"
 pass "plugin upgrade does not alter Volume 1 objects, Rafael, or Pages"
 
 FIXTURES_CLASS="$(cli eval 'echo class_exists( "Revistalogos_Core\\Fixtures" ) ? "yes" : "no";')"

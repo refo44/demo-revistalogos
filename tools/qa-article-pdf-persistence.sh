@@ -81,13 +81,13 @@ cli theme activate revistalogos >/dev/null
 cli plugin activate revistalogos-core >/dev/null
 
 PLUGIN_VERSION="$(cli eval 'echo REVISTALOGOS_CORE_VERSION;')"
-[[ "$PLUGIN_VERSION" == "0.2.8" ]] || fail "expected plugin 0.2.8, got $PLUGIN_VERSION"
+[[ "$PLUGIN_VERSION" == "0.2.9" ]] || fail "expected plugin 0.2.9, got $PLUGIN_VERSION"
 WP_VERSION="$(cli core version)"
 WPCLI_PHP="$(cli eval 'echo PHP_VERSION;')"
 echo "WordPress $WP_VERSION / WP-CLI PHP $WPCLI_PHP"
 [[ "$WP_VERSION" == "7.1" ]] || fail "expected WordPress 7.1, got $WP_VERSION"
 [[ "$WPCLI_PHP" == 8.3.* ]] || fail "expected WP-CLI PHP 8.3, got $WPCLI_PHP"
-pass "plugin 0.2.8 active in isolated WordPress 7.1 / WP-CLI PHP 8.3"
+pass "plugin 0.2.9 active in isolated WordPress 7.1 / WP-CLI PHP 8.3"
 
 echo "== persist real Dompdf bytes + invalid-input regressions =="
 cat >"$EVAL_HOST" <<'PHP'

@@ -3,7 +3,7 @@ Contributors: cenfiss
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.2.8
+Stable tag: 0.2.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,16 @@ Fase 3: los campos `issn`, `doi` y `orcid` son almacenamiento base inerte;
 la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
 
 == Changelog ==
+
+= 0.2.9 =
+* Professional editorial design for the generated Article PDF
+  (`Article_Pdf_Editorial_Template`, issue #10): «Clásico filológico»
+  offprint in greyscale, bibliographic masthead (Vol./No./year/pages/ISSN/
+  section read from the published issue), inert DOI/ORCID/affiliation,
+  Spanish dates, abstracts and keywords. Empty fields are omitted without
+  orphan labels; title + body + authors still generates.
+* Publication enforcement stays OFF by default. No backfill, no
+  regenerate-on-save, no change to the author publication guard.
 
 = 0.2.8 =
 * Preserves a PDF generated on Gutenberg REST publish when the later
