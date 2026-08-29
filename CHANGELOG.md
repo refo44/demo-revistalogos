@@ -8,7 +8,29 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+## [0.3.0] — 2026-08-29
+
+Primer release etiquetado desde `v0.2.0`. Recoge la generación automática
+de PDF de artículo completa (ADR 0017 WU1–6B), su diseño editorial, el
+picker de autores, WordPress 7.1 y PHP 8.3. Habilita el FTPS a producción
+según ADR 0020: `v0.2.0` es **anterior** al 0.2.8 que ya sirve producción y
+despachar desde ella bajaría el plugin.
+
+### Security
+- `picomatch` 2.3.2 en `package-lock.json`
+  ([GHSA-3v7f-55p6-f55p], dependencia transitiva de desarrollo). Cubre
+  también GHSA-c2c7-rcm5-vvqj (ReDoS) sobre el mismo rango.
+
 ### Added
+- Plugin `revistalogos-core` 0.2.9: diseño editorial profesional del PDF de
+  artículo (`Article_Pdf_Editorial_Template`, [issue #10]). Separata
+  «Clásico filológico» en escala de grises: masthead bibliográfico
+  (Vol./N.º/año/pp./ISSN/sección leídos del número publicado), DOI, ORCID y
+  afiliación inertes, fechas en español, resúmenes y palabras clave. Los
+  campos vacíos se omiten sin etiquetas huérfanas; título + cuerpo + autores
+  sigue generando. La aplicación en publicación permanece **OFF** por
+  defecto; sin backfill ni regeneración al guardar.
+
 - Plugin `revistalogos-core` 0.2.8: Gutenberg REST publish still
   generates/persists the Article PDF; the later meta-box-loader
   request no longer clears `pdf_file` when it submits stale `0`.
@@ -131,6 +153,15 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   bootstrap and frontend verification.
 
 ### Fixed
+- Los 8 harnesses QA de `tools/` dejan de depender de ripgrep y usan `grep`
+  POSIX. En un host sin `rg`, `if rg -q …` salía 127 y el `if` lo leía como
+  «sin coincidencias»: los guards estáticos **pasaban en silencio**. Ahora
+  se tratan explícitamente los códigos de salida de `grep` (0/1/≥2) y de
+  `find`, y la extracción de IDs usa `awk` en vez de `grep -Eo` (no POSIX).
+- `stylelint.config.mjs`: los globs de `overrides` no casaban con ninguna
+  ruta real. `tokens.css` perdía la exención que se le concede a propósito
+  (16 errores de lint) y `color-no-hex` no se aplicaba a **ningún** fichero.
+  Rutas ahora explícitas, acotadas a los dos árboles CSS del proyecto.
 - Composer lockfile vs PHP platform: `doctrine/instantiator` 2.1.0
   (`php ^8.4`) replaced with 2.0.0 so `composer install` respects
   `config.platform.php` 8.2.0 on CI PHP 8.2. PHPUnit remains 9.6.36.
@@ -299,6 +330,9 @@ con la infraestructura de gobierno del proyecto en su sitio.
 - El contenido editorial de la maqueta es demostrativo y **no** se publica en producción (ver `docs/17-implementation-order` §3.1).
 - `robots.txt` permanece en `Disallow: /` mientras el sitio es prototipo.
 
-[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.2.0...HEAD
+[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/refo44/demo-revistalogos/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/refo44/demo-revistalogos/releases/tag/v0.2.0
 [0.1.0]: https://github.com/refo44/demo-revistalogos/releases/tag/v0.1.0
+[issue #10]: https://github.com/refo44/demo-revistalogos/issues/10
+[GHSA-3v7f-55p6-f55p]: https://github.com/advisories/GHSA-3v7f-55p6-f55p
