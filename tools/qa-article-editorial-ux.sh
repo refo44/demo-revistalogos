@@ -68,20 +68,20 @@ raise SystemExit(failed)
 PY
 pass "CTA and content-link contrast ratios meet AA"
 
-rg -q "\.btn--primary:visited" "$ROOT/wordpress/wp-content/themes/revistalogos/assets/css/components.css" \
+grep -Eq "\.btn--primary:visited" "$ROOT/wordpress/wp-content/themes/revistalogos/assets/css/components.css" \
 	|| fail "missing .btn--primary:visited component rule"
-rg -q "\.btn--pdf:visited" "$ROOT/wordpress/wp-content/themes/revistalogos/assets/css/components.css" \
+grep -Eq "\.btn--pdf:visited" "$ROOT/wordpress/wp-content/themes/revistalogos/assets/css/components.css" \
 	|| fail "missing .btn--pdf:visited component rule"
-rg -q "\.pagination__link:visited" "$ROOT/wordpress/wp-content/themes/revistalogos/assets/css/components.css" \
+grep -Eq "\.pagination__link:visited" "$ROOT/wordpress/wp-content/themes/revistalogos/assets/css/components.css" \
 	|| fail "missing .pagination__link:visited component rule"
-if rg -q "a:visited \{[^}]*color:\s*#fff" "$ROOT/wordpress/wp-content/themes/revistalogos/assets/css/base.css"; then
+if grep -Eq "a:visited \{[^}]*color:[[:space:]]*#fff" "$ROOT/wordpress/wp-content/themes/revistalogos/assets/css/base.css"; then
 	fail "must not globally force visited links to white"
 fi
-rg -q "a:visited" "$ROOT/wordpress/wp-content/themes/revistalogos/assets/css/base.css" \
+grep -Eq "a:visited" "$ROOT/wordpress/wp-content/themes/revistalogos/assets/css/base.css" \
 	|| fail "ordinary a:visited rule must remain"
-rg -F -q "display: inline-flex" "$ROOT/wordpress/wp-content/themes/revistalogos/assets/css/components.css" \
+grep -Fq "display: inline-flex" "$ROOT/wordpress/wp-content/themes/revistalogos/assets/css/components.css" \
 	|| fail ".btn must remain inline-flex (static wrap preflight for 320px / 200% zoom)"
-if rg -q "^\.btn[^_].*nowrap|\.btn \{[^}]*white-space:\s*nowrap" "$ROOT/wordpress/wp-content/themes/revistalogos/assets/css/components.css"; then
+if grep -Eq "^\.btn[^_].*nowrap|\.btn \{[^}]*white-space:[[:space:]]*nowrap" "$ROOT/wordpress/wp-content/themes/revistalogos/assets/css/components.css"; then
 	fail ".btn must not force nowrap (static wrap preflight for 320px / 200% zoom)"
 fi
 pass "CTA visited CSS is component-level; ordinary visited links preserved"
@@ -98,7 +98,7 @@ assert_contains() {
 	local file="$1"
 	local text="$2"
 
-	rg -F -q "$text" "$file" || fail "expected '$text' in $file"
+	grep -Fq "$text" "$file" || fail "expected '$text' in $file"
 }
 
 http_code() {
@@ -143,23 +143,23 @@ compose run --rm --entrypoint php wpcli -l wp-content/plugins/revistalogos-core/
 compose run --rm --entrypoint php wpcli -l wp-content/plugins/revistalogos-core/includes/fixtures/class-fixtures.php >/dev/null
 pass "PHP syntax of changed plugin files"
 
-rg -F -q "library: { type: 'application/pdf' }" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
+grep -Fq "library: { type: 'application/pdf' }" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
 	|| fail "PDF picker JS must filter application/pdf"
 pass "PDF picker JS filters application/pdf"
 
-rg -F -q "wp.apiFetch" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
+grep -Fq "wp.apiFetch" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
 	|| fail "author picker must use wp.apiFetch"
-rg -F -q "per_page" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
+grep -Fq "per_page" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
 	|| fail "author picker must bound per_page"
-rg -F -q "minLength" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
+grep -Fq "minLength" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
 	|| fail "author picker must enforce minLength"
-if rg -q "use_block_editor_for_post_type" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/class-plugin.php"; then
+if grep -Eq "use_block_editor_for_post_type" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/class-plugin.php"; then
 	fail "plugin must not register use_block_editor_for_post_type"
 fi
 if [[ -f "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/fixtures/class-bootstrap-admin.php" ]]; then
 	fail "Bootstrap_Admin file must be absent"
 fi
-if rg -q "Bootstrap_Admin" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/class-plugin.php"; then
+if grep -Eq "Bootstrap_Admin" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/class-plugin.php"; then
 	fail "plugin must not wire Bootstrap_Admin"
 fi
 pass "Classic Editor override absent; Bootstrap_Admin absent; author picker uses core REST"
@@ -545,20 +545,20 @@ if [[ -s "$TMP/domain.err" ]]; then
 fi
 
 pass "domain eval finished"
-rg -q '^FAIL_COUNT=0$' "$TMP/domain.txt" || fail "domain FAIL_COUNT is not 0"
-if rg -q '^FAIL ' "$TMP/domain.txt"; then
+grep -Eq '^FAIL_COUNT=0$' "$TMP/domain.txt" || fail "domain FAIL_COUNT is not 0"
+if grep -Eq '^FAIL ' "$TMP/domain.txt"; then
 	fail "domain QA reported FAIL lines"
 fi
-if rg -q "Undefined property|PHP Warning|PHP Notice|PHP Deprecated" "$TMP/domain.txt" "$TMP/domain.err"; then
+if grep -Eq "Undefined property|PHP Warning|PHP Notice|PHP Deprecated" "$TMP/domain.txt" "$TMP/domain.err"; then
 	fail "domain eval emitted PHP warnings (see domain.txt / domain.err)"
 fi
 pass "authors, publication and PDF domain checks"
 
-ARTICLE1_ID="$(rg -o 'ARTICLE1=[0-9]+' "$TMP/domain.txt" | cut -d= -f2)"
-ARTICLE2_ID="$(rg -o 'ARTICLE2=[0-9]+' "$TMP/domain.txt" | cut -d= -f2)"
-MULTI_ID="$(rg -o 'MULTI=[0-9]+' "$TMP/domain.txt" | cut -d= -f2)"
-REAL_PDF="$(rg -o 'REAL_PDF=[0-9]+' "$TMP/domain.txt" | cut -d= -f2)"
-RAFAEL_ID="$(rg -o 'RAFAEL=[0-9]+' "$TMP/domain.txt" | cut -d= -f2)"
+ARTICLE1_ID="$(grep -Eo 'ARTICLE1=[0-9]+' "$TMP/domain.txt" | cut -d= -f2)"
+ARTICLE2_ID="$(grep -Eo 'ARTICLE2=[0-9]+' "$TMP/domain.txt" | cut -d= -f2)"
+MULTI_ID="$(grep -Eo 'MULTI=[0-9]+' "$TMP/domain.txt" | cut -d= -f2)"
+REAL_PDF="$(grep -Eo 'REAL_PDF=[0-9]+' "$TMP/domain.txt" | cut -d= -f2)"
+RAFAEL_ID="$(grep -Eo 'RAFAEL=[0-9]+' "$TMP/domain.txt" | cut -d= -f2)"
 
 echo "== Gutenberg REST HTTP =="
 APP_PASS="$(cli user application-password create "$ADMIN_USER" editorial-ux-qa --porcelain)"
@@ -607,16 +607,16 @@ assert_contains "$TMP/multi.html" "QA Second Author"
 assert_contains "$TMP/issue.html" "Rafael Eduardo Figueredo Oropeza"
 assert_contains "$TMP/issue.html" "QA Second Author"
 assert_contains "$TMP/rafael.html" "Rafael Eduardo Figueredo Oropeza"
-rg -q 'class="btn btn--pdf' "$TMP/a1.html" || fail "article PDF CTA uses btn btn--pdf"
-rg -q 'class="btn btn--primary' "$TMP/issue.html" || fail "issue PDF CTA uses btn btn--primary"
+grep -Eq 'class="btn btn--pdf' "$TMP/a1.html" || fail "article PDF CTA uses btn btn--pdf"
+grep -Eq 'class="btn btn--primary' "$TMP/issue.html" || fail "issue PDF CTA uses btn btn--primary"
 
 curl -sS "${BASE_URL}/wp-content/themes/revistalogos/assets/css/components.css?v=20260820-1" -o "$TMP/components.css"
-rg -q "\.btn--primary:visited" "$TMP/components.css" || fail "served components.css missing .btn--primary:visited"
-rg -q "\.btn--pdf:visited" "$TMP/components.css" || fail "served components.css missing .btn--pdf:visited"
+grep -Eq "\.btn--primary:visited" "$TMP/components.css" || fail "served components.css missing .btn--primary:visited"
+grep -Eq "\.btn--pdf:visited" "$TMP/components.css" || fail "served components.css missing .btn--pdf:visited"
 pass "served CTA CSS includes visited component rules"
 
 # article 2 has authors but no PDF after our tests? article2 never got a PDF.
-if rg -F -q "Descargar PDF del artículo" "$TMP/a2.html"; then
+if grep -Fq "Descargar PDF del artículo" "$TMP/a2.html"; then
 	fail "article 2 should not show PDF buttons"
 fi
 pass "frontend authors, TOC names, PDF href and citation_pdf_url"
@@ -624,7 +624,7 @@ pass "frontend authors, TOC names, PDF href and citation_pdf_url"
 # empty PDF buttons: editorial
 EDITORIAL_URL="$(cli post url "$(cli post list --post_type=article --name=editorial-vol-1-n-1 --format=ids)")"
 curl -sS "$EDITORIAL_URL" -o "$TMP/editorial.html"
-if rg -F -q "btn--pdf" "$TMP/editorial.html"; then
+if grep -Fq "btn--pdf" "$TMP/editorial.html"; then
 	fail "editorial without PDF should hide PDF buttons"
 fi
 pass "frontend PDF buttons hidden when empty"

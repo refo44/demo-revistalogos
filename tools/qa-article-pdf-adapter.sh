@@ -41,13 +41,13 @@ trap cleanup EXIT
 echo "== static guards (no renderer, no generation APIs in adapter) =="
 ADAPTER="$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/article-pdf/class-article-pdf-wordpress-adapter.php"
 [[ -f "$ADAPTER" ]] || fail "Article_Pdf_WordPress_Adapter file missing"
-if rg -q "media_handle_sideload|wp_insert_attachment|wp_generate_attachment_metadata|wp_update_attachment_metadata" "$ADAPTER"; then
+if grep -Eq "media_handle_sideload|wp_insert_attachment|wp_generate_attachment_metadata|wp_update_attachment_metadata" "$ADAPTER"; then
 	fail "adapter must not create or update attachments"
 fi
-if rg -q "update_post_meta|add_post_meta|delete_post_meta|wp_update_post|wp_insert_post" "$ADAPTER"; then
+if grep -Eq "update_post_meta|add_post_meta|delete_post_meta|wp_update_post|wp_insert_post" "$ADAPTER"; then
 	fail "adapter must be read-only (no post/meta writes)"
 fi
-if rg -q "add_action|add_filter" "$ADAPTER"; then
+if grep -Eq "add_action|add_filter" "$ADAPTER"; then
 	fail "adapter must not register WordPress hooks"
 fi
 pass "adapter source has no write/hook/generation APIs"

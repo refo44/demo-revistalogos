@@ -41,7 +41,7 @@ trap cleanup EXIT
 if [[ -f "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/fixtures/class-bootstrap-admin.php" ]]; then
 	fail "class-bootstrap-admin.php must be deleted"
 fi
-if rg -q "Bootstrap_Admin" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/class-plugin.php"; then
+if grep -Eq "Bootstrap_Admin" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/class-plugin.php"; then
 	fail "Plugin must not register Bootstrap_Admin"
 fi
 pass "Bootstrap_Admin source and wiring absent"
@@ -76,7 +76,7 @@ ABSENT="$(cli eval 'echo class_exists( "Revistalogos_Core\\Bootstrap_Admin" ) ? 
 pass "Bootstrap_Admin class absent at runtime"
 
 cli eval 'echo menu_page_url( "revistalogos-volume-1-bootstrap", false );' >"$TMP/menu.txt"
-if rg -q "revistalogos-volume-1-bootstrap" "$TMP/menu.txt"; then
+if grep -Eq "revistalogos-volume-1-bootstrap" "$TMP/menu.txt"; then
 	fail "Tools bootstrap page must not be registered"
 fi
 pass "Tools Volume 1 bootstrap menu absent"
@@ -97,7 +97,7 @@ cli post create \
 	--porcelain >/dev/null
 
 cli revistalogos fixtures plan >"$TMP/plan.txt"
-rg -q "volume-1" "$TMP/plan.txt" || fail "fixtures plan must still work"
+grep -Eq "volume-1" "$TMP/plan.txt" || fail "fixtures plan must still work"
 pass "Fixtures domain plan still available"
 
 cli revistalogos fixtures bootstrap --apply >"$TMP/apply.txt"
@@ -133,15 +133,15 @@ VERSION_AFTER="$(cli eval 'echo get_option( Revistalogos_Core\Plugin::VERSION_OP
 [[ "$VERSION_AFTER" == "0.2.8" ]] || fail "upgrade did not record plugin version 0.2.8"
 pass "plugin upgrade does not alter Volume 1 objects, Rafael, or Pages"
 
-cli eval 'echo class_exists( "Revistalogos_Core\\Fixtures" ) ? "yes" : "no";' | rg -q '^yes$' || fail "Fixtures class must remain"
+cli eval 'echo class_exists( "Revistalogos_Core\\Fixtures" ) ? "yes" : "no";' | grep -Eq '^yes$' || fail "Fixtures class must remain"
 pass "Fixtures domain still available"
 
 cli revistalogos fixtures verify >"$TMP/verify.txt"
 pass "fixtures verify still available via CLI"
 
 cli revistalogos fixtures teardown --help >"$TMP/teardown-help.txt"
-rg -qi "teardown" "$TMP/teardown-help.txt" || fail "teardown CLI must remain"
-if rg -q "add_management_page|add_submenu_page" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/fixtures" 2>/dev/null; then
+grep -Eqi "teardown" "$TMP/teardown-help.txt" || fail "teardown CLI must remain"
+if grep -REq "add_management_page|add_submenu_page" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/fixtures" 2>/dev/null; then
 	fail "fixtures includes must not register an admin Tools page"
 fi
 pass "teardown remains CLI/dev only"

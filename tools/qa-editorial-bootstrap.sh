@@ -46,7 +46,7 @@ assert_contains() {
 	local file="$1"
 	local text="$2"
 
-	rg -F -q "$text" "$file" || fail "expected '$text' in $file"
+	grep -Fq "$text" "$file" || fail "expected '$text' in $file"
 }
 
 http_code() {
@@ -92,8 +92,8 @@ CORE_VERSION="$(cli core version)"
 PLUGIN_STATUS="$(cli plugin status revistalogos-core)"
 THEME_STATUS="$(cli theme status revistalogos)"
 [[ "$CORE_VERSION" == "7.1" ]] || fail "expected WordPress 7.1, got $CORE_VERSION"
-printf '%s' "$PLUGIN_STATUS" | rg -F -q "Status: Active" || fail "plugin not active"
-printf '%s' "$THEME_STATUS" | rg -F -q "Status: Active" || fail "theme not active"
+printf '%s' "$PLUGIN_STATUS" | grep -Fq "Status: Active" || fail "plugin not active"
+printf '%s' "$THEME_STATUS" | grep -Fq "Status: Active" || fail "theme not active"
 pass "WordPress 7.1, revistalogos theme and revistalogos-core plugin available"
 
 echo "== PHP syntax and recovery UI removal =="
@@ -144,8 +144,8 @@ AUTHOR_ID="$(cli post create \
 [[ "$AUTHOR_ID" =~ ^[0-9]+$ ]] || fail "could not create representative author"
 
 echo "== plan/dry-run performs no writes =="
-cli help revistalogos fixtures | rg -q bootstrap || fail "bootstrap subcommand missing"
-cli help revistalogos fixtures | rg -q plan || fail "plan subcommand missing"
+cli help revistalogos fixtures | grep -Eq bootstrap || fail "bootstrap subcommand missing"
+cli help revistalogos fixtures | grep -Eq plan || fail "plan subcommand missing"
 DB_BEFORE="$(relevant_db_hash)"
 cli revistalogos fixtures plan >"$TMP/plan.txt"
 cli revistalogos fixtures bootstrap >"$TMP/dry-run.txt"
@@ -182,7 +182,7 @@ EXPECTED_ORDER="editorial-vol-1-n-1,la-naturaleza-del-ser-en-la-filosofia-contem
 ARTICLE_ISSUE="$(cli post meta get "$ARTICLE1_ID" issue)"
 [[ "$ARTICLE_ISSUE" == "$ISSUE_ID" ]] || fail "article 1 is not linked to the Volume 1 issue"
 AUTHORS_META="$(cli eval "echo implode(',', array_map('strval', (array) get_post_meta( $ARTICLE1_ID, 'authors', true )));")"
-printf '%s' "$AUTHORS_META" | rg -q "^${AUTHOR_ID}$|^${AUTHOR_ID},|,${AUTHOR_ID}$|,${AUTHOR_ID}," || [[ "$AUTHORS_META" == "$AUTHOR_ID" ]] || fail "article 1 is not linked to Rafael (authors=$AUTHORS_META)"
+printf '%s' "$AUTHORS_META" | grep -Eq "^${AUTHOR_ID}$|^${AUTHOR_ID},|,${AUTHOR_ID}$|,${AUTHOR_ID}," || [[ "$AUTHORS_META" == "$AUTHOR_ID" ]] || fail "article 1 is not linked to Rafael (authors=$AUTHORS_META)"
 
 RAFAEL_BOOTSTRAP="$(cli post meta get "$AUTHOR_ID" _les_bootstrap || true)"
 RAFAEL_FIXTURE="$(cli post meta get "$AUTHOR_ID" _les_fixture || true)"
@@ -279,10 +279,10 @@ assert_contains "$TMP/teardown-plan.txt" "would delete issue ${ISSUE_ID}"
 assert_contains "$TMP/teardown-plan.txt" "would delete article ${ARTICLE2_ID}"
 assert_contains "$TMP/teardown-plan.txt" "adopted Volume 1 content; teardown refused"
 assert_contains "$TMP/teardown-plan.txt" "kept article ${ARTICLE1_ID} (adopted Volume 1 content; teardown refused)"
-if rg -q "would delete author ${AUTHOR_ID}" "$TMP/teardown-plan.txt"; then
+if grep -Eq "would delete author ${AUTHOR_ID}" "$TMP/teardown-plan.txt"; then
 	fail "teardown dry-run would delete Rafael"
 fi
-if rg -q "would delete post ${MANUAL_POST_ID}" "$TMP/teardown-plan.txt"; then
+if grep -Eq "would delete post ${MANUAL_POST_ID}" "$TMP/teardown-plan.txt"; then
 	fail "teardown dry-run would delete unrelated manual content"
 fi
 cli revistalogos fixtures teardown --kind=bootstrap --apply >"$TMP/teardown-apply.txt"
@@ -290,7 +290,7 @@ assert_contains "$TMP/teardown-apply.txt" "adopted Volume 1 content; teardown re
 assert_contains "$TMP/teardown-apply.txt" "deleted article ${EDITORIAL_ID}"
 assert_contains "$TMP/teardown-apply.txt" "deleted issue ${ISSUE_ID}"
 assert_contains "$TMP/teardown-apply.txt" "deleted article ${ARTICLE2_ID}"
-if rg -q "kept article ${EDITORIAL_ID}" "$TMP/teardown-apply.txt"; then
+if grep -Eq "kept article ${EDITORIAL_ID}" "$TMP/teardown-apply.txt"; then
 	fail "teardown classified unadopted editorial as adopted"
 fi
 STILL_ARTICLE="$(cli post get "$ARTICLE1_ID" --field=ID)"
@@ -317,7 +317,7 @@ STILL_AUTHOR2="$(cli post get "$AUTHOR_ID" --field=ID)"
 [[ "$STILL_AUTHOR2" == "$AUTHOR_ID" ]] || fail "second teardown deleted Rafael"
 STILL_MANUAL2="$(cli post get "$MANUAL_POST_ID" --field=ID)"
 [[ "$STILL_MANUAL2" == "$MANUAL_POST_ID" ]] || fail "second teardown deleted unrelated manual content"
-if rg -q "ERROR deleting" "$TMP/teardown-2.txt"; then
+if grep -Eq "ERROR deleting" "$TMP/teardown-2.txt"; then
 	fail "second teardown was not safe"
 fi
 pass "teardown removes only unadopted bootstrap objects; second run is safe"
