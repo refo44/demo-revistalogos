@@ -8,7 +8,13 @@
 #
 # Usage:
 #   ./tools/check-release-pending.sh            # report, always exit 0
-#   ./tools/check-release-pending.sh --strict   # exit 1 when a release is pending
+#   ./tools/check-release-pending.sh --strict   # exit 1 when a release is pending,
+#                                               # and equally when the question
+#                                               # cannot be answered at all: not a
+#                                               # repository, no commit checked out,
+#                                               # or no annotated tag to compare
+#                                               # against. Under --strict, "I could
+#                                               # not check" is not a pass.
 set -uo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"

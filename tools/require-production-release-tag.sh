@@ -49,6 +49,25 @@ if [[ -z "$found" ]]; then
 	exit 1
 fi
 
+# Remediation for both failures below. `git tag -a` refuses to move a tag that
+# already exists, and by the time either failure prints, the tag does exist and
+# has almost certainly been pushed — that is how the workflow was dispatched.
+# So the instruction has to be delete-and-recreate, on the remote too, or it is
+# not executable in the one situation where it is printed.
+retag_instructions() {
+	local tag="$1"
+	{
+		echo "Re-tag the release commit on main. The tag already exists, so moving it"
+		echo "means deleting and recreating it, locally and on the remote:"
+		echo "  git tag -d ${tag}"
+		echo "  git push origin :refs/tags/${tag}"
+		echo "  git tag -a ${tag} -m \"${tag}\" origin/main"
+		echo "  git push origin ${tag}"
+		echo "Anyone who already fetched ${tag} keeps the old object until they prune,"
+		echo "so announce it rather than assuming the rewrite is invisible."
+	} >&2
+}
+
 # --- 2. package.json must declare exactly that version ----------------------
 TAG_VERSION="${found#v}"
 PKG_VERSION="$(sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' package.json | head -1)"
@@ -64,7 +83,7 @@ if [[ "$PKG_VERSION" != "$TAG_VERSION" ]]; then
 	echo "  package.json   : ${PKG_VERSION}" >&2
 	echo "  commit         : ${HEAD}" >&2
 	echo "The tag was almost certainly created on the wrong commit. Deploying it would ship a tree that is not this release." >&2
-	echo "Re-tag the release commit on main: git tag -a ${found} -m \"${found}\" origin/main" >&2
+	retag_instructions "$found"
 	exit 1
 fi
 
@@ -90,7 +109,7 @@ if ! git merge-base --is-ancestor "$HEAD" "$MAIN_REF"; then
 	echo "  commit   : ${HEAD}" >&2
 	echo "  main     : $(git rev-parse "$MAIN_REF")" >&2
 	echo "The tagged commit must live on the trunk, not on a working branch." >&2
-	echo "Re-tag the release commit on main: git tag -a ${found} -m \"${found}\" origin/main" >&2
+	retag_instructions "$found"
 	exit 1
 fi
 
