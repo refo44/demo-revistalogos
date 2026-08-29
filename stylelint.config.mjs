@@ -21,14 +21,19 @@ export default {
       }
     ]
   },
-  // Override globs are resolved relative to this config file, so they need a
-  // leading `**/` to reach the two CSS trees (`static/assets/css/**` and
-  // `wordpress/wp-content/themes/revistalogos/assets/css/**`). Without it
-  // neither override matched anything: `color-no-hex` never ran, and
-  // tokens.css lost its intended exemption.
+  // Override globs are resolved relative to this config file. A bare
+  // `assets/css/**` matched nothing, so `color-no-hex` never ran and
+  // tokens.css lost its intended exemption. The paths are spelled out rather
+  // than reached with `**/`, which would also pull in unrelated trees such as
+  // `wordpress/wp-content/plugins/revistalogos-core/assets/css/` — admin CSS
+  // that legitimately uses hex and is outside the design-token system. These
+  // two globs mirror the `lint:css` script exactly.
   overrides: [
     {
-      files: ["**/assets/css/**/*.css"],
+      files: [
+        "static/assets/css/**/*.css",
+        "wordpress/wp-content/themes/revistalogos/assets/css/**/*.css"
+      ],
       rules: {
         "color-no-hex": true
       }
@@ -37,7 +42,10 @@ export default {
       // tokens.css is where the raw palette and the system font stacks are
       // declared, so it keeps its hex literals and the vendor casing of font
       // names (`BlinkMacSystemFont`, `Georgia`, …). Listed last so it wins.
-      files: ["**/assets/css/tokens.css"],
+      files: [
+        "static/assets/css/tokens.css",
+        "wordpress/wp-content/themes/revistalogos/assets/css/tokens.css"
+      ],
       rules: {
         "color-hex-length": null,
         "color-no-hex": null,
