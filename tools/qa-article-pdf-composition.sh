@@ -370,13 +370,15 @@ pass "source builder and explicit generator composition"
 
 BUILDER="$PLUGIN_DIR/includes/article-pdf/class-article-pdf-wordpress-source-builder.php"
 GENERATOR="$PLUGIN_DIR/includes/article-pdf/class-article-pdf-wordpress-generator.php"
+TEMPLATE="$PLUGIN_DIR/includes/article-pdf/class-article-pdf-editorial-template.php"
 echo "== static guards (no persistence, hooks, or enforcement) =="
 [[ -f "$BUILDER" ]] || fail "Article_Pdf_WordPress_Source_Builder file missing"
 [[ -f "$GENERATOR" ]] || fail "Article_Pdf_WordPress_Generator file missing"
-if rg -q "add_action|add_filter" "$BUILDER" "$GENERATOR"; then
+[[ -f "$TEMPLATE" ]] || fail "Article_Pdf_Editorial_Template file missing"
+if rg -q "add_action|add_filter" "$BUILDER" "$GENERATOR" "$TEMPLATE"; then
 	fail "WU6A classes must not register WordPress hooks"
 fi
-if rg -q "wp_insert_post_data|rest_pre_insert|transition_post_status|register_setting|revistalogos_article_pdf_publication_enforcement" "$BUILDER" "$GENERATOR"; then
+if rg -q "wp_insert_post_data|rest_pre_insert|transition_post_status|register_setting|revistalogos_article_pdf_publication_enforcement" "$BUILDER" "$GENERATOR" "$TEMPLATE"; then
 	fail "WU6A classes must not wire publication or settings"
 fi
 pass "WU6A classes have no hooks, settings, or publication wiring"

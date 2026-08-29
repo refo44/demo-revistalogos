@@ -1,10 +1,12 @@
 <?php
 /**
  * Build a self-contained PDF source HTML document from an Article
- * (ADR 0017 work unit 6A).
+ * (ADR 0017 work unit 6A; editorial offprint design: issue #10,
+ * BACKLOG item 3).
  *
  * Reads WordPress Article state only. Does not render PDF, persist,
- * decide publication, or register hooks.
+ * decide publication, or register hooks. Presentation lives in
+ * Article_Pdf_Editorial_Template; this class only gathers fields.
  *
  * @package Revistalogos_Core
  */
@@ -39,7 +41,8 @@ class Article_Pdf_WordPress_Source_Builder {
 
 	/**
 	 * Build source HTML from the Article being published in this request.
-	 * Authors still come from stored relationships.
+	 * Editorial context (authors, issue, abstracts, identifiers, terms)
+	 * still comes from stored state.
 	 *
 	 * @param mixed  $article_id        Article post ID.
 	 * @param mixed  $candidate_title   Title of the publication request.
@@ -55,11 +58,13 @@ class Article_Pdf_WordPress_Source_Builder {
 		$title = is_string( $candidate_title ) ? $candidate_title : get_the_title( $article );
 		$raw   = is_string( $candidate_content ) ? $candidate_content : '';
 
-		return $this->document(
-			$title,
-			$this->render_body_from_raw( $raw ),
-			$this->author_names( (int) $article->ID )
-		);
+		$fields              = $this->editorial_fields( (int) $article->ID );
+		$fields['title']     = $title;
+		$fields['body_html'] = $this->render_body_from_raw( $raw );
+
+		$template = new Article_Pdf_Editorial_Template();
+
+		return $template->render( $fields );
 	}
 
 	/**
@@ -106,19 +111,95 @@ class Article_Pdf_WordPress_Source_Builder {
 	}
 
 	/**
-	 * ADR 0017 §5 names authors as part of the generated-PDF source.
-	 * Names only; no theme chrome, permalinks or Fase 4 identifiers.
+	 * Stored editorial context for the offprint (ADR 0017 §5 and the
+	 * WU6A deferred fields): journal identity, issue citation data,
+	 * article metadata, authors, and taxonomy terms. Values are passed
+	 * as stored; the template omits what is empty. DOI/ORCID/ISSN stay
+	 * inert strings (ADR 0013).
 	 *
 	 * @param int $article_id Article post ID.
-	 * @return string[]
+	 * @return array
 	 */
-	private function author_names( $article_id ) {
-		$names   = array();
+	private function editorial_fields( $article_id ) {
+		$fields = array(
+			'journal_name'     => (string) get_bloginfo( 'name' ),
+			'title_en'         => (string) get_post_meta( $article_id, 'title_en', true ),
+			'abstract'         => (string) get_post_meta( $article_id, 'abstract', true ),
+			'abstract_en'      => (string) get_post_meta( $article_id, 'abstract_en', true ),
+			'doi'              => (string) get_post_meta( $article_id, 'doi', true ),
+			'pages'            => (string) get_post_meta( $article_id, 'pages', true ),
+			'received_date'    => (string) get_post_meta( $article_id, 'received_date', true ),
+			'accepted_date'    => (string) get_post_meta( $article_id, 'accepted_date', true ),
+			'publication_date' => (string) get_post_meta( $article_id, 'publication_date', true ),
+			'authors'          => $this->author_entries( $article_id ),
+			'section'          => $this->first_term_name( $article_id, Taxonomies::SECTION ),
+			'keywords'         => $this->term_names( $article_id, Taxonomies::KEYWORD ),
+		);
+
+		return array_merge( $fields, $this->issue_fields( $article_id ) );
+	}
+
+	/**
+	 * ADR 0017 §5 names authors as part of the generated-PDF source;
+	 * the offprint adds their affiliation and inert ORCID when stored.
+	 *
+	 * @param int $article_id Article post ID.
+	 * @return array[]
+	 */
+	private function author_entries( $article_id ) {
+		$entries = array();
 		$authors = Queries::article_authors( $article_id );
 		foreach ( $authors as $author ) {
 			$name = get_the_title( $author );
-			if ( is_string( $name ) && '' !== $name ) {
-				$names[] = $name;
+			if ( ! is_string( $name ) || '' === $name ) {
+				continue;
+			}
+			$entries[] = array(
+				'name'        => $name,
+				'affiliation' => (string) get_post_meta( $author->ID, 'afiliacion', true ),
+				'orcid'       => (string) get_post_meta( $author->ID, 'orcid', true ),
+			);
+		}
+
+		return $entries;
+	}
+
+	/**
+	 * Citation context from the published Issue the Article belongs to.
+	 * An unpublished or missing Issue contributes nothing.
+	 *
+	 * @param int $article_id Article post ID.
+	 * @return array
+	 */
+	private function issue_fields( $article_id ) {
+		$issue = Queries::article_issue( $article_id );
+		if ( ! $issue ) {
+			return array();
+		}
+
+		return array(
+			'volume' => absint( get_post_meta( $issue->ID, 'volume_number', true ) ),
+			'number' => absint( get_post_meta( $issue->ID, 'issue_number', true ) ),
+			'year'   => absint( get_post_meta( $issue->ID, 'year', true ) ),
+			'issn'   => (string) get_post_meta( $issue->ID, 'issn', true ),
+		);
+	}
+
+	/**
+	 * @param int    $article_id Article post ID.
+	 * @param string $taxonomy   Taxonomy name.
+	 * @return string[] Term names in taxonomy order.
+	 */
+	private function term_names( $article_id, $taxonomy ) {
+		$terms = get_the_terms( $article_id, $taxonomy );
+		if ( ! is_array( $terms ) ) {
+			return array();
+		}
+
+		$names = array();
+		foreach ( $terms as $term ) {
+			if ( isset( $term->name ) && is_string( $term->name ) && '' !== $term->name ) {
+				$names[] = $term->name;
 			}
 		}
 
@@ -126,55 +207,13 @@ class Article_Pdf_WordPress_Source_Builder {
 	}
 
 	/**
-	 * @param string   $title   Article title.
-	 * @param string   $body    Already-escaped/kses body HTML.
-	 * @param string[] $authors Author display names.
-	 * @return string
+	 * @param int    $article_id Article post ID.
+	 * @param string $taxonomy   Taxonomy name.
+	 * @return string First term name or ''.
 	 */
-	private function document( $title, $body, $authors ) {
-		$title = is_string( $title ) ? $title : '';
-		$body  = is_string( $body ) ? $body : '';
+	private function first_term_name( $article_id, $taxonomy ) {
+		$names = $this->term_names( $article_id, $taxonomy );
 
-		$author_html = '';
-		if ( $authors ) {
-			$safe = array();
-			foreach ( $authors as $name ) {
-				$safe[] = esc_html( $name );
-			}
-			$author_html = '<p class="les-pdf-authors">' . implode( ', ', $safe ) . '</p>';
-		}
-
-		return '<!DOCTYPE html>' . "\n"
-			. '<html lang="es">' . "\n"
-			. '<head>' . "\n"
-			. '<meta charset="UTF-8">' . "\n"
-			. '<title>' . esc_html( $title ) . '</title>' . "\n"
-			. '<style>' . $this->document_css() . '</style>' . "\n"
-			. '</head>' . "\n"
-			. '<body>' . "\n"
-			. '<article>' . "\n"
-			. '<header>' . "\n"
-			. '<h1>' . esc_html( $title ) . '</h1>' . "\n"
-			. $author_html
-			. '</header>' . "\n"
-			. '<main>' . "\n"
-			. $body . "\n"
-			. '</main>' . "\n"
-			. '</article>' . "\n"
-			. '</body>' . "\n"
-			. '</html>';
-	}
-
-	/**
-	 * Minimal readable print CSS. Not the theme stylesheet.
-	 *
-	 * @return string
-	 */
-	private function document_css() {
-		return 'body{font-family:DejaVu Sans,sans-serif;font-size:12pt;line-height:1.45;color:#111;margin:2cm;}'
-			. 'h1{font-size:18pt;line-height:1.25;margin:0 0 0.6em;}'
-			. 'p{margin:0 0 0.8em;}'
-			. 'ul,ol{margin:0 0 0.8em 1.4em;}'
-			. 'img{max-width:100%;height:auto;}';
+		return $names ? $names[0] : '';
 	}
 }

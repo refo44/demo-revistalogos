@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "0.2.8 checkpoint closed (issue #9)"
-current_branch: "docs/close-0.2.8-checkpoint-issue-9"
+current_work_unit: "Diseño editorial separata PDF (issue #10, BACKLOG 3) implementado en rama"
+current_branch: "feat/article-pdf-editorial-design"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
-updated_at: "2026-08-25"
-next_action: "Next FTPS needs a new vX.Y.Z tag (ADR 0020). Default OFF. No backfill. WU7 not started."
+updated_at: "2026-08-28"
+next_action: "PR de feat/article-pdf-editorial-design (issue #10). Next FTPS needs a new vX.Y.Z tag (ADR 0020). Default OFF. No backfill. ADR 0017 WU7 not started."
 blocked: false
 ---
 
@@ -243,6 +243,25 @@ Los de `docs/17-implementation-order` y los ADR de Fase 3. Resumen operativo:
   HTML, indexación a verificar, FSE después en Docker).
 
 ## QA status of completed work
+
+**Actualización 2026-08-28 (working tree, rama
+`feat/article-pdf-editorial-design`):** diseño editorial de la separata
+PDF (issue #10, BACKLOG ítem 3) implementado con TDD. Fase 1: 3 mockups +
+PDFs Dompdf reales en `tmp/article-pdf-mockups/` (desechables); el
+propietario aprobó la **opción 1 «Clásico filológico»** con la restricción
+**blanco y negro / escala de grises, sin color**. Fase 2: nueva
+`Article_Pdf_Editorial_Template` (presentación pura, 7 tests unitarios) y
+Source Builder como recolector de contexto editorial (issue publicado
+vol/nº/año/ISSN, pp., sección, título EN, resúmenes, palabras clave,
+afiliación/ORCID/DOI inertes ADR 0013, fechas en español; vacíos
+omitidos). El propietario autorizó instalar la **suite PHPUnit/WordPress**
+(`wp-phpunit` 7.1, `tools/run-phpunit-wp.sh`, Docker aislado puerto 8090,
+5 tests de integración). Gates: lint 79 OK, audit sin advisories, unit
+18/18, WP 6/6, re-run `qa-article-pdf-composition.sh` completo (KEEP,
+default OFF, guard de autor intactos). API del builder sin cambios;
+enforcement/persistencia no tocados; sin bump de versión; sin deploy.
+Hallazgo Dompdf documentado: floats dentro de `position:fixed` se filtran
+al flujo y pueden provocar bucle de paginación; el pie usa técnica segura.
 
 **Actualización 2026-07-31:** existe runtime WordPress local vía Docker
 (ADR 0014, `docker-compose.yml`). Ejecutado y registrado en la matriz como
