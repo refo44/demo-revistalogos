@@ -16,8 +16,7 @@ Write observable business behavior, not class or method names. Rules:
 `docs/24-project-testing-standard.md` (how to write a test).
 
 PHPUnit level 1, the WordPress suite, and the harnesses may each
-execute part of a feature. There is no required 1:1 trace. Do not
-install Behat until there are enough scenarios to justify a runner.
+execute part of a feature. There is no required 1:1 trace.
 
 ADR 0017 lives in `article-pdf-generation.feature` (business
 specification only; no Behat). Scenarios cover enforcement OFF

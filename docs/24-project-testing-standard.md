@@ -434,10 +434,11 @@ WP-CLI `eval`, sitio aislado).
 
 - Cada harness construye su propia URL (`http://localhost:<puerto-aislado>`).
 - Payloads en línea o vía WP-CLI; no depender de contenido residual.
-- No mezclar una llamada PHPUnit in-process de nivel 1 y HTTP en vivo en el
-  mismo test — no hay WordPress en nivel 1. Los tests de
-  `tests/WordPress/` son in-process contra wp-phpunit; no hagan `curl`
-  al sitio primario.
+- No mezclar una llamada PHP in-process y una petición HTTP en vivo dentro
+  del mismo test. En nivel 1 no hay WordPress que llamar; en
+  `tests/WordPress/` sí lo hay —wp-phpunit, **también** in-process— y aun
+  así ese test no debe hacer `curl` al sitio primario. Lo in-process no
+  distingue un nivel de otro: lo que es del harness es el HTTP en vivo.
 
 No instalar Supertest, Pest ni un cliente HTTP PHP para imitar NestJS.
 
