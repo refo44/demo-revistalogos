@@ -37,12 +37,17 @@ desde la etiqueta, no desde HEAD suelto de `main`.
 4. Si el theme o el plugin cambian en ese release, subir sus cabeceras
    `Version` / `Stable tag` (pueden diferir de X.Y.Z).
 5. Commit por PR: `chore(release): vX.Y.Z` (ADR 0019: no pushear a `main`).
-6. Etiquetar: `git tag -a vX.Y.Z -m "vX.Y.Z"` y `git push origin vX.Y.Z`.
+6. Etiquetar **sobre el commit del release ya en `main`**:
+   `git tag -a vX.Y.Z -m "vX.Y.Z" origin/main` y `git push origin vX.Y.Z`.
+   Etiquetar el HEAD local sin comprobar dónde está apunta a la rama en la
+   que se esté trabajando: el gate del deploy acepta esa etiqueta igualmente
+   y desplegaría el contenido equivocado.
 7. Desplegar theme+plugin desde GitHub Actions → «Deploy WordPress theme+plugin
    to production» → Run workflow **desde esa etiqueta** (Use workflow from:
    Tags). El workflow falla si HEAD no tiene `vMAJOR.MINOR.PATCH` anotada.
    El workflow estático «Deploy to Hostinger» (`deploy.yml`) está **retirado**;
-   no recrearlo. No despachar desde `v0.2.0`: producción ya sirve plugin 0.2.8.
+   no recrearlo. Nunca despachar desde una etiqueta anterior a lo que
+   producción ya sirve: reinstalaría una versión más vieja del plugin.
 
 ## Historial
 

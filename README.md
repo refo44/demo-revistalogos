@@ -1,6 +1,6 @@
 # Revista de Filosofía LOGO ET SPES
 
-**Versión:** 0.2.0 (canónica en `package.json`; ver `VERSION.md` y `CHANGELOG.md`)
+**Versión:** 0.3.0 (canónica en `package.json`; ver `VERSION.md` y `CHANGELOG.md`)
 
 Monorepo de la revista académica (CENFISS): prototipo HTML estático (`static/`,
 Fase 2, base visual congelada) y WordPress (`wordpress/`, Fase 3 clásica).
