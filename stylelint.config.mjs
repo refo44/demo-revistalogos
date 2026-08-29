@@ -21,15 +21,23 @@ export default {
       }
     ]
   },
+  // Override globs are resolved relative to this config file, so they need a
+  // leading `**/` to reach the two CSS trees (`static/assets/css/**` and
+  // `wordpress/wp-content/themes/revistalogos/assets/css/**`). Without it
+  // neither override matched anything: `color-no-hex` never ran, and
+  // tokens.css lost its intended exemption.
   overrides: [
     {
-      files: ["assets/css/**/*.css"],
+      files: ["**/assets/css/**/*.css"],
       rules: {
         "color-no-hex": true
       }
     },
     {
-      files: ["assets/css/tokens.css"],
+      // tokens.css is where the raw palette and the system font stacks are
+      // declared, so it keeps its hex literals and the vendor casing of font
+      // names (`BlinkMacSystemFont`, `Georgia`, …). Listed last so it wins.
+      files: ["**/assets/css/tokens.css"],
       rules: {
         "color-hex-length": null,
         "color-no-hex": null,
