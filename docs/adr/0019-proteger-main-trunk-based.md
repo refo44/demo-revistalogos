@@ -165,6 +165,45 @@ Los comentarios de review (humano o Copilot) siguen
 `<label> [decorations]: <subject>`. Por defecto `(non-blocking)`.
 `(blocking)` es guía para el autor, no un candado de GitHub.
 
+### 7. Etiquetas de issues y PRs
+
+Un PR admite varias etiquetas. Se usan **tres ejes** que conviven; una
+etiqueta pertenece a uno solo.
+
+**Tipo (`type: *`) — obligatoria, exactamente una, en PRs e issues.**
+`type: feat`, `type: fix`, `type: docs`, `type: chore`, `type: refactor`,
+`type: ci`, `type: test`, `type: perf`, `type: revert`. Son los nueve tipos
+de §4: la etiqueta **es** el prefijo del título hecho filtrable, no un
+criterio nuevo que discutir en cada PR. Por eso se deriva sola.
+
+**Estado de backlog (`next` / `planned` / `deferred`) — solo issues, como
+máximo una.** Refleja la sección de `docs/adr/BACKLOG.md` donde vive el
+ítem. Es **estado, no historia**: al cerrar el issue se retira. Un issue
+resuelto que conserva `next` miente sobre lo que queda por hacer. Nunca en
+un PR: un PR no vive en el backlog.
+
+**Complementarias — opcionales, las que hagan falta.** Los defaults de
+GitHub (`documentation`, `bug`, `enhancement`, `help wanted`,
+`good first issue`, `question`, `duplicate`, `invalid`, `wontfix`) y las
+que pone Dependabot (`dependencies`, `github_actions`, `javascript`). Se
+ponen a mano —salvo las de Dependabot— y conviven con `type: *`. La regla
+es que aporten: `dependencies` dice algo que `type: chore` no dice, y
+`help wanted` o `question` no tienen equivalente en ningún otro eje.
+`documentation`, `bug` y `enhancement` son casi sinónimos de `type: docs`,
+`type: fix` y `type: feat`; usarlas está bien, pero como decisión, no como
+duplicado automático.
+
+**Se aplican solas** (`.github/workflows/labels.yml`, sin secretos ni
+acciones de terceros): `type: *` se deriva del título al abrir, reabrir,
+retitular o sacar de draft un PR, retirando las `type: *` que sobren;
+`next`/`planned`/`deferred` se retiran al cerrar un issue. El workflow no
+añade ni quita ninguna etiqueta del tercer eje. Es aplicación, no candado:
+no bloquea el merge, igual que `Release pending` (ADR 0020). Si el título
+no lleva un prefijo válido, avisa y no inventa etiqueta.
+
+Retirar el estado de backlog **no** cierra el ítem: sigue haciendo falta
+moverlo en `docs/adr/BACKLOG.md`, cerrar el issue y anotar `CHANGELOG.md`.
+
 ## Alternativas consideradas
 
 | Alternativa | Motivo de descarte |
@@ -176,6 +215,10 @@ Los comentarios de review (humano o Copilot) siguen
 | 1 approval obligatorio | Uno puede bloquear al otro; si queda una sola persona, el repo se para. |
 | Bypass de administrador | `main` seguiría abierta para `refo44`; el colaborador no tiene el mismo camino. |
 | Restringir nombres de rama en el ruleset | Rompe `dependabot/*`; el spec se aplica por convención. |
+| Usar `documentation`/`enhancement`/`bug` **como** eje de tipo | Los nombres no casan con los prefijos de §4: obligaría a traducir `docs:` → `documentation` y `feat:` → `enhancement` en cada PR, y no cubre `ci`, `test`, `chore`, `refactor`, `perf` ni `revert`. Como eje complementario sí se admiten. |
+| Etiquetar a mano, solo documentado | Es justo el paso que ya se demostró olvidable: 18 de los 22 PRs sin etiqueta de tipo y dos con estado de backlog que no les correspondía. |
+| Check que bloquee el merge si falta etiqueta | El candado es Tests (§2). Una etiqueta derivable del título no justifica un segundo candado, y bloquearía PRs correctos por un título aún sin pulir. |
+| Acción de terceros (`actions/labeler`, `pr-labeler`) | Dependencia y superficie extra para un `sed` y dos llamadas a `gh` que ya vienen en el runner. |
 | `commit-check-action` / commitlint ahora | Dependencia de CI extra; no cubre Dependabot ni merge commits; YAGNI. |
 | Forzar patrón de mensaje en el ruleset | Rompe *Merge pull request #N*; el spec se aplica al commitear y al squash. |
 | Ruleset de inserción (push) | Plan Team / repos privados; no es el problema. |
@@ -211,12 +254,29 @@ Nota factual; no sustituye las decisiones de este ADR.
   etiquetas `vX.Y.Z`. Las cinco ramas remotas ya mergeadas que habían
   quedado se eliminaron el mismo día.
 
+## Estado de implementación (2026-08-29)
+
+Nota factual; no sustituye las decisiones de este ADR.
+
+- Creadas las nueve etiquetas `type: *`.
+- Backfill de los 22 PRs existentes: 18 derivadas del prefijo del título;
+  cuatro a mano (#6, #7, #8, #14) por ser anteriores a este ADR y no llevar
+  prefijo Conventional Commits.
+- Retiradas `next` de [PR #17](https://github.com/refo44/demo-revistalogos/pull/17)
+  y `planned` de [PR #16](https://github.com/refo44/demo-revistalogos/pull/16):
+  eran estado de backlog en PRs. Retirada `next` del
+  [issue #9](https://github.com/refo44/demo-revistalogos/issues/9), cerrado
+  desde el 2026-08-28.
+- Workflow `Labels` (`.github/workflows/labels.yml`), dos jobs, sin
+  secretos y sin checkout del código del PR.
+
 ## Referencias
 
 - [Trunk-Based Development](https://trunkbaseddevelopment.com/)
 - [Conventional Branch 1.1.0](https://conventionalbranch.org/)
 - [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/)
 - [Conventional Comments](https://conventionalcomments.org/)
+- [Administrar etiquetas](https://docs.github.com/es/issues/using-labels-and-milestones-to-track-work/managing-labels)
 - [Acerca de los conjuntos de reglas](https://docs.github.com/es/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets)
 - [Creación de conjuntos de reglas de un repositorio](https://docs.github.com/es/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/creating-rulesets-for-a-repository)
 - [Reglas disponibles](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets)
