@@ -188,7 +188,7 @@ class Article_Pdf_WordPress_Source_Builder {
 	/**
 	 * @param int    $article_id Article post ID.
 	 * @param string $taxonomy   Taxonomy name.
-	 * @return string[] Term names in taxonomy order.
+	 * @return string[] Term names in the order returned by WordPress.
 	 */
 	private function term_names( $article_id, $taxonomy ) {
 		$terms = get_the_terms( $article_id, $taxonomy );
