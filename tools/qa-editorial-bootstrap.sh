@@ -144,8 +144,12 @@ AUTHOR_ID="$(cli post create \
 [[ "$AUTHOR_ID" =~ ^[0-9]+$ ]] || fail "could not create representative author"
 
 echo "== plan/dry-run performs no writes =="
-cli help revistalogos fixtures | grep -Eq bootstrap || fail "bootstrap subcommand missing"
-cli help revistalogos fixtures | grep -Eq plan || fail "plan subcommand missing"
+# Dumped to a file instead of piped into `grep -q`: grep exits on the first
+# match, and under `pipefail` the SIGPIPE it sends back to the long WP-CLI
+# help output would surface as exit 141 — a spurious FAIL. One call, two greps.
+cli help revistalogos fixtures >"$TMP/fixtures-help.txt"
+grep -Eq "bootstrap" "$TMP/fixtures-help.txt" || fail "bootstrap subcommand missing"
+grep -Eq "plan" "$TMP/fixtures-help.txt" || fail "plan subcommand missing"
 DB_BEFORE="$(relevant_db_hash)"
 cli revistalogos fixtures plan >"$TMP/plan.txt"
 cli revistalogos fixtures bootstrap >"$TMP/dry-run.txt"

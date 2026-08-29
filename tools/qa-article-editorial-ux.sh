@@ -107,9 +107,15 @@ http_code() {
 
 # Read the numeric value of a `KEY=ID` line from a file. Uses awk (POSIX)
 # instead of `grep -Eo | cut`, since `-o` is a GNU/BSD extension, not POSIX.
+# Matching on the whole field (`$1 == k`) also avoids the substring match that
+# `grep -Eo 'KEY=[0-9]+'` would make on an unrelated `PREFIX_KEY=999` line.
+# A missing or non-numeric key aborts: awk alone would print nothing and exit
+# 0, leaving an empty ID to fail later somewhere less obvious.
 kv_id() {
-	local key="$1" file="$2"
-	awk -F= -v k="$key" '$1 == k { v = $2; gsub(/[^0-9].*/, "", v); print v; exit }' "$file"
+	local key="$1" file="$2" value
+	value="$(awk -F= -v k="$key" '$1 == k { v = $2; gsub(/[^0-9].*/, "", v); print v; exit }' "$file")"
+	[[ -n "$value" ]] || fail "missing or non-numeric $key in $file"
+	printf '%s\n' "$value"
 }
 
 echo "== isolated Docker environment =="

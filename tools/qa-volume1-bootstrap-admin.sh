@@ -133,7 +133,8 @@ VERSION_AFTER="$(cli eval 'echo get_option( Revistalogos_Core\Plugin::VERSION_OP
 [[ "$VERSION_AFTER" == "0.2.8" ]] || fail "upgrade did not record plugin version 0.2.8"
 pass "plugin upgrade does not alter Volume 1 objects, Rafael, or Pages"
 
-cli eval 'echo class_exists( "Revistalogos_Core\\Fixtures" ) ? "yes" : "no";' | grep -Eq '^yes$' || fail "Fixtures class must remain"
+FIXTURES_CLASS="$(cli eval 'echo class_exists( "Revistalogos_Core\\Fixtures" ) ? "yes" : "no";')"
+[[ "$FIXTURES_CLASS" == "yes" ]] || fail "Fixtures class must remain (got '$FIXTURES_CLASS')"
 pass "Fixtures domain still available"
 
 cli revistalogos fixtures verify >"$TMP/verify.txt"
