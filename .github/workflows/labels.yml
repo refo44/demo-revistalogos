@@ -55,24 +55,36 @@ jobs:
           NUMBER: ${{ github.event.pull_request.number }}
           TITLE: ${{ github.event.pull_request.title }}
         run: |
-          set -uo pipefail
+          set -euo pipefail
+
+          # Un título es una línea. Con uno multilínea, un `sed` anclado en ^
+          # derivaría el tipo de la segunda línea, y un `echo` del título
+          # inyectaría líneas sueltas en el log del job —incluidos pseudo
+          # comandos de workflow como ::error:: o ::stop-commands::—, que en
+          # `pull_request_target` viene de quien abrió el PR. Se recorta a la
+          # primera línea y se acota antes de usarlo o imprimirlo. Con
+          # expansión de parámetros, no con tuberías: `head` cerraría el pipe
+          # y `pipefail` convertiría el SIGPIPE en un fallo del step.
+          FIRST_LINE="${TITLE%%$'\n'*}"
+          FIRST_LINE="${FIRST_LINE%$'\r'}"
+          SAFE_TITLE="${FIRST_LINE:0:200}"
 
           # feat(scope)!: asunto  ->  feat
-          TYPE="$(printf '%s' "$TITLE" \
+          TYPE="$(printf '%s' "$FIRST_LINE" \
             | sed -n -E 's/^([a-z]+)(\([^)]*\))?!?:[[:space:]].*/\1/p')"
 
           case "$TYPE" in
             feat|fix|docs|chore|refactor|ci|test|perf|revert) ;;
             *)
               echo "::warning::El título del PR #${NUMBER} no empieza por un tipo Conventional Commits válido, así que no hay etiqueta que derivar (ADR 0019 §4)."
-              echo "  título: ${TITLE}"
+              echo "  título: ${SAFE_TITLE}"
               echo "  tipos:  feat fix docs chore refactor ci test perf revert"
               exit 0
               ;;
           esac
 
           WANTED="type: ${TYPE}"
-          echo "Título: ${TITLE}"
+          echo "Título: ${SAFE_TITLE}"
           echo "Tipo derivado: ${WANTED}"
 
           CURRENT="$(gh pr view "$NUMBER" --repo "$REPO" --json labels \
@@ -107,7 +119,7 @@ jobs:
           REPO: ${{ github.repository }}
           NUMBER: ${{ github.event.issue.number }}
         run: |
-          set -uo pipefail
+          set -euo pipefail
 
           CURRENT="$(gh issue view "$NUMBER" --repo "$REPO" --json labels \
             --jq '.labels[].name | select(. == "next" or . == "planned" or . == "deferred")')"

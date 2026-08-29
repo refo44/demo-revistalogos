@@ -9,16 +9,6 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Added
-- Política de etiquetas de issues y PRs (ADR 0019 §7): tres ejes que
-  conviven —`type: *` derivada del prefijo Conventional Commits del título
-  (obligatoria, una), `next`/`planned`/`deferred` solo en issues, y los
-  defaults de GitHub como eje complementario opcional. Workflow `Labels`
-  (`.github/workflows/labels.yml`) que deriva `type: *` al abrir, reabrir,
-  retitular o sacar de draft un PR y retira el estado de backlog al cerrar
-  un issue; sin secretos, sin acciones de terceros y sin checkout del código
-  del PR. Advisory: no bloquea el merge.
-
-### Added
 - SonarQube Cloud Automatic Analysis scope: `.sonarcloud.properties`
   (plugin `revistalogos-core` + theme `revistalogos`; `tests/` as tests).
   Not `sonar-project.properties` (ignored while Automatic Analysis is ON).
@@ -30,6 +20,15 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   declara (constante `REVISTALOGOS_CORE_VERSION` en el plugin, cabecera
   `Version:` en el theme). Advisory: no bloquea merges, no usa secretos y no
   despliega.
+- Política de etiquetas de issues y PRs (ADR 0019 §7): tres ejes que
+  conviven —`type: *` derivada del prefijo Conventional Commits del título
+  (obligatoria, una), `next`/`planned`/`deferred` solo en issues, y los
+  defaults de GitHub como eje complementario opcional. Workflow `Labels`
+  (`.github/workflows/labels.yml`) que deriva `type: *` al abrir, reabrir,
+  retitular o sacar de draft un PR y retira el estado de backlog al cerrar
+  un issue; sin secretos, sin acciones de terceros y sin checkout del código
+  del PR. Advisory: no bloquea el merge.
+
 
 ### Changed
 - Los pies de `docs/` dejan de repetir la versión del proyecto. Siete
