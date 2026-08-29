@@ -295,13 +295,13 @@ pass "real PDF persisted and invalid inputs create nothing"
 PERSISTER="$PLUGIN_DIR/includes/article-pdf/class-article-pdf-wordpress-persister.php"
 echo "== static guards (persistence only; no publication wiring) =="
 [[ -f "$PERSISTER" ]] || fail "Article_Pdf_WordPress_Persister file missing"
-if rg -q "add_action|add_filter" "$PERSISTER"; then
+if grep -Eq "add_action|add_filter" "$PERSISTER"; then
 	fail "persister must not register WordPress hooks"
 fi
-if rg -q "KEEP_EXISTING|GENERATE_REQUIRED|decide_pdf_action|decide_publication" "$PERSISTER"; then
+if grep -Eq "KEEP_EXISTING|GENERATE_REQUIRED|decide_pdf_action|decide_publication" "$PERSISTER"; then
 	fail "persister must not reimplement WU1/WU2 publication policy"
 fi
-if rg -q "wp_insert_post_data|rest_pre_insert|transition_post_status" "$PERSISTER"; then
+if grep -Eq "wp_insert_post_data|rest_pre_insert|transition_post_status" "$PERSISTER"; then
 	fail "persister must not wire publication"
 fi
 pass "persister source has no hooks or publication policy"

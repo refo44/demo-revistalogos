@@ -41,7 +41,7 @@ trap cleanup EXIT
 if [[ -f "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/fixtures/class-bootstrap-admin.php" ]]; then
 	fail "class-bootstrap-admin.php must be deleted"
 fi
-if rg -q "Bootstrap_Admin" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/class-plugin.php"; then
+if grep -Eq "Bootstrap_Admin" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/class-plugin.php"; then
 	fail "Plugin must not register Bootstrap_Admin"
 fi
 pass "Bootstrap_Admin source and wiring absent"
@@ -76,7 +76,7 @@ ABSENT="$(cli eval 'echo class_exists( "Revistalogos_Core\\Bootstrap_Admin" ) ? 
 pass "Bootstrap_Admin class absent at runtime"
 
 cli eval 'echo menu_page_url( "revistalogos-volume-1-bootstrap", false );' >"$TMP/menu.txt"
-if rg -q "revistalogos-volume-1-bootstrap" "$TMP/menu.txt"; then
+if grep -Eq "revistalogos-volume-1-bootstrap" "$TMP/menu.txt"; then
 	fail "Tools bootstrap page must not be registered"
 fi
 pass "Tools Volume 1 bootstrap menu absent"
@@ -97,7 +97,7 @@ cli post create \
 	--porcelain >/dev/null
 
 cli revistalogos fixtures plan >"$TMP/plan.txt"
-rg -q "volume-1" "$TMP/plan.txt" || fail "fixtures plan must still work"
+grep -Eq "volume-1" "$TMP/plan.txt" || fail "fixtures plan must still work"
 pass "Fixtures domain plan still available"
 
 cli revistalogos fixtures bootstrap --apply >"$TMP/apply.txt"
@@ -133,17 +133,46 @@ VERSION_AFTER="$(cli eval 'echo get_option( Revistalogos_Core\Plugin::VERSION_OP
 [[ "$VERSION_AFTER" == "0.2.8" ]] || fail "upgrade did not record plugin version 0.2.8"
 pass "plugin upgrade does not alter Volume 1 objects, Rafael, or Pages"
 
-cli eval 'echo class_exists( "Revistalogos_Core\\Fixtures" ) ? "yes" : "no";' | rg -q '^yes$' || fail "Fixtures class must remain"
+FIXTURES_CLASS="$(cli eval 'echo class_exists( "Revistalogos_Core\\Fixtures" ) ? "yes" : "no";')"
+[[ "$FIXTURES_CLASS" == "yes" ]] || fail "Fixtures class must remain (got '$FIXTURES_CLASS')"
 pass "Fixtures domain still available"
 
 cli revistalogos fixtures verify >"$TMP/verify.txt"
 pass "fixtures verify still available via CLI"
 
 cli revistalogos fixtures teardown --help >"$TMP/teardown-help.txt"
-rg -qi "teardown" "$TMP/teardown-help.txt" || fail "teardown CLI must remain"
-if rg -q "add_management_page|add_submenu_page" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/fixtures" 2>/dev/null; then
-	fail "fixtures includes must not register an admin Tools page"
-fi
+grep -Eqi "teardown" "$TMP/teardown-help.txt" || fail "teardown CLI must remain"
+
+# Guard over a directory tree. The file list comes from `find` (POSIX) rather
+# than `grep -R`, which is a GNU/BSD extension. grep's exit code is then read
+# explicitly (0 = match, 1 = no match, >=2 = grep error) so a real failure —
+# a missing path, an unreadable file — cannot masquerade as "no admin page",
+# which is exactly the silent-pass this harness change is meant to remove.
+FIXTURES_INCLUDES="$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/fixtures"
+[[ -d "$FIXTURES_INCLUDES" ]] || fail "fixtures includes directory missing: $FIXTURES_INCLUDES"
+
+# The list is materialised to a file rather than read from a process
+# substitution: there, find's exit code is unreachable, so a partial listing
+# (an unreadable subdirectory, say) would scan fewer files and still report
+# "no admin page" — the same silent pass in a new place.
+FIXTURES_LIST="$TMP/fixtures-php-files.txt"
+FIND_RC=0
+find "$FIXTURES_INCLUDES" -type f -name '*.php' >"$FIXTURES_LIST" || FIND_RC=$?
+[[ "$FIND_RC" -eq 0 ]] || fail "find failed (exit $FIND_RC) listing PHP files under $FIXTURES_INCLUDES"
+
+FIXTURES_FILES=()
+while IFS= read -r fixture_file; do
+	FIXTURES_FILES+=("$fixture_file")
+done <"$FIXTURES_LIST"
+[[ "${#FIXTURES_FILES[@]}" -gt 0 ]] || fail "no PHP files found under $FIXTURES_INCLUDES"
+
+GREP_RC=0
+grep -Eq "add_management_page|add_submenu_page" "${FIXTURES_FILES[@]}" || GREP_RC=$?
+case "$GREP_RC" in
+	0) fail "fixtures includes must not register an admin Tools page" ;;
+	1) ;;
+	*) fail "grep failed (exit $GREP_RC) scanning $FIXTURES_INCLUDES" ;;
+esac
 pass "teardown remains CLI/dev only"
 
 echo "== HTTP routes =="

@@ -47,13 +47,13 @@ trap cleanup EXIT
 echo "== static guards (no persistence in concrete renderer) =="
 RENDERER="$PLUGIN_DIR/includes/article-pdf/class-dompdf-article-pdf-renderer.php"
 [[ -f "$RENDERER" ]] || fail "Dompdf_Article_Pdf_Renderer file missing"
-if rg -q "media_handle_sideload|wp_insert_attachment|wp_generate_attachment_metadata|wp_update_attachment_metadata" "$RENDERER"; then
+if grep -Eq "media_handle_sideload|wp_insert_attachment|wp_generate_attachment_metadata|wp_update_attachment_metadata" "$RENDERER"; then
 	fail "renderer must not create or update attachments"
 fi
-if rg -q "update_post_meta|add_post_meta|delete_post_meta|wp_update_post|wp_insert_post" "$RENDERER"; then
+if grep -Eq "update_post_meta|add_post_meta|delete_post_meta|wp_update_post|wp_insert_post" "$RENDERER"; then
 	fail "renderer must not write posts or meta"
 fi
-if rg -q "add_action|add_filter" "$RENDERER"; then
+if grep -Eq "add_action|add_filter" "$RENDERER"; then
 	fail "renderer must not register WordPress hooks"
 fi
 pass "renderer source has no write/hook/persistence APIs"

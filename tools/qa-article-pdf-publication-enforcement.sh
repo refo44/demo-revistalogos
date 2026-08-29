@@ -765,7 +765,7 @@ ENFORCER="$PLUGIN_DIR/includes/article-pdf/class-article-pdf-publication-enforce
 echo "== static guards =="
 [[ -f "$SETTINGS" ]] || fail "settings class missing"
 [[ -f "$ENFORCER" ]] || fail "enforcer class missing"
-if rg -q "wp_insert_post_data|rest_pre_insert|transition_post_status" "$SETTINGS"; then
+if grep -Eq "wp_insert_post_data|rest_pre_insert|transition_post_status" "$SETTINGS"; then
 	fail "settings class must not own publication hooks"
 fi
 pass "settings/enforcer files present"
