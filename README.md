@@ -1,6 +1,6 @@
 # Revista de Filosofía LOGO ET SPES
 
-**Versión:** 0.2.0 (canónica en `package.json`; ver `VERSION.md` y `CHANGELOG.md`)
+**Versión:** 0.3.0 (canónica en `package.json`; ver `VERSION.md` y `CHANGELOG.md`)
 
 Monorepo de la revista académica (CENFISS): prototipo HTML estático (`static/`,
 Fase 2, base visual congelada) y WordPress (`wordpress/`, Fase 3 clásica).
@@ -61,14 +61,70 @@ El detalle de las plantillas estáticas y su mapeo a WordPress está en
 persistido; hace falta `wp core update` + `wp core update-db`.
 
 **Producción WordPress:** `https://logo-et-spes.cenfiss.net`. Solo
-`deploy-wordpress.yml` (manual). No hay staging WordPress. Ver
+`deploy-wordpress.yml` (manual). No hay staging WordPress. Runbook completo:
 `docs/operations/wordpress-manual-deployment.md`.
+
+Dos reglas que evitan los dos errores que este flujo permite (ADR 0020):
+
+1. **Mergear a `main` no despliega.** Producción sale de un *release
+   etiquetado*, no de «lo último de `main`». Antes de desplegar: subir
+   `"version"` en `package.json`, pasar `CHANGELOG.md` de
+   `## [Sin publicar]` a `## [X.Y.Z]`, actualizar `VERSION.md`, subir la
+   versión que declara el theme o el plugin **si cambiaron** —el theme solo
+   en `Version:` de `style.css`; el plugin en **tres sitios que deben quedar
+   iguales**: la cabecera `Version:` y la constante
+   `REVISTALOGOS_CORE_VERSION` de `revistalogos-core.php`, más `Stable tag:`
+   de su `readme.txt`—, aterrizar por PR `chore(release): vX.Y.Z`, y solo
+   entonces:
+
+   ```bash
+   git fetch --tags origin main
+   git tag -a vX.Y.Z -m "vX.Y.Z" origin/main && git push origin vX.Y.Z
+   ```
+
+   El `fetch` no es ceremonia: `origin/main` es una copia local y, si está
+   vieja, la etiqueta acaba en un commit que no es el del release.
+
+2. **Al lanzar el workflow, en *Use workflow from* elegir `Tags → vX.Y.Z`,
+   nunca `main`.** El gate (`tools/require-production-release-tag.sh`) exige
+   una etiqueta anotada en HEAD, así que despachar desde `main` falla y
+   nada se sube — molesto, pero seguro.
+
+**El otro error era peor, y hasta hace poco nada lo frenaba:** el gate
+comprobaba que *exista* una etiqueta anotada `vX.Y.Z` en HEAD, no que su
+contenido correspondiera a esa versión. Una etiqueta bien formada sobre el
+commit equivocado —sobre una rama de trabajo en vez de sobre el commit del
+release— pasaba, y habría desplegado el código equivocado en silencio,
+reinstalando sobre producción una versión de plugin anterior a la que ya
+sirve. Ocurrió el 2026-08-29 con `v0.3.0`.
+
+Desde ese mismo día el gate lo verifica: exige además que `package.json`
+declare exactamente la versión de la etiqueta y que el commit etiquetado
+sea alcanzable desde `main`. Aun así conviene comprobarlo **antes** de
+etiquetar, por dos razones: el gate falla cuando la etiqueta ya está
+publicada y el run despachado, y deshacer eso obliga a borrarla y recrearla
+en local y en el remoto; y hay algo que el gate no puede saber, que es qué
+versión de plugin corre producción ahora mismo.
+
+```bash
+git fetch --tags origin main
+```
+
+```bash
+git show vX.Y.Z:package.json | grep '"version"'
+```
+
+```bash
+git merge-base --is-ancestor vX.Y.Z origin/main && echo "en main" || { echo "NO está en main"; false; }
+```
 
 **Prototipo estático:** abrir `static/index.html` en un navegador (sin build).
 El espejo beta es GitHub Pages (`pages.yml`). El workflow estático
 «Deploy to Hostinger» (`deploy.yml`) **está retirado**; no recrearlo.
 
-**Lint CSS:** `npm run lint:css`.
+**Lint CSS:** `nvm use` (respeta `.nvmrc`) y luego `npm run lint:css`.
+`package.json` exige `node >=20.19.0` por stylelint 17; con una versión
+inferior npm avisa `EBADENGINE`.
 
 **Tests (ADR 0018, `docs/23-testing-foundation.md`, `docs/24-project-testing-standard.md`):** PHP syntax
 `./tools/php-lint.sh` / `composer lint:php` (`php -l` only). Composer

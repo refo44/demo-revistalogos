@@ -22,6 +22,12 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   despliega.
 
 ### Changed
+- Los pies de `docs/` dejan de repetir la versión del proyecto. Siete
+  documentos declaraban `0.2.0` mientras `package.json` iba por 0.3.0, y
+  ningún paso del procedimiento de publicación los tocaba. Los 26 pies
+  quedan uniformes como `**Proyecto:** Revista de Filosofía LOGO ET SPES`;
+  la versión vive solo donde es canónica. El `**Versión:**` de cada
+  documento es su propia revisión y no cambia.
 - `tools/require-production-release-tag.sh` ya no se conforma con que
   *exista* una etiqueta anotada `vX.Y.Z` en HEAD: exige además que
   `package.json` declare exactamente esa versión y que el commit etiquetado

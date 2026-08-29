@@ -130,9 +130,12 @@ required, not shared via Git, not a substitute for the files above.
   domain behavior uses TDD. For PHP changes, before completion: (1) syntax
   gate `./tools/php-lint.sh` or `composer lint:php`; (2) Composer lockfile
   audit `composer audit:deps` (`composer audit --locked`); (3) relevant
-  PHPUnit (`composer test:unit` or `./tools/run-phpunit.sh`); (4) relevant
-  `tools/qa-*.sh` if WordPress integration behavior changed. `composer test`
-  runs lint, audit, then units — not acceptance harnesses. Root
+  PHPUnit units (`composer test:unit` or `./tools/run-phpunit.sh`);
+  (4) `composer test:wp` / `./tools/run-phpunit-wp.sh` when an in-process
+  WordPress contract changed (meta, CPT, adapter, source builder, block
+  `render_callback`); (5) the relevant `tools/qa-*.sh` if HTTP, wp-admin
+  or plugin CLI behavior changed. `composer test` runs lint, audit, then
+  units — not `test:wp` and not acceptance harnesses. Root
   `composer.json` is test-only. Composer audit does not scan WordPress,
   npm, or hosting. Dependabot may open weekly Composer and GitHub Actions
   PRs; they are not auto-merged. Review them after CI. Do not treat a
@@ -160,8 +163,12 @@ required, not shared via Git, not a substitute for the files above.
   `docs/adr/BACKLOG.md` entry moved out of the pending section; (3) an entry
   under `## [Sin publicar]` in `CHANGELOG.md`; (4) if it touched
   `wordpress/wp-content/themes/` or `.../plugins/`, **bump the version that
-  component declares, in the same PR** (`REVISTALOGOS_CORE_VERSION` in the
-  plugin, the `Version:` header in the theme) — shipping changed code under a
+  component declares, in the same PR** — the theme only in `Version:` of
+  `style.css`; the plugin in three places that must stay identical: the
+  `Version:` header and `REVISTALOGOS_CORE_VERSION` in
+  `revistalogos-core.php`, plus `Stable tag:` in its `readme.txt`
+  (`maybe_upgrade()` compares the constant, wp-admin shows the header, and
+  `check-release-pending.sh` only reads the constant) — shipping changed code under a
   version string already live in production means `Plugin::maybe_upgrade()`
   never fires. Flag any of these that is missing instead of assuming the owner
   will remember. Only (4) is automated: `tools/check-release-pending.sh`

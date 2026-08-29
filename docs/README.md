@@ -77,4 +77,4 @@ Ningún documento puede depender de uno con número mayor. Ver `00-order-documen
 ---
 
 **Versión:** 1.6
-**Proyecto:** Revista de Filosofía LOGO ET SPES 0.2.0
+**Proyecto:** Revista de Filosofía LOGO ET SPES

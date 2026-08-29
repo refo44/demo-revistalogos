@@ -7,6 +7,14 @@
 El número de versión canónico vive en **`package.json`** (`"version"`). Todo lo demás
 —etiquetas de Git, `CHANGELOG.md`, este documento— debe reflejar ese valor.
 
+Los documentos de `docs/` **no** repiten la versión del proyecto. Su pie es
+`**Proyecto:** Revista de Filosofía LOGO ET SPES`, sin número; el `**Versión:**`
+que llevan encima es la revisión **del propio documento**, que evoluciona aparte.
+Siete pies llegaron a copiar `0.2.0` y se quedaron ahí mientras el proyecto pasaba
+a 0.3.0: ningún paso de este procedimiento los tocaba, y no lo va a tocar. Un
+número copiado en un sitio que nadie actualiza no informa, desinforma. No volver a
+añadirlo.
+
 ## Esquema
 
 Versionado Semántico `MAJOR.MINOR.PATCH` ([semver.org](https://semver.org/lang/es/)):
@@ -34,15 +42,43 @@ desde la etiqueta, no desde HEAD suelto de `main`.
 1. Actualizar `"version"` en `package.json`.
 2. Mover los cambios de `## [Sin publicar]` a una nueva sección `## [X.Y.Z] — AAAA-MM-DD` en `CHANGELOG.md`.
 3. Actualizar «Versión vigente» en este archivo.
-4. Si el theme o el plugin cambian en ese release, subir sus cabeceras
-   `Version` / `Stable tag` (pueden diferir de X.Y.Z).
+4. Si el theme o el plugin cambian en ese release, subir la versión que
+   declara cada uno (pueden diferir de X.Y.Z):
+
+   | Componente | Dónde | Quién la lee |
+   |---|---|---|
+   | Theme | `Version:` en `style.css` | wp-admin → Apariencia |
+   | Plugin | `Version:` en `revistalogos-core.php` | wp-admin → Plugins |
+   | Plugin | `REVISTALOGOS_CORE_VERSION` en ese mismo archivo | `Plugin::maybe_upgrade()` |
+   | Plugin | `Stable tag:` en `readme.txt` | metadatos del plugin |
+
+   **Los tres del plugin deben quedar iguales.** `maybe_upgrade()` compara
+   la constante y wp-admin muestra la cabecera: si divergen, el panel
+   informa de una versión que no es la que decide si el upgrade corre. El
+   theme no tiene `Stable tag:` ni `readme.txt`; no buscarlos.
 5. Commit por PR: `chore(release): vX.Y.Z` (ADR 0019: no pushear a `main`).
-6. Etiquetar: `git tag -a vX.Y.Z -m "vX.Y.Z"` y `git push origin vX.Y.Z`.
+6. Etiquetar **sobre el commit del release ya en `main`**, con las refs
+   recién traídas:
+
+   ```bash
+   git fetch --tags origin main
+   git tag -a vX.Y.Z -m "vX.Y.Z" origin/main
+   git push origin vX.Y.Z
+   ```
+
+   Etiquetar el HEAD local sin comprobar dónde está apunta a la rama en la
+   que se esté trabajando; sin el `fetch`, `origin/main` puede estar vieja y
+   apuntar a un commit anterior al release. Desde el 2026-08-29 el gate del
+   deploy rechaza una etiqueta así —comprueba que `package.json` declare la
+   versión de la etiqueta y que el commit esté en `main`—, pero para
+   entonces ya está publicada, y corregirla obliga a borrarla y recrearla en
+   local y en el remoto.
 7. Desplegar theme+plugin desde GitHub Actions → «Deploy WordPress theme+plugin
    to production» → Run workflow **desde esa etiqueta** (Use workflow from:
    Tags). El workflow falla si HEAD no tiene `vMAJOR.MINOR.PATCH` anotada.
    El workflow estático «Deploy to Hostinger» (`deploy.yml`) está **retirado**;
-   no recrearlo. No despachar desde `v0.2.0`: producción ya sirve plugin 0.2.8.
+   no recrearlo. Nunca despachar desde una etiqueta anterior a lo que
+   producción ya sirve: reinstalaría una versión más vieja del plugin.
 
 ## Historial
 

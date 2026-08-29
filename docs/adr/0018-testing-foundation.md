@@ -31,22 +31,27 @@ local 7.1.
    No entra en el plugin ni en el theme. El FTPS (ADR 0009) no sube `vendor/`
    ni `tests/`. El plugin sigue sin autoload Composer (ADR 0006 / 0005).
 3. **Tres niveles:** unitario (PHPUnit, sin WordPress ni DB); integración
-   WordPress (hoy: harnesses Docker aislados; PHPUnit+WP aplazado); aceptación
-   (`tools/qa-*.sh`).
+   WordPress in-process (suite PHPUnit/WordPress con `wp-phpunit` 7.1 en
+   Docker aislado: `tests/WordPress/`, `composer test:wp`) más harnesses
+   `tools/qa-*.sh` para HTTP / wp-admin / CLI; aceptación (`tools/qa-*.sh`
+   para flujos completos). No fingir APIs de WordPress (Brain Monkey /
+   WP_Mock). La suite WP no entra en `composer test` ni en CI: requiere
+   Docker, igual que los harnesses.
 4. **Gherkin** vive en `tests/Features/`. Especifica comportamiento de
    negocio. **Behat no se instala** hasta que haya escenarios suficientes.
 5. **TDD** es obligatorio para comportamiento de dominio nuevo (ADR 0017 y
    siguientes). Las reglas operativas están en `docs/23-testing-foundation.md`.
-6. **Fuente durable de testing:** este ADR, `docs/23-testing-foundation.md` y
-   el resumen en `CLAUDE.md`. `.cursor/` está gitignored a propósito; reglas
-   Cursor locales, si existen, no son autoridad ni requisito.
+6. **Fuente durable de testing:** este ADR, `docs/23-testing-foundation.md`,
+   `docs/24-project-testing-standard.md` y el resumen en `CLAUDE.md`.
+   `.cursor/` está gitignored a propósito; reglas Cursor locales, si
+   existen, no son autoridad ni requisito.
 
 ## Alternativas consideradas
 
 | Alternativa | Motivo de descarte |
 | ----------- | ------------------ |
 | PHPUnit 10/11 (solo PHP 8.1+/8.2+) | Impide ejecutar el runner en el mínimo declarado 7.4; 9.6 cubre 7.4 y 8.2. |
-| WordPress Core test suite / wp-env / wp-browser en esta unidad | Duplica el Docker aislado que ya prueba WP 7.1; coste desproporcionado para el primer incremento. |
+| WordPress Core test suite / wp-env / wp-browser **en el primer incremento** (2026-08-20) | Duplicaba el Docker aislado que ya probaba WP 7.1; coste desproporcionado entonces. El incremento 2026-08-28 instaló `wp-phpunit` (no wp-env ni wp-browser) como runner de nivel 2 in-process. |
 | Behat ahora | Ceremonial: pocos escenarios; YAGNI. |
 | Brain Monkey / WP_Mock / Pest / Mockery | No hacen falta para el seam unitario actual; mocks masivos de WP se evitan. |
 | Solo harnesses shell | Insuficiente para TDD de políticas puras (ADR 0017). |
@@ -58,12 +63,14 @@ local 7.1.
 sin secretos ni producción; el plugin desplegado no cambia.
 
 **Riesgos / costes:** Composer en raíz hay que no copiarlo al plugin;
-integración PHPUnit/WP queda como incremento; D12b (auditoría de
-automatización de seguridad) **no** se cierra con este ADR.
+la suite PHPUnit/WP y los harnesses requieren Docker local y no corren
+en el workflow `test.yml`; D12b (auditoría de automatización de
+seguridad) **no** se cierra con este ADR.
 
-**Trabajo futuro:** suite PHPUnit de integración WordPress 7.1 en Docker
-aislado cuando un contrato WP no quepa en un harness; runner Gherkin si el
-volumen de `.feature` lo justifica; matriz PHP 7.4/8.0 solo si aporta.
+**Trabajo futuro:** runner Gherkin si el volumen de `.feature` lo
+justifica; matriz PHP 7.4/8.x o WordPress en CI solo si aporta; no
+añadir Behat, Brain Monkey, wp-env ni Playwright sin necesidad
+arquitectónica.
 
 ## Estado de implementación (2026-08-20)
 
@@ -88,6 +95,18 @@ Nota factual 2026-08-24 (no cambia §1–§6): el oficio de cómo escribir un
 test vive en `docs/24-project-testing-standard.md`. Complementa `docs/23`
 (taxonomía, CI, comandos). No añade runners ni cambia PHPUnit 9.6, Gherkin
 sin Behat, ni la exclusión de Brain Monkey / Mockery / Pest.
+
+Nota factual 2026-08-28 (no cambia §1–§2 ni §4–§5; **§3 queda alineada
+con esta nota**): el propietario autorizó instalar la suite
+PHPUnit/WordPress para el diseño editorial del PDF (issue #10).
+Implementación: `wp-phpunit/wp-phpunit` 7.1 + `yoast/phpunit-polyfills`
+en el Composer de raíz, `phpunit-wp.xml.dist`, `tests/WordPress/`,
+`tools/run-phpunit-wp.sh` / `composer test:wp`, Compose efímero puerto
+8090, tablas `wptests_`, `down -v` al salir. Primer contrato:
+`ArticlePdfEditorialSourceBuilderTest`. No entra en `composer test` ni
+en CI. No se instaló Behat, Brain Monkey, WP_Mock, Mockery, Pest,
+wp-env ni wp-browser. El texto original de §3 («PHPUnit+WP aplazado»)
+deja de ser el estado vigente.
 
 Nota factual 2026-08-28 (no cambia §1–§6): SonarQube Cloud está
 conectado por GitHub App (**Automatic Analysis**, proyecto

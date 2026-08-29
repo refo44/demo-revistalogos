@@ -84,6 +84,13 @@ Hoy: dos mecanismos, ambos Docker aislado contra WordPress **7.1**.
 2. **Harnesses** `tools/qa-*.sh` para flujos integrados completos
    (HTTP, wp-admin, CLI del plugin).
 
+**Cuándo cuál (nivel 2):** un contrato WordPress que se ejercita en PHP
+(mapeo post/meta/taxonomía, registro CPT, adaptador, `render_callback`)
+va a `tests/WordPress/` y `composer test:wp`. Un flujo HTTP, pantalla
+wp-admin o comando CLI del plugin va a `tools/qa-*.sh`. No reescribir
+un harness HTTP a PHPUnit por uniformidad. No usar un harness para
+evitar wp-phpunit en un mapeo in-process.
+
 No fingir APIs de WordPress cuando el objeto de la prueba es el comportamiento
 de WordPress.
 
@@ -114,7 +121,7 @@ con `--no-dev` y lo sube.
 - Runner: **PHPUnit 9.6** (`phpunit/phpunit`, `require-dev`).
 - Sintaxis: nativo `php -l` vía `tools/php-lint.sh` / `composer lint:php`. Sin PHPStan, Psalm ni PHPCS. SonarQube Cloud es Automatic Analysis (`.sonarcloud.properties`), no sustituye esos linters ni cierra D12b.
 - `composer test` = lint PHP + `composer audit --locked` + suite unitaria.
-  No ejecuta `tools/qa-*.sh`.
+  No ejecuta `composer test:wp` ni `tools/qa-*.sh`.
 - Composer de raíz: **solo** tooling de test. El plugin carga su
   `vendor/autoload.php` si existe y sigue usando `require_once` para
   código propio (ADR 0006). El workflow FTPS sube el `vendor/` generado
@@ -163,11 +170,15 @@ PHPUnit no replica estos flujos enteros.
   hooks internos salvo que el hook sea el contrato público.
 - ADR 0017 work unit 1: `tests/Features/article-pdf-generation.feature`
   (especificación de negocio; sin Behat). La política pura se verifica
-  en PHPUnit. El cableado WordPress y el renderer siguen pendientes.
+  en PHPUnit nivel 1. El renderer concreto, en
+  `ArticlePdfDompdfRendererTest` y `tools/qa-article-pdf-renderer.sh`.
+  El cableado WordPress del source builder, en `tests/WordPress/`
+  (`composer test:wp`).
 
-Gherkin describe comportamiento observable. PHPUnit verifica PHP. Los
-harnesses verifican el flujo integrado. Pueden complementarse; no hace falta
-una traza 1:1.
+Gherkin describe comportamiento observable. PHPUnit nivel 1 verifica PHP
+puro. `composer test:wp` verifica contratos WordPress in-process. Los
+harnesses verifican el flujo HTTP/admin/CLI. Pueden complementarse; no
+hace falta una traza 1:1.
 
 ## TDD (dominio nuevo)
 
@@ -273,10 +284,11 @@ composer test          # lint → audit --locked → units; not qa-*.sh
 ```
 
 `php -l` comprueba **sintaxis**. `composer audit --locked` comprueba
-**advisories del lockfile de Composer**. PHPUnit comprueba
-**comportamiento**. Los `qa-*.sh` comprueban **WordPress integrado**. Los
-harnesses que ya llaman `php -l` sobre archivos sueltos se conservan; el
-gate global los complementa.
+**advisories del lockfile de Composer**. PHPUnit nivel 1 comprueba
+**comportamiento puro**. `composer test:wp` comprueba **contratos
+WordPress in-process**. Los `qa-*.sh` comprueban **HTTP / wp-admin /
+CLI**. Los harnesses que ya llaman `php -l` sobre archivos sueltos se
+conservan; el gate global los complementa.
 
 La suite PHPUnit/WP existe desde 2026-08-28 como `composer test:wp`
 (`./tools/run-phpunit-wp.sh`). No entra en `composer test` ni en CI:
@@ -351,10 +363,12 @@ dependencias runtime. Antes de un deploy WU4: verificar `ext-dom` y
 
 ## Expansión futura
 
-Añadir una herramienta (Behat, Brain Monkey, Playwright, suite WP oficial,
-matriz de versiones) solo con necesidad arquitectónica demostrada. ADR 0017
-work unit 1 ya tiene la política pura; no adelantar `PdfGenerator` ni
-librerías PDF hasta la unidad de renderer.
+Añadir una herramienta (Behat, Brain Monkey, Playwright, wp-env,
+wp-browser, matriz de versiones) solo con necesidad arquitectónica
+demostrada. `wp-phpunit` **ya es** el runner de nivel 2 in-process; no
+sustituirlo por wp-env ni por una segunda suite en `tests/Integration/`.
+ADR 0017 work unit 1 ya tiene la política pura; no adelantar
+`PdfGenerator` ni librerías PDF hasta la unidad de renderer.
 
-**Versión:** 1.2
-**Proyecto:** Revista de Filosofía LOGO ET SPES 0.2.0
+**Versión:** 1.3
+**Proyecto:** Revista de Filosofía LOGO ET SPES

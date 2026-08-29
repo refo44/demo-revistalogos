@@ -157,7 +157,36 @@ históricos. Desde 2026-08-20 el workflow usa `checkout@v5` y
    debe pasar. Si falla, no hay deploy: bump de `package.json` /
    `VERSION.md` / `CHANGELOG.md`, PR `chore(release): vX.Y.Z`, etiqueta
    anotada, y Run workflow **desde esa tag**. Merge a `main` no basta.
-   No despachar desde `v0.2.0` (producción ya sirve plugin 0.2.8).
+   Nunca despachar desde una etiqueta anterior a lo que producción ya
+   sirve: reinstalaría una versión más vieja.
+
+   **Verificar además que la etiqueta es lo que dice ser.** Hasta el
+   2026-08-29 el gate comprobaba que *exista* una etiqueta anotada `vX.Y.Z`
+   en HEAD, no que su contenido correspondiera a esa versión: una etiqueta
+   bien formada sobre el commit equivocado pasaba y habría desplegado
+   código equivocado en silencio (ocurrido ese mismo día con `v0.3.0`,
+   colocada sobre una rama de CI que llevaba el plugin 0.2.8 ya live). El
+   gate ya lo verifica —versión declarada en `package.json` y commit
+   alcanzable desde `main`—, pero llegar hasta él con la etiqueta mal
+   puesta significa que ya está publicada, y corregirla obliga a borrarla y
+   recrearla en local y en el remoto. Comprobarlo aquí sale más barato.
+
+   Traer primero las refs: `origin/main` y las etiquetas locales pueden
+   estar viejas, y entonces se estaría validando un commit que no es el
+   real.
+
+   ```bash
+   git fetch --tags origin main
+   git merge-base --is-ancestor vX.Y.Z origin/main && echo "en main" || { echo "NO está en main"; false; }
+   git show vX.Y.Z:package.json | grep '"version"'
+   git show vX.Y.Z:wordpress/wp-content/plugins/revistalogos-core/revistalogos-core.php | grep REVISTALOGOS_CORE_VERSION
+   ```
+
+   La comprobación de `main` imprime el caso negativo y deja `rc != 0`: sin
+   eso, un fallo no dice nada y se pasa por alto leyendo la lista.
+
+   La versión del plugin debe ser **mayor** que la que corre producción —
+   eso el gate no puede saberlo, y sigue siendo comprobación humana.
 2. **Commit y rama:** `git rev-parse HEAD` y la etiqueta (`git describe --exact-match --tags`).
    Working tree limpio (`git status --short`).
 3. **Cambios incluidos:** solo theme y/o plugin first-party. Sin fixtures,
