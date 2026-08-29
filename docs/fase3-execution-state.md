@@ -692,7 +692,8 @@ FSE remains deferred:
 
 D12b (checks CI de seguridad/stylelint ligados al deploy) sigue pendiente
 de la auditoría (ADR 0012 §6). El workflow `test.yml` (PHPUnit unitario)
-es Testing Foundation (ADR 0018), no cierra D12b.
+es Testing Foundation (ADR 0018), no cierra D12b. SonarQube Cloud
+Automatic Analysis (`.sonarcloud.properties`) tampoco cierra D12b.
 
 Acciones del propietario pendientes (no bloquean la QA):
 

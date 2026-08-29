@@ -112,7 +112,7 @@ con `--no-dev` y lo sube.
 ## PHPUnit y Composer
 
 - Runner: **PHPUnit 9.6** (`phpunit/phpunit`, `require-dev`).
-- Sintaxis: nativo `php -l` vía `tools/php-lint.sh` / `composer lint:php`. Sin PHPStan, Psalm ni PHPCS.
+- Sintaxis: nativo `php -l` vía `tools/php-lint.sh` / `composer lint:php`. Sin PHPStan, Psalm ni PHPCS. SonarQube Cloud es Automatic Analysis (`.sonarcloud.properties`), no sustituye esos linters ni cierra D12b.
 - `composer test` = lint PHP + `composer audit --locked` + suite unitaria.
   No ejecuta `tools/qa-*.sh`.
 - Composer de raíz: **solo** tooling de test. El plugin carga su
@@ -324,7 +324,8 @@ toquen ese código.
 (dev/test). CI también audita el lock runtime del plugin (Dompdf).
 No escanea WordPress Core, plugins/themes de terceros, npm ni el hosting.
 No es un sustituto de revisión de seguridad del producto, no cierra D12b
-y no aplica parches. Dependabot (Composer + GitHub Actions, semanal)
+y no aplica parches. SonarQube Cloud Automatic Analysis (issues en plugin y
+theme) tampoco sustituye esa revisión ni cierra D12b. Dependabot (Composer + GitHub Actions, semanal)
 abre PRs; no sustituye el audit ni se auto-mergea. Un major de PHPUnit
 que suba el baseline de PHP no se acepta por inercia.
 

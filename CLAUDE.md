@@ -136,7 +136,12 @@ required, not shared via Git, not a substitute for the files above.
   `composer.json` is test-only. Composer audit does not scan WordPress,
   npm, or hosting. Dependabot may open weekly Composer and GitHub Actions
   PRs; they are not auto-merged. Review them after CI. Do not treat a
-  PHPUnit major as an automatic policy change.
+  PHPUnit major as an automatic policy change. SonarQube Cloud is GitHub
+  App **Automatic Analysis** (project `refo44_demo-revistalogos`). Scope
+  lives in `.sonarcloud.properties`. Do not add `sonar-project.properties`
+  or a CI scanner while Automatic Analysis is ON (duplicate analyses
+  fail). Do not treat Quality Gate 0.0% coverage as a missing PHPUnit
+  suite. Does not close D12b.
 
 ## Working style
 

@@ -118,6 +118,16 @@ Estado en el repo: `.github/workflows/deploy.yml` («Deploy to Hostinger») **el
 - **Producción WordPress solo desde release etiquetado:** merge a `main` no es un FTPS. GitHub Pages sigue automático. Antes de `deploy-wordpress.yml`: versionar (`package.json` / `VERSION.md` / `CHANGELOG.md`), etiqueta anotada `vX.Y.Z`, Run workflow **desde esa tag**. El workflow aborta sin ella. No disparo al pushear el tag (ADR 0009 §5 intacto). Plugin 0.2.8 live no se retiqueta; el próximo envío es un tag **nuevo**. → [ADR 0020](0020-despliegue-produccion-desde-etiqueta.md).
 - **Borrar rama al mergear:** Settings → General → Pull Requests → *Automatically delete head branches* (`delete_branch_on_merge`) **activado**. No es una regla del ruleset. `main` y las etiquetas no se tocan. Ramas remotas ya mergeadas que quedaban: eliminadas. → [ADR 0019](0019-proteger-main-trunk-based.md) § Estado de implementación.
 
+### Añadidas el 2026-08-28
+
+- **SonarQube Cloud:** Automatic Analysis (GitHub App, proyecto
+  `refo44_demo-revistalogos`). Alcance en `.sonarcloud.properties` (plugin
+  + theme; `tests/` como tests). No usar `sonar-project.properties`
+  mientras Automatic Analysis esté ON. No importa cobertura PHPUnit; el
+  0.0 % del Quality Gate es esperado. No cierra **D12b**. Un scanner en
+  `test.yml` exigiría apagar Automatic Analysis y un `SONAR_TOKEN`; no se
+  añade. Detalle: `docs/23-testing-foundation.md`.
+
 ---
 
 ## Orden sugerido

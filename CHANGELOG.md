@@ -8,6 +8,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Added
+- SonarQube Cloud Automatic Analysis scope: `.sonarcloud.properties`
+  (plugin `revistalogos-core` + theme `revistalogos`; `tests/` as tests).
+  Not `sonar-project.properties` (ignored while Automatic Analysis is ON).
+  Coverage is not imported; 0.0% on the Quality Gate comment is expected.
+  Does not close D12b.
+
 ## [0.3.0] — 2026-08-29
 
 Primer release etiquetado desde `v0.2.0`. Recoge la generación automática
