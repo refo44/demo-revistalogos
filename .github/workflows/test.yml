@@ -1,4 +1,10 @@
-# PHP lint, Composer lockfile audit, PHPUnit units (Testing Foundation, ADR 0018).
+# PHP lint, Composer lockfile audit, PHPUnit units (Testing Foundation, ADR 0018)
+# and Stylelint over the two CSS trees.
+#
+# The CSS job exists because nothing in CI ran Node until now: `lint:css`, the
+# `engines` floor, and every lockfile change were verified only on whatever
+# machine happened to run them. It resolves its Node from `.nvmrc` so CI and
+# the laptop agree.
 #
 # Comprobar no es desplegar: no FTPS, no Pages, no production environment,
 # no secrets. Does not close D12b (security-audit automation). WordPress
@@ -69,3 +75,29 @@ jobs:
 
       - name: Run unit tests
         run: composer test:unit
+
+  css-lint:
+    name: Stylelint (Node from .nvmrc)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      # node-version-file reads .nvmrc, so CI and the developer laptop resolve
+      # the same version. package.json `engines` requires >=20.19.0 (stylelint
+      # 17 and the @csstools tree); npm reports EBADENGINE below that.
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: ".nvmrc"
+          cache: npm
+
+      # `npm ci` installs strictly from the lockfile and fails when it has
+      # drifted from package.json, which `npm install` would instead paper
+      # over by rewriting the lockfile in place.
+      - name: Install dependencies from the lockfile
+        run: npm ci
+
+      - name: Lint CSS
+        run: npm run lint:css
