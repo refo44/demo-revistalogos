@@ -39,10 +39,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
         with:
-          fetch-depth: 1
+          # Full history, not depth 1: the gate also verifies that the tagged
+          # commit is reachable from main, which a shallow clone cannot answer.
+          fetch-depth: 0
           fetch-tags: true
 
-      - name: HEAD must be vMAJOR.MINOR.PATCH
+      # Explicit, so the gate never fails for want of a ref: the run is
+      # dispatched from a tag, and the reachability check needs main present
+      # regardless of how checkout resolved refspecs.
+      - name: Fetch main for the reachability check
+        run: git fetch --no-tags origin +refs/heads/main:refs/remotes/origin/main
+
+      - name: HEAD must be vMAJOR.MINOR.PATCH matching package.json, on main
         run: ./tools/require-production-release-tag.sh
 
   deploy-theme:

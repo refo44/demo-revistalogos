@@ -14,6 +14,24 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   Not `sonar-project.properties` (ignored while Automatic Analysis is ON).
   Coverage is not imported; 0.0% on the Quality Gate comment is expected.
   Does not close D12b.
+- `tools/check-release-pending.sh` y el workflow `Release pending`: avisan
+  cuando `main` acumula commits de theme/plugin sin una etiqueta de release
+  posterior, y cuando código publicado cambió sin subir la versión que
+  declara (constante `REVISTALOGOS_CORE_VERSION` en el plugin, cabecera
+  `Version:` en el theme). Advisory: no bloquea merges, no usa secretos y no
+  despliega.
+
+### Changed
+- `tools/require-production-release-tag.sh` ya no se conforma con que
+  *exista* una etiqueta anotada `vX.Y.Z` en HEAD: exige además que
+  `package.json` declare exactamente esa versión y que el commit etiquetado
+  sea alcanzable desde `main` (ADR 0020 §2 y §4). Una etiqueta bien formada
+  sobre el commit equivocado pasaba el gate y habría desplegado un árbol que
+  no es ese release, incluso reinstalando un plugin anterior al que ya sirve
+  producción (ocurrido el 2026-08-29 con `v0.3.0`). `deploy-wordpress.yml`
+  pasa a `fetch-depth: 0` y trae `main` explícitamente, porque la
+  comprobación de alcanzabilidad no puede responderse en un clon superficial;
+  si `main` no se resuelve, el gate falla en vez de omitir la comprobación.
 
 ## [0.3.0] — 2026-08-29
 
