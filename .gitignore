@@ -124,3 +124,5 @@ PR.diff
 .cursorrules.json
 .cursorrules.jsonc
 .cursorrules.json5
+# Artefactos desechables de trabajo (mockups de fase, muestras)
+/tmp/

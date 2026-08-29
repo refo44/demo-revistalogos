@@ -159,6 +159,17 @@ class ArticlePdfEditorialTemplateTest extends TestCase {
 		$this->assertStringNotContainsString( 'Sección:', $offprint_html );
 	}
 
+	public function test_invalid_utf8_is_substituted_not_dropped() {
+		$fields             = $this->make_full_editorial_fields();
+		$fields['title']    = "T\xC3tulo corrupto";
+		$editorial_template = new Article_Pdf_Editorial_Template();
+
+		$offprint_html = $editorial_template->render( $fields );
+
+		$this->assertStringContainsString( "T\u{FFFD}tulo corrupto", $offprint_html );
+		$this->assertStringContainsString( 'María QA Contreras', $offprint_html );
+	}
+
 	public function test_special_characters_are_escaped_outside_the_body() {
 		$fields              = $this->make_full_editorial_fields();
 		$fields['title']     = 'Cuerpo & <alma>';
