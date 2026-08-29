@@ -11,8 +11,10 @@
 # a feature merges, main moves on, and the omission only surfaces when someone
 # needs production. Two signals are reported in the job summary:
 #   1. deployable commits accumulated since the last annotated vX.Y.Z tag;
-#   2. shipped code changed while its declared Version header did not, which
-#      would install over production under a version string already live.
+#   2. shipped code changed while the version it declares did not (the
+#      REVISTALOGOS_CORE_VERSION constant for the plugin, the `Version:`
+#      header for the theme), which would install over production under a
+#      version string already live.
 name: Release pending
 
 on:

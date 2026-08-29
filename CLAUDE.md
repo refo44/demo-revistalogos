@@ -159,13 +159,17 @@ required, not shared via Git, not a substitute for the files above.
   **and** its `next`/`planned`/`deferred` label removed, plus its
   `docs/adr/BACKLOG.md` entry moved out of the pending section; (3) an entry
   under `## [Sin publicar]` in `CHANGELOG.md`; (4) if it touched
-  `wordpress/wp-content/themes/` or `.../plugins/`, **bump that component's
-  `Version` header in the same PR** — shipping changed code under a version
-  string already live in production means `Plugin::maybe_upgrade()` never
-  fires. Flag any of these that is missing instead of assuming the owner
-  will remember. `tools/check-release-pending.sh` reports (2)–(4) for the
-  trunk; the `Release pending` workflow runs it on every push to `main` and
-  is advisory — it never blocks a merge.
+  `wordpress/wp-content/themes/` or `.../plugins/`, **bump the version that
+  component declares, in the same PR** (`REVISTALOGOS_CORE_VERSION` in the
+  plugin, the `Version:` header in the theme) — shipping changed code under a
+  version string already live in production means `Plugin::maybe_upgrade()`
+  never fires. Flag any of these that is missing instead of assuming the owner
+  will remember. Only (4) is automated: `tools/check-release-pending.sh`
+  reports deployable commits the trunk has accumulated since the last
+  annotated tag, and shipped code whose declared version did not move. It
+  cannot see issue state, labels or `CHANGELOG.md`, so (2) and (3) stay a
+  manual check. The `Release pending` workflow runs the script on every push
+  to `main` and is advisory — it never blocks a merge.
 - **Production deploy is its own release, never a follow-up to a merge**
   (ADR 0020). It needs an annotated `vX.Y.Z` on a commit that already went
   through the `VERSION.md` procedure; `deploy-wordpress.yml` refuses an

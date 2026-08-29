@@ -17,6 +17,23 @@ cd "$ROOT"
 STRICT=0
 [[ "${1:-}" == "--strict" ]] && STRICT=1
 
+# Everything below is a question about history, so say plainly when there is no
+# history to ask. Without this, an exported copy (tarball, FTPS upload) would
+# reach last_release_tag, find nothing, and report "no annotated tag" — which
+# reads as "you forgot to cut a release" when the truth is "this is not a repo".
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+	echo "Not a Git repository: ${ROOT}"
+	echo "This check compares HEAD against the newest annotated release tag,"
+	echo "so it needs the repository itself, not an exported copy of the tree."
+	exit $(( STRICT ))
+fi
+
+if ! git rev-parse --verify --quiet HEAD >/dev/null 2>&1; then
+	echo "No commit is checked out in ${ROOT}; there is nothing to compare"
+	echo "against a release tag yet."
+	exit $(( STRICT ))
+fi
+
 PLUGIN_FILE="wordpress/wp-content/plugins/revistalogos-core/revistalogos-core.php"
 THEME_FILE="wordpress/wp-content/themes/revistalogos/style.css"
 DEPLOYABLE=(
