@@ -7,6 +7,14 @@
 El número de versión canónico vive en **`package.json`** (`"version"`). Todo lo demás
 —etiquetas de Git, `CHANGELOG.md`, este documento— debe reflejar ese valor.
 
+Los documentos de `docs/` **no** repiten la versión del proyecto. Su pie es
+`**Proyecto:** Revista de Filosofía LOGO ET SPES`, sin número; el `**Versión:**`
+que llevan encima es la revisión **del propio documento**, que evoluciona aparte.
+Siete pies llegaron a copiar `0.2.0` y se quedaron ahí mientras el proyecto pasaba
+a 0.3.0: ningún paso de este procedimiento los tocaba, y no lo va a tocar. Un
+número copiado en un sitio que nadie actualiza no informa, desinforma. No volver a
+añadirlo.
+
 ## Esquema
 
 Versionado Semántico `MAJOR.MINOR.PATCH` ([semver.org](https://semver.org/lang/es/)):

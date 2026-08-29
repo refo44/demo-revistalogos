@@ -156,4 +156,4 @@ assets/
 ---
 
 **Versión:** 1.1  
-**Proyecto:** Revista de Filosofía LOGO ET SPES 0.2.0
+**Proyecto:** Revista de Filosofía LOGO ET SPES

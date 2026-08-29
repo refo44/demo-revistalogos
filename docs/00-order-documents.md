@@ -128,4 +128,4 @@ Estos principios aplican independientemente del tipo de sitio (comunidad, autor,
 ---
 
 **Versión:** 1.2  
-**Proyecto:** Revista de Filosofía LOGO ET SPES 0.2.0
+**Proyecto:** Revista de Filosofía LOGO ET SPES

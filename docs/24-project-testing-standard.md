@@ -730,4 +730,4 @@ puro**. `composer test:wp` comprueba **contratos WordPress in-process**.
 ---
 
 **Versión:** 1.2
-**Proyecto:** Revista de Filosofía LOGO ET SPES 0.2.0
+**Proyecto:** Revista de Filosofía LOGO ET SPES

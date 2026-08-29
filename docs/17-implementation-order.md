@@ -217,4 +217,4 @@ No forma parte del cierre de Fase 3 ni de Fase 4. **Hoy** el PDF de artículo se
 ---
 
 **Versión:** 1.3
-**Proyecto:** Revista de Filosofía LOGO ET SPES 0.2.0
+**Proyecto:** Revista de Filosofía LOGO ET SPES
