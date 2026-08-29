@@ -96,8 +96,12 @@ jobs:
       # `npm ci` installs strictly from the lockfile and fails when it has
       # drifted from package.json, which `npm install` would instead paper
       # over by rewriting the lockfile in place.
+      #
+      # --ignore-scripts keeps dependency lifecycle scripts from executing on
+      # the runner (Sonar githubactions:S6505). Stylelint is pure JavaScript
+      # with nothing to build at install time, so the lint runs unchanged.
       - name: Install dependencies from the lockfile
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Lint CSS
         run: npm run lint:css
