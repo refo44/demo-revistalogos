@@ -298,6 +298,16 @@ Sin environment de producción, sin secretos FTPS, sin deploy. No cierra
 D12b. Sin matriz PHP/WP. La integración en CI es el siguiente incremento
 (harness o PHPUnit/WP), no este.
 
+SonarQube Cloud está conectado por GitHub App (**Automatic Analysis**,
+proyecto `refo44_demo-revistalogos`). El alcance vive en
+`.sonarcloud.properties` (plugin + theme; `tests/` como tests). No usar
+`sonar-project.properties` mientras Automatic Analysis esté ON: Sonar lo
+ignora. Automatic Analysis **no** importa cobertura PHPUnit; el 0.0 %
+en el comentario del Quality Gate es esperado y **no** es un gate de
+cobertura (ADR 0018). Un scanner en `test.yml` exigiría apagar Automatic
+Analysis en Administration → Analysis Method y un `SONAR_TOKEN`; no se
+añade aquí y no cierra D12b.
+
 ## Accesibilidad
 
 Checks automáticos (axe, Playwright) son útiles y **insuficientes**. No
@@ -345,5 +355,5 @@ matriz de versiones) solo con necesidad arquitectónica demostrada. ADR 0017
 work unit 1 ya tiene la política pura; no adelantar `PdfGenerator` ni
 librerías PDF hasta la unidad de renderer.
 
-**Versión:** 1.1
+**Versión:** 1.2
 **Proyecto:** Revista de Filosofía LOGO ET SPES 0.2.0
