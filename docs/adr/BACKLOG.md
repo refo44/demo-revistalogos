@@ -166,13 +166,18 @@ Ruleset `Protect main (trunk-based)` (`21337399`), activo, sin bypass. `main` ex
 
 ### PLANNED
 
-No hay dependencia ADR que fuerce el orden entre diseño editorial y WU7. Se planifica **diseño antes de WU7** para que Generate/Regenerate consuman la misma plantilla (evitar dos sistemas de presentación). El spike de la sección «Cómo Citar» (ítem 9) es **independiente** de 3 y 4: presentación del theme clásico, no PDF.
+No hay dependencia ADR que fuerce el orden entre diseño editorial y WU7. Se planificó **diseño antes de WU7** para que Generate/Regenerate consuman la misma plantilla (evitar dos sistemas de presentación); el ítem 3 ya está **completado y en `main`**, así que WU7 (ítem 4) es lo siguiente y debe consumir esa plantilla. El spike de la sección «Cómo Citar» (ítem 9) es **independiente** de 3 y 4: presentación del theme clásico, no PDF.
+
+Un ítem que termina se cierra en los tres sitios a la vez: este estado, el issue de GitHub (cerrar y quitar la etiqueta `next`/`planned`/`deferred`) y `CHANGELOG.md`. Si además tocó theme o plugin, entra en el siguiente release etiquetado (ADR 0020); `tools/check-release-pending.sh` avisa cuando ese último paso queda pendiente.
 
 #### 3. Diseño editorial profesional del PDF de artículo
 
-**Estado:** IMPLEMENTADO en rama `feat/article-pdf-editorial-design`
-(2026-08-28, [issue #10](https://github.com/refo44/demo-revistalogos/issues/10));
-pendiente de PR/merge del propietario. Mockup aprobado: **opción 1 «Clásico
+**Estado:** ✅ **COMPLETADO Y EN `main`.** Mergeado el 2026-08-28 por
+[PR #20](https://github.com/refo44/demo-revistalogos/pull/20);
+[issue #10](https://github.com/refo44/demo-revistalogos/issues/10) cerrado
+el 2026-08-29. Se publica en **plugin 0.2.9 / proyecto v0.3.0**. Queda aquí
+como referencia de aceptación para el ítem 4 (WU7 consume esta plantilla),
+no como trabajo pendiente. Mockup aprobado: **opción 1 «Clásico
 filológico»** (separata centrada, DejaVu Serif, **escala de grises, sin
 color** — decisión del propietario). Plantilla:
 `Article_Pdf_Editorial_Template` (pura, PHPUnit) + Source Builder como

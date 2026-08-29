@@ -1,0 +1,57 @@
+# Advisory reminder: main carries theme/plugin changes that no release tag
+# covers yet (ADR 0020 companion).
+#
+# Comprobar no es desplegar. This workflow never runs FTPS, never touches the
+# production environment, and holds no secrets. It also never fails: it must
+# not block a merge to main. The hard gate stays
+# tools/require-production-release-tag.sh, run by deploy-wordpress.yml, which
+# still refuses to deploy from an untagged HEAD.
+#
+# It exists because the release step is the one nobody is forced to remember:
+# a feature merges, main moves on, and the omission only surfaces when someone
+# needs production. Two signals are reported in the job summary:
+#   1. deployable commits accumulated since the last annotated vX.Y.Z tag;
+#   2. shipped code changed while the version it declares did not (the
+#      REVISTALOGOS_CORE_VERSION constant for the plugin, the `Version:`
+#      header for the theme), which would install over production under a
+#      version string already live.
+name: Release pending
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-pending-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release-pending:
+    name: Report pending release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          # Full history and tags: the check compares HEAD against the newest
+          # annotated release tag, so a shallow clone would find none.
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Check for a pending release
+        run: |
+          {
+            echo '## Release status'
+            echo ''
+            echo '```'
+            ./tools/check-release-pending.sh 2>&1
+            echo '```'
+          } >>"$GITHUB_STEP_SUMMARY"
+          # Re-run for the annotations; advisory only, never fails the build.
+          ./tools/check-release-pending.sh
