@@ -4,7 +4,8 @@
 # no secrets. Does not close D12b (security-audit automation). WordPress
 # integration remains isolated tools/qa-*.sh until a PHPUnit integration
 # suite is added. Root composer audit covers test tooling. Plugin
-# composer audit covers runtime Dompdf (ADR 0017 WU4).
+# composer audit covers runtime Dompdf (ADR 0017 WU4). Does not run
+# SonarScanner: Automatic Analysis is ON (.sonarcloud.properties).
 name: Tests
 
 on:

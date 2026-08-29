@@ -89,8 +89,17 @@ test vive en `docs/24-project-testing-standard.md`. Complementa `docs/23`
 (taxonomía, CI, comandos). No añade runners ni cambia PHPUnit 9.6, Gherkin
 sin Behat, ni la exclusión de Brain Monkey / Mockery / Pest.
 
+Nota factual 2026-08-28 (no cambia §1–§6): SonarQube Cloud está
+conectado por GitHub App (**Automatic Analysis**, proyecto
+`refo44_demo-revistalogos`). El alcance vive en `.sonarcloud.properties`
+(plugin + theme; `tests/` como tests). `sonar-project.properties` se ignora
+mientras Automatic Analysis esté ON. No se importa cobertura PHPUnit; el
+0.0 % del Quality Gate no es un gate de cobertura. No se añadió
+PHPStan, Psalm ni PHPCS. No cierra D12b.
+
 ## Referencias
 
 - `docs/23-testing-foundation.md` (reglas operativas)
 - `docs/24-project-testing-standard.md` (oficio: sociable-first, BDD, AAA, dobles)
+- `.sonarcloud.properties` (alcance Automatic Analysis; no es un gate de cobertura)
 - ADR 0006, 0009, 0014, 0016, 0017

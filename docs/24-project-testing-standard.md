@@ -486,7 +486,7 @@ agotar la máquina apilando QA Docker.
 | **Nivel 1 (gate por defecto)** | `composer test` o `./tools/run-phpunit.sh` — lint, audit del lockfile, suite unitaria completa. La suite es pequeña; correrla entera. |
 | **Nivel 2/3** | El `tools/qa-*.sh` **relevante** cuando cambió integración WordPress. Un harness a la vez. Cada uno debe hacer `down -v` y salir. |
 | **Prohibido** | BD de producción; volúmenes primarios en tests nuevos que mutan; todos los harnesses «por si acaso» en un cambio solo unitario; instalar runners extra por teatro de cobertura |
-| **CI** | `.github/workflows/test.yml` es lint + audit Composer (raíz y plugin) + `composer test:unit`. No corre `qa-*.sh`. No exigir Docker QA en un PR solo de docs o solo unitario. |
+| **CI** | `.github/workflows/test.yml` es lint + audit Composer (raíz y plugin) + `composer test:unit`. No corre `qa-*.sh`. No exigir Docker QA en un PR solo de docs o solo unitario. SonarQube Cloud es Automatic Analysis (`.sonarcloud.properties`); no es un gate de cobertura ni un paso de `test.yml`. |
 
 Portátil sin PHP nativo: `./tools/php-lint.sh` y `./tools/run-phpunit.sh`
 (ADR 0014).
@@ -654,7 +654,8 @@ No testear:
 - One-liners triviales
 - Comportamiento puro del lenguaje PHP
 - Layout CSS y whitespace
-- Porcentaje de cobertura
+- Porcentaje de cobertura (el 0.0 % del Quality Gate de SonarQube Cloud
+  bajo Automatic Analysis no es un fallo de la suite; `docs/23`)
 - Validación de identificadores de Fase 4 (DOI/ORCID/ISSN) — campos inertes
   (ADR 0013)
 - Activar la exigencia de PDF al publicar como efecto de un deploy
@@ -682,5 +683,5 @@ composer test:unit
 
 ---
 
-**Versión:** 1.0
+**Versión:** 1.1
 **Proyecto:** Revista de Filosofía LOGO ET SPES 0.2.0

@@ -42,7 +42,9 @@ revistalogos/
 ├── tools/                           → Payload generator, PHPUnit wrapper, qa-*.sh
 ├── docs/                            → Documentación numerada, ADRs, harness Fase 3
 ├── content-source/                  → Fuente canónica (no versionada)
-└── .github/workflows/               → deploy-wordpress.yml (producción WP, manual),
+├── .sonarcloud.properties           → Alcance SonarQube Cloud (Automatic Analysis)
+└── .github/workflows/               → test.yml (lint/audit/units),
+                                       deploy-wordpress.yml (producción WP, manual),
                                        pages.yml (espejo estático beta, automático)
 ```
 
@@ -77,7 +79,10 @@ and its transitives only — not WordPress, npm, or hosting). Units:
 the `./tools/*.sh` wrappers and `composer:2` for audit. WordPress workflows
 remain isolated `tools/qa-*.sh`. Root Composer is **dev/test only**. Dependabot: weekly Composer + GitHub
 Actions PRs, no auto-merge; CI + owner review. `composer audit --locked`
-stays the lockfile advisory check.
+stays the lockfile advisory check. SonarQube Cloud is **Automatic Analysis**
+(GitHub App, project `refo44_demo-revistalogos`); scope is
+`.sonarcloud.properties` (plugin + theme). Not a PHPUnit coverage gate
+and does not close D12b. See `docs/23-testing-foundation.md`.
 
 ## Características de diseño
 

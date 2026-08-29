@@ -112,7 +112,7 @@ con `--no-dev` y lo sube.
 ## PHPUnit y Composer
 
 - Runner: **PHPUnit 9.6** (`phpunit/phpunit`, `require-dev`).
-- Sintaxis: nativo `php -l` vía `tools/php-lint.sh` / `composer lint:php`. Sin PHPStan, Psalm ni PHPCS.
+- Sintaxis: nativo `php -l` vía `tools/php-lint.sh` / `composer lint:php`. Sin PHPStan, Psalm ni PHPCS. SonarQube Cloud es Automatic Analysis (`.sonarcloud.properties`), no sustituye esos linters ni cierra D12b.
 - `composer test` = lint PHP + `composer audit --locked` + suite unitaria.
   No ejecuta `tools/qa-*.sh`.
 - Composer de raíz: **solo** tooling de test. El plugin carga su
@@ -298,6 +298,16 @@ Sin environment de producción, sin secretos FTPS, sin deploy. No cierra
 D12b. Sin matriz PHP/WP. La integración en CI es el siguiente incremento
 (harness o PHPUnit/WP), no este.
 
+SonarQube Cloud está conectado por GitHub App (**Automatic Analysis**,
+proyecto `refo44_demo-revistalogos`). El alcance vive en
+`.sonarcloud.properties` (plugin + theme; `tests/` como tests). No usar
+`sonar-project.properties` mientras Automatic Analysis esté ON: Sonar lo
+ignora. Automatic Analysis **no** importa cobertura PHPUnit; el 0.0 %
+en el comentario del Quality Gate es esperado y **no** es un gate de
+cobertura (ADR 0018). Un scanner en `test.yml` exigiría apagar Automatic
+Analysis en Administration → Analysis Method y un `SONAR_TOKEN`; no se
+añade aquí y no cierra D12b.
+
 ## Accesibilidad
 
 Checks automáticos (axe, Playwright) son útiles y **insuficientes**. No
@@ -314,7 +324,8 @@ toquen ese código.
 (dev/test). CI también audita el lock runtime del plugin (Dompdf).
 No escanea WordPress Core, plugins/themes de terceros, npm ni el hosting.
 No es un sustituto de revisión de seguridad del producto, no cierra D12b
-y no aplica parches. Dependabot (Composer + GitHub Actions, semanal)
+y no aplica parches. SonarQube Cloud Automatic Analysis (issues en plugin y
+theme) tampoco sustituye esa revisión ni cierra D12b. Dependabot (Composer + GitHub Actions, semanal)
 abre PRs; no sustituye el audit ni se auto-mergea. Un major de PHPUnit
 que suba el baseline de PHP no se acepta por inercia.
 
@@ -345,5 +356,5 @@ matriz de versiones) solo con necesidad arquitectónica demostrada. ADR 0017
 work unit 1 ya tiene la política pura; no adelantar `PdfGenerator` ni
 librerías PDF hasta la unidad de renderer.
 
-**Versión:** 1.1
+**Versión:** 1.2
 **Proyecto:** Revista de Filosofía LOGO ET SPES 0.2.0

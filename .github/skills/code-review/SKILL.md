@@ -29,8 +29,10 @@ behaviour and a running app is in scope.
 
 `develop`, GitFlow, CODEOWNERS, commitlint, required reviews, extra CI runners,
 PHPCS/PHPStan/Psalm, Playwright, the official WP test suite, DI containers, or
-new Composer/plugin dependencies without an ADR. Do not change deploy
-(`workflow_dispatch` from an annotated `vX.Y.Z` tag, ADR 0009 + ADR 0020)
+new Composer/plugin dependencies without an ADR. Do not suggest
+`sonar-project.properties`, a Sonar CI scanner while Automatic Analysis is
+ON, or treating Quality Gate 0.0% coverage as a missing test suite. Do not
+change deploy (`workflow_dispatch` from an annotated `vX.Y.Z` tag, ADR 0009 + ADR 0020)
 or hosting PHP. Merge to `main` is not a production deploy. Pages
 auto-publish on `main` is deliberate. Do not suggest keeping merged
 feature branches; GitHub deletes the PR head branch on merge.
