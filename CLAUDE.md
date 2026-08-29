@@ -163,8 +163,12 @@ required, not shared via Git, not a substitute for the files above.
   `docs/adr/BACKLOG.md` entry moved out of the pending section; (3) an entry
   under `## [Sin publicar]` in `CHANGELOG.md`; (4) if it touched
   `wordpress/wp-content/themes/` or `.../plugins/`, **bump the version that
-  component declares, in the same PR** (`REVISTALOGOS_CORE_VERSION` in the
-  plugin, the `Version:` header in the theme) — shipping changed code under a
+  component declares, in the same PR** — the theme only in `Version:` of
+  `style.css`; the plugin in three places that must stay identical: the
+  `Version:` header and `REVISTALOGOS_CORE_VERSION` in
+  `revistalogos-core.php`, plus `Stable tag:` in its `readme.txt`
+  (`maybe_upgrade()` compares the constant, wp-admin shows the header, and
+  `check-release-pending.sh` only reads the constant) — shipping changed code under a
   version string already live in production means `Plugin::maybe_upgrade()`
   never fires. Flag any of these that is missing instead of assuming the owner
   will remember. Only (4) is automated: `tools/check-release-pending.sh`

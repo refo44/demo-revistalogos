@@ -70,9 +70,12 @@ Dos reglas que evitan los dos errores que este flujo permite (ADR 0020):
    etiquetado*, no de «lo último de `main`». Antes de desplegar: subir
    `"version"` en `package.json`, pasar `CHANGELOG.md` de
    `## [Sin publicar]` a `## [X.Y.Z]`, actualizar `VERSION.md`, subir la
-   versión que declara el theme o el plugin **si cambiaron** (`Version:` en
-   el `style.css` del theme; la constante `REVISTALOGOS_CORE_VERSION` en el
-   plugin), aterrizar por PR `chore(release): vX.Y.Z`, y solo entonces:
+   versión que declara el theme o el plugin **si cambiaron** —el theme solo
+   en `Version:` de `style.css`; el plugin en **tres sitios que deben quedar
+   iguales**: la cabecera `Version:` y la constante
+   `REVISTALOGOS_CORE_VERSION` de `revistalogos-core.php`, más `Stable tag:`
+   de su `readme.txt`—, aterrizar por PR `chore(release): vX.Y.Z`, y solo
+   entonces:
 
    ```bash
    git fetch --tags origin main
@@ -112,7 +115,7 @@ git show vX.Y.Z:package.json | grep '"version"'
 ```
 
 ```bash
-git merge-base --is-ancestor vX.Y.Z origin/main && echo "en main" || echo "NO está en main"
+git merge-base --is-ancestor vX.Y.Z origin/main && echo "en main" || { echo "NO está en main"; false; }
 ```
 
 **Prototipo estático:** abrir `static/index.html` en un navegador (sin build).
