@@ -180,10 +180,6 @@
 		});
 	}
 
-	function syncAuthorsToBlockEditor($box) {
-		syncMetaboxMetaToBlockEditor($box);
-	}
-
 	function isBlockEditorSaveControl(target) {
 		if (!target || typeof target.closest !== 'function') {
 			return false;
@@ -250,7 +246,7 @@
 		});
 
 		$('#revistalogos-core-fields').on(
-			'change input',
+			'change',
 			'input, textarea, select',
 			function () {
 				syncMetaboxMetaToBlockEditor($box);
