@@ -8,6 +8,14 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+## [0.3.1] — 2026-08-31
+
+Release etiquetado para FTPS de producción (ADR 0020). Incluye el fix
+urgente de Gutenberg [#30](https://github.com/refo44/demo-revistalogos/issues/30)
+/[#31](https://github.com/refo44/demo-revistalogos/pull/31) (plugin
+`revistalogos-core` **0.2.10**) y el resto de `main` acumulado desde
+`v0.3.0`. Theme sin cambio (**0.2.1**).
+
 ### Fixed
 - Plugin `revistalogos-core` 0.2.10: publicar un artículo en borrador
   desde Gutenberg ya no falla cuando el autor publicado está asignado
@@ -42,7 +50,6 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   retitular o sacar de draft un PR y retira el estado de backlog al cerrar
   un issue; sin secretos, sin acciones de terceros y sin checkout del código
   del PR. Advisory: no bloquea el merge.
-
 
 ### Changed
 - Los pies de `docs/` dejan de repetir la versión del proyecto. Siete
