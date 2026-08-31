@@ -172,6 +172,10 @@ grep -Fq "editPost" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets
 	|| fail "author picker must copy authors into edited post meta before REST publish"
 grep -Fq "syncMetaboxMetaToBlockEditor" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
 	|| fail "metabox must sync all journal meta keys into the block editor store"
+grep -Eq "typenow|getCurrentPostType|post-type-" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
+	|| fail "metabox sync must detect post type so issue screens do not push article meta"
+grep -Fq "volume_number" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
+	|| fail "issue screens must sync issue meta keys (not article authors/issue)"
 grep -Fq "pdf_file" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
 	|| fail "metabox sync must include pdf_file for REST publish with enforcement"
 grep -Eq "meta:\s*\{[^}]*issue|issue:" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \

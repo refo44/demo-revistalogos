@@ -2,7 +2,8 @@
  * Article/issue admin: searchable author picker + native wp.media PDF picker.
  * Gutenberg REST runs before the classic metabox POST (issue #30): journal
  * meta from classic fields must be copied into core/editor so it travels
- * in the same publish request.
+ * in the same publish request. Collection is post-type scoped so issue
+ * screens never push article keys (authors / article→issue).
  */
 (function ($, wp) {
 	'use strict';
@@ -20,6 +21,45 @@
 		'accepted_date',
 		'issue'
 	];
+
+	var ISSUE_META_KEYS = [
+		'volume_number',
+		'issue_number',
+		'year',
+		'date_published',
+		'issn',
+		'doi',
+		'pdf_file'
+	];
+
+	function currentPostType() {
+		if (typeof window.typenow === 'string' && window.typenow) {
+			return window.typenow;
+		}
+
+		var body = document.body;
+		if (body && body.className) {
+			var match = body.className.match(/(?:^|\s)post-type-([^\s]+)/);
+			if (match && match[1]) {
+				return match[1];
+			}
+		}
+
+		if (typeof wp === 'undefined' || !wp.data || typeof wp.data.select !== 'function') {
+			return '';
+		}
+
+		try {
+			var select = wp.data.select('core/editor');
+			if (select && typeof select.getCurrentPostType === 'function') {
+				return select.getCurrentPostType() || '';
+			}
+		} catch (err) {
+			return '';
+		}
+
+		return '';
+	}
 
 	function selectedIds($box) {
 		var ids = [];
@@ -58,23 +98,21 @@
 		return $input.val();
 	}
 
-	/**
-	 * Collect classic metabox values Gutenberg must send as REST meta.
-	 */
-	function collectMetaboxMeta($authorsBox) {
-		var meta = {
-			authors: selectedIds($authorsBox && $authorsBox.length ? $authorsBox : $('#revistalogos-core-relationships'))
-		};
+	function collectPdfFile() {
+		var pdf = $('.revistalogos-pdf-field__id').first().val();
+		return pdf ? parseInt(pdf, 10) || 0 : 0;
+	}
+
+	function collectKeys(keys) {
+		var meta = {};
 		var i;
 		var key;
 		var raw;
-		var pdf;
 
-		for (i = 0; i < ARTICLE_META_KEYS.length; i++) {
-			key = ARTICLE_META_KEYS[i];
+		for (i = 0; i < keys.length; i++) {
+			key = keys[i];
 			if ('pdf_file' === key) {
-				pdf = $('.revistalogos-pdf-field__id').first().val();
-				meta.pdf_file = pdf ? parseInt(pdf, 10) || 0 : 0;
+				meta.pdf_file = collectPdfFile();
 				continue;
 			}
 			if ('issue' === key) {
@@ -89,6 +127,29 @@
 			meta[key] = raw;
 		}
 
+		return meta;
+	}
+
+	/**
+	 * Collect classic metabox values Gutenberg must send as REST meta.
+	 * Returns null when the screen is not article/issue.
+	 */
+	function collectMetaboxMeta($authorsBox) {
+		var type = currentPostType();
+		var meta;
+
+		if ('issue' === type) {
+			return collectKeys(ISSUE_META_KEYS);
+		}
+
+		if ('article' !== type) {
+			return null;
+		}
+
+		meta = collectKeys(ARTICLE_META_KEYS);
+		meta.authors = selectedIds(
+			$authorsBox && $authorsBox.length ? $authorsBox : $('#revistalogos-core-relationships')
+		);
 		return meta;
 	}
 
@@ -167,6 +228,10 @@
 		}
 
 		var next = collectMetaboxMeta($authorsBox);
+		if (!next) {
+			return;
+		}
+
 		var stored = storeMetaboxMeta();
 		if (stored && metaEqual(next, stored)) {
 			return;
@@ -212,6 +277,39 @@
 		syncMetaboxMetaToBlockEditor($box);
 	}
 
+	/**
+	 * Field-box + Publish/Save capture for article and issue screens.
+	 * Author UI lives in bindAuthors(); PDF UI in bindPdf().
+	 */
+	function bindJournalMetaSync() {
+		var type = currentPostType();
+		if ('article' !== type && 'issue' !== type) {
+			return;
+		}
+
+		var $authorsBox = $('#revistalogos-core-relationships');
+
+		$('#revistalogos-core-fields').on(
+			'change',
+			'input, textarea, select',
+			function () {
+				syncMetaboxMetaToBlockEditor($authorsBox);
+			}
+		);
+
+		document.addEventListener(
+			'click',
+			function (event) {
+				if (isBlockEditorSaveControl(event.target)) {
+					syncMetaboxMetaToBlockEditor($authorsBox);
+				}
+			},
+			true
+		);
+
+		syncMetaboxMetaToBlockEditor($authorsBox);
+	}
+
 	function bindAuthors() {
 		var $box = $('#revistalogos-core-relationships');
 		if (!$box.length || typeof wp === 'undefined' || !wp.apiFetch) {
@@ -241,26 +339,6 @@
 		$box.on('change', '#revistalogos-issue', function () {
 			syncMetaboxMetaToBlockEditor($box);
 		});
-
-		$('#revistalogos-core-fields').on(
-			'change',
-			'input, textarea, select',
-			function () {
-				syncMetaboxMetaToBlockEditor($box);
-			}
-		);
-
-		syncMetaboxMetaToBlockEditor($box);
-
-		document.addEventListener(
-			'click',
-			function (event) {
-				if (isBlockEditorSaveControl(event.target)) {
-					syncMetaboxMetaToBlockEditor($box);
-				}
-			},
-			true
-		);
 
 		function runSearch(query) {
 			var seq = ++requestSeq;
@@ -389,5 +467,6 @@
 	$(function () {
 		bindAuthors();
 		bindPdf();
+		bindJournalMetaSync();
 	});
 })(jQuery, window.wp);

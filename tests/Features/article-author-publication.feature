@@ -34,3 +34,9 @@ Característica: Metadatos del metabox en la publicación Gutenberg
     Dado el modelo de artículo en el editor de bloques
     Entonces autores, número y PDF forman parte de los metadatos editables
     Y una publicación con esos metadatos en la misma petición los deja guardados
+
+  Escenario: El PDF de un número no reescribe metadatos de artículo
+    Dado la pantalla de edición de un número en el editor de bloques
+    Cuando se selecciona o quita el PDF del número
+    Entonces la sincronización al store solo incluye metadatos del número
+    Y no envía autores ni la relación article→issue
