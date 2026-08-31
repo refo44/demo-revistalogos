@@ -170,6 +170,14 @@ grep -Fq "core/editor" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/ass
 	|| fail "author picker must sync assignments into the block editor store"
 grep -Fq "editPost" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
 	|| fail "author picker must copy authors into edited post meta before REST publish"
+grep -Fq "syncMetaboxMetaToBlockEditor" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
+	|| fail "metabox must sync all journal meta keys into the block editor store"
+grep -Fq "pdf_file" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
+	|| fail "metabox sync must include pdf_file for REST publish with enforcement"
+grep -Eq "meta:\s*\{[^}]*issue|issue:" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
+	|| grep -Fq "name=\"issue\"" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
+	|| grep -Fq "collectMetaboxMeta" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
+	|| fail "metabox sync must collect issue for REST publish"
 if grep -Eq "use_block_editor_for_post_type" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/class-plugin.php"; then
 	fail "plugin must not register use_block_editor_for_post_type"
 fi

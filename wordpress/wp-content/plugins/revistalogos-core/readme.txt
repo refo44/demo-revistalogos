@@ -40,12 +40,12 @@ la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
 
 = 0.2.10 =
 * Gutenberg REST publish of a draft Article now receives and persists
-  the authors assigned in the picker in the same request (issue #30).
-  Two gaps: (1) Article CPT lacked `custom-fields` support so REST did
-  not expose or save `meta`; (2) the picker only wrote classic metabox
-  inputs, so Gutenberg sent status/content without `meta.authors`.
-  The published-author guard is unchanged. Classic metabox save is
-  unchanged.
+  classic metabox meta in the same request (issue #30): authors, issue,
+  pdf_file and the other journal field-box keys. Two gaps: (1) Article
+  CPT lacked `custom-fields` so REST did not expose or save `meta`;
+  (2) the classic metabox only wrote form inputs, so Gutenberg sent
+  status/content without meta. The published-author guard is unchanged.
+  Classic metabox save remains the secondary path.
 
 = 0.2.9 =
 * Professional editorial design for the generated Article PDF

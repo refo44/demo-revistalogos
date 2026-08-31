@@ -150,10 +150,10 @@ class ArticleAuthorPublicationRestTest extends WP_UnitTestCase {
 
 	/**
 	 * Dado: el esquema REST del CPT article.
-	 * Entonces: incluye la propiedad meta.authors (sin ella Gutenberg
-	 * no puede enviar ni leer la asignación).
+	 * Entonces: incluye autores, número y PDF (sin ellos Gutenberg
+	 * no puede enviar ni leer la asignación del metabox).
 	 */
-	public function test_article_rest_schema_exposes_authors_meta() {
+	public function test_article_rest_schema_exposes_authors_issue_and_pdf_meta() {
 		$controller = new WP_REST_Posts_Controller( 'article' );
 		$schema     = $controller->get_item_schema();
 		$meta_props = isset( $schema['properties']['meta']['properties'] ) && is_array( $schema['properties']['meta']['properties'] )
@@ -162,12 +162,73 @@ class ArticleAuthorPublicationRestTest extends WP_UnitTestCase {
 
 		$this->assertArrayHasKey( 'meta', $schema['properties'] );
 		$this->assertSame( 'object', $schema['properties']['meta']['type'] );
-		$this->assertContains(
-			'authors',
-			$meta_props,
-			'REST item schema must expose meta.authors; got: ' . wp_json_encode( $meta_props )
-		);
+		foreach ( array( 'authors', 'issue', 'pdf_file', 'title_en', 'abstract' ) as $key ) {
+			$this->assertContains(
+				$key,
+				$meta_props,
+				'REST item schema must expose meta.' . $key . '; got: ' . wp_json_encode( $meta_props )
+			);
+		}
 		$this->assertSame( 'array', $schema['properties']['meta']['properties']['authors']['type'] );
+	}
+
+	/**
+	 * Dado: borrador con autor, sin número ni PDF almacenados.
+	 * Cuando: se publica por REST con meta.issue y meta.pdf_file en la
+	 *         misma petición (forma Gutenberg tras sincronizar el metabox).
+	 * Entonces: número y PDF permanecen asignados.
+	 */
+	public function test_rest_publish_persists_issue_and_pdf_from_same_request_meta() {
+		$editor = self::factory()->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $editor );
+
+		$author_id = self::factory()->post->create(
+			array(
+				'post_type'   => 'author',
+				'post_title'  => 'Author For Meta Sync',
+				'post_status' => 'publish',
+				'post_author' => $editor,
+			)
+		);
+		$issue_id = self::factory()->post->create(
+			array(
+				'post_type'   => 'issue',
+				'post_title'  => 'Vol. QA N.º 1',
+				'post_status' => 'publish',
+				'post_author' => $editor,
+			)
+		);
+		$article_id = self::factory()->post->create(
+			array(
+				'post_type'    => 'article',
+				'post_title'   => 'Draft with issue and PDF in same request',
+				'post_status'  => 'draft',
+				'post_content' => 'body',
+				'post_author'  => $editor,
+			)
+		);
+		$pdf_id = $this->make_pdf_attachment( $article_id, 'qa-same-request' );
+
+		$response = $this->rest_update_article(
+			$article_id,
+			array(
+				'status' => 'publish',
+				'meta'   => array(
+					'authors'  => array( (int) $author_id ),
+					'issue'    => (int) $issue_id,
+					'pdf_file' => (int) $pdf_id,
+					'title_en' => 'Same-request English title',
+				),
+			)
+		);
+		$data = $response->get_data();
+
+		$this->assertFalse( $response->is_error(), wp_json_encode( $data ) );
+		$this->assertSame( 'publish', get_post_status( $article_id ) );
+		$this->assertSame( (int) $issue_id, (int) get_post_meta( $article_id, 'issue', true ) );
+		$this->assertSame( (int) $pdf_id, (int) get_post_meta( $article_id, 'pdf_file', true ) );
+		$this->assertSame( 'Same-request English title', (string) get_post_meta( $article_id, 'title_en', true ) );
+		$this->assertSame( array( (int) $author_id ), Relationships::sanitize_author_ids( get_post_meta( $article_id, 'authors', true ) ) );
 	}
 
 	/**
@@ -183,5 +244,32 @@ class ArticleAuthorPublicationRestTest extends WP_UnitTestCase {
 		}
 
 		return rest_do_request( $request );
+	}
+
+	/**
+	 * Minimal application/pdf attachment accepted by sanitize_pdf_attachment_id.
+	 *
+	 * @param int    $parent_id Parent post ID.
+	 * @param string $slug      Filename stem.
+	 * @return int
+	 */
+	private function make_pdf_attachment( $parent_id, $slug ) {
+		$upload = wp_upload_bits( $slug . '.pdf', null, "%PDF-1.4\n%QA-issue-30\n" );
+		$this->assertEmpty( $upload['error'] ?? '', wp_json_encode( $upload ) );
+
+		$attachment_id = wp_insert_attachment(
+			array(
+				'post_mime_type' => 'application/pdf',
+				'post_title'     => $slug,
+				'post_status'    => 'inherit',
+				'post_parent'    => (int) $parent_id,
+			),
+			$upload['file'],
+			(int) $parent_id
+		);
+		$this->assertFalse( is_wp_error( $attachment_id ) );
+		$this->assertGreaterThan( 0, (int) $attachment_id );
+
+		return (int) $attachment_id;
 	}
 }
