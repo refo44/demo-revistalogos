@@ -52,6 +52,91 @@
 		);
 		$box.find('.revistalogos-authors-assigned').append($item);
 		updateAuthorsEmpty($box);
+		syncAuthorsToBlockEditor($box);
+	}
+
+	/**
+	 * Gutenberg publishes via REST before the classic metabox POST.
+	 * Hidden authors[] inputs are not in that payload unless they are
+	 * copied into the edited post meta store (issue #30).
+	 */
+	function storeAuthorIds() {
+		if (typeof wp === 'undefined' || !wp.data || typeof wp.data.select !== 'function') {
+			return null;
+		}
+
+		var select;
+		try {
+			select = wp.data.select('core/editor');
+		} catch (err) {
+			return null;
+		}
+
+		if (!select || typeof select.getEditedPostAttribute !== 'function') {
+			return null;
+		}
+
+		var meta = select.getEditedPostAttribute('meta');
+		if (!meta || !Array.isArray(meta.authors)) {
+			return [];
+		}
+
+		return meta.authors.map(function (id) {
+			return parseInt(id, 10);
+		}).filter(function (id) {
+			return id > 0;
+		});
+	}
+
+	function authorIdsEqual(left, right) {
+		if (!left || !right || left.length !== right.length) {
+			return false;
+		}
+		for (var i = 0; i < left.length; i++) {
+			if (left[i] !== right[i]) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	function syncAuthorsToBlockEditor($box) {
+		if (typeof wp === 'undefined' || !wp.data || typeof wp.data.dispatch !== 'function') {
+			return;
+		}
+
+		var dispatch;
+		try {
+			dispatch = wp.data.dispatch('core/editor');
+		} catch (err) {
+			return;
+		}
+
+		if (!dispatch || typeof dispatch.editPost !== 'function') {
+			return;
+		}
+
+		var assigned = selectedIds($box);
+		var stored = storeAuthorIds();
+		if (stored && authorIdsEqual(stored, assigned)) {
+			return;
+		}
+
+		dispatch.editPost({
+			meta: {
+				authors: assigned
+			}
+		});
+	}
+
+	function isBlockEditorSaveControl(target) {
+		if (!target || typeof target.closest !== 'function') {
+			return false;
+		}
+
+		return !!target.closest(
+			'.editor-post-publish-button, .editor-post-publish-panel__toggle, .editor-post-save-draft, .editor-post-publish-panel__header-publish-button, .editor-post-publish-button__button'
+		);
 	}
 
 	function bindAuthors() {
@@ -77,7 +162,20 @@
 			event.preventDefault();
 			$(this).closest('li').remove();
 			updateAuthorsEmpty($box);
+			syncAuthorsToBlockEditor($box);
 		});
+
+		syncAuthorsToBlockEditor($box);
+
+		document.addEventListener(
+			'click',
+			function (event) {
+				if (isBlockEditorSaveControl(event.target)) {
+					syncAuthorsToBlockEditor($box);
+				}
+			},
+			true
+		);
 
 		function runSearch(query) {
 			var seq = ++requestSeq;

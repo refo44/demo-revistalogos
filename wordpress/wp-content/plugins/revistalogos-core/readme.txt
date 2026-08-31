@@ -3,7 +3,7 @@ Contributors: cenfiss
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.2.9
+Stable tag: 0.2.10
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,15 @@ Fase 3: los campos `issn`, `doi` y `orcid` son almacenamiento base inerte;
 la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
 
 == Changelog ==
+
+= 0.2.10 =
+* Gutenberg REST publish of a draft Article now receives and persists
+  the authors assigned in the picker in the same request (issue #30).
+  Two gaps: (1) Article CPT lacked `custom-fields` support so REST did
+  not expose or save `meta`; (2) the picker only wrote classic metabox
+  inputs, so Gutenberg sent status/content without `meta.authors`.
+  The published-author guard is unchanged. Classic metabox save is
+  unchanged.
 
 = 0.2.9 =
 * Professional editorial design for the generated Article PDF

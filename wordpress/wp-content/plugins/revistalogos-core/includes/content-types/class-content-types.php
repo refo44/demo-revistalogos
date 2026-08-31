@@ -55,7 +55,7 @@ class Content_Types {
 				'public'       => true,
 				'show_in_rest' => true,
 				'menu_icon'    => 'dashicons-book',
-				'supports'     => array( 'title', 'editor', 'thumbnail' ),
+				'supports'     => array( 'title', 'editor', 'thumbnail', 'custom-fields' ),
 				'has_archive'  => true,
 				'rewrite'      => array(
 					'slug'       => 'revista/numeros',
@@ -87,7 +87,7 @@ class Content_Types {
 				'public'       => true,
 				'show_in_rest' => true,
 				'menu_icon'    => 'dashicons-media-document',
-				'supports'     => array( 'title', 'editor', 'excerpt', 'thumbnail' ),
+				'supports'     => array( 'title', 'editor', 'excerpt', 'thumbnail', 'custom-fields' ),
 				'has_archive'  => true,
 				'rewrite'      => array(
 					'slug'       => 'revista/articulos',
@@ -119,7 +119,7 @@ class Content_Types {
 				'public'       => true,
 				'show_in_rest' => true,
 				'menu_icon'    => 'dashicons-groups',
-				'supports'     => array( 'title', 'thumbnail' ),
+				'supports'     => array( 'title', 'thumbnail', 'custom-fields' ),
 				'has_archive'  => true,
 				'query_var'    => self::AUTHOR_QUERY_VAR,
 				'rewrite'      => array(

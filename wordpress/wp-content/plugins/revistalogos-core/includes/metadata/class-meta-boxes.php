@@ -234,7 +234,7 @@ class Meta_Boxes {
 		}
 
 		echo '</ul>';
-		echo '<p class="description">' . esc_html__( 'Busca y asigna uno o más autores. Un artículo publicado necesita al menos un autor publicado. No se asigna ninguno por defecto. Guarda el artículo después de asignar autores y luego publícalo.', 'revistalogos-core' ) . '</p>';
+		echo '<p class="description">' . esc_html__( 'Busca y asigna uno o más autores. Un artículo publicado necesita al menos un autor publicado. No se asigna ninguno por defecto.', 'revistalogos-core' ) . '</p>';
 		echo '</fieldset>';
 
 		$issues = get_posts(
@@ -437,10 +437,16 @@ class Meta_Boxes {
 			array(),
 			REVISTALOGOS_CORE_VERSION
 		);
+
+		$script_deps = array( 'jquery', 'wp-api-fetch' );
+		if ( $screen->is_block_editor() ) {
+			$script_deps[] = 'wp-data';
+		}
+
 		wp_enqueue_script(
 			'revistalogos-core-admin-meta',
 			REVISTALOGOS_CORE_URL . 'assets/js/admin-meta.js',
-			array( 'jquery', 'wp-api-fetch' ),
+			$script_deps,
 			REVISTALOGOS_CORE_VERSION,
 			true
 		);
