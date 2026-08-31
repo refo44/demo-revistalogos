@@ -191,6 +191,10 @@ grep -Fq "'wp-editor'" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/inc
 	|| fail "block editor screens must enqueue wp-editor so core/editor exists before metabox sync"
 grep -Fq "'custom-fields'" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/content-types/class-content-types.php" \
 	|| fail "article CPT must support custom-fields for REST meta.authors"
+# One supports entry per journal CPT (article, issue, author).
+custom_fields_count="$(grep -c "'custom-fields'" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/content-types/class-content-types.php" || true)"
+[[ "$custom_fields_count" -ge 3 ]] \
+	|| fail "article, issue and author CPTs must all support custom-fields for REST meta"
 if [[ -f "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/fixtures/class-bootstrap-admin.php" ]]; then
 	fail "Bootstrap_Admin file must be absent"
 fi

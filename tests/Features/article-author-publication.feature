@@ -34,6 +34,7 @@ Característica: Metadatos del metabox en la publicación Gutenberg
     Dado el modelo de artículo en el editor de bloques
     Entonces autores, número y PDF forman parte de los metadatos editables
     Y una publicación con esos metadatos en la misma petición los deja guardados
+    Y article, issue y author soportan custom-fields para exponer meta por REST
 
   Escenario: El PDF de un número no reescribe metadatos de artículo
     Dado la pantalla de edición de un número en el editor de bloques

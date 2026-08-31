@@ -36,15 +36,17 @@ class ArticleAuthorPublicationRestTest extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Dado: el CPT article debe exponer meta por REST.
-	 * Entonces: soporta custom-fields (requisito de WordPress para
-	 * incluir la propiedad meta en el esquema del CPT).
+	 * Dado: los CPT del journal deben exponer meta por REST.
+	 * Entonces: article, issue y author soportan custom-fields
+	 * (requisito de WordPress para incluir la propiedad meta).
 	 */
-	public function test_article_cpt_supports_custom_fields_for_rest_meta() {
-		$this->assertTrue(
-			post_type_supports( 'article', 'custom-fields' ),
-			'article must support custom-fields so REST exposes and persists meta.authors'
-		);
+	public function test_journal_cpts_support_custom_fields_for_rest_meta() {
+		foreach ( array( 'article', 'issue', 'author' ) as $post_type ) {
+			$this->assertTrue(
+				post_type_supports( $post_type, 'custom-fields' ),
+				$post_type . ' must support custom-fields so REST exposes and persists meta'
+			);
+		}
 	}
 
 	/**
