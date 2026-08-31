@@ -440,7 +440,9 @@ class Meta_Boxes {
 
 		$script_deps = array( 'jquery', 'wp-api-fetch' );
 		if ( $screen->is_block_editor() ) {
+			// wp-editor registers the core/editor store used by admin-meta.js.
 			$script_deps[] = 'wp-data';
+			$script_deps[] = 'wp-editor';
 		}
 
 		wp_enqueue_script(

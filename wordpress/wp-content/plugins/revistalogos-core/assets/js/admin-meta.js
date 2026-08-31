@@ -55,9 +55,6 @@
 		if (!$input.length) {
 			return null;
 		}
-		if ($input.is('select') || $input.is('textarea') || $input.is(':text') || $input.is(':hidden') || $input.attr('type') === 'date' || $input.attr('type') === 'number' || $input.attr('type') === 'search') {
-			return $input.val();
-		}
 		return $input.val();
 	}
 

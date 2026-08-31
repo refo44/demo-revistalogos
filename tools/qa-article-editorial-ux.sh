@@ -183,6 +183,8 @@ if grep -Eq "use_block_editor_for_post_type" "$ROOT/wordpress/wp-content/plugins
 fi
 grep -Fq "'wp-data'" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/metadata/class-meta-boxes.php" \
 	|| fail "block editor screens must enqueue wp-data for author meta sync"
+grep -Fq "'wp-editor'" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/metadata/class-meta-boxes.php" \
+	|| fail "block editor screens must enqueue wp-editor so core/editor exists before metabox sync"
 grep -Fq "'custom-fields'" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/content-types/class-content-types.php" \
 	|| fail "article CPT must support custom-fields for REST meta.authors"
 if [[ -f "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/fixtures/class-bootstrap-admin.php" ]]; then
