@@ -195,6 +195,12 @@ grep -Fq "'custom-fields'" "$ROOT/wordpress/wp-content/plugins/revistalogos-core
 custom_fields_count="$(grep -c "'custom-fields'" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/content-types/class-content-types.php" || true)"
 [[ "$custom_fields_count" -ge 3 ]] \
 	|| fail "article, issue and author CPTs must all support custom-fields for REST meta"
+# Domain eval must exit non-zero when qa_ok fails (not a stale local $fail).
+grep -Fq "exit( ! empty( \$GLOBALS['fail'] ) ? 1 : 0 );" "$ROOT/tools/qa-article-editorial-ux.sh" \
+	|| fail "domain eval must exit using \$GLOBALS['fail'] so FAIL_COUNT is not a soft signal only"
+if grep -Eq 'exit\( \$fail \? 1 : 0 \);' "$ROOT/tools/qa-article-editorial-ux.sh"; then
+	fail "domain eval must not exit on a stale \$fail local"
+fi
 if [[ -f "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/fixtures/class-bootstrap-admin.php" ]]; then
 	fail "Bootstrap_Admin file must be absent"
 fi
@@ -279,16 +285,15 @@ function qa_render_fields( $post_id ) {
 	return ob_get_clean();
 }
 
-$fail = 0;
+$GLOBALS['fail'] = 0;
 function qa_ok( $cond, $label ) {
 	if ( $cond ) {
 		echo "PASS $label\n";
 	} else {
 		echo "FAIL $label\n";
-		$GLOBALS['fail'] = isset( $GLOBALS['fail'] ) ? ( (int) $GLOBALS['fail'] + 1 ) : 1;
+		$GLOBALS['fail'] = (int) $GLOBALS['fail'] + 1;
 	}
 }
-$GLOBALS['fail'] = 0;
 
 $html2 = qa_render_rel( $article2->ID );
 qa_ok( false !== strpos( $html2, 'Ningún autor asignado' ), 'empty authors shows Ningún autor asignado' );
@@ -610,7 +615,7 @@ echo 'ARTICLE2=' . $article2->ID . "\n";
 echo 'MULTI=' . $multi_id . "\n";
 echo 'REAL_PDF=' . $real_pdf . "\n";
 echo 'RAFAEL=' . $rafael->ID . "\n";
-exit( $fail ? 1 : 0 );
+exit( ! empty( $GLOBALS['fail'] ) ? 1 : 0 );
 PHP
 cli eval-file wp-content/plugins/revistalogos-core/.qa-editorial-ux-eval.php >"$TMP/domain.txt" 2>"$TMP/domain.err"
 rm -f "$EVAL_HOST"
