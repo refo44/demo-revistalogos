@@ -8,6 +8,20 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Fixed
+- Plugin `revistalogos-core` 0.2.10: publicar un artículo en borrador
+  desde Gutenberg ya no falla cuando el autor publicado está asignado
+  en el picker ([#30](https://github.com/refo44/demo-revistalogos/issues/30)).
+  Dos huecos: el CPT `article` no declaraba soporte `custom-fields`,
+  así que REST no exponía ni persistía `meta`; y el picker/metabox
+  solo escribía inputs clásicos, así que Gutenberg enviaba `status` +
+  `content` sin `meta`. El metabox ahora copia autores, número,
+  `pdf_file` y el resto de campos de revista al store `core/editor`.
+  El guard de autor publicado no se relaja. Regresión: Gherkin
+  `tests/Features/article-author-publication.feature`, PHPUnit
+  WordPress `ArticleAuthorPublicationRestTest` (`composer test:wp`) y
+  `tools/qa-article-editorial-ux.sh`.
+
 ### Added
 - SonarQube Cloud Automatic Analysis scope: `.sonarcloud.properties`
   (plugin `revistalogos-core` + theme `revistalogos`; `tests/` as tests).

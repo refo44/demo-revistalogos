@@ -144,9 +144,9 @@ cli rewrite structure '/%postname%/' --hard >/dev/null
 
 PLUGIN_VERSION="$(cli eval 'echo REVISTALOGOS_CORE_VERSION;')"
 THEME_VERSION="$(cli eval 'echo REVISTALOGOS_THEME_VERSION;')"
-[[ "$PLUGIN_VERSION" == "0.2.9" ]] || fail "expected plugin 0.2.9, got $PLUGIN_VERSION"
+[[ "$PLUGIN_VERSION" == "0.2.10" ]] || fail "expected plugin 0.2.10, got $PLUGIN_VERSION"
 [[ "$THEME_VERSION" == "0.2.1" ]] || fail "expected theme 0.2.1, got $THEME_VERSION"
-pass "plugin 0.2.9 and theme 0.2.1 active in isolated WordPress"
+pass "plugin 0.2.10 and theme 0.2.1 active in isolated WordPress"
 
 echo "== PHP syntax =="
 compose run --rm --entrypoint php wpcli -l wp-content/plugins/revistalogos-core/includes/metadata/class-meta-boxes.php >/dev/null
@@ -166,8 +166,40 @@ grep -Fq "per_page" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets
 	|| fail "author picker must bound per_page"
 grep -Fq "minLength" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
 	|| fail "author picker must enforce minLength"
+grep -Fq "core/editor" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
+	|| fail "author picker must sync assignments into the block editor store"
+grep -Fq "editPost" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
+	|| fail "author picker must copy authors into edited post meta before REST publish"
+grep -Fq "syncMetaboxMetaToBlockEditor" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
+	|| fail "metabox must sync all journal meta keys into the block editor store"
+grep -Eq "typenow|getCurrentPostType|post-type-" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
+	|| fail "metabox sync must detect post type so issue screens do not push article meta"
+grep -Fq "volume_number" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
+	|| fail "issue screens must sync issue meta keys (not article authors/issue)"
+grep -Fq "pdf_file" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
+	|| fail "metabox sync must include pdf_file for REST publish with enforcement"
+grep -Eq "meta:\s*\{[^}]*issue|issue:" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
+	|| grep -Fq "name=\"issue\"" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
+	|| grep -Fq "collectMetaboxMeta" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/assets/js/admin-meta.js" \
+	|| fail "metabox sync must collect issue for REST publish"
 if grep -Eq "use_block_editor_for_post_type" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/class-plugin.php"; then
 	fail "plugin must not register use_block_editor_for_post_type"
+fi
+grep -Fq "'wp-data'" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/metadata/class-meta-boxes.php" \
+	|| fail "block editor screens must enqueue wp-data for author meta sync"
+grep -Fq "'wp-editor'" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/metadata/class-meta-boxes.php" \
+	|| fail "block editor screens must enqueue wp-editor so core/editor exists before metabox sync"
+grep -Fq "'custom-fields'" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/content-types/class-content-types.php" \
+	|| fail "article CPT must support custom-fields for REST meta.authors"
+# One supports entry per journal CPT (article, issue, author).
+custom_fields_count="$(grep -c "'custom-fields'" "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/content-types/class-content-types.php" || true)"
+[[ "$custom_fields_count" -ge 3 ]] \
+	|| fail "article, issue and author CPTs must all support custom-fields for REST meta"
+# Domain eval must exit non-zero when qa_ok fails (not a stale local $fail).
+grep -Fq "exit( ! empty( \$GLOBALS['fail'] ) ? 1 : 0 );" "$ROOT/tools/qa-article-editorial-ux.sh" \
+	|| fail "domain eval must exit using \$GLOBALS['fail'] so FAIL_COUNT is not a soft signal only"
+if grep -Eq 'exit\( \$fail \? 1 : 0 \);' "$ROOT/tools/qa-article-editorial-ux.sh"; then
+	fail "domain eval must not exit on a stale \$fail local"
 fi
 if [[ -f "$ROOT/wordpress/wp-content/plugins/revistalogos-core/includes/fixtures/class-bootstrap-admin.php" ]]; then
 	fail "Bootstrap_Admin file must be absent"
@@ -253,13 +285,13 @@ function qa_render_fields( $post_id ) {
 	return ob_get_clean();
 }
 
-$fail = 0;
+$GLOBALS['fail'] = 0;
 function qa_ok( $cond, $label ) {
 	if ( $cond ) {
 		echo "PASS $label\n";
 	} else {
 		echo "FAIL $label\n";
-		$GLOBALS['fail']++;
+		$GLOBALS['fail'] = (int) $GLOBALS['fail'] + 1;
 	}
 }
 
@@ -532,6 +564,41 @@ $rest_ok = qa_rest_article( array(
 $rest_ok_data = $rest_ok->get_data();
 qa_ok( ! $rest_ok->is_error() && isset( $rest_ok_data['status'] ) && 'publish' === $rest_ok_data['status'], 'REST publication with valid author succeeds' );
 
+$same_session = wp_insert_post( array(
+	'post_type'    => 'article',
+	'post_title'   => 'QA Gutenberg same-session author',
+	'post_name'    => 'qa-gutenberg-same-session-author',
+	'post_status'  => 'draft',
+	'post_content' => 'draft',
+), true );
+qa_ok( array() === (array) get_post_meta( $same_session, 'authors', true ), 'gutenberg-shaped draft starts without stored authors' );
+$rest_same = qa_rest_article(
+	array(
+		'status' => 'publish',
+		'meta'   => array( 'authors' => array( (int) $rafael->ID ) ),
+	),
+	$same_session
+);
+$rest_same_data = $rest_same->get_data();
+qa_ok( ! $rest_same->is_error() && isset( $rest_same_data['status'] ) && 'publish' === $rest_same_data['status'], 'REST publish of draft with author in the same request succeeds' );
+qa_ok( Revistalogos_Core\Relationships::has_published_author( get_post_meta( $same_session, 'authors', true ) ), 'same-request REST author persists' );
+
+$stale_meta = wp_insert_post( array(
+	'post_type'    => 'article',
+	'post_title'   => 'QA Gutenberg stale meta authors',
+	'post_name'    => 'qa-gutenberg-stale-meta-authors',
+	'post_status'  => 'draft',
+	'post_content' => 'draft',
+), true );
+$rest_stale = qa_rest_article(
+	array(
+		'status'  => 'publish',
+		'content' => 'published body',
+	),
+	$stale_meta
+);
+qa_ok( $rest_stale->is_error() || (int) $rest_stale->get_status() >= 400, 'REST publish without meta.authors and without stored authors is refused' );
+
 if ( ! $rest_draft->is_error() && ! empty( $rest_draft_data['id'] ) ) {
 	$saved_id = (int) $rest_draft_data['id'];
 	update_post_meta( $saved_id, 'authors', array( (int) $rafael->ID ) );
@@ -542,13 +609,13 @@ if ( ! $rest_draft->is_error() && ! empty( $rest_draft_data['id'] ) ) {
 	qa_ok( false, 'publication with saved valid author succeeds' );
 }
 
-echo 'FAIL_COUNT=' . $fail . "\n";
+echo 'FAIL_COUNT=' . (int) $GLOBALS['fail'] . "\n";
 echo 'ARTICLE1=' . $article1->ID . "\n";
 echo 'ARTICLE2=' . $article2->ID . "\n";
 echo 'MULTI=' . $multi_id . "\n";
 echo 'REAL_PDF=' . $real_pdf . "\n";
 echo 'RAFAEL=' . $rafael->ID . "\n";
-exit( $fail ? 1 : 0 );
+exit( ! empty( $GLOBALS['fail'] ) ? 1 : 0 );
 PHP
 cli eval-file wp-content/plugins/revistalogos-core/.qa-editorial-ux-eval.php >"$TMP/domain.txt" 2>"$TMP/domain.err"
 rm -f "$EVAL_HOST"
@@ -591,6 +658,22 @@ code="$(curl -sS -o "$TMP/rest-with-author.json" -w '%{http_code}' \
 	"${BASE_URL}/wp-json/wp/v2/article")"
 [[ "$code" == "201" ]] || fail "expected 201 REST publish with author, got ${code}: $(cat "$TMP/rest-with-author.json")"
 pass "HTTP REST publication with valid author succeeds"
+
+code="$(curl -sS -o "$TMP/rest-draft.json" -w '%{http_code}' \
+	-u "${ADMIN_USER}:${APP_PASS}" \
+	-H 'Content-Type: application/json' \
+	-d '{"title":"HTTP REST same-session draft","status":"draft","content":"x"}' \
+	"${BASE_URL}/wp-json/wp/v2/article")"
+[[ "$code" == "201" ]] || fail "expected 201 REST draft, got ${code}: $(cat "$TMP/rest-draft.json")"
+DRAFT_ID="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("id",""))' "$TMP/rest-draft.json")"
+[[ "$DRAFT_ID" =~ ^[0-9]+$ ]] || fail "missing draft id from REST draft create"
+code="$(curl -sS -o "$TMP/rest-same-session.json" -w '%{http_code}' \
+	-u "${ADMIN_USER}:${APP_PASS}" \
+	-H 'Content-Type: application/json' \
+	-d "{\"status\":\"publish\",\"meta\":{\"authors\":[${RAFAEL_ID}]}}" \
+	"${BASE_URL}/wp-json/wp/v2/article/${DRAFT_ID}")"
+[[ "$code" == "200" ]] || fail "expected 200 REST publish of draft with author in the same request, got ${code}: $(cat "$TMP/rest-same-session.json")"
+pass "HTTP REST publish of draft with author in the same request succeeds"
 
 echo "== HTTP regression =="
 A1_URL="$(cli post url "$ARTICLE1_ID")"

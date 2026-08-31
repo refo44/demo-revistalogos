@@ -22,3 +22,8 @@ ADR 0017 lives in `article-pdf-generation.feature` (business
 specification only; no Behat). Scenarios cover enforcement OFF
 (publish without PDF remains allowed) and ON (keep, generate, or
 block). Do not mention classes, hooks, or renderer internals.
+
+Issue #30 (Gutenberg publish + published author) lives in
+`article-author-publication.feature`. PHPUnit WordPress
+`ArticleAuthorPublicationRestTest` (`composer test:wp`) and
+`tools/qa-article-editorial-ux.sh` execute that contract.

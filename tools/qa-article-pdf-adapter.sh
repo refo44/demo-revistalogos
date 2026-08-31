@@ -76,8 +76,8 @@ cli theme activate revistalogos >/dev/null
 cli plugin activate revistalogos-core >/dev/null
 
 PLUGIN_VERSION="$(cli eval 'echo REVISTALOGOS_CORE_VERSION;')"
-[[ "$PLUGIN_VERSION" == "0.2.9" ]] || fail "expected plugin 0.2.9, got $PLUGIN_VERSION"
-pass "plugin 0.2.9 active in isolated WordPress"
+[[ "$PLUGIN_VERSION" == "0.2.10" ]] || fail "expected plugin 0.2.10, got $PLUGIN_VERSION"
+pass "plugin 0.2.10 active in isolated WordPress"
 
 echo "== adapter publication PDF decisions =="
 cat >"$EVAL_HOST" <<'PHP'
