@@ -128,6 +128,10 @@ Estado en el repo: `.github/workflows/deploy.yml` («Deploy to Hostinger») **el
   `test.yml` exigiría apagar Automatic Analysis y un `SONAR_TOKEN`; no se
   añade. Detalle: `docs/23-testing-foundation.md`.
 
+### Añadidas el 2026-08-31
+
+- **PDF de número (intención, no implementación):** el propietario quiere un PDF integral del número como objeto de revista (no una pila de separatas), a **color**, con identidad institucional (LOGO ET SPES + CENFISS), estructura de libro (preliminares, cuerpo interno, cierre) y controles en wp-admin (cubierta como archivo A4, generar explícito, no pisar el PDF de imprenta). La paleta oficial **aún no está entregada**: no tratar ningún hex de maqueta como marca; en código y docs, solo etiquetas (`primary`, `text`, `link`, fondos). FSE (ADR 0015) sigue siendo la vía para cambiar colores del **sitio** en Estilos. La separata de artículo permanece en escala de grises (ítem 3). Cubierta y contraportada pueden maquetarse fuera (InDesign, Publisher, Canva, Scribus) y subirse a Media Library. ADR propio; no mezclar con WU7. Alcance registrado en [ítem 5](#5-pdf-de-número--número-completo). → [ADR 0017](0017-generacion-automatica-pdf-articulo.md) §7.
+
 ---
 
 ## Orden sugerido
@@ -237,7 +241,31 @@ Cierre: As-Is/To-Be rellenados; go / no-go / go con snap al cerrar. Si go, WU ap
 
 #### 5. PDF de número / número completo
 
-**Estado:** DEFERRED. [ADR 0017](0017-generacion-automatica-pdf-articulo.md) §7 (fuera de v1) y D17. Ítem de backlog o ADR **aparte**. No inferir comportamiento. **No** mezclar con WU7.
+**Estado:** DEFERRED. **No iniciado.** Issue: [#33](https://github.com/refo44/demo-revistalogos/issues/33). [ADR 0017](0017-generacion-automatica-pdf-articulo.md) §7 (fuera de v1) y D17. Exige **ADR propio** (no reabrir 0017). **No** mezclar con WU7 (ítem 4). WU7 va antes: Generate/Regenerate de artículo consume la plantilla de separata. El compositor del número lee `issue` + artículos publicados + `pdf_file` del issue **sin** cambiar ese contrato (ADR 0017 §7). Dominio en `revistalogos-core` (ADR 0005). Theme/FSE solo **consumen** `pdf_file`; no generan. Sin backfill al activar o actualizar. No implementar ahora.
+
+Intención de propietario (2026-08-31). Criterio de aceptación visual: mockups **antes** de código, igual que el ítem 3.
+
+**Género.** Un número es un libro corto, no un concatenado de separatas. El HTML del sitio (botones, migas, CTA) no entra en el PDF.
+
+**Estructura (tres bloques).**
+
+Preliminares: cubierta; verso o página de respeto; portadilla (nombre canónico *Revista de Filosofía LOGO ET SPES*, Vol./N.º/año, CENFISS como editor); créditos legales (ISSN, depósito legal, copyright, CC BY 4.0, contacto); sumario tipográfico (género + título + autores + páginas *de ese PDF*; el campo `pages` del artículo sigue siendo dato de papel).
+
+Cuerpo (páginas internas, no solo el índice): portadilla de género cuando exista contenido (EDITORIAL, ARTÍCULOS, ENSAYOS, RESEÑAS) — no inventar secciones vacías; editorial con maqueta propia (sin aparato de paper; aquí empieza la numeración árabe); cada artículo/ensayo/reseña en página nueva, **sin** el masthead completo de la separata (encabezado corriente mínimo); reseña abre con ficha de la obra, no con abstract de artículo; bibliografía dentro de cada pieza.
+
+Cierre: Sobre los autores (bios del número); consejo editorial breve; normas/ética **versión corta** (no volcar las páginas del sitio); licencia; colofón; contraportada.
+
+**Color e identidad.** El PDF del **número es a color**. La separata de artículo permanece en escala de grises (ítem 3). Ningún hex de maqueta es oficial; paleta solo por etiquetas (`primary`, `text`, `link`, fondos) hasta que el manual impreso / Estilos FSE existan. Cubierta y contraportada: color pleno (arte o, más adelante, `primary` de Estilos). Interior: `text` + acentos discretos de `primary`; no tokens de UI (`link`, `highlight` de botón). Dos marcas: sello LOGO ET SPES y sello CENFISS **oficiales** (no el placeholder web de CENFISS). Intensidad alta en cubierta/contraportada/portadilla; media en créditos; baja en el cuerpo (texto de encabezado, no logo repetido). Metadatos del archivo y nombre `logo-et-spes-volX-nY-año.pdf`. Identificadores ausentes: «en trámite», nunca un valor falso (ADR 0004).
+
+**Admin (no un diseñador en el lienzo).** Cubierta (y contraportada) como adjunto A4 en Media Library, distinto o reutilizado respecto a la imagen destacada de la web; vista previa a proporción A4; aviso si la imagen no sirve para impresión. Acción explícita Generar / Regenerar en el issue; no al publicar; no pisar un `pdf_file` de imprenta válido sin confirmación. Ajustes de revista (una vez): sellos, nombre canónico, ISSN/depósito legal, colofón, textos breves de cierre. En el issue: título temático del número si existe; orden del sumario; casillas de qué bloques de cierre van en *este* PDF. El editor **no** elige fuente, márgenes ni paleta. Cuerpos y bios se leen de los CPT publicados.
+
+**Taller gráfico (fuera de WordPress).** Cubierta, contraportada y, si hace falta, portadilla se maquetan en InDesign, Publisher, Canva o Scribus y se exportan a Media Library. Esas herramientas **no** son plugins ni un servicio llamado por PHP. Canva no maqueta el tomo completo. El integral de imprenta, si se sube a mano, sigue siendo válido.
+
+**Mockups mínimos antes de implementar:** cubierta; portadilla; créditos; sumario; portadilla de sección; arranque de editorial; arranque de artículo *dentro del número*; arranque de reseña; Sobre los autores; colofón. Slots de color, no hex de maqueta.
+
+**Motor.** Interiores con el stack actual (HTML de plantilla + Dompdf), familia filológica coherente con la separata. No cambiar de motor salvo prueba de insuficiencia. Colas asíncronas fuera de alcance (ADR 0017 §7). Generación síncrona explícita; un número largo puede fallar por tiempo/memoria — el fallo no corrompe el issue.
+
+**Fuera de este ítem.** Lienzo libre tipo Canva en wp-admin; tipografía configurable; sustituir el PDF de papel por el generado como facsímil; FSE; WU7; backfill; PDF/A o PDF/UA.
 
 #### 6. Procedencia / linaje de versión del PDF
 
