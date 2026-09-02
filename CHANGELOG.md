@@ -8,6 +8,14 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Changed
+- Backlog ítem 5 (PDF de número): registra la intención de propietario
+  del 2026-08-31 (objeto a color, estructura de revista, identidad
+  institucional, cubierta como archivo, paleta solo por etiquetas).
+  Sigue DEFERRED; ADR propio; no se implementa
+  ([#33](https://github.com/refo44/demo-revistalogos/issues/33)).
+  Separata de artículo en gris sin cambio.
+
 ## [0.3.1] — 2026-08-31
 
 Release etiquetado para FTPS de producción (ADR 0020). Incluye el fix
