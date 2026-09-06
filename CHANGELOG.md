@@ -9,6 +9,10 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Changed
+- Home hero: banner letter-free (same landscape, cropped to 1714×356)
+  and the description drops the redundant `LOGO ET SPES` already in the
+  title. Theme **0.2.2**. Owner-directed copy
+  ([#40](https://github.com/refo44/demo-revistalogos/issues/40)).
 - Backlog ítem 5 (PDF de número): registra la intención de propietario
   del 2026-08-31 (objeto a color, estructura de revista, identidad
   institucional, cubierta como archivo, paleta solo por etiquetas).
