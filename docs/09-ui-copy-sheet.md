@@ -57,7 +57,7 @@ Botones, menús, mensajes, formularios y estados. Criterios de voz en `07-voice-
 
 - **Título:** LOGO ET SPES
 - **Subtítulo:** Revista de Filosofía
-- **Descripción:** La Revista de Filosofía LOGO ET SPES adscrita, auspiciada y editada por el Centro de Filosofía para la Investigación \<Stanislao Strba\> \- CENFISS, es una publicación digital venezolana enfocada en el pensamiento filosófico multidisciplinar. Es de acceso abierto; arbitrada bajo la modalidad \<doble anónimo o doble ciego\>; con periodicidad anual. Sus páginas están disponibles para difundir investigaciones originales \-de autores nacionales e internacionales- que coadyuven a promover el desarrollo de todas las áreas de la Filosofía.
+- **Descripción:** La Revista de Filosofía adscrita, auspiciada y editada por el Centro de Filosofía para la Investigación \<Stanislao Strba\> \- CENFISS, es una publicación digital venezolana enfocada en el pensamiento filosófico multidisciplinar. Es de acceso abierto; arbitrada bajo la modalidad \<doble anónimo o doble ciego\>; con periodicidad anual. Sus páginas están disponibles para difundir investigaciones originales \-de autores nacionales e internacionales- que coadyuven a promover el desarrollo de todas las áreas de la Filosofía.
 - **Botón:** Ver número actual
 
 ### Sidebar (Noticias)
