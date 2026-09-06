@@ -158,9 +158,10 @@ Trabajo **ya aceptado** y **no iniciado** (o no cerrado en producción). No es u
 
 #### 0. Home hero — banner sin letras y párrafo sin nombre repetido
 
-**Estado:** en rama `fix/home-hero-banner-copy` ([issue #40](https://github.com/refo44/demo-revistalogos/issues/40)).
-
-Sustituir `banner-main.jpg` por el mismo paisaje sin «LOGO ET SPES» pintado, recortado a 1714×356. Conservar el `h1` del hero. Quitar solo esas dos palabras del párrafo de descripción (`docs/09` y `front-page.php`).
+**Estado:** ✅ **COMPLETADO Y EN `main`.** Mergeado el 2026-09-05 por
+[PR #41](https://github.com/refo44/demo-revistalogos/pull/41);
+[issue #40](https://github.com/refo44/demo-revistalogos/issues/40) cerrado.
+Se publica en **theme 0.2.2 / proyecto v0.3.2**. Plugin sin cambio.
 
 #### 1. Checkpoint de producción — plugin 0.2.8
 

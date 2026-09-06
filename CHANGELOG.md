@@ -8,6 +8,14 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+## [0.3.2] — 2026-09-05
+
+Release etiquetado para FTPS de producción (ADR 0020). Incluye el
+hero de portada ([#40](https://github.com/refo44/demo-revistalogos/issues/40)
+/[#41](https://github.com/refo44/demo-revistalogos/pull/41), theme
+`revistalogos` **0.2.2**) y el resto de `main` acumulado desde
+`v0.3.1`. Plugin sin cambio (**0.2.10**).
+
 ### Changed
 - Home hero: banner letter-free (same landscape, cropped to 1714×356)
   and the description drops the redundant `LOGO ET SPES` already in the
