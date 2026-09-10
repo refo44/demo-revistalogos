@@ -69,7 +69,10 @@ no «HEAD de main que casualmente tiene un tag». Sigue siendo solo
 `schedule`, ni promoción automática. Eso conservaría ADR 0009 §5.
 
 GitHub no permite ocultar ramas en el desplegable *Use workflow from*.
-El candado es el job, no la UI.
+El candado del job aborta el run. Además, el Environment
+`wordpress-production` solo admite tags `v*.*.*` (ajuste vivo de
+GitHub, 2026-09-10): los jobs de FTPS no pueden usar ese Environment
+desde `main`. `can_admins_bypass` sigue en true.
 
 ### 4. Sin ramas `release/` largas
 

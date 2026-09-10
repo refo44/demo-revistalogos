@@ -45,6 +45,8 @@ staging WordPress. El Environment de este workflow es solo
 14. La cuenta FTP está enjaulada al sitio de la revista, no a
     `/home/cenfiss2/public_html/` (CENFISS + Moodle).
 15. Credenciales en el GitHub Environment `wordpress-production`.
+    Ese Environment solo admite tags `v*.*.*` (2026-09-10). Un
+    dispatch desde `main` no puede usar los secretos de FTPS.
 16. Los secretos **nunca** van al repositorio.
 17. Activar theme/plugin es una acción **aparte** en wp-admin. El workflow no
     activa nada. No añadir WP-CLI de activación sin un ADR nuevo.
@@ -194,7 +196,8 @@ históricos. Desde 2026-08-20 el workflow usa `checkout@v5` y
    sin dumps, sin `static/`.
 4. **Destino:** `https://logo-et-spes.cenfiss.net` — WordPress de la revista.
    No `cenfiss.net`, no `test.cenfiss.net`, no `/home/cenfiss2/public_html/`.
-5. **Environment:** `wordpress-production`. Confirmar en el run de Actions.
+5. **Environment:** `wordpress-production` (solo tags `v*.*.*`).
+   Confirmar en el run de Actions.
 6. **Límites remotos:** `PRODUCTION_THEME_REMOTE_DIR` y
    `PRODUCTION_PLUGIN_REMOTE_DIR` son rutas **relativas a la jaula FTP**,
    cada una el directorio del artefacto. No el document root.
@@ -281,7 +284,7 @@ Sin HSTS ni CSP hasta la auditoría profesional. No declarar cabeceras sin
 | Ítem | Estado |
 | ---- | ------ |
 | Workflow | `.github/workflows/deploy-wordpress.yml` |
-| Environment | `wordpress-production` |
+| Environment | `wordpress-production` (tags `v*.*.*` only, 2026-09-10) |
 | Primer run | **Success** 2026-08-19 (~27 s), theme + plugin |
 | Activación en CI | No (ni entonces ni ahora) |
 | Verificación funcional pública | Pendiente (matriz: transfer Pass; paridad/cookies/CF7/cabeceras Unverified) |

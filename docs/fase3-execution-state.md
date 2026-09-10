@@ -640,7 +640,9 @@ No disparo al pushear el tag. Plugin 0.2.8 live es excepción histórica
 `workflow_dispatch` desde `main` cuando HEAD está etiquetado. El ref
 tiene que ser `refs/tags/vX.Y.Z`. Harness
 `tools/qa-require-production-release-tag.sh`. GitHub no oculta ramas
-en el desplegable; el job aborta antes del FTPS.
+en el desplegable; el job aborta antes del FTPS. El Environment
+`wordpress-production` quedó restringido a tags `v*.*.*` el mismo
+día (`gh api`, política `59657382`; `can_admins_bypass` sigue true).
 
 ## Next exact action
 

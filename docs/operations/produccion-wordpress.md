@@ -410,7 +410,8 @@ este mantenimiento no dispara deploy.
 
 ## Barreras operativas del deploy
 
-1. Environment `wordpress-production`
+1. Environment `wordpress-production` (solo tags `v*.*.*`;
+   `can_admins_bypass` true)
 2. `workflow_dispatch` manual **desde una etiqueta** `vX.Y.Z` (ADR 0020);
    un disparo desde `main` aborta antes del FTPS
 3. Cuenta FTP dedicada

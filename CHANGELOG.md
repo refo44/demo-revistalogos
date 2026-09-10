@@ -14,7 +14,9 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   aunque HEAD lleve una etiqueta anotada `vX.Y.Z`. El ref de GitHub
   tiene que ser `refs/tags/vMAJOR.MINOR.PATCH`. GitHub no oculta
   ramas en *Use workflow from*; el candado es el job (ADR 0020).
-  Regresión: `tools/qa-require-production-release-tag.sh` y
+  El Environment `wordpress-production` queda restringido a tags
+  `v*.*.*` (ajuste vivo vía `gh`, 2026-09-10). Regresión:
+  `tools/qa-require-production-release-tag.sh` y
   `tests/Features/despliegue-produccion-desde-etiqueta.feature`.
 
 ## [0.3.4] — 2026-09-10
