@@ -636,6 +636,12 @@ anotada `vMAJOR.MINOR.PATCH`. Merge a `main` no es un deploy. Gate en
 No disparo al pushear el tag. Plugin 0.2.8 live es excepción histórica
 (sin tag de proyecto de ese transfer). Próximo envío: release nuevo.
 
+**2026-09-10 (ADR 0020, ref de rama):** el gate también rechaza
+`workflow_dispatch` desde `main` cuando HEAD está etiquetado. El ref
+tiene que ser `refs/tags/vX.Y.Z`. Harness
+`tools/qa-require-production-release-tag.sh`. GitHub no oculta ramas
+en el desplegable; el job aborta antes del FTPS.
+
 ## Next exact action
 
 La implementación **clásica** está live en producción

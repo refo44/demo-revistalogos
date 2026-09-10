@@ -58,12 +58,18 @@ Antes de FTPS a `logo-et-spes.cenfiss.net`:
 La identidad del deploy es la etiqueta de proyecto `vX.Y.Z`, no «lo último
 de `main`» ni solo el `Version` del plugin.
 
-### 3. El workflow rechaza HEAD sin esa etiqueta
+### 3. El workflow rechaza cualquier ref que no sea esa etiqueta
 
-`.github/workflows/deploy-wordpress.yml` falla si HEAD no tiene una
-etiqueta anotada que coincida con `vMAJOR.MINOR.PATCH`. Sigue siendo solo
+`.github/workflows/deploy-wordpress.yml` falla si el ref de GitHub no es
+`refs/tags/vMAJOR.MINOR.PATCH`, o si HEAD no lleva esa etiqueta anotada
+coincidente. Un `workflow_dispatch` desde `main` se aborta aunque el
+tip de `main` esté etiquetado: la identidad del deploy es la etiqueta,
+no «HEAD de main que casualmente tiene un tag». Sigue siendo solo
 `workflow_dispatch`: **no** se añade disparo por `push` de tags, ni
 `schedule`, ni promoción automática. Eso conservaría ADR 0009 §5.
+
+GitHub no permite ocultar ramas en el desplegable *Use workflow from*.
+El candado es el job, no la UI.
 
 ### 4. Sin ramas `release/` largas
 
@@ -92,9 +98,10 @@ en un commit que incluya este gate. No despachar desde `v0.2.0`.
 de docs/CI/Copilot no empujan código al hosting; rollback de código = volver
 a despachar una etiqueta conocida (ADR 0009, rollback A).
 
-**Riesgos / costes:** un `workflow_dispatch` sobre `main` sin etiqueta
-falla (es el candado). Hay que hacer un PR de release para el próximo
-envío. Plugin 0.2.8 live no tiene tag de proyecto hasta ese release.
+**Riesgos / costes:** un `workflow_dispatch` sobre `main` falla (es el
+candado), también cuando HEAD está etiquetado. Hay que hacer un PR de
+release para el próximo envío. Plugin 0.2.8 live no tiene tag de
+proyecto hasta ese release.
 Las cabeceras del plugin/theme pueden no coincidir con `package.json`
 (ya ocurría: proyecto 0.2.0, plugin 0.2.8).
 
@@ -111,3 +118,4 @@ pendiente de la auditoría.
 - `docs/operations/wordpress-manual-deployment.md`
 - `.github/workflows/deploy-wordpress.yml`
 - `tools/require-production-release-tag.sh`
+- `tools/qa-require-production-release-tag.sh`

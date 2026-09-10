@@ -50,8 +50,9 @@ a `main`: el ruleset lo impide para todos por igual.
 
 - Sin `develop`. Conventional Branch lista `develop` como nombre de trunk;
   aquí **no se crea**. El único trunk es `main`.
-- Sin ramas de release largas. Se publica **desde el trunk** (ADR 0009:
-  `workflow_dispatch` eligiendo `main`). `release/` del spec existe; no
+- Sin ramas de release largas. El commit publicado vive **en el trunk**
+  (ADR 0009 + ADR 0020: `workflow_dispatch` eligiendo la etiqueta
+  `vX.Y.Z` de ese commit, nunca `main`). `release/` del spec existe; no
   se usa como GitFlow.
 - Una rama = un cambio pequeño; se mergea en cuanto CI está verde.
 

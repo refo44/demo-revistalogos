@@ -29,9 +29,9 @@ staging WordPress. El Environment de este workflow es solo
 
 1. Despliegue de producción solo manual (`workflow_dispatch`).
 2. Requiere iniciación humana explícita.
-3. Merge a `main` **no** es un deploy (ADR 0020). HEAD debe llevar una
-   etiqueta anotada `vMAJOR.MINOR.PATCH`. Run workflow **desde esa
-   etiqueta**, no desde `main` suelto.
+3. Merge a `main` **no** es un deploy (ADR 0020). El ref de GitHub
+   debe ser `refs/tags/vMAJOR.MINOR.PATCH`. Run workflow **desde esa
+   etiqueta**, nunca desde `main` (tampoco si el tip está etiquetado).
 4. GitHub Actions **no** despliega el core de WordPress (`wp-admin`, `wp-includes`).
 5. GitHub Actions **no** despliega la base de datos ni dumps.
 6. GitHub Actions **no** despliega `uploads/` ni la biblioteca de medios.
@@ -154,9 +154,10 @@ históricos. Desde 2026-08-20 el workflow usa `checkout@v5` y
 ## PRE-DESPLIEGUE
 
 1. **Release etiquetado (ADR 0020):** `./tools/require-production-release-tag.sh`
-   debe pasar. Si falla, no hay deploy: bump de `package.json` /
-   `VERSION.md` / `CHANGELOG.md`, PR `chore(release): vX.Y.Z`, etiqueta
-   anotada, y Run workflow **desde esa tag**. Merge a `main` no basta.
+   debe pasar (en local, sin `GITHUB_REF`). Si falla, no hay deploy:
+   bump de `package.json` / `VERSION.md` / `CHANGELOG.md`, PR
+   `chore(release): vX.Y.Z`, etiqueta anotada, y Run workflow **desde
+   esa tag**. Merge a `main` no basta; despachar desde `main` tampoco.
    Nunca despachar desde una etiqueta anterior a lo que producción ya
    sirve: reinstalaría una versión más vieja.
 
@@ -216,9 +217,9 @@ históricos. Desde 2026-08-20 el workflow usa `checkout@v5` y
 
 1. GitHub → Actions → **Deploy WordPress theme+plugin to production**.
 2. **Run workflow**. En *Use workflow from* elegir la **etiqueta**
-   `vX.Y.Z`, no `main` (salvo que `main` coincida exactamente con esa
-   etiqueta). El job *Require annotated release tag* corre primero y
-   aborta si HEAD no está etiquetado.
+   `vX.Y.Z`, nunca `main` — tampoco si el tip de `main` es esa
+   etiqueta. El job *Require annotated release tag* corre primero y
+   aborta si el ref no es `refs/tags/vMAJOR.MINOR.PATCH`.
 3. Disparo **manual**. Esperar: *Require annotated release tag*, luego
    *Upload theme via FTPS*, luego *Upload plugin via FTPS*.
 4. Si el chequeo de etiqueta o el theme fallan, el plugin **no** corre.

@@ -10,11 +10,16 @@
 # (which this gate does reject) avoided the bad deploy.
 #
 # So the tag must also be what it claims to be:
+#   0. when GitHub Actions sets GITHUB_REF, that ref itself must be the tag
+#      (refs/tags/vMAJOR.MINOR.PATCH). workflow_dispatch from main on a
+#      tagged tip used to pass checks 1–3 and deploy under refs/heads/main;
 #   1. an annotated vMAJOR.MINOR.PATCH tag on HEAD;
 #   2. package.json declaring exactly that version (VERSION.md: package.json is
 #      the canonical source and every tag must reflect it);
 #   3. the tagged commit reachable from main (ADR 0020 §4: the tagged commit
 #      lives on the trunk).
+#
+# Local preflight (no GITHUB_REF) still uses 1–3 only.
 #
 # Usage:
 #   ./tools/require-production-release-tag.sh
@@ -26,6 +31,17 @@ cd "$ROOT"
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
 	echo "Not a git repository." >&2
 	exit 1
+fi
+
+# --- 0. GitHub Actions ref must be the tag, not a branch -------------------
+# Actions always sets GITHUB_REF. A branch ref is refused even if HEAD
+# happens to carry a matching annotated tag. Unset means local preflight.
+if [[ -n "${GITHUB_REF:-}" ]]; then
+	if [[ ! "$GITHUB_REF" =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+		echo "Production deploy must be dispatched from a tag vMAJOR.MINOR.PATCH, not from ${GITHUB_REF} (ADR 0020)." >&2
+		echo "Actions → Run workflow → Use workflow from → Tags → vX.Y.Z. Do not choose main." >&2
+		exit 1
+	fi
 fi
 
 HEAD="$(git rev-parse HEAD)"
