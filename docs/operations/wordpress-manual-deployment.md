@@ -29,9 +29,9 @@ staging WordPress. El Environment de este workflow es solo
 
 1. Despliegue de producción solo manual (`workflow_dispatch`).
 2. Requiere iniciación humana explícita.
-3. Merge a `main` **no** es un deploy (ADR 0020). HEAD debe llevar una
-   etiqueta anotada `vMAJOR.MINOR.PATCH`. Run workflow **desde esa
-   etiqueta**, no desde `main` suelto.
+3. Merge a `main` **no** es un deploy (ADR 0020). El ref de GitHub
+   debe ser `refs/tags/vMAJOR.MINOR.PATCH`. Run workflow **desde esa
+   etiqueta**, nunca desde `main` (tampoco si el tip está etiquetado).
 4. GitHub Actions **no** despliega el core de WordPress (`wp-admin`, `wp-includes`).
 5. GitHub Actions **no** despliega la base de datos ni dumps.
 6. GitHub Actions **no** despliega `uploads/` ni la biblioteca de medios.
@@ -45,6 +45,8 @@ staging WordPress. El Environment de este workflow es solo
 14. La cuenta FTP está enjaulada al sitio de la revista, no a
     `/home/cenfiss2/public_html/` (CENFISS + Moodle).
 15. Credenciales en el GitHub Environment `wordpress-production`.
+    Ese Environment solo admite tags `v*.*.*` (2026-09-10). Un
+    dispatch desde `main` no puede usar los secretos de FTPS.
 16. Los secretos **nunca** van al repositorio.
 17. Activar theme/plugin es una acción **aparte** en wp-admin. El workflow no
     activa nada. No añadir WP-CLI de activación sin un ADR nuevo.
@@ -154,9 +156,10 @@ históricos. Desde 2026-08-20 el workflow usa `checkout@v5` y
 ## PRE-DESPLIEGUE
 
 1. **Release etiquetado (ADR 0020):** `./tools/require-production-release-tag.sh`
-   debe pasar. Si falla, no hay deploy: bump de `package.json` /
-   `VERSION.md` / `CHANGELOG.md`, PR `chore(release): vX.Y.Z`, etiqueta
-   anotada, y Run workflow **desde esa tag**. Merge a `main` no basta.
+   debe pasar (en local, sin `GITHUB_REF`). Si falla, no hay deploy:
+   bump de `package.json` / `VERSION.md` / `CHANGELOG.md`, PR
+   `chore(release): vX.Y.Z`, etiqueta anotada, y Run workflow **desde
+   esa tag**. Merge a `main` no basta; despachar desde `main` tampoco.
    Nunca despachar desde una etiqueta anterior a lo que producción ya
    sirve: reinstalaría una versión más vieja.
 
@@ -193,7 +196,8 @@ históricos. Desde 2026-08-20 el workflow usa `checkout@v5` y
    sin dumps, sin `static/`.
 4. **Destino:** `https://logo-et-spes.cenfiss.net` — WordPress de la revista.
    No `cenfiss.net`, no `test.cenfiss.net`, no `/home/cenfiss2/public_html/`.
-5. **Environment:** `wordpress-production`. Confirmar en el run de Actions.
+5. **Environment:** `wordpress-production` (solo tags `v*.*.*`).
+   Confirmar en el run de Actions.
 6. **Límites remotos:** `PRODUCTION_THEME_REMOTE_DIR` y
    `PRODUCTION_PLUGIN_REMOTE_DIR` son rutas **relativas a la jaula FTP**,
    cada una el directorio del artefacto. No el document root.
@@ -216,9 +220,9 @@ históricos. Desde 2026-08-20 el workflow usa `checkout@v5` y
 
 1. GitHub → Actions → **Deploy WordPress theme+plugin to production**.
 2. **Run workflow**. En *Use workflow from* elegir la **etiqueta**
-   `vX.Y.Z`, no `main` (salvo que `main` coincida exactamente con esa
-   etiqueta). El job *Require annotated release tag* corre primero y
-   aborta si HEAD no está etiquetado.
+   `vX.Y.Z`, nunca `main` — tampoco si el tip de `main` es esa
+   etiqueta. El job *Require annotated release tag* corre primero y
+   aborta si el ref no es `refs/tags/vMAJOR.MINOR.PATCH`.
 3. Disparo **manual**. Esperar: *Require annotated release tag*, luego
    *Upload theme via FTPS*, luego *Upload plugin via FTPS*.
 4. Si el chequeo de etiqueta o el theme fallan, el plugin **no** corre.
@@ -280,7 +284,7 @@ Sin HSTS ni CSP hasta la auditoría profesional. No declarar cabeceras sin
 | Ítem | Estado |
 | ---- | ------ |
 | Workflow | `.github/workflows/deploy-wordpress.yml` |
-| Environment | `wordpress-production` |
+| Environment | `wordpress-production` (tags `v*.*.*` only, 2026-09-10) |
 | Primer run | **Success** 2026-08-19 (~27 s), theme + plugin |
 | Activación en CI | No (ni entonces ni ahora) |
 | Verificación funcional pública | Pendiente (matriz: transfer Pass; paridad/cookies/CF7/cabeceras Unverified) |

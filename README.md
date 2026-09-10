@@ -86,9 +86,10 @@ Dos reglas que evitan los dos errores que este flujo permite (ADR 0020):
    vieja, la etiqueta acaba en un commit que no es el del release.
 
 2. **Al lanzar el workflow, en *Use workflow from* elegir `Tags → vX.Y.Z`,
-   nunca `main`.** El gate (`tools/require-production-release-tag.sh`) exige
-   una etiqueta anotada en HEAD, así que despachar desde `main` falla y
-   nada se sube — molesto, pero seguro.
+   nunca `main`.** El gate (`tools/require-production-release-tag.sh`)
+   exige que el ref de GitHub sea `refs/tags/vMAJOR.MINOR.PATCH`.
+   Despachar desde `main` aborta aunque el tip esté etiquetado: la
+   identidad del deploy es la etiqueta, no la rama. Nada se sube.
 
 **El otro error era peor, y hasta hace poco nada lo frenaba:** el gate
 comprobaba que *exista* una etiqueta anotada `vX.Y.Z` en HEAD, no que su

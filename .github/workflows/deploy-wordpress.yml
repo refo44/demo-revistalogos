@@ -4,9 +4,10 @@
 # - workflow_dispatch ONLY: no push/pull_request/schedule/tag triggers and
 #   no automatic promotion. Creating or validating this workflow does not
 #   authorize executing it; every run needs an explicit owner decision.
-# - ADR 0020: HEAD must carry an annotated vMAJOR.MINOR.PATCH tag. Merge
-#   to main is not a deploy. Run the workflow from that tag, not from
-#   untagged main. Still no on.push tags (that would auto-promote).
+# - ADR 0020: the GitHub ref itself must be an annotated
+#   vMAJOR.MINOR.PATCH tag (refs/tags/vX.Y.Z). Merge to main is not a
+#   deploy. Run the workflow from that tag, never from main — even when
+#   main's tip is tagged. Still no on.push tags (that would auto-promote).
 # - Scope is exactly the first-party theme and plugin directories. It
 #   never touches wp-content/uploads/, wp-config.php, WordPress core,
 #   database content, third-party plugins or the server-root .htaccess,
@@ -36,6 +37,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Refuse branch refs
+        if: github.ref_type != 'tag'
+        run: |
+          echo "Production deploy must be dispatched from a tag vMAJOR.MINOR.PATCH (ADR 0020)." >&2
+          echo "This run used: ${GITHUB_REF} (${GITHUB_REF_TYPE})." >&2
+          echo "Actions → Run workflow → Use workflow from → Tags → vX.Y.Z. Do not choose main." >&2
+          exit 1
+
       - name: Checkout repository
         uses: actions/checkout@v7
         with:
@@ -50,7 +59,9 @@ jobs:
       - name: Fetch main for the reachability check
         run: git fetch --no-tags origin +refs/heads/main:refs/remotes/origin/main
 
-      - name: HEAD must be vMAJOR.MINOR.PATCH matching package.json, on main
+      - name: Ref must be a tag vMAJOR.MINOR.PATCH on main
+        env:
+          GITHUB_REF: ${{ github.ref }}
         run: ./tools/require-production-release-tag.sh
 
   deploy-theme:

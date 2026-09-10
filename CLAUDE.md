@@ -192,8 +192,9 @@ required, not shared via Git, not a substitute for the files above.
   the label is only the symptom.
 - **Production deploy is its own release, never a follow-up to a merge**
   (ADR 0020). It needs an annotated `vX.Y.Z` on a commit that already went
-  through the `VERSION.md` procedure; `deploy-wordpress.yml` refuses an
-  untagged HEAD via `tools/require-production-release-tag.sh`. Never
+  through the `VERSION.md` procedure; `deploy-wordpress.yml` refuses a
+  branch ref (including `main`) and an untagged HEAD via
+  `tools/require-production-release-tag.sh`. Never
   suggest deploying because something merged, and never dispatch from a tag
   older than what production already runs — that downgrades the plugin.
 - **Do not implement on `main`** (ADR 0019, [Trunk-Based

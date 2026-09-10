@@ -156,6 +156,7 @@ excepción conocida; no tomarlo como modelo para tests nuevos.
 | `tools/qa-article-pdf-publication-enforcement.sh` | Integración: ajuste wp-admin + enforcement classic/REST (ADR 0017 WU6B) | Aislado, puerto 8089 |
 | `tools/qa-author-permalinks.sh` | Integración: `journal_author`, permalinks | Volúmenes **primarios** |
 | `tools/qa-volume1-bootstrap-admin.sh` | Regresión de **ausencia**: UI `Bootstrap_Admin` retirada en 0.2.6 | No es pilar permanente; no ampliar |
+| `tools/qa-require-production-release-tag.sh` | Contrato: FTPS solo desde ref `refs/tags/vX.Y.Z` (ADR 0020) | Aislado, repo git efímero; sin Docker |
 
 `tools/qa-content-recovery-admin.sh` ya no existe (UI de recovery retirada).
 PHPUnit no replica estos flujos enteros.
@@ -281,6 +282,7 @@ composer test          # lint → audit --locked → units; not qa-*.sh
 ./tools/qa-article-pdf-publication-enforcement.sh  # ADR 0017 WU6B, aislado
 ./tools/qa-volume1-bootstrap-admin.sh   # ausencia de UI temporal
 ./tools/qa-author-permalinks.sh         # excepción: volúmenes primarios
+./tools/qa-require-production-release-tag.sh  # ADR 0020: refuse branch refs
 ```
 
 `php -l` comprueba **sintaxis**. `composer audit --locked` comprueba

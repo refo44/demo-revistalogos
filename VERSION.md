@@ -75,7 +75,8 @@ desde la etiqueta, no desde HEAD suelto de `main`.
    local y en el remoto.
 7. Desplegar theme+plugin desde GitHub Actions → «Deploy WordPress theme+plugin
    to production» → Run workflow **desde esa etiqueta** (Use workflow from:
-   Tags). El workflow falla si HEAD no tiene `vMAJOR.MINOR.PATCH` anotada.
+   Tags). El workflow falla si el ref no es `refs/tags/vMAJOR.MINOR.PATCH`.
+   Despachar desde `main` aborta aunque HEAD esté etiquetado.
    El workflow estático «Deploy to Hostinger» (`deploy.yml`) está **retirado**;
    no recrearlo. Nunca despachar desde una etiqueta anterior a lo que
    producción ya sirve: reinstalaría una versión más vieja del plugin.

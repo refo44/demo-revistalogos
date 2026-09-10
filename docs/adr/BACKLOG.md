@@ -115,7 +115,7 @@ Estado en el repo: `.github/workflows/deploy.yml` («Deploy to Hostinger») **el
 
 ### Añadidas el 2026-08-24
 
-- **Producción WordPress solo desde release etiquetado:** merge a `main` no es un FTPS. GitHub Pages sigue automático. Antes de `deploy-wordpress.yml`: versionar (`package.json` / `VERSION.md` / `CHANGELOG.md`), etiqueta anotada `vX.Y.Z`, Run workflow **desde esa tag**. El workflow aborta sin ella. No disparo al pushear el tag (ADR 0009 §5 intacto). Plugin 0.2.8 live no se retiqueta; el próximo envío es un tag **nuevo**. → [ADR 0020](0020-despliegue-produccion-desde-etiqueta.md).
+- **Producción WordPress solo desde release etiquetado:** merge a `main` no es un FTPS. GitHub Pages sigue automático. Antes de `deploy-wordpress.yml`: versionar (`package.json` / `VERSION.md` / `CHANGELOG.md`), etiqueta anotada `vX.Y.Z`, Run workflow **desde esa tag**. El workflow aborta si el ref no es `refs/tags/vX.Y.Z` (también cuando se elige `main` y HEAD está etiquetado). No disparo al pushear el tag (ADR 0009 §5 intacto). Plugin 0.2.8 live no se retiqueta; el próximo envío es un tag **nuevo**. → [ADR 0020](0020-despliegue-produccion-desde-etiqueta.md).
 - **Borrar rama al mergear:** Settings → General → Pull Requests → *Automatically delete head branches* (`delete_branch_on_merge`) **activado**. No es una regla del ruleset. `main` y las etiquetas no se tocan. Ramas remotas ya mergeadas que quedaban: eliminadas. → [ADR 0019](0019-proteger-main-trunk-based.md) § Estado de implementación.
 
 ### Añadidas el 2026-08-28
