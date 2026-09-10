@@ -8,6 +8,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Added
+- Plugin `revistalogos-core` 0.2.11: sitemap nativo sin provider `users`,
+  `/buscar/` fuera del sitemap de páginas y con `noindex,follow` vía
+  `wp_robots`, y HTTP 200 temporal solo en WordPress 7.1 (Trac #65945;
+  se apaga en 7.1.1+). Un 404 ordinario no se convierte en 200.
+  Sin SiteSEO.
+
 ## [0.3.2] — 2026-09-05
 
 Release etiquetado para FTPS de producción (ADR 0020). Incluye el

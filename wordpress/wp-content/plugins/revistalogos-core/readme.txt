@@ -3,7 +3,7 @@ Contributors: cenfiss
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.2.10
+Stable tag: 0.2.11
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,12 @@ Fase 3: los campos `issn`, `doi` y `orcid` son almacenamiento base inerte;
 la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
 
 == Changelog ==
+
+= 0.2.11 =
+* Native sitemap: drop the `users` provider, exclude `/buscar/` from the
+  page sitemap and mark it `noindex,follow`, and force HTTP 200 on
+  sitemap requests only on WordPress 7.1 (Trac #65945; off at 7.1.1+).
+  No SiteSEO.
 
 = 0.2.10 =
 * Gutenberg REST publish of a draft Article now receives and persists

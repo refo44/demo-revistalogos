@@ -29,3 +29,4 @@ require_once $article_pdf_dir . '/class-article-pdf-editorial-template.php';
 require_once $article_pdf_dir . '/interface-article-pdf-renderer.php';
 require_once $article_pdf_dir . '/class-article-pdf-generation-orchestrator.php';
 require_once $article_pdf_dir . '/class-dompdf-article-pdf-renderer.php';
+require_once $plugin_root . '/includes/integrations/class-native-sitemap.php';

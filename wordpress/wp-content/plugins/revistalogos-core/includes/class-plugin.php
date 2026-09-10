@@ -49,6 +49,7 @@ class Plugin {
 		Contact_Form_Integration::register_hooks();
 		Article_Pdf_Publication_Settings::register_hooks();
 		Article_Pdf_Publication_Enforcer::register_hooks();
+		Native_Sitemap::register_hooks();
 
 		// Idempotent upgrade: late on init so CPT rewrite args are
 		// registered before a version-gated rewrite flush.
@@ -84,6 +85,7 @@ class Plugin {
 		require_once $includes . 'queries/class-queries.php';
 		require_once $includes . 'integrations/class-comments-disabler.php';
 		require_once $includes . 'integrations/class-contact-form-integration.php';
+		require_once $includes . 'integrations/class-native-sitemap.php';
 		require_once $includes . 'migration/class-content-migrator.php';
 		require_once $includes . 'fixtures/class-fixtures.php';
 		require_once $includes . 'article-pdf/class-article-pdf-publication-policy.php';
