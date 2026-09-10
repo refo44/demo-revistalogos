@@ -17,7 +17,27 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Llms_Txt {
 
-	const QUERY_VAR = 'revistalogos_llms';
+	const QUERY_VAR     = 'revistalogos_llms';
+	const PAGE_SLUG      = 'revistalogos-llms-txt';
+	const REFRESH_ACTION = 'revistalogos_refresh_llms_txt';
+	const REFRESH_NONCE  = 'revistalogos_refresh_llms_txt';
+
+	/**
+	 * Published institutional pages (docs/11). No /buscar/ (noindex).
+	 * There is no separate lineamientos or reglamentos page.
+	 */
+	const INSTITUTIONAL_SLUGS = array(
+		'acerca',
+		'normas',
+		'etica',
+		'politicas',
+		'comite-editorial',
+		'enviar-colaboracion',
+		'contacto',
+		'enlaces',
+		'noticias',
+		'privacidad',
+	);
 
 	/**
 	 * Public journal name (content-source / site chrome).
@@ -36,6 +56,10 @@ class Llms_Txt {
 		add_action( 'init', array( __CLASS__, 'register_rewrite' ) );
 		add_filter( 'query_vars', array( __CLASS__, 'register_query_var' ) );
 		add_action( 'template_redirect', array( __CLASS__, 'serve' ), 0 );
+		add_action( 'admin_menu', array( __CLASS__, 'register_page' ) );
+		add_action( 'admin_post_' . self::REFRESH_ACTION, array( __CLASS__, 'handle_refresh' ) );
+		add_action( 'admin_notices', array( __CLASS__, 'render_refresh_notice' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename( REVISTALOGOS_CORE_FILE ), array( __CLASS__, 'plugin_action_links' ) );
 	}
 
 	/**
@@ -78,6 +102,139 @@ class Llms_Txt {
 	}
 
 	/**
+	 * Re-register the pretty URL and return the current catalog.
+	 *
+	 * @return string
+	 */
+	public static function refresh() {
+		self::register_rewrite();
+		flush_rewrite_rules();
+
+		return self::render();
+	}
+
+	/**
+	 * @param string $nonce Submitted nonce.
+	 * @return string|\WP_Error Fresh document, or an authorization error.
+	 */
+	public static function refresh_if_authorized( $nonce ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return new \WP_Error( 'forbidden', __( 'No tiene permiso para actualizar llms.txt.', 'revistalogos-core' ) );
+		}
+
+		if ( ! wp_verify_nonce( $nonce, self::REFRESH_NONCE ) ) {
+			return new \WP_Error( 'invalid_nonce', __( 'La solicitud para actualizar llms.txt no es válida.', 'revistalogos-core' ) );
+		}
+
+		return self::refresh();
+	}
+
+	/**
+	 * Settings → LOGO ET SPES — llms.txt. Same plugin prefix as the PDF page.
+	 */
+	public static function register_page() {
+		add_options_page(
+			__( 'LOGO ET SPES — llms.txt', 'revistalogos-core' ),
+			__( 'LOGO ET SPES — llms.txt', 'revistalogos-core' ),
+			'manage_options',
+			self::PAGE_SLUG,
+			array( __CLASS__, 'render_settings_page' )
+		);
+	}
+
+	/**
+	 * Dedicated settings screen (nonce + manage_options).
+	 */
+	public static function render_settings_page() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		echo '<div class="wrap">';
+		echo '<h1>' . esc_html__( 'LOGO ET SPES', 'revistalogos-core' ) . ' — <code>' . esc_html__( 'llms.txt', 'revistalogos-core' ) . '</code></h1>';
+		self::render_admin_panel();
+		echo '</div>';
+	}
+
+	/**
+	 * Settings → LOGO ET SPES — llms.txt refresh button.
+	 */
+	public static function handle_refresh() {
+		$nonce  = isset( $_REQUEST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- verified in refresh_if_authorized().
+		$result = self::refresh_if_authorized( $nonce );
+
+		if ( is_wp_error( $result ) ) {
+			wp_die( esc_html( $result->get_error_message() ), '', array( 'response' => 403 ) );
+		}
+
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'page'           => self::PAGE_SLUG,
+					'llms_refreshed' => '1',
+				),
+				admin_url( 'options-general.php' )
+			)
+		);
+		exit;
+	}
+
+	/**
+	 * Manual refresh panel on Settings → LOGO ET SPES — llms.txt.
+	 */
+	public static function render_admin_panel() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		$public_url = home_url( '/llms.txt' );
+
+		echo '<div class="card" id="llms-txt" style="max-width:800px;margin-top:1.5em;padding:1em 1.5em">';
+		echo '<p>' . esc_html__( 'Reúne los archivos vivos y las páginas institucionales publicadas. La dirección pública es /llms.txt.', 'revistalogos-core' ) . '</p>';
+		echo '<p><a href="' . esc_url( $public_url ) . '">' . esc_html( $public_url ) . '</a></p>';
+		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
+		echo '<input type="hidden" name="action" value="' . esc_attr( self::REFRESH_ACTION ) . '">';
+		wp_nonce_field( self::REFRESH_NONCE );
+		submit_button( __( 'Actualizar llms.txt', 'revistalogos-core' ), 'secondary', 'submit', false );
+		echo '</form>';
+		echo '<pre style="white-space:pre-wrap;max-height:22em;overflow:auto;background:#f6f7f7;padding:1em">' . esc_html( self::render() ) . '</pre>';
+		echo '</div>';
+	}
+
+	/**
+	 * Success notice after a manual refresh.
+	 */
+	public static function render_refresh_notice() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		if ( empty( $_GET['page'] ) || self::PAGE_SLUG !== $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only admin screen flag.
+			return;
+		}
+
+		if ( empty( $_GET['llms_refreshed'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only admin screen flag.
+			return;
+		}
+
+		echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'llms.txt se actualizó. La dirección pública vuelve a estar registrada.', 'revistalogos-core' ) . '</p></div>';
+	}
+
+	/**
+	 * @param string[] $links Plugin row actions.
+	 * @return string[]
+	 */
+	public static function plugin_action_links( $links ) {
+		$links[] = sprintf(
+			'<a href="%s">%s</a>',
+			esc_url( admin_url( 'options-general.php?page=' . self::PAGE_SLUG ) ),
+			'<code>' . esc_html__( 'llms.txt', 'revistalogos-core' ) . '</code>'
+		);
+
+		return $links;
+	}
+
+	/**
 	 * @param array<string, mixed> $catalog Prepared public catalog.
 	 * @return string
 	 */
@@ -95,6 +252,21 @@ class Llms_Txt {
 		$lines[] = '- [Artículos](' . $catalog['articles_url'] . ')';
 		$lines[] = '- [Autores](' . $catalog['authors_url'] . ')';
 		$lines[] = '';
+
+		if ( ! empty( $catalog['institutional_pages'] ) && is_array( $catalog['institutional_pages'] ) ) {
+			$lines[] = '## Información institucional';
+			$lines[] = '';
+
+			foreach ( $catalog['institutional_pages'] as $page ) {
+				if ( empty( $page['title'] ) || empty( $page['url'] ) ) {
+					continue;
+				}
+
+				$lines[] = '- [' . $page['title'] . '](' . $page['url'] . ')';
+			}
+
+			$lines[] = '';
+		}
 
 		if ( ! empty( $catalog['current_issue'] ) && is_array( $catalog['current_issue'] ) ) {
 			$issue   = $catalog['current_issue'];
@@ -160,14 +332,37 @@ class Llms_Txt {
 		}
 
 		return array(
-			'name'          => self::JOURNAL_NAME,
-			'description'   => self::JOURNAL_DESCRIPTION,
-			'home_url'      => home_url( '/' ),
-			'issues_url'    => get_post_type_archive_link( Content_Types::ISSUE ) ?: home_url( '/revista/numeros/' ),
-			'articles_url'  => get_post_type_archive_link( Content_Types::ARTICLE ) ?: home_url( '/revista/articulos/' ),
-			'authors_url'   => get_post_type_archive_link( Content_Types::AUTHOR ) ?: home_url( '/revista/autores/' ),
-			'sitemap_url'   => home_url( '/wp-sitemap.xml' ),
-			'current_issue' => $issue,
+			'name'                 => self::JOURNAL_NAME,
+			'description'          => self::JOURNAL_DESCRIPTION,
+			'home_url'             => home_url( '/' ),
+			'issues_url'           => get_post_type_archive_link( Content_Types::ISSUE ) ?: home_url( '/revista/numeros/' ),
+			'articles_url'         => get_post_type_archive_link( Content_Types::ARTICLE ) ?: home_url( '/revista/articulos/' ),
+			'authors_url'          => get_post_type_archive_link( Content_Types::AUTHOR ) ?: home_url( '/revista/autores/' ),
+			'sitemap_url'          => home_url( '/wp-sitemap.xml' ),
+			'current_issue'        => $issue,
+			'institutional_pages'  => self::published_institutional_pages(),
 		);
+	}
+
+	/**
+	 * @return array<int, array{title: string, url: string}>
+	 */
+	private static function published_institutional_pages() {
+		$pages = array();
+
+		foreach ( self::INSTITUTIONAL_SLUGS as $slug ) {
+			$page = get_page_by_path( $slug );
+
+			if ( ! $page instanceof \WP_Post || 'publish' !== $page->post_status ) {
+				continue;
+			}
+
+			$pages[] = array(
+				'title' => get_the_title( $page ),
+				'url'   => get_permalink( $page ),
+			);
+		}
+
+		return $pages;
 	}
 }

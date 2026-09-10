@@ -18,3 +18,16 @@ Característica: /llms.txt para agentes de IA
     Cuando se genera /llms.txt
     Entonces aparece el número vigente y sus artículos publicados
     Y no aparecen los borradores
+
+  Escenario: Un administrador actualiza /llms.txt desde el plugin
+    Dado un número publicado con artículos publicados
+    Cuando un administrador pulsa Actualizar llms.txt en Ajustes → LOGO ET SPES — llms.txt
+    Entonces el archivo público refleja ese número
+    Y la ruta /llms.txt queda registrada
+
+  Escenario: Las páginas institucionales publicadas entran en el mapa
+    Dado páginas publicadas de normas, ética, políticas y comité
+    Y una página institucional en borrador
+    Cuando se genera /llms.txt
+    Entonces enlaza esas páginas publicadas con su título vigente
+    Y no enlaza el borrador ni la búsqueda

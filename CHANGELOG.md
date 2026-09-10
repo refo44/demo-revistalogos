@@ -12,6 +12,10 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 - Plugin `revistalogos-core` 0.2.12: `/llms.txt` generado en cada
   petición (issue #47). Mapa estable de archivos + número actual y
   artículos publicados vía `Queries`. Sin catálogo fijo ni SiteSEO.
+  Un administrador puede actualizarlo a mano desde Ajustes → LOGO ET
+  SPES — llms.txt (vuelve a registrar la URL y muestra el índice vigente).
+  Incluye las páginas institucionales publicadas (acerca, normas, ética,
+  políticas, comité, envío, contacto, enlaces, noticias, privacidad).
 
 ## [0.3.3] — 2026-09-10
 

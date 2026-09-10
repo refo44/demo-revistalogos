@@ -27,6 +27,43 @@ class LlmsTxtDocumentTest extends TestCase {
 		$this->assertStringContainsString( 'https://example.org/revista/autores/', $document );
 		$this->assertStringContainsString( 'https://example.org/wp-sitemap.xml', $document );
 		$this->assertStringNotContainsString( 'Número actual', $document );
+		$this->assertStringNotContainsString( 'Información institucional', $document );
+	}
+
+	/**
+	 * Dado: páginas institucionales publicadas.
+	 * Entonces: el documento las enlaza por título y URL, sin inventar otras.
+	 */
+	public function test_document_lists_institutional_pages() {
+		$catalog                      = $this->empty_catalog();
+		$catalog['institutional_pages'] = array(
+			array(
+				'title' => 'Normas de Publicación',
+				'url'   => 'https://example.org/normas/',
+			),
+			array(
+				'title' => 'Ética',
+				'url'   => 'https://example.org/etica/',
+			),
+			array(
+				'title' => 'Políticas',
+				'url'   => 'https://example.org/politicas/',
+			),
+			array(
+				'title' => 'Comité Editorial',
+				'url'   => 'https://example.org/comite-editorial/',
+			),
+		);
+
+		$document = Llms_Txt::format_document( $catalog );
+
+		$this->assertStringContainsString( '## Información institucional', $document );
+		$this->assertStringContainsString( '[Normas de Publicación](https://example.org/normas/)', $document );
+		$this->assertStringContainsString( '[Ética](https://example.org/etica/)', $document );
+		$this->assertStringContainsString( '[Políticas](https://example.org/politicas/)', $document );
+		$this->assertStringContainsString( '[Comité Editorial](https://example.org/comite-editorial/)', $document );
+		$this->assertStringNotContainsString( 'Búsqueda', $document );
+		$this->assertStringNotContainsString( 'lineamientos', $document );
 	}
 
 	/**
@@ -64,8 +101,9 @@ class LlmsTxtDocumentTest extends TestCase {
 			'issues_url'    => 'https://example.org/revista/numeros/',
 			'articles_url'  => 'https://example.org/revista/articulos/',
 			'authors_url'   => 'https://example.org/revista/autores/',
-			'sitemap_url'   => 'https://example.org/wp-sitemap.xml',
-			'current_issue' => null,
+			'sitemap_url'          => 'https://example.org/wp-sitemap.xml',
+			'current_issue'        => null,
+			'institutional_pages'  => array(),
 		);
 	}
 }
