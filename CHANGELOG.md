@@ -8,6 +8,14 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+## [0.3.4] — 2026-09-10
+
+Release etiquetado para FTPS de producción (ADR 0020). Incluye
+`/llms.txt` ([#47](https://github.com/refo44/demo-revistalogos/issues/47)
+/[#48](https://github.com/refo44/demo-revistalogos/pull/48), plugin
+`revistalogos-core` **0.2.12**) y el resto de `main` acumulado desde
+`v0.3.3`. Theme sin cambio.
+
 ### Added
 - Plugin `revistalogos-core` 0.2.12: `/llms.txt` generado en cada
   petición (issue #47). Mapa estable de archivos + número actual y
