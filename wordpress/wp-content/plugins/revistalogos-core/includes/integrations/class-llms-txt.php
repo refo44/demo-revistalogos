@@ -17,8 +17,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Llms_Txt {
 
-	const QUERY_VAR     = 'revistalogos_llms';
+	const QUERY_VAR      = 'revistalogos_llms';
 	const PAGE_SLUG      = 'revistalogos-llms-txt';
+	const OPTION_NAME    = 'revistalogos_llms_txt_enabled';
+	const SETTINGS_GROUP = 'revistalogos_llms_txt';
 	const REFRESH_ACTION = 'revistalogos_refresh_llms_txt';
 	const REFRESH_NONCE  = 'revistalogos_refresh_llms_txt';
 
@@ -57,6 +59,9 @@ class Llms_Txt {
 		add_filter( 'query_vars', array( __CLASS__, 'register_query_var' ) );
 		add_action( 'template_redirect', array( __CLASS__, 'serve' ), 0 );
 		add_action( 'admin_menu', array( __CLASS__, 'register_page' ) );
+		add_action( 'admin_init', array( __CLASS__, 'register_setting' ) );
+		add_action( 'update_option_' . self::OPTION_NAME, array( __CLASS__, 'flush_after_toggle' ) );
+		add_action( 'add_option_' . self::OPTION_NAME, array( __CLASS__, 'flush_after_toggle' ) );
 		add_action( 'admin_post_' . self::REFRESH_ACTION, array( __CLASS__, 'handle_refresh' ) );
 		add_action( 'admin_notices', array( __CLASS__, 'render_refresh_notice' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( REVISTALOGOS_CORE_FILE ), array( __CLASS__, 'plugin_action_links' ) );
@@ -66,6 +71,10 @@ class Llms_Txt {
 	 * Pretty /llms.txt. Flushed by Plugin::maybe_upgrade() on version bump.
 	 */
 	public static function register_rewrite() {
+		if ( ! self::is_enabled() ) {
+			return;
+		}
+
 		add_rewrite_rule( '^llms\.txt$', 'index.php?' . self::QUERY_VAR . '=1', 'top' );
 	}
 
@@ -82,8 +91,47 @@ class Llms_Txt {
 	/**
 	 * Serve text/plain when this is an llms.txt request.
 	 */
+	/**
+	 * Absence of the option is ON. Deploy does not write the option.
+	 *
+	 * @return bool
+	 */
+	public static function is_enabled() {
+		return 1 === (int) get_option( self::OPTION_NAME, 1 );
+	}
+
+	/**
+	 * Store only 0 or 1.
+	 *
+	 * @param mixed $value Raw submitted value.
+	 * @return int
+	 */
+	public static function sanitize( $value ) {
+		return ( 1 === (int) $value ) ? 1 : 0;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function should_serve() {
+		return self::is_enabled() && self::is_llms_request();
+	}
+
+	/**
+	 * Serve text/plain when this is an enabled llms.txt request.
+	 */
 	public static function serve() {
 		if ( ! self::is_llms_request() ) {
+			return;
+		}
+
+		if ( ! self::is_enabled() ) {
+			global $wp_query;
+			if ( $wp_query instanceof \WP_Query ) {
+				$wp_query->set_404();
+			}
+			status_header( 404 );
+			nocache_headers();
 			return;
 		}
 
@@ -152,8 +200,69 @@ class Llms_Txt {
 
 		echo '<div class="wrap">';
 		echo '<h1>' . esc_html__( 'LOGO ET SPES', 'revistalogos-core' ) . ' — <code>' . esc_html__( 'llms.txt', 'revistalogos-core' ) . '</code></h1>';
+		echo '<form action="options.php" method="post">';
+		settings_fields( self::SETTINGS_GROUP );
+		do_settings_sections( self::PAGE_SLUG );
+		submit_button();
+		echo '</form>';
 		self::render_admin_panel();
 		echo '</div>';
+	}
+
+	/**
+	 * Settings API: publish toggle. Does not write the option.
+	 */
+	public static function register_setting() {
+		register_setting(
+			self::SETTINGS_GROUP,
+			self::OPTION_NAME,
+			array(
+				'type'              => 'integer',
+				'sanitize_callback' => array( __CLASS__, 'sanitize' ),
+				'default'           => 1,
+				'show_in_rest'      => false,
+			)
+		);
+
+		add_settings_section(
+			'revistalogos_llms_txt',
+			'',
+			'__return_false',
+			self::PAGE_SLUG
+		);
+
+		add_settings_field(
+			self::OPTION_NAME,
+			__( 'Publicar llms.txt', 'revistalogos-core' ),
+			array( __CLASS__, 'render_enable_field' ),
+			self::PAGE_SLUG,
+			'revistalogos_llms_txt'
+		);
+	}
+
+	/**
+	 * @return void
+	 */
+	public static function render_enable_field() {
+		printf(
+			'<input type="hidden" name="%1$s" value="0">',
+			esc_attr( self::OPTION_NAME )
+		);
+		printf(
+			'<label><input type="checkbox" name="%1$s" value="1"%2$s> %3$s</label>',
+			esc_attr( self::OPTION_NAME ),
+			checked( self::is_enabled(), true, false ),
+			esc_html__( 'Publicar llms.txt', 'revistalogos-core' )
+		);
+		echo '<p class="description">' . esc_html__( 'Activada: la dirección pública responde con el índice. Desactivada: /llms.txt no se publica.', 'revistalogos-core' ) . '</p>';
+	}
+
+	/**
+	 * Flush pretty permalinks after the publish toggle changes.
+	 */
+	public static function flush_after_toggle() {
+		self::register_rewrite();
+		flush_rewrite_rules();
 	}
 
 	/**

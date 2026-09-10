@@ -41,7 +41,8 @@ la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
 = 0.2.12 =
 * Serve `/llms.txt` for AI agents (issue #47): stable archive map plus
   the current published issue and its articles from `Queries`. An
-  administrator can refresh it from Settings → LOGO ET SPES — llms.txt. No
+  administrator can enable, disable or refresh it from Settings →
+  LOGO ET SPES — llms.txt (missing option = on). No
   SiteSEO and no hardcoded catalog.
 
 = 0.2.11 =

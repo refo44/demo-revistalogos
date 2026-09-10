@@ -31,3 +31,8 @@ Característica: /llms.txt para agentes de IA
     Cuando se genera /llms.txt
     Entonces enlaza esas páginas publicadas con su título vigente
     Y no enlaza el borrador ni la búsqueda
+
+  Escenario: Un administrador puede desactivar la publicación
+    Dado que llms.txt está desactivado en Ajustes
+    Cuando se solicita la dirección pública
+    Entonces el mapa no se publica

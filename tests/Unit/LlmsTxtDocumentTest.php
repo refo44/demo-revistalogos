@@ -67,6 +67,17 @@ class LlmsTxtDocumentTest extends TestCase {
 	}
 
 	/**
+	 * Dado: un valor de ajuste crudo.
+	 * Entonces: solo queda 0 o 1.
+	 */
+	public function test_enable_setting_stores_only_zero_or_one() {
+		$this->assertSame( 1, Llms_Txt::sanitize( 1 ) );
+		$this->assertSame( 1, Llms_Txt::sanitize( '1' ) );
+		$this->assertSame( 0, Llms_Txt::sanitize( 0 ) );
+		$this->assertSame( 0, Llms_Txt::sanitize( 'no' ) );
+	}
+
+	/**
 	 * Dado: un número publicado con artículos.
 	 * Entonces: el documento enlaza ese número y esos artículos.
 	 */

@@ -148,6 +148,8 @@ class LlmsTxtCatalogTest extends WP_UnitTestCase {
 	 * ofrece Actualizar llms.txt con nonce.
 	 */
 	public function test_settings_page_offers_manual_llms_refresh() {
+		Llms_Txt::register_setting();
+
 		ob_start();
 		Llms_Txt::render_settings_page();
 		$html = ob_get_clean();
@@ -156,9 +158,51 @@ class LlmsTxtCatalogTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( '<code>llms.txt</code>', $html );
 		$this->assertStringContainsString( '/llms.txt', $html );
 		$this->assertStringContainsString( 'Actualizar llms.txt', $html );
+		$this->assertStringContainsString( 'Publicar llms.txt', $html );
+		$this->assertStringContainsString( 'name="' . Llms_Txt::OPTION_NAME . '"', $html );
 		$this->assertStringContainsString( 'name="_wpnonce"', $html );
 		$this->assertStringNotContainsString( 'Mapa para IA', $html );
 		$this->assertStringNotContainsString( 'Índice público', $html );
+	}
+
+	/**
+	 * Dado: la opción no existe.
+	 * Entonces: /llms.txt sigue público (ausencia = activado).
+	 */
+	public function test_missing_option_keeps_llms_txt_enabled() {
+		delete_option( Llms_Txt::OPTION_NAME );
+
+		$this->assertTrue( Llms_Txt::is_enabled() );
+	}
+
+	/**
+	 * Dado: un administrador desactiva llms.txt.
+	 * Entonces: la dirección pública no publica el mapa.
+	 */
+	public function test_disabled_option_stops_public_llms_txt() {
+		$previous_uri           = isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '/';
+		$_SERVER['REQUEST_URI'] = '/llms.txt';
+		update_option( Llms_Txt::OPTION_NAME, 0 );
+
+		$this->assertFalse( Llms_Txt::is_enabled() );
+		$this->assertFalse( Llms_Txt::should_serve() );
+
+		$_SERVER['REQUEST_URI'] = $previous_uri;
+	}
+
+	/**
+	 * Dado: llms.txt activado y una petición a esa ruta.
+	 * Entonces: se publica el mapa.
+	 */
+	public function test_enabled_llms_request_should_serve() {
+		$previous_uri           = isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '/';
+		$_SERVER['REQUEST_URI'] = '/llms.txt';
+		update_option( Llms_Txt::OPTION_NAME, 1 );
+
+		$this->assertTrue( Llms_Txt::is_enabled() );
+		$this->assertTrue( Llms_Txt::should_serve() );
+
+		$_SERVER['REQUEST_URI'] = $previous_uri;
 	}
 
 	/**
