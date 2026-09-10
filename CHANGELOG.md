@@ -8,6 +8,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+## [0.3.3] — 2026-09-10
+
+Release etiquetado para FTPS de producción (ADR 0020). Incluye el
+sitemap nativo ([#44](https://github.com/refo44/demo-revistalogos/pull/44),
+plugin `revistalogos-core` **0.2.11**) y el resto de `main` acumulado
+desde `v0.3.2`. Theme sin cambio.
+
 ### Added
 - Plugin `revistalogos-core` 0.2.11: sitemap nativo sin provider `users`,
   `/buscar/` fuera del sitemap de páginas y con `noindex,follow` vía
@@ -418,7 +425,10 @@ con la infraestructura de gobierno del proyecto en su sitio.
 - El contenido editorial de la maqueta es demostrativo y **no** se publica en producción (ver `docs/17-implementation-order` §3.1).
 - `robots.txt` permanece en `Disallow: /` mientras el sitio es prototipo.
 
-[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.3.0...HEAD
+[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.3.3...HEAD
+[0.3.3]: https://github.com/refo44/demo-revistalogos/compare/v0.3.2...v0.3.3
+[0.3.2]: https://github.com/refo44/demo-revistalogos/compare/v0.3.1...v0.3.2
+[0.3.1]: https://github.com/refo44/demo-revistalogos/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/refo44/demo-revistalogos/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/refo44/demo-revistalogos/releases/tag/v0.2.0
 [0.1.0]: https://github.com/refo44/demo-revistalogos/releases/tag/v0.1.0
