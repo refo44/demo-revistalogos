@@ -8,6 +8,11 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Added
+- Plugin `revistalogos-core` 0.2.12: `/llms.txt` generado en cada
+  petición (issue #47). Mapa estable de archivos + número actual y
+  artículos publicados vía `Queries`. Sin catálogo fijo ni SiteSEO.
+
 ## [0.3.3] — 2026-09-10
 
 Release etiquetado para FTPS de producción (ADR 0020). Incluye el

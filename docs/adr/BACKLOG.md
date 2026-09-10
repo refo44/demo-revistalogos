@@ -293,7 +293,8 @@ Solo trabajo o proceso **ya decidido** y aún no cerrado. Las decisiones **abier
 | Taxonomía `philosopher` | DEFERRED (aplazada en ADR 0005; no es una decisión abierta) | ADR 0005 |
 | HSTS y CSP tras auditoría profesional; GA4 en fase posterior con asesoría legal | DEFERRED | ADR 0012 §3/§6 (D12a, no D12b); ADR 0011 §2 |
 | Activar exigencia PDF en producción | LATER (decisión del propietario; default OFF) | ADR 0017; no es auto-enable |
-| Indexación pública | LATER (launch gate; no la abre el deploy) | ADR 0004; `docs/operations/produccion-wordpress.md` |
+| Indexación pública | Hecha en prod (robots + sitemap nativo, v0.3.3) | ADR 0004; `docs/operations/produccion-wordpress.md` |
+| `/llms.txt` para agentes de IA (AEO) | NEXT ([#47](https://github.com/refo44/demo-revistalogos/issues/47)) | Mapa dinámico en `revistalogos-core`; no `llms-full.txt` |
 | e-ISSN digital / ISSN «en trámite» | LATER (trámite editorial, no software) | ADR 0013; ADR 0004 |
 | Backlog **operativo** de producción (CF7/WP Statistics en el live, Softaculous, restos HTML, permalinks, SpeedyCache, secreto FTP legado, fuente de GitHub Pages) | no duplicar aquí | `docs/operations/produccion-wordpress.md` § Pendientes inmediatos; `docs/fase3-execution-state.md` |
 

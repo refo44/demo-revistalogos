@@ -3,7 +3,7 @@ Contributors: cenfiss
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.2.11
+Stable tag: 0.2.12
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,11 @@ Fase 3: los campos `issn`, `doi` y `orcid` son almacenamiento base inerte;
 la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
 
 == Changelog ==
+
+= 0.2.12 =
+* Serve `/llms.txt` for AI agents (issue #47): stable archive map plus
+  the current published issue and its articles from `Queries`. No
+  SiteSEO and no hardcoded catalog.
 
 = 0.2.11 =
 * Native sitemap: drop the `users` provider, exclude `/buscar/` from the
