@@ -101,7 +101,7 @@ Botones, menús, mensajes, formularios y estados. Criterios de voz en `07-voice-
 ## 5. Formulario de contacto
 
 - **Título de sección:** Enviar Mensaje
-- **Campos:** Nombre completo *, Email *, Asunto *, Mensaje *
+- **Campos:** Nombre completo\*, Email\*, Asunto\*, Mensaje\*
 - **Botón:** Enviar Mensaje
 - **Confirmación:** (mailto; sin mensaje de confirmación si se usa mailto)
 

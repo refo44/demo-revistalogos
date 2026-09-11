@@ -1,0 +1,11 @@
+{
+  "globs": ["**/*.md"],
+  "ignores": [
+    "node_modules/**",
+    "vendor/**",
+    "**/vendor/**",
+    "content-source/**",
+    "tmp/**",
+    "wordpress/wp-data/**"
+  ]
+}
