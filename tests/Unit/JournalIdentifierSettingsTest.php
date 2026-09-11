@@ -37,4 +37,30 @@ class JournalIdentifierSettingsTest extends TestCase {
 		$this->assertSame( '', Journal_Identifier_Settings::sanitize( array( '2443-5678' ) ) );
 		$this->assertSame( '', Journal_Identifier_Settings::sanitize( null ) );
 	}
+
+	/**
+	 * Dado: Ajustes → LOGO ET SPES.
+	 * Entonces: los campos no llevan pie de ayuda por superficie.
+	 */
+	public function test_settings_fields_have_no_surface_captions() {
+		$settings = $this->repo_file_contents(
+			'wordpress/wp-content/plugins/revistalogos-core/includes/metadata/class-journal-identifier-settings.php'
+		);
+
+		$this->assertStringNotContainsString( 'Pie, Acerca y /llms.txt.', $settings );
+		$this->assertStringNotContainsString( 'Inerte hasta Crossref.', $settings );
+	}
+
+	/**
+	 * @param string $relative Path from the repository root.
+	 */
+	private function repo_file_contents( $relative ) {
+		$path = dirname( __DIR__, 2 ) . '/' . $relative;
+		$this->assertFileIsReadable( $path );
+
+		$contents = file_get_contents( $path );
+		$this->assertNotFalse( $contents );
+
+		return $contents;
+	}
 }

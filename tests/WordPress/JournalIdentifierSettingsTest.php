@@ -66,6 +66,8 @@ class JournalIdentifierSettingsTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'ISSN', $html );
 		$this->assertStringContainsString( 'Depósito Legal', $html );
 		$this->assertStringContainsString( 'Prefijo DOI', $html );
+		$this->assertStringNotContainsString( 'Pie, Acerca y /llms.txt.', $html );
+		$this->assertStringNotContainsString( 'Inerte hasta Crossref.', $html );
 	}
 
 	/**

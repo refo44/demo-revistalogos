@@ -8,6 +8,16 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+## [0.3.11] — 2026-09-11
+
+Release etiquetado para FTPS de producción (ADR 0020). Plugin
+`revistalogos-core` **0.2.16**. Theme sin cambio (**0.2.8**).
+
+### Changed
+- Plugin `revistalogos-core` 0.2.16: ISSN, depósito legal y prefijo DOI
+  en Ajustes ya no muestran el pie «Pie, Acerca y /llms.txt» ni
+  «Inerte hasta Crossref».
+
 ## [0.3.10] — 2026-09-11
 
 Release etiquetado para FTPS de producción (ADR 0020). Theme
@@ -530,7 +540,8 @@ con la infraestructura de gobierno del proyecto en su sitio.
 - El contenido editorial de la maqueta es demostrativo y **no** se publica en producción (ver `docs/17-implementation-order` §3.1).
 - `robots.txt` permanece en `Disallow: /` mientras el sitio es prototipo.
 
-[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.3.10...HEAD
+[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.3.11...HEAD
+[0.3.11]: https://github.com/refo44/demo-revistalogos/compare/v0.3.10...v0.3.11
 [0.3.10]: https://github.com/refo44/demo-revistalogos/compare/v0.3.9...v0.3.10
 [0.3.9]: https://github.com/refo44/demo-revistalogos/compare/v0.3.8...v0.3.9
 [0.3.3]: https://github.com/refo44/demo-revistalogos/compare/v0.3.2...v0.3.3
