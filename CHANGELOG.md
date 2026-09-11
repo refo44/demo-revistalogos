@@ -8,6 +8,11 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+## [0.3.9] — 2026-09-10
+
+Release etiquetado para FTPS de producción (ADR 0020). Theme
+`revistalogos` **0.2.7**. Plugin sin cambio (**0.2.14**).
+
 ### Fixed
 - Theme `revistalogos` 0.2.7: X recibe `summary_large_image` con
   tarjeta 1200×630, `twitter:title` y `twitter:description`. `og:image`
