@@ -1,6 +1,6 @@
 # Versionado
 
-**Versión vigente: 0.3.6**
+**Versión vigente: 0.3.7**
 
 ## Fuente de verdad
 

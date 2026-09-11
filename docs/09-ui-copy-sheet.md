@@ -47,7 +47,7 @@ Botones, menús, mensajes, formularios y estados. Criterios de voz en `07-voice-
 
 **Contacto:** CENFISS, email, web
 
-**Footer inferior:** © 2025 CENFISS. Licencia Creative Commons Atribución 4.0 Internacional.
+**Footer inferior:** © 2025 CENFISS. Todos los derechos reservados.
 
 ---
 
@@ -162,7 +162,6 @@ Botones, menús, mensajes, formularios y estados. Criterios de voz en `07-voice-
 ## 10. Enlaces externos
 
 - **CENFISS:** Se abre en nueva pestaña. Usar `rel="noopener noreferrer"`.
-- **Creative Commons:** Se abre en nueva pestaña.
 - **Guías APA / Vancouver:** Se abre en nueva pestaña.
 - **Enlaces DOI:** Se abre doi.org en nueva pestaña.
 - **Enlaces ORCID:** Se abre orcid.org en nueva pestaña.

@@ -256,7 +256,7 @@ Intención de propietario (2026-08-31). Criterio de aceptación visual: mockups 
 
 **Estructura (tres bloques).**
 
-Preliminares: cubierta; verso o página de respeto; portadilla (nombre canónico *Revista de Filosofía LOGO ET SPES*, Vol./N.º/año, CENFISS como editor); créditos legales (ISSN, depósito legal, copyright, CC BY 4.0, contacto); sumario tipográfico (género + título + autores + páginas *de ese PDF*; el campo `pages` del artículo sigue siendo dato de papel).
+Preliminares: cubierta; verso o página de respeto; portadilla (nombre canónico *Revista de Filosofía LOGO ET SPES*, Vol./N.º/año, CENFISS como editor); créditos legales (ISSN, depósito legal, copyright, todos los derechos reservados, contacto); sumario tipográfico (género + título + autores + páginas *de ese PDF*; el campo `pages` del artículo sigue siendo dato de papel).
 
 Cuerpo (páginas internas, no solo el índice): portadilla de género cuando exista contenido (EDITORIAL, ARTÍCULOS, ENSAYOS, RESEÑAS) — no inventar secciones vacías; editorial con maqueta propia (sin aparato de paper; aquí empieza la numeración árabe); cada artículo/ensayo/reseña en página nueva, **sin** el masthead completo de la separata (encabezado corriente mínimo); reseña abre con ficha de la obra, no con abstract de artículo; bibliografía dentro de cada pieza.
 

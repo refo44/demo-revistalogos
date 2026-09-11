@@ -36,7 +36,7 @@ Dónde viven los archivos estáticos: docs, content-source, maqueta (o tema), as
 revistalogos/
 ├── docs/                  (documentación, 00–20)
 ├── LICENSE                (licencia del código del repositorio: MIT)
-├── LICENSE-CONTENT        (licencia del contenido editorial: CC BY 4.0)
+├── LICENSE-CONTENT        (contenido editorial: todos los derechos reservados)
 ├── content-source/        (contenido fuente antes de WordPress)
 │   └── PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md
 ├── assets/                (CSS, JS, imágenes, fuentes, PDFs)

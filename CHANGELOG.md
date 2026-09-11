@@ -8,6 +8,17 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+## [0.3.7] — 2026-09-10
+
+Release etiquetado para FTPS de producción (ADR 0020). Theme
+`revistalogos` **0.2.5**: el contenido editorial pasa a todos los
+derechos reservados. Plugin sin cambio (**0.2.13**).
+
+### Changed
+- Theme `revistalogos` 0.2.5: el pie, Acerca, Ética y Privacidad
+  declaran todos los derechos reservados. Ya no ofrecen CC BY 4.0.
+  El código del sitio sigue en MIT.
+
 ## [0.3.6] — 2026-09-10
 
 Release etiquetado para FTPS de producción (ADR 0020). Theme
