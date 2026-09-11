@@ -8,6 +8,11 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Changed
+- Theme `revistalogos` 0.2.9 y plugin `revistalogos-core` 0.2.17: la
+  tarjeta Secciones se omite cuando el número no tiene secciones
+  asignadas (Vol. 1 Nº 1, decisión editorial).
+
 ## [0.3.11] — 2026-09-11
 
 Release etiquetado para FTPS de producción (ADR 0020). Plugin

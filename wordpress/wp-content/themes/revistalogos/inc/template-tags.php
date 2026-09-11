@@ -61,6 +61,20 @@ function revistalogos_issue_articles( $issue_id, $limit = -1 ) {
 }
 
 /**
+ * Distinct assigned section terms of an issue (plugin-derived; 0 without it).
+ *
+ * @param int $issue_id Issue ID.
+ * @return int
+ */
+function revistalogos_issue_section_count( $issue_id ) {
+	if ( ! revistalogos_core_active() ) {
+		return 0;
+	}
+
+	return Revistalogos_Core\Queries::issue_section_count( $issue_id );
+}
+
+/**
  * Author profiles credited on an article.
  *
  * @param int $article_id Article ID.

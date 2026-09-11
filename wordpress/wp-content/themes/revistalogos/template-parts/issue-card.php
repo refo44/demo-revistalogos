@@ -92,18 +92,9 @@ $revistalogos_card_class = 'card issue-card' . ( $revistalogos_featured ? ' fron
 
 		<?php
 		if ( $revistalogos_show_stats ) :
-			$revistalogos_articles = revistalogos_issue_articles( $revistalogos_issue_id );
-			$revistalogos_count    = count( $revistalogos_articles );
-
-			$revistalogos_sections = array();
-			foreach ( $revistalogos_articles as $revistalogos_article_item ) {
-				$revistalogos_terms = get_the_terms( $revistalogos_article_item, 'section' );
-				if ( is_array( $revistalogos_terms ) ) {
-					foreach ( $revistalogos_terms as $revistalogos_term ) {
-						$revistalogos_sections[ $revistalogos_term->term_id ] = true;
-					}
-				}
-			}
+			$revistalogos_articles      = revistalogos_issue_articles( $revistalogos_issue_id );
+			$revistalogos_count         = count( $revistalogos_articles );
+			$revistalogos_section_count = revistalogos_issue_section_count( $revistalogos_issue_id );
 
 			if ( $revistalogos_count > 0 ) :
 				?>
@@ -114,12 +105,12 @@ $revistalogos_card_class = 'card issue-card' . ( $revistalogos_featured ? ' fron
 					echo esc_html( sprintf( _n( '%d artículo', '%d artículos', $revistalogos_count, 'revistalogos' ), $revistalogos_count ) );
 					?>
 					</strong></span>
-					<?php if ( count( $revistalogos_sections ) > 0 ) : ?>
+					<?php if ( $revistalogos_section_count > 0 ) : ?>
 						&bull;
 						<span><strong>
 						<?php
 						/* translators: %d: number of sections. */
-						echo esc_html( sprintf( _n( '%d sección', '%d secciones', count( $revistalogos_sections ), 'revistalogos' ), count( $revistalogos_sections ) ) );
+						echo esc_html( sprintf( _n( '%d sección', '%d secciones', $revistalogos_section_count, 'revistalogos' ), $revistalogos_section_count ) );
 						?>
 						</strong></span>
 					<?php endif; ?>
