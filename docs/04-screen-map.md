@@ -20,6 +20,7 @@ Lista de las pantallas que existen en el sitio. No describe diseño visual; solo
 | Enviar colaboración | Instrucciones para autores, formularios, CTA principal para envío. |
 | Comité Editorial | Consejo Editorial, Editor General, Editores adjuntos, Árbitros. |
 | Enlaces | Enlaces de interés, CENFISS, partners. |
+| Donaciones | Vías de apoyo a la revista (Pago Móvil, Zelle, PayPal). Contenido editorial en la Page de WordPress; plantilla `page.php`. |
 
 ---
 

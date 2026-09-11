@@ -35,6 +35,7 @@ Este documento define qué enlaces salen de cada pantalla, a dónde van, en qué
 | Enviar colaboración | Página de envío |
 | Noticias | Índice del blog |
 | Acerca | Página Acerca |
+| Donaciones | Página Donaciones |
 | Contacto | Página de contacto |
 | CENFISS ↗ | cenfiss.net (externo) |
 
@@ -59,6 +60,7 @@ Este documento define qué enlaces salen de cada pantalla, a dónde van, en qué
 | Ética editorial | Página Ética |
 | Políticas | Página Políticas |
 | Comité editorial | Página Comité |
+| Donaciones | Página Donaciones |
 | Contacto | Página de contacto, web CENFISS, email |
 | Licencia Creative Commons | Licencia CC (externo) |
 | Privacidad | Página de privacidad |
@@ -79,6 +81,7 @@ Este documento define qué enlaces salen de cada pantalla, a dónde van, en qué
 | Normas | Descargas PDF, enlaces APA/Vancouver | Políticas, Enviar colaboración |
 | Políticas | — | Normas, Enviar colaboración |
 | Acerca | — | Enviar colaboración, Contacto |
+| Donaciones | Vías de pago publicadas en la Page | Contacto |
 | Contacto | mailto, web CENFISS | Enviar colaboración |
 | Comité | — | Enviar colaboración, Normas |
 | Enlaces | Enlaces externos (CENFISS, partners) | Contacto |

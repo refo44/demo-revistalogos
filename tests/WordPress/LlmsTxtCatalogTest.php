@@ -49,6 +49,7 @@ class LlmsTxtCatalogTest extends WP_UnitTestCase {
 		$this->make_page( 'etica', 'Ética', 'publish' );
 		$this->make_page( 'politicas', 'Políticas', 'publish' );
 		$this->make_page( 'comite-editorial', 'Comité Editorial', 'publish' );
+		$this->make_page( 'donaciones', 'Donaciones', 'publish' );
 		$this->make_page( 'acerca', 'Acerca', 'draft' );
 		$this->make_page( 'buscar', 'Búsqueda', 'publish' );
 		$this->make_page( 'pagina-ajena', 'Página ajena', 'publish' );
@@ -61,6 +62,8 @@ class LlmsTxtCatalogTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'Ética', $document );
 		$this->assertStringContainsString( 'Políticas', $document );
 		$this->assertStringContainsString( 'Comité Editorial', $document );
+		$this->assertStringContainsString( 'Donaciones', $document );
+		$this->assertStringContainsString( home_url( '/donaciones/' ), $document );
 		$this->assertStringNotContainsString( 'Acerca', $document );
 		$this->assertStringNotContainsString( 'Búsqueda', $document );
 		$this->assertStringNotContainsString( 'Página ajena', $document );

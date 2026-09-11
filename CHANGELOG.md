@@ -8,6 +8,19 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Added
+- Plugin `revistalogos-core` 0.2.13: `/llms.txt` incluye la Page
+  `donaciones` cuando está publicada. El contenido de pago sigue en
+  wp-admin; no hay plantilla de theme. Mapa: `docs/04`.
+
+### Fixed
+- Theme `revistalogos` 0.2.3: la portada emite `og:image` (con
+  ancho/alto), `twitter:card` / `twitter:image` y `Periodical.image`
+  con el logo de la revista. X y WhatsApp no mostraban tarjeta: el
+  theme solo declaraba imagen en singular con destacada, y la ruta
+  estática `/assets/img/logo-revista.png` es 404. Facebook/Threads
+  sí raspaban otra imagen de la página.
+
 ### Changed
 - `deploy-wordpress.yml` y `tools/require-production-release-tag.sh`
   rechazan un `workflow_dispatch` desde `main` (o cualquier rama)

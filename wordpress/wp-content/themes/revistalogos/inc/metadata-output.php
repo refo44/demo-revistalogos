@@ -57,11 +57,15 @@ function revistalogos_head_metadata() {
 		printf( '<meta property="og:url" content="%s">' . "\n", esc_url( $og_url ) );
 	}
 
-	if ( is_singular() && has_post_thumbnail() ) {
-		$image = wp_get_attachment_image_url( get_post_thumbnail_id(), 'large' );
-		if ( $image ) {
-			printf( '<meta property="og:image" content="%s">' . "\n", esc_url( $image ) );
+	$preview = revistalogos_preview_image();
+	if ( ! empty( $preview['url'] ) ) {
+		printf( '<meta property="og:image" content="%s">' . "\n", esc_url( $preview['url'] ) );
+		if ( ! empty( $preview['width'] ) && ! empty( $preview['height'] ) ) {
+			printf( '<meta property="og:image:width" content="%d">' . "\n", (int) $preview['width'] );
+			printf( '<meta property="og:image:height" content="%d">' . "\n", (int) $preview['height'] );
 		}
+		printf( '<meta name="twitter:card" content="summary_large_image">' . "\n" );
+		printf( '<meta name="twitter:image" content="%s">' . "\n", esc_url( $preview['url'] ) );
 	}
 
 	// Core emits rel=canonical for singular views only; cover the front
@@ -158,6 +162,7 @@ function revistalogos_schema_metadata() {
 					'@type' => 'Periodical',
 					'name'  => 'Revista de Filosofía LOGO ET SPES',
 					'url'   => home_url( '/' ),
+					'image' => revistalogos_journal_logo_url(),
 					'inLanguage' => 'es',
 					'publisher'  => array(
 						'@type' => 'Organization',
@@ -248,3 +253,51 @@ function revistalogos_schema_metadata() {
 	}
 }
 add_action( 'wp_head', 'revistalogos_schema_metadata', 7 );
+
+/**
+ * Absolute URL of the journal logo used as the site preview image.
+ * Replaces the retired static path /assets/img/logo-revista.png (404).
+ *
+ * @return string
+ */
+function revistalogos_journal_logo_url() {
+	return get_theme_root_uri() . '/revistalogos/assets/img/logo-revista.png';
+}
+
+/**
+ * Preview image for Open Graph and Twitter Cards: featured image on
+ * singular views, otherwise the journal logo. WhatsApp reads og:image;
+ * X requires twitter:card + twitter:image. Facebook/Threads can scrape
+ * in-page images and so appeared to work without these tags.
+ *
+ * @return array{url: string, width: int, height: int}
+ */
+function revistalogos_preview_image() {
+	if ( is_singular() && has_post_thumbnail() ) {
+		$src = wp_get_attachment_image_src( get_post_thumbnail_id(), 'full' );
+		if ( is_array( $src ) && ! empty( $src[0] ) ) {
+			return array(
+				'url'    => $src[0],
+				'width'  => (int) $src[1],
+				'height' => (int) $src[2],
+			);
+		}
+	}
+
+	return array(
+		'url'    => revistalogos_journal_logo_url(),
+		'width'  => 1024,
+		'height' => 1024,
+	);
+}
+
+/**
+ * Absolute URL of the current preview image.
+ *
+ * @return string
+ */
+function revistalogos_preview_image_url() {
+	$preview = revistalogos_preview_image();
+
+	return $preview['url'];
+}
