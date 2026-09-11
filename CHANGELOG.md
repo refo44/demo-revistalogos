@@ -8,6 +8,17 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+## [0.3.6] — 2026-09-10
+
+Release etiquetado para FTPS de producción (ADR 0020). Theme
+`revistalogos` **0.2.4**: X recibe `twitter:card=summary` para el
+logo 1:1. Plugin sin cambio (**0.2.13**).
+
+### Fixed
+- Theme `revistalogos` 0.2.4: la portada declara `twitter:card=summary`
+  para el logo 1024×1024. `summary_large_image` exige ~2:1; X no
+  pintaba la tarjeta. WhatsApp/Facebook siguen leyendo `og:image`.
+
 ## [0.3.5] — 2026-09-10
 
 Release etiquetado para FTPS de producción (ADR 0020). Incluye la

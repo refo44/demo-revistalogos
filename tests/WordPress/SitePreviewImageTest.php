@@ -34,7 +34,8 @@ class SitePreviewImageTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'property="og:image"', $html );
 		$this->assertStringContainsString( $logo, $html );
 		$this->assertStringContainsString( 'name="twitter:card"', $html );
-		$this->assertStringContainsString( 'summary_large_image', $html );
+		$this->assertStringContainsString( 'content="summary"', $html );
+		$this->assertStringNotContainsString( 'summary_large_image', $html );
 		$this->assertStringContainsString( 'name="twitter:image"', $html );
 		$this->assertSame( 2, substr_count( $html, $logo ) );
 	}
@@ -74,6 +75,24 @@ class SitePreviewImageTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'name="twitter:image"', $html );
 		$this->assertStringContainsString( $featured, $html );
 		$this->assertStringNotContainsString( $this->journal_logo_url(), $html );
+	}
+
+	/**
+	 * Dado: una imagen 1:1 (el logo de la revista).
+	 * Entonces: X recibe summary, no summary_large_image.
+	 */
+	public function test_square_preview_uses_summary_card_not_large_image() {
+		$this->assertSame( 'summary', revistalogos_twitter_card_type( 1024, 1024 ) );
+		$this->assertSame( 'summary', revistalogos_twitter_card_type( 144, 144 ) );
+	}
+
+	/**
+	 * Dado: una imagen apaisada de al menos 300×157.
+	 * Entonces: X puede usar summary_large_image.
+	 */
+	public function test_landscape_preview_uses_summary_large_image_card() {
+		$this->assertSame( 'summary_large_image', revistalogos_twitter_card_type( 1200, 630 ) );
+		$this->assertSame( 'summary_large_image', revistalogos_twitter_card_type( 300, 157 ) );
 	}
 
 	/**
