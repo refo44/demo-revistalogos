@@ -8,6 +8,15 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+## [0.3.5] — 2026-09-10
+
+Release etiquetado para FTPS de producción (ADR 0020). Incluye la
+tarjeta social de portada
+([#51](https://github.com/refo44/demo-revistalogos/pull/51), theme
+`revistalogos` **0.2.3**), `donaciones` en `/llms.txt` (plugin
+`revistalogos-core` **0.2.13**) y el candado de deploy solo desde
+etiqueta ([#50](https://github.com/refo44/demo-revistalogos/pull/50)).
+
 ### Added
 - Plugin `revistalogos-core` 0.2.13: `/llms.txt` incluye la Page
   `donaciones` cuando está publicada. El contenido de pago sigue en
