@@ -12,7 +12,7 @@ Característica: Imagen de preview del sitio
     Cuando se emiten los metadatos del documento
     Entonces og:image apunta al logo de la revista
     Y twitter:image es la misma URL
-    Y twitter:card es summary_large_image
+    Y twitter:card es summary porque el logo es 1:1
     Y el JSON-LD de Periodical incluye esa misma imagen
 
   Escenario: Una entrada con imagen destacada no sustituye la propia

@@ -64,7 +64,10 @@ function revistalogos_head_metadata() {
 			printf( '<meta property="og:image:width" content="%d">' . "\n", (int) $preview['width'] );
 			printf( '<meta property="og:image:height" content="%d">' . "\n", (int) $preview['height'] );
 		}
-		printf( '<meta name="twitter:card" content="summary_large_image">' . "\n" );
+		printf(
+			'<meta name="twitter:card" content="%s">' . "\n",
+			esc_attr( revistalogos_twitter_card_type( $preview['width'], $preview['height'] ) )
+		);
 		printf( '<meta name="twitter:image" content="%s">' . "\n", esc_url( $preview['url'] ) );
 	}
 
@@ -262,6 +265,28 @@ add_action( 'wp_head', 'revistalogos_schema_metadata', 7 );
  */
 function revistalogos_journal_logo_url() {
 	return get_theme_root_uri() . '/revistalogos/assets/img/logo-revista.png';
+}
+
+/**
+ * X card type for a preview image.
+ *
+ * summary_large_image needs ~2:1 (min 300×157). A square journal logo
+ * (1024×1024) fails that contract and X draws no image. summary is the
+ * 1:1 card.
+ *
+ * @param int $width  Image width in pixels.
+ * @param int $height Image height in pixels.
+ * @return string `summary` or `summary_large_image`
+ */
+function revistalogos_twitter_card_type( $width, $height ) {
+	$width  = (int) $width;
+	$height = (int) $height;
+
+	if ( $width >= 300 && $height >= 157 && ( $width * 2 ) >= ( $height * 3 ) ) {
+		return 'summary_large_image';
+	}
+
+	return 'summary';
 }
 
 /**
