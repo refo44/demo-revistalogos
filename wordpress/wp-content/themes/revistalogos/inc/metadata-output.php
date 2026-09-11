@@ -43,12 +43,16 @@ function revistalogos_head_metadata() {
 		$og_url = get_pagenum_link( max( 1, (int) get_query_var( 'paged' ) ) );
 	}
 
+	$document_title = wp_get_document_title();
+
 	if ( $description ) {
 		printf( '<meta name="description" content="%s">' . "\n", esc_attr( $description ) );
 		printf( '<meta property="og:description" content="%s">' . "\n", esc_attr( $description ) );
+		printf( '<meta name="twitter:description" content="%s">' . "\n", esc_attr( $description ) );
 	}
 
-	printf( '<meta property="og:title" content="%s">' . "\n", esc_attr( wp_get_document_title() ) );
+	printf( '<meta property="og:title" content="%s">' . "\n", esc_attr( $document_title ) );
+	printf( '<meta name="twitter:title" content="%s">' . "\n", esc_attr( $document_title ) );
 	printf( '<meta property="og:type" content="%s">' . "\n", esc_attr( $og_type ) );
 	printf( '<meta property="og:site_name" content="%s">' . "\n", esc_attr( get_bloginfo( 'name' ) ) );
 	printf( '<meta property="og:locale" content="es_ES">' . "\n" );
@@ -64,11 +68,15 @@ function revistalogos_head_metadata() {
 			printf( '<meta property="og:image:width" content="%d">' . "\n", (int) $preview['width'] );
 			printf( '<meta property="og:image:height" content="%d">' . "\n", (int) $preview['height'] );
 		}
+	}
+
+	$twitter = revistalogos_twitter_preview_image();
+	if ( ! empty( $twitter['url'] ) ) {
 		printf(
 			'<meta name="twitter:card" content="%s">' . "\n",
-			esc_attr( revistalogos_twitter_card_type( $preview['width'], $preview['height'] ) )
+			esc_attr( revistalogos_twitter_card_type( $twitter['width'], $twitter['height'] ) )
 		);
-		printf( '<meta name="twitter:image" content="%s">' . "\n", esc_url( $preview['url'] ) );
+		printf( '<meta name="twitter:image" content="%s">' . "\n", esc_url( $twitter['url'] ) );
 	}
 
 	// Core emits rel=canonical for singular views only; cover the front
@@ -290,29 +298,78 @@ function revistalogos_twitter_card_type( $width, $height ) {
 }
 
 /**
- * Preview image for Open Graph and Twitter Cards: featured image on
- * singular views, otherwise the journal logo. WhatsApp reads og:image;
- * X requires twitter:card + twitter:image. Facebook/Threads can scrape
- * in-page images and so appeared to work without these tags.
+ * Absolute URL of the 1200×630 card X can paint. Query `ver` forces a
+ * recrawl after the previous square-logo scrape failed.
+ *
+ * @return string
+ */
+function revistalogos_twitter_card_image_url() {
+	$url = get_theme_root_uri() . '/revistalogos/assets/img/og-twitter-card.jpg';
+
+	if ( defined( 'REVISTALOGOS_THEME_VERSION' ) ) {
+		$url = add_query_arg( 'ver', REVISTALOGOS_THEME_VERSION, $url );
+	}
+
+	return $url;
+}
+
+/**
+ * Featured image when the queried singular has one.
+ *
+ * @return array{url: string, width: int, height: int}|null
+ */
+function revistalogos_featured_preview_image() {
+	if ( ! is_singular() || ! has_post_thumbnail() ) {
+		return null;
+	}
+
+	$src = wp_get_attachment_image_src( get_post_thumbnail_id(), 'full' );
+	if ( ! is_array( $src ) || empty( $src[0] ) ) {
+		return null;
+	}
+
+	return array(
+		'url'    => $src[0],
+		'width'  => (int) $src[1],
+		'height' => (int) $src[2],
+	);
+}
+
+/**
+ * Preview image for Open Graph: featured image on singular views,
+ * otherwise the journal logo. WhatsApp / Search Console read og:image.
  *
  * @return array{url: string, width: int, height: int}
  */
 function revistalogos_preview_image() {
-	if ( is_singular() && has_post_thumbnail() ) {
-		$src = wp_get_attachment_image_src( get_post_thumbnail_id(), 'full' );
-		if ( is_array( $src ) && ! empty( $src[0] ) ) {
-			return array(
-				'url'    => $src[0],
-				'width'  => (int) $src[1],
-				'height' => (int) $src[2],
-			);
-		}
+	$featured = revistalogos_featured_preview_image();
+	if ( null !== $featured ) {
+		return $featured;
 	}
 
 	return array(
 		'url'    => revistalogos_journal_logo_url(),
 		'width'  => 1024,
 		'height' => 1024,
+	);
+}
+
+/**
+ * Preview image for X Cards: featured image on singular views,
+ * otherwise the 1200×630 landscape card (summary_large_image).
+ *
+ * @return array{url: string, width: int, height: int}
+ */
+function revistalogos_twitter_preview_image() {
+	$featured = revistalogos_featured_preview_image();
+	if ( null !== $featured ) {
+		return $featured;
+	}
+
+	return array(
+		'url'    => revistalogos_twitter_card_image_url(),
+		'width'  => 1200,
+		'height' => 630,
 	);
 }
 
