@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "Estadísticas del Número: ocultar Secciones/Visitas/Descargas si 0 (rama fix/issue-section-stats)"
+current_work_unit: "Release v0.3.12 (estadísticas del número; plugin 0.2.17 / theme 0.2.9)"
 current_branch: "fix/issue-section-stats"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-09-11"
-next_action: "PR de fix/issue-section-stats (Secciones/Visitas/Descargas; ocultar si 0). Plugin 0.2.17 / theme 0.2.9. Tras merge: release etiquetado nuevo y workflow_dispatch desde esa etiqueta (ADR 0020). Default OFF. No backfill. ADR 0017 WU7 not started."
+next_action: "PR chore(release): v0.3.12. Tras merge: etiqueta anotada v0.3.12 sobre origin/main y workflow_dispatch desde esa etiqueta (ADR 0020). No despachar desde v0.3.11. Default OFF. No backfill. ADR 0017 WU7 not started."
 blocked: false
 ---
 
@@ -659,11 +659,11 @@ Recuperación institucional **ya hecha** (Pages reales permanentes). Carga
 editorial real en proceso desde wp-admin (**no** completa). Docker local:
 `http://localhost:8080` (WordPress 7.1, PHP **8.3**).
 
-Siguiente acción priorizada — **estadísticas del número** en
-`fix/issue-section-stats` (plugin 0.2.17 / theme 0.2.9). Ocultar
+Siguiente acción priorizada — PR **`chore(release): v0.3.12`**
+(`fix/issue-section-stats`; plugin 0.2.17 / theme 0.2.9). Ocultar
 Secciones/Visitas/Descargas si el valor es 0. Vol. 1 Nº 1 no usa
 secciones por decisión editorial.
-Tras merge a `main`: release etiquetado nuevo y
+Tras merge a `main`: etiqueta anotada `v0.3.12` sobre `origin/main` y
 `workflow_dispatch` desde esa etiqueta (ADR 0020). **No** reabrir el
 checkpoint 0.2.8
 ([issue #9](https://github.com/refo44/demo-revistalogos/issues/9)
