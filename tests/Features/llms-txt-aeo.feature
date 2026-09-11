@@ -11,6 +11,8 @@ Característica: /llms.txt para agentes de IA
     Cuando se genera /llms.txt
     Entonces nombra Revista de Filosofía LOGO ET SPES
     Y enlaza números, artículos, autores y el sitemap nativo
+    Y declara todos los derechos reservados para el contenido
+    Y declara MIT para el código
 
   Escenario: El número vigente se lee de objetos publicados
     Dado un número publicado con artículos publicados

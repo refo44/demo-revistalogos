@@ -89,6 +89,7 @@ class Plugin {
 		require_once $includes . 'integrations/class-native-sitemap.php';
 		require_once $includes . 'integrations/class-llms-txt.php';
 		require_once $includes . 'migration/class-content-migrator.php';
+		require_once $includes . 'migration/class-withdrawn-cc-by-notices.php';
 		require_once $includes . 'fixtures/class-fixtures.php';
 		require_once $includes . 'article-pdf/class-article-pdf-publication-policy.php';
 		require_once $includes . 'article-pdf/interface-article-pdf-renderer.php';
@@ -142,6 +143,7 @@ class Plugin {
 		Taxonomies::insert_initial_terms();
 		Roles::install();
 		flush_rewrite_rules();
+		Withdrawn_Cc_By_Notices::apply_to_pages();
 
 		update_option( self::VERSION_OPTION, REVISTALOGOS_CORE_VERSION );
 	}

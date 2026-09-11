@@ -8,6 +8,17 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+## [0.3.8] — 2026-09-10
+
+Release etiquetado para FTPS de producción (ADR 0020). Theme
+`revistalogos` **0.2.6** y plugin `revistalogos-core` **0.2.14**.
+
+### Changed
+- Theme `revistalogos` 0.2.6: el pie declara © 2026 CENFISS.
+- Plugin `revistalogos-core` 0.2.14: Políticas y Contacto dejan de
+  ofrecer CC BY 4.0. El upgrade reescribe esas páginas en producción.
+  `/llms.txt` declara todos los derechos reservados y MIT.
+
 ## [0.3.7] — 2026-09-10
 
 Release etiquetado para FTPS de producción (ADR 0020). Theme

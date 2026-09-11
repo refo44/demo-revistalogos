@@ -84,7 +84,7 @@ $revistalogos_article_archive = get_post_type_archive_link( 'article' );
 		</div>
 
 		<div class="footer__bottom">
-			<p>&copy; 2025 CENFISS.</p>
+			<p>&copy; 2026 CENFISS.</p>
 			<p><?php esc_html_e( 'Todos los derechos reservados.', 'revistalogos' ); ?> <?php esc_html_e( 'Código del sitio bajo', 'revistalogos' ); ?> <a href="https://github.com/refo44/demo-revistalogos/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT<span class="visually-hidden"> (se abre en nueva pestaña)</span></a>.</p>
 		</div>
 

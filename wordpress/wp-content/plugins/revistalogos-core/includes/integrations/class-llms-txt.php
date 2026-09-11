@@ -355,6 +355,8 @@ class Llms_Txt {
 		$lines[] = '> ' . $catalog['description'];
 		$lines[] = '';
 		$lines[] = 'Sitio: ' . $catalog['home_url'];
+		$lines[] = 'Licencia del contenido: todos los derechos reservados.';
+		$lines[] = 'Código del sitio: MIT.';
 		$lines[] = '';
 		$lines[] = '## Contenido vivo';
 		$lines[] = '';

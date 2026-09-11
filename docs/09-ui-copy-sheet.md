@@ -47,7 +47,7 @@ Botones, menús, mensajes, formularios y estados. Criterios de voz en `07-voice-
 
 **Contacto:** CENFISS, email, web
 
-**Footer inferior:** © 2025 CENFISS. Todos los derechos reservados.
+**Footer inferior:** © 2026 CENFISS. Todos los derechos reservados.
 
 ---
 

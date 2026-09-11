@@ -31,3 +31,4 @@ require_once $article_pdf_dir . '/class-article-pdf-generation-orchestrator.php'
 require_once $article_pdf_dir . '/class-dompdf-article-pdf-renderer.php';
 require_once $plugin_root . '/includes/integrations/class-native-sitemap.php';
 require_once $plugin_root . '/includes/integrations/class-llms-txt.php';
+require_once $plugin_root . '/includes/migration/class-withdrawn-cc-by-notices.php';

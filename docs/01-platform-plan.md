@@ -121,7 +121,7 @@ Elementos:
 
 - Menú principal (4–6 ítems recomendados): Inicio, Revista, Normas, Acerca, Contacto, Noticias
 - CTA principal: Enviar Colaboración (para autores)
-- Pie como ancla institucional: ISSN, Depósito Legal, CENFISS, Creative Commons, contacto
+- Pie como ancla institucional: ISSN, Depósito Legal, CENFISS, todos los derechos reservados, contacto
 
 **Reglas:**
 
