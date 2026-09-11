@@ -10,8 +10,8 @@ require_once dirname( __DIR__, 2 ) . '/wordpress/wp-content/themes/revistalogos/
 
 /**
  * Protects the discoverable preview image that Search Console reads
- * from the front page. The static URL /assets/img/logo-revista.png
- * is a 404 on WordPress; the theme logo is the replacement.
+ * from the front page (og:image = journal logo). X uses a separate
+ * 1200×630 card so summary_large_image can paint.
  */
 class SitePreviewImageTest extends WP_UnitTestCase {
 
@@ -30,14 +30,17 @@ class SitePreviewImageTest extends WP_UnitTestCase {
 
 		$html = $this->render_head_metadata();
 		$logo = $this->journal_logo_url();
+		$card = $this->twitter_card_image_url();
 
 		$this->assertStringContainsString( 'property="og:image"', $html );
 		$this->assertStringContainsString( $logo, $html );
 		$this->assertStringContainsString( 'name="twitter:card"', $html );
-		$this->assertStringContainsString( 'content="summary"', $html );
-		$this->assertStringNotContainsString( 'summary_large_image', $html );
+		$this->assertStringContainsString( 'content="summary_large_image"', $html );
 		$this->assertStringContainsString( 'name="twitter:image"', $html );
-		$this->assertSame( 2, substr_count( $html, $logo ) );
+		$this->assertStringContainsString( $card, $html );
+		$this->assertStringContainsString( 'name="twitter:title"', $html );
+		$this->assertStringContainsString( 'name="twitter:description" content="Revista de Filosofía"', $html );
+		$this->assertSame( 1, substr_count( $html, $logo ) );
 	}
 
 	/**
@@ -103,12 +106,20 @@ class SitePreviewImageTest extends WP_UnitTestCase {
 	}
 
 	/**
+	 * @return string Absolute 1200×630 card URL that X can paint.
+	 */
+	private function twitter_card_image_url() {
+		return get_theme_root_uri() . '/revistalogos/assets/img/og-twitter-card.jpg';
+	}
+
+	/**
 	 * @return void
 	 */
 	private function make_static_front_page() {
 		$front_id = $this->make_published_page( 'inicio', 'Inicio' );
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_on_front', $front_id );
+		update_option( 'blogdescription', 'Revista de Filosofía' );
 	}
 
 	/**
