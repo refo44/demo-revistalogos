@@ -31,7 +31,7 @@ $revistalogos_label     = revistalogos_issue_label( $revistalogos_issue_id );
 $revistalogos_year      = absint( get_post_meta( $revistalogos_issue_id, 'year', true ) );
 $revistalogos_issn      = get_post_meta( $revistalogos_issue_id, 'issn', true );
 $revistalogos_doi       = get_post_meta( $revistalogos_issue_id, 'doi', true );
-$revistalogos_pdf_url   = revistalogos_meta_attachment_url( $revistalogos_issue_id );
+$revistalogos_pdf_url   = revistalogos_issue_pdf_url( $revistalogos_issue_id );
 $revistalogos_permalink = get_permalink( $revistalogos_issue );
 $revistalogos_title     = get_the_title( $revistalogos_issue );
 

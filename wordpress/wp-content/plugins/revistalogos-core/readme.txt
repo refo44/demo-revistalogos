@@ -41,6 +41,8 @@ la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
 = 0.2.17 =
 * Derived issue section count ignores articles with no section term so
   the theme can hide the Secciones card when the issue uses none.
+  Issue stats can show page views (WP Statistics) and issue-PDF
+  downloads (Ver and Descargar). Cards hide at 0.
 
 = 0.2.16 =
 * Settings → LOGO ET SPES identifier fields have no per-field captions.

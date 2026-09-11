@@ -11,7 +11,10 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ### Changed
 - Theme `revistalogos` 0.2.9 y plugin `revistalogos-core` 0.2.17: la
   tarjeta Secciones se omite cuando el número no tiene secciones
-  asignadas (Vol. 1 Nº 1, decisión editorial).
+  asignadas (Vol. 1 Nº 1, decisión editorial). Estadísticas del Número
+  puede mostrar Visitas (WP Statistics, solo esa ficha) y Descargas
+  (PDF del número: Ver y Descargar). Cada tarjeta se oculta si el
+  valor es 0 o el plugin de analítica no está.
 
 ## [0.3.11] — 2026-09-11
 

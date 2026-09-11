@@ -7,6 +7,8 @@
  * - article_count (int)
  * - section_count (int)
  * - author_count (int)
+ * - view_count (int)
+ * - download_count (int)
  *
  * @package Revistalogos
  */
@@ -15,9 +17,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$revistalogos_article_count = isset( $args['article_count'] ) ? absint( $args['article_count'] ) : 0;
-$revistalogos_section_count = isset( $args['section_count'] ) ? absint( $args['section_count'] ) : 0;
-$revistalogos_author_count  = isset( $args['author_count'] ) ? absint( $args['author_count'] ) : 0;
+$revistalogos_article_count  = isset( $args['article_count'] ) ? absint( $args['article_count'] ) : 0;
+$revistalogos_section_count  = isset( $args['section_count'] ) ? absint( $args['section_count'] ) : 0;
+$revistalogos_author_count   = isset( $args['author_count'] ) ? absint( $args['author_count'] ) : 0;
+$revistalogos_view_count     = isset( $args['view_count'] ) ? absint( $args['view_count'] ) : 0;
+$revistalogos_download_count = isset( $args['download_count'] ) ? absint( $args['download_count'] ) : 0;
 
 if ( $revistalogos_article_count < 1 ) {
 	return;
@@ -40,5 +44,17 @@ if ( $revistalogos_article_count < 1 ) {
 			<h3><?php echo esc_html( (string) $revistalogos_author_count ); ?></h3>
 			<p><?php esc_html_e( 'Autores', 'revistalogos' ); ?></p>
 		</div>
+		<?php if ( $revistalogos_view_count > 0 ) : ?>
+			<div class="card text-center">
+				<h3><?php echo esc_html( (string) $revistalogos_view_count ); ?></h3>
+				<p><?php esc_html_e( 'Visitas', 'revistalogos' ); ?></p>
+			</div>
+		<?php endif; ?>
+		<?php if ( $revistalogos_download_count > 0 ) : ?>
+			<div class="card text-center">
+				<h3><?php echo esc_html( (string) $revistalogos_download_count ); ?></h3>
+				<p><?php esc_html_e( 'Descargas', 'revistalogos' ); ?></p>
+			</div>
+		<?php endif; ?>
 	</div>
 </section>

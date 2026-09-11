@@ -21,7 +21,7 @@ while ( have_posts() ) :
 	$revistalogos_issn          = get_post_meta( $revistalogos_issue_id, 'issn', true );
 	$revistalogos_doi           = get_post_meta( $revistalogos_issue_id, 'doi', true );
 	$revistalogos_published     = get_post_meta( $revistalogos_issue_id, 'date_published', true );
-	$revistalogos_pdf_url       = revistalogos_meta_attachment_url( $revistalogos_issue_id );
+	$revistalogos_pdf_url       = revistalogos_issue_pdf_url( $revistalogos_issue_id );
 	$revistalogos_issue_archive = get_post_type_archive_link( 'issue' );
 
 	$revistalogos_articles = revistalogos_issue_articles( $revistalogos_issue_id );
@@ -35,10 +35,12 @@ while ( have_posts() ) :
 		}
 	}
 
-	// Derived stats (never stored: ADR 0005). Section count is assigned
-	// terms only; the Secciones card is omitted when that count is 0.
-	$revistalogos_section_count = revistalogos_issue_section_count( $revistalogos_issue_id );
-	$revistalogos_author_ids    = array();
+	// Derived stats (never stored: ADR 0005). Secciones, Visitas and
+	// Descargas cards are omitted when that count is 0.
+	$revistalogos_section_count  = revistalogos_issue_section_count( $revistalogos_issue_id );
+	$revistalogos_view_count     = revistalogos_issue_page_views( $revistalogos_issue_id );
+	$revistalogos_download_count = revistalogos_issue_pdf_downloads( $revistalogos_issue_id );
+	$revistalogos_author_ids     = array();
 	foreach ( $revistalogos_articles as $revistalogos_item ) {
 		$revistalogos_ids = get_post_meta( $revistalogos_item->ID, 'authors', true );
 		if ( is_array( $revistalogos_ids ) ) {
@@ -118,9 +120,11 @@ while ( have_posts() ) :
 				'template-parts/issue-stats',
 				null,
 				array(
-					'article_count' => count( $revistalogos_articles ),
-					'section_count' => $revistalogos_section_count,
-					'author_count'  => count( $revistalogos_author_ids ),
+					'article_count'  => count( $revistalogos_articles ),
+					'section_count'  => $revistalogos_section_count,
+					'author_count'   => count( $revistalogos_author_ids ),
+					'view_count'     => $revistalogos_view_count,
+					'download_count' => $revistalogos_download_count,
 				)
 			);
 			?>

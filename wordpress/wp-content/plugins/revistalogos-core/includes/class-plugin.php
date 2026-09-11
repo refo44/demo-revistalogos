@@ -52,6 +52,7 @@ class Plugin {
 		Article_Pdf_Publication_Enforcer::register_hooks();
 		Native_Sitemap::register_hooks();
 		Llms_Txt::register_hooks();
+		Issue_Pdf_Downloads::register_hooks();
 
 		// Idempotent upgrade: late on init so CPT rewrite args are
 		// registered before a version-gated rewrite flush.
@@ -86,6 +87,8 @@ class Plugin {
 		require_once $includes . 'relationships/class-relationships.php';
 		require_once $includes . 'roles/class-roles.php';
 		require_once $includes . 'queries/class-queries.php';
+		require_once $includes . 'queries/class-issue-page-views.php';
+		require_once $includes . 'queries/class-issue-pdf-downloads.php';
 		require_once $includes . 'integrations/class-comments-disabler.php';
 		require_once $includes . 'integrations/class-contact-form-integration.php';
 		require_once $includes . 'integrations/class-native-sitemap.php';

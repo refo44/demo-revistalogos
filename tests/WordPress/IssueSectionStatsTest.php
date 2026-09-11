@@ -69,6 +69,30 @@ class IssueSectionStatsTest extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Dado: la ficha del número tiene visitas y descargas de su PDF.
+	 * Entonces: esas tarjetas aparecen en Estadísticas del Número.
+	 */
+	public function test_issue_views_and_downloads_are_shown_when_positive() {
+		$html = $this->render_issue_stats( array( 1, 2 ), 0, 1, 15, 3 );
+
+		$this->assertStringContainsString( 'Visitas', $html );
+		$this->assertStringContainsString( '>15</h3>', $html );
+		$this->assertStringContainsString( 'Descargas', $html );
+		$this->assertStringContainsString( '>3</h3>', $html );
+	}
+
+	/**
+	 * Dado: aún no hay visitas ni descargas del número.
+	 * Entonces: esas tarjetas no aparecen (mismo criterio que Secciones).
+	 */
+	public function test_issue_views_and_downloads_are_hidden_when_zero() {
+		$html = $this->render_issue_stats( array( 1 ), 0, 1, 0, 0 );
+
+		$this->assertStringNotContainsString( 'Visitas', $html );
+		$this->assertStringNotContainsString( 'Descargas', $html );
+	}
+
+	/**
 	 * Dado: un artículo en Ética y otro sin sección.
 	 * Entonces: solo cuenta la sección asignada.
 	 */
@@ -103,16 +127,20 @@ class IssueSectionStatsTest extends WP_UnitTestCase {
 	}
 
 	/**
-	 * @param \WP_Post[] $articles      Published articles of the issue.
-	 * @param int        $section_count Derived assigned-section count.
-	 * @param int        $author_count  Distinct credited authors.
+	 * @param \WP_Post[] $articles       Published articles of the issue.
+	 * @param int        $section_count  Derived assigned-section count.
+	 * @param int        $author_count   Distinct credited authors.
+	 * @param int        $view_count     Issue page views.
+	 * @param int        $download_count Issue PDF downloads.
 	 * @return string Stats block HTML.
 	 */
-	private function render_issue_stats( $articles, $section_count, $author_count ) {
+	private function render_issue_stats( $articles, $section_count, $author_count, $view_count = 0, $download_count = 0 ) {
 		$args = array(
-			'article_count' => count( $articles ),
-			'section_count' => $section_count,
-			'author_count'  => $author_count,
+			'article_count'  => count( $articles ),
+			'section_count'  => $section_count,
+			'author_count'   => $author_count,
+			'view_count'     => $view_count,
+			'download_count' => $download_count,
 		);
 
 		ob_start();
