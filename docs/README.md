@@ -65,7 +65,7 @@ Harness de Fase 3 (fuera de la numeración): `fase3-execution-state.md` (reanuda
 ## Licencias del repositorio
 
 - **Código del repositorio** (`HTML`, `CSS`, `JS`, scripts, configuración): licencia `MIT`. Ver `../LICENSE`.
-- **Contenido editorial y de publicación**: licencia `CC BY 4.0`. Ver `../LICENSE-CONTENT`.
+- **Contenido editorial y de publicación**: todos los derechos reservados. Ver `../LICENSE-CONTENT`.
 - **Materiales de terceros** mantienen su licencia o atribución específica cuando aplique.
 
 ---

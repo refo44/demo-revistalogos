@@ -219,7 +219,7 @@ Detalle y motivos: `docs/adr/0019-proteger-main-trunk-based.md` §7.
 ## Licencia
 
 - **Código** (HTML, CSS, JS, PHP, scripts y configuración): **MIT**. Ver `LICENSE`.
-- **Contenido editorial y de publicación**: **Creative Commons Atribución 4.0 Internacional (CC BY 4.0)**. Ver `LICENSE-CONTENT`.
+- **Contenido editorial y de publicación**: **todos los derechos reservados**. Ver `LICENSE-CONTENT`.
 
 Los materiales de terceros conservan su propia licencia o atribución cuando corresponda.
 

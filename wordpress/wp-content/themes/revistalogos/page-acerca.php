@@ -40,7 +40,7 @@ while ( have_posts() ) :
 						<dd><?php esc_html_e( 'Abierto', 'revistalogos' ); ?></dd>
 
 						<dt><?php esc_html_e( 'Licencia:', 'revistalogos' ); ?></dt>
-						<dd>CC BY 4.0</dd>
+						<dd><?php esc_html_e( 'Todos los derechos reservados', 'revistalogos' ); ?></dd>
 					</dl>
 				</div>
 

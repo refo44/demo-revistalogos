@@ -33,7 +33,7 @@ while ( have_posts() ) :
 
 				<div class="card">
 					<h2><?php esc_html_e( 'Licencias del sitio', 'revistalogos' ); ?></h2>
-					<p><?php esc_html_e( 'El contenido editorial del sitio se publica bajo', 'revistalogos' ); ?> <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0<span class="visually-hidden"> (se abre en nueva pestaña)</span></a>.</p>
+					<p><?php esc_html_e( 'El contenido editorial del sitio: todos los derechos reservados.', 'revistalogos' ); ?></p>
 					<p><?php esc_html_e( 'El código fuente del sitio se distribuye bajo licencia', 'revistalogos' ); ?> <a href="https://github.com/refo44/demo-revistalogos/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT<span class="visually-hidden"> (se abre en nueva pestaña)</span></a>.</p>
 				</div>
 				<?php

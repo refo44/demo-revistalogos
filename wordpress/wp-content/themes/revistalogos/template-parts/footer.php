@@ -85,7 +85,7 @@ $revistalogos_article_archive = get_post_type_archive_link( 'article' );
 
 		<div class="footer__bottom">
 			<p>&copy; 2025 CENFISS.</p>
-			<p><?php esc_html_e( 'Contenido del sitio bajo', 'revistalogos' ); ?> <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">Creative Commons Atribución 4.0 Internacional<span class="visually-hidden"> (se abre en nueva pestaña)</span></a>. <?php esc_html_e( 'Código del sitio bajo', 'revistalogos' ); ?> <a href="https://github.com/refo44/demo-revistalogos/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT<span class="visually-hidden"> (se abre en nueva pestaña)</span></a>.</p>
+			<p><?php esc_html_e( 'Todos los derechos reservados.', 'revistalogos' ); ?> <?php esc_html_e( 'Código del sitio bajo', 'revistalogos' ); ?> <a href="https://github.com/refo44/demo-revistalogos/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT<span class="visually-hidden"> (se abre en nueva pestaña)</span></a>.</p>
 		</div>
 
 		<div class="footer-credits">
