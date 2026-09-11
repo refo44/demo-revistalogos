@@ -129,8 +129,7 @@ class Journal_Identifier_Settings {
 				Article_Pdf_Publication_Settings::PAGE_SLUG,
 				'revistalogos_journal_identifiers',
 				array(
-					'option'      => $option,
-					'description' => $field['description'],
+					'option' => $option,
 				)
 			);
 		}
@@ -158,10 +157,6 @@ class Journal_Identifier_Settings {
 			esc_attr( $option ),
 			esc_attr( self::stored( $option ) )
 		);
-
-		if ( ! empty( $args['description'] ) ) {
-			echo '<p class="description">' . esc_html( $args['description'] ) . '</p>';
-		}
 	}
 
 	/**
@@ -179,21 +174,18 @@ class Journal_Identifier_Settings {
 	}
 
 	/**
-	 * @return array<string, array{label: string, description: string}>
+	 * @return array<string, array{label: string}>
 	 */
 	private static function fields() {
 		return array(
 			self::OPTION_ISSN          => array(
-				'label'       => __( 'ISSN', 'revistalogos-core' ),
-				'description' => __( 'Pie, Acerca y /llms.txt.', 'revistalogos-core' ),
+				'label' => __( 'ISSN', 'revistalogos-core' ),
 			),
 			self::OPTION_LEGAL_DEPOSIT => array(
-				'label'       => __( 'Depósito Legal', 'revistalogos-core' ),
-				'description' => __( 'Pie, Acerca y /llms.txt.', 'revistalogos-core' ),
+				'label' => __( 'Depósito Legal', 'revistalogos-core' ),
 			),
 			self::OPTION_DOI_PREFIX    => array(
-				'label'       => __( 'Prefijo DOI', 'revistalogos-core' ),
-				'description' => __( 'Acerca y /llms.txt. Inerte hasta Crossref.', 'revistalogos-core' ),
+				'label' => __( 'Prefijo DOI', 'revistalogos-core' ),
 			),
 		);
 	}
