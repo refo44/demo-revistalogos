@@ -48,6 +48,7 @@ class Plugin {
 		Relationships::register_hooks();
 		Contact_Form_Integration::register_hooks();
 		Article_Pdf_Publication_Settings::register_hooks();
+		Journal_Identifier_Settings::register_hooks();
 		Article_Pdf_Publication_Enforcer::register_hooks();
 		Native_Sitemap::register_hooks();
 		Llms_Txt::register_hooks();
@@ -81,6 +82,7 @@ class Plugin {
 		require_once $includes . 'taxonomies/class-taxonomies.php';
 		require_once $includes . 'metadata/class-metadata.php';
 		require_once $includes . 'metadata/class-meta-boxes.php';
+		require_once $includes . 'metadata/class-journal-identifier-settings.php';
 		require_once $includes . 'relationships/class-relationships.php';
 		require_once $includes . 'roles/class-roles.php';
 		require_once $includes . 'queries/class-queries.php';

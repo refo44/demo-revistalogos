@@ -175,6 +175,10 @@ Plugin `revistalogos-core` **0.2.8** y theme **0.2.1** en producción. Transfer:
 
 Ruleset `Protect main (trunk-based)` (`21337399`), activo, sin bypass. `main` exige PR; 0 approvals base (ver ADR 0019 sobre la regla de +1 approval para PRs de Copilot sin atribución); check `PHP lint, Composer audit, and unit (PHP 8.3)`; sin force-push ni borrado. Trunk-Based Development: ramas cortas, sin `develop`. GitHub **borra la rama head al mergear** (`delete_branch_on_merge`; no es el ruleset). Nombres: [Conventional Branch 1.1.0](https://conventionalbranch.org/). Mensajes: [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/). Ambos por convención, no en el ruleset. Preferir squash. Cursor **sigue sin** commit, push, merge ni deploy.
 
+#### 10. Identificadores digitales de la revista (ISSN, depósito legal, prefijo DOI)
+
+**Estado:** NEXT. En rama `feat/journal-identifier-settings`. Issue: [#58](https://github.com/refo44/demo-revistalogos/issues/58). Se publica en **plugin 0.2.15 / theme 0.2.8 / proyecto v0.3.10**. **No** ISSN/depósito legal de papel. Ajustes → LOGO ET SPES; pie y Acerca (vacío = «Próximamente»); `/llms.txt` omite líneas vacías. El `issn` de cada número no sustituye el ajuste.
+
 ### PLANNED
 
 No hay dependencia ADR que fuerce el orden entre diseño editorial y WU7. Se planificó **diseño antes de WU7** para que Generate/Regenerate consuman la misma plantilla (evitar dos sistemas de presentación); el ítem 3 ya está **completado y en `main`**, así que WU7 (ítem 4) es lo siguiente y debe consumir esa plantilla. El spike de la sección «Cómo Citar» (ítem 9) es **independiente** de 3 y 4: presentación del theme clásico, no PDF.

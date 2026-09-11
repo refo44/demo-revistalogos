@@ -32,6 +32,31 @@ class LlmsTxtDocumentTest extends TestCase {
 		$this->assertStringNotContainsString( 'CC BY', $document );
 		$this->assertStringNotContainsString( 'Número actual', $document );
 		$this->assertStringNotContainsString( 'Información institucional', $document );
+		$this->assertStringNotContainsString( 'ISSN:', $document );
+		$this->assertStringNotContainsString( 'Depósito Legal:', $document );
+		$this->assertStringNotContainsString( 'DOI:', $document );
+		$this->assertStringNotContainsString( 'Próximamente', $document );
+	}
+
+	/**
+	 * Dado: identificadores digitales guardados.
+	 * Entonces: /llms.txt los declara; no escribe Próximamente.
+	 *
+	 * @ticket 58
+	 */
+	public function test_document_lists_stored_journal_identifiers() {
+		$catalog                   = $this->empty_catalog();
+		$catalog['issn']           = '2443-5678';
+		$catalog['legal_deposit']  = 'DC2026000123';
+		$catalog['doi_prefix']     = '10.12345';
+
+		$document = Llms_Txt::format_document( $catalog );
+
+		$this->assertStringContainsString( 'ISSN: 2443-5678', $document );
+		$this->assertStringContainsString( 'Depósito Legal: DC2026000123', $document );
+		$this->assertStringContainsString( 'DOI: 10.12345', $document );
+		$this->assertStringNotContainsString( 'Próximamente', $document );
+		$this->assertStringNotContainsString( 'electrónico', $document );
 	}
 
 	/**

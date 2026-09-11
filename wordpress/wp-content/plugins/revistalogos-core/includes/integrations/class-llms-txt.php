@@ -355,6 +355,15 @@ class Llms_Txt {
 		$lines[] = '> ' . $catalog['description'];
 		$lines[] = '';
 		$lines[] = 'Sitio: ' . $catalog['home_url'];
+		if ( ! empty( $catalog['issn'] ) ) {
+			$lines[] = 'ISSN: ' . $catalog['issn'];
+		}
+		if ( ! empty( $catalog['legal_deposit'] ) ) {
+			$lines[] = 'Depósito Legal: ' . $catalog['legal_deposit'];
+		}
+		if ( ! empty( $catalog['doi_prefix'] ) ) {
+			$lines[] = 'DOI: ' . $catalog['doi_prefix'];
+		}
 		$lines[] = 'Licencia del contenido: todos los derechos reservados.';
 		$lines[] = 'Código del sitio: MIT.';
 		$lines[] = '';
@@ -447,6 +456,9 @@ class Llms_Txt {
 			'name'                 => self::JOURNAL_NAME,
 			'description'          => self::JOURNAL_DESCRIPTION,
 			'home_url'             => home_url( '/' ),
+			'issn'                 => Journal_Identifier_Settings::issn(),
+			'legal_deposit'        => Journal_Identifier_Settings::legal_deposit(),
+			'doi_prefix'           => Journal_Identifier_Settings::doi_prefix(),
 			'issues_url'           => get_post_type_archive_link( Content_Types::ISSUE ) ?: home_url( '/revista/numeros/' ),
 			'articles_url'         => get_post_type_archive_link( Content_Types::ARTICLE ) ?: home_url( '/revista/articulos/' ),
 			'authors_url'          => get_post_type_archive_link( Content_Types::AUTHOR ) ?: home_url( '/revista/autores/' ),

@@ -25,10 +25,13 @@ while ( have_posts() ) :
 					<h3><?php esc_html_e( 'Información de la Revista', 'revistalogos' ); ?></h3>
 					<dl>
 						<dt>ISSN:</dt>
-						<dd><?php esc_html_e( 'Próximamente', 'revistalogos' ); ?></dd>
+						<dd><?php echo esc_html( revistalogos_journal_identifier_text( 'issn' ) ); ?></dd>
+
+						<dt><?php esc_html_e( 'Depósito Legal:', 'revistalogos' ); ?></dt>
+						<dd><?php echo esc_html( revistalogos_journal_identifier_text( 'legal_deposit' ) ); ?></dd>
 
 						<dt>DOI:</dt>
-						<dd><?php esc_html_e( 'Próximamente', 'revistalogos' ); ?></dd>
+						<dd><?php echo esc_html( revistalogos_journal_identifier_text( 'doi_prefix' ) ); ?></dd>
 
 						<dt><?php esc_html_e( 'Frecuencia:', 'revistalogos' ); ?></dt>
 						<dd><?php esc_html_e( 'Anual', 'revistalogos' ); ?></dd>

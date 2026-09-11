@@ -8,6 +8,18 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+## [0.3.10] — 2026-09-11
+
+Release etiquetado para FTPS de producción (ADR 0020). Theme
+`revistalogos` **0.2.8** y plugin `revistalogos-core` **0.2.15**.
+
+### Added
+- Plugin `revistalogos-core` 0.2.15 y theme `revistalogos` 0.2.8:
+  Ajustes → LOGO ET SPES guarda ISSN, depósito legal y prefijo DOI de
+  la edición digital ([#58](https://github.com/refo44/demo-revistalogos/issues/58)).
+  El pie y Acerca leen esos valores (vacío = «Próximamente»). `/llms.txt`
+  declara solo los que hay; no escribe «Próximamente».
+
 ## [0.3.9] — 2026-09-10
 
 Release etiquetado para FTPS de producción (ADR 0020). Theme
@@ -518,7 +530,9 @@ con la infraestructura de gobierno del proyecto en su sitio.
 - El contenido editorial de la maqueta es demostrativo y **no** se publica en producción (ver `docs/17-implementation-order` §3.1).
 - `robots.txt` permanece en `Disallow: /` mientras el sitio es prototipo.
 
-[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.3.3...HEAD
+[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.3.10...HEAD
+[0.3.10]: https://github.com/refo44/demo-revistalogos/compare/v0.3.9...v0.3.10
+[0.3.9]: https://github.com/refo44/demo-revistalogos/compare/v0.3.8...v0.3.9
 [0.3.3]: https://github.com/refo44/demo-revistalogos/compare/v0.3.2...v0.3.3
 [0.3.2]: https://github.com/refo44/demo-revistalogos/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/refo44/demo-revistalogos/compare/v0.3.0...v0.3.1
