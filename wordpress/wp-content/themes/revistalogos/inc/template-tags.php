@@ -12,6 +12,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Public text for a journal-level digital identifier.
+ * Empty stored value (or missing plugin) is «Próximamente».
+ *
+ * @param string $key issn | legal_deposit | doi_prefix.
+ * @return string
+ */
+function revistalogos_journal_identifier_text( $key ) {
+	$stored = '';
+
+	if ( class_exists( '\Revistalogos_Core\Journal_Identifier_Settings' ) ) {
+		$stored = \Revistalogos_Core\Journal_Identifier_Settings::value( $key );
+	}
+
+	if ( '' !== $stored ) {
+		return $stored;
+	}
+
+	return __( 'Próximamente', 'revistalogos' );
+}
+
+/**
  * Current issue (derived by the plugin; null without it).
  *
  * @return WP_Post|null

@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "Diseño editorial separata PDF (issue #10, BACKLOG 3) implementado en rama"
-current_branch: "feat/article-pdf-editorial-design"
+current_work_unit: "Identificadores digitales de revista (issue #58, BACKLOG 10) en rama"
+current_branch: "feat/journal-identifier-settings"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
-updated_at: "2026-08-28"
-next_action: "PR de feat/article-pdf-editorial-design (issue #10). Next FTPS needs a new vX.Y.Z tag (ADR 0020). Default OFF. No backfill. ADR 0017 WU7 not started."
+updated_at: "2026-09-11"
+next_action: "PR de feat/journal-identifier-settings (issue #58). Tras merge: etiqueta anotada v0.3.10 y workflow_dispatch desde esa etiqueta (ADR 0020). Default OFF. No backfill. ADR 0017 WU7 not started."
 blocked: false
 ---
 
@@ -652,12 +652,14 @@ Recuperación institucional **ya hecha** (Pages reales permanentes). Carga
 editorial real en proceso desde wp-admin (**no** completa). Docker local:
 `http://localhost:8080` (WordPress 7.1, PHP **8.3**).
 
-Siguiente acción priorizada — **no** reabrir el checkpoint 0.2.8
+Siguiente acción priorizada — **issue #58** en
+`feat/journal-identifier-settings`. Tras merge a `main`: etiqueta
+anotada `v0.3.10` (plugin 0.2.15 / theme 0.2.8) y
+`workflow_dispatch` desde esa etiqueta (ADR 0020). **No** reabrir el
+checkpoint 0.2.8
 ([issue #9](https://github.com/refo44/demo-revistalogos/issues/9)
-cerrado). Plugin **0.2.8** está en Git y en producción. El próximo FTPS
-exige un **nuevo** `vX.Y.Z` (ADR 0020); no despachar desde `v0.2.0`.
-Default OFF; sin backfill; WU7 no iniciado. No pushear a `main`; ramas
-cortas + PR (ADR 0019).
+cerrado). No despachar desde `v0.2.0`. Default OFF; sin backfill; WU7
+no iniciado. No pushear a `main`; ramas cortas + PR (ADR 0019).
 Trabajo pendiente aceptado (no duplicar aquí):
 `docs/adr/BACKLOG.md` § Trabajo pendiente aceptado.
 

@@ -115,13 +115,15 @@ El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, ISSN,
 | issue_number | number | Número oficial |
 | year | number | Año de publicación |
 | date_published | date | Fecha de publicación |
-| issn | text | ISSN **electrónico** (e-ISSN), cuando esté disponible. Distinto del ISSN de la versión impresa (ya obtenido por CENFISS); son dos trámites separados ante la Biblioteca Nacional — ver `22-identificadores-academicos-doi-orcid` §2.2 y ADR 0013 |
+| issn | text | ISSN de **ese número** (ficha). Distinto del ISSN de revista en Ajustes (pie / Acerca / `/llms.txt`). No autorellenar desde Ajustes. El ISSN de papel no se guarda aquí — ver `22-identificadores-academicos-doi-orcid` §2.2 y ADR 0013 |
 | doi | text | Prefijo/sufijo DOI |
 | pdf_file | file | Un PDF por número: ID de adjunto en Media Library, MIME `application/pdf`. Mismo selector nativo que el PDF de artículo. Quitar desvincula; no borra el adjunto. |
 
 **Relaciones:** Artículos vinculados al número vía post meta. El conteo de artículos es derivado (no almacenar).
 
 **Número actual:** Es el `issue` publicado con `date_published` más reciente. No almacenar un segundo indicador mientras esta regla sea suficiente.
+
+**Identificadores de la revista (Ajustes → LOGO ET SPES):** `revistalogos_journal_issn`, `revistalogos_journal_legal_deposit`, `revistalogos_journal_doi_prefix`. Solo edición digital. Pie y Acerca: vacío = «Próximamente». `/llms.txt` omite la línea vacía. No son el `issn` del número. Issue #58.
 
 ### article
 

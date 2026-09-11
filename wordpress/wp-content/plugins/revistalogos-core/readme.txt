@@ -3,7 +3,7 @@ Contributors: cenfiss
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.2.14
+Stable tag: 0.2.15
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,11 @@ Fase 3: los campos `issn`, `doi` y `orcid` son almacenamiento base inerte;
 la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
 
 == Changelog ==
+
+= 0.2.15 =
+* Settings → LOGO ET SPES stores digital ISSN, depósito legal and DOI
+  prefix (issue #58). Footer, Acerca and `/llms.txt` read those options.
+  Empty stays «Próximamente» on the site and is omitted from `/llms.txt`.
 
 = 0.2.14 =
 * Withdraw CC BY 4.0 from Políticas and Contacto page bodies. The
