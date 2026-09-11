@@ -88,7 +88,7 @@ Lista de las pantallas que existen en el sitio. No describe diseño visual; solo
 
 **Header:** Logo, nav principal (máximo dos niveles). Estructura: Inicio | Revista (Número actual, Números publicados, Autores) | Normas | Enviar colaboración | Acerca | Noticias | Contacto. Enlace CENFISS.
 
-**Footer:** Info de la revista (ISSN, DOI), Enlaces rápidos, Normas editoriales, Contacto, licencia Creative Commons, política de privacidad, ética editorial.
+**Footer:** Info de la revista (ISSN, DOI), Enlaces rápidos, Normas editoriales, Contacto, todos los derechos reservados, política de privacidad, ética editorial.
 
 Presentes en todas las páginas.
 

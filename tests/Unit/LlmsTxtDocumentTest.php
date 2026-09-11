@@ -26,6 +26,10 @@ class LlmsTxtDocumentTest extends TestCase {
 		$this->assertStringContainsString( 'https://example.org/revista/articulos/', $document );
 		$this->assertStringContainsString( 'https://example.org/revista/autores/', $document );
 		$this->assertStringContainsString( 'https://example.org/wp-sitemap.xml', $document );
+		$this->assertStringContainsString( 'Licencia del contenido: todos los derechos reservados.', $document );
+		$this->assertStringContainsString( 'Código del sitio: MIT.', $document );
+		$this->assertStringNotContainsString( 'Creative Commons', $document );
+		$this->assertStringNotContainsString( 'CC BY', $document );
 		$this->assertStringNotContainsString( 'Número actual', $document );
 		$this->assertStringNotContainsString( 'Información institucional', $document );
 	}

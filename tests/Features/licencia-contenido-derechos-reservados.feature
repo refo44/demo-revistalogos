@@ -18,3 +18,15 @@ Característica: Licencia del contenido del sitio
     Cuando se muestra Acerca, Ética y Privacidad
     Entonces cada una declara todos los derechos reservados
     Y ninguna ofrece CC BY 4.0
+
+  Escenario: El copyright del pie es el año en curso
+    Dado el pie del sitio
+    Cuando una lectora lee el aviso de CENFISS
+    Entonces ve © 2026 CENFISS
+    Y no ve © 2025
+
+  Escenario: Políticas y Contacto retiran Creative Commons
+    Dado el cuerpo de Políticas y de Contacto
+    Cuando una lectora lee la licencia del contenido
+    Entonces ve todos los derechos reservados
+    Y no ve Creative Commons Atribución 4.0

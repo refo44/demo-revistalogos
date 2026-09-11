@@ -62,7 +62,7 @@ Este documento define qué enlaces salen de cada pantalla, a dónde van, en qué
 | Comité editorial | Página Comité |
 | Donaciones | Página Donaciones |
 | Contacto | Página de contacto, web CENFISS, email |
-| Licencia Creative Commons | Licencia CC (externo) |
+| Todos los derechos reservados | Aviso en el pie (no es un enlace externo) |
 | Privacidad | Página de privacidad |
 | CENFISS | Sitio institucional (externo) |
 

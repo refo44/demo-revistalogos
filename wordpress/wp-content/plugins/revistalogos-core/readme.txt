@@ -3,7 +3,7 @@ Contributors: cenfiss
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.2.13
+Stable tag: 0.2.14
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,11 @@ Fase 3: los campos `issn`, `doi` y `orcid` son almacenamiento base inerte;
 la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
 
 == Changelog ==
+
+= 0.2.14 =
+* Withdraw CC BY 4.0 from Políticas and Contacto page bodies. The
+  upgrade rewrites those published pages. `/llms.txt` states all
+  rights reserved for content and MIT for code.
 
 = 0.2.13 =
 * `/llms.txt` lists the published `donaciones` Page. Payment details
