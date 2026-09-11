@@ -36,6 +36,7 @@ class Llms_Txt {
 		'comite-editorial',
 		'enviar-colaboracion',
 		'contacto',
+		'donaciones',
 		'enlaces',
 		'noticias',
 		'privacidad',

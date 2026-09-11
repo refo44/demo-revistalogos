@@ -26,7 +26,7 @@ Característica: /llms.txt para agentes de IA
     Y la ruta /llms.txt queda registrada
 
   Escenario: Las páginas institucionales publicadas entran en el mapa
-    Dado páginas publicadas de normas, ética, políticas y comité
+    Dado páginas publicadas de normas, ética, políticas, comité y donaciones
     Y una página institucional en borrador
     Cuando se genera /llms.txt
     Entonces enlaza esas páginas publicadas con su título vigente
