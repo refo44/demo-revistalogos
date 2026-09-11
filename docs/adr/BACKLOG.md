@@ -121,8 +121,8 @@ Estado en el repo: `.github/workflows/deploy.yml` («Deploy to Hostinger») **el
 ### Añadidas el 2026-08-28
 
 - **SonarQube Cloud:** Automatic Analysis (GitHub App, proyecto
-  `refo44_demo-revistalogos`). Alcance en `.sonarcloud.properties` (plugin
-  + theme; `tests/` como tests). No usar `sonar-project.properties`
+  `refo44_demo-revistalogos`). Alcance en `.sonarcloud.properties`
+  (plugin y theme; `tests/` como tests). No usar `sonar-project.properties`
   mientras Automatic Analysis esté ON. No importa cobertura PHPUnit; el
   0.0 % del Quality Gate es esperado. No cierra **D12b**. Un scanner en
   `test.yml` exigiría apagar Automatic Analysis y un `SONAR_TOKEN`; no se
