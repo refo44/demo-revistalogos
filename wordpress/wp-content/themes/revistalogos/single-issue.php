@@ -21,7 +21,7 @@ while ( have_posts() ) :
 	$revistalogos_issn          = get_post_meta( $revistalogos_issue_id, 'issn', true );
 	$revistalogos_doi           = get_post_meta( $revistalogos_issue_id, 'doi', true );
 	$revistalogos_published     = get_post_meta( $revistalogos_issue_id, 'date_published', true );
-	$revistalogos_pdf_url       = revistalogos_meta_attachment_url( $revistalogos_issue_id );
+	$revistalogos_pdf_url       = revistalogos_issue_pdf_url( $revistalogos_issue_id );
 	$revistalogos_issue_archive = get_post_type_archive_link( 'issue' );
 
 	$revistalogos_articles = revistalogos_issue_articles( $revistalogos_issue_id );
@@ -35,17 +35,13 @@ while ( have_posts() ) :
 		}
 	}
 
-	// Derived stats (never stored: ADR 0005).
-	$revistalogos_section_ids = array();
-	$revistalogos_author_ids  = array();
+	// Derived stats (never stored: ADR 0005). Secciones, Visitas and
+	// Descargas cards are omitted when that count is 0.
+	$revistalogos_section_count  = revistalogos_issue_section_count( $revistalogos_issue_id );
+	$revistalogos_view_count     = revistalogos_issue_page_views( $revistalogos_issue_id );
+	$revistalogos_download_count = revistalogos_issue_pdf_downloads( $revistalogos_issue_id );
+	$revistalogos_author_ids     = array();
 	foreach ( $revistalogos_articles as $revistalogos_item ) {
-		$revistalogos_terms = get_the_terms( $revistalogos_item, 'section' );
-		if ( is_array( $revistalogos_terms ) ) {
-			foreach ( $revistalogos_terms as $revistalogos_term ) {
-				$revistalogos_section_ids[ $revistalogos_term->term_id ] = true;
-			}
-		}
-
 		$revistalogos_ids = get_post_meta( $revistalogos_item->ID, 'authors', true );
 		if ( is_array( $revistalogos_ids ) ) {
 			foreach ( $revistalogos_ids as $revistalogos_author_id ) {
@@ -119,25 +115,19 @@ while ( have_posts() ) :
 			<?php endif; ?>
 
 			<!-- Estadísticas del número -->
-			<?php if ( $revistalogos_articles ) : ?>
-				<section class="single-issue__stats">
-					<h2><?php esc_html_e( 'Estadísticas del Número', 'revistalogos' ); ?></h2>
-					<div class="grid grid-cols-4 gap-4">
-						<div class="card text-center">
-							<h3><?php echo esc_html( (string) count( $revistalogos_articles ) ); ?></h3>
-							<p><?php esc_html_e( 'Artículos', 'revistalogos' ); ?></p>
-						</div>
-						<div class="card text-center">
-							<h3><?php echo esc_html( (string) count( $revistalogos_section_ids ) ); ?></h3>
-							<p><?php esc_html_e( 'Secciones', 'revistalogos' ); ?></p>
-						</div>
-						<div class="card text-center">
-							<h3><?php echo esc_html( (string) count( $revistalogos_author_ids ) ); ?></h3>
-							<p><?php esc_html_e( 'Autores', 'revistalogos' ); ?></p>
-						</div>
-					</div>
-				</section>
-			<?php endif; ?>
+			<?php
+			get_template_part(
+				'template-parts/issue-stats',
+				null,
+				array(
+					'article_count'  => count( $revistalogos_articles ),
+					'section_count'  => $revistalogos_section_count,
+					'author_count'   => count( $revistalogos_author_ids ),
+					'view_count'     => $revistalogos_view_count,
+					'download_count' => $revistalogos_download_count,
+				)
+			);
+			?>
 		</div>
 	</main>
 	<?php

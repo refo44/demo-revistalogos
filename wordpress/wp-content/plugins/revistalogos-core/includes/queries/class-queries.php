@@ -69,6 +69,32 @@ class Queries {
 	}
 
 	/**
+	 * Distinct assigned section terms among an issue's published
+	 * articles. Articles without a section term do not count — a zero
+	 * means the issue does not use sections. Count is derived, never
+	 * stored (docs/03, ADR 0005).
+	 *
+	 * @param int $issue_id Issue post ID.
+	 * @return int
+	 */
+	public static function issue_section_count( $issue_id ) {
+		$section_ids = array();
+
+		foreach ( self::issue_articles( $issue_id ) as $article ) {
+			$terms = get_the_terms( $article, Taxonomies::SECTION );
+			if ( ! is_array( $terms ) ) {
+				continue;
+			}
+
+			foreach ( $terms as $term ) {
+				$section_ids[ $term->term_id ] = true;
+			}
+		}
+
+		return count( $section_ids );
+	}
+
+	/**
 	 * Published articles credited to an author profile.
 	 *
 	 * @param int $author_id Author post ID.

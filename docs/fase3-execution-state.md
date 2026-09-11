@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "Identificadores digitales de revista (issue #58, BACKLOG 10) en rama"
-current_branch: "feat/journal-identifier-settings"
+current_work_unit: "Release v0.3.12 (estadísticas del número; plugin 0.2.17 / theme 0.2.9)"
+current_branch: "fix/issue-section-stats"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-09-11"
-next_action: "PR de feat/journal-identifier-settings (issue #58). Tras merge: etiqueta anotada v0.3.10 y workflow_dispatch desde esa etiqueta (ADR 0020). Default OFF. No backfill. ADR 0017 WU7 not started."
+next_action: "PR chore(release): v0.3.12. Tras merge: etiqueta anotada v0.3.12 sobre origin/main y workflow_dispatch desde esa etiqueta (ADR 0020). No despachar desde v0.3.11. Default OFF. No backfill. ADR 0017 WU7 not started."
 blocked: false
 ---
 
@@ -636,6 +636,13 @@ anotada `vMAJOR.MINOR.PATCH`. Merge a `main` no es un deploy. Gate en
 No disparo al pushear el tag. Plugin 0.2.8 live es excepción histórica
 (sin tag de proyecto de ese transfer). Próximo envío: release nuevo.
 
+**2026-09-11 (estadísticas del número):** Vol. 1 Nº 1 no usa
+secciones por decisión editorial; la tarjeta se omite si el conteo
+es 0. Visitas (WP Statistics, solo la ficha) y Descargas (PDF del
+número: Ver y Descargar) se muestran solo si el valor es > 0.
+Plugin **0.2.17**, theme **0.2.9**. Suites:
+`IssueSectionStatsTest`, `IssuePageViewsTest`, `IssuePdfDownloadsTest`.
+
 **2026-09-10 (ADR 0020, ref de rama):** el gate también rechaza
 `workflow_dispatch` desde `main` cuando HEAD está etiquetado. El ref
 tiene que ser `refs/tags/vX.Y.Z`. Harness
@@ -652,9 +659,11 @@ Recuperación institucional **ya hecha** (Pages reales permanentes). Carga
 editorial real en proceso desde wp-admin (**no** completa). Docker local:
 `http://localhost:8080` (WordPress 7.1, PHP **8.3**).
 
-Siguiente acción priorizada — **issue #58** en
-`feat/journal-identifier-settings`. Tras merge a `main`: etiqueta
-anotada `v0.3.10` (plugin 0.2.15 / theme 0.2.8) y
+Siguiente acción priorizada — PR **`chore(release): v0.3.12`**
+(`fix/issue-section-stats`; plugin 0.2.17 / theme 0.2.9). Ocultar
+Secciones/Visitas/Descargas si el valor es 0. Vol. 1 Nº 1 no usa
+secciones por decisión editorial.
+Tras merge a `main`: etiqueta anotada `v0.3.12` sobre `origin/main` y
 `workflow_dispatch` desde esa etiqueta (ADR 0020). **No** reabrir el
 checkpoint 0.2.8
 ([issue #9](https://github.com/refo44/demo-revistalogos/issues/9)

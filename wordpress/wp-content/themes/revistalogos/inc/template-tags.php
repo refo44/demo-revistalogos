@@ -61,6 +61,66 @@ function revistalogos_issue_articles( $issue_id, $limit = -1 ) {
 }
 
 /**
+ * Distinct assigned section terms of an issue (plugin-derived; 0 without it).
+ *
+ * @param int $issue_id Issue ID.
+ * @return int
+ */
+function revistalogos_issue_section_count( $issue_id ) {
+	if ( ! revistalogos_core_active() ) {
+		return 0;
+	}
+
+	return Revistalogos_Core\Queries::issue_section_count( $issue_id );
+}
+
+/**
+ * Recorded views of the issue permalink (0 without the plugin or data).
+ *
+ * @param int $issue_id Issue ID.
+ * @return int
+ */
+function revistalogos_issue_page_views( $issue_id ) {
+	if ( ! class_exists( '\Revistalogos_Core\Issue_Page_Views' ) ) {
+		return 0;
+	}
+
+	return Revistalogos_Core\Issue_Page_Views::count( $issue_id );
+}
+
+/**
+ * Recorded downloads of the issue PDF (0 without the plugin).
+ *
+ * @param int $issue_id Issue ID.
+ * @return int
+ */
+function revistalogos_issue_pdf_downloads( $issue_id ) {
+	if ( ! class_exists( '\Revistalogos_Core\Issue_Pdf_Downloads' ) ) {
+		return 0;
+	}
+
+	return Revistalogos_Core\Issue_Pdf_Downloads::count( $issue_id );
+}
+
+/**
+ * Counted URL for Ver/Descargar the issue PDF; falls back to the file.
+ *
+ * @param int $issue_id Issue ID.
+ * @return string
+ */
+function revistalogos_issue_pdf_url( $issue_id ) {
+	if ( class_exists( '\Revistalogos_Core\Issue_Pdf_Downloads' ) ) {
+		$counted = Revistalogos_Core\Issue_Pdf_Downloads::counted_url( $issue_id );
+
+		if ( $counted ) {
+			return $counted;
+		}
+	}
+
+	return revistalogos_meta_attachment_url( $issue_id );
+}
+
+/**
  * Author profiles credited on an article.
  *
  * @param int $article_id Article ID.
