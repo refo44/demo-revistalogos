@@ -126,7 +126,7 @@ Tabla de referencia, no el esquema completo (consultar la documentación/XSD vig
 | `issue.issn` | `journal_metadata / issn` |
 | `issue.volume_number`, `issue.issue_number`, `issue.year` | `journal_issue / journal_volume`, `issue`, `publication_date` |
 | `article.title_en` o título ES según idioma de registro | `journal_article / titles / title` |
-| `article.authors` → `author.title` (nombre), apellido derivado | `journal_article / contributors / person_name` (`given_name`, `surname`) |
+| `article.authors` → `author.title` (nombre); `author.citation_surname` si existe, si no apellido last-token (ADR 0021; meta PLANNED) | `journal_article / contributors / person_name` (`given_name`, `surname`) |
 | `author.orcid` | `person_name / ORCID` (URI completa `https://orcid.org/…`) |
 | `article.publication_date` | `journal_article / publication_date` |
 | `article.pages` | `journal_article / pages` (`first_page`, `last_page`) |
