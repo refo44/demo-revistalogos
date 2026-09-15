@@ -19,6 +19,8 @@ Release etiquetado para FTPS de producción (ADR 0020). Plugin
   override opcional por formato de Cómo Citar (`citation_override_*` en
   el artículo), con Regenerar uno a uno ([#64](https://github.com/refo44/demo-revistalogos/issues/64),
   ADR [0021](docs/adr/0021-apellido-bibliografico-y-override-como-citar.md)).
+  El seed demo local usa nombres naturales en varios idiomas (no «Autora
+  de Ejemplo N») para revisar Cómo Citar.
 - ADR [0021](docs/adr/0021-apellido-bibliografico-y-override-como-citar.md):
   apellido bibliográfico hispano y override opcional de Cómo Citar.
 

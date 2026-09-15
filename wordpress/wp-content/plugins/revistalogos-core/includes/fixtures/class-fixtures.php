@@ -106,6 +106,77 @@ class Fixtures {
 	}
 
 	/**
+	 * Demo Author CPT catalog (local fixtures only). Natural names in
+	 * several languages so Cómo Citar can be checked beyond a Spanish
+	 * placeholder. citation_surname is set when last-token would be wrong.
+	 *
+	 * @return array<string, array{title: string, citation_surname: string, afiliacion: string, orcid: string, bio: string}>
+	 */
+	public static function demo_authors() {
+		$bio = 'Perfil demostrativo creado por el sistema de fixtures. No es una persona real.';
+		$aff = 'Institución de Ejemplo (fixture)';
+
+		return array(
+			'author-1' => array(
+				'title'             => 'Ana María Pérez Gómez',
+				'citation_surname'  => 'Pérez Gómez',
+				'afiliacion'        => $aff,
+				'orcid'             => self::FAKE_ORCID_STEM . '1',
+				'bio'               => $bio,
+			),
+			'author-2' => array(
+				'title'             => 'James Alan Whitfield',
+				'citation_surname'  => '',
+				'afiliacion'        => $aff,
+				'orcid'             => self::FAKE_ORCID_STEM . '2',
+				'bio'               => $bio,
+			),
+			'author-3' => array(
+				'title'             => 'Juana Inés de la Cruz',
+				'citation_surname'  => 'de la Cruz',
+				'afiliacion'        => $aff,
+				'orcid'             => self::FAKE_ORCID_STEM . '3',
+				'bio'               => $bio,
+			),
+			'author-4' => array(
+				'title'             => 'Wei Zhang',
+				'citation_surname'  => '',
+				'afiliacion'        => $aff,
+				'orcid'             => self::FAKE_ORCID_STEM . '4',
+				'bio'               => $bio,
+			),
+			'author-5' => array(
+				'title'             => 'Fatima Al-Hassan',
+				'citation_surname'  => 'Al-Hassan',
+				'afiliacion'        => $aff,
+				'orcid'             => self::FAKE_ORCID_STEM . '5',
+				'bio'               => $bio,
+			),
+			'author-6' => array(
+				'title'             => 'João Pedro Silva Santos',
+				'citation_surname'  => 'Silva Santos',
+				'afiliacion'        => $aff,
+				'orcid'             => self::FAKE_ORCID_STEM . '6',
+				'bio'               => $bio,
+			),
+			'author-7' => array(
+				'title'             => 'Marie-Claire Dubois',
+				'citation_surname'  => '',
+				'afiliacion'        => $aff,
+				'orcid'             => self::FAKE_ORCID_STEM . '7',
+				'bio'               => $bio,
+			),
+			'author-8' => array(
+				'title'             => 'Anna-Lena Müller',
+				'citation_surname'  => '',
+				'afiliacion'        => $aff,
+				'orcid'             => self::FAKE_ORCID_STEM . '8',
+				'bio'               => $bio,
+			),
+		);
+	}
+
+	/**
 	 * Fixture dataset definition. Volume/number shaped like the real
 	 * first edition (Vol. 1 Nº 1); every identifier is fake by design.
 	 *
@@ -114,15 +185,9 @@ class Fixtures {
 	private static function dataset() {
 		$sections = array( 'Metafísica', 'Ética', 'Epistemología', 'Filosofía de la Religión' );
 
-		$authors = array();
-		for ( $i = 1; $i <= 6; $i++ ) {
-			$authors[ "author-$i" ] = array(
-				'title'      => "Autora de Ejemplo $i",
-				'afiliacion' => 'Institución de Ejemplo (fixture)',
-				'orcid'      => self::FAKE_ORCID_STEM . $i,
-				'bio'        => 'Perfil demostrativo creado por el sistema de fixtures. No es una persona real.',
-			);
-		}
+		$authors     = self::demo_authors();
+		$author_keys = array_keys( $authors );
+		$author_n    = count( $author_keys );
 
 		$articles = array(
 			array(
@@ -142,7 +207,10 @@ class Fixtures {
 				'title'    => "Artículo de ejemplo $i (fixture)",
 				'type'     => ( 3 === $i ) ? 'essay' : ( ( 5 === $i ) ? 'review' : 'article' ),
 				'section'  => $sections[ ( $i - 1 ) % count( $sections ) ],
-				'authors'  => array( 'author-' . $i, 'author-' . ( ( $i % 6 ) + 1 ) ),
+				'authors'  => array(
+					$author_keys[ ( $i - 1 ) % $author_n ],
+					$author_keys[ $i % $author_n ],
+				),
 				'pages'    => sprintf( '%d-%d', $i * 10, $i * 10 + 15 ),
 				'content'  => 'Cuerpo demostrativo de artículo, generado por fixtures para ejercitar plantillas y consultas.',
 			);
@@ -157,7 +225,7 @@ class Fixtures {
 				'title'   => "Artículo stub $i (fixture)",
 				'type'    => 'article',
 				'section' => $sections[ $i % count( $sections ) ],
-				'authors' => array( 'author-' . ( ( $i % 6 ) + 1 ) ),
+				'authors' => array( $author_keys[ $i % $author_n ] ),
 				'pages'   => '',
 				'content' => 'Stub mínimo para ejercitar la paginación de archivos.',
 			);
@@ -350,9 +418,10 @@ class Fixtures {
 					'post_status' => 'publish',
 				),
 				array(
-					'afiliacion' => $author['afiliacion'],
-					'orcid'      => $author['orcid'],
-					'bio'        => $author['bio'],
+					'afiliacion'       => $author['afiliacion'],
+					'orcid'            => $author['orcid'],
+					'bio'              => $author['bio'],
+					'citation_surname' => $author['citation_surname'],
 				),
 				array(),
 				$apply,
@@ -1577,7 +1646,22 @@ class Fixtures {
 		$existing = self::find( $key );
 
 		if ( $existing ) {
-			$report[] = "$key: exists (id {$existing->ID})";
+			if ( $apply && Content_Types::AUTHOR === $existing->post_type ) {
+				$title = isset( $postarr['post_title'] ) ? $postarr['post_title'] : $existing->post_title;
+				wp_update_post(
+					array(
+						'ID'         => $existing->ID,
+						'post_title' => $title,
+						'post_name'  => sanitize_title( $title ),
+					)
+				);
+				foreach ( $meta as $meta_key => $value ) {
+					update_post_meta( $existing->ID, $meta_key, $value );
+				}
+				$report[] = "$key: exists (id {$existing->ID}); author title/meta refreshed";
+			} else {
+				$report[] = "$key: exists (id {$existing->ID})";
+			}
 			return (int) $existing->ID;
 		}
 
