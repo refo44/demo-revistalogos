@@ -44,3 +44,7 @@
 .revistalogos-authors-empty.hidden {
 	display: none;
 }
+
+.revistalogos-citation-regenerate {
+	margin-top: 4px;
+}

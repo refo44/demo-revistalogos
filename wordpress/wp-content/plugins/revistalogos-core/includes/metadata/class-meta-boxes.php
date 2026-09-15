@@ -66,7 +66,8 @@ class Meta_Boxes {
 				'accepted_date'    => array( __( 'Fecha de aceptación', 'revistalogos-core' ), 'date' ),
 			),
 			Content_Types::AUTHOR  => array(
-				'afiliacion' => array( __( 'Institución, afiliación', 'revistalogos-core' ), 'text' ),
+				'citation_surname' => array( __( 'Apellido(s) para citar', 'revistalogos-core' ), 'text' ),
+				'afiliacion'       => array( __( 'Institución, afiliación', 'revistalogos-core' ), 'text' ),
 				'orcid'      => array( __( 'ORCID iD (NNNN-NNNN-NNNN-NNNK)', 'revistalogos-core' ), 'text' ),
 				'bio'        => array( __( 'Biografía breve', 'revistalogos-core' ), 'textarea' ),
 				'email'      => array( __( 'Correo (opcional, no público)', 'revistalogos-core' ), 'email' ),
@@ -109,6 +110,15 @@ class Meta_Boxes {
 			array( __CLASS__, 'render_relationships_box' ),
 			Content_Types::ARTICLE,
 			'side',
+			'default'
+		);
+
+		add_meta_box(
+			'revistalogos-core-citations',
+			__( 'Cómo Citar', 'revistalogos-core' ),
+			array( __CLASS__, 'render_citation_box' ),
+			Content_Types::ARTICLE,
+			'normal',
 			'default'
 		);
 	}
@@ -186,6 +196,45 @@ class Meta_Boxes {
 					);
 			}
 
+			if ( 'citation_surname' === $key ) {
+				echo '<p class="description">' . esc_html__( 'Vacío: última palabra del nombre. Relleno (p. ej. Pérez Gómez): apellido bibliográfico en Cómo Citar. No cambia el nombre público.', 'revistalogos-core' ) . '</p>';
+			}
+
+			echo '</td></tr>';
+		}
+
+		echo '</tbody></table>';
+	}
+
+	/**
+	 * Optional per-format Cómo Citar overrides (ADR 0021). Empty = builder.
+	 *
+	 * @param \WP_Post $post Current article.
+	 */
+	public static function render_citation_box( $post ) {
+		if ( Content_Types::ARTICLE !== $post->post_type ) {
+			return;
+		}
+
+		echo '<p class="description">' . esc_html__( 'Vacío = cita automática. Un texto aquí sustituye solo esa caja. Regenerar borra el override; al guardar, vuelve el builder.', 'revistalogos-core' ) . '</p>';
+		echo '<table class="form-table" role="presentation"><tbody>';
+
+		foreach ( Metadata::citation_override_keys() as $label => $key ) {
+			$value = get_post_meta( $post->ID, $key, true );
+			$id    = 'revistalogos-' . $key;
+
+			echo '<tr><th scope="row"><label for="' . esc_attr( $id ) . '">' . esc_html( $label ) . '</label></th><td>';
+			printf(
+				'<textarea id="%1$s" name="%2$s" rows="4" class="large-text">%3$s</textarea>',
+				esc_attr( $id ),
+				esc_attr( $key ),
+				esc_textarea( $value )
+			);
+			printf(
+				'<p><button type="button" class="button revistalogos-citation-regenerate" data-target="%1$s">%2$s</button></p>',
+				esc_attr( $id ),
+				esc_html__( 'Regenerar', 'revistalogos-core' )
+			);
 			echo '</td></tr>';
 		}
 
@@ -345,10 +394,33 @@ class Meta_Boxes {
 		}
 
 		if ( Content_Types::ARTICLE === $post->post_type ) {
+			self::save_citation_overrides( $post_id );
 			self::save_article_authors( $post_id );
 
 			$issue = isset( $_POST['issue'] ) ? absint( wp_unslash( $_POST['issue'] ) ) : 0;
 			update_post_meta( $post_id, 'issue', $issue );
+		}
+	}
+
+	/**
+	 * Persist or delete per-format Cómo Citar overrides. Empty POST
+	 * deletes that meta so the builder runs again (ADR 0021 Regenerar).
+	 *
+	 * @param int $post_id Article ID.
+	 */
+	private static function save_citation_overrides( $post_id ) {
+		foreach ( Metadata::citation_override_keys() as $key ) {
+			if ( ! isset( $_POST[ $key ] ) ) {
+				continue;
+			}
+
+			$raw = wp_unslash( $_POST[ $key ] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			if ( '' === trim( (string) $raw ) ) {
+				delete_post_meta( $post_id, $key );
+				continue;
+			}
+
+			update_post_meta( $post_id, $key, $raw );
 		}
 	}
 

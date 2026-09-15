@@ -8,7 +8,7 @@
 (function ($, wp) {
 	'use strict';
 
-	var ARTICLE_META_KEYS = [
+		var ARTICLE_META_KEYS = [
 		'title_en',
 		'abstract',
 		'abstract_en',
@@ -19,7 +19,14 @@
 		'publication_date',
 		'received_date',
 		'accepted_date',
-		'issue'
+		'issue',
+		'citation_override_apa',
+		'citation_override_bibtex',
+		'citation_override_vancouver',
+		'citation_override_chicago',
+		'citation_override_mla',
+		'citation_override_harvard',
+		'citation_override_ris'
 	];
 
 	var ISSUE_META_KEYS = [
@@ -289,13 +296,22 @@
 
 		var $authorsBox = $('#revistalogos-core-relationships');
 
-		$('#revistalogos-core-fields').on(
+		$('#revistalogos-core-fields, #revistalogos-core-citations').on(
 			'change',
 			'input, textarea, select',
 			function () {
 				syncMetaboxMetaToBlockEditor($authorsBox);
 			}
 		);
+
+		$(document).on('click', '.revistalogos-citation-regenerate', function (event) {
+			event.preventDefault();
+			var target = $(this).attr('data-target');
+			if (!target) {
+				return;
+			}
+			$('#' + target).val('').trigger('change');
+		});
 
 		document.addEventListener(
 			'click',

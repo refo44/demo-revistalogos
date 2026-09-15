@@ -49,7 +49,7 @@ Requieren elegir entre alternativas antes o durante la construcción del theme. 
 | D15 | Tipo de theme → **block theme (FSE)** + Site Editor + paleta en Estilos; Next.js / headless **rechazado** | FSE incremental en Docker **después** de estabilizar producción clásica (el corte 2026-08-19 no esperó al gate FSE) | ✅ Resuelta ([0015](0015-block-theme-fse-site-editor.md)); implementación pendiente |
 | D16 | Topología de hosting → **cPanel `cenfiss2`**, no panel Hostinger; corte WP **in situ** en `logo-et-spes.cenfiss.net`; sin subdominios nuevos | Secretos FTPS y Softaculous | ✅ Resuelta ([0016](0016-topologia-hosting-cpanel.md)); **corte ejecutado 2026-08-19** |
 | D17 | Generación automática del PDF de artículo al publicar → **arquitectura aceptada** ([0017](0017-generacion-automatica-pdf-articulo.md)): `pdf_file` sigue siendo un ID de Media Library; ajuste wp-admin **OFF por defecto**; ON: PDF válido se conserva; si falta, generar; si falla, bloquear; no pisar un PDF válido; no regenerar al guardar; no backfill en upgrade. **Testing Foundation hecha** ([0018](0018-testing-foundation.md), `docs/23`). **WU1–WU6B** política, adaptador, orquestación, renderer, persistencia, source HTML, composición explícita y enforcement classic/REST. PDF de número: fuera de v1. Producción permanece OFF hasta decisión del propietario. | Activación en producción: decisión aparte del propietario (no auto-enable). WU7: [trabajo pendiente](#trabajo-pendiente-aceptado) | ✅ Resuelta ([0017](0017-generacion-automatica-pdf-articulo.md)); implementación local WU1–WU6B; hotfix 0.2.8 desplegado ([issue #9](https://github.com/refo44/demo-revistalogos/issues/9) cerrado); WU7 no iniciado |
-| D18 | Cómo Citar: apellido bibliográfico hispano (ambos) en **todos** los formatos según cada estándar; un apellido = heurística actual; campo opcional `citation_surname` en el autor; override opcional por formato (7 cajas) en el artículo; Regenerar uno por uno borra ese override. **No** heurística de 4 tokens. Highwire/PDF/Fase 4 fuera | Implementación: [trabajo pendiente](#trabajo-pendiente-aceptado) ítem 11 | ✅ Resuelta ([0021](0021-apellido-bibliografico-y-override-como-citar.md)); implementación PLANNED ([#64](https://github.com/refo44/demo-revistalogos/issues/64)) |
+| D18 | Cómo Citar: apellido bibliográfico hispano (ambos) en **todos** los formatos según cada estándar; un apellido = heurística actual; campo opcional `citation_surname` en el autor; override opcional por formato (7 cajas) en el artículo; Regenerar uno por uno borra ese override. **No** heurística de 4 tokens. Highwire/PDF/Fase 4 fuera | Implementación: [trabajo pendiente](#trabajo-pendiente-aceptado) ítem 11 | ✅ Resuelta ([0021](0021-apellido-bibliografico-y-override-como-citar.md)); implementación IN PROGRESS ([#64](https://github.com/refo44/demo-revistalogos/issues/64)) |
 
 ---
 
@@ -251,11 +251,11 @@ Cierre: As-Is/To-Be rellenados; go / no-go / go con snap al cerrar. Si go, WU ap
 
 #### 11. Cómo Citar — apellido bibliográfico y override por formato
 
-**Estado:** PLANNED. ADR **aceptado** ([0021](0021-apellido-bibliografico-y-override-como-citar.md)). Issue: [#64](https://github.com/refo44/demo-revistalogos/issues/64). **No implementar** hasta go explícito. Independiente del spike de colapso (ítem 9 / [#15](https://github.com/refo44/demo-revistalogos/issues/15)).
+**Estado:** IN PROGRESS. ADR **aceptado** ([0021](0021-apellido-bibliografico-y-override-como-citar.md)). Issue: [#64](https://github.com/refo44/demo-revistalogos/issues/64). Independiente del spike de colapso (ítem 9 / [#15](https://github.com/refo44/demo-revistalogos/issues/15)).
 
-Hoy `revistalogos_split_name()` toma la última palabra del título del autor como apellido. Eso rompe el patrón hispano (`Pérez Gómez` vs `Gómez, A.M.P.`). La cita no se persiste.
+Hoy `revistalogos_split_name()` toma la última palabra del título del autor como apellido si `citation_surname` está vacío. Con el campo relleno usa esa cadena en todos los formatos. Override opcional por caja en el artículo.
 
-Alcance de la WU (cuando haya go):
+Alcance de la WU:
 
 1. Plugin: meta `citation_surname` en `author` (un campo, opcional; vacío = last-token). Metabox Autores.
 2. Plugin: siete metas `citation_override_*` en `article` (APA, BibTeX, Vancouver, Chicago, MLA, Harvard, RIS). Vacío = builder; relleno = esa caja. Save no escribe override. Sin backfill.
@@ -265,7 +265,7 @@ Alcance de la WU (cuando haya go):
 6. TDD: last-token vacío **permanece**; casos nuevos para apellido relleno y override. Gutenberg: playbook [#30](https://github.com/refo44/demo-revistalogos/issues/30) / [#35](https://github.com/refo44/demo-revistalogos/issues/35).
 7. Fuera: Highwire `citation_author` (título completo), PDF, Fase 4, heurística de 4 tokens, colapso visual.
 
-Bump de plugin en la misma PR. Sin deploy (ADR 0020).
+Plugin 0.2.19 / theme 0.2.11 en la misma PR. Sin deploy (ADR 0020). El issue permanece abierto hasta merge.
 
 ### DEFERRED
 
