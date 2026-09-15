@@ -113,67 +113,33 @@ class Fixtures {
 	 * @return array<string, array{title: string, citation_surname: string, afiliacion: string, orcid: string, bio: string}>
 	 */
 	public static function demo_authors() {
-		$bio = 'Perfil demostrativo creado por el sistema de fixtures. No es una persona real.';
-		$aff = 'Institución de Ejemplo (fixture)';
-
-		return array(
-			'author-1' => array(
-				'title'             => 'Ana María Pérez Gómez',
-				'citation_surname'  => 'Pérez Gómez',
-				'afiliacion'        => $aff,
-				'orcid'             => self::FAKE_ORCID_STEM . '1',
-				'bio'               => $bio,
-			),
-			'author-2' => array(
-				'title'             => 'James Alan Whitfield',
-				'citation_surname'  => '',
-				'afiliacion'        => $aff,
-				'orcid'             => self::FAKE_ORCID_STEM . '2',
-				'bio'               => $bio,
-			),
-			'author-3' => array(
-				'title'             => 'Juana Inés de la Cruz',
-				'citation_surname'  => 'de la Cruz',
-				'afiliacion'        => $aff,
-				'orcid'             => self::FAKE_ORCID_STEM . '3',
-				'bio'               => $bio,
-			),
-			'author-4' => array(
-				'title'             => 'Wei Zhang',
-				'citation_surname'  => '',
-				'afiliacion'        => $aff,
-				'orcid'             => self::FAKE_ORCID_STEM . '4',
-				'bio'               => $bio,
-			),
-			'author-5' => array(
-				'title'             => 'Fatima Al-Hassan',
-				'citation_surname'  => 'Al-Hassan',
-				'afiliacion'        => $aff,
-				'orcid'             => self::FAKE_ORCID_STEM . '5',
-				'bio'               => $bio,
-			),
-			'author-6' => array(
-				'title'             => 'João Pedro Silva Santos',
-				'citation_surname'  => 'Silva Santos',
-				'afiliacion'        => $aff,
-				'orcid'             => self::FAKE_ORCID_STEM . '6',
-				'bio'               => $bio,
-			),
-			'author-7' => array(
-				'title'             => 'Marie-Claire Dubois',
-				'citation_surname'  => '',
-				'afiliacion'        => $aff,
-				'orcid'             => self::FAKE_ORCID_STEM . '7',
-				'bio'               => $bio,
-			),
-			'author-8' => array(
-				'title'             => 'Anna-Lena Müller',
-				'citation_surname'  => '',
-				'afiliacion'        => $aff,
-				'orcid'             => self::FAKE_ORCID_STEM . '8',
-				'bio'               => $bio,
-			),
+		$bio  = 'Perfil demostrativo creado por el sistema de fixtures. No es una persona real.';
+		$aff  = 'Institución de Ejemplo (fixture)';
+		$rows = array(
+			'author-1' => array( 'Ana María Pérez Gómez', 'Pérez Gómez' ),
+			'author-2' => array( 'James Alan Whitfield', '' ),
+			'author-3' => array( 'Juana Inés de la Cruz', 'de la Cruz' ),
+			'author-4' => array( 'Wei Zhang', '' ),
+			'author-5' => array( 'Fatima Al-Hassan', 'Al-Hassan' ),
+			'author-6' => array( 'João Pedro Silva Santos', 'Silva Santos' ),
+			'author-7' => array( 'Marie-Claire Dubois', '' ),
+			'author-8' => array( 'Anna-Lena Müller', '' ),
 		);
+
+		$authors = array();
+		$n       = 1;
+		foreach ( $rows as $key => $row ) {
+			$authors[ $key ] = array(
+				'title'            => $row[0],
+				'citation_surname' => $row[1],
+				'afiliacion'       => $aff,
+				'orcid'            => self::FAKE_ORCID_STEM . (string) $n,
+				'bio'              => $bio,
+			);
+			++$n;
+		}
+
+		return $authors;
 	}
 
 	/**
