@@ -8,6 +8,9 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Added
+- ADR [0021](docs/adr/0021-apellido-bibliografico-y-override-como-citar.md): apellido bibliográfico hispano y override opcional de Cómo Citar. Implementación **PLANNED** ([#64](https://github.com/refo44/demo-revistalogos/issues/64)); este cambio es solo documentación.
+
 ## [0.3.13] — 2026-09-14
 
 Release etiquetado para FTPS de producción (ADR 0020). Plugin
