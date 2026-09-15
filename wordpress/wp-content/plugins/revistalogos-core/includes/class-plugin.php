@@ -90,6 +90,7 @@ class Plugin {
 		require_once $includes . 'queries/class-issue-page-views.php';
 		require_once $includes . 'queries/class-issue-pdf-downloads.php';
 		require_once $includes . 'integrations/class-comments-disabler.php';
+		require_once $includes . 'integrations/class-contact-form-definition.php';
 		require_once $includes . 'integrations/class-contact-form-integration.php';
 		require_once $includes . 'integrations/class-native-sitemap.php';
 		require_once $includes . 'integrations/class-llms-txt.php';

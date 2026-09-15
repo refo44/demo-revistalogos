@@ -204,7 +204,7 @@
 
   // Validación accesible del formulario de contacto (errores vinculados con aria-describedby/aria-invalid)
   function initContactFormValidation() {
-    const form = document.querySelector(".contact-form");
+    const form = document.querySelector(".contact-form:not(.wpcf7-form)");
     if (!form) return;
 
     function messageFor(field) {

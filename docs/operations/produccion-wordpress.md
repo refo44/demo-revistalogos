@@ -483,7 +483,7 @@ instalados/configurados en producción. Ver
    no fue el mecanismo. Site Health residual (OPcache, módulos,
    tamaños de upload, etc.) es otra unidad.
 4. Evaluar plugins Softaculous instalados.
-5. Instalar/configurar Contact Form 7 (ADR 0010).
+5. Instalar Contact Form 7 desde WordPress.org (ADR 0010, [issue #62](https://github.com/refo44/demo-revistalogos/issues/62)). El plugin `revistalogos-core` 0.2.18+ crea el formulario y la opción `revistalogos_contact_form_id` al detectar el CPT. No Flamingo, no reCAPTCHA.
 6. Instalar/configurar WP Statistics (ADR 0011).
 7. Verificar cero cookies para visitante anónimo.
 8. Revisar página de privacidad.

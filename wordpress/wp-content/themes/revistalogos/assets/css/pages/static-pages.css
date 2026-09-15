@@ -103,8 +103,33 @@
   font-family: var(--font-family-mono);
 }
 
-.contact-form {
+.contact-form,
+.wpcf7 {
   max-width: var(--reading-max-width);
+}
+
+.wpcf7-form .wpcf7-not-valid-tip {
+  display: block;
+  margin-top: var(--space-2);
+  color: var(--color-error);
+  font-size: var(--font-size-sm);
+}
+
+.wpcf7-form .wpcf7-response-output {
+  margin: var(--space-6) 0 0;
+  padding: var(--space-4);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--border-radius);
+}
+
+.wpcf7-form.sent .wpcf7-response-output {
+  border-color: var(--color-primary);
+}
+
+.wpcf7-form.invalid .wpcf7-response-output,
+.wpcf7-form.failed .wpcf7-response-output,
+.wpcf7-form.spam .wpcf7-response-output {
+  border-color: var(--color-error);
 }
 
 .form-required-note {

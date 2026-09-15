@@ -8,6 +8,19 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+## [0.3.13] — 2026-09-14
+
+Release etiquetado para FTPS de producción (ADR 0020). Plugin
+`revistalogos-core` **0.2.18**. Theme `revistalogos` **0.2.10**.
+
+### Added
+- Plugin `revistalogos-core` 0.2.18: si Contact Form 7 está activo,
+  crea (una vez) el formulario público de `/contacto/` y guarda su ID
+  en `revistalogos_contact_form_id` ([#62](https://github.com/refo44/demo-revistalogos/issues/62)).
+  Destinatario `revista.cenfiss@gmail.com`; honeypot propio; sin
+  Flamingo ni reCAPTCHA. Theme `revistalogos` 0.2.10: tokens en el
+  formulario CF7 y dequeue de su CSS por defecto.
+
 ## [0.3.12] — 2026-09-11
 
 Release etiquetado para FTPS de producción (ADR 0020). Plugin
@@ -553,7 +566,8 @@ con la infraestructura de gobierno del proyecto en su sitio.
 - El contenido editorial de la maqueta es demostrativo y **no** se publica en producción (ver `docs/17-implementation-order` §3.1).
 - `robots.txt` permanece en `Disallow: /` mientras el sitio es prototipo.
 
-[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.3.12...HEAD
+[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.3.13...HEAD
+[0.3.13]: https://github.com/refo44/demo-revistalogos/compare/v0.3.12...v0.3.13
 [0.3.12]: https://github.com/refo44/demo-revistalogos/compare/v0.3.11...v0.3.12
 [0.3.11]: https://github.com/refo44/demo-revistalogos/compare/v0.3.10...v0.3.11
 [0.3.10]: https://github.com/refo44/demo-revistalogos/compare/v0.3.9...v0.3.10
