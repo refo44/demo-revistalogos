@@ -4,6 +4,8 @@
 
 Aceptada
 
+**Sustitución parcial (2026-09-15):** [ADR 0022](0022-nombres-y-apellidos-de-autor.md) sustituye §2. Siguen vigentes §1, §3–4 y §5. `citation_surname` sigue **opcional** (cita). Nombres y Apellidos de la persona son `given_names` / `family_names`.
+
 ## Fecha
 
 2026-09-15
