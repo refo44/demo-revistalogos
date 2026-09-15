@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'REVISTALOGOS_THEME_VERSION', '0.2.9' );
+define( 'REVISTALOGOS_THEME_VERSION', '0.2.10' );
 
 require_once get_template_directory() . '/inc/template-tags.php';
 require_once get_template_directory() . '/inc/class-nav-walker.php';
@@ -79,15 +79,17 @@ add_action( 'wp_enqueue_scripts', 'revistalogos_enqueue_assets' );
 /**
  * Selective dequeue (ADR 0003 §3): the theme renders no block markup on
  * the public side, so the core block library styles only add weight and
- * specificity wars against main.css. Audited against the templates in
- * this theme (no wp-block-* classes used). Revisit if editor blocks ever
- * render publicly.
+ * specificity wars against main.css. Contact Form 7's default sheet is
+ * replaced by tokens in static-pages.css. Audited against the templates
+ * in this theme (no wp-block-* classes used). Revisit if editor blocks
+ * ever render publicly.
  */
 function revistalogos_dequeue_foreign_styles() {
 	wp_dequeue_style( 'wp-block-library' );
 	wp_dequeue_style( 'wp-block-library-theme' );
 	wp_dequeue_style( 'classic-theme-styles' );
 	wp_dequeue_style( 'global-styles' );
+	wp_dequeue_style( 'contact-form-7' );
 }
 add_action( 'wp_enqueue_scripts', 'revistalogos_dequeue_foreign_styles', 20 );
 

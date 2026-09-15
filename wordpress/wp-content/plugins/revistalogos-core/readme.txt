@@ -3,7 +3,7 @@ Contributors: cenfiss
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.2.17
+Stable tag: 0.2.18
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,7 +26,8 @@ Dueño del dominio de publicación de la revista (ADR 0005): el theme
 * Rol `Managing Editor` de mínimo privilegio, distinto del Editor nativo.
 * «Número actual» derivado en consulta (fecha de publicación más reciente).
 * Comentarios desactivados globalmente (invariante sin cookies, ADR 0011).
-* Integración honeypot para Contact Form 7 (sin reCAPTCHA, sin Flamingo).
+* Integración Contact Form 7: provisiona el formulario público de
+  contacto y honeypot (sin reCAPTCHA, sin Flamingo).
 * Comandos WP-CLI de migración institucional (`wp revistalogos content
   validate|plan|import|verify`, dry-run por defecto) y de fixtures /
   bootstrap editorial (`wp revistalogos fixtures seed|bootstrap|plan|verify|teardown`).
@@ -37,6 +38,12 @@ Fase 3: los campos `issn`, `doi` y `orcid` son almacenamiento base inerte;
 la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
 
 == Changelog ==
+
+= 0.2.18 =
+* When Contact Form 7 is active, provision the public contact form
+  (Nombre, Email, Asunto, Mensaje) and store its ID in
+  `revistalogos_contact_form_id`. Mail goes to revista.cenfiss@gmail.com.
+  Idempotent; no Flamingo, no reCAPTCHA. Issue #62.
 
 = 0.2.17 =
 * Derived issue section count ignores articles with no section term so

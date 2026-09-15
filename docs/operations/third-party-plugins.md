@@ -18,11 +18,12 @@ nuevo requiere un ADR aceptado.
   - Antispam por **honeypot** provisto por `revistalogos-core`
     (integración propia; no se instala plugin extra de honeypot).
   - Enlace al aviso de privacidad (`/privacidad/`) junto al formulario.
-  - Tras crear el formulario en el admin de CF7, guardar su ID en la opción
-    `revistalogos_contact_form_id` (p. ej.
-    `wp option update revistalogos_contact_form_id <ID>`): la plantilla
-    `page-contacto.php` renderiza el formulario desde esa opción y, si falta
-    el plugin o la opción, muestra el fallback accesible con `mailto:`.
+  - Con CF7 activo, `revistalogos-core` **provisiona** el formulario
+    (idempotente) y guarda su ID en `revistalogos_contact_form_id`. No
+    hace falta crearlo a mano ni un `wp option update` salvo que un
+    editor quiera apuntar a otro formulario. La plantilla
+    `page-contacto.php` renderiza desde esa opción y, si falta el
+    plugin o la opción, muestra el fallback accesible con `mailto:`.
   - Campos del formulario según la maqueta: Nombre completo*, Email*,
     Asunto*, Mensaje* (obligatorios); el honeypot lo inyecta
     `revistalogos-core` automáticamente.
@@ -67,9 +68,11 @@ nuevo requiere un ADR aceptado.
 
 ## Producción (2026-08-19)
 
-CF7 y WP Statistics están **aprobados** y activos en Docker. En
-`logo-et-spes.cenfiss.net` **aún no** están instalados/configurados
-(pendiente operativo).
+CF7 y WP Statistics están **aprobados**. CF7 se provisiona solo en
+Docker cuando el plugin de terceros está activo (issue #62). En
+`logo-et-spes.cenfiss.net` **aún no** está instalado Contact Form 7
+(pendiente operativo: instalar desde WordPress.org; el core crea el
+formulario). WP Statistics tampoco está configurado en el live.
 
 Softaculous dejó un bundle que **no** forma parte de esta lista aprobada ni
 del deploy de Git. No se desinstaló durante el corte. Evaluar después; no
