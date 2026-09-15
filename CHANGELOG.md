@@ -8,6 +8,12 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Added
+- ADR [0022](docs/adr/0022-nombres-y-apellidos-de-autor.md): Nombres y
+  Apellidos de autor como atributos almacenados; `citation_surname`
+  opcional; backfill por ajuste temporal con Restore, retirado en el
+  deploy siguiente ([#67](https://github.com/refo44/demo-revistalogos/issues/67)).
+
 ## [0.3.14] — 2026-09-15
 
 Release etiquetado para FTPS de producción (ADR 0020). Plugin
