@@ -58,9 +58,15 @@ Cada formato tiene su Regenerar. Borra **ese** override (vacía el meta). Esa ca
 
 Highwire `citation_author` sigue el título completo del autor (Google Scholar). PDF de artículo, colapso visual de Cómo Citar, depósito Crossref y validación DOI/ORCID no cambian aquí. Fase 4 podrá leer `citation_surname` como `person_name/surname` cuando exista.
 
-### 6. Implementación: PLANNED, no ahora
+### 6. Implementación
 
-Este ADR **vincula**. El código **no** se escribe hasta go explícito. WU: TDD (el test de last-token **permanece** para el vacío; casos nuevos para `citation_surname` relleno y override por formato); plugin dueño del meta; theme lee; transporte Gutenberg del CPT `article` según el playbook de [#30](https://github.com/refo44/demo-revistalogos/issues/30) / [#35](https://github.com/refo44/demo-revistalogos/issues/35); bump de plugin; sin deploy implícito (ADR 0020).
+Issue [#64](https://github.com/refo44/demo-revistalogos/issues/64). Plugin
+`revistalogos-core` 0.2.19 (meta + metabox + REST) y theme `revistalogos`
+0.2.11 (builder + overrides). TDD: el test de last-token **permanece**;
+casos nuevos para `citation_surname` relleno y override por formato.
+Gutenberg del CPT `article` según el playbook de [#30](https://github.com/refo44/demo-revistalogos/issues/30)
+/ [#35](https://github.com/refo44/demo-revistalogos/issues/35). Sin deploy
+implícito (ADR 0020).
 
 ## Alternativas consideradas
 
@@ -84,7 +90,7 @@ Este ADR **vincula**. El código **no** se escribe hasta go explícito. WU: TDD 
 - Riesgo: overrides desactualizados si cambian páginas/DOI y el editor no pulsa Regenerar en esa caja. Aceptado: es el precio del parche manual.
 - La misma persona puede citarse distinto en dos artículos si solo uno tiene override de nombre (el arreglo canónico del hispano es `citation_surname`, no el override).
 - Gutenberg: siete metas nuevas en `article` (el CPT del bug #30). Implementación debe sincronizar metabox → REST.
-- Issue #64 permanece `planned` hasta la WU; este ADR no la cierra.
+- Issue #64 permanece abierto hasta que esta WU aterrice en `main`; este ADR no la cierra por sí solo.
 
 ## Referencias
 

@@ -3,7 +3,7 @@ Contributors: cenfiss
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.2.18
+Stable tag: 0.2.19
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,11 @@ Fase 3: los campos `issn`, `doi` y `orcid` son almacenamiento base inerte;
 la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
 
 == Changelog ==
+
+= 0.2.19 =
+* Optional author `citation_surname` and per-format article
+  `citation_override_*` for Cómo Citar, with Regenerar per box.
+  Issue #64, ADR 0021.
 
 = 0.2.18 =
 * When Contact Form 7 is active, provision the public contact form

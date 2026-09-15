@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "Release v0.3.13 (CF7 #62; plugin 0.2.18 / theme 0.2.10)"
-current_branch: "feat/contact-form-7-provision"
+current_work_unit: "Cómo Citar surname + override (ADR 0021 / #64; plugin 0.2.19 / theme 0.2.11)"
+current_branch: "feat/citation-surname-override"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
-updated_at: "2026-09-14"
-next_action: "PR chore(release): v0.3.13. Tras merge: etiqueta anotada v0.3.13 sobre origin/main y workflow_dispatch desde esa etiqueta (ADR 0020). No despachar desde v0.3.12. Instalar CF7 en producción desde WordPress.org (no Git). Default OFF. No backfill. ADR 0017 WU7 not started."
+updated_at: "2026-09-15"
+next_action: "Owner: commit + PR feat(plugin): citation surname y override Cómo Citar. Tests verdes. No cerrar #64 hasta merge. Sin deploy (ADR 0020)."
 blocked: false
 ---
 
@@ -661,16 +661,13 @@ Recuperación institucional **ya hecha** (Pages reales permanentes). Carga
 editorial real en proceso desde wp-admin (**no** completa). Docker local:
 `http://localhost:8080` (WordPress 7.1, PHP **8.3**).
 
-Siguiente acción priorizada — PR **`chore(release): v0.3.13`**
-(`feat/contact-form-7-provision`; plugin 0.2.18 / theme 0.2.10;
-[issue #62](https://github.com/refo44/demo-revistalogos/issues/62)).
-Tras merge a `main`: etiqueta anotada `v0.3.13` sobre `origin/main` y
-`workflow_dispatch` desde esa etiqueta (ADR 0020). **No** despachar
-desde `v0.3.12`. En producción, instalar Contact Form 7 desde
-WordPress.org (no Git); el core provisiona el formulario. Default OFF;
-sin backfill; WU7 no iniciado. No pushear a `main`; ramas cortas + PR
-(ADR 0019). Trabajo pendiente aceptado (no duplicar aquí):
-`docs/adr/BACKLOG.md` § Trabajo pendiente aceptado.
+Siguiente acción priorizada — rama **`feat/citation-surname-override`**,
+issue [#64](https://github.com/refo44/demo-revistalogos/issues/64)
+(ADR 0021): plugin 0.2.19 / theme 0.2.11. PR cuando los tests estén
+verdes. **No** cerrar #64 hasta merge. **Sin** deploy (ADR 0020).
+No pushear a `main`; ramas cortas + PR (ADR 0019). Trabajo pendiente
+aceptado (no duplicar aquí): `docs/adr/BACKLOG.md` § Trabajo pendiente
+aceptado.
 
 1. el default OFF sigue permitiendo publicar sin PDF;
 2. no dejar `revistalogos_article_pdf_publication_enforcement` ON

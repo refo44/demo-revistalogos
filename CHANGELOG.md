@@ -9,7 +9,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Added
-- ADR [0021](docs/adr/0021-apellido-bibliografico-y-override-como-citar.md): apellido bibliográfico hispano y override opcional de Cómo Citar. Implementación **PLANNED** ([#64](https://github.com/refo44/demo-revistalogos/issues/64)); este cambio es solo documentación.
+- Plugin `revistalogos-core` **0.2.19** y theme `revistalogos` **0.2.11**:
+  apellido bibliográfico opcional (`citation_surname` en el autor) y
+  override opcional por formato de Cómo Citar (`citation_override_*` en
+  el artículo), con Regenerar uno a uno ([#64](https://github.com/refo44/demo-revistalogos/issues/64),
+  ADR [0021](docs/adr/0021-apellido-bibliografico-y-override-como-citar.md)).
+- ADR [0021](docs/adr/0021-apellido-bibliografico-y-override-como-citar.md):
+  apellido bibliográfico hispano y override opcional de Cómo Citar.
 
 ## [0.3.13] — 2026-09-14
 

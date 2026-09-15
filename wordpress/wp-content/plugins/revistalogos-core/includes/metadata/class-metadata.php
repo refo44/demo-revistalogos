@@ -47,6 +47,18 @@ class Metadata {
 		self::register_date( Content_Types::ARTICLE, 'received_date', __( 'Fecha de envío', 'revistalogos-core' ) );
 		self::register_date( Content_Types::ARTICLE, 'accepted_date', __( 'Fecha de aceptación', 'revistalogos-core' ) );
 
+		foreach ( self::citation_override_keys() as $label => $key ) {
+			self::register_textarea(
+				Content_Types::ARTICLE,
+				$key,
+				sprintf(
+					/* translators: %s: citation format label (APA, MLA, RIS, …). */
+					__( 'Cómo Citar (%s)', 'revistalogos-core' ),
+					$label
+				)
+			);
+		}
+
 		// article relationships (ADR 0005 §2: post meta storing IDs).
 		register_post_meta(
 			Content_Types::ARTICLE,
@@ -82,6 +94,7 @@ class Metadata {
 		);
 
 		// author fields.
+		self::register_text( Content_Types::AUTHOR, 'citation_surname', __( 'Apellido(s) para citar', 'revistalogos-core' ) );
 		self::register_text( Content_Types::AUTHOR, 'afiliacion', __( 'Institución, afiliación', 'revistalogos-core' ) );
 		self::register_text( Content_Types::AUTHOR, 'orcid', __( 'ORCID iD', 'revistalogos-core' ) );
 		self::register_textarea( Content_Types::AUTHOR, 'bio', __( 'Biografía breve', 'revistalogos-core' ) );
@@ -286,5 +299,22 @@ class Metadata {
 		}
 
 		return ( 'application/pdf' === get_post_mime_type( $id ) ) ? $id : 0;
+	}
+
+	/**
+	 * Format label => article meta key for optional Cómo Citar overrides (ADR 0021).
+	 *
+	 * @return array<string, string>
+	 */
+	public static function citation_override_keys() {
+		return array(
+			'APA'       => 'citation_override_apa',
+			'BibTeX'    => 'citation_override_bibtex',
+			'Vancouver' => 'citation_override_vancouver',
+			'Chicago'   => 'citation_override_chicago',
+			'MLA'       => 'citation_override_mla',
+			'Harvard'   => 'citation_override_harvard',
+			'RIS'       => 'citation_override_ris',
+		);
 	}
 }

@@ -147,7 +147,7 @@ El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, ISSN,
 | publication_date | date | Fecha de publicación |
 | received_date | date | Fecha de envío |
 | accepted_date | date | Fecha de aceptación |
-| citation_format | computed, con override opcional | Cita generada desde autores (`citation_surname` si existe; si no, última palabra del título), título, número, año, páginas y DOI. Cada formato (APA, BibTeX, Vancouver, Chicago, MLA, Harvard) y RIS puede tener `citation_override_*` en este artículo: vacío = builder; relleno = ese texto. Regenerar por formato borra ese override. ADR 0021; implementación PLANNED ([#64](https://github.com/refo44/demo-revistalogos/issues/64)). **No** parchear título/DOI/páginas/slug aquí: se editan en sus campos. |
+| citation_format | computed, con override opcional | Cita generada desde autores (`citation_surname` si existe; si no, última palabra del título), título, número, año, páginas y DOI. Cada formato (APA, BibTeX, Vancouver, Chicago, MLA, Harvard) y RIS puede tener `citation_override_*` en este artículo: vacío = builder; relleno = ese texto. Regenerar por formato borra ese override. ADR 0021 ([#64](https://github.com/refo44/demo-revistalogos/issues/64)). **No** parchear título/DOI/páginas/slug aquí: se editan en sus campos. |
 
 **Prioridad a campos nativos:** Usar Title, Content, Featured image cuando sea posible. Los campos custom complementan.
 
@@ -156,7 +156,7 @@ El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, ISSN,
 | Campo | Tipo | Uso |
 |-------|------|-----|
 | Title | Nativo | Nombre completo (usar solo post_title) |
-| citation_surname | text | Opcional. Apellido(s) para citar. Vacío = heurística last-token (un apellido; As-Is). Relleno (p. ej. `Pérez Gómez`) = surname bibliográfico en **todos** los formatos de Cómo Citar. No sustituye el título público. ADR 0021; implementación PLANNED. |
+| citation_surname | text | Opcional. Apellido(s) para citar. Vacío = heurística last-token (un apellido; As-Is). Relleno (p. ej. `Pérez Gómez`) = surname bibliográfico en **todos** los formatos de Cómo Citar. No sustituye el título público. ADR 0021. |
 | afiliacion | text | Institución, afiliación |
 | orcid | text | ORCID iD, formato `NNNN-NNNN-NNNN-NNNK`; opcional, validado por checksum. Ver `22-identificadores-academicos-doi-orcid` §3 |
 | orcid_url | computed | `https://orcid.org/{orcid}`, calculado al mostrar, no almacenado (análogo a `article.doi_url`) |

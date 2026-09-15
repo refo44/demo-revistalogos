@@ -3,9 +3,9 @@
  * Citation format builders for single-article (static parity: APA,
  * BibTeX, Vancouver, Chicago, MLA, Harvard + RIS export).
  *
- * Name handling uses a bounded heuristic (last token = surname, rest =
- * given names); editors can adjust the author post title order if a
- * compound surname renders wrong.
+ * Empty bibliographic surname uses last token = family name. A filled
+ * author `citation_surname` (ADR 0021) is the family name for every
+ * format. Optional article `citation_override_*` replaces that box.
  *
  * @package Revistalogos
  */
@@ -17,26 +17,124 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Split a full name into given/surname parts.
  *
- * @param string $full_name Author display name.
+ * @param string $full_name         Author display name (post title).
+ * @param string $citation_surname Optional bibliographic surname. Empty
+ *                                  keeps the last-token heuristic.
  * @return array{given: string, surname: string, initials: string}
  */
-function revistalogos_split_name( $full_name ) {
-	$parts   = preg_split( '/\s+/', trim( $full_name ) );
+function revistalogos_split_name( $full_name, $citation_surname = '' ) {
+	$full_name        = trim( (string) $full_name );
+	$citation_surname = trim( (string) $citation_surname );
+
+	if ( '' !== $citation_surname ) {
+		$given = $full_name;
+		if ( $full_name === $citation_surname ) {
+			$given = '';
+		} elseif ( preg_match( '/^(.*)\s+' . preg_quote( $citation_surname, '/' ) . '$/u', $full_name, $matches ) ) {
+			$given = trim( $matches[1] );
+		}
+
+		return array(
+			'given'    => $given,
+			'surname'  => $citation_surname,
+			'initials' => revistalogos_citation_initials( $given ),
+		);
+	}
+
+	$parts   = preg_split( '/\s+/', $full_name );
 	$surname = array_pop( $parts );
 	$given   = implode( ' ', $parts );
 
+	return array(
+		'given'    => $given,
+		'surname'  => (string) $surname,
+		'initials' => revistalogos_citation_initials( $given ),
+	);
+}
+
+/**
+ * Initials of given names (no spaces), matching the historical builder.
+ *
+ * @param string $given Given names.
+ * @return string
+ */
+function revistalogos_citation_initials( $given ) {
 	$initials = '';
-	foreach ( $parts as $part ) {
+	foreach ( preg_split( '/\s+/', (string) $given ) as $part ) {
 		if ( '' !== $part ) {
 			$initials .= mb_substr( $part, 0, 1 ) . '.';
 		}
 	}
 
+	return $initials;
+}
+
+/**
+ * Replace generated citation boxes with non-empty overrides.
+ *
+ * @param array<string, string> $formats   Label => generated text.
+ * @param array<string, string> $overrides Label => optional override.
+ * @return array<string, string>
+ */
+function revistalogos_merge_citation_overrides( $formats, $overrides ) {
+	if ( ! is_array( $formats ) ) {
+		return array();
+	}
+
+	if ( ! is_array( $overrides ) ) {
+		return $formats;
+	}
+
+	foreach ( array_keys( $formats ) as $label ) {
+		if ( ! isset( $overrides[ $label ] ) || ! is_string( $overrides[ $label ] ) ) {
+			continue;
+		}
+
+		if ( '' === trim( $overrides[ $label ] ) ) {
+			continue;
+		}
+
+		$formats[ $label ] = $overrides[ $label ];
+	}
+
+	return $formats;
+}
+
+/**
+ * Format label => article meta key (ADR 0021). Plugin map wins when loaded.
+ *
+ * @return array<string, string>
+ */
+function revistalogos_citation_override_map() {
+	if ( class_exists( '\Revistalogos_Core\Metadata' ) && is_callable( array( '\Revistalogos_Core\Metadata', 'citation_override_keys' ) ) ) {
+		return \Revistalogos_Core\Metadata::citation_override_keys();
+	}
+
 	return array(
-		'given'    => $given,
-		'surname'  => (string) $surname,
-		'initials' => $initials,
+		'APA'       => 'citation_override_apa',
+		'BibTeX'    => 'citation_override_bibtex',
+		'Vancouver' => 'citation_override_vancouver',
+		'Chicago'   => 'citation_override_chicago',
+		'MLA'       => 'citation_override_mla',
+		'Harvard'   => 'citation_override_harvard',
+		'RIS'       => 'citation_override_ris',
 	);
+}
+
+/**
+ * Stored Cómo Citar overrides for an article (empty string = none).
+ *
+ * @param int $article_id Article ID.
+ * @return array<string, string>
+ */
+function revistalogos_citation_overrides( $article_id ) {
+	$overrides = array();
+
+	foreach ( revistalogos_citation_override_map() as $label => $key ) {
+		$overrides[ $label ] = (string) get_post_meta( $article_id, $key, true );
+	}
+
+	return $overrides;
 }
 
 /**
@@ -50,7 +148,8 @@ function revistalogos_citation_data( $article_id ) {
 
 	$authors = array();
 	foreach ( revistalogos_article_authors( $article_id ) as $author ) {
-		$authors[] = revistalogos_split_name( get_the_title( $author ) );
+		$citation_surname = (string) get_post_meta( $author->ID, 'citation_surname', true );
+		$authors[]        = revistalogos_split_name( get_the_title( $author ), $citation_surname );
 	}
 
 	$pub_date = get_post_meta( $article_id, 'publication_date', true );
@@ -187,7 +286,7 @@ function revistalogos_citation_formats( $article_id ) {
 		$d['doi']
 	);
 
-	return $formats;
+	return revistalogos_merge_citation_overrides( $formats, revistalogos_citation_overrides( $article_id ) );
 }
 
 /**
@@ -223,5 +322,11 @@ function revistalogos_citation_ris( $article_id ) {
 	$lines[] = 'UR  - ' . $d['url'];
 	$lines[] = 'ER  - ';
 
-	return implode( "\n", $lines );
+	$generated = implode( "\n", $lines );
+	$merged    = revistalogos_merge_citation_overrides(
+		array( 'RIS' => $generated ),
+		revistalogos_citation_overrides( $article_id )
+	);
+
+	return $merged['RIS'];
 }
