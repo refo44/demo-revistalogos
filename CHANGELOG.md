@@ -8,6 +8,10 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Changed
+- BACKLOG ítem 12 / ADR 0022 marcado HECHO en `v0.3.15`
+  ([#67](https://github.com/refo44/demo-revistalogos/issues/67) cerrado).
+
 ## [0.3.15] — 2026-09-16
 
 Release etiquetado para FTPS de producción (ADR 0020). Plugin

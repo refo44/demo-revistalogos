@@ -70,7 +70,7 @@ Usar `TEMPLATE.md` como punto de partida. Estructura mínima: Estado · Fecha ·
 | [0019](0019-proteger-main-trunk-based.md) | Proteger `main` — TBD, Conventional Branch/Commits, ruleset | Aceptada |
 | [0020](0020-despliegue-produccion-desde-etiqueta.md) | Despliegue de producción solo desde versión etiquetada | Aceptada |
 | [0021](0021-apellido-bibliografico-y-override-como-citar.md) | Apellido bibliográfico y override opcional de Cómo Citar | Aceptada (§2 sustituida por 0022; WU #64 en `main`) |
-| [0022](0022-nombres-y-apellidos-de-autor.md) | Nombres y apellidos de autor como dos atributos almacenados | Aceptada (implementación pendiente, [#67](https://github.com/refo44/demo-revistalogos/issues/67)) |
+| [0022](0022-nombres-y-apellidos-de-autor.md) | Nombres y apellidos de autor como dos atributos almacenados | Aceptada (WU en `main`, [#67](https://github.com/refo44/demo-revistalogos/issues/67) cerrado) |
 
 > El backlog de decisiones a resolver, y el trabajo aceptado aún no hecho, se lleva en `docs/adr/BACKLOG.md`. Cada decisión resuelta añade su fila a esta tabla. El trabajo de implementación no retira la fila del ADR.
 

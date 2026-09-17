@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "ADR 0022 / #67 author given+family names (plugin 0.2.20 / theme 0.2.12)"
-current_branch: "feat/author-given-family-names"
+current_work_unit: ""
+current_branch: ""
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-09-17"
-next_action: "Tras merge de #70: etiqueta anotada v0.3.15 sobre origin/main; workflow_dispatch FTPS desde esa etiqueta (ADR 0020). No despachar desde v0.3.14."
+next_action: "Ítem 12 / #67 HECHO en v0.3.15. El puente Apply/Restore se retira en el próximo deploy etiquetado (ADR 0020). No pushear a main."
 blocked: false
 ---
 
@@ -661,12 +661,12 @@ Recuperación institucional **ya hecha** (Pages reales permanentes). Carga
 editorial real en proceso desde wp-admin (**no** completa). Docker local:
 `http://localhost:8080` (WordPress 7.1, PHP **8.3**).
 
-Siguiente acción priorizada — tras merge de
-[#66](https://github.com/refo44/demo-revistalogos/pull/66): etiqueta
-anotada **`v0.3.14`** sobre `origin/main` y `workflow_dispatch` desde
-esa etiqueta (ADR 0020). Plugin 0.2.19 / theme 0.2.11.
-**No** despachar desde `v0.3.13`. No pushear a `main`; ramas cortas + PR
-(ADR 0019). Trabajo pendiente aceptado (no duplicar aquí):
+Siguiente acción priorizada — ítem 12 / [#67](https://github.com/refo44/demo-revistalogos/issues/67)
+**HECHO** en `main` (`v0.3.15`, [#70](https://github.com/refo44/demo-revistalogos/pull/70)).
+Plugin 0.2.20 / theme 0.2.12. El **siguiente** deploy etiquetado
+retira el puente Apply/Restore (ADR 0022). **No** despachar desde
+`v0.3.14`. No pushear a `main`; ramas cortas + PR (ADR 0019).
+Trabajo pendiente aceptado (no duplicar aquí):
 `docs/adr/BACKLOG.md` § Trabajo pendiente aceptado.
 
 1. el default OFF sigue permitiendo publicar sin PDF;
