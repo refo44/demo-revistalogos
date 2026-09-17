@@ -36,7 +36,7 @@ Documentación para el sitio web de la revista académica. CENFISS (Centro de Fi
 | 23 | testing-foundation | Testing Foundation: PHPUnit, taxonomía, Gherkin, TDD, harnesses QA, CI, alcance SonarQube Cloud |
 | 24 | project-testing-standard | Oficio de pruebas: sociable-first, BDD, AAA, dobles manuscritos, qué no testear |
 
-Harness de Fase 3 (fuera de la numeración): `fase3-execution-state.md` (reanudación), `fase3-validation-matrix.md` (QA), `migracion-static-wordpress.md` (ledger ADR 0001–0003), `operations/` ([runbook de producción](operations/wordpress-manual-deployment.md), [snapshot](operations/produccion-wordpress.md), Docker, plugins de terceros). ADR de pruebas: [0018](adr/0018-testing-foundation.md). Oficio: [24-project-testing-standard](24-project-testing-standard.md).
+Harness de Fase 3 (fuera de la numeración): `fase3-execution-state.md` (reanudación), `fase3-validation-matrix.md` (QA), `migracion-static-wordpress.md` (ledger ADR 0001–0003), `fse-implementation-prompt.md` (conversión FSE, ADR 0015 / [#12](https://github.com/refo44/demo-revistalogos/issues/12)), `operations/` ([runbook de producción](operations/wordpress-manual-deployment.md), [snapshot](operations/produccion-wordpress.md), Docker, plugins de terceros). ADR de pruebas: [0018](adr/0018-testing-foundation.md). Oficio: [24-project-testing-standard](24-project-testing-standard.md).
 
 ---
 
