@@ -66,6 +66,8 @@ class Meta_Boxes {
 				'accepted_date'    => array( __( 'Fecha de aceptación', 'revistalogos-core' ), 'date' ),
 			),
 			Content_Types::AUTHOR  => array(
+				'given_names'      => array( __( 'Nombres', 'revistalogos-core' ), 'text' ),
+				'family_names'     => array( __( 'Apellido(s)', 'revistalogos-core' ), 'text' ),
 				'citation_surname' => array( __( 'Apellido(s) para citar', 'revistalogos-core' ), 'text' ),
 				'afiliacion'       => array( __( 'Institución, afiliación', 'revistalogos-core' ), 'text' ),
 				'orcid'      => array( __( 'ORCID iD (NNNN-NNNN-NNNN-NNNK)', 'revistalogos-core' ), 'text' ),
@@ -80,10 +82,13 @@ class Meta_Boxes {
 	 */
 	public static function register_hooks() {
 		add_action( 'add_meta_boxes', array( __CLASS__, 'add_boxes' ) );
+		add_action( 'add_meta_boxes_' . Content_Types::AUTHOR, array( __CLASS__, 'remove_author_custom_fields_box' ) );
 		add_action( 'save_post', array( __CLASS__, 'save' ), 10, 2 );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin' ) );
 		add_filter( 'wp_insert_post_data', array( __CLASS__, 'guard_article_publish_status' ), 10, 2 );
+		add_filter( 'wp_insert_post_data', array( __CLASS__, 'guard_new_author_names' ), 10, 2 );
 		add_filter( 'rest_pre_insert_' . Content_Types::ARTICLE, array( __CLASS__, 'rest_guard_article_publish' ), 10, 2 );
+		add_filter( 'rest_pre_insert_' . Content_Types::AUTHOR, array( __CLASS__, 'rest_guard_new_author_names' ), 10, 2 );
 		add_filter( 'redirect_post_location', array( __CLASS__, 'append_notice_query_arg' ) );
 		add_action( 'admin_notices', array( __CLASS__, 'render_admin_notices' ) );
 	}
@@ -94,8 +99,12 @@ class Meta_Boxes {
 	 */
 	public static function add_boxes() {
 		foreach ( array_keys( self::fields() ) as $post_type ) {
+			$box_id = Content_Types::AUTHOR === $post_type
+				? 'revistalogos-core-author-names'
+				: 'revistalogos-core-fields';
+
 			add_meta_box(
-				'revistalogos-core-fields',
+				$box_id,
 				__( 'Metadatos de la revista', 'revistalogos-core' ),
 				array( __CLASS__, 'render_fields_box' ),
 				$post_type,
@@ -196,8 +205,16 @@ class Meta_Boxes {
 					);
 			}
 
+			if ( 'given_names' === $key ) {
+				echo '<p class="description">' . esc_html__( 'Obligatorio en una ficha nueva. Nombres de pila (p. ej. Sofía Camila).', 'revistalogos-core' ) . '</p>';
+			}
+
+			if ( 'family_names' === $key ) {
+				echo '<p class="description">' . esc_html__( 'Obligatorio en una ficha nueva. Apellido(s) de la persona (p. ej. León Albino).', 'revistalogos-core' ) . '</p>';
+			}
+
 			if ( 'citation_surname' === $key ) {
-				echo '<p class="description">' . esc_html__( 'Vacío: última palabra del nombre. Relleno (p. ej. Pérez Gómez): apellido bibliográfico en Cómo Citar. No cambia el nombre público.', 'revistalogos-core' ) . '</p>';
+				echo '<p class="description">' . esc_html__( 'Opcional. Vacío: se citan los Apellido(s). Relleno (p. ej. Figueredo): esa forma en Cómo Citar. No cambia el nombre público.', 'revistalogos-core' ) . '</p>';
 			}
 
 			echo '</td></tr>';
@@ -498,7 +515,28 @@ class Meta_Boxes {
 
 		$screen = get_current_screen();
 
-		if ( ! $screen || ! in_array( $screen->post_type, array( Content_Types::ARTICLE, Content_Types::ISSUE ), true ) ) {
+		if ( ! $screen || ! in_array( $screen->post_type, array( Content_Types::ARTICLE, Content_Types::ISSUE, Content_Types::AUTHOR ), true ) ) {
+			return;
+		}
+
+		if ( Content_Types::AUTHOR === $screen->post_type ) {
+			wp_enqueue_style(
+				'revistalogos-core-admin-meta',
+				REVISTALOGOS_CORE_URL . 'assets/css/admin-meta.css',
+				array(),
+				REVISTALOGOS_CORE_VERSION
+			);
+
+			if ( $screen->is_block_editor() ) {
+				wp_enqueue_script(
+					'revistalogos-core-admin-meta',
+					REVISTALOGOS_CORE_URL . 'assets/js/admin-meta.js',
+					array( 'jquery', 'wp-api-fetch', 'wp-data', 'wp-editor' ),
+					REVISTALOGOS_CORE_VERSION,
+					true
+				);
+			}
+
 			return;
 		}
 
@@ -738,6 +776,121 @@ class Meta_Boxes {
 	}
 
 	/**
+	 * Hide the native Custom Fields box on Autores (ADR 0022).
+	 */
+	public static function remove_author_custom_fields_box() {
+		remove_meta_box( 'postcustom', Content_Types::AUTHOR, 'normal' );
+	}
+
+	/**
+	 * New author fichas require given_names and family_names.
+	 *
+	 * @param array $data    Sanitized post data.
+	 * @param array $postarr Raw post array.
+	 * @return array
+	 */
+	public static function guard_new_author_names( $data, $postarr ) {
+		if ( Content_Types::AUTHOR !== $data['post_type'] ) {
+			return $data;
+		}
+
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return $data;
+		}
+
+		$original = isset( $postarr['original_post_status'] ) ? $postarr['original_post_status'] : '';
+
+		if ( 'auto-draft' !== $original ) {
+			return $data;
+		}
+
+		$names = self::submitted_author_identity_names();
+
+		if ( '' !== $names['given_names'] && '' !== $names['family_names'] ) {
+			return $data;
+		}
+
+		$data['post_status'] = 'auto-draft';
+		self::$notice        = 'author_needs_names';
+
+		return $data;
+	}
+
+	/**
+	 * REST create, or Gutenberg publish of an auto-draft, requires the
+	 * two identity fields. Existing authors are not blocked.
+	 *
+	 * @param \stdClass        $prepared Prepared post.
+	 * @param \WP_REST_Request $request  Request.
+	 * @return \stdClass|\WP_Error
+	 */
+	public static function rest_guard_new_author_names( $prepared, $request ) {
+		$post_id = ! empty( $prepared->ID ) ? (int) $prepared->ID : 0;
+		$status  = isset( $prepared->post_status ) ? $prepared->post_status : '';
+
+		if ( 'auto-draft' === $status ) {
+			return $prepared;
+		}
+
+		if ( $post_id > 0 ) {
+			$existing = get_post( $post_id );
+			if ( $existing && 'auto-draft' !== $existing->post_status ) {
+				return $prepared;
+			}
+		}
+
+		$names = self::submitted_author_identity_names( $request );
+
+		if ( '' !== $names['given_names'] && '' !== $names['family_names'] ) {
+			return $prepared;
+		}
+
+		return new \WP_Error(
+			'revistalogos_author_needs_names',
+			__( 'Una ficha de autor nueva necesita Nombres y Apellido(s). El apellido para citar es opcional.', 'revistalogos-core' ),
+			array( 'status' => 400 )
+		);
+	}
+
+	/**
+	 * @param \WP_REST_Request|null $request REST request when present.
+	 * @return array{given_names:string,family_names:string}
+	 */
+	private static function submitted_author_identity_names( $request = null ) {
+		$given  = '';
+		$family = '';
+
+		if ( $request instanceof \WP_REST_Request ) {
+			$meta = $request->get_param( 'meta' );
+			if ( is_array( $meta ) ) {
+				if ( isset( $meta['given_names'] ) ) {
+					$given = trim( (string) $meta['given_names'] );
+				}
+				if ( isset( $meta['family_names'] ) ) {
+					$family = trim( (string) $meta['family_names'] );
+				}
+			}
+
+			return array(
+				'given_names'  => $given,
+				'family_names' => $family,
+			);
+		}
+
+		if ( isset( $_POST['given_names'] ) ) {
+			$given = trim( sanitize_text_field( wp_unslash( $_POST['given_names'] ) ) );
+		}
+		if ( isset( $_POST['family_names'] ) ) {
+			$family = trim( sanitize_text_field( wp_unslash( $_POST['family_names'] ) ) );
+		}
+
+		return array(
+			'given_names'  => $given,
+			'family_names' => $family,
+		);
+	}
+
+	/**
 	 * Carry the notice across the post-save redirect.
 	 *
 	 * @param string $location Redirect URL.
@@ -765,6 +918,7 @@ class Meta_Boxes {
 			'cannot_publish'          => __( 'Un artículo publicado necesita al menos un autor con estado publicado. El artículo se ha guardado como borrador o pendiente; no se ha publicado.', 'revistalogos-core' ),
 			'keep_authors'            => __( 'No se puede quitar el último autor publicado de un artículo publicado. Se conservaron los autores anteriores. El resto de cambios se ha guardado.', 'revistalogos-core' ),
 			'published_needs_author'  => __( 'Este artículo publicado no tiene un autor publicado asignado. Asígnale al menos uno. El artículo no se ha despublicado.', 'revistalogos-core' ),
+			'author_needs_names'      => __( 'Una ficha de autor nueva necesita Nombres y Apellido(s). El apellido para citar es opcional. No se ha creado la ficha.', 'revistalogos-core' ),
 		);
 
 		if ( ! isset( $messages[ $code ] ) ) {

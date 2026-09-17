@@ -78,4 +78,54 @@ class SplitNameTest extends TestCase {
 		$this->assertSame( 'Juana Inés', $parts['given'] );
 		$this->assertSame( 'J.I.', $parts['initials'] );
 	}
+
+	/**
+	 * A filled citation surname in the middle of the title is not treated
+	 * as extra given names (ADR 0022 / #67).
+	 */
+	public function test_citation_surname_in_the_middle_omits_trailing_tokens_from_given_names() {
+		$parts = revistalogos_split_name( 'Rafael Eduardo Figueredo Oropeza', 'Figueredo' );
+
+		$this->assertSame( 'Figueredo', $parts['surname'] );
+		$this->assertSame( 'Rafael Eduardo', $parts['given'] );
+		$this->assertSame( 'R.E.', $parts['initials'] );
+	}
+
+	/**
+	 * Empty citation surname uses stored family names (ADR 0022).
+	 */
+	public function test_family_names_are_the_surname_when_citation_surname_is_empty() {
+		$parts = revistalogos_split_name( 'Sofía Camila León Albino', '', '', 'León Albino' );
+
+		$this->assertSame( 'León Albino', $parts['surname'] );
+		$this->assertSame( 'Sofía Camila', $parts['given'] );
+		$this->assertSame( 'S.C.', $parts['initials'] );
+	}
+
+	/**
+	 * A filled citation surname wins over family names.
+	 */
+	public function test_citation_surname_wins_over_family_names() {
+		$parts = revistalogos_split_name(
+			'Rafael Eduardo Figueredo Oropeza',
+			'Figueredo',
+			'Rafael Eduardo',
+			'Figueredo Oropeza'
+		);
+
+		$this->assertSame( 'Figueredo', $parts['surname'] );
+		$this->assertSame( 'Rafael Eduardo', $parts['given'] );
+		$this->assertSame( 'R.E.', $parts['initials'] );
+	}
+
+	/**
+	 * Stored given names are used as-is when present.
+	 */
+	public function test_stored_given_names_are_not_reparsed_from_the_title() {
+		$parts = revistalogos_split_name( 'Ana María Pérez Gómez', 'Pérez Gómez', 'Ana María', 'Pérez Gómez' );
+
+		$this->assertSame( 'Pérez Gómez', $parts['surname'] );
+		$this->assertSame( 'Ana María', $parts['given'] );
+		$this->assertSame( 'A.M.', $parts['initials'] );
+	}
 }

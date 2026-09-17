@@ -4,8 +4,8 @@
  * BibTeX, Vancouver, Chicago, MLA, Harvard + RIS export).
  *
  * Empty bibliographic surname uses last token = family name. A filled
- * author `citation_surname` (ADR 0021) is the family name for every
- * format. Optional article `citation_override_*` replaces that box.
+ * `citation_surname` wins; otherwise `family_names` (ADR 0022). Optional
+ * article `citation_override_*` replaces that box.
  *
  * @package Revistalogos
  */
@@ -19,24 +19,32 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @param string $full_name         Author display name (post title).
  * @param string $citation_surname Optional bibliographic surname. Empty
- *                                  keeps the last-token heuristic.
+ *                                  falls back to family_names, then last-token.
+ * @param string $given_names      Optional stored given names.
+ * @param string $family_names     Optional stored family names.
  * @return array{given: string, surname: string, initials: string}
  */
-function revistalogos_split_name( $full_name, $citation_surname = '' ) {
+function revistalogos_split_name( $full_name, $citation_surname = '', $given_names = '', $family_names = '' ) {
 	$full_name        = trim( (string) $full_name );
 	$citation_surname = trim( (string) $citation_surname );
+	$given_names      = trim( (string) $given_names );
+	$family_names     = trim( (string) $family_names );
+	$surname          = '' !== $citation_surname ? $citation_surname : $family_names;
 
-	if ( '' !== $citation_surname ) {
-		$given = $full_name;
-		if ( $full_name === $citation_surname ) {
+	if ( '' !== $surname ) {
+		if ( '' !== $given_names ) {
+			$given = $given_names;
+		} elseif ( $full_name === $surname ) {
 			$given = '';
-		} elseif ( preg_match( '/^(.*)\s+' . preg_quote( $citation_surname, '/' ) . '$/u', $full_name, $matches ) ) {
+		} elseif ( preg_match( '/^(.*)\s+' . preg_quote( $surname, '/' ) . '(?:\s+.*)?$/u', $full_name, $matches ) ) {
 			$given = trim( $matches[1] );
+		} else {
+			$given = $full_name;
 		}
 
 		return array(
 			'given'    => $given,
-			'surname'  => $citation_surname,
+			'surname'  => $surname,
 			'initials' => revistalogos_citation_initials( $given ),
 		);
 	}
@@ -148,8 +156,12 @@ function revistalogos_citation_data( $article_id ) {
 
 	$authors = array();
 	foreach ( revistalogos_article_authors( $article_id ) as $author ) {
-		$citation_surname = (string) get_post_meta( $author->ID, 'citation_surname', true );
-		$authors[]        = revistalogos_split_name( get_the_title( $author ), $citation_surname );
+		$authors[] = revistalogos_split_name(
+			get_the_title( $author ),
+			(string) get_post_meta( $author->ID, 'citation_surname', true ),
+			(string) get_post_meta( $author->ID, 'given_names', true ),
+			(string) get_post_meta( $author->ID, 'family_names', true )
+		);
 	}
 
 	$pub_date = get_post_meta( $article_id, 'publication_date', true );

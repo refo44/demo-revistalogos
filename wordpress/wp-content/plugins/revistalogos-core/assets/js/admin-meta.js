@@ -1,14 +1,13 @@
 /**
- * Article/issue admin: searchable author picker + native wp.media PDF picker.
- * Gutenberg REST runs before the classic metabox POST (issue #30): journal
- * meta from classic fields must be copied into core/editor so it travels
- * in the same publish request. Collection is post-type scoped so issue
- * screens never push article keys (authors / article→issue).
+ * Journal CPT admin: searchable author picker, native wp.media PDF picker,
+ * and Gutenberg REST metabox sync (issue #30). Collection is post-type
+ * scoped so issue screens never push article keys and author screens
+ * only send author identity/citation meta (ADR 0022).
  */
 (function ($, wp) {
 	'use strict';
 
-		var ARTICLE_META_KEYS = [
+	var ARTICLE_META_KEYS = [
 		'title_en',
 		'abstract',
 		'abstract_en',
@@ -27,6 +26,15 @@
 		'citation_override_mla',
 		'citation_override_harvard',
 		'citation_override_ris'
+	];
+
+	var AUTHOR_META_KEYS = [
+		'given_names',
+		'family_names',
+		'citation_surname',
+		'afiliacion',
+		'orcid',
+		'bio'
 	];
 
 	var ISSUE_META_KEYS = [
@@ -147,6 +155,10 @@
 
 		if ('issue' === type) {
 			return collectKeys(ISSUE_META_KEYS);
+		}
+
+		if ('author' === type) {
+			return collectKeys(AUTHOR_META_KEYS);
 		}
 
 		if ('article' !== type) {
@@ -290,13 +302,13 @@
 	 */
 	function bindJournalMetaSync() {
 		var type = currentPostType();
-		if ('article' !== type && 'issue' !== type) {
+		if ('article' !== type && 'issue' !== type && 'author' !== type) {
 			return;
 		}
 
 		var $authorsBox = $('#revistalogos-core-relationships');
 
-		$('#revistalogos-core-fields, #revistalogos-core-citations').on(
+		$('#revistalogos-core-fields, #revistalogos-core-citations, #revistalogos-core-author-names').on(
 			'change',
 			'input, textarea, select',
 			function () {

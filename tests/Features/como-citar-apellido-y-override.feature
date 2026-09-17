@@ -6,7 +6,9 @@ Característica: Apellido bibliográfico y override opcional de Cómo Citar
   # ADR 0021 / issue #64. Ejecutan:
   # tests/Unit/SplitNameTest
   # tests/Unit/CitationOverrideMergeTest
-  # tests/WordPress/CitationSurnameOverrideTest (composer test:wp)
+  # tests/Unit/AuthorNameBackfillTest
+  # tests/WordPress/CitationSurnameOverrideTest
+  # tests/WordPress/AuthorGivenFamilyNamesTest (composer test:wp)
 
   Escenario: Un apellido sigue la heurística de la última palabra
     Dado un autor cuyo título es un nombre con un solo apellido
@@ -39,3 +41,17 @@ Característica: Apellido bibliográfico y override opcional de Cómo Citar
     Dado el modelo de autor y de artículo en el editor de bloques
     Entonces citation_surname forma parte de los metadatos editables del autor
     Y las siete citation_override_* forman parte de los metadatos editables del artículo
+
+  Escenario: Apellido para citar en medio del título no se vuelve inicial
+    Dado un autor titulado "Rafael Eduardo Figueredo Oropeza"
+    Y apellido para citar "Figueredo"
+    Cuando se arma Cómo Citar
+    Entonces el apellido bibliográfico es "Figueredo"
+    Y las iniciales son "R.E."
+
+  Escenario: Sin apellido para citar se usan los apellidos de la persona
+    Dado un autor con nombres "Sofía Camila" y apellidos "León Albino"
+    Y apellido para citar vacío
+    Cuando se arma Cómo Citar
+    Entonces todos los formatos usan "León Albino" como apellido
+    Y las iniciales son solo de pila
