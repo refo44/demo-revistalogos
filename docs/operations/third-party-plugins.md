@@ -9,7 +9,8 @@ nuevo requiere un ADR aceptado.
 
 - **Propósito:** formulario de contacto público de `page-contacto`.
 - **ADR:** 0010.
-- **Versión instalada (Docker local, 2026-08-18):** 6.1.7 (activo). No se versiona en este repositorio; se instala desde WordPress.org.
+- **Versión instalada (Docker local, 2026-08-18):** 6.1.7 (activo).
+- **Versión instalada (producción `logo-et-spes.cenfiss.net`, 2026-09-17):** 6.1.7 (activo; formulario id 202 en `/contacto/`). No se versiona en este repositorio; se instala desde WordPress.org.
 - **Fuente:** <https://wordpress.org/plugins/contact-form-7/>.
 - **Configuración requerida (vinculante):**
   - Destinatario: `revista.cenfiss@gmail.com`.
@@ -66,13 +67,16 @@ nuevo requiere un ADR aceptado.
 - **Retirada:** desactivar y borrar; purgar sus tablas si se abandona
   definitivamente.
 
-## Producción (2026-08-19)
+## Producción (2026-08-19; CF7 2026-09-17)
 
-CF7 y WP Statistics están **aprobados**. CF7 se provisiona solo en
-Docker cuando el plugin de terceros está activo (issue #62). En
-`logo-et-spes.cenfiss.net` **aún no** está instalado Contact Form 7
-(pendiente operativo: instalar desde WordPress.org; el core crea el
-formulario). WP Statistics tampoco está configurado en el live.
+CF7 y WP Statistics están **aprobados**. Contact Form 7 **6.1.7** está
+activo en `logo-et-spes.cenfiss.net` (issue [#62](https://github.com/refo44/demo-revistalogos/issues/62)
+cerrado 2026-09-17). El core provisionó el formulario público (id 202) y
+`revistalogos_contact_form_id`; `/contacto/` renderiza marcadores `wpcf7`,
+honeypot `les_website_url` y el enlace a `/privacidad/`. Sin Flamingo ni
+reCAPTCHA. `curl` anónimo a `/contacto/` no envía `Set-Cookie`. El
+propietario confirma que el envío llega a `revista.cenfiss@gmail.com`.
+WP Statistics **aún no** está configurado en el live.
 
 Softaculous dejó un bundle que **no** forma parte de esta lista aprobada ni
 del deploy de Git. No se desinstaló durante el corte. Evaluar después; no

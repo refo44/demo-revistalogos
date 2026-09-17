@@ -241,8 +241,9 @@ Transferencia ≠ aplicación. Completar:
 3. Portada pública, navegación, CSS/JS/assets, plantillas representativas
    (archivo de número, página institucional, 404).
 4. Sin fatales PHP en pantalla ni en `debug.log` si está accesible.
-5. Formularios / analítica **si** ya están instalados (CF7 y WP Statistics
-   eran pendientes en el corte; no inventar que ya funcionan).
+5. Formularios / analítica **si** ya están instalados. CF7 **6.1.7** está
+   en producción desde 2026-09-17 (issue #62). WP Statistics sigue
+   pendiente; no inventar que ya funciona.
 6. Caché: Softaculous dejó SpeedyCache. Si está activo, comprobar que el
    front no sirve HTML/CSS viejo; purgar en wp-admin si hace falta. El
    workflow **no** purga caché.
@@ -287,4 +288,4 @@ Sin HSTS ni CSP hasta la auditoría profesional. No declarar cabeceras sin
 | Environment | `wordpress-production` (tags `v*.*.*` only, 2026-09-10) |
 | Primer run | **Success** 2026-08-19 (~27 s), theme + plugin |
 | Activación en CI | No (ni entonces ni ahora) |
-| Verificación funcional pública | Pendiente (matriz: transfer Pass; paridad/cookies/CF7/cabeceras Unverified) |
+| Verificación funcional pública | Parcial (CF7 Pass 2026-09-17, issue #62; matriz: transfer Pass; paridad/cookies generales/cabeceras Unverified) |
