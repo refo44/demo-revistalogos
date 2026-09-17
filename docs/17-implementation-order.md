@@ -173,7 +173,7 @@ La maqueta estática está validada como base visual del tema WordPress. Su cont
 
 - [x] Identidad (paleta, tipografía) definida
 - [x] Todas las páginas maquetadas
-- [ ] Formulario de contacto funcional (WordPress) — código de provisionamiento en core 0.2.18; CF7 aún no instalado en producción ([#62](https://github.com/refo44/demo-revistalogos/issues/62))
+- [x] Formulario de contacto funcional (WordPress) — CF7 **6.1.7** en producción (`/contacto/`, formulario id 202); provisionamiento en core 0.2.18+ ([#62](https://github.com/refo44/demo-revistalogos/issues/62) cerrado 2026-09-17)
 - [ ] Enlaces externos verificados
 - [ ] Accesibilidad: estándares 19 aplicados (contraste, alt, teclado, foco, formularios)
 - [ ] Navegación y breadcrumbs verificados

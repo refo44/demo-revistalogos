@@ -11,6 +11,9 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ### Changed
 - BACKLOG ítem 12 / ADR 0022 marcado HECHO en `v0.3.15`
   ([#67](https://github.com/refo44/demo-revistalogos/issues/67) cerrado).
+- Contact Form 7 **6.1.7** activo en producción (`/contacto/`,
+  formulario id 202); docs operativos actualizados
+  ([#62](https://github.com/refo44/demo-revistalogos/issues/62) cerrado).
 
 ## [0.3.15] — 2026-09-16
 

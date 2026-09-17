@@ -161,11 +161,14 @@ Los de `docs/17-implementation-order` y los ADR de Fase 3. Resumen operativo:
   `_les_fixture=1`, claves estables idempotentes e identificadores falsos
   detectables; guard de producción; teardown limpio de posts/media/meta/
   términos propios.
-- **WU8 (2026-07-31; provision 2026-09-14):** integraciones — honeypot
+- **WU8 (2026-07-31; provision 2026-09-14; producción 2026-09-17):** integraciones — honeypot
   CF7 en el plugin (WU2). Plugin 0.2.18 provisiona el formulario
   público y `revistalogos_contact_form_id` cuando el CPT de CF7 existe
   (issue #62). Inventario en `docs/operations/third-party-plugins.md`.
-  CF7 en producción sigue pendiente de instalar desde WordPress.org.
+  **Producción 2026-09-17:** CF7 6.1.7 activo en
+  `logo-et-spes.cenfiss.net`; formulario id 202 en `/contacto/`
+  ([issue #62](https://github.com/refo44/demo-revistalogos/issues/62)
+  cerrado). WP Statistics sigue pendiente en el live.
 - **WU11 (2026-07-31; producción 2026-08-19):** workflow manual FTPS
   (`.github/workflows/deploy-wordpress.yml`, solo `workflow_dispatch`,
   acotado a theme+plugin, sin delete/mirror). Renombrado a producción
@@ -241,8 +244,9 @@ Los de `docs/17-implementation-order` y los ADR de Fase 3. Resumen operativo:
   demo de fixtures (`wp revistalogos fixtures seed`).
 - QA del theme clásico en producción. Backlog operativo en
   `docs/operations/produccion-wordpress.md` (permalinks, PHP 8.0.30 vs
-  MultiPHP 8.2, plugins Softaculous, CF7, WP Statistics, cookies, restos
-  HTML, indexación a verificar, FSE después en Docker).
+  MultiPHP 8.2, plugins Softaculous, WP Statistics, cookies, restos
+  HTML, indexación a verificar, FSE después en Docker). CF7 en
+  producción **hecho** 2026-09-17 (issue #62).
 
 ## QA status of completed work
 
@@ -291,6 +295,14 @@ activa). PHP efectivo del hosting: **8.0.30** (wp-admin); MultiPHP lista
 Inherited 8.2 — discrepancia abierta. QA de paridad visual, cookies, CF7,
 WP Statistics, caché y cabeceras en el hosting sigue `Unverified`. No se
 importaron fixtures. Upload success ≠ sitio verificado.
+
+**Actualización 2026-09-17:** CF7 **6.1.7** activo en producción
+(issue [#62](https://github.com/refo44/demo-revistalogos/issues/62)
+cerrado). `/contacto/` renderiza formulario id 202 (Nombre, Email,
+Asunto, Mensaje, honeypot `les_website_url`, enlace a privacidad); sin
+fallback `mailto:`; GET anónimo sin `Set-Cookie`. El propietario
+confirma el envío a `revista.cenfiss@gmail.com`. WP Statistics sigue
+pendiente.
 
 **Actualización recovery 2026-08-19 (working tree):** QA
 `tools/qa-content-recovery-admin.sh` en Docker aislado WordPress 7.0.4:
@@ -699,8 +711,9 @@ FSE remains deferred:
    `docs/operations/produccion-wordpress.md`. **No** abrirla en esta
    reanudación.
 5. Luego, cuando el rollback al dummy ya no haga falta: limpiar restos HTML
-   del document root; evaluar plugins Softaculous; instalar/configurar CF7
-   y WP Statistics; vigilar SpeedyCache. La discrepancia PHP 8.0.30 vs
+   del document root; evaluar plugins Softaculous; instalar/configurar
+   WP Statistics (CF7 **hecho** 2026-09-17, issue #62); vigilar
+   SpeedyCache. La discrepancia PHP 8.0.30 vs
    MultiPHP Inherited 8.2 de la revista quedó **cerrada** (2026-08-22:
    PHP 8.3 vía CloudLinux PHP Selector + Site Isolation). Site Health
    residual (OPcache, módulos, tamaños de upload) es otra unidad.

@@ -328,6 +328,6 @@ Solo trabajo o proceso **ya decidido** y aún no cerrado. Las decisiones **abier
 | Indexación pública | Hecha en prod (robots + sitemap nativo, v0.3.3) | ADR 0004; `docs/operations/produccion-wordpress.md` |
 | `/llms.txt` para agentes de IA (AEO) | NEXT ([#47](https://github.com/refo44/demo-revistalogos/issues/47)) | Mapa dinámico en `revistalogos-core`; no `llms-full.txt` |
 | e-ISSN digital / ISSN «en trámite» | LATER (trámite editorial, no software) | ADR 0013; ADR 0004 |
-| Backlog **operativo** de producción (CF7/WP Statistics en el live, Softaculous, restos HTML, permalinks, SpeedyCache, secreto FTP legado, fuente de GitHub Pages) | no duplicar aquí | `docs/operations/produccion-wordpress.md` § Pendientes inmediatos; `docs/fase3-execution-state.md` |
+| Backlog **operativo** de producción (WP Statistics en el live, Softaculous, restos HTML, permalinks, SpeedyCache, secreto FTP legado, fuente de GitHub Pages). CF7 **hecho** 2026-09-17 ([#62](https://github.com/refo44/demo-revistalogos/issues/62)) | no duplicar aquí | `docs/operations/produccion-wordpress.md` § Pendientes inmediatos; `docs/fase3-execution-state.md` |
 
 Regla: se resuelve **una decisión a la vez**, con sus alternativas y consecuencias, para conservar el razonamiento.
