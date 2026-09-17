@@ -155,8 +155,10 @@ El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, ISSN,
 
 | Campo | Tipo | Uso |
 |-------|------|-----|
-| Title | Nativo | Nombre completo (usar solo post_title) |
-| citation_surname | text | Opcional. Apellido(s) para citar. Vacío = heurística last-token (un apellido; As-Is). Relleno (p. ej. `Pérez Gómez`) = surname bibliográfico en **todos** los formatos de Cómo Citar. No sustituye el título público. ADR 0021. |
+| Title | Nativo | Nombre completo (usar solo post_title). No se reconstruye desde Nombres + Apellidos. ADR 0022. |
+| given_names | text | Nombres de pila. Obligatorio (≥1 token) en **ficha nueva**. ADR 0022. |
+| family_names | text | Apellido(s) de la persona. Obligatorio (≥1 token) en **ficha nueva**. ADR 0022. |
+| citation_surname | text | Opcional. Apellido(s) para citar. Vacío = usar `family_names` (si no hay, last-token del título). Relleno = ese surname en **todos** los formatos de Cómo Citar, aunque no sea el final del título. No sustituye el título público. ADR 0021 / 0022. |
 | afiliacion | text | Institución, afiliación |
 | orcid | text | ORCID iD, formato `NNNN-NNNN-NNNN-NNNK`; opcional, validado por checksum. Ver `22-identificadores-academicos-doi-orcid` §3 |
 | orcid_url | computed | `https://orcid.org/{orcid}`, calculado al mostrar, no almacenado (análogo a `article.doi_url`) |
