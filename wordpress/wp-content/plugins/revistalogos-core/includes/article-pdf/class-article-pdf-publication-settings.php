@@ -111,6 +111,7 @@ class Article_Pdf_Publication_Settings {
 		do_settings_sections( self::PAGE_SLUG );
 		submit_button();
 		echo '</form>';
+		do_action( 'revistalogos_settings_after_form' );
 		echo '</div>';
 	}
 

@@ -1,12 +1,12 @@
 ---
 phase: "Fase 3"
 status: "classic_in_production"
-current_work_unit: "Release v0.3.14 (ADR 0021 / #64; plugin 0.2.19 / theme 0.2.11)"
-current_branch: "feat/citation-surname-override"
+current_work_unit: "ADR 0022 / #67 author given+family names (plugin 0.2.20 / theme 0.2.12)"
+current_branch: "feat/author-given-family-names"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
-updated_at: "2026-09-15"
-next_action: "Tras merge de #66: etiqueta anotada v0.3.14 sobre origin/main y workflow_dispatch desde esa etiqueta (ADR 0020). No despachar desde v0.3.13."
+updated_at: "2026-09-17"
+next_action: "PR de feat/author-given-family-names (#67). Sin commit/push hasta que el propietario lo pida. Sin deploy hasta etiqueta nueva (ADR 0020)."
 blocked: false
 ---
 

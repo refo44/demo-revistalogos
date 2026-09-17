@@ -94,6 +94,8 @@ class Metadata {
 		);
 
 		// author fields.
+		self::register_text( Content_Types::AUTHOR, 'given_names', __( 'Nombres', 'revistalogos-core' ) );
+		self::register_text( Content_Types::AUTHOR, 'family_names', __( 'Apellido(s)', 'revistalogos-core' ) );
 		self::register_text( Content_Types::AUTHOR, 'citation_surname', __( 'Apellido(s) para citar', 'revistalogos-core' ) );
 		self::register_text( Content_Types::AUTHOR, 'afiliacion', __( 'Institución, afiliación', 'revistalogos-core' ) );
 		self::register_text( Content_Types::AUTHOR, 'orcid', __( 'ORCID iD', 'revistalogos-core' ) );

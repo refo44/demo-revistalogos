@@ -9,6 +9,12 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Added
+- Plugin `revistalogos-core` **0.2.20** y theme `revistalogos` **0.2.12**:
+  Nombres (`given_names`) y Apellidos (`family_names`) en el autor
+  (obligatorios en ficha nueva); `citation_surname` opcional en Cómo
+  Citar; relleno temporal en Ajustes → LOGO ET SPES con Restaurar
+  ([#67](https://github.com/refo44/demo-revistalogos/issues/67),
+  ADR [0022](docs/adr/0022-nombres-y-apellidos-de-autor.md)).
 - ADR [0022](docs/adr/0022-nombres-y-apellidos-de-autor.md): Nombres y
   Apellidos de autor como atributos almacenados; `citation_surname`
   opcional; backfill por ajuste temporal con Restore, retirado en el

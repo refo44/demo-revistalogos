@@ -270,7 +270,7 @@ Plugin 0.2.19 / theme 0.2.11 en `main` ([#64](https://github.com/refo44/demo-rev
 
 #### 12. Autor — Nombres y Apellidos almacenados + backfill reversible
 
-**Estado:** PLANNED. ADR **aceptado** ([0022](0022-nombres-y-apellidos-de-autor.md)). Issue: [#67](https://github.com/refo44/demo-revistalogos/issues/67). Independiente del spike de colapso (ítem 9) y de los overrides de 0021 (ítem 11, hecho).
+**Estado:** IN PROGRESS. ADR **aceptado** ([0022](0022-nombres-y-apellidos-de-autor.md)). Issue: [#67](https://github.com/refo44/demo-revistalogos/issues/67). Independiente del spike de colapso (ítem 9) y de los overrides de 0021 (ítem 11, hecho).
 
 Tres metas: `given_names` y `family_names` **obligatorios en ficha nueva** (≥1 nombre y ≥1 apellido); `citation_surname` **opcional** (si existe, la cita lo usa; si no, `family_names`). Título público intacto. **No** cuatro slots. **No** componer el título. Apply/Restore: **Administrador** (como `Bootstrap_Admin`).
 

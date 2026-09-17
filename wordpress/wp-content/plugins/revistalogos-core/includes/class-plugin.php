@@ -45,6 +45,7 @@ class Plugin {
 		add_action( 'init', array( Comments_Disabler::class, 'register' ), 13 );
 
 		Meta_Boxes::register_hooks();
+		Author_Name_Backfill::register_hooks();
 		Relationships::register_hooks();
 		Contact_Form_Integration::register_hooks();
 		Article_Pdf_Publication_Settings::register_hooks();
@@ -83,6 +84,7 @@ class Plugin {
 		require_once $includes . 'taxonomies/class-taxonomies.php';
 		require_once $includes . 'metadata/class-metadata.php';
 		require_once $includes . 'metadata/class-meta-boxes.php';
+		require_once $includes . 'metadata/class-author-name-backfill.php';
 		require_once $includes . 'metadata/class-journal-identifier-settings.php';
 		require_once $includes . 'relationships/class-relationships.php';
 		require_once $includes . 'roles/class-roles.php';
