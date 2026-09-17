@@ -8,6 +8,11 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+## [0.3.15] — 2026-09-16
+
+Release etiquetado para FTPS de producción (ADR 0020). Plugin
+`revistalogos-core` **0.2.20**. Theme `revistalogos` **0.2.12**.
+
 ### Added
 - Plugin `revistalogos-core` **0.2.20** y theme `revistalogos` **0.2.12**:
   Nombres (`given_names`) y Apellidos (`family_names`) en el autor
@@ -594,7 +599,8 @@ con la infraestructura de gobierno del proyecto en su sitio.
 - El contenido editorial de la maqueta es demostrativo y **no** se publica en producción (ver `docs/17-implementation-order` §3.1).
 - `robots.txt` permanece en `Disallow: /` mientras el sitio es prototipo.
 
-[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.3.14...HEAD
+[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.3.15...HEAD
+[0.3.15]: https://github.com/refo44/demo-revistalogos/compare/v0.3.14...v0.3.15
 [0.3.14]: https://github.com/refo44/demo-revistalogos/compare/v0.3.13...v0.3.14
 [0.3.13]: https://github.com/refo44/demo-revistalogos/compare/v0.3.12...v0.3.13
 [0.3.12]: https://github.com/refo44/demo-revistalogos/compare/v0.3.11...v0.3.12

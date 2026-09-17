@@ -6,7 +6,7 @@ current_branch: "feat/author-given-family-names"
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-09-17"
-next_action: "PR de feat/author-given-family-names (#67). Sin commit/push hasta que el propietario lo pida. Sin deploy hasta etiqueta nueva (ADR 0020)."
+next_action: "Tras merge de #70: etiqueta anotada v0.3.15 sobre origin/main; workflow_dispatch FTPS desde esa etiqueta (ADR 0020). No despachar desde v0.3.14."
 blocked: false
 ---
 
