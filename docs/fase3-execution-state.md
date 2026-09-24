@@ -5,8 +5,8 @@ current_work_unit: ""
 current_branch: ""
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
-updated_at: "2026-09-17"
-next_action: "Ítem 12 / #67 HECHO en v0.3.15. El puente Apply/Restore se retira en el próximo deploy etiquetado (ADR 0020). No pushear a main."
+updated_at: "2026-09-24"
+next_action: "Ítem 12 / #67 HECHO. Puente Apply/Restore retirado en plugin 0.2.21; producción lo pierde en el próximo deploy etiquetado (ADR 0020). No pushear a main."
 blocked: false
 ---
 
@@ -675,9 +675,11 @@ editorial real en proceso desde wp-admin (**no** completa). Docker local:
 
 Siguiente acción priorizada — ítem 12 / [#67](https://github.com/refo44/demo-revistalogos/issues/67)
 **HECHO** en `main` (`v0.3.15`, [#70](https://github.com/refo44/demo-revistalogos/pull/70)).
-Plugin 0.2.20 / theme 0.2.12. El **siguiente** deploy etiquetado
-retira el puente Apply/Restore (ADR 0022). **No** despachar desde
-`v0.3.14`. No pushear a `main`; ramas cortas + PR (ADR 0019).
+Plugin 0.2.20 / theme 0.2.12 entregó los campos. El puente Apply/Restore
+queda retirado en plugin **0.2.21**; producción lo pierde en el
+**siguiente** deploy etiquetado (ADR 0022 / ADR 0020). **No** despachar
+desde `v0.3.15` si ese tag no incluye 0.2.21. No pushear a `main`;
+ramas cortas + PR (ADR 0019).
 Trabajo pendiente aceptado (no duplicar aquí):
 `docs/adr/BACKLOG.md` § Trabajo pendiente aceptado.
 

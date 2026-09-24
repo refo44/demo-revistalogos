@@ -8,6 +8,12 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Removed
+- Plugin `revistalogos-core` **0.2.21**: retira el ajuste temporal
+  Ajustes → LOGO ET SPES que rellenaba Nombres y Apellidos. El título,
+  los nombres ya guardados y el apellido para citar no cambian. El
+  upgrade borra la option del snapshot (ADR 0022).
+
 ### Changed
 - BACKLOG ítem 12 / ADR 0022 marcado HECHO en `v0.3.15`
   ([#67](https://github.com/refo44/demo-revistalogos/issues/67) cerrado).

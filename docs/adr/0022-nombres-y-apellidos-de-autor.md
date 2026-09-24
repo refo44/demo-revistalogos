@@ -69,6 +69,8 @@ Vol. 1: Daniela / Sofía / Juan Pablo / Yahira / Ybrahim / Jairo / José Tadeo c
 
 **Deploy N+1:** se retiran el ajuste, la UI, la option de snapshot y el código de Apply/Restore. No queda un interruptor permanente. Quien no haya Apply en N, en N+1 ya no tiene la herramienta (relleno a mano o no se backfillea).
 
+**Retirado en plugin 0.2.21** (código). El upgrade borra `revistalogos_author_name_backfill_snapshot` y no reescribe título, `given_names`, `family_names` ni `citation_surname`. La pantalla deja de existir en producción cuando salga el siguiente deploy etiquetado (ADR 0020).
+
 Sin `fixtures seed`. Sin heurística de 4 tokens. Apply re-run no pisa meta ya rellena ni el snapshot.
 
 ### 5. Fuera de esta decisión
