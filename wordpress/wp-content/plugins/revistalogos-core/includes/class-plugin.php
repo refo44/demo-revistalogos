@@ -45,7 +45,6 @@ class Plugin {
 		add_action( 'init', array( Comments_Disabler::class, 'register' ), 13 );
 
 		Meta_Boxes::register_hooks();
-		Author_Name_Backfill::register_hooks();
 		Relationships::register_hooks();
 		Contact_Form_Integration::register_hooks();
 		Article_Pdf_Publication_Settings::register_hooks();
@@ -84,7 +83,6 @@ class Plugin {
 		require_once $includes . 'taxonomies/class-taxonomies.php';
 		require_once $includes . 'metadata/class-metadata.php';
 		require_once $includes . 'metadata/class-meta-boxes.php';
-		require_once $includes . 'metadata/class-author-name-backfill.php';
 		require_once $includes . 'metadata/class-journal-identifier-settings.php';
 		require_once $includes . 'relationships/class-relationships.php';
 		require_once $includes . 'roles/class-roles.php';
@@ -139,7 +137,9 @@ class Plugin {
 
 	/**
 	 * Run idempotent upgrade steps when the stored version is older than
-	 * the code version (roles/terms re-install, rewrite flush).
+	 * the code version (roles/terms re-install, rewrite flush). Also
+	 * drops the retired author-name backfill snapshot. Does not rewrite
+	 * stored author names.
 	 */
 	public static function maybe_upgrade() {
 		$installed = get_option( self::VERSION_OPTION );
@@ -152,6 +152,7 @@ class Plugin {
 		Roles::install();
 		flush_rewrite_rules();
 		Withdrawn_Cc_By_Notices::apply_to_pages();
+		delete_option( 'revistalogos_author_name_backfill_snapshot' );
 
 		update_option( self::VERSION_OPTION, REVISTALOGOS_CORE_VERSION );
 	}

@@ -3,7 +3,7 @@ Contributors: cenfiss
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.2.20
+Stable tag: 0.2.21
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,11 @@ Fase 3: los campos `issn`, `doi` y `orcid` son almacenamiento base inerte;
 la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
 
 == Changelog ==
+
+= 0.2.21 =
+* Removes the temporary Settings screen that filled author Nombres and
+  Apellidos. Stored names, titles, and citation surnames stay. Upgrade
+  deletes the backfill snapshot option (ADR 0022).
 
 = 0.2.20 =
 * Author identity fields `given_names` and `family_names` (required on a

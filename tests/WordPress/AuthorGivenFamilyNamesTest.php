@@ -5,10 +5,11 @@
  * @package Revistalogos
  */
 
-use Revistalogos_Core\Author_Name_Backfill;
+use Revistalogos_Core\Article_Pdf_Publication_Settings;
 use Revistalogos_Core\Content_Types;
 use Revistalogos_Core\Meta_Boxes;
 use Revistalogos_Core\Metadata;
+use Revistalogos_Core\Plugin;
 use Revistalogos_Core\Roles;
 
 if ( ! function_exists( 'revistalogos_core_active' ) ) {
@@ -33,7 +34,6 @@ class AuthorGivenFamilyNamesTest extends WP_UnitTestCase {
 		Metadata::register();
 		Roles::install();
 		Meta_Boxes::register_hooks();
-		Author_Name_Backfill::register_hooks();
 
 		global $wp_rest_server;
 		$wp_rest_server = null;
@@ -193,35 +193,56 @@ class AuthorGivenFamilyNamesTest extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Dado: Administrador en Ajustes.
-	 * Entonces: ve Aplicar relleno y Restaurar.
+	 * Dado: nombres ya guardados y el snapshot del puente temporal.
+	 * Cuando: el plugin sube de versión.
+	 * Entonces: desaparecen la pantalla y el snapshot; título y metas no cambian.
 	 */
-	public function test_backfill_tools_are_visible_to_administrator() {
+	public function test_upgrade_removes_temporary_name_backfill_and_keeps_stored_names() {
+		$this->assertFalse( class_exists( 'Revistalogos_Core\\Author_Name_Backfill', false ) );
+		$this->assertFalse( has_action( 'admin_post_revistalogos_author_name_backfill' ) );
+
 		$admin = self::factory()->user->create( array( 'role' => 'administrator' ) );
 		wp_set_current_user( $admin );
 
+		$author_id = self::factory()->post->create(
+			array(
+				'post_type'   => 'author',
+				'post_title'  => 'Sofía Camila León Albino',
+				'post_status' => 'publish',
+				'post_author' => $admin,
+			)
+		);
+		update_post_meta( $author_id, 'given_names', 'Sofía Camila' );
+		update_post_meta( $author_id, 'family_names', 'León Albino' );
+		update_post_meta( $author_id, 'citation_surname', 'León Albino' );
+		update_option(
+			'revistalogos_author_name_backfill_snapshot',
+			array(
+				$author_id => array(
+					'given_names'      => '',
+					'family_names'     => '',
+					'citation_surname' => 'León Albino',
+				),
+			),
+			false
+		);
+		update_option( Plugin::VERSION_OPTION, '0.0.0' );
+
+		Plugin::maybe_upgrade();
+
+		$this->assertFalse( get_option( 'revistalogos_author_name_backfill_snapshot', false ) );
+		$this->assertSame( 'Sofía Camila León Albino', get_post( $author_id )->post_title );
+		$this->assertSame( 'Sofía Camila', (string) get_post_meta( $author_id, 'given_names', true ) );
+		$this->assertSame( 'León Albino', (string) get_post_meta( $author_id, 'family_names', true ) );
+		$this->assertSame( 'León Albino', (string) get_post_meta( $author_id, 'citation_surname', true ) );
+
 		ob_start();
-		Author_Name_Backfill::render_tools();
+		Article_Pdf_Publication_Settings::render_page();
 		$html = ob_get_clean();
 
-		$this->assertStringContainsString( 'revistalogos_author_name_backfill', $html );
-		$this->assertStringContainsString( 'value="apply"', $html );
-		$this->assertStringContainsString( 'value="restore"', $html );
-	}
-
-	/**
-	 * Dado: un Editor.
-	 * Entonces: no ve el puente de relleno.
-	 */
-	public function test_backfill_tools_are_hidden_from_editor() {
-		$editor = self::factory()->user->create( array( 'role' => 'editor' ) );
-		wp_set_current_user( $editor );
-
-		ob_start();
-		Author_Name_Backfill::render_tools();
-		$html = ob_get_clean();
-
-		$this->assertSame( '', $html );
+		$this->assertStringNotContainsString( 'Nombres y apellidos de autores (temporal)', $html );
+		$this->assertStringNotContainsString( 'revistalogos_author_name_backfill', $html );
+		$this->assertStringNotContainsString( 'Aplicar relleno', $html );
 	}
 
 	/**
@@ -295,53 +316,6 @@ class AuthorGivenFamilyNamesTest extends WP_UnitTestCase {
 
 		$this->assertStringContainsString( 'Figueredo, R.E.', $formats['APA'] );
 		$this->assertStringNotContainsString( 'Figueredo, R.E.F.O.', $formats['APA'] );
-	}
-
-	/**
-	 * Dado: autores con citation_surname o vacío.
-	 * Cuando: Apply y Restore.
-	 * Entonces: family_names se rellena y Restore vuelve al snapshot.
-	 */
-	public function test_backfill_apply_then_restore_returns_empty_family_names() {
-		$editor = self::factory()->user->create( array( 'role' => 'administrator' ) );
-		wp_set_current_user( $editor );
-
-		$sofia = self::factory()->post->create(
-			array(
-				'post_type'   => 'author',
-				'post_title'  => 'Sofía Camila León Albino',
-				'post_status' => 'publish',
-				'post_author' => $editor,
-			)
-		);
-		update_post_meta( $sofia, 'citation_surname', 'León Albino' );
-
-		$luis = self::factory()->post->create(
-			array(
-				'post_type'   => 'author',
-				'post_title'  => 'Luis Felipe Ramírez',
-				'post_status' => 'publish',
-				'post_author' => $editor,
-			)
-		);
-
-		Author_Name_Backfill::apply();
-
-		$this->assertSame( 'Sofía Camila', (string) get_post_meta( $sofia, 'given_names', true ) );
-		$this->assertSame( 'León Albino', (string) get_post_meta( $sofia, 'family_names', true ) );
-		$this->assertSame( 'León Albino', (string) get_post_meta( $sofia, 'citation_surname', true ) );
-		$this->assertSame( 'Luis Felipe', (string) get_post_meta( $luis, 'given_names', true ) );
-		$this->assertSame( 'Ramírez', (string) get_post_meta( $luis, 'family_names', true ) );
-		$this->assertSame( '', (string) get_post_meta( $luis, 'citation_surname', true ) );
-
-		Author_Name_Backfill::restore();
-
-		$this->assertSame( '', (string) get_post_meta( $sofia, 'given_names', true ) );
-		$this->assertSame( '', (string) get_post_meta( $sofia, 'family_names', true ) );
-		$this->assertSame( 'León Albino', (string) get_post_meta( $sofia, 'citation_surname', true ) );
-		$this->assertSame( '', (string) get_post_meta( $luis, 'given_names', true ) );
-		$this->assertSame( '', (string) get_post_meta( $luis, 'family_names', true ) );
-		$this->assertSame( '', (string) get_post_meta( $luis, 'citation_surname', true ) );
 	}
 
 	/**
