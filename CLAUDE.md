@@ -100,9 +100,17 @@ required, not shared via Git, not a substitute for the files above.
   entry is in progress, not complete.
 - **FSE is accepted** (ADR 0015): block theme + Site Editor + brand colors
   in Global Styles. The live theme is still classic; convert incrementally
-  in Docker after production QA. Do not convert to Next.js. ADR 0003 §1/§3
-  are superseded for `theme.json` / block CSS dequeue; keep BEM and
-  `main.css`.
+  in Docker on `feat/fse` after production QA. Session prompt:
+  `docs/fse-implementation-prompt.md`. Conversion contract (2026-10-19 note
+  on ADR 0015): a template does not create content; a block returns an empty
+  string when data or the domain helper is missing; the header keeps
+  `Revistalogos_Nav_Walker`; visual parity is screenshots against `static/`
+  at desktop and 320px; delete a PHP view only after its HTML gate is green.
+  `theme.json` keeps the existing palette. Typography, spacing, and per-block
+  custom color stay locked. `main.css` stays the layout authority. Do not
+  convert to Next.js. ADR 0003 §1/§3 are superseded for `theme.json` / block
+  CSS dequeue; keep BEM and `main.css`. The `global-styles` dequeue stays on
+  `main` until cutover.
 - **Identifiers (DOI/ORCID/ISSN) are Fase 4, deliberately deferred** past
   the WordPress launch (ADR 0013). Fase 3 stores them as inert fields only —
   no validation, no derived URLs.
