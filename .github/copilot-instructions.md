@@ -23,7 +23,7 @@ Paths: plugin `wordpress/wp-content/plugins/revistalogos-core/`, theme `wordpres
 - Dummy/demo fixtures as production truth (ADR 0004).
 - Fase 4 DOI/ORCID/ISSN validation or derived URLs (ADR 0013).
 - `load_plugin_textdomain` / `.pot` / languages scaffolding.
-- Transients, object cache, `WP_List_Table`, `@wordpress/*` blocks, or FSE conversion on a classic-theme PR.
+- Transients, object cache, `WP_List_Table`, `@wordpress/*` blocks, or FSE conversion on a classic-theme PR. A PR into `feat/fse` is reviewed against `docs/fse-implementation-prompt.md` and the ADR 0015 conversion contract (2026-10-19): the template does not create content, a block returns an empty string when data or the domain helper is missing, and the header keeps `Revistalogos_Nav_Walker`.
 - PHP 8-only syntax that breaks declared `Requires PHP: 7.4`.
 
 ## PHP / WordPress (plugin or theme PHP in the diff)

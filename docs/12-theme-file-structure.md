@@ -4,6 +4,8 @@
 
 Define la estructura de archivos del tema: qué plantillas existen y qué partes se reutilizan. Rutas oficiales en 11; este documento define cómo se renderizan.
 
+**Estado (2026-10-19).** El árbol de este documento es el theme **clásico** que está en producción. El destino FSE (ADR 0015) añade `templates/*.html` y `parts/*.html` en `feat/fse`. Cada `.php` sigue hasta que su `.html` cumple el gate de esa sesión. El contrato está en la nota del 2026-10-19 de ADR 0015 y en `docs/fse-implementation-prompt.md`. Este árbol no se reescribe como si esas carpetas ya existieran.
+
 **Depende de:** `03-wordpress-content-model`, `04-screen-map`, `11-url-tree`, `05-information-architecture-navigation`  
 **Referencia:** `02-corporate-identity`, `06-wireframes`
 

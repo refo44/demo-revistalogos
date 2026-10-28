@@ -314,6 +314,8 @@ Cierre: Sobre los autores (bios del número); consejo editorial breve; normas/é
 
 **Estado:** DEFERRED. Decisión **aceptada** ([ADR 0015](0015-block-theme-fse-site-editor.md), D15); implementación pendiente. Incremental, **primero en Docker**, después de estabilizar el clásico. Theme/FSE **consume** datos de dominio; **no** genera ni sustituye PDFs. `revistalogos-core` sigue dueño de Article/Issue/Author (ADR 0005).
 
+Contrato operativo (2026-10-19; no cambia la decisión): nota «Contrato de conversión» en ADR 0015 y `docs/fse-implementation-prompt.md`. La plantilla no crea contenido. El bloque devuelve cadena vacía si faltan datos o el helper de dominio. La paridad es captura de `static/` contra la URL canónica (escritorio y 320px). La cabecera sigue en `Revistalogos_Nav_Walker`. El CSS adicional de producción bloquea solo el corte ([#38](https://github.com/refo44/demo-revistalogos/issues/38) → [#84](https://github.com/refo44/demo-revistalogos/issues/84)).
+
 #### 8. Otros ítems ya documentados (sin reinventar)
 
 Solo trabajo o proceso **ya decidido** y aún no cerrado. Las decisiones **abiertas** (D12b, D14) quedan únicamente en la tabla de Grupo B.

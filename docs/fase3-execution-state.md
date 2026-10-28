@@ -719,7 +719,12 @@ FSE remains deferred:
    MultiPHP Inherited 8.2 de la revista quedó **cerrada** (2026-08-22:
    PHP 8.3 vía CloudLinux PHP Selector + Site Isolation). Site Health
    residual (OPcache, módulos, tamaños de upload) es otra unidad.
-6. **FSE (ADR 0015) después**, incremental, **primero en Docker**.
+6. **FSE (ADR 0015) después**, incremental, **primero en Docker**. Contrato
+   de esa conversión (2026-10-19, sin cambiar la decisión): nota en ADR 0015
+   y `docs/fse-implementation-prompt.md`. La plantilla no crea contenido; el
+   bloque devuelve cadena vacía si falta el dominio; la cabecera conserva el
+   walker; la paridad es captura contra `static/`. El trabajo sigue en
+   [#12](https://github.com/refo44/demo-revistalogos/issues/12).
 
 D12b (checks CI de seguridad/stylelint ligados al deploy) sigue pendiente
 de la auditoría (ADR 0012 §6). El workflow `test.yml` (PHPUnit unitario)

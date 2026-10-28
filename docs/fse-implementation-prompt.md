@@ -14,7 +14,7 @@ throwaway noindex subdomain, then production cutover. Parent issue:
 1. `docs/adr/0015-block-theme-fse-site-editor.md` — the spec (especially §7).
 2. `docs/adr/0005-modelo-de-contenido-cpts-y-taxonomias.md` — domain stays in
    `revistalogos-core`; theme only assembles.
-3. `docs/adr/0001-maquette-estatica-como-base-definitiva.md` and
+3. `docs/adr/0001-maqueta-estatica-como-base-definitiva.md` and
    `docs/adr/0002-wordpress-como-adaptacion-sin-rediseno.md` — no redesign.
 4. `static/` — visual oracle (HTML + CSS). Compare against this, not memory.
 5. `docs/23-testing-foundation.md`, `docs/24-project-testing-standard.md`,
@@ -77,6 +77,34 @@ theme files in a hotfix tag. Cutover is a later owner action: merge
   is a separate workflow, never `deploy-wordpress.yml`.
 - Tmp host: `robots.txt` `Disallow: /` (no `Sitemap:`), Lectura `noindex`,
   not linked from production. Delete the subdomain after cutover ([#85](https://github.com/refo44/demo-revistalogos/issues/85)).
+
+## Conversion contract
+
+ADR 0015, note «Contrato de conversión» (2026-10-19). These rules bind every
+session:
+
+- A template does not create a Page, an issue, an article, or an author.
+  Read what WordPress already has. Do not re-run the institutional importer
+  or `fixtures seed`.
+- Prove a converted view with an incoming HTTP request to the canonical URL
+  (trailing slash, ADR 0008). `get_permalink()` is not the proof.
+- A green workflow or FTPS transfer proves the file copy. Visual parity is
+  screenshots of `static/` against the WordPress URL, desktop and 320px.
+- One file per block family in `revistalogos-core`: `block.json` plus
+  `render_callback`, loaded from `Plugin::load_modules`. The theme places
+  the block and does not query CPTs. No data, or a missing domain helper:
+  return an empty string. No broken labels. No fatal.
+- `parts/header.html` and `parts/footer.html` may be a thin shell that
+  renders that block. `Revistalogos_Nav_Walker` still emits `nav__*`.
+- `theme.json` keeps the palette already declared. `tokens.css` aliases
+  existing `--color-*` to `var(--wp--preset--color--*)`. Layout stays in
+  `main.css`.
+- Delete a `.php` view only after its `.html` gate is green.
+- This conversion closes presentation and the behavior that template
+  replaces. It does not reopen institutional content or the URL tree.
+  Production Additional CSS ([#38](https://github.com/refo44/demo-revistalogos/issues/38))
+  blocks cutover ([#84](https://github.com/refo44/demo-revistalogos/issues/84))
+  only. Docker session 2 can start without it.
 
 ## TDD
 
@@ -143,11 +171,12 @@ implemented: no `templates/`, dequeue of `global-styles` still on).
 
 ### Session 3 — Header and footer parts
 
-- `parts/header.html` and `parts/footer.html`.
-- Markup must keep `header`, `header__*`, `nav`, `nav__*`, skip-link.
-- Reuse `Revistalogos_Nav_Walker` (via a plugin/theme block or
-  `render_callback`), **not** `core/navigation`.
-- Footer: existing menu locations `footer-quick` / `footer-norms`.
+- `parts/header.html` and `parts/footer.html` may be a thin shell. The
+  block's `render_callback` calls `Revistalogos_Nav_Walker` and keeps
+  `header`, `header__*`, `nav`, `nav__*`, and the skip-link. Core
+  Navigation does not replace that header.
+- Footer: existing menu locations `footer-quick` / `footer-norms`. A
+  missing menu uses the fallback already shipped. No fatal.
 - Visual: header+footer vs static partials, desktop + 320px, 200% zoom on
   the CTA/nav toggle.
 
@@ -164,8 +193,9 @@ PR):
 - citation section (consume existing `inc/citations.php` behaviour; do not
   reimplement Cómo Citar)
 
-Each block: `block.json` + `render_callback`. Empty data → no broken
-labels. BEM `className` from the matching `template-parts/*.php`.
+Each block: one file, `block.json` + `render_callback`. Empty data, or a
+missing domain helper, returns an empty string: no broken labels, no
+fatal. BEM `className` from the matching `template-parts/*.php`.
 Theme templates call the blocks; they do not query CPTs.
 
 Tests: `composer test:wp` on rendered HTML (classes, empty/full). Gherkin
@@ -177,8 +207,10 @@ presentation).
 - `templates/front-page.html` then `templates/page.html` (shared
   institutional body via `the_content()`).
 - Do not copy dummy Vol. 12 content. Live queries / existing Pages.
-- Visual vs `static/index.html` and one institutional page (`page-acerca`
-  or `page-etica`).
+  The new HTML does not create those Pages.
+- Prove `/` and one institutional URL with an incoming request (trailing
+  slash). Visual vs `static/index.html` and one institutional page
+  (`page-acerca` or `page-etica`).
 - Delete the PHP equivalent only after the HTML gate is green.
 
 ### Session 6 — Archives (`issue`, `article`, `author`, taxonomies, search, 404, news)
@@ -231,6 +263,7 @@ production stays on the last classic tag.
 - [ ] Gate above is green in Docker (and on the tmp host when that session is deployed there)
 - [ ] Visual screenshots for touched screens (desktop + 320px)
 - [ ] No PHP deleted while HTML is incomplete
+- [ ] Any screen whose template changed answers its canonical URL over HTTP
 - [ ] Plugin version / theme `Version:` bumped **only** if that component’s
       code changed, and both plugin header places stay in sync
 - [ ] `CHANGELOG.md` under `## [Sin publicar]` if code shipped

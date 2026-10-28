@@ -8,6 +8,12 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Changed
+- Contrato de conversión FSE (ADR 0015, nota 2026-10-19) y
+  `docs/fse-implementation-prompt.md`: la plantilla no crea contenido, el
+  bloque devuelve vacío si falta el dominio, la cabecera conserva el
+  walker, y la paridad es captura contra `static/`.
+
 ## [0.3.16] — 2026-09-24
 
 Release etiquetado para FTPS de producción (ADR 0020). Plugin
