@@ -2,7 +2,8 @@
 /**
  * Site footer, mirroring the static footer partial. Link lists come
  * from the footer menu locations when assigned and fall back to the
- * frozen static lists rendered with native URLs.
+ * frozen static lists rendered with native URLs. Shared by footer.php
+ * and the revistalogos/site-footer block (parts/footer.html).
  *
  * @package Revistalogos
  */

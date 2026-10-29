@@ -17,6 +17,16 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   `--wp--preset--color--*`; deja de quitar `global-styles` en el front
   (sigue fuera `wp-block-library`). Las vistas reales siguen en PHP.
   No llega a producción hasta el corte.
+- FSE Sesión 3, cabecera y pie (ADR 0015 §7.5, rama `feat/fse`,
+  [#77](https://github.com/refo44/demo-revistalogos/issues/77)): theme
+  **0.3.1** con `parts/header.html` y `parts/footer.html`, cascarones de
+  los bloques `revistalogos/site-header` y `revistalogos/site-footer`.
+  Ambos renderizan `template-parts/header.php` y `footer.php`, la misma
+  fuente que las vistas PHP: el walker sigue emitiendo `nav__*` y el pie
+  conserva `footer-quick` / `footer-norms` con sus respaldos. El
+  skip-link pasa a `template-parts/header.php` y se quita el de núcleo.
+  `templates/index.html` compone cabecera, `main#main-content` y pie.
+  No llega a producción hasta el corte.
 
 ### Fixed
 - Maqueta `static/`: restaura `assets/img/logo-revista.png` y

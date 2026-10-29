@@ -27,5 +27,9 @@
 		"spacing": {
 			"customSpacingSize": false
 		}
-	}
+	},
+	"templateParts": [
+		{ "name": "header", "title": "Cabecera", "area": "header" },
+		{ "name": "footer", "title": "Pie", "area": "footer" }
+	]
 }

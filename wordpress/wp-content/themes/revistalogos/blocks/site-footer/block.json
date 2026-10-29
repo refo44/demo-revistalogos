@@ -1,0 +1,15 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "revistalogos/site-footer",
+	"title": "Pie del sitio",
+	"category": "theme",
+	"description": "Pie de la maqueta con los menús Enlaces Rápidos y Normas Editoriales. Los menús se editan en Apariencia → Menús.",
+	"textdomain": "revistalogos",
+	"supports": {
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"editorScript": "revistalogos-site-blocks-editor"
+}
