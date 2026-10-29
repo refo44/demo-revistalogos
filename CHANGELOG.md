@@ -8,6 +8,17 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Fixed
+- Maqueta `static/`: restaura `assets/img/logo-revista.png` y
+  `assets/pdf/politicas-editorial.pdf`, borrados por error en `1c6d2c2`.
+  El logo de cabecera volvía 404 en todas las páginas, también en el
+  espejo de GitHub Pages.
+- Maqueta `static/`: los botones PDF de `articulo-02`…`06` y de
+  `numero-v11n1`, `v11n2` y `v12n1` apuntaban a archivos que nunca
+  existieron. Ahora usan los PDF de ejemplo compartidos
+  (`articulo-01.pdf`, `numero-v12n2-2025.pdf`), como ya hacen las
+  tarjetas con el artículo compartido.
+
 ### Changed
 - Contrato de conversión FSE (ADR 0015, nota 2026-10-19) y
   `docs/fse-implementation-prompt.md`: la plantilla no crea contenido, el
