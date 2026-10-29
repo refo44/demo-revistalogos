@@ -13,13 +13,7 @@ get_header();
 
 while ( have_posts() ) :
 	the_post();
-	get_template_part(
-		'template-parts/content/content-institutional-page',
-		null,
-		array(
-			'description' => __( 'Conoce el Comité Editorial y el equipo técnico de LOGO ET SPES, conformado por especialistas en filosofía.', 'revistalogos' ),
-		)
-	);
+	get_template_part( 'template-parts/content/content-institutional-page' );
 endwhile;
 
 get_footer();

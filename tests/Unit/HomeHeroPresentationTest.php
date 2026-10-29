@@ -19,7 +19,7 @@ class HomeHeroPresentationTest extends TestCase {
 	 * @ticket 40
 	 */
 	public function test_home_hero_description_omits_journal_name_already_in_the_title() {
-		$front_page = $this->theme_file_contents( 'front-page.php' );
+		$front_page = $this->theme_file_contents( 'template-parts/front-hero.php' );
 		$copy_sheet = $this->repo_file_contents( 'docs/09-ui-copy-sheet.md' );
 
 		$this->assertStringContainsString( 'LOGO ET SPES', $front_page );

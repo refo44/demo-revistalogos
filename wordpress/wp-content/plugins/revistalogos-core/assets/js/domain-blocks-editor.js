@@ -17,6 +17,7 @@
     "revistalogos/article-metadata",
     "revistalogos/article-citation",
     "revistalogos/author-card",
+    "revistalogos/recent-articles",
   ].forEach(function (name) {
     blocks.registerBlockType(name, {
       edit: function (props) {

@@ -1,6 +1,7 @@
 <?php
 /**
- * Article block family: article card, metadata box and Cómo Citar.
+ * Article block family: article card, metadata box, Cómo Citar and the
+ * front-page recent articles.
  *
  * @package Revistalogos_Core
  */
@@ -23,6 +24,7 @@ class Article_Blocks {
 		Domain_Blocks::register_block( 'article-card', array( __CLASS__, 'render_article_card' ) );
 		Domain_Blocks::register_block( 'article-metadata', array( __CLASS__, 'render_article_metadata' ) );
 		Domain_Blocks::register_block( 'article-citation', array( __CLASS__, 'render_article_citation' ) );
+		Domain_Blocks::register_block( 'recent-articles', array( __CLASS__, 'render_recent_articles' ) );
 	}
 
 	/**
@@ -84,5 +86,21 @@ class Article_Blocks {
 		}
 
 		return Domain_Blocks::theme_part( 'template-parts/citation-section', array( 'article_id' => $article->ID ) );
+	}
+
+	/**
+	 * Front-page "Artículos recientes": the three latest published
+	 * articles; empty without any.
+	 *
+	 * @return string
+	 */
+	public static function render_recent_articles() {
+		$articles = Queries::recent_articles( 3 );
+
+		if ( ! $articles ) {
+			return '';
+		}
+
+		return Domain_Blocks::theme_part( 'template-parts/recent-articles', array( 'articles' => $articles ) );
 	}
 }
