@@ -13,6 +13,17 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   `docs/fse-implementation-prompt.md`: la plantilla no crea contenido, el
   bloque devuelve vacío si falta el dominio, la cabecera conserva el
   walker, y la paridad es captura contra `static/`.
+- FSE sesión 2 (bootstrap del block theme) registrada como hecha en
+  `feat/fse` ([#92](https://github.com/refo44/demo-revistalogos/pull/92),
+  [#76](https://github.com/refo44/demo-revistalogos/issues/76)) en
+  `docs/fase3-execution-state.md` y en el ítem 7 de `docs/adr/BACKLOG.md`.
+  La paridad visual queda a revisión del propietario.
+- BACKLOG ítem 10 (identificadores digitales de la revista) marcado HECHO
+  en `v0.3.10` ([#58](https://github.com/refo44/demo-revistalogos/issues/58)
+  cerrado).
+- `docs/fase3-execution-state.md`: `v0.3.16` ya está live desde el
+  2026-09-24; la siguiente acción pasa a FSE sesión 3
+  ([#77](https://github.com/refo44/demo-revistalogos/issues/77)).
 
 ## [0.3.16] — 2026-09-24
 
