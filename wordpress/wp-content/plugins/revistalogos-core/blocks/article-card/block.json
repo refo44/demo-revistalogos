@@ -1,0 +1,28 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "revistalogos/article-card",
+	"title": "Tarjeta de artículo",
+	"category": "theme",
+	"description": "Tarjeta del artículo del contexto (Query Loop o plantilla de artículo).",
+	"textdomain": "revistalogos-core",
+	"attributes": {
+		"heading": {
+			"type": "string",
+			"enum": [
+				"h2",
+				"h3"
+			],
+			"default": "h2"
+		}
+	},
+	"usesContext": [
+		"postId",
+		"postType"
+	],
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "revistalogos-domain-blocks-editor"
+}

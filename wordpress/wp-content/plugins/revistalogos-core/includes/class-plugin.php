@@ -53,6 +53,7 @@ class Plugin {
 		Native_Sitemap::register_hooks();
 		Llms_Txt::register_hooks();
 		Issue_Pdf_Downloads::register_hooks();
+		Domain_Blocks::register_hooks();
 
 		// Idempotent upgrade: late on init so CPT rewrite args are
 		// registered before a version-gated rewrite flush.
@@ -108,6 +109,10 @@ class Plugin {
 		require_once $includes . 'article-pdf/class-article-pdf-wordpress-generator.php';
 		require_once $includes . 'article-pdf/class-article-pdf-publication-settings.php';
 		require_once $includes . 'article-pdf/class-article-pdf-publication-enforcer.php';
+		require_once $includes . 'blocks/class-domain-blocks.php';
+		require_once $includes . 'blocks/class-issue-blocks.php';
+		require_once $includes . 'blocks/class-article-blocks.php';
+		require_once $includes . 'blocks/class-author-blocks.php';
 	}
 
 	/**

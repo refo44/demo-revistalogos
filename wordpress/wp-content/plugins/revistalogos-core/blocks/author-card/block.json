@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "revistalogos/author-card",
+	"title": "Tarjeta de autor",
+	"category": "theme",
+	"description": "Tarjeta del perfil de autor del contexto (Query Loop o plantilla de autor).",
+	"textdomain": "revistalogos-core",
+	"usesContext": [
+		"postId",
+		"postType"
+	],
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "revistalogos-domain-blocks-editor"
+}

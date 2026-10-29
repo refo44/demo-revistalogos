@@ -1,0 +1,14 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "revistalogos/current-issue",
+	"title": "Número actual",
+	"category": "theme",
+	"description": "Sección «Número actual» de la portada con la tarjeta destacada del último número publicado. No muestra nada sin número publicado.",
+	"textdomain": "revistalogos-core",
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "revistalogos-domain-blocks-editor"
+}
