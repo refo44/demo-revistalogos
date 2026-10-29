@@ -6,7 +6,7 @@ current_branch: ""
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-10-29"
-next_action: "FSE sesión 4 (#78): bloques de dominio en revistalogos-core, en Docker, rama desde feat/fse, PR hacia feat/fse. v0.3.16 ya está live; no despachar desde una etiqueta anterior."
+next_action: "FSE sesión 5 (#79): portada y páginas institucionales en Docker, rama desde feat/fse, PR hacia feat/fse. v0.3.16 ya está live; no despachar desde una etiqueta anterior."
 blocked: false
 ---
 
@@ -679,7 +679,7 @@ Plugin 0.2.20 / theme 0.2.12 entregó los campos. El puente Apply/Restore
 quedó retirado en plugin **0.2.21**, release de proyecto **0.3.16**, live
 desde el 2026-09-24 (`workflow_dispatch` desde `v0.3.16`, run
 `36034264767`, success). **No** despachar desde una etiqueta anterior.
-Siguiente: FSE sesión 4 ([#78](https://github.com/refo44/demo-revistalogos/issues/78))
+Siguiente: FSE sesión 5 ([#79](https://github.com/refo44/demo-revistalogos/issues/79))
 sobre `feat/fse`, en Docker (ver punto 6).
 Trabajo pendiente aceptado (no duplicar aquí):
 `docs/adr/BACKLOG.md` § Trabajo pendiente aceptado.
@@ -760,8 +760,27 @@ FSE remains deferred:
      diferencias en cabecera, nav, menú del toggle ni pie. El Site Editor
      no se revisó con sesión iniciada. La paridad visual queda a revisión
      del propietario; **no** hay Pass visual.
-   - Siguiente: sesión 4, bloques de dominio en `revistalogos-core`
-     ([#78](https://github.com/refo44/demo-revistalogos/issues/78)), rama
+   - **Sesión 4 (bloques de dominio) HECHA en `feat/fse`** (2026-10-29,
+     [#97](https://github.com/refo44/demo-revistalogos/pull/97), squash
+     `d3ad387`; [#78](https://github.com/refo44/demo-revistalogos/issues/78)).
+     Plugin **0.2.22** y theme **0.3.2** solo en `feat/fse`. El plugin
+     registra `revistalogos/current-issue`, `issue-card`, `issue-toc`,
+     `article-card`, `article-metadata`, `article-citation` y
+     `author-card` (`includes/blocks/`, un archivo por familia, cada
+     bloque con `block.json` y `render_callback`). El plugin resuelve los
+     datos y el marcado sale de `template-parts/` del theme, la misma
+     fuente que las vistas PHP. Sin datos, con otro tipo de post o sin la
+     parte en el theme, el bloque devuelve cadena vacía. Solo hay script
+     de editor; nada se encola en el front. El theme extrae
+     `template-parts/current-issue.php` y `citation-section.php` (Cómo
+     Citar sin cambios). Migas y paginación quedan fuera hasta que una
+     plantilla las pida. Gate en Docker: `composer test:unit` 65 OK,
+     `composer test:wp` 102 OK (13 nuevos en `DomainBlocksTest`);
+     portada y artículo clásicos en `localhost:8080` sin cambios ni
+     avisos PHP. Ninguna plantilla usa aún los bloques; el Site Editor
+     no se revisó con sesión iniciada.
+   - Siguiente: sesión 5, portada y páginas institucionales
+     ([#79](https://github.com/refo44/demo-revistalogos/issues/79)), rama
      desde `feat/fse`.
 
 D12b (checks CI de seguridad/stylelint ligados al deploy) sigue pendiente
