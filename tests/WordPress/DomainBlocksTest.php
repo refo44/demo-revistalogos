@@ -36,6 +36,7 @@ class DomainBlocksTest extends WP_UnitTestCase {
 		'revistalogos/article-metadata',
 		'revistalogos/article-citation',
 		'revistalogos/author-card',
+		'revistalogos/recent-articles',
 	);
 
 	/**
@@ -106,6 +107,49 @@ class DomainBlocksTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( '<h3 class="card__title issue-card__title">', $html );
 		$this->assertSame(
 			$this->part( 'template-parts/current-issue', array( 'post' => get_post( $issue_id ) ) ),
+			$html
+		);
+	}
+
+	/**
+	 * Dado: ningún artículo publicado.
+	 * Entonces: el bloque de artículos recientes no emite nada.
+	 */
+	public function test_recent_articles_is_empty_without_published_articles() {
+		$this->assertSame( '', $this->render( 'recent-articles' ) );
+	}
+
+	/**
+	 * Dado: cuatro artículos publicados.
+	 * Entonces: la sección de portada muestra los tres más recientes con
+	 * la misma salida que template-parts/recent-articles.
+	 */
+	public function test_recent_articles_renders_the_three_latest() {
+		$issue_id = $this->make_issue();
+		$articles = array();
+		foreach ( array( 'Primero', 'Segundo', 'Tercero', 'Cuarto' ) as $n => $title ) {
+			$articles[] = $this->make_article( $issue_id, $title );
+			wp_update_post(
+				array(
+					'ID'            => end( $articles ),
+					'post_date'     => '2026-10-0' . ( $n + 1 ) . ' 10:00:00',
+					'post_date_gmt' => '2026-10-0' . ( $n + 1 ) . ' 10:00:00',
+				)
+			);
+		}
+
+		$html = $this->render( 'recent-articles' );
+
+		$this->assertStringContainsString( '<section class="front-page__recent-articles">', $html );
+		$this->assertStringContainsString( 'Artículos recientes', $html );
+		$this->assertSame( 3, substr_count( $html, '<h3 class="card__title' ) );
+		$this->assertStringNotContainsString( 'Primero', $html );
+		$this->assertLessThan( strpos( $html, 'Segundo' ), strpos( $html, 'Cuarto' ) );
+		$this->assertSame(
+			$this->part(
+				'template-parts/recent-articles',
+				array( 'articles' => array_map( 'get_post', array_reverse( array_slice( $articles, 1 ) ) ) )
+			),
 			$html
 		);
 	}

@@ -42,7 +42,9 @@ class SiteHeaderFooterPartsTest extends WP_UnitTestCase {
 			)
 		);
 
-		foreach ( array( 'revistalogos/site-header', 'revistalogos/site-footer' ) as $name ) {
+		// Every theme block, so re-registering does not trip "already registered".
+		foreach ( glob( get_template_directory() . '/blocks/*', GLOB_ONLYDIR ) as $dir ) {
+			$name = 'revistalogos/' . basename( $dir );
 			if ( WP_Block_Type_Registry::get_instance()->is_registered( $name ) ) {
 				unregister_block_type( $name );
 			}

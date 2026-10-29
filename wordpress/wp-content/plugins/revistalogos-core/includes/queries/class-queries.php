@@ -40,6 +40,25 @@ class Queries {
 	}
 
 	/**
+	 * Most recently published articles, newest first (front page).
+	 *
+	 * @param int $limit Maximum results.
+	 * @return \WP_Post[]
+	 */
+	public static function recent_articles( $limit = 3 ) {
+		return get_posts(
+			array(
+				'post_type'      => Content_Types::ARTICLE,
+				'post_status'    => 'publish',
+				'posts_per_page' => $limit,
+				'orderby'        => 'date',
+				'order'          => 'DESC',
+				'no_found_rows'  => true,
+			)
+		);
+	}
+
+	/**
 	 * Published articles belonging to an issue (derived reverse query;
 	 * counts are computed from the result, never stored).
 	 *
