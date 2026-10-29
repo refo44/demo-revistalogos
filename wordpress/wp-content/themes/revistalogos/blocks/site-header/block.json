@@ -1,0 +1,15 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "revistalogos/site-header",
+	"title": "Cabecera del sitio",
+	"category": "theme",
+	"description": "Skip-link, logo y navegación principal con el marcado de la maqueta. El menú se edita en Apariencia → Menús.",
+	"textdomain": "revistalogos",
+	"supports": {
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"editorScript": "revistalogos-site-blocks-editor"
+}

@@ -7,6 +7,15 @@
   padding: 0 var(--container-padding);
 }
 
+/*
+ * Block templates wrap each part in div.wp-block-template-part. Without a
+ * box of its own the sticky header and the footer sit directly in
+ * .wp-site-blocks, as they sit in <body> on the PHP views.
+ */
+.wp-site-blocks > .wp-block-template-part {
+  display: contents;
+}
+
 /* Header */
 .header {
   background-color: var(--color-bg-primary);

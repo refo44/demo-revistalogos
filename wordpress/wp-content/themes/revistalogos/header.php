@@ -18,5 +18,4 @@ if ( ! defined( 'ABSPATH' ) ) {
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
-<a href="#main-content" class="skip-link"><?php esc_html_e( 'Saltar al contenido principal', 'revistalogos' ); ?></a>
 <?php get_template_part( 'template-parts/header' ); ?>

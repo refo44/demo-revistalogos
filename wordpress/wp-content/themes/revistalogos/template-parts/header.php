@@ -1,7 +1,8 @@
 <?php
 /**
- * Site header: logo + primary navigation. Markup mirrors the static
- * header partial; links use native URL APIs (ADR 0008 §2).
+ * Site header: skip-link, logo + primary navigation. Markup mirrors the
+ * static header partial; links use native URL APIs (ADR 0008 §2). Shared
+ * by header.php and the revistalogos/site-header block (parts/header.html).
  *
  * @package Revistalogos
  */
@@ -10,6 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
+<a href="#main-content" class="skip-link"><?php esc_html_e( 'Saltar al contenido principal', 'revistalogos' ); ?></a>
 <header class="header" role="banner">
 	<div class="container">
 		<div class="header__inner">

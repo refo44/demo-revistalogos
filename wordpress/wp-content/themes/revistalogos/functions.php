@@ -11,13 +11,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'REVISTALOGOS_THEME_VERSION', '0.3.0' );
+define( 'REVISTALOGOS_THEME_VERSION', '0.3.1' );
 
 require_once get_template_directory() . '/inc/template-tags.php';
 require_once get_template_directory() . '/inc/class-nav-walker.php';
 require_once get_template_directory() . '/inc/citations.php';
 require_once get_template_directory() . '/inc/metadata-output.php';
 require_once get_template_directory() . '/inc/foreign-styles.php';
+require_once get_template_directory() . '/inc/site-blocks.php';
 
 /**
  * Theme supports and menu locations.
