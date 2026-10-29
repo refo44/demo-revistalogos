@@ -1,16 +1,20 @@
 /* Design Tokens - Revista Logos et Spes */
 
+/* Los colores de la paleta de theme.json son alias de su preset
+   (--wp--preset--color--*) para que Estilos → Colores mueva el front.
+   El hex de respaldo es el mismo de theme.json: una sola paleta. */
+
 :root {
   /* Colores principales */
-  --color-primary: #18597c;        /* Azul petróleo institucional */
-  --color-primary-light: #e7f2f8;  /* Azul editorial suave para fondos y acentos */
-  --color-primary-dark: #144866;   /* Variante azul más profunda del primario para hover y énfasis */
+  --color-primary: var(--wp--preset--color--primary, #18597c);        /* Azul petróleo institucional */
+  --color-primary-light: var(--wp--preset--color--primary-light, #e7f2f8);  /* Azul editorial suave para fondos y acentos */
+  --color-primary-dark: var(--wp--preset--color--primary-dark, #144866);   /* Variante azul más profunda del primario para hover y énfasis */
   /* Colores secundarios */
-  --color-secondary: #afabac;       /* Gris neutro de la paleta para líneas y elementos secundarios */
+  --color-secondary: var(--wp--preset--color--secondary, #afabac);       /* Gris neutro de la paleta para líneas y elementos secundarios */
   --color-border: #d9d6d7;          /* Borde suave derivado del gris neutro */
   
   /* Colores de estado */
-  --color-accent: #059669;          /* Verde éxito */
+  --color-accent: var(--wp--preset--color--accent, #059669);          /* Verde éxito */
   --color-warning: #d97706;         /* Naranja alerta */
   --color-error: #dc2626;           /* Rojo error */
   
@@ -19,17 +23,17 @@
   --color-btn-register: #ffbf00;    /* Amarillo de énfasis para botón Registrarse */
 
   /* Colores de fondo */
-  --color-bg-primary: #f8fafc;      /* Fondo general casi blanco con matiz frio editorial */
-  --color-surface: #ffffff;         /* Superficies y contenedores principales */
+  --color-bg-primary: var(--wp--preset--color--bg-primary, #f8fafc);      /* Fondo general casi blanco con matiz frio editorial */
+  --color-surface: var(--wp--preset--color--surface, #ffffff);         /* Superficies y contenedores principales */
   --color-soft: var(--color-primary-light); /* Bloques editoriales suaves (alias de --color-primary-light) */
   
   /* Colores de texto */
-  --color-text-primary: #1e293b;    /* Texto principal */
-  --color-text-muted: #64748b;      /* Texto secundario legible sobre fondo blanco */
+  --color-text-primary: var(--wp--preset--color--text-primary, #1e293b);    /* Texto principal */
+  --color-text-muted: var(--wp--preset--color--text-muted, #64748b);      /* Texto secundario legible sobre fondo blanco */
   --color-text-inverse: #ffffff;    /* Texto sobre fondos oscuros o botones primarios */
   
   /* Colores de enlaces */
-  --color-link: #0a7599;            /* Azul de acento para enlaces (oscurecido para cumplir contraste AA 4.5:1) */
+  --color-link: var(--wp--preset--color--link, #0a7599);            /* Azul de acento para enlaces (oscurecido para cumplir contraste AA 4.5:1) */
   --color-link-hover: #18597c;      /* Estado hover de enlaces */
   --color-focus-ring: rgb(24 89 124 / 0.18);
   
