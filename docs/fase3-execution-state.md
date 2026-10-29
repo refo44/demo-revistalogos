@@ -5,8 +5,8 @@ current_work_unit: ""
 current_branch: ""
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
-updated_at: "2026-10-28"
-next_action: "FSE sesión 3 (#77): partes de cabecera y pie en Docker, rama desde feat/fse, PR hacia feat/fse. v0.3.16 ya está live; no despachar desde una etiqueta anterior."
+updated_at: "2026-10-29"
+next_action: "FSE sesión 4 (#78): bloques de dominio en revistalogos-core, en Docker, rama desde feat/fse, PR hacia feat/fse. v0.3.16 ya está live; no despachar desde una etiqueta anterior."
 blocked: false
 ---
 
@@ -679,7 +679,7 @@ Plugin 0.2.20 / theme 0.2.12 entregó los campos. El puente Apply/Restore
 quedó retirado en plugin **0.2.21**, release de proyecto **0.3.16**, live
 desde el 2026-09-24 (`workflow_dispatch` desde `v0.3.16`, run
 `36034264767`, success). **No** despachar desde una etiqueta anterior.
-Siguiente: FSE sesión 3 ([#77](https://github.com/refo44/demo-revistalogos/issues/77))
+Siguiente: FSE sesión 4 ([#78](https://github.com/refo44/demo-revistalogos/issues/78))
 sobre `feat/fse`, en Docker (ver punto 6).
 Trabajo pendiente aceptado (no duplicar aquí):
 `docs/adr/BACKLOG.md` § Trabajo pendiente aceptado.
@@ -739,10 +739,30 @@ FSE remains deferred:
      82 OK. La paridad visual (escritorio y 320px) queda a revisión del
      propietario; **no** hay Pass visual. `main` y producción siguen en
      el theme clásico con el dequeue.
-   - Siguiente: sesión 3, partes de cabecera y pie
-     ([#77](https://github.com/refo44/demo-revistalogos/issues/77)), rama
-     desde `feat/fse`. Antes, alinear `feat/fse` con `main` (lleva
-     `b4b72f8`, [#91](https://github.com/refo44/demo-revistalogos/pull/91)).
+   - `feat/fse` alineada con `main` (merge `d8973f7`, 2026-10-28; trae
+     [#91](https://github.com/refo44/demo-revistalogos/pull/91) y
+     [#94](https://github.com/refo44/demo-revistalogos/pull/94)).
+   - **Sesión 3 (cabecera y pie) HECHA en `feat/fse`** (2026-10-29,
+     [#95](https://github.com/refo44/demo-revistalogos/pull/95), squash
+     `40870df`; [#77](https://github.com/refo44/demo-revistalogos/issues/77)).
+     Theme **0.3.1** solo en `feat/fse`: `parts/header.html` y
+     `parts/footer.html` son cascarones de los bloques
+     `revistalogos/site-header` y `revistalogos/site-footer`
+     (`inc/site-blocks.php`), que renderizan `template-parts/header.php` y
+     `footer.php`, la misma fuente que las vistas PHP. El nav sigue en
+     `Revistalogos_Nav_Walker` (sin `core/navigation`); el pie conserva
+     `footer-quick` / `footer-norms` con sus respaldos. El skip-link pasa
+     a `template-parts/header.php` y se desengancha el de núcleo.
+     `templates/index.html` compone cabecera, `main#main-content` y pie.
+     Gate en Docker: `composer test:wp` 89 OK; `/`, `/noticias/` y
+     `/2026/` con un solo skip-link; comparación contra `static/` a
+     1280px, 320px y 640px (sustituto del zoom 200 %, no zoom real) sin
+     diferencias en cabecera, nav, menú del toggle ni pie. El Site Editor
+     no se revisó con sesión iniciada. La paridad visual queda a revisión
+     del propietario; **no** hay Pass visual.
+   - Siguiente: sesión 4, bloques de dominio en `revistalogos-core`
+     ([#78](https://github.com/refo44/demo-revistalogos/issues/78)), rama
+     desde `feat/fse`.
 
 D12b (checks CI de seguridad/stylelint ligados al deploy) sigue pendiente
 de la auditoría (ADR 0012 §6). El workflow `test.yml` (PHPUnit unitario)
