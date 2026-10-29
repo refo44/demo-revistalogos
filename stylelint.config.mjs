@@ -11,6 +11,15 @@ export default {
     "media-feature-range-notation": null,
     "no-descending-specificity": null,
     "property-no-deprecated": null,
+    // Ours are kebab-case; WordPress presets (`--wp--preset--color--primary`)
+    // join kebab-case segments with `--` and are read, never renamed (ADR 0015).
+    "custom-property-pattern": [
+      "^(?:wp(?:--[a-z0-9]+(?:-[a-z0-9]+)*)+|[a-z][a-z0-9]*(?:-[a-z0-9]+)*)$",
+      {
+        message:
+          "Expected custom property name to be kebab-case or a WordPress --wp--* preset."
+      }
+    ],
     "selector-max-id": 0,
     "max-nesting-depth": 3,
     "selector-class-pattern": [
