@@ -22,14 +22,29 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 - Maqueta `static/`: restaura `assets/img/logo-revista.png` y
   `assets/pdf/politicas-editorial.pdf`, borrados por error en `1c6d2c2`.
   El logo de cabecera volvía 404 en todas las páginas, también en el
-  espejo de GitHub Pages. Los PDF de ejemplo `articulo-02`…`06` y
-  `numero-v11*`/`v12n1` nunca existieron y siguen sin archivo.
+  espejo de GitHub Pages.
+- Maqueta `static/`: los botones PDF de `articulo-02`…`06` y de
+  `numero-v11n1`, `v11n2` y `v12n1` apuntaban a archivos que nunca
+  existieron. Ahora usan los PDF de ejemplo compartidos
+  (`articulo-01.pdf`, `numero-v12n2-2025.pdf`), como ya hacen las
+  tarjetas con el artículo compartido.
 
 ### Changed
 - Contrato de conversión FSE (ADR 0015, nota 2026-10-19) y
   `docs/fse-implementation-prompt.md`: la plantilla no crea contenido, el
   bloque devuelve vacío si falta el dominio, la cabecera conserva el
   walker, y la paridad es captura contra `static/`.
+- FSE sesión 2 (bootstrap del block theme) registrada como hecha en
+  `feat/fse` ([#92](https://github.com/refo44/demo-revistalogos/pull/92),
+  [#76](https://github.com/refo44/demo-revistalogos/issues/76)) en
+  `docs/fase3-execution-state.md` y en el ítem 7 de `docs/adr/BACKLOG.md`.
+  La paridad visual queda a revisión del propietario.
+- BACKLOG ítem 10 (identificadores digitales de la revista) marcado HECHO
+  en `v0.3.10` ([#58](https://github.com/refo44/demo-revistalogos/issues/58)
+  cerrado).
+- `docs/fase3-execution-state.md`: `v0.3.16` ya está live desde el
+  2026-09-24; la siguiente acción pasa a FSE sesión 3
+  ([#77](https://github.com/refo44/demo-revistalogos/issues/77)).
 
 ## [0.3.16] — 2026-09-24
 

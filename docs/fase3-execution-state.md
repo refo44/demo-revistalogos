@@ -5,8 +5,8 @@ current_work_unit: ""
 current_branch: ""
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
-updated_at: "2026-09-24"
-next_action: "Tras mergear #88: fetch origin main, etiqueta anotada v0.3.16 sobre origin/main, push del tag, workflow_dispatch desde ese tag. No etiquetar antes del merge. No despachar desde v0.3.15."
+updated_at: "2026-10-28"
+next_action: "FSE sesión 3 (#77): partes de cabecera y pie en Docker, rama desde feat/fse, PR hacia feat/fse. v0.3.16 ya está live; no despachar desde una etiqueta anterior."
 blocked: false
 ---
 
@@ -676,10 +676,11 @@ editorial real en proceso desde wp-admin (**no** completa). Docker local:
 Siguiente acción priorizada — ítem 12 / [#67](https://github.com/refo44/demo-revistalogos/issues/67)
 **HECHO** en `main` (`v0.3.15`, [#70](https://github.com/refo44/demo-revistalogos/pull/70)).
 Plugin 0.2.20 / theme 0.2.12 entregó los campos. El puente Apply/Restore
-queda retirado en plugin **0.2.21**, release de proyecto **0.3.16**.
-Tras mergear el PR a `main`: etiqueta anotada `v0.3.16` sobre
-`origin/main` y `workflow_dispatch` **desde ese tag** (ADR 0020).
-**No** etiquetar antes del merge. **No** despachar desde `v0.3.15`.
+quedó retirado en plugin **0.2.21**, release de proyecto **0.3.16**, live
+desde el 2026-09-24 (`workflow_dispatch` desde `v0.3.16`, run
+`36034264767`, success). **No** despachar desde una etiqueta anterior.
+Siguiente: FSE sesión 3 ([#77](https://github.com/refo44/demo-revistalogos/issues/77))
+sobre `feat/fse`, en Docker (ver punto 6).
 Trabajo pendiente aceptado (no duplicar aquí):
 `docs/adr/BACKLOG.md` § Trabajo pendiente aceptado.
 
@@ -725,6 +726,23 @@ FSE remains deferred:
    bloque devuelve cadena vacía si falta el dominio; la cabecera conserva el
    walker; la paridad es captura contra `static/`. El trabajo sigue en
    [#12](https://github.com/refo44/demo-revistalogos/issues/12).
+   - **Sesión 2 (bootstrap) HECHA en `feat/fse`** (2026-10-28,
+     [#92](https://github.com/refo44/demo-revistalogos/pull/92), squash
+     `958c234`; [#76](https://github.com/refo44/demo-revistalogos/issues/76)).
+     Theme **0.3.0** solo en `feat/fse`: `templates/index.html` (envoltorio
+     mínimo) hace `wp_is_block_theme()` verdadero; `global-styles` deja de
+     desencolarse en esa rama; `tokens.css` alía `--color-*` a
+     `--wp--preset--color--*`; `inc/foreign-styles.php` retira
+     `wp-block-library` y CF7. Gate en Docker: Site Editor abre, cambiar
+     **primary** en Estilos llega a `--color-primary`, las vistas PHP
+     siguen en 200, la cabecera conserva `nav__*`. `composer test:wp`
+     82 OK. La paridad visual (escritorio y 320px) queda a revisión del
+     propietario; **no** hay Pass visual. `main` y producción siguen en
+     el theme clásico con el dequeue.
+   - Siguiente: sesión 3, partes de cabecera y pie
+     ([#77](https://github.com/refo44/demo-revistalogos/issues/77)), rama
+     desde `feat/fse`. Antes, alinear `feat/fse` con `main` (lleva
+     `b4b72f8`, [#91](https://github.com/refo44/demo-revistalogos/pull/91)).
 
 D12b (checks CI de seguridad/stylelint ligados al deploy) sigue pendiente
 de la auditoría (ADR 0012 §6). El workflow `test.yml` (PHPUnit unitario)

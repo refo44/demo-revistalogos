@@ -179,7 +179,7 @@ Ruleset `Protect main (trunk-based)` (`21337399`), activo, sin bypass. `main` ex
 
 #### 10. Identificadores digitales de la revista (ISSN, depósito legal, prefijo DOI)
 
-**Estado:** NEXT. En rama `feat/journal-identifier-settings`. Issue: [#58](https://github.com/refo44/demo-revistalogos/issues/58). Se publica en **plugin 0.2.15 / theme 0.2.8 / proyecto v0.3.10**. **No** ISSN/depósito legal de papel. Ajustes → LOGO ET SPES; pie y Acerca (vacío = «Próximamente»); `/llms.txt` omite líneas vacías. El `issn` de cada número no sustituye el ajuste.
+**Estado:** HECHO en `main` (`v0.3.10`, 2026-09-11). Issue: [#58](https://github.com/refo44/demo-revistalogos/issues/58) cerrado. Plugin **0.2.15** / theme **0.2.8**; el plugin **0.2.16** retiró después las notas «Pie, Acerca y /llms.txt» e «Inerte hasta Crossref» de Ajustes. **No** ISSN/depósito legal de papel. Ajustes → LOGO ET SPES; pie y Acerca (vacío = «Próximamente»); `/llms.txt` omite líneas vacías. El `issn` de cada número no sustituye el ajuste.
 
 ### PLANNED
 
@@ -315,6 +315,8 @@ Cierre: Sobre los autores (bios del número); consejo editorial breve; normas/é
 **Estado:** DEFERRED. Decisión **aceptada** ([ADR 0015](0015-block-theme-fse-site-editor.md), D15); implementación pendiente. Incremental, **primero en Docker**, después de estabilizar el clásico. Theme/FSE **consume** datos de dominio; **no** genera ni sustituye PDFs. `revistalogos-core` sigue dueño de Article/Issue/Author (ADR 0005).
 
 Contrato operativo (2026-10-19; no cambia la decisión): nota «Contrato de conversión» en ADR 0015 y `docs/fse-implementation-prompt.md`. La plantilla no crea contenido. El bloque devuelve cadena vacía si faltan datos o el helper de dominio. La paridad es captura de `static/` contra la URL canónica (escritorio y 320px). La cabecera sigue en `Revistalogos_Nav_Walker`. El CSS adicional de producción bloquea solo el corte ([#38](https://github.com/refo44/demo-revistalogos/issues/38) → [#84](https://github.com/refo44/demo-revistalogos/issues/84)).
+
+Avance en `feat/fse` (no en `main` ni en producción): sesión 2, bootstrap del block theme, **hecha** el 2026-10-28 ([#92](https://github.com/refo44/demo-revistalogos/pull/92), [#76](https://github.com/refo44/demo-revistalogos/issues/76) cerrado; theme 0.3.0 en esa rama). La paridad visual queda a revisión del propietario. Siguiente: sesión 3, cabecera y pie ([#77](https://github.com/refo44/demo-revistalogos/issues/77)).
 
 #### 8. Otros ítems ya documentados (sin reinventar)
 
