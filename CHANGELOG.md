@@ -8,6 +8,23 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Added
+- FSE Sesión 2, bootstrap en Docker (ADR 0015 §7.2, rama `feat/fse`,
+  [#76](https://github.com/refo44/demo-revistalogos/issues/76)): theme
+  `revistalogos` **0.3.0** pasa a block theme con
+  `templates/index.html` (cascarón: solo sirve donde antes caía
+  `index.php`); `tokens.css` aliasa los `--color-*` de la paleta a
+  `--wp--preset--color--*`; deja de quitar `global-styles` en el front
+  (sigue fuera `wp-block-library`). Las vistas reales siguen en PHP.
+  No llega a producción hasta el corte.
+
+### Fixed
+- Maqueta `static/`: restaura `assets/img/logo-revista.png` y
+  `assets/pdf/politicas-editorial.pdf`, borrados por error en `1c6d2c2`.
+  El logo de cabecera volvía 404 en todas las páginas, también en el
+  espejo de GitHub Pages. Los PDF de ejemplo `articulo-02`…`06` y
+  `numero-v11*`/`v12n1` nunca existieron y siguen sin archivo.
+
 ### Changed
 - Contrato de conversión FSE (ADR 0015, nota 2026-10-19) y
   `docs/fse-implementation-prompt.md`: la plantilla no crea contenido, el
