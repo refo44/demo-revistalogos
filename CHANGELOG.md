@@ -8,6 +8,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Fixed
+- Maqueta `static/`: restaura `assets/img/logo-revista.png` y
+  `assets/pdf/politicas-editorial.pdf`, borrados por error en `1c6d2c2`.
+  El logo de cabecera volvía 404 en todas las páginas, también en el
+  espejo de GitHub Pages. Los PDF de ejemplo `articulo-02`…`06` y
+  `numero-v11*`/`v12n1` nunca existieron y siguen sin archivo.
+
 ### Changed
 - Contrato de conversión FSE (ADR 0015, nota 2026-10-19) y
   `docs/fse-implementation-prompt.md`: la plantilla no crea contenido, el
