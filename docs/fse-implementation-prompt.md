@@ -39,9 +39,10 @@ is the static mirror, not a WordPress FSE preview. Do not reuse
 `feat/fse` is a conversion branch for this work only. Rebase or merge `main`
 into it whenever a production hotfix lands, so beta does not drift. This is
 an exception to “every PR lands on `main`” (ADR 0019) until cutover. Do not
-invent `develop`. Do not invent a second theme directory: convert
-`revistalogos` on `feat/fse`; production keeps serving the copy last tagged
-from `main`.
+invent `develop`. Do not create a second theme directory in these sessions:
+convert `revistalogos` on `feat/fse`; production keeps serving the copy last
+tagged from `main`. The frozen `revistalogos-classic` fallback is cutover
+work, not session work (ADR 0015, note 2026-10-29).
 
 **Plugin:** production and FSE share `revistalogos-core`. A plugin change that
 must go live (citation bug, PDF, authors) ships on `main` and is merged into
@@ -50,9 +51,13 @@ enqueue FSE block assets on the classic front. Do not turn on
 `global-styles` / stop the dequeue on `main` until cutover — that would
 restyle the live site.
 
-**Do not** switch Apariencia → Temas on production. **Do not** include FSE
-theme files in a hotfix tag. Cutover is a later owner action: merge
-`feat/fse` → `main`, tag, FTPS, then confirm Site Editor on the live host.
+**Do not** switch Apariencia → Temas on production before cutover release A.
+**Do not** include FSE theme files in a hotfix tag. Cutover is a later owner
+action in two tagged releases (ADR 0015, note 2026-10-29): A ships a frozen
+`revistalogos-classic` and the Administrator activates it; B merges
+`feat/fse` → `main`, tags and runs FTPS, and the Administrator activates the
+block theme `revistalogos` in wp-admin and confirms the Site Editor. Rolling
+back is re-activating `revistalogos-classic`. One plugin serves both themes.
 
 ## Hard rules
 
@@ -238,11 +243,13 @@ Full pair list in `docs/fase3-validation-matrix.md` coverage table, but
 the method used (screenshots). Do not invent `Pass` without files. Repeat
 the same pass on the throwaway subdomain ([#83](https://github.com/refo44/demo-revistalogos/issues/83)).
 
-Production cutover is **not** this prompt. Owner, later: merge `feat/fse`
-→ `main`, annotated `vX.Y.Z`, `workflow_dispatch` from that tag (ADR 0020)
-after [#38](https://github.com/refo44/demo-revistalogos/issues/38) and [#83](https://github.com/refo44/demo-revistalogos/issues/83)
-([#84](https://github.com/refo44/demo-revistalogos/issues/84)). Until then
-production stays on the last classic tag.
+Production cutover is **not** this prompt. Owner, later, after
+[#38](https://github.com/refo44/demo-revistalogos/issues/38) and [#83](https://github.com/refo44/demo-revistalogos/issues/83)
+([#84](https://github.com/refo44/demo-revistalogos/issues/84)): release A
+ships `revistalogos-classic` and the Administrator activates it; release B
+merges `feat/fse` → `main`, annotated `vX.Y.Z`, `workflow_dispatch` from that
+tag (ADR 0020), then the Administrator activates `revistalogos` (ADR 0015,
+note 2026-10-29). Until then production stays on the last classic tag.
 
 ## Out of scope (never in these sessions)
 

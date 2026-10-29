@@ -20,6 +20,11 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   tarjetas con el artículo compartido.
 
 ### Changed
+- ADR 0015, nota 2026-10-29: tras el corte FSE, producción conserva una
+  copia congelada `revistalogos-classic` junto al block theme, elegible en
+  Apariencia → Temas, con un solo plugin para los dos. El corte pasa a dos
+  releases. Alineados `docs/fse-implementation-prompt.md`,
+  `docs/adr/BACKLOG.md` y `CLAUDE.md`.
 - Contrato de conversión FSE (ADR 0015, nota 2026-10-19) y
   `docs/fse-implementation-prompt.md`: la plantilla no crea contenido, el
   bloque devuelve vacío si falta el dominio, la cabecera conserva el
