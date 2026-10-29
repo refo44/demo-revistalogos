@@ -5,8 +5,8 @@ current_work_unit: ""
 current_branch: ""
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
-updated_at: "2026-10-28"
-next_action: "FSE sesión 3 (#77): partes de cabecera y pie en Docker, rama desde feat/fse, PR hacia feat/fse. v0.3.16 ya está live; no despachar desde una etiqueta anterior."
+updated_at: "2026-10-29"
+next_action: "FSE sesión 5 (#79): portada y páginas institucionales en Docker, rama desde feat/fse, PR hacia feat/fse. v0.3.16 ya está live; no despachar desde una etiqueta anterior."
 blocked: false
 ---
 
@@ -679,7 +679,7 @@ Plugin 0.2.20 / theme 0.2.12 entregó los campos. El puente Apply/Restore
 quedó retirado en plugin **0.2.21**, release de proyecto **0.3.16**, live
 desde el 2026-09-24 (`workflow_dispatch` desde `v0.3.16`, run
 `36034264767`, success). **No** despachar desde una etiqueta anterior.
-Siguiente: FSE sesión 3 ([#77](https://github.com/refo44/demo-revistalogos/issues/77))
+Siguiente: FSE sesión 5 ([#79](https://github.com/refo44/demo-revistalogos/issues/79))
 sobre `feat/fse`, en Docker (ver punto 6).
 Trabajo pendiente aceptado (no duplicar aquí):
 `docs/adr/BACKLOG.md` § Trabajo pendiente aceptado.
@@ -739,10 +739,49 @@ FSE remains deferred:
      82 OK. La paridad visual (escritorio y 320px) queda a revisión del
      propietario; **no** hay Pass visual. `main` y producción siguen en
      el theme clásico con el dequeue.
-   - Siguiente: sesión 3, partes de cabecera y pie
-     ([#77](https://github.com/refo44/demo-revistalogos/issues/77)), rama
-     desde `feat/fse`. Antes, alinear `feat/fse` con `main` (lleva
-     `b4b72f8`, [#91](https://github.com/refo44/demo-revistalogos/pull/91)).
+   - `feat/fse` alineada con `main` (merge `d8973f7`, 2026-10-28; trae
+     [#91](https://github.com/refo44/demo-revistalogos/pull/91) y
+     [#94](https://github.com/refo44/demo-revistalogos/pull/94)).
+   - **Sesión 3 (cabecera y pie) HECHA en `feat/fse`** (2026-10-29,
+     [#95](https://github.com/refo44/demo-revistalogos/pull/95), squash
+     `40870df`; [#77](https://github.com/refo44/demo-revistalogos/issues/77)).
+     Theme **0.3.1** solo en `feat/fse`: `parts/header.html` y
+     `parts/footer.html` son cascarones de los bloques
+     `revistalogos/site-header` y `revistalogos/site-footer`
+     (`inc/site-blocks.php`), que renderizan `template-parts/header.php` y
+     `footer.php`, la misma fuente que las vistas PHP. El nav sigue en
+     `Revistalogos_Nav_Walker` (sin `core/navigation`); el pie conserva
+     `footer-quick` / `footer-norms` con sus respaldos. El skip-link pasa
+     a `template-parts/header.php` y se desengancha el de núcleo.
+     `templates/index.html` compone cabecera, `main#main-content` y pie.
+     Gate en Docker: `composer test:wp` 89 OK; `/`, `/noticias/` y
+     `/2026/` con un solo skip-link; comparación contra `static/` a
+     1280px, 320px y 640px (sustituto del zoom 200 %, no zoom real) sin
+     diferencias en cabecera, nav, menú del toggle ni pie. El Site Editor
+     no se revisó con sesión iniciada. La paridad visual queda a revisión
+     del propietario; **no** hay Pass visual.
+   - **Sesión 4 (bloques de dominio) HECHA en `feat/fse`** (2026-10-29,
+     [#97](https://github.com/refo44/demo-revistalogos/pull/97), squash
+     `d3ad387`; [#78](https://github.com/refo44/demo-revistalogos/issues/78)).
+     Plugin **0.2.22** y theme **0.3.2** solo en `feat/fse`. El plugin
+     registra `revistalogos/current-issue`, `issue-card`, `issue-toc`,
+     `article-card`, `article-metadata`, `article-citation` y
+     `author-card` (`includes/blocks/`, un archivo por familia, cada
+     bloque con `block.json` y `render_callback`). El plugin resuelve los
+     datos y el marcado sale de `template-parts/` del theme, la misma
+     fuente que las vistas PHP. Sin datos, con otro tipo de post o sin la
+     parte en el theme, el bloque devuelve cadena vacía. Solo hay script
+     de editor; nada se encola en el front. El theme extrae
+     `template-parts/current-issue.php` y `citation-section.php` (Cómo
+     Citar sin cambios). Migas y paginación quedan fuera hasta que una
+     plantilla las pida. Gate en Docker: `composer test:unit` 65 OK,
+     `composer test:wp` 102 OK (13 nuevos en `DomainBlocksTest`);
+     portada y artículo clásicos en `localhost:8080` sin cambios ni
+     avisos PHP. Ninguna plantilla usa aún los bloques; el Site Editor
+     no se revisó con sesión iniciada.
+   - Siguiente: sesión 5, portada y páginas institucionales
+     ([#79](https://github.com/refo44/demo-revistalogos/issues/79)), rama
+     desde `feat/fse`.
 
 D12b (checks CI de seguridad/stylelint ligados al deploy) sigue pendiente
 de la auditoría (ADR 0012 §6). El workflow `test.yml` (PHPUnit unitario)

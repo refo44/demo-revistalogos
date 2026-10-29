@@ -110,7 +110,10 @@ required, not shared via Git, not a substitute for the files above.
   custom color stay locked. `main.css` stays the layout authority. Do not
   convert to Next.js. ADR 0003 §1/§3 are superseded for `theme.json` / block
   CSS dequeue; keep BEM and `main.css`. The `global-styles` dequeue stays on
-  `main` until cutover.
+  `main` until cutover. Cutover keeps a frozen `revistalogos-classic`
+  fallback beside the block theme, selectable in wp-admin, with one plugin
+  for both (ADR 0015, note 2026-10-29); it is created at cutover, not in
+  FSE sessions.
 - **Identifiers (DOI/ORCID/ISSN) are Fase 4, deliberately deferred** past
   the WordPress launch (ADR 0013). Fase 3 stores them as inert fields only —
   no validation, no derived URLs.

@@ -53,6 +53,11 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   tarjetas con el artículo compartido.
 
 ### Changed
+- ADR 0015, nota 2026-10-29: tras el corte FSE, producción conserva una
+  copia congelada `revistalogos-classic` junto al block theme, elegible en
+  Apariencia → Temas, con un solo plugin para los dos. El corte pasa a dos
+  releases. Alineados `docs/fse-implementation-prompt.md`,
+  `docs/adr/BACKLOG.md` y `CLAUDE.md`.
 - Contrato de conversión FSE (ADR 0015, nota 2026-10-19) y
   `docs/fse-implementation-prompt.md`: la plantilla no crea contenido, el
   bloque devuelve vacío si falta el dominio, la cabecera conserva el
@@ -62,6 +67,19 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   [#76](https://github.com/refo44/demo-revistalogos/issues/76)) en
   `docs/fase3-execution-state.md` y en el ítem 7 de `docs/adr/BACKLOG.md`.
   La paridad visual queda a revisión del propietario.
+- FSE sesión 3 (cabecera y pie) registrada como hecha en `feat/fse`
+  ([#95](https://github.com/refo44/demo-revistalogos/pull/95),
+  [#77](https://github.com/refo44/demo-revistalogos/issues/77)) en
+  `docs/fase3-execution-state.md` y en el ítem 7 de `docs/adr/BACKLOG.md`;
+  la siguiente acción pasa a la sesión 4
+  ([#78](https://github.com/refo44/demo-revistalogos/issues/78)). La
+  paridad visual queda a revisión del propietario.
+- FSE sesión 4 (bloques de dominio) registrada como hecha en `feat/fse`
+  ([#97](https://github.com/refo44/demo-revistalogos/pull/97),
+  [#78](https://github.com/refo44/demo-revistalogos/issues/78)) en
+  `docs/fase3-execution-state.md` y en el ítem 7 de `docs/adr/BACKLOG.md`;
+  la siguiente acción pasa a la sesión 5
+  ([#79](https://github.com/refo44/demo-revistalogos/issues/79)).
 - BACKLOG ítem 10 (identificadores digitales de la revista) marcado HECHO
   en `v0.3.10` ([#58](https://github.com/refo44/demo-revistalogos/issues/58)
   cerrado).
