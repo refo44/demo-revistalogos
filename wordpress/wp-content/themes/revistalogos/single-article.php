@@ -51,7 +51,6 @@ while ( have_posts() ) :
 
 	$revistalogos_crumbs[] = array( 'label' => $revistalogos_title );
 
-	$revistalogos_formats = revistalogos_citation_formats( $revistalogos_article_id );
 	?>
 	<main id="main-content" class="main-content" tabindex="-1">
 		<div class="container">
@@ -139,43 +138,7 @@ while ( have_posts() ) :
 				<?php endif; ?>
 
 				<!-- Cómo Citar -->
-				<section class="single-article__section citation-section">
-					<h2><?php esc_html_e( 'Cómo Citar', 'revistalogos' ); ?></h2>
-
-					<div class="citation-formats">
-						<?php foreach ( $revistalogos_formats as $revistalogos_format_name => $revistalogos_format_text ) : ?>
-							<?php $revistalogos_format_slug = sanitize_title( $revistalogos_format_name ); ?>
-							<div class="citation-format">
-								<h3 id="citation-format-<?php echo esc_attr( $revistalogos_format_slug ); ?>"><?php echo esc_html( $revistalogos_format_name ); ?></h3>
-								<div class="citation-text">
-									<?php if ( 'BibTeX' === $revistalogos_format_name ) : ?>
-										<pre><?php echo esc_html( $revistalogos_format_text ); ?></pre>
-									<?php else : ?>
-										<?php echo esc_html( $revistalogos_format_text ); ?>
-									<?php endif; ?>
-								</div>
-								<button id="citation-copy-<?php echo esc_attr( $revistalogos_format_slug ); ?>" class="btn btn--small citation-copy" data-format="<?php echo esc_attr( $revistalogos_format_slug ); ?>" aria-labelledby="citation-format-<?php echo esc_attr( $revistalogos_format_slug ); ?> citation-copy-<?php echo esc_attr( $revistalogos_format_slug ); ?>"><span aria-hidden="true">📋</span> <?php esc_html_e( 'Copiar', 'revistalogos' ); ?></button>
-							</div>
-						<?php endforeach; ?>
-					</div>
-
-					<div id="citation-copy-status" class="visually-hidden" role="status" aria-live="polite"></div>
-
-					<div class="citation-actions">
-						<button class="btn btn--primary" id="export-all-citations" data-filename="<?php echo esc_attr( 'citas-' . get_post_field( 'post_name', $revistalogos_article_id ) . '.txt' ); ?>"><span aria-hidden="true">📄</span> <?php esc_html_e( 'Exportar Todas las Citas', 'revistalogos' ); ?></button>
-						<button class="btn btn--secondary" id="download-ris" data-filename="<?php echo esc_attr( get_post_field( 'post_name', $revistalogos_article_id ) . '.ris' ); ?>">📥 <?php esc_html_e( 'Descargar RIS', 'revistalogos' ); ?></button>
-					</div>
-					<pre id="ris-data" hidden><?php echo esc_html( revistalogos_citation_ris( $revistalogos_article_id ) ); ?></pre>
-
-					<div class="citation-info">
-						<h3><?php esc_html_e( 'Información de Cita', 'revistalogos' ); ?></h3>
-						<ul>
-							<li><strong>DOI:</strong> <?php echo $revistalogos_doi ? esc_html( $revistalogos_doi ) : esc_html__( 'Próximamente', 'revistalogos' ); ?></li>
-							<li><strong>URL:</strong> <?php echo esc_url( get_permalink() ); ?></li>
-							<li><strong><?php esc_html_e( 'Fecha de acceso:', 'revistalogos' ); ?></strong> <span id="current-date"></span></li>
-						</ul>
-					</div>
-				</section>
+				<?php get_template_part( 'template-parts/citation-section', null, array( 'article_id' => $revistalogos_article_id ) ); ?>
 			</article>
 
 			<!-- Article Actions -->

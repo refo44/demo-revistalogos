@@ -56,22 +56,7 @@ $revistalogos_article_archive = get_post_type_archive_link( 'article' );
 		</section>
 
 		<!-- Número actual destacado -->
-		<?php if ( $revistalogos_current ) : ?>
-			<section class="front-page__current-issue">
-				<h2 class="front-page__section-title"><?php esc_html_e( 'Número actual', 'revistalogos' ); ?></h2>
-				<?php
-				get_template_part(
-					'template-parts/issue-card',
-					null,
-					array(
-						'post'     => $revistalogos_current,
-						'heading'  => 'h3',
-						'featured' => true,
-					)
-				);
-				?>
-			</section>
-		<?php endif; ?>
+		<?php get_template_part( 'template-parts/current-issue', null, array( 'post' => $revistalogos_current ) ); ?>
 
 		<!-- Artículos recientes -->
 		<?php if ( $revistalogos_recent_articles ) : ?>

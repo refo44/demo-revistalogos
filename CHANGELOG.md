@@ -27,6 +27,19 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   skip-link pasa a `template-parts/header.php` y se quita el de núcleo.
   `templates/index.html` compone cabecera, `main#main-content` y pie.
   No llega a producción hasta el corte.
+- FSE Sesión 4, bloques de dominio (ADR 0015 §7, rama `feat/fse`,
+  [#78](https://github.com/refo44/demo-revistalogos/issues/78)): plugin
+  `revistalogos-core` **0.2.22** registra `revistalogos/current-issue`,
+  `issue-card`, `issue-toc`, `article-card`, `article-metadata`,
+  `article-citation` y `author-card`, con `block.json` y
+  `render_callback`. El plugin resuelve los datos y el marcado sale de
+  `template-parts/` del theme, la misma fuente que las vistas PHP. Sin
+  datos, o sin la parte en el theme, devuelven cadena vacía. Solo cargan
+  un script de editor, nunca en el front. Theme **0.3.2** extrae
+  `template-parts/current-issue.php` y `citation-section.php` (Cómo
+  Citar sin cambios) de `front-page.php` y `single-article.php`.
+  Migas y paginación quedan fuera hasta que una plantilla las pida.
+  No llega a producción hasta el corte.
 
 ### Fixed
 - Maqueta `static/`: restaura `assets/img/logo-revista.png` y

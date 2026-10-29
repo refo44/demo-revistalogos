@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "revistalogos/issue-toc",
+	"title": "Tabla de contenidos del número",
+	"category": "theme",
+	"description": "Artículos del número del contexto agrupados por sección. No muestra nada sin artículos publicados.",
+	"textdomain": "revistalogos-core",
+	"usesContext": [
+		"postId",
+		"postType"
+	],
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "revistalogos-domain-blocks-editor"
+}

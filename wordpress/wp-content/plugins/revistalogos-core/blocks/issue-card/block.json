@@ -1,0 +1,36 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "revistalogos/issue-card",
+	"title": "Tarjeta de número",
+	"category": "theme",
+	"description": "Tarjeta del número del contexto (Query Loop o plantilla de número).",
+	"textdomain": "revistalogos-core",
+	"attributes": {
+		"heading": {
+			"type": "string",
+			"enum": [
+				"h2",
+				"h3"
+			],
+			"default": "h2"
+		},
+		"featured": {
+			"type": "boolean",
+			"default": false
+		},
+		"showStats": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"usesContext": [
+		"postId",
+		"postType"
+	],
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "revistalogos-domain-blocks-editor"
+}
