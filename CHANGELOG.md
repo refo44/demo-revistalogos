@@ -52,7 +52,9 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   `template-parts/` que la vista PHP, que ahora también la usa: el texto
   de portada, las barras laterales y la región CF7 de Contacto no cambian.
   La descripción de cabecera de página pasa a
-  `revistalogos_page_description()` (el extracto sigue mandando). Las
+  `revistalogos_page_description()` (el extracto sigue mandando). El
+  skip-link añade `tabindex="-1"` al destino cuando falta, porque el
+  `<main>` de las plantillas de bloques no lo lleva. Las
   vistas PHP se conservan hasta la firma visual. `/buscar/` queda para la
   Sesión 6. No llega a producción hasta el corte.
 

@@ -96,6 +96,10 @@
       const target = document.getElementById(targetId);
 
       if (target) {
+        // El <main> de las plantillas de bloques no lleva tabindex.
+        if (!target.hasAttribute("tabindex")) {
+          target.setAttribute("tabindex", "-1");
+        }
         target.focus();
         target.scrollIntoView();
       }
