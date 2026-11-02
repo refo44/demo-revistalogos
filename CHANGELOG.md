@@ -97,6 +97,14 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   `docs/fase3-execution-state.md` y en el ítem 7 de `docs/adr/BACKLOG.md`;
   la siguiente acción pasa a la sesión 5
   ([#79](https://github.com/refo44/demo-revistalogos/issues/79)).
+- FSE sesión 5 (portada y páginas institucionales) registrada como hecha
+  en `feat/fse`
+  ([#100](https://github.com/refo44/demo-revistalogos/pull/100),
+  [#79](https://github.com/refo44/demo-revistalogos/issues/79)) en
+  `docs/fase3-execution-state.md` y en el ítem 7 de `docs/adr/BACKLOG.md`;
+  la siguiente acción pasa a la sesión 6
+  ([#80](https://github.com/refo44/demo-revistalogos/issues/80)). La
+  paridad visual queda a revisión del propietario.
 - BACKLOG ítem 10 (identificadores digitales de la revista) marcado HECHO
   en `v0.3.10` ([#58](https://github.com/refo44/demo-revistalogos/issues/58)
   cerrado).
