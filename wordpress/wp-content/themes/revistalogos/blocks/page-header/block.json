@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "revistalogos/page-header",
+	"title": "Cabecera de página",
+	"category": "theme",
+	"description": "Migas de pan, título y descripción de la página institucional (extracto, o la descripción de su slug). No muestra nada sin página.",
+	"textdomain": "revistalogos",
+	"usesContext": [
+		"postId",
+		"postType"
+	],
+	"supports": {
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"editorScript": "revistalogos-site-blocks-editor"
+}

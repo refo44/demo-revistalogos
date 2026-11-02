@@ -46,6 +46,20 @@ function revistalogos_current_issue() {
 }
 
 /**
+ * Most recently published articles (plugin query; empty without it).
+ *
+ * @param int $limit Max results.
+ * @return WP_Post[]
+ */
+function revistalogos_recent_articles( $limit = 3 ) {
+	if ( ! revistalogos_core_active() ) {
+		return array();
+	}
+
+	return Revistalogos_Core\Queries::recent_articles( $limit );
+}
+
+/**
  * Published articles of an issue.
  *
  * @param int $issue_id Issue ID.
@@ -259,6 +273,44 @@ function revistalogos_meta_attachment_url( $post_id, $key = 'pdf_file' ) {
 	$url = wp_get_attachment_url( $attachment_id );
 
 	return $url ? $url : '';
+}
+
+/**
+ * Header description of an institutional page: its excerpt when set,
+ * else the default for its slug (the privacy page by its Settings →
+ * Privacy assignment), else ''. One source for the classic wrappers and
+ * the revistalogos/page-header block.
+ *
+ * @param int|WP_Post|null $post Page.
+ * @return string
+ */
+function revistalogos_page_description( $post = null ) {
+	$post = get_post( $post );
+
+	if ( ! $post ) {
+		return '';
+	}
+
+	if ( has_excerpt( $post ) ) {
+		return get_the_excerpt( $post );
+	}
+
+	if ( (int) get_option( 'wp_page_for_privacy_policy' ) === $post->ID ) {
+		return __( 'Qué datos se tratan cuando visitas este sitio web o nos escribes, y qué derechos tienes sobre ellos.', 'revistalogos' );
+	}
+
+	$defaults = array(
+		'acerca'              => __( 'Conoce el enfoque, alcance y objetivos de LOGO ET SPES, revista de filosofía multidisciplinar del Centro de Filosofía para la Investigación Stanislao Strba (CENFISS).', 'revistalogos' ),
+		'comite-editorial'    => __( 'Conoce el Comité Editorial y el equipo técnico de LOGO ET SPES, conformado por especialistas en filosofía.', 'revistalogos' ),
+		'contacto'            => __( 'Información de contacto institucional de LOGO ET SPES y del CENFISS.', 'revistalogos' ),
+		'enlaces'             => __( 'Recursos útiles para autores, investigadores y lectores de LOGO ET SPES. Encuentra aquí enlaces a normas de citación, herramientas académicas y marcos legales relevantes.', 'revistalogos' ),
+		'enviar-colaboracion' => __( 'Instrucciones para enviar artículos, ensayos y reseñas a LOGO ET SPES.', 'revistalogos' ),
+		'etica'               => __( 'Principios éticos y responsabilidades que rigen la labor editorial, la autoría y la evaluación por pares en LOGO ET SPES.', 'revistalogos' ),
+		'normas'              => __( 'Instrucciones para autores sobre formato, estilo y citación APA (7.ª edición) para la elaboración de producción intelectual de LOGO ET SPES.', 'revistalogos' ),
+		'politicas'           => __( 'Conoce las políticas que rigen la publicación en LOGO ET SPES, incluyendo garantías de autoría, acceso abierto, derechos de autor, antiplagio y más.', 'revistalogos' ),
+	);
+
+	return isset( $defaults[ $post->post_name ] ) ? $defaults[ $post->post_name ] : '';
 }
 
 /**

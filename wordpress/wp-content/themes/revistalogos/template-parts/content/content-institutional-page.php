@@ -5,7 +5,6 @@
  * the_content() (canonical wording is never hardcoded here — §7.4).
  *
  * Args:
- * - description: header description shown when the page has no excerpt.
  * - aside: callable rendering the page-specific sidebar, or null.
  * - before_content / after_content: callables for page-specific regions
  *   (e.g. the contact form) kept outside the canonical prose.
@@ -17,25 +16,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$revistalogos_description = isset( $args['description'] ) ? $args['description'] : '';
-$revistalogos_aside       = isset( $args['aside'] ) && is_callable( $args['aside'] ) ? $args['aside'] : null;
-$revistalogos_before      = isset( $args['before_content'] ) && is_callable( $args['before_content'] ) ? $args['before_content'] : null;
-$revistalogos_after       = isset( $args['after_content'] ) && is_callable( $args['after_content'] ) ? $args['after_content'] : null;
-
-if ( has_excerpt() ) {
-	$revistalogos_description = get_the_excerpt();
-}
+$revistalogos_aside  = isset( $args['aside'] ) && is_callable( $args['aside'] ) ? $args['aside'] : null;
+$revistalogos_before = isset( $args['before_content'] ) && is_callable( $args['before_content'] ) ? $args['before_content'] : null;
+$revistalogos_after  = isset( $args['after_content'] ) && is_callable( $args['after_content'] ) ? $args['after_content'] : null;
 ?>
 <main id="main-content" class="main-content" tabindex="-1">
 	<div class="container">
-		<?php revistalogos_breadcrumbs( array( array( 'label' => get_the_title() ) ) ); ?>
-
-		<header class="archive-header">
-			<h1 class="archive-header__title"><?php the_title(); ?></h1>
-			<?php if ( $revistalogos_description ) : ?>
-				<p class="archive-header__description"><?php echo esc_html( $revistalogos_description ); ?></p>
-			<?php endif; ?>
-		</header>
+		<?php get_template_part( 'template-parts/page-header', null, array( 'post' => get_post() ) ); ?>
 
 		<div class="content-layout">
 			<div class="content-main">

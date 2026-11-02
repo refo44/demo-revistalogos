@@ -1,0 +1,15 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "revistalogos/front-sidebar",
+	"title": "Portada: rejilla lateral",
+	"category": "theme",
+	"description": "Tarjetas de la portada: últimas noticias, Enviar colaboración y CENFISS.",
+	"textdomain": "revistalogos",
+	"supports": {
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"editorScript": "revistalogos-site-blocks-editor"
+}

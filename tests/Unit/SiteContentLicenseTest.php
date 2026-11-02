@@ -22,10 +22,10 @@ class SiteContentLicenseTest extends TestCase {
 		$theme = 'wordpress/wp-content/themes/revistalogos/';
 
 		return array(
-			'footer'   => $theme . 'template-parts/footer.php',
-			'acerca'   => $theme . 'page-acerca.php',
-			'etica'    => $theme . 'page-etica.php',
-			'privacidad' => $theme . 'privacy-policy.php',
+			'footer'     => $theme . 'template-parts/footer.php',
+			'acerca'     => $theme . 'template-parts/page-aside/acerca.php',
+			'etica'      => $theme . 'template-parts/page-aside/etica.php',
+			'privacidad' => $theme . 'template-parts/page-aside/privacidad.php',
 		);
 	}
 

@@ -1,0 +1,15 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "revistalogos/front-hero",
+	"title": "Portada: héroe",
+	"category": "theme",
+	"description": "Héroe de la portada con el enlace al número actual.",
+	"textdomain": "revistalogos",
+	"supports": {
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"editorScript": "revistalogos-site-blocks-editor"
+}

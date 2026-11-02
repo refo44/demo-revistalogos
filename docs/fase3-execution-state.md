@@ -5,8 +5,8 @@ current_work_unit: ""
 current_branch: ""
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
-updated_at: "2026-10-29"
-next_action: "FSE sesión 5 (#79): portada y páginas institucionales en Docker, rama desde feat/fse, PR hacia feat/fse. v0.3.16 ya está live; no despachar desde una etiqueta anterior."
+updated_at: "2026-11-02"
+next_action: "FSE sesión 6 (#80): archivos, búsqueda, noticias y 404 en Docker, rama desde feat/fse, PR hacia feat/fse. La firma visual de la sesión 5 queda pendiente. v0.3.16 ya está live; no despachar desde una etiqueta anterior."
 blocked: false
 ---
 
@@ -679,8 +679,9 @@ Plugin 0.2.20 / theme 0.2.12 entregó los campos. El puente Apply/Restore
 quedó retirado en plugin **0.2.21**, release de proyecto **0.3.16**, live
 desde el 2026-09-24 (`workflow_dispatch` desde `v0.3.16`, run
 `36034264767`, success). **No** despachar desde una etiqueta anterior.
-Siguiente: FSE sesión 5 ([#79](https://github.com/refo44/demo-revistalogos/issues/79))
-sobre `feat/fse`, en Docker (ver punto 6).
+Siguiente: FSE sesión 6 ([#80](https://github.com/refo44/demo-revistalogos/issues/80))
+sobre `feat/fse`, en Docker (ver punto 6). La firma visual de la sesión 5
+queda pendiente.
 Trabajo pendiente aceptado (no duplicar aquí):
 `docs/adr/BACKLOG.md` § Trabajo pendiente aceptado.
 
@@ -779,8 +780,28 @@ FSE remains deferred:
      portada y artículo clásicos en `localhost:8080` sin cambios ni
      avisos PHP. Ninguna plantilla usa aún los bloques; el Site Editor
      no se revisó con sesión iniciada.
-   - Siguiente: sesión 5, portada y páginas institucionales
-     ([#79](https://github.com/refo44/demo-revistalogos/issues/79)), rama
+   - **Sesión 5 (portada y páginas institucionales) HECHA en `feat/fse`**
+     (2026-11-02,
+     [#100](https://github.com/refo44/demo-revistalogos/pull/100);
+     [#79](https://github.com/refo44/demo-revistalogos/issues/79)).
+     Theme **0.3.3** y plugin **0.2.23** solo en `feat/fse`. Plantillas
+     `templates/front-page.html`, `page.html`, una HTML por cada
+     `page-{slug}.php` institucional y `privacy-policy.html`. Bloques de
+     theme `front-hero`, `front-sidebar`, `page-header`, `page-aside` y
+     `contact-form`; el plugin añade `recent-articles`. Cada bloque
+     imprime la misma parte de `template-parts/` que la vista PHP. Sin
+     post, o con un aside desconocido, el bloque devuelve cadena vacía.
+     Ningún PHP se borra. `/buscar/` sigue en PHP (sesión 6). El
+     skip-link añade `tabindex="-1"` al destino cuando falta
+     (`3cfe02c`). Gate en Docker: `composer test:unit` 65 OK,
+     `composer test:wp` 121 OK; `/`, las institucionales, `/contacto/`,
+     `/privacidad/` y `/donaciones/` responden 200 por la plantilla de
+     bloques; `/buscar/` y `/noticias/` siguen en PHP. Capturas contra
+     `static/` (índice, acerca, contacto; escritorio y 320px) sin
+     desborde horizontal. La paridad visual queda a revisión del
+     propietario; **no** hay Pass visual.
+   - Siguiente: sesión 6, archivos, búsqueda, noticias y 404
+     ([#80](https://github.com/refo44/demo-revistalogos/issues/80)), rama
      desde `feat/fse`.
 
 D12b (checks CI de seguridad/stylelint ligados al deploy) sigue pendiente

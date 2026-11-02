@@ -1,0 +1,15 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "revistalogos/contact-form",
+	"title": "Formulario de contacto",
+	"category": "theme",
+	"description": "Región «Enviar Mensaje» de Contacto: Contact Form 7 si está configurado, si no el correo directo.",
+	"textdomain": "revistalogos",
+	"supports": {
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"editorScript": "revistalogos-site-blocks-editor"
+}

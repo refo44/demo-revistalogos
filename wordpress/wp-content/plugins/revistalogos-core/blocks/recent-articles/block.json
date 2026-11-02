@@ -1,0 +1,14 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "revistalogos/recent-articles",
+	"title": "Artículos recientes",
+	"category": "theme",
+	"description": "Sección «Artículos recientes» de la portada con los tres últimos artículos publicados. No muestra nada sin artículos publicados.",
+	"textdomain": "revistalogos-core",
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "revistalogos-domain-blocks-editor"
+}

@@ -40,6 +40,23 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   Citar sin cambios) de `front-page.php` y `single-article.php`.
   Migas y paginación quedan fuera hasta que una plantilla las pida.
   No llega a producción hasta el corte.
+- FSE Sesión 5, portada y páginas institucionales (ADR 0015 §7, rama
+  `feat/fse`, [#79](https://github.com/refo44/demo-revistalogos/issues/79)):
+  theme **0.3.3** añade `templates/front-page.html`, `page.html` y una
+  plantilla HTML por cada `page-{slug}.php` (Acerca, Ética, Normas,
+  Políticas, Contacto, Enlaces, Enviar colaboración, Comité editorial) y
+  `privacy-policy.html`, para que la plantilla de bloques gane a la vista
+  PHP. Bloques de theme `revistalogos/front-hero`, `front-sidebar`,
+  `page-header`, `page-aside` y `contact-form`; plugin **0.2.23** añade
+  `revistalogos/recent-articles`. Cada bloque imprime la misma parte de
+  `template-parts/` que la vista PHP, que ahora también la usa: el texto
+  de portada, las barras laterales y la región CF7 de Contacto no cambian.
+  La descripción de cabecera de página pasa a
+  `revistalogos_page_description()` (el extracto sigue mandando). El
+  skip-link añade `tabindex="-1"` al destino cuando falta, porque el
+  `<main>` de las plantillas de bloques no lo lleva. Las
+  vistas PHP se conservan hasta la firma visual. `/buscar/` queda para la
+  Sesión 6. No llega a producción hasta el corte.
 
 ### Fixed
 - Maqueta `static/`: restaura `assets/img/logo-revista.png` y
@@ -80,6 +97,14 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   `docs/fase3-execution-state.md` y en el ítem 7 de `docs/adr/BACKLOG.md`;
   la siguiente acción pasa a la sesión 5
   ([#79](https://github.com/refo44/demo-revistalogos/issues/79)).
+- FSE sesión 5 (portada y páginas institucionales) registrada como hecha
+  en `feat/fse`
+  ([#100](https://github.com/refo44/demo-revistalogos/pull/100),
+  [#79](https://github.com/refo44/demo-revistalogos/issues/79)) en
+  `docs/fase3-execution-state.md` y en el ítem 7 de `docs/adr/BACKLOG.md`;
+  la siguiente acción pasa a la sesión 6
+  ([#80](https://github.com/refo44/demo-revistalogos/issues/80)). La
+  paridad visual queda a revisión del propietario.
 - BACKLOG ítem 10 (identificadores digitales de la revista) marcado HECHO
   en `v0.3.10` ([#58](https://github.com/refo44/demo-revistalogos/issues/58)
   cerrado).

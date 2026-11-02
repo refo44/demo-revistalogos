@@ -37,7 +37,7 @@ class JournalIdentifierSurfacesTest extends TestCase {
 	 */
 	public function test_acerca_reads_journal_identifiers_from_settings() {
 		$acerca = $this->repo_file_contents(
-			'wordpress/wp-content/themes/revistalogos/page-acerca.php'
+			'wordpress/wp-content/themes/revistalogos/template-parts/page-aside/acerca.php'
 		);
 
 		$this->assertStringContainsString( '<dt>ISSN:</dt>', $acerca );

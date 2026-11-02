@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "revistalogos/page-aside",
+	"title": "Lateral de página",
+	"category": "theme",
+	"description": "Lateral propio de una página institucional, por slug. No muestra nada si el slug no tiene lateral.",
+	"textdomain": "revistalogos",
+	"attributes": {
+		"slug": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"editorScript": "revistalogos-site-blocks-editor"
+}

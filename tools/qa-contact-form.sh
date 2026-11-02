@@ -19,6 +19,7 @@ echo "== php -l =="
 docker compose run --rm --entrypoint php wpcli -l wp-content/plugins/revistalogos-core/includes/integrations/class-contact-form-definition.php
 docker compose run --rm --entrypoint php wpcli -l wp-content/plugins/revistalogos-core/includes/integrations/class-contact-form-integration.php
 docker compose run --rm --entrypoint php wpcli -l wp-content/themes/revistalogos/page-contacto.php
+docker compose run --rm --entrypoint php wpcli -l wp-content/themes/revistalogos/template-parts/contact-form.php
 
 echo "== Contact Form 7 from WordPress.org =="
 if ! cli plugin is-installed contact-form-7; then

@@ -70,7 +70,7 @@ class ContactFormDefinitionTest extends TestCase {
 	 */
 	public function test_contact_template_uses_option_and_keeps_mailto_fallback() {
 		$template = $this->repo_file_contents(
-			'wordpress/wp-content/themes/revistalogos/page-contacto.php'
+			'wordpress/wp-content/themes/revistalogos/template-parts/contact-form.php'
 		);
 
 		$this->assertStringContainsString( 'revistalogos_contact_form_id', $template );

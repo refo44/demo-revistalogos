@@ -13,13 +13,7 @@ get_header();
 
 while ( have_posts() ) :
 	the_post();
-	get_template_part(
-		'template-parts/content/content-institutional-page',
-		null,
-		array(
-			'description' => __( 'Conoce las políticas que rigen la publicación en LOGO ET SPES, incluyendo garantías de autoría, acceso abierto, derechos de autor, antiplagio y más.', 'revistalogos' ),
-		)
-	);
+	get_template_part( 'template-parts/content/content-institutional-page' );
 endwhile;
 
 get_footer();
