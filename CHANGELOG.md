@@ -9,6 +9,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Added
+- Antes del switch a FSE (ADR 0015, nota 2026-11-02,
+  [#103](https://github.com/refo44/demo-revistalogos/issues/103)): no hay
+  switch hasta cargar en Docker local una copia exacta de la base de
+  producción, con los `uploads/` que el contenido referencia, y comparar
+  esas URLs con la versión live. El switch no habilita la versión nueva
+  del theme ni la del plugin. Una discrepancia sin resolver lo bloquea.
+  No bloquea las sesiones 2–9 ni los minor de la línea live.
 - FSE Sesión 2, bootstrap en Docker (ADR 0015 §7.2, rama `feat/fse`,
   [#76](https://github.com/refo44/demo-revistalogos/issues/76)): theme
   `revistalogos` **0.3.0** pasa a block theme con
@@ -97,6 +104,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   tarjetas con el artículo compartido.
 
 ### Changed
+- ADR 0015, nota 2026-11-02: el FSE es una major del mismo theme
+  `revistalogos` y del mismo plugin `revistalogos-core`. La línea live
+  (theme 0.2.x, plugin 0.2.x) sigue habilitada y puede publicar minor y
+  patch. El switch no habilita la major del theme ni la del plugin. No
+  hay directorio `revistalogos-classic` ni release A. Alineados
+  `docs/fse-implementation-prompt.md`, `docs/adr/BACKLOG.md`, `CLAUDE.md`
+  y `VERSION.md`.
 - ADR 0015, nota 2026-10-29: tras el corte FSE, producción conserva una
   copia congelada `revistalogos-classic` junto al block theme, elegible en
   Apariencia → Temas, con un solo plugin para los dos. El corte pasa a dos
