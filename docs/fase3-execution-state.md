@@ -682,6 +682,13 @@ desde el 2026-09-24 (`workflow_dispatch` desde `v0.3.16`, run
 Siguiente: FSE sesión 6 ([#80](https://github.com/refo44/demo-revistalogos/issues/80))
 sobre `feat/fse`, en Docker (ver punto 6). La firma visual de la sesión 5
 queda pendiente.
+El switch
+([#84](https://github.com/refo44/demo-revistalogos/issues/84)) no habilita
+la major del theme ni la del plugin. Espera
+[#103](https://github.com/refo44/demo-revistalogos/issues/103): una copia
+exacta de la base de producción en Docker local, comparada con la versión
+live. La línea live sigue habilitada y puede publicar minor y patch. Eso
+no adelanta ni retrasa las sesiones.
 Trabajo pendiente aceptado (no duplicar aquí):
 `docs/adr/BACKLOG.md` § Trabajo pendiente aceptado.
 

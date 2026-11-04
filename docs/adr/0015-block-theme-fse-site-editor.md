@@ -136,6 +136,8 @@ Nota de implementación. No sustituye §1–§6. El prompt que ejecuta cada sesi
 
 ## Theme clásico de reserva tras el corte (2026-10-29)
 
+El directorio `revistalogos-classic`, el cambio de Theme Name y la release A de esta nota quedan sin efecto por la nota «Dos líneas de versión, sin renombrar» (2026-11-02). El texto de abajo se conserva como el registro de aquella enmienda.
+
 Enmienda del propietario. Cambia cómo se ejecuta el corte de §7.4 y deja sin efecto, **desde el corte**, la regla del prompt «no inventar un segundo directorio de theme». No cambia §1–§6, el contrato de conversión ni las sesiones 5–9.
 
 **Motivo.** El propietario quiere elegir en wp-admin entre el block theme y el clásico estable, y volver atrás sin un redeploy.
@@ -150,3 +152,26 @@ Enmienda del propietario. Cambia cómo se ejecuta el corte de §7.4 y deja sin e
 6. **Volver atrás.** Activar `revistalogos-classic` en Apariencia → Temas. Las plantillas y los Estilos guardados en el Site Editor quedan asociados a `revistalogos` y vuelven al reactivarlo. Tras cada cambio de theme se comprueban las asignaciones de menú: WordPress traslada las ubicaciones con el mismo nombre, pero no se da por hecho.
 7. **Despliegue y comprobaciones.** En la release A, `deploy-wordpress.yml` gana un paso FTPS para `revistalogos-classic` con su propio secreto de ruta remota, y `tools/check-release-pending.sh` vigila el `Version:` de los dos themes. Nunca se despliega un theme sin el otro mientras los dos estén instalados.
 8. **Retirada.** Por decisión del propietario, no antes de publicar un número completo con el block theme activo. Retirar es una release: desinstalar en wp-admin, borrar el directorio y el paso FTPS.
+
+## Dos líneas de versión, sin renombrar (2026-11-02)
+
+Nota del propietario. Deja sin efecto el directorio `revistalogos-classic`, el `Theme Name` «(clásico)» y la release A de la nota 2026-10-29. No cambia §1–§6 ni las sesiones 2–9.
+
+**Motivo.** El theme y el plugin ya aceptan versión. Una major con cambios incompatibles (el FSE) convive con la versión live y con los minor y patch que esa línea siga publicando. No hace falta un segundo nombre.
+
+1. **Los mismos artefactos.** El theme sigue en `wordpress/wp-content/themes/revistalogos/` y se llama `Revista LOGO ET SPES`. El plugin sigue en `revistalogos-core`. Su versión es la cabecera, `REVISTALOGOS_CORE_VERSION` y `Stable tag`, las tres iguales. No hay segundo theme ni segundo plugin.
+2. **La línea live.** Es la que producción ejecuta hoy (theme 0.2.12, plugin 0.2.21) y los minor y patch siguientes de esa línea. Salen de `main`, con tag y FTPS (ADR 0020), y no arrastran el FSE.
+3. **La línea FSE.** Es una major del mismo theme y del mismo plugin: cambios incompatibles de presentación. Vive en `feat/fse` y en Docker. Los `Version:` de las sesiones en esa rama no son releases de producción.
+4. **Cómo conviven.** Producción ejecuta la línea live. La major no está habilitada ahí. WordPress usa el directorio que ya está activo: subir la major encima de `revistalogos` o de `revistalogos-core` la dejaría habilitada. Por eso esa copia no se despliega en el switch.
+5. **El switch no habilita la major.** En [#84](https://github.com/refo44/demo-revistalogos/issues/84) el propietario no activa la versión nueva del theme ni la versión nueva del plugin. Siguen habilitadas las versiones live. El switch espera [#103](https://github.com/refo44/demo-revistalogos/issues/103) y, una vez hecho, producción sigue en esa línea live.
+
+## Copia de producción antes del switch (2026-11-02)
+
+Nota del propietario. No cambia §1–§6, el contrato de conversión ni las sesiones 2–9. Bloquea el switch de [#84](https://github.com/refo44/demo-revistalogos/issues/84) hasta cerrar [#103](https://github.com/refo44/demo-revistalogos/issues/103). Ese switch no habilita la major del theme ni la del plugin.
+
+**Motivo.** El block theme tiene que verse, en local, con los mismos datos que la versión clásica activa en producción. Una base local distinta no sirve para decir que no hay discrepancias.
+
+1. **La copia.** Se exporta la base de producción tal como está, y los `uploads/` que ese contenido referencia. La producción no se modifica. El dump y los archivos no se commitean.
+2. **Solo en Docker.** Esa copia se carga en el sitio local (`localhost:8080`) y, únicamente ahí, el host de producción se reescribe a `http://localhost:8080`.
+3. **La comparación.** Con esos datos, local sirve el block theme de `feat/fse`. Producción sigue en el theme clásico activo. Se comparan las mismas URLs: contenido, rutas y presentación. Cada discrepancia se anota en [#103](https://github.com/refo44/demo-revistalogos/issues/103).
+4. **El switch.** Mientras quede una discrepancia sin resolver, no hay switch. Cuando el propietario acepta que no queda ninguna, el switch deja habilitadas las versiones live del theme y del plugin. No activa la major. La línea live puede seguir publicando minor y patch.

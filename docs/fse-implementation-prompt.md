@@ -39,10 +39,13 @@ is the static mirror, not a WordPress FSE preview. Do not reuse
 `feat/fse` is a conversion branch for this work only. Rebase or merge `main`
 into it whenever a production hotfix lands, so beta does not drift. This is
 an exception to “every PR lands on `main`” (ADR 0019) until cutover. Do not
-invent `develop`. Do not create a second theme directory in these sessions:
-convert `revistalogos` on `feat/fse`; production keeps serving the copy last
-tagged from `main`. The frozen `revistalogos-classic` fallback is cutover
-work, not session work (ADR 0015, note 2026-10-29).
+invent `develop`. Do not create a second theme directory, in these sessions
+or at cutover: convert `revistalogos` on `feat/fse`. Production keeps the
+live minor of that same theme and of `revistalogos-core`, and can still
+ship later minors and patches of that line. The FSE line is a new major
+of both, with breaking presentation changes, and the switch does not
+enable that theme version or that plugin version (ADR 0015, note
+2026-11-02). There is no `revistalogos-classic`.
 
 **Plugin:** production and FSE share `revistalogos-core`. A plugin change that
 must go live (citation bug, PDF, authors) ships on `main` and is merged into
@@ -51,13 +54,11 @@ enqueue FSE block assets on the classic front. Do not turn on
 `global-styles` / stop the dequeue on `main` until cutover — that would
 restyle the live site.
 
-**Do not** switch Apariencia → Temas on production before cutover release A.
-**Do not** include FSE theme files in a hotfix tag. Cutover is a later owner
-action in two tagged releases (ADR 0015, note 2026-10-29): A ships a frozen
-`revistalogos-classic` and the Administrator activates it; B merges
-`feat/fse` → `main`, tags and runs FTPS, and the Administrator activates the
-block theme `revistalogos` in wp-admin and confirms the Site Editor. Rolling
-back is re-activating `revistalogos-classic`. One plugin serves both themes.
+**Do not** deploy the FSE major over the live theme or the live plugin.
+**Do not** include FSE theme files in a minor or patch of the live line.
+The switch does not enable the new theme version or the new plugin
+version (ADR 0015, note 2026-11-02). Production keeps the versions already
+enabled. Theme and plugin each keep their directory and their name.
 
 ## Hard rules
 
@@ -243,13 +244,20 @@ Full pair list in `docs/fase3-validation-matrix.md` coverage table, but
 the method used (screenshots). Do not invent `Pass` without files. Repeat
 the same pass on the throwaway subdomain ([#83](https://github.com/refo44/demo-revistalogos/issues/83)).
 
-Production cutover is **not** this prompt. Owner, later, after
-[#38](https://github.com/refo44/demo-revistalogos/issues/38) and [#83](https://github.com/refo44/demo-revistalogos/issues/83)
-([#84](https://github.com/refo44/demo-revistalogos/issues/84)): release A
-ships `revistalogos-classic` and the Administrator activates it; release B
-merges `feat/fse` → `main`, annotated `vX.Y.Z`, `workflow_dispatch` from that
-tag (ADR 0020), then the Administrator activates `revistalogos` (ADR 0015,
-note 2026-10-29). Until then production stays on the last classic tag.
+Production cutover is **not** this prompt. The switch
+([#84](https://github.com/refo44/demo-revistalogos/issues/84)) does not
+enable the new theme version or the new plugin version. Production keeps
+the live minor of `revistalogos` and `revistalogos-core` enabled, and
+further minors and patches of that line can still ship. There is no
+second theme directory (ADR 0015, note 2026-11-02).
+
+The switch waits on [#103](https://github.com/refo44/demo-revistalogos/issues/103).
+Before it, an exact production database export plus the `uploads/` that
+content references is loaded into local Docker only (not committed). The
+same URLs are compared: live production against that local copy on the
+FSE major. Any unresolved discrepancy blocks the switch. When the switch
+happens, the live theme version and the live plugin version stay enabled.
+Sessions 2–9, and minors of the live line, do not wait on this.
 
 ## Out of scope (never in these sessions)
 
