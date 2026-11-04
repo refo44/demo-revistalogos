@@ -9,6 +9,16 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Fixed
+- Plugin **0.2.24**: los listados ya no cambian de orden entre visitas
+  cuando varias entradas comparten fecha. Core ordena los archivos solo por
+  `post_date`, y con fechas iguales MySQL devuelve las filas en cualquier
+  orden: la paginación repetía o saltaba artículos (en Docker, 15 artículos
+  de demostración comparten fecha; los de Vol. 1 Nº 1 pueden también). Un
+  `pre_get_posts` del plugin desempata por ID, en la misma dirección, en
+  los archivos públicos y el índice de noticias que siguen en el orden por
+  defecto; un `orderby` explícito no se toca. También desempatan
+  `Queries::issue_articles()`, `author_articles()` y `search_query()`. Los
+  números 0.2.22 y 0.2.23 ya los usa la rama `feat/fse`.
 - Maqueta `static/`: restaura `assets/img/logo-revista.png` y
   `assets/pdf/politicas-editorial.pdf`, borrados por error en `1c6d2c2`.
   El logo de cabecera volvía 404 en todas las páginas, también en el
