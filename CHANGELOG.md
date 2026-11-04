@@ -70,7 +70,7 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   `search.php` a un gancho `template_redirect`, porque una plantilla de
   bloques no puede redirigir; el feed de búsqueda no se redirige. Las
   vistas PHP se conservan hasta la firma visual. `single-author` no entra
-  en esta sesión. El guion de «<Stanislao Strba> - CENFISS» en el pie y
+  en esta sesión. El guion de «`<Stanislao Strba> - CENFISS`» en el pie y
   en el héroe sale como `&#45;` por `revistalogos_esc_html_keep_hyphens()`,
   sin tocar el texto canónico de la cadena traducible: core pasa cada
   plantilla de bloques y cada template part por `wptexturize()`, que lo
