@@ -33,6 +33,19 @@ function revistalogos_journal_identifier_text( $key ) {
 }
 
 /**
+ * Escaped text whose spaced hyphens stay hyphens. Core runs
+ * wptexturize() over every block template and template part, which
+ * turns « - » into an en dash; the canonical text has a hyphen, so it
+ * is written &#45;, which wptexturize() leaves alone.
+ *
+ * @param string $text Translated text.
+ * @return string
+ */
+function revistalogos_esc_html_keep_hyphens( $text ) {
+	return str_replace( ' - ', ' &#45; ', esc_html( $text ) );
+}
+
+/**
  * Current issue (derived by the plugin; null without it).
  *
  * @return WP_Post|null

@@ -57,6 +57,28 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   `<main>` de las plantillas de bloques no lo lleva. Las
   vistas PHP se conservan hasta la firma visual. `/buscar/` queda para la
   Sesión 6. No llega a producción hasta el corte.
+- FSE Sesión 6, archivos, búsqueda, noticias y 404 (ADR 0015 §7, rama
+  `feat/fse`, [#80](https://github.com/refo44/demo-revistalogos/issues/80)):
+  theme **0.3.4** añade `templates/archive-issue.html`,
+  `archive-article.html`, `taxonomy-section.html`,
+  `taxonomy-article_type.html`, `taxonomy-keyword.html`,
+  `archive-author.html`, `home.html`, `single.html`, `page-buscar.html`,
+  `search.html` y `404.html`. Un solo bloque de theme, `revistalogos/view`,
+  imprime `template-parts/view/{vista}` sobre la consulta principal; las
+  vistas PHP imprimen la misma parte. Una vista desconocida o sin parte
+  devuelve vacío. La redirección 301 de `?s=` a `/buscar/?q=` pasa de
+  `search.php` a un gancho `template_redirect`, porque una plantilla de
+  bloques no puede redirigir; el feed de búsqueda no se redirige. Las
+  vistas PHP se conservan hasta la firma visual. `single-author` no entra
+  en esta sesión. El guion de «<Stanislao Strba> - CENFISS» en el pie y
+  en el héroe sale como `&#45;` por `revistalogos_esc_html_keep_hyphens()`,
+  sin tocar el texto canónico de la cadena traducible: core pasa cada
+  plantilla de bloques y cada template part por `wptexturize()`, que lo
+  cambiaba por una raya corta en todas las páginas FSE desde la Sesión 2.
+  Con eso, el texto de las 20 URL revisadas coincide con la vista clásica
+  y las capturas a 1280 y 320 px son idénticas píxel a píxel, salvo el
+  orden de artículos con la misma fecha. No llega a producción hasta el
+  corte.
 
 ### Fixed
 - Maqueta `static/`: restaura `assets/img/logo-revista.png` y
