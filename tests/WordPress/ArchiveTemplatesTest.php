@@ -225,6 +225,35 @@ class ArchiveTemplatesTest extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Dado: un artículo cuyo título en inglés y resumen contienen « - »,
+	 * un autor cuya afiliación contiene « - », y las plantillas HTML de
+	 * esos archivos, que core pasa enteras por wptexturize().
+	 * Entonces: esos metadatos conservan el guion y no se convierten en
+	 * raya corta, igual que el pie y el héroe.
+	 */
+	public function test_archive_templates_keep_metadata_hyphens_after_texturize() {
+		$article_id = $this->make_article( 'Sobre la esperanza' );
+		update_post_meta( $article_id, 'title_en', 'Hope - an ontological category' );
+		update_post_meta( $article_id, 'abstract', 'tesis - argumento' );
+		$author_id = $this->make_post( 'author', 'Autor con guion' );
+		update_post_meta( $author_id, 'afiliacion', 'Instituto - CENFISS' );
+
+		$this->go_to( get_post_type_archive_link( 'article' ) );
+		$article_text = html_entity_decode( wp_strip_all_tags( $this->render_template( 'archive-article' ) ), ENT_QUOTES, 'UTF-8' );
+
+		$this->assertStringContainsString( 'Hope - an ontological category', $article_text );
+		$this->assertStringContainsString( 'tesis - argumento', $article_text );
+		$this->assertStringNotContainsString( "Hope \u{2013} an ontological category", $article_text );
+		$this->assertStringNotContainsString( "tesis \u{2013} argumento", $article_text );
+
+		$this->go_to( get_post_type_archive_link( 'author' ) );
+		$author_text = html_entity_decode( wp_strip_all_tags( $this->render_template( 'archive-author' ) ), ENT_QUOTES, 'UTF-8' );
+
+		$this->assertStringContainsString( 'Instituto - CENFISS', $author_text );
+		$this->assertStringNotContainsString( "Instituto \u{2013} CENFISS", $author_text );
+	}
+
+	/**
 	 * Dado: un artículo publicado y la URL del archivo de artículos.
 	 * Entonces: filtros nativos (s, section, year) y la tarjeta del
 	 * artículo.

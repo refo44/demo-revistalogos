@@ -38,7 +38,7 @@ function revistalogos_journal_identifier_text( $key ) {
  * turns « - » into an en dash; the canonical text has a hyphen, so it
  * is written &#45;, which wptexturize() leaves alone.
  *
- * @param string $text Translated text.
+ * @param string $text Text that may contain a spaced hyphen.
  * @return string
  */
 function revistalogos_esc_html_keep_hyphens( $text ) {

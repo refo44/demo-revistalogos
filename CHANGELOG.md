@@ -71,7 +71,8 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   bloques no puede redirigir; el feed de búsqueda no se redirige. Las
   vistas PHP se conservan hasta la firma visual. `single-author` no entra
   en esta sesión. El guion de «`<Stanislao Strba> - CENFISS`» en el pie y
-  en el héroe sale como `&#45;` por `revistalogos_esc_html_keep_hyphens()`,
+  en el héroe, y el de `title_en`, `abstract` y `afiliacion` en las
+  tarjetas, sale como `&#45;` por `revistalogos_esc_html_keep_hyphens()`,
   sin tocar el texto canónico de la cadena traducible: core pasa cada
   plantilla de bloques y cada template part por `wptexturize()`, que lo
   cambiaba por una raya corta en todas las páginas FSE desde la Sesión 2.
