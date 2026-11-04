@@ -73,6 +73,20 @@ function revistalogos_recent_articles( $limit = 3 ) {
 }
 
 /**
+ * Years of the article archive year filter, newest first (plugin
+ * query; empty without it).
+ *
+ * @return int[]
+ */
+function revistalogos_article_years() {
+	if ( ! revistalogos_core_active() ) {
+		return array();
+	}
+
+	return Revistalogos_Core\Queries::article_years();
+}
+
+/**
  * Published articles of an issue.
  *
  * @param int $issue_id Issue ID.

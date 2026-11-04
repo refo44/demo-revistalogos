@@ -77,8 +77,12 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   cambiaba por una raya corta en todas las páginas FSE desde la Sesión 2.
   Con eso, el texto de las 20 URL revisadas coincide con la vista clásica
   y las capturas a 1280 y 320 px son idénticas píxel a píxel, salvo el
-  orden de artículos con la misma fecha. No llega a producción hasta el
-  corte.
+  orden de artículos con la misma fecha. Plugin **0.2.25** añade
+  `Queries::article_years()`: los años del filtro del archivo de artículos
+  salen del plugin y la parte de vista ya no consulta artículos; sin el
+  plugin, el filtro queda sin años. `revistalogos/view` declara el
+  contexto `postId` y `postType`, para que la vista previa del editor en
+  `single.html` reciba la entrada. No llega a producción hasta el corte.
 
 ### Fixed
 - Maqueta `static/`: restaura `assets/img/logo-revista.png` y

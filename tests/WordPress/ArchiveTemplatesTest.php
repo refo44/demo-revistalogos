@@ -103,6 +103,33 @@ class ArchiveTemplatesTest extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Dado: el bloque revistalogos/view en single.html.
+	 * Entonces: recibe postId y postType del contexto, para que la vista
+	 * previa del editor pida la entrada que se está editando.
+	 */
+	public function test_view_block_receives_the_post_context() {
+		$type = WP_Block_Type_Registry::get_instance()->get_registered( 'revistalogos/view' );
+
+		$this->assertSame( array( 'postId', 'postType' ), $type->uses_context );
+	}
+
+	/**
+	 * Dado: las partes de vista del theme.
+	 * Entonces: ninguna consulta números, artículos ni autores; esos
+	 * datos llegan por la consulta principal o por un helper del plugin
+	 * (ADR 0015, contrato de conversión §4).
+	 */
+	public function test_view_parts_do_not_query_journal_post_types() {
+		foreach ( glob( get_template_directory() . '/template-parts/view/*.php' ) as $file ) {
+			$this->assertDoesNotMatchRegularExpression(
+				"/'post_type'\\s*=>\\s*'(issue|article|author)'/",
+				(string) file_get_contents( $file ),
+				basename( $file )
+			);
+		}
+	}
+
+	/**
 	 * Dado: cada vista clásica de la sesión 6.
 	 * Entonces: existe la plantilla HTML del mismo slug, porque la PHP
 	 * le ganaría a index.html.
@@ -214,6 +241,28 @@ class ArchiveTemplatesTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'name="year"', $html );
 		$this->assertStringContainsString( 'class="card article-card"', $html );
 		$this->assertStringContainsString( 'Sobre la esperanza', $html );
+	}
+
+	/**
+	 * Dado: artículos publicados en 2024 y 2026 y un borrador de 2020.
+	 * Entonces: el filtro de año ofrece 2026, 2025 y 2024, en ese orden.
+	 */
+	public function test_article_archive_year_filter_spans_the_published_years() {
+		$this->make_article( 'Primero', '2024-03-01 10:00:00' );
+		$this->make_article( 'Último', '2026-05-01 10:00:00' );
+		self::factory()->post->create(
+			array(
+				'post_type'   => 'article',
+				'post_status' => 'draft',
+				'post_date'   => '2020-01-01 10:00:00',
+			)
+		);
+		$this->go_to( get_post_type_archive_link( 'article' ) );
+
+		$html = $this->render_view( 'article-archive' );
+
+		preg_match_all( '/<option value="(\\d{4})"/', $html, $years );
+		$this->assertSame( array( '2026', '2025', '2024' ), $years[1] );
 	}
 
 	/**
@@ -439,9 +488,10 @@ class ArchiveTemplatesTest extends WP_UnitTestCase {
 	 * Publish needs a published Author already assigned (plugin 0.2.5).
 	 *
 	 * @param string $title Article title.
+	 * @param string $date  Optional post_date.
 	 * @return int Published article ID.
 	 */
-	private function make_article( $title ) {
+	private function make_article( $title, $date = '' ) {
 		$author_id  = $this->make_post( 'author', 'Autor de ' . $title );
 		$article_id = (int) self::factory()->post->create(
 			array(
@@ -455,7 +505,10 @@ class ArchiveTemplatesTest extends WP_UnitTestCase {
 			array(
 				'ID'          => $article_id,
 				'post_status' => 'publish',
-			)
+			) + ( $date ? array(
+				'post_date' => $date,
+				'edit_date' => true,
+			) : array() )
 		);
 
 		return $article_id;

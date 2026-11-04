@@ -12,6 +12,10 @@
 			"default": ""
 		}
 	},
+	"usesContext": [
+		"postId",
+		"postType"
+	],
 	"supports": {
 		"html": false,
 		"multiple": false,

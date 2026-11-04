@@ -36,37 +36,7 @@ $revistalogos_sections = get_terms(
 	)
 );
 
-// Distinct publication years from the oldest and newest published article.
-$revistalogos_years  = array();
-$revistalogos_oldest = get_posts(
-	array(
-		'post_type'      => 'article',
-		'post_status'    => 'publish',
-		'posts_per_page' => 1,
-		'orderby'        => 'date',
-		'order'          => 'ASC',
-		'no_found_rows'  => true,
-	)
-);
-$revistalogos_newest = get_posts(
-	array(
-		'post_type'      => 'article',
-		'post_status'    => 'publish',
-		'posts_per_page' => 1,
-		'orderby'        => 'date',
-		'order'          => 'DESC',
-		'no_found_rows'  => true,
-	)
-);
-
-if ( $revistalogos_oldest && $revistalogos_newest ) {
-	$revistalogos_year_from = (int) get_the_date( 'Y', $revistalogos_oldest[0] );
-	$revistalogos_year_to   = (int) get_the_date( 'Y', $revistalogos_newest[0] );
-
-	for ( $revistalogos_y = $revistalogos_year_to; $revistalogos_y >= $revistalogos_year_from; $revistalogos_y-- ) {
-		$revistalogos_years[] = $revistalogos_y;
-	}
-}
+$revistalogos_years = revistalogos_article_years();
 
 $revistalogos_selected_section = sanitize_title( get_query_var( 'section' ) );
 $revistalogos_selected_year    = absint( get_query_var( 'year' ) );
