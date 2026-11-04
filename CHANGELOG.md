@@ -9,6 +9,15 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Fixed
+- Theme **0.2.13**: una noticia (`single.php`) ya no desborda en
+  horizontal. WordPress pone la clase `single-post` en `<body>` y la regla
+  de ancho de lectura `.single-post` de `pages/article.css`, que ningún
+  marcado usa, encogía toda la página a unos 655 px: el menú se salía por
+  la derecha a 1280 px. Se quita ese selector (también en la copia de
+  `static/`, donde no cambia nada). A 320 px, una palabra larga en el
+  título de una tarjeta de «Entradas Relacionadas» ya no sale de la
+  tarjeta: `.card` parte palabras que no caben. Sube el `?v=` de
+  `components.css` y `pages/article.css` en `main.css`.
 - Maqueta `static/`: restaura `assets/img/logo-revista.png` y
   `assets/pdf/politicas-editorial.pdf`, borrados por error en `1c6d2c2`.
   El logo de cabecera volvía 404 en todas las páginas, también en el
