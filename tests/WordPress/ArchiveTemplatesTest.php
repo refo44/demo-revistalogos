@@ -225,16 +225,17 @@ class ArchiveTemplatesTest extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Dado: un artículo cuyo título en inglés y resumen contienen « - »,
-	 * un autor cuya afiliación contiene « - », y las plantillas HTML de
-	 * esos archivos, que core pasa enteras por wptexturize().
-	 * Entonces: esos metadatos conservan el guion y no se convierten en
-	 * raya corta, igual que el pie y el héroe.
+	 * Dado: un artículo cuyo título en inglés contiene « - » y cuyo
+	 * resumen contiene «--» y «...», un autor cuya afiliación contiene
+	 * « - », un número cuyo extracto contiene «3x4», y las plantillas
+	 * HTML de esos archivos, que core pasa enteras por wptexturize().
+	 * Entonces: esos metadatos conservan el texto de la vista clásica,
+	 * sin raya, puntos suspensivos tipográficos ni signo de multiplicar.
 	 */
-	public function test_archive_templates_keep_metadata_hyphens_after_texturize() {
+	public function test_archive_templates_keep_metadata_text_after_texturize() {
 		$article_id = $this->make_article( 'Sobre la esperanza' );
 		update_post_meta( $article_id, 'title_en', 'Hope - an ontological category' );
-		update_post_meta( $article_id, 'abstract', 'tesis - argumento' );
+		update_post_meta( $article_id, 'abstract', 'tesis -- argumento...' );
 		$author_id = $this->make_post( 'author', 'Autor con guion' );
 		update_post_meta( $author_id, 'afiliacion', 'Instituto - CENFISS' );
 
@@ -242,15 +243,21 @@ class ArchiveTemplatesTest extends WP_UnitTestCase {
 		$article_text = html_entity_decode( wp_strip_all_tags( $this->render_template( 'archive-article' ) ), ENT_QUOTES, 'UTF-8' );
 
 		$this->assertStringContainsString( 'Hope - an ontological category', $article_text );
-		$this->assertStringContainsString( 'tesis - argumento', $article_text );
+		$this->assertStringContainsString( 'tesis -- argumento...', $article_text );
 		$this->assertStringNotContainsString( "Hope \u{2013} an ontological category", $article_text );
-		$this->assertStringNotContainsString( "tesis \u{2013} argumento", $article_text );
 
 		$this->go_to( get_post_type_archive_link( 'author' ) );
 		$author_text = html_entity_decode( wp_strip_all_tags( $this->render_template( 'archive-author' ) ), ENT_QUOTES, 'UTF-8' );
 
 		$this->assertStringContainsString( 'Instituto - CENFISS', $author_text );
 		$this->assertStringNotContainsString( "Instituto \u{2013} CENFISS", $author_text );
+		$issue_id = $this->make_post( 'issue', 'Volumen 1, Número 1' );
+		wp_update_post( array( 'ID' => $issue_id, 'post_excerpt' => 'Formato 3x4 - edición digital' ) );
+
+		$this->go_to( get_post_type_archive_link( 'issue' ) );
+		$issue_text = html_entity_decode( wp_strip_all_tags( $this->render_template( 'archive-issue' ) ), ENT_QUOTES, 'UTF-8' );
+
+		$this->assertStringContainsString( 'Formato 3x4 - edición digital', $issue_text );
 	}
 
 	/**
@@ -510,7 +517,8 @@ class ArchiveTemplatesTest extends WP_UnitTestCase {
 		ob_start();
 		get_template_part( $slug );
 
-		return (string) ob_get_clean();
+		// Blocks print the part shielded from template-level wptexturize().
+		return revistalogos_shield_from_texturize( (string) ob_get_clean() );
 	}
 
 	/**

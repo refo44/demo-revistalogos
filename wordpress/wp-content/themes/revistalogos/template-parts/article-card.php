@@ -40,7 +40,7 @@ $revistalogos_sections   = get_the_terms( $revistalogos_article, 'section' );
 			</a>
 		</<?php echo $revistalogos_heading; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 		<?php if ( $revistalogos_title_en ) : ?>
-			<p class="article-card__subtitle"><?php echo revistalogos_esc_html_keep_hyphens( $revistalogos_title_en ); ?></p>
+			<p class="article-card__subtitle"><?php echo esc_html( $revistalogos_title_en ); ?></p>
 		<?php endif; ?>
 		<?php if ( $revistalogos_authors ) : ?>
 			<div class="article-card__authors">
@@ -82,7 +82,7 @@ $revistalogos_sections   = get_the_terms( $revistalogos_article, 'section' );
 		<div class="card__content">
 			<?php if ( $revistalogos_abstract ) : ?>
 				<div class="article-card__abstract">
-					<p><?php echo revistalogos_esc_html_keep_hyphens( $revistalogos_abstract ); ?></p>
+					<p><?php echo esc_html( $revistalogos_abstract ); ?></p>
 				</div>
 			<?php endif; ?>
 

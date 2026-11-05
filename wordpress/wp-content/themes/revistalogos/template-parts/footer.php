@@ -3,9 +3,7 @@
  * Site footer, mirroring the static footer partial. Link lists come
  * from the footer menu locations when assigned and fall back to the
  * frozen static lists rendered with native URLs. Shared by footer.php
- * and the revistalogos/site-footer block (parts/footer.html). Text with
- * «<Stanislao Strba> - CENFISS» goes through
- * revistalogos_esc_html_keep_hyphens() so it keeps its hyphen in FSE.
+ * and the revistalogos/site-footer block (parts/footer.html).
  *
  * @package Revistalogos
  */
@@ -22,7 +20,7 @@ $revistalogos_article_archive = get_post_type_archive_link( 'article' );
 		<div class="footer__inner">
 			<div class="footer__section">
 				<h3>LOGO ET SPES</h3>
-				<p><?php echo revistalogos_esc_html_keep_hyphens( __( 'Revista de Filosofía adscrita, auspiciada y editada por el Centro de Filosofía para la Investigación <Stanislao Strba> - CENFISS.', 'revistalogos' ) ); ?></p>
+				<p><?php esc_html_e( 'Revista de Filosofía adscrita, auspiciada y editada por el Centro de Filosofía para la Investigación <Stanislao Strba> - CENFISS.', 'revistalogos' ); ?></p>
 				<p><strong>ISSN:</strong> <?php echo esc_html( revistalogos_journal_identifier_text( 'issn' ) ); ?><br>
 				<strong><?php esc_html_e( 'Depósito Legal:', 'revistalogos' ); ?></strong> <?php echo esc_html( revistalogos_journal_identifier_text( 'legal_deposit' ) ); ?></p>
 			</div>
@@ -79,7 +77,7 @@ $revistalogos_article_archive = get_post_type_archive_link( 'article' );
 			<div class="footer__section">
 				<h3><?php esc_html_e( 'Contacto', 'revistalogos' ); ?></h3>
 				<p><strong>CENFISS</strong><br>
-				<?php echo revistalogos_esc_html_keep_hyphens( __( 'Centro de Filosofía para la Investigación <Stanislao Strba> - CENFISS', 'revistalogos' ) ); ?></p>
+				<?php esc_html_e( 'Centro de Filosofía para la Investigación <Stanislao Strba> - CENFISS', 'revistalogos' ); ?></p>
 				<p><strong><?php esc_html_e( 'Ubicación:', 'revistalogos' ); ?></strong> <?php esc_html_e( 'Estado de Carabobo, Valencia, Venezuela', 'revistalogos' ); ?></p>
 				<p><?php esc_html_e( 'Email:', 'revistalogos' ); ?> <a href="mailto:revista.cenfiss@gmail.com" class="footer__link">revista.cenfiss@gmail.com</a><br>
 				Web: <a href="https://cenfiss.net" class="footer__link" target="_blank" rel="noopener noreferrer">cenfiss.net<span class="visually-hidden"> (se abre en nueva pestaña)</span></a></p>

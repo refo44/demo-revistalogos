@@ -275,7 +275,7 @@ class DomainBlocksTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'Cómo Citar', $html );
 		$this->assertStringContainsString( 'class="citation-format"', $html );
 		$this->assertStringContainsString( '<pre id="ris-data" hidden>', $html );
-		$this->assertStringContainsString( esc_url( get_permalink( $article_id ) ), $html );
+		$this->assertStringContainsString( revistalogos_shield_from_texturize( esc_url( get_permalink( $article_id ) ) ), $html );
 		$this->assertSame( $this->part( 'template-parts/citation-section', array( 'article_id' => $article_id ) ), $html );
 	}
 
@@ -333,7 +333,8 @@ class DomainBlocksTest extends WP_UnitTestCase {
 		ob_start();
 		get_template_part( $slug, null, $args );
 
-		return (string) ob_get_clean();
+		// Blocks print the part shielded from template-level wptexturize().
+		return revistalogos_shield_from_texturize( (string) ob_get_clean() );
 	}
 
 	/**

@@ -31,7 +31,7 @@ $revistalogos_count      = count( $revistalogos_articles );
 	</header>
 	<div class="card__content">
 		<?php if ( $revistalogos_afiliacion ) : ?>
-			<p><?php echo revistalogos_esc_html_keep_hyphens( $revistalogos_afiliacion ); ?></p>
+			<p><?php echo esc_html( $revistalogos_afiliacion ); ?></p>
 		<?php endif; ?>
 		<?php if ( $revistalogos_count > 0 ) : ?>
 			<p><strong>

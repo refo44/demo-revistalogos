@@ -271,7 +271,7 @@ class FrontAndInstitutionalTemplatesTest extends WP_UnitTestCase {
 		$with_excerpt = $this->make_page( 'normas', 'Normas', 'Resumen editado en wp-admin.' );
 		$unknown      = $this->make_page( 'donaciones', 'Donaciones' );
 
-		$this->assertStringContainsString( '<p class="archive-header__description">Resumen editado en wp-admin.</p>', $this->render( 'page-header', array(), $with_excerpt ) );
+		$this->assertStringContainsString( revistalogos_shield_from_texturize( '<p class="archive-header__description">Resumen editado en wp-admin.</p>' ), $this->render( 'page-header', array(), $with_excerpt ) );
 		$this->assertStringNotContainsString( 'archive-header__description', $this->render( 'page-header', array(), $unknown ) );
 	}
 
@@ -466,7 +466,8 @@ class FrontAndInstitutionalTemplatesTest extends WP_UnitTestCase {
 		ob_start();
 		get_template_part( $slug, null, $args );
 
-		return (string) ob_get_clean();
+		// Blocks print the part shielded from template-level wptexturize().
+		return revistalogos_shield_from_texturize( (string) ob_get_clean() );
 	}
 
 	/**

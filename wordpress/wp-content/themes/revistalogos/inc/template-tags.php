@@ -33,16 +33,48 @@ function revistalogos_journal_identifier_text( $key ) {
 }
 
 /**
- * Escaped text whose spaced hyphens stay hyphens. Core runs
- * wptexturize() over every block template and template part, which
- * turns « - » into an en dash; the canonical text has a hyphen, so it
- * is written &#45;, which wptexturize() leaves alone.
+ * HTML whose text wptexturize() leaves as written. Core runs
+ * wptexturize() over every block template and template part; classic
+ * views never texturize their own escaped text. Each character a
+ * texturize pattern matches (hyphens, «...», backticks, quotes, «NxN»,
+ * « (tm)») becomes an entity the browser shows as the same character.
+ * Tags, comments, and the elements wptexturize() skips (pre, code,
+ * kbd, style, script, tt) are left alone.
  *
- * @param string $text Text that may contain a spaced hyphen.
+ * @param string $html Rendered HTML.
  * @return string
  */
-function revistalogos_esc_html_keep_hyphens( $text ) {
-	return str_replace( ' - ', ' &#45; ', esc_html( $text ) );
+function revistalogos_shield_from_texturize( $html ) {
+	$parts = wp_html_split( $html );
+	$depth = 0;
+
+	foreach ( $parts as $i => $part ) {
+		if ( $i % 2 ) {
+			if ( preg_match( '#^<(/?)(pre|code|kbd|style|script|tt)\b#i', $part, $tag ) ) {
+				$depth = max( 0, $depth + ( '' === $tag[1] ? 1 : -1 ) );
+			}
+			continue;
+		}
+
+		if ( $depth || '' === $part ) {
+			continue;
+		}
+
+		$part        = strtr(
+			$part,
+			array(
+				'-'     => '&#45;',
+				'...'   => '&#46;&#46;&#46;',
+				'`'     => '&#96;',
+				"'"     => '&#039;',
+				'"'     => '&quot;',
+				' (tm)' => ' &#40;tm)',
+			)
+		);
+		$parts[ $i ] = preg_replace( '/(?<=\d)x(?=\d)/', '&#120;', $part );
+	}
+
+	return implode( '', $parts );
 }
 
 /**

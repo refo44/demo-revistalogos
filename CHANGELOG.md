@@ -77,12 +77,16 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   `search.php` a un gancho `template_redirect`, porque una plantilla de
   bloques no puede redirigir; el feed de búsqueda no se redirige. Las
   vistas PHP se conservan hasta la firma visual. `single-author` no entra
-  en esta sesión. El guion de «`<Stanislao Strba> - CENFISS`» en el pie y
-  en el héroe, y el de `title_en`, `abstract` y `afiliacion` en las
-  tarjetas, sale como `&#45;` por `revistalogos_esc_html_keep_hyphens()`,
-  sin tocar el texto canónico de la cadena traducible: core pasa cada
-  plantilla de bloques y cada template part por `wptexturize()`, que lo
-  cambiaba por una raya corta en todas las páginas FSE desde la Sesión 2.
+  en esta sesión. Core pasa cada plantilla de bloques y cada template
+  part por `wptexturize()`, que en todas las páginas FSE desde la Sesión 2
+  cambiaba el guion de «`<Stanislao Strba> - CENFISS`» por una raya corta,
+  y en los metadatos editoriales «--», «...» y «3x4» por raya, puntos
+  suspensivos y signo de multiplicar. Un filtro `render_block` pasa la
+  salida de cada bloque `revistalogos/*` por
+  `revistalogos_shield_from_texturize()`, que escribe como entidad cada
+  carácter que `wptexturize()` cambiaría, solo en el texto y fuera de los
+  elementos que `wptexturize()` no toca. El texto y las cadenas traducibles no
+  cambian, y el navegador muestra lo mismo que la vista clásica.
   Con eso, el texto de las 20 URL revisadas coincide con la vista clásica
   y las capturas a 1280 y 320 px son idénticas píxel a píxel, salvo el
   orden de artículos con la misma fecha. Plugin **0.2.25** añade

@@ -56,6 +56,23 @@ function revistalogos_register_site_blocks() {
 add_action( 'init', 'revistalogos_register_site_blocks' );
 
 /**
+ * Theme and plugin blocks print the classic template-parts, so their
+ * text is shielded from the wptexturize() core runs over the template.
+ *
+ * @param string $content Rendered block.
+ * @param array  $block   Parsed block.
+ * @return string
+ */
+function revistalogos_shield_block_from_texturize( $content, $block ) {
+	if ( ! isset( $block['blockName'] ) || ! str_starts_with( (string) $block['blockName'], 'revistalogos/' ) ) {
+		return $content;
+	}
+
+	return revistalogos_shield_from_texturize( $content );
+}
+add_filter( 'render_block', 'revistalogos_shield_block_from_texturize', 10, 2 );
+
+/**
  * Header block: skip-link, logo and primary nav (walker or fallback).
  *
  * @return string
