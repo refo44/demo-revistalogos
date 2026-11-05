@@ -8,6 +8,12 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+## [0.3.17] — 2026-11-04
+
+Release etiquetado para FTPS de producción (ADR 0020). Theme `revistalogos`
+**0.2.13** y plugin `revistalogos-core` **0.2.24**, de la línea live
+(ADR 0015, nota 2026-11-02). No incluye la major FSE de `feat/fse`.
+
 ### Added
 - Antes del switch a FSE (ADR 0015, nota 2026-11-02,
   [#103](https://github.com/refo44/demo-revistalogos/issues/103)): no hay
@@ -714,7 +720,8 @@ con la infraestructura de gobierno del proyecto en su sitio.
 - El contenido editorial de la maqueta es demostrativo y **no** se publica en producción (ver `docs/17-implementation-order` §3.1).
 - `robots.txt` permanece en `Disallow: /` mientras el sitio es prototipo.
 
-[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.3.16...HEAD
+[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.3.17...HEAD
+[0.3.17]: https://github.com/refo44/demo-revistalogos/compare/v0.3.16...v0.3.17
 [0.3.16]: https://github.com/refo44/demo-revistalogos/compare/v0.3.15...v0.3.16
 [0.3.15]: https://github.com/refo44/demo-revistalogos/compare/v0.3.14...v0.3.15
 [0.3.14]: https://github.com/refo44/demo-revistalogos/compare/v0.3.13...v0.3.14
