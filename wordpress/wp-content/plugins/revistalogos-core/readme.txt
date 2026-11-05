@@ -3,7 +3,7 @@ Contributors: cenfiss
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.2.21
+Stable tag: 0.2.24
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,12 @@ Fase 3: los campos `issn`, `doi` y `orcid` son almacenamiento base inerte;
 la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
 
 == Changelog ==
+
+= 0.2.24 =
+* Archives, the news index, issue and author article lists, and search
+  break post_date ties by post ID, so articles sharing a date keep one
+  order and pagination no longer repeats or skips them. 0.2.22 and
+  0.2.23 are taken by the FSE branch.
 
 = 0.2.21 =
 * Removes the temporary Settings screen that filled author Nombres and

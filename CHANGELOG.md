@@ -8,6 +8,15 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Added
+- Antes del switch a FSE (ADR 0015, nota 2026-11-02,
+  [#103](https://github.com/refo44/demo-revistalogos/issues/103)): no hay
+  switch hasta cargar en Docker local una copia exacta de la base de
+  producción, con los `uploads/` que el contenido referencia, y comparar
+  esas URLs con la versión live. El switch no habilita la versión nueva
+  del theme ni la del plugin. Una discrepancia sin resolver lo bloquea.
+  No bloquea las sesiones 2–9 ni los minor de la línea live.
+
 ### Fixed
 - Theme **0.2.13**: una noticia (`single.php`) ya no desborda en
   horizontal. WordPress pone la clase `single-post` en `<body>` y la regla
@@ -18,6 +27,16 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   título de una tarjeta de «Entradas Relacionadas» ya no sale de la
   tarjeta: `.card` parte palabras que no caben. Sube el `?v=` de
   `components.css` y `pages/article.css` en `main.css`.
+- Plugin **0.2.24**: los listados ya no cambian de orden entre visitas
+  cuando varias entradas comparten fecha. Core ordena los archivos solo por
+  `post_date`, y con fechas iguales MySQL devuelve las filas en cualquier
+  orden: la paginación repetía o saltaba artículos (en Docker, 15 artículos
+  de demostración comparten fecha; los de Vol. 1 Nº 1 pueden también). Un
+  `pre_get_posts` del plugin desempata por ID, en la misma dirección, en
+  los archivos públicos y el índice de noticias que siguen en el orden por
+  defecto; un `orderby` explícito no se toca. También desempatan
+  `Queries::issue_articles()`, `author_articles()` y `search_query()`. Los
+  números 0.2.22 y 0.2.23 ya los usa la rama `feat/fse`.
 - Maqueta `static/`: restaura `assets/img/logo-revista.png` y
   `assets/pdf/politicas-editorial.pdf`, borrados por error en `1c6d2c2`.
   El logo de cabecera volvía 404 en todas las páginas, también en el
@@ -29,6 +48,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   tarjetas con el artículo compartido.
 
 ### Changed
+- ADR 0015, nota 2026-11-02: el FSE es una major del mismo theme
+  `revistalogos` y del mismo plugin `revistalogos-core`. La línea live
+  (theme 0.2.x, plugin 0.2.x) sigue habilitada y puede publicar minor y
+  patch. El switch no habilita la major del theme ni la del plugin. No
+  hay directorio `revistalogos-classic` ni release A. Alineados
+  `docs/fse-implementation-prompt.md`, `docs/adr/BACKLOG.md`, `CLAUDE.md`
+  y `VERSION.md`.
 - ADR 0015, nota 2026-10-29: tras el corte FSE, producción conserva una
   copia congelada `revistalogos-classic` junto al block theme, elegible en
   Apariencia → Temas, con un solo plugin para los dos. El corte pasa a dos
@@ -63,6 +89,14 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   `docs/fase3-execution-state.md` y en el ítem 7 de `docs/adr/BACKLOG.md`;
   la siguiente acción pasa a la sesión 6
   ([#80](https://github.com/refo44/demo-revistalogos/issues/80)). La
+  paridad visual queda a revisión del propietario.
+- FSE sesión 6 (archivos, búsqueda, noticias y 404) registrada como
+  hecha en `feat/fse`
+  ([#106](https://github.com/refo44/demo-revistalogos/pull/106),
+  [#80](https://github.com/refo44/demo-revistalogos/issues/80)) en
+  `docs/fase3-execution-state.md` y en el ítem 7 de `docs/adr/BACKLOG.md`;
+  la siguiente acción pasa a la sesión 7
+  ([#81](https://github.com/refo44/demo-revistalogos/issues/81)). La
   paridad visual queda a revisión del propietario.
 - BACKLOG ítem 10 (identificadores digitales de la revista) marcado HECHO
   en `v0.3.10` ([#58](https://github.com/refo44/demo-revistalogos/issues/58)
