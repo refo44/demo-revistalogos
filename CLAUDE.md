@@ -110,10 +110,15 @@ required, not shared via Git, not a substitute for the files above.
   custom color stay locked. `main.css` stays the layout authority. Do not
   convert to Next.js. ADR 0003 §1/§3 are superseded for `theme.json` / block
   CSS dequeue; keep BEM and `main.css`. The `global-styles` dequeue stays on
-  `main` until cutover. Cutover keeps a frozen `revistalogos-classic`
-  fallback beside the block theme, selectable in wp-admin, with one plugin
-  for both (ADR 0015, note 2026-10-29); it is created at cutover, not in
-  FSE sessions.
+  `main` until cutover. FSE is a new major of the same theme and the same
+  plugin; the live minor line (theme 0.2.x, plugin 0.2.x, including later
+  minors and patches) stays enabled and keeps shipping from `main`. The
+  switch does not enable the new theme version or the new plugin version
+  (ADR 0015, note 2026-11-02). No `revistalogos-classic` directory. The
+  switch waits until an exact production database copy, plus the uploads
+  that content references, has been loaded into local Docker and compared
+  with the live site; an unresolved discrepancy blocks it (issue #103).
+  Sessions 2–9 and live minors do not wait on that.
 - **Identifiers (DOI/ORCID/ISSN) are Fase 4, deliberately deferred** past
   the WordPress launch (ADR 0013). Fase 3 stores them as inert fields only —
   no validation, no derived URLs.

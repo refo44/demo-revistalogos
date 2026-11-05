@@ -27,6 +27,8 @@ Versionado Semántico `MAJOR.MINOR.PATCH` ([semver.org](https://semver.org/lang/
 
 Antes de 1.0.0 la API/estructura se considera inestable; los cambios pueden ocurrir en `MINOR`.
 
+La línea FSE es una **MAJOR** del theme y del plugin, con cambios incompatibles de presentación (ADR 0015, nota 2026-11-02). El switch no habilita esa major en producción. La línea que ya está habilitada sigue publicando minor y patch, sin llevarse la major.
+
 ## Etiquetas de Git
 
 Cada versión publicada se etiqueta con el prefijo `v`: `v0.1.0`, `v0.2.0`, …
