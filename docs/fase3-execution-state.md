@@ -5,8 +5,8 @@ current_work_unit: ""
 current_branch: ""
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
-updated_at: "2026-11-02"
-next_action: "FSE sesión 6 (#80): archivos, búsqueda, noticias y 404 en Docker, rama desde feat/fse, PR hacia feat/fse. La firma visual de la sesión 5 queda pendiente. v0.3.16 ya está live; no despachar desde una etiqueta anterior."
+updated_at: "2026-11-04"
+next_action: "FSE sesión 7 (#81): plantilla del número en Docker, rama desde feat/fse, PR hacia feat/fse. La sesión 6 está fusionada en feat/fse (#106, 8c4c511; theme 0.3.4, plugin 0.2.25); la firma visual de las sesiones 5 y 6 queda pendiente. v0.3.16 ya está live; no despachar desde una etiqueta anterior."
 blocked: false
 ---
 
@@ -679,10 +679,10 @@ Plugin 0.2.20 / theme 0.2.12 entregó los campos. El puente Apply/Restore
 quedó retirado en plugin **0.2.21**, release de proyecto **0.3.16**, live
 desde el 2026-09-24 (`workflow_dispatch` desde `v0.3.16`, run
 `36034264767`, success). **No** despachar desde una etiqueta anterior.
-Siguiente: FSE sesión 6 ([#80](https://github.com/refo44/demo-revistalogos/issues/80))
-sobre `feat/fse`, en Docker (ver punto 6). La firma visual de la sesión 5
-queda pendiente.
-El switch
+Siguiente: FSE sesión 7 ([#81](https://github.com/refo44/demo-revistalogos/issues/81)),
+plantilla del número, sobre `feat/fse`, en Docker (ver punto 6). La sesión 6
+está fusionada en `feat/fse` ([#106](https://github.com/refo44/demo-revistalogos/pull/106)).
+La firma visual de las sesiones 5 y 6 queda pendiente. El switch
 ([#84](https://github.com/refo44/demo-revistalogos/issues/84)) no habilita
 la major del theme ni la del plugin. Espera
 [#103](https://github.com/refo44/demo-revistalogos/issues/103): una copia
@@ -807,8 +807,23 @@ FSE remains deferred:
      `static/` (índice, acerca, contacto; escritorio y 320px) sin
      desborde horizontal. La paridad visual queda a revisión del
      propietario; **no** hay Pass visual.
-   - Siguiente: sesión 6, archivos, búsqueda, noticias y 404
-     ([#80](https://github.com/refo44/demo-revistalogos/issues/80)), rama
+   - **Sesión 6 (archivos, búsqueda, noticias y 404) HECHA en `feat/fse`**
+     (2026-11-04,
+     [#106](https://github.com/refo44/demo-revistalogos/pull/106);
+     [#80](https://github.com/refo44/demo-revistalogos/issues/80)).
+     Theme **0.3.4** y plugin **0.2.25** solo en `feat/fse` (`8c4c511`).
+     Once plantillas HTML y el bloque de theme `revistalogos/view`, que
+     imprime la misma parte de `template-parts/view/` que la vista PHP.
+     La redirección de `?s=` pasa a `template_redirect`; el feed no se
+     redirige. Los años del filtro salen de `Queries::article_years()`.
+     La salida de los bloques `revistalogos/*` pasa por
+     `revistalogos_shield_from_texturize()` y conserva el texto de la
+     vista clásica tras `wptexturize()`. Ningún PHP se borra.
+     `single-author` no entra. Gate en Docker: `composer test:unit` 65 OK,
+     `composer test:wp` 150 OK. La paridad visual queda a revisión del
+     propietario; **no** hay Pass visual. No llega a producción.
+   - Siguiente: sesión 7, plantilla del número
+     ([#81](https://github.com/refo44/demo-revistalogos/issues/81)), rama
      desde `feat/fse`.
 
 D12b (checks CI de seguridad/stylelint ligados al deploy) sigue pendiente
