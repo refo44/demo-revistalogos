@@ -18,6 +18,15 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   No bloquea las sesiones 2–9 ni los minor de la línea live.
 
 ### Fixed
+- Theme **0.2.13**: una noticia (`single.php`) ya no desborda en
+  horizontal. WordPress pone la clase `single-post` en `<body>` y la regla
+  de ancho de lectura `.single-post` de `pages/article.css`, que ningún
+  marcado usa, encogía toda la página a unos 655 px: el menú se salía por
+  la derecha a 1280 px. Se quita ese selector (también en la copia de
+  `static/`, donde no cambia nada). A 320 px, una palabra larga en el
+  título de una tarjeta de «Entradas Relacionadas» ya no sale de la
+  tarjeta: `.card` parte palabras que no caben. Sube el `?v=` de
+  `components.css` y `pages/article.css` en `main.css`.
 - Plugin **0.2.24**: los listados ya no cambian de orden entre visitas
   cuando varias entradas comparten fecha. Core ordena los archivos solo por
   `post_date`, y con fechas iguales MySQL devuelve las filas en cualquier
