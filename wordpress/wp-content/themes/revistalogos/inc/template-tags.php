@@ -33,6 +33,51 @@ function revistalogos_journal_identifier_text( $key ) {
 }
 
 /**
+ * HTML whose text wptexturize() leaves as written. Core runs
+ * wptexturize() over every block template and template part; classic
+ * views never texturize their own escaped text. Each character a
+ * texturize pattern matches (hyphens, «...», backticks, quotes, «NxN»,
+ * « (tm)») becomes an entity the browser shows as the same character.
+ * Tags, comments, and the elements wptexturize() skips (pre, code,
+ * kbd, style, script, tt) are left alone.
+ *
+ * @param string $html Rendered HTML.
+ * @return string
+ */
+function revistalogos_shield_from_texturize( $html ) {
+	$parts = wp_html_split( $html );
+	$depth = 0;
+
+	foreach ( $parts as $i => $part ) {
+		if ( $i % 2 ) {
+			if ( preg_match( '#^<(/?)(pre|code|kbd|style|script|tt)\b#i', $part, $tag ) ) {
+				$depth = max( 0, $depth + ( '' === $tag[1] ? 1 : -1 ) );
+			}
+			continue;
+		}
+
+		if ( $depth || '' === $part ) {
+			continue;
+		}
+
+		$part        = strtr(
+			$part,
+			array(
+				'-'     => '&#45;',
+				'...'   => '&#46;&#46;&#46;',
+				'`'     => '&#96;',
+				"'"     => '&#039;',
+				'"'     => '&quot;',
+				' (tm)' => ' &#40;tm)',
+			)
+		);
+		$parts[ $i ] = preg_replace( '/(?<=\d)x(?=\d)/', '&#120;', $part );
+	}
+
+	return implode( '', $parts );
+}
+
+/**
  * Current issue (derived by the plugin; null without it).
  *
  * @return WP_Post|null
@@ -57,6 +102,20 @@ function revistalogos_recent_articles( $limit = 3 ) {
 	}
 
 	return Revistalogos_Core\Queries::recent_articles( $limit );
+}
+
+/**
+ * Years of the article archive year filter, newest first (plugin
+ * query; empty without it).
+ *
+ * @return int[]
+ */
+function revistalogos_article_years() {
+	if ( ! revistalogos_core_active() ) {
+		return array();
+	}
+
+	return Revistalogos_Core\Queries::article_years();
 }
 
 /**

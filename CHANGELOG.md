@@ -9,6 +9,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Added
+- Antes del switch a FSE (ADR 0015, nota 2026-11-02,
+  [#103](https://github.com/refo44/demo-revistalogos/issues/103)): no hay
+  switch hasta cargar en Docker local una copia exacta de la base de
+  producción, con los `uploads/` que el contenido referencia, y comparar
+  esas URLs con la versión live. El switch no habilita la versión nueva
+  del theme ni la del plugin. Una discrepancia sin resolver lo bloquea.
+  No bloquea las sesiones 2–9 ni los minor de la línea live.
 - FSE Sesión 2, bootstrap en Docker (ADR 0015 §7.2, rama `feat/fse`,
   [#76](https://github.com/refo44/demo-revistalogos/issues/76)): theme
   `revistalogos` **0.3.0** pasa a block theme con
@@ -57,6 +64,37 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   `<main>` de las plantillas de bloques no lo lleva. Las
   vistas PHP se conservan hasta la firma visual. `/buscar/` queda para la
   Sesión 6. No llega a producción hasta el corte.
+- FSE Sesión 6, archivos, búsqueda, noticias y 404 (ADR 0015 §7, rama
+  `feat/fse`, [#80](https://github.com/refo44/demo-revistalogos/issues/80)):
+  theme **0.3.4** añade `templates/archive-issue.html`,
+  `archive-article.html`, `taxonomy-section.html`,
+  `taxonomy-article_type.html`, `taxonomy-keyword.html`,
+  `archive-author.html`, `home.html`, `single.html`, `page-buscar.html`,
+  `search.html` y `404.html`. Un solo bloque de theme, `revistalogos/view`,
+  imprime `template-parts/view/{vista}` sobre la consulta principal; las
+  vistas PHP imprimen la misma parte. Una vista desconocida o sin parte
+  devuelve vacío. La redirección 301 de `?s=` a `/buscar/?q=` pasa de
+  `search.php` a un gancho `template_redirect`, porque una plantilla de
+  bloques no puede redirigir; el feed de búsqueda no se redirige. Las
+  vistas PHP se conservan hasta la firma visual. `single-author` no entra
+  en esta sesión. Core pasa cada plantilla de bloques y cada template
+  part por `wptexturize()`, que en todas las páginas FSE desde la Sesión 2
+  cambiaba el guion de «`<Stanislao Strba> - CENFISS`» por una raya corta,
+  y en los metadatos editoriales «--», «...» y «3x4» por raya, puntos
+  suspensivos y signo de multiplicar. Un filtro `render_block` pasa la
+  salida de cada bloque `revistalogos/*` por
+  `revistalogos_shield_from_texturize()`, que escribe como entidad cada
+  carácter que `wptexturize()` cambiaría, solo en el texto y fuera de los
+  elementos que `wptexturize()` no toca. El texto y las cadenas traducibles no
+  cambian, y el navegador muestra lo mismo que la vista clásica.
+  Con eso, el texto de las 20 URL revisadas coincide con la vista clásica
+  y las capturas a 1280 y 320 px son idénticas píxel a píxel, salvo el
+  orden de artículos con la misma fecha. Plugin **0.2.25** añade
+  `Queries::article_years()`: los años del filtro del archivo de artículos
+  salen del plugin y la parte de vista ya no consulta artículos; sin el
+  plugin, el filtro queda sin años. `revistalogos/view` declara el
+  contexto `postId` y `postType`, para que la vista previa del editor en
+  `single.html` reciba la entrada. No llega a producción hasta el corte.
 
 ### Fixed
 - Maqueta `static/`: restaura `assets/img/logo-revista.png` y
@@ -70,6 +108,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   tarjetas con el artículo compartido.
 
 ### Changed
+- ADR 0015, nota 2026-11-02: el FSE es una major del mismo theme
+  `revistalogos` y del mismo plugin `revistalogos-core`. La línea live
+  (theme 0.2.x, plugin 0.2.x) sigue habilitada y puede publicar minor y
+  patch. El switch no habilita la major del theme ni la del plugin. No
+  hay directorio `revistalogos-classic` ni release A. Alineados
+  `docs/fse-implementation-prompt.md`, `docs/adr/BACKLOG.md`, `CLAUDE.md`
+  y `VERSION.md`.
 - ADR 0015, nota 2026-10-29: tras el corte FSE, producción conserva una
   copia congelada `revistalogos-classic` junto al block theme, elegible en
   Apariencia → Temas, con un solo plugin para los dos. El corte pasa a dos

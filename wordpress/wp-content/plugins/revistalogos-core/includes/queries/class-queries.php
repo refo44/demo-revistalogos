@@ -59,6 +59,38 @@ class Queries {
 	}
 
 	/**
+	 * Every year from the newest to the oldest published article,
+	 * newest first (article archive year filter). Years without
+	 * articles in between are kept, so the filter reads as a range.
+	 *
+	 * @return int[]
+	 */
+	public static function article_years() {
+		$edges = array();
+
+		foreach ( array( 'ASC', 'DESC' ) as $order ) {
+			$posts = get_posts(
+				array(
+					'post_type'      => Content_Types::ARTICLE,
+					'post_status'    => 'publish',
+					'posts_per_page' => 1,
+					'orderby'        => 'date',
+					'order'          => $order,
+					'no_found_rows'  => true,
+				)
+			);
+
+			if ( ! $posts ) {
+				return array();
+			}
+
+			$edges[ $order ] = (int) get_the_date( 'Y', $posts[0] );
+		}
+
+		return range( $edges['DESC'], $edges['ASC'] );
+	}
+
+	/**
 	 * Published articles belonging to an issue (derived reverse query;
 	 * counts are computed from the result, never stored).
 	 *

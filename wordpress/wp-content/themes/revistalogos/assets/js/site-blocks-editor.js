@@ -17,6 +17,7 @@
     "revistalogos/page-header",
     "revistalogos/page-aside",
     "revistalogos/contact-form",
+    "revistalogos/view",
   ].forEach(function (name) {
     blocks.registerBlockType(name, {
       edit: function (props) {

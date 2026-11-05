@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "revistalogos/view",
+	"title": "Vista del theme",
+	"category": "theme",
+	"description": "Cuerpo de un archivo, la búsqueda, las noticias o la página 404 sobre la consulta principal, por vista. No muestra nada si la vista no existe.",
+	"textdomain": "revistalogos",
+	"attributes": {
+		"view": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"usesContext": [
+		"postId",
+		"postType"
+	],
+	"supports": {
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"editorScript": "revistalogos-site-blocks-editor"
+}

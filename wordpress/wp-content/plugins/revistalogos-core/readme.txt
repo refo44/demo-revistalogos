@@ -3,7 +3,7 @@ Contributors: cenfiss
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.2.23
+Stable tag: 0.2.25
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,11 @@ Fase 3: los campos `issn`, `doi` y `orcid` son almacenamiento base inerte;
 la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
 
 == Changelog ==
+
+= 0.2.25 =
+* Article archive years: Queries::article_years() returns every year from
+  the newest to the oldest published article, so the theme's year filter
+  no longer queries articles (issue #80).
 
 = 0.2.23 =
 * FSE recent articles block: the three latest published articles through

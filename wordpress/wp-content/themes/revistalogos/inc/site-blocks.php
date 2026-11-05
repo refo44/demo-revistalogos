@@ -3,10 +3,11 @@
  * Theme blocks for the block templates (ADR 0015 §7). The site header
  * and footer (§7.5) sit in parts/header.html and parts/footer.html; the
  * front-page and institutional-page blocks (Session 5) sit in
- * templates/front-page.html and page*.html. Each block buffers the same
- * template part the classic PHP view prints, so both share one source
- * and Revistalogos_Nav_Walker keeps emitting nav__*. Presentation only:
- * no domain data is registered here (ADR 0005).
+ * templates/front-page.html and page*.html; revistalogos/view (Session 6)
+ * sits in the archive, search, news and 404 templates. Each block
+ * buffers the same template part the classic PHP view prints, so both
+ * share one source and Revistalogos_Nav_Walker keeps emitting nav__*.
+ * Presentation only: no domain data is registered here (ADR 0005).
  *
  * @package Revistalogos
  */
@@ -45,6 +46,7 @@ function revistalogos_register_site_blocks() {
 		'page-header'   => 'revistalogos_render_page_header_block',
 		'page-aside'    => 'revistalogos_render_page_aside_block',
 		'contact-form'  => 'revistalogos_render_contact_form_block',
+		'view'          => 'revistalogos_render_view_block',
 	);
 
 	foreach ( $render_callbacks as $name => $render_callback ) {
@@ -52,6 +54,23 @@ function revistalogos_register_site_blocks() {
 	}
 }
 add_action( 'init', 'revistalogos_register_site_blocks' );
+
+/**
+ * Theme and plugin blocks print the classic template-parts, so their
+ * text is shielded from the wptexturize() core runs over the template.
+ *
+ * @param string $content Rendered block.
+ * @param array  $block   Parsed block.
+ * @return string
+ */
+function revistalogos_shield_block_from_texturize( $content, $block ) {
+	if ( ! isset( $block['blockName'] ) || ! str_starts_with( (string) $block['blockName'], 'revistalogos/' ) ) {
+		return $content;
+	}
+
+	return revistalogos_shield_from_texturize( $content );
+}
+add_filter( 'render_block', 'revistalogos_shield_block_from_texturize', 10, 2 );
 
 /**
  * Header block: skip-link, logo and primary nav (walker or fallback).
@@ -133,6 +152,26 @@ function revistalogos_render_page_aside_block( $attributes ) {
  */
 function revistalogos_render_contact_form_block() {
 	return revistalogos_capture_template_part( 'template-parts/contact-form' );
+}
+
+/**
+ * Body of an archive, search, news or 404 view from
+ * template-parts/view/{view}, over the main query; '' when the view is
+ * not a plain key or has no part.
+ *
+ * @param array $attributes Block attributes (view).
+ * @return string
+ */
+function revistalogos_render_view_block( $attributes ) {
+	$view = isset( $attributes['view'] ) ? (string) $attributes['view'] : '';
+
+	if ( '' === $view || sanitize_key( $view ) !== $view ) {
+		return '';
+	}
+
+	$html = revistalogos_capture_template_part( 'template-parts/view/' . $view );
+
+	return '' === trim( $html ) ? '' : $html;
 }
 
 /**

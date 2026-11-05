@@ -70,7 +70,9 @@ class FrontAndInstitutionalTemplatesTest extends WP_UnitTestCase {
 			)
 		);
 
-		foreach ( self::THEME_BLOCKS as $name ) {
+		// Every theme block, so re-registering does not trip "already registered".
+		foreach ( glob( get_template_directory() . '/blocks/*', GLOB_ONLYDIR ) as $dir ) {
+			$name = 'revistalogos/' . basename( $dir );
 			if ( WP_Block_Type_Registry::get_instance()->is_registered( $name ) ) {
 				unregister_block_type( $name );
 			}
@@ -105,16 +107,17 @@ class FrontAndInstitutionalTemplatesTest extends WP_UnitTestCase {
 
 	/**
 	 * Dado: cada vista clásica de página (page-{slug}.php y
-	 * privacy-policy.php), salvo la búsqueda (Sesión 6).
+	 * privacy-policy.php), incluida la búsqueda (Sesión 6).
 	 * Entonces: existe la plantilla HTML del mismo slug, porque una PHP
 	 * más específica le ganaría a page.html.
 	 */
 	public function test_every_page_wrapper_has_its_block_template() {
 		$theme_dir = get_template_directory();
 		$wrappers  = array_merge( glob( $theme_dir . '/page-*.php' ), array( $theme_dir . '/privacy-policy.php' ) );
-		$slugs     = array_diff( array_map( static fn( $path ) => basename( $path, '.php' ), $wrappers ), array( 'page-buscar' ) );
+		$slugs     = array_map( static fn( $path ) => basename( $path, '.php' ), $wrappers );
 
 		$this->assertContains( 'page-acerca', $slugs );
+		$this->assertContains( 'page-buscar', $slugs );
 
 		foreach ( array_merge( array( 'front-page', 'page' ), $slugs ) as $slug ) {
 			$this->assertNotNull( get_block_template( self::THEME . '//' . $slug ), $slug );
@@ -268,7 +271,7 @@ class FrontAndInstitutionalTemplatesTest extends WP_UnitTestCase {
 		$with_excerpt = $this->make_page( 'normas', 'Normas', 'Resumen editado en wp-admin.' );
 		$unknown      = $this->make_page( 'donaciones', 'Donaciones' );
 
-		$this->assertStringContainsString( '<p class="archive-header__description">Resumen editado en wp-admin.</p>', $this->render( 'page-header', array(), $with_excerpt ) );
+		$this->assertStringContainsString( revistalogos_shield_from_texturize( '<p class="archive-header__description">Resumen editado en wp-admin.</p>' ), $this->render( 'page-header', array(), $with_excerpt ) );
 		$this->assertStringNotContainsString( 'archive-header__description', $this->render( 'page-header', array(), $unknown ) );
 	}
 
@@ -370,6 +373,25 @@ class FrontAndInstitutionalTemplatesTest extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Dado: la portada resuelta con front-page.html, que core pasa entera
+	 * (y cada template part) por wptexturize().
+	 * Entonces: el héroe y el pie conservan el guion del texto canónico
+	 * «<Stanislao Strba> - CENFISS» y no lo convierten en raya corta, como
+	 * la vista clásica.
+	 */
+	public function test_template_keeps_the_canonical_hyphen_after_texturize() {
+		$front_id = $this->make_page( 'inicio', 'Inicio' );
+		update_option( 'show_on_front', 'page' );
+		update_option( 'page_on_front', $front_id );
+		$this->go_to( home_url( '/' ) );
+
+		$text = html_entity_decode( wp_strip_all_tags( $this->render_template( 'front-page' ) ), ENT_QUOTES, 'UTF-8' );
+
+		$this->assertSame( 3, substr_count( $text, '<Stanislao Strba> - CENFISS' ) );
+		$this->assertStringNotContainsString( "Strba> \u{2013} CENFISS", $text );
+	}
+
+	/**
 	 * @param string $slug Template slug.
 	 * @return string Rendered template, loop started like core does.
 	 */
@@ -444,7 +466,8 @@ class FrontAndInstitutionalTemplatesTest extends WP_UnitTestCase {
 		ob_start();
 		get_template_part( $slug, null, $args );
 
-		return (string) ob_get_clean();
+		// Blocks print the part shielded from template-level wptexturize().
+		return revistalogos_shield_from_texturize( (string) ob_get_clean() );
 	}
 
 	/**
