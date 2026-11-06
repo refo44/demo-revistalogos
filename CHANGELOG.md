@@ -8,6 +8,11 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Changed
+- `docs/fase3-execution-state.md`: `v0.3.17` ya está live desde el
+  2026-11-06 (theme 0.2.13, plugin 0.2.24); no despachar desde una
+  etiqueta anterior.
+
 ## [0.3.17] — 2026-11-04
 
 Release etiquetado para FTPS de producción (ADR 0020). Theme `revistalogos`
