@@ -5,8 +5,8 @@ current_work_unit: ""
 current_branch: ""
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
-updated_at: "2026-11-04"
-next_action: "FSE sesión 7 (#81): plantilla del número en Docker, rama desde feat/fse, PR hacia feat/fse. La sesión 6 está fusionada en feat/fse (#106, 8c4c511; theme 0.3.4, plugin 0.2.25); la firma visual de las sesiones 5 y 6 queda pendiente. v0.3.16 ya está live; no despachar desde una etiqueta anterior."
+updated_at: "2026-11-06"
+next_action: "FSE sesión 7 (#81): plantilla del número en Docker, rama desde feat/fse, PR hacia feat/fse. La sesión 6 está fusionada en feat/fse (#106, 8c4c511; theme 0.3.4, plugin 0.2.25); la firma visual de las sesiones 5 y 6 queda pendiente. v0.3.17 ya está live; no despachar desde una etiqueta anterior."
 blocked: false
 ---
 
@@ -678,7 +678,11 @@ Siguiente acción priorizada — ítem 12 / [#67](https://github.com/refo44/demo
 Plugin 0.2.20 / theme 0.2.12 entregó los campos. El puente Apply/Restore
 quedó retirado en plugin **0.2.21**, release de proyecto **0.3.16**, live
 desde el 2026-09-24 (`workflow_dispatch` desde `v0.3.16`, run
-`36034264767`, success). **No** despachar desde una etiqueta anterior.
+`36034264767`, success). Release de proyecto **0.3.17** (theme **0.2.13**,
+[#105](https://github.com/refo44/demo-revistalogos/pull/105); plugin
+**0.2.24**, [#104](https://github.com/refo44/demo-revistalogos/pull/104))
+live desde el 2026-11-06 (`workflow_dispatch` desde `v0.3.17`, run
+`42224925587`, success). **No** despachar desde una etiqueta anterior.
 Siguiente: FSE sesión 7 ([#81](https://github.com/refo44/demo-revistalogos/issues/81)),
 plantilla del número, sobre `feat/fse`, en Docker (ver punto 6). La sesión 6
 está fusionada en `feat/fse` ([#106](https://github.com/refo44/demo-revistalogos/pull/106)).
