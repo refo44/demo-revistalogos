@@ -45,6 +45,7 @@ class Plugin {
 		add_action( 'init', array( Comments_Disabler::class, 'register' ), 13 );
 
 		Meta_Boxes::register_hooks();
+		Queries::register_hooks();
 		Relationships::register_hooks();
 		Contact_Form_Integration::register_hooks();
 		Article_Pdf_Publication_Settings::register_hooks();

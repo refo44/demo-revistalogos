@@ -14,8 +14,49 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Read-only helpers consumed by the theme. All bounded, no N+1 loops.
+ * Every listing ordered by date breaks ties by post ID, so posts that
+ * share a post_date (Vol. 1 Nº 1) keep one order across requests and
+ * pages.
  */
 class Queries {
+
+	/**
+	 * Register the archive ordering hook.
+	 */
+	public static function register_hooks() {
+		add_action( 'pre_get_posts', array( __CLASS__, 'stable_archive_order' ) );
+	}
+
+	/**
+	 * Public archives and the news index left on core's default
+	 * post_date order also order by ID, in the same direction. An
+	 * explicit orderby and search are left alone.
+	 *
+	 * @param \WP_Query $query Query being prepared.
+	 */
+	public static function stable_archive_order( $query ) {
+		if ( is_admin() || ! $query->is_main_query() || $query->is_search() ) {
+			return;
+		}
+
+		if ( ! $query->is_archive() && ! $query->is_home() ) {
+			return;
+		}
+
+		if ( '' !== $query->get( 'orderby' ) ) {
+			return;
+		}
+
+		$order = 'ASC' === strtoupper( (string) $query->get( 'order' ) ) ? 'ASC' : 'DESC';
+
+		$query->set(
+			'orderby',
+			array(
+				'date' => $order,
+				'ID'   => $order,
+			)
+		);
+	}
 
 	/**
 	 * The published issue with the most recent date_published.
@@ -112,8 +153,11 @@ class Queries {
 				'posts_per_page' => $limit,
 				'meta_key'       => 'issue',
 				'meta_value'     => $issue_id,
-				'orderby'        => 'menu_order date',
-				'order'          => 'ASC',
+				'orderby'        => array(
+					'menu_order' => 'ASC',
+					'date'       => 'ASC',
+					'ID'         => 'ASC',
+				),
 				'no_found_rows'  => true,
 			)
 		);
@@ -171,8 +215,10 @@ class Queries {
 						'compare' => 'LIKE',
 					),
 				),
-				'orderby'        => 'date',
-				'order'          => 'DESC',
+				'orderby'        => array(
+					'date' => 'DESC',
+					'ID'   => 'DESC',
+				),
 				'no_found_rows'  => true,
 			)
 		);
@@ -220,10 +266,10 @@ class Queries {
 			global $wpdb;
 
 			if ( $query->get( 'revistalogos_search' ) ) {
-				// Documented type priority, then recency. No native
-				// orderby exists for type priority; posts_orderby is the
-				// supported extension point.
-				$orderby = "FIELD({$wpdb->posts}.post_type, 'article', 'issue', 'author', 'post'), {$wpdb->posts}.post_date DESC";
+				// Documented type priority, then recency, then ID for
+				// ties. No native orderby exists for type priority;
+				// posts_orderby is the supported extension point.
+				$orderby = "FIELD({$wpdb->posts}.post_type, 'article', 'issue', 'author', 'post'), {$wpdb->posts}.post_date DESC, {$wpdb->posts}.ID DESC";
 			}
 
 			return $orderby;

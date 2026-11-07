@@ -183,6 +183,7 @@
   padding: var(--space-6);
   box-shadow: var(--shadow-sm);
   transition: box-shadow var(--transition-fast);
+  overflow-wrap: break-word;
 }
 
 .card:hover {

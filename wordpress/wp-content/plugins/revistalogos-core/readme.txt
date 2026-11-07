@@ -44,6 +44,12 @@ la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
   the newest to the oldest published article, so the theme's year filter
   no longer queries articles (issue #80).
 
+= 0.2.24 =
+* Archives, the news index, issue and author article lists, and search
+  break post_date ties by post ID, so articles sharing a date keep one
+  order and pagination no longer repeats or skips them. 0.2.22 and
+  0.2.23 are taken by the FSE branch.
+
 = 0.2.23 =
 * FSE recent articles block: the three latest published articles through
   the theme's recent-articles part; returns nothing without articles

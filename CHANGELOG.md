@@ -9,13 +9,6 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Added
-- Antes del switch a FSE (ADR 0015, nota 2026-11-02,
-  [#103](https://github.com/refo44/demo-revistalogos/issues/103)): no hay
-  switch hasta cargar en Docker local una copia exacta de la base de
-  producción, con los `uploads/` que el contenido referencia, y comparar
-  esas URLs con la versión live. El switch no habilita la versión nueva
-  del theme ni la del plugin. Una discrepancia sin resolver lo bloquea.
-  No bloquea las sesiones 2–9 ni los minor de la línea live.
 - FSE Sesión 2, bootstrap en Docker (ADR 0015 §7.2, rama `feat/fse`,
   [#76](https://github.com/refo44/demo-revistalogos/issues/76)): theme
   `revistalogos` **0.3.0** pasa a block theme con
@@ -96,7 +89,41 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   contexto `postId` y `postType`, para que la vista previa del editor en
   `single.html` reciba la entrada. No llega a producción hasta el corte.
 
+## [0.3.17] — 2026-11-04
+
+Release etiquetado para FTPS de producción (ADR 0020). Theme `revistalogos`
+**0.2.13** y plugin `revistalogos-core` **0.2.24**, de la línea live
+(ADR 0015, nota 2026-11-02). No incluye la major FSE de `feat/fse`.
+
+### Added
+- Antes del switch a FSE (ADR 0015, nota 2026-11-02,
+  [#103](https://github.com/refo44/demo-revistalogos/issues/103)): no hay
+  switch hasta cargar en Docker local una copia exacta de la base de
+  producción, con los `uploads/` que el contenido referencia, y comparar
+  esas URLs con la versión live. El switch no habilita la versión nueva
+  del theme ni la del plugin. Una discrepancia sin resolver lo bloquea.
+  No bloquea las sesiones 2–9 ni los minor de la línea live.
+
 ### Fixed
+- Theme **0.2.13**: una noticia (`single.php`) ya no desborda en
+  horizontal. WordPress pone la clase `single-post` en `<body>` y la regla
+  de ancho de lectura `.single-post` de `pages/article.css`, que ningún
+  marcado usa, encogía toda la página a unos 655 px: el menú se salía por
+  la derecha a 1280 px. Se quita ese selector (también en la copia de
+  `static/`, donde no cambia nada). A 320 px, una palabra larga en el
+  título de una tarjeta de «Entradas Relacionadas» ya no sale de la
+  tarjeta: `.card` parte palabras que no caben. Sube el `?v=` de
+  `components.css` y `pages/article.css` en `main.css`.
+- Plugin **0.2.24**: los listados ya no cambian de orden entre visitas
+  cuando varias entradas comparten fecha. Core ordena los archivos solo por
+  `post_date`, y con fechas iguales MySQL devuelve las filas en cualquier
+  orden: la paginación repetía o saltaba artículos (en Docker, 15 artículos
+  de demostración comparten fecha; los de Vol. 1 Nº 1 pueden también). Un
+  `pre_get_posts` del plugin desempata por ID, en la misma dirección, en
+  los archivos públicos y el índice de noticias que siguen en el orden por
+  defecto; un `orderby` explícito no se toca. También desempatan
+  `Queries::issue_articles()`, `author_articles()` y `search_query()`. Los
+  números 0.2.22 y 0.2.23 ya los usa la rama `feat/fse`.
 - Maqueta `static/`: restaura `assets/img/logo-revista.png` y
   `assets/pdf/politicas-editorial.pdf`, borrados por error en `1c6d2c2`.
   El logo de cabecera volvía 404 en todas las páginas, también en el
@@ -149,6 +176,14 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   `docs/fase3-execution-state.md` y en el ítem 7 de `docs/adr/BACKLOG.md`;
   la siguiente acción pasa a la sesión 6
   ([#80](https://github.com/refo44/demo-revistalogos/issues/80)). La
+  paridad visual queda a revisión del propietario.
+- FSE sesión 6 (archivos, búsqueda, noticias y 404) registrada como
+  hecha en `feat/fse`
+  ([#106](https://github.com/refo44/demo-revistalogos/pull/106),
+  [#80](https://github.com/refo44/demo-revistalogos/issues/80)) en
+  `docs/fase3-execution-state.md` y en el ítem 7 de `docs/adr/BACKLOG.md`;
+  la siguiente acción pasa a la sesión 7
+  ([#81](https://github.com/refo44/demo-revistalogos/issues/81)). La
   paridad visual queda a revisión del propietario.
 - BACKLOG ítem 10 (identificadores digitales de la revista) marcado HECHO
   en `v0.3.10` ([#58](https://github.com/refo44/demo-revistalogos/issues/58)
@@ -766,7 +801,8 @@ con la infraestructura de gobierno del proyecto en su sitio.
 - El contenido editorial de la maqueta es demostrativo y **no** se publica en producción (ver `docs/17-implementation-order` §3.1).
 - `robots.txt` permanece en `Disallow: /` mientras el sitio es prototipo.
 
-[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.3.16...HEAD
+[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.3.17...HEAD
+[0.3.17]: https://github.com/refo44/demo-revistalogos/compare/v0.3.16...v0.3.17
 [0.3.16]: https://github.com/refo44/demo-revistalogos/compare/v0.3.15...v0.3.16
 [0.3.15]: https://github.com/refo44/demo-revistalogos/compare/v0.3.14...v0.3.15
 [0.3.14]: https://github.com/refo44/demo-revistalogos/compare/v0.3.13...v0.3.14
