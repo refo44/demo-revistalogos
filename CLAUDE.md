@@ -118,6 +118,9 @@ required, not shared via Git, not a substitute for the files above.
   switch waits until an exact production database copy, plus the uploads
   that content references, has been loaded into local Docker and compared
   with the live site; an unresolved discrepancy blocks it (issue #103).
+  It also blocks the final merge of `feat/fse` into `main`: Session 9,
+  then #103 on the commit to be merged, then the merge, then the switch
+  (ADR 0015, note 2026-11-07).
   Sessions 2–9 and live minors do not wait on that.
 - **Identifiers (DOI/ORCID/ISSN) are Fase 4, deliberately deferred** past
   the WordPress launch (ADR 0013). Fase 3 stores them as inert fields only —

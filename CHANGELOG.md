@@ -12,6 +12,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 - `docs/fase3-execution-state.md`: `v0.3.17` ya está live desde el
   2026-11-06 (theme 0.2.13, plugin 0.2.24); no despachar desde una
   etiqueta anterior.
+- ADR 0015, nota 2026-11-07: la copia de producción en Docker y su
+  comparación ([#103](https://github.com/refo44/demo-revistalogos/issues/103))
+  van después de la sesión 9 y antes de fusionar `feat/fse` en `main`,
+  sobre el commit que se va a fusionar. Mientras quede una discrepancia
+  sin resolver no hay fusión ni switch. Recogido en `docs/adr/BACKLOG.md`,
+  `docs/fse-implementation-prompt.md`, `docs/fase3-execution-state.md` y
+  `CLAUDE.md`.
 
 ## [0.3.17] — 2026-11-04
 
