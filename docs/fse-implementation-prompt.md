@@ -255,7 +255,11 @@ The switch waits on [#103](https://github.com/refo44/demo-revistalogos/issues/10
 Before it, an exact production database export plus the `uploads/` that
 content references is loaded into local Docker only (not committed). The
 same URLs are compared: live production against that local copy on the
-FSE major. Any unresolved discrepancy blocks the switch. When the switch
+FSE major. Any unresolved discrepancy blocks the switch.
+
+It also blocks the final merge of `feat/fse` into `main` (ADR 0015, note
+2026-11-07). The order is Session 9, then #103 on the `feat/fse` commit
+that will be merged, then the merge, then the switch. When the switch
 happens, the live theme version and the live plugin version stay enabled.
 Sessions 2–9, and minors of the live line, do not wait on this.
 

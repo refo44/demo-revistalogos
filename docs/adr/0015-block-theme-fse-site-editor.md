@@ -175,3 +175,13 @@ Nota del propietario. No cambia §1–§6, el contrato de conversión ni las ses
 2. **Solo en Docker.** Esa copia se carga en el sitio local (`localhost:8080`) y, únicamente ahí, el host de producción se reescribe a `http://localhost:8080`.
 3. **La comparación.** Con esos datos, local sirve el block theme de `feat/fse`. Producción sigue en el theme clásico activo. Se comparan las mismas URLs: contenido, rutas y presentación. Cada discrepancia se anota en [#103](https://github.com/refo44/demo-revistalogos/issues/103).
 4. **El switch.** Mientras quede una discrepancia sin resolver, no hay switch. Cuando el propietario acepta que no queda ninguna, el switch deja habilitadas las versiones live del theme y del plugin. No activa la major. La línea live puede seguir publicando minor y patch.
+
+## Copia de producción antes de fusionar `feat/fse` (2026-11-07)
+
+Nota del propietario. Adelanta la copia de producción de la nota anterior: ya no espera solo al switch. No cambia §1–§6, el contrato de conversión ni las sesiones 2–9.
+
+**Motivo.** La fusión de `feat/fse` en `main` es el último paso de la conversión. Antes de darla, el block theme tiene que haberse comparado con producción sobre los mismos datos.
+
+1. **El orden.** Sesión 9 ([#83](https://github.com/refo44/demo-revistalogos/issues/83)), después la copia y la comparación de [#103](https://github.com/refo44/demo-revistalogos/issues/103), después la fusión de `feat/fse` → `main`, después el switch ([#84](https://github.com/refo44/demo-revistalogos/issues/84)).
+2. **Qué se compara.** El commit de `feat/fse` que se va a fusionar, sobre una copia de la base de producción y de sus `uploads/` exportada para esa comparación. El procedimiento es el de la nota anterior, puntos 1–3.
+3. **La fusión.** No se fusiona `feat/fse` en `main` mientras [#103](https://github.com/refo44/demo-revistalogos/issues/103) siga abierta o quede una discrepancia sin resolver. Las fusiones de `main` en `feat/fse` no esperan.

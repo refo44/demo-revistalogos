@@ -691,7 +691,8 @@ La firma visual de las sesiones 5 y 6 queda pendiente. El switch
 la major del theme ni la del plugin. Espera
 [#103](https://github.com/refo44/demo-revistalogos/issues/103): una copia
 exacta de la base de producción en Docker local, comparada con la versión
-live. La línea live sigue habilitada y puede publicar minor y patch. Eso
+live. Desde el 2026-11-07 esa comparación va después de la sesión 9 y
+antes de fusionar `feat/fse` en `main` (ADR 0015, nota 2026-11-07). La línea live sigue habilitada y puede publicar minor y patch. Eso
 no adelanta ni retrasa las sesiones.
 Trabajo pendiente aceptado (no duplicar aquí):
 `docs/adr/BACKLOG.md` § Trabajo pendiente aceptado.
