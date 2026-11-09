@@ -5,8 +5,8 @@ current_work_unit: ""
 current_branch: ""
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
-updated_at: "2026-11-06"
-next_action: "FSE sesión 7 (#81): plantilla del número en Docker, rama desde feat/fse, PR hacia feat/fse. La sesión 6 está fusionada en feat/fse (#106, 8c4c511; theme 0.3.4, plugin 0.2.25); la firma visual de las sesiones 5 y 6 queda pendiente. v0.3.17 ya está live; no despachar desde una etiqueta anterior."
+updated_at: "2026-11-09"
+next_action: "FSE sesión 7 (#81): plantilla del número en Docker, rama desde feat/fse, PR hacia feat/fse. La sesión 6 está fusionada en feat/fse (#106, 8c4c511; theme 0.3.4, plugin 0.2.25); la firma visual de las sesiones 5 y 6 queda pendiente. v0.3.18 ya está live; no despachar desde una etiqueta anterior."
 blocked: false
 ---
 
@@ -674,12 +674,12 @@ editorial real en proceso desde wp-admin (**no** completa). Docker local:
 `http://localhost:8080` (WordPress 7.1, PHP **8.3**).
 
 Renombrado a **LOGOS ET SPES** ([ADR 0023](adr/0023-nombre-de-la-revista-logos-et-spes.md),
-2026-11-08): hecho en código (theme **0.2.14**, plugin **0.2.26**), sin
-desplegar. Queda fuera de Git el cierre listado en `docs/adr/BACKLOG.md`. La migración
+2026-11-08): hecho en código (theme **0.2.14**, plugin **0.2.26**) y live
+desde `v0.3.18`. Queda fuera de Git el cierre listado en `docs/adr/BACKLOG.md`. La migración
 de dominio y la reindexación son una fase posterior y aún no tienen plan.
 
 Cabecera (2026-11-09): solape logo/menú y desborde corregidos en código
-(theme **0.2.15**), sin desplegar. El menú de producción (9 entradas, 982 px)
+(theme **0.2.15**) y live desde `v0.3.18`. El menú de producción (9 entradas, 982 px)
 no cabe en una fila junto al logo dentro del contenedor de 1200 px, así que allí baja
 a su propia fila y la cabecera pasa de 93 a 145 px. El menú desplegable cubre hasta
 1024 px.
@@ -693,7 +693,11 @@ desde el 2026-09-24 (`workflow_dispatch` desde `v0.3.16`, run
 [#105](https://github.com/refo44/demo-revistalogos/pull/105); plugin
 **0.2.24**, [#104](https://github.com/refo44/demo-revistalogos/pull/104))
 live desde el 2026-11-06 (`workflow_dispatch` desde `v0.3.17`, run
-`42224925587`, success). **No** despachar desde una etiqueta anterior.
+`42224925587`, success). Release de proyecto **0.3.18** (theme **0.2.15** y
+plugin **0.2.26**, [#111](https://github.com/refo44/demo-revistalogos/pull/111) y
+[#112](https://github.com/refo44/demo-revistalogos/pull/112)) live desde el
+2026-11-09 (`workflow_dispatch` desde `v0.3.18`, run `42657873756`, success).
+**No** despachar desde una etiqueta anterior.
 Siguiente: FSE sesión 7 ([#81](https://github.com/refo44/demo-revistalogos/issues/81)),
 plantilla del número, sobre `feat/fse`, en Docker (ver punto 6). La sesión 6
 está fusionada en `feat/fse` ([#106](https://github.com/refo44/demo-revistalogos/pull/106)).
