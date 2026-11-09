@@ -14,6 +14,9 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   tipografía institucional de la marca para el sello y las piezas de marca.
   La tipografía del sitio web no cambia (Georgia y System UI). `docs/15` (1.2)
   y `docs/README.md` remiten a esa sección.
+- `docs/fase3-execution-state.md`: `v0.3.19` ya está live desde el
+  2026-11-09 (theme 0.2.16, plugin 0.2.26) con el sello LOGOS ET SPES; no
+  despachar desde una etiqueta anterior.
 
 ## [0.3.19] — 2026-11-09
 
