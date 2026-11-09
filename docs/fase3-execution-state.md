@@ -682,6 +682,10 @@ Sello LOGOS ET SPES (2026-11-09, [#115](https://github.com/refo44/demo-revistalo
 theme **0.2.16**, live desde `v0.3.19`): masters de marca, cabecera, `og:image`, logo
 del JSON-LD, favicon y tarjeta social muestran el sello nuevo. Las URLs del
 logo, la tarjeta y el favicon llevan `?ver=` con la versión del theme.
+En wp-admin (2026-11-09, fuera de Git): el Icono del sitio es el sello
+(medio 209, desde `favicon-512.png`) y sustituye al favicon del theme; la
+portada destacada de Vol. 1 Nº 1 pasa a `portada-revista-logos-et-spes.jpg`
+(medio 208), la misma imagen con el sello nuevo en lugar del antiguo.
 
 Cabecera (2026-11-09): solape logo/menú y desborde corregidos en código
 (theme **0.2.15**) y live desde `v0.3.18`. El menú de producción (9 entradas, 982 px)

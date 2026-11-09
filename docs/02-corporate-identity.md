@@ -141,7 +141,9 @@ sello, convertida a contornos. Llevarla a la interfaz es una decisión aparte.
 - **Revista en el sitio:** `assets/img/logo-revista-cabecera.png` (header) y
   `assets/img/logo-revista.png` (`og:image`, JSON-LD, materiales digitales)
 - **CENFISS:** `assets/img/logo-cenfiss.svg` — Referencia institucional
-- **Favicon:** `assets/img/favicon.png` — Derivado del logo
+- **Favicon:** `assets/img/favicon.png` — Derivado del logo. En producción
+  lo sustituye el Icono del sitio de WordPress, subido desde
+  `favicon-512.png` (`15-assets-strategy` § Masters de marca).
 
 **Reglas:** No alterar proporciones, color ni composición. No recomponer los
 textos del sello con otra tipografía.

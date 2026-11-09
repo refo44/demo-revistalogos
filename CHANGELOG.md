@@ -17,6 +17,10 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 - `docs/fase3-execution-state.md`: `v0.3.19` ya está live desde el
   2026-11-09 (theme 0.2.16, plugin 0.2.26) con el sello LOGOS ET SPES; no
   despachar desde una etiqueta anterior.
+- `docs/15-assets-strategy.md`, `docs/02-corporate-identity.md` y
+  `docs/fase3-execution-state.md`: producción usa un Icono del sitio de
+  WordPress con el sello (desde `favicon-512.png`), que sustituye al favicon
+  del theme; la portada de Vol. 1 Nº 1 ya lleva el sello nuevo.
 
 ## [0.3.19] — 2026-11-09
 
