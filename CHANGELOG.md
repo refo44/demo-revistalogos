@@ -8,6 +8,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+## [0.3.18] — 2026-11-09
+
+Release etiquetado para FTPS de producción (ADR 0020). Theme `revistalogos`
+**0.2.15** y plugin `revistalogos-core` **0.2.26**, de la línea live
+(ADR 0015, nota 2026-11-02). No incluye la major FSE de `feat/fse`. El cierre del
+renombrado fuera de Git sigue pendiente ([ADR 0023](docs/adr/0023-nombre-de-la-revista-logos-et-spes.md)).
+
 ### Fixed
 - El nombre de la revista es **LOGOS ET SPES** en el theme, el plugin, las
   citas, los metadatos académicos, `/llms.txt`, wp-admin, `static/` y la
@@ -744,7 +751,8 @@ con la infraestructura de gobierno del proyecto en su sitio.
 - El contenido editorial de la maqueta es demostrativo y **no** se publica en producción (ver `docs/17-implementation-order` §3.1).
 - `robots.txt` permanece en `Disallow: /` mientras el sitio es prototipo.
 
-[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.3.17...HEAD
+[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.3.18...HEAD
+[0.3.18]: https://github.com/refo44/demo-revistalogos/compare/v0.3.17...v0.3.18
 [0.3.17]: https://github.com/refo44/demo-revistalogos/compare/v0.3.16...v0.3.17
 [0.3.16]: https://github.com/refo44/demo-revistalogos/compare/v0.3.15...v0.3.16
 [0.3.15]: https://github.com/refo44/demo-revistalogos/compare/v0.3.14...v0.3.15
