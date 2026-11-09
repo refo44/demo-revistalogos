@@ -266,13 +266,32 @@ function revistalogos_schema_metadata() {
 add_action( 'wp_head', 'revistalogos_schema_metadata', 7 );
 
 /**
+ * Absolute URL of an image in the theme's assets/img/, with the theme
+ * version as `ver`. Social networks, search engines and browsers cache
+ * images by URL; the query makes them fetch the file again when a
+ * release changes it under the same name.
+ *
+ * @param string $file File name inside assets/img/.
+ * @return string
+ */
+function revistalogos_theme_image_url( $file ) {
+	$url = get_theme_root_uri() . '/revistalogos/assets/img/' . $file;
+
+	if ( defined( 'REVISTALOGOS_THEME_VERSION' ) ) {
+		$url = add_query_arg( 'ver', REVISTALOGOS_THEME_VERSION, $url );
+	}
+
+	return $url;
+}
+
+/**
  * Absolute URL of the journal logo used as the site preview image.
  * Replaces the retired static path /assets/img/logo-revista.png (404).
  *
  * @return string
  */
 function revistalogos_journal_logo_url() {
-	return get_theme_root_uri() . '/revistalogos/assets/img/logo-revista.png';
+	return revistalogos_theme_image_url( 'logo-revista.png' );
 }
 
 /**
@@ -304,13 +323,7 @@ function revistalogos_twitter_card_type( $width, $height ) {
  * @return string
  */
 function revistalogos_twitter_card_image_url() {
-	$url = get_theme_root_uri() . '/revistalogos/assets/img/og-twitter-card.jpg';
-
-	if ( defined( 'REVISTALOGOS_THEME_VERSION' ) ) {
-		$url = add_query_arg( 'ver', REVISTALOGOS_THEME_VERSION, $url );
-	}
-
-	return $url;
+	return revistalogos_theme_image_url( 'og-twitter-card.jpg' );
 }
 
 /**

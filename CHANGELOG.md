@@ -8,7 +8,26 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Added
+- Sello de la revista con el nombre corregido **LOGOS ET SPES** en
+  `assets/img/` del theme: SVG maestros (transparente y fondo blanco), PNG
+  de 1024 y 2048 y favicons. Los textos son contornos de Frank Ruhl Libre
+  Black (OFL 1.1). Theme 0.2.16
+  ([ADR 0023](docs/adr/0023-nombre-de-la-revista-logos-et-spes.md)).
+
 ### Changed
+- `logo-revista.png` (theme y maqueta `static/`) pasa al sello nuevo: la
+  cabecera, la imagen de la revista en `og:image` y el logo del JSON-LD ya
+  dicen LOGOS ET SPES. Antes era un JPEG con extensión `.png`; ahora es un
+  PNG de 256 colores de 1024 px y peso similar.
+- El favicon (`favicon.png` y `favicon.svg`, también en `static/`), la
+  tarjeta social `og-twitter-card.jpg` y `logo-revista.svg` pasan al sello
+  nuevo.
+- La cabecera de WordPress carga `logo-revista-cabecera.png` (156 px, 32 KB)
+  en lugar del PNG de 1024 px (229 KB).
+- Las URLs del logo, la tarjeta social y el favicon llevan `?ver=` con la
+  versión del theme, para que navegadores, redes y buscadores no sigan
+  mostrando el sello anterior desde caché.
 - `docs/fase3-execution-state.md`: `v0.3.18` ya está live desde el
   2026-11-09 (theme 0.2.15, plugin 0.2.26); no despachar desde una
   etiqueta anterior.

@@ -70,6 +70,10 @@ assets/
 | `assets/img/logo-revista.svg` | Logo de la revista | Header, todas las páginas |
 | `assets/img/logo-cenfiss.svg` | Logo CENFISS | Footer, Enlaces, referencias institucionales |
 | `assets/img/favicon.svg` | Favicon | Todas las páginas |
+| `assets/img/logo-revista.png` | Sello LOGOS ET SPES con fondo blanco (1024 px) | Cabecera de la maqueta; en WordPress, `og:image` y logo del JSON-LD |
+| `assets/img/logo-revista-cabecera.png` | Sello a 156 px (solo theme) | Cabecera de WordPress |
+| `assets/img/og-twitter-card.jpg` | Sello sobre lienzo 1200×630 (solo theme) | `twitter:image` |
+| `assets/img/logo-logos-et-spes*`, `favicon-{32,512}.png`, `apple-touch-icon-180.png`, `buho-y-lampara.png` | Masters de marca (solo theme; ver `15-assets-strategy`) | Material para el diseñador; ninguna página los carga |
 | `assets/img/article-placeholder.svg` | Fallback de artículo | Archivo de artículos, tarjetas de artículo |
 | `assets/img/avatar-default.svg` | Fallback de avatar de autor | Artículo individual, tarjetas de autor |
 | `assets/img/placeholder-banner.jpg` | Placeholder JPEG «PRÓXIMAMENTE» (400×300). Debe ser un JPEG real, no un data URI con extensión `.jpg` (eso rompe el `Content-Type: image/jpeg`). | Carrusel del Home (maqueta); en WordPress, fallback de `issue-card` cuando un número no tiene featured image (p. ej. fixture «Número stub B») |
@@ -93,9 +97,11 @@ assets/
 
 | Archivo | Uso |
 |---------|-----|
-| `assets/img/logo-revista.svg` | Header, favicon, materiales digitales |
+| `assets/img/logo-revista.svg` | Sello con fondo blanco, materiales digitales |
+| `assets/img/logo-revista.png`, `assets/img/logo-revista-cabecera.png` | Header, `og:image`, JSON-LD |
 | `assets/img/logo-cenfiss.svg` | Footer, Enlaces, institucional |
-| `assets/img/favicon.svg` | Favicon |
+| `assets/img/favicon.svg`, `assets/img/favicon.png` | Favicon |
+| `assets/img/logo-logos-et-spes*` y derivados | Masters de marca (`15-assets-strategy` § Masters de marca) |
 | `content-source/PROYECTO...md` | Referencia de identidad (02), estructura |
 
 ---

@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'REVISTALOGOS_THEME_VERSION', '0.2.15' );
+define( 'REVISTALOGOS_THEME_VERSION', '0.2.16' );
 
 require_once get_template_directory() . '/inc/template-tags.php';
 require_once get_template_directory() . '/inc/class-nav-walker.php';
@@ -104,7 +104,7 @@ function revistalogos_favicon() {
 
 	printf(
 		'<link rel="icon" type="image/png" href="%s">' . "\n",
-		esc_url( get_template_directory_uri() . '/assets/img/favicon.png' )
+		esc_url( revistalogos_theme_image_url( 'favicon.png' ) )
 	);
 }
 add_action( 'wp_head', 'revistalogos_favicon' );

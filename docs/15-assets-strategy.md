@@ -45,6 +45,54 @@ Ejemplo: `assets/img/logos/logo-revista.svg`, `assets/img/placeholders/article-p
 | `placeholders/banner-main.jpg` | Hero/banner | Placeholder (maqueta) |
 | `banners/flyer.jpg` | Eventos CENFISS (carrusel) | CENFISS |
 
+### Masters de marca
+
+El sello «LOGOS ET SPES» (ADR 0023) vive en
+`wordpress/wp-content/themes/revistalogos/assets/img/`, junto al resto de
+imágenes del theme. El deploy FTPS sube el theme completo, así que quedan
+accesibles públicamente bajo la URL del theme. Ninguna página los carga:
+el sitio usa solo los derivados de la tabla siguiente, y sus URLs llevan
+`?ver=` con la versión del theme para que navegadores, redes y buscadores
+pidan la imagen nueva cuando cambia el sello.
+
+| Derivado | Uso | Formato |
+|----------|-----|---------|
+| `logo-revista-cabecera.png` | Logo de la cabecera (se muestra a 52 px; 40 px en móvil) | PNG 156×156 (3×) |
+| `logo-revista.png` | `og:image` de la portada y `image` del JSON-LD | PNG 1024×1024, 256 colores (≈229 KB) |
+| `og-twitter-card.jpg` | `twitter:image` (`summary_large_image`) | JPEG 1200×630 |
+| `favicon.png`, `favicon.svg` | Favicon (copia de `favicon-32.png`) | PNG 32×32 |
+| `logo-revista.svg` | Sello con fondo blanco, sin uso en plantillas | SVG con el búho en PNG de 256 colores |
+
+`logo-revista.png` queda en 256 colores a propósito: en color verdadero pesa
+≈626 KB, y WhatsApp deja de mostrar la vista previa de enlaces con imágenes
+de más de ≈300 KB. La maqueta `static/` usa la misma imagen en su cabecera
+y no se modifica.
+
+| Archivo | Contenido |
+|---------|-----------|
+| `logo-logos-et-spes.svg`, `logo-logos-et-spes-fondo-blanco.svg` | Masters vectoriales, transparente y con fondo blanco |
+| `logo-logos-et-spes-{1024,2048}.png`, `logo-logos-et-spes-fondo-blanco-{1024,2048}.png` | Exportaciones PNG |
+| `favicon-32.png`, `favicon-512.png`, `apple-touch-icon-180.png` | Iconos del sitio |
+| `buho-y-lampara.png` | Búho y lámpara aislados |
+
+Estos archivos se guardan aunque el theme no los use: son el material de
+marca para el diseñador y para otros medios (documentos, correo, impresos).
+No se recomprimen: la compresión sin pérdida disponible ahorra ≈2 % y cada
+reescritura suma otra copia completa al historial de Git.
+
+El búho y la lámpara son una imagen raster de 972×654 px dentro del lienzo
+de 1024. En los masters de 2048 px ese raster está ampliado al doble, así que
+solo los anillos y los textos ganan nitidez; el búho no tiene más detalle que
+en 1024. Para impresos grandes hace falta un búho de mayor resolución o
+vectorizado.
+
+Los textos del sello («REVISTA DE FILOSOFÍA» y «LOGOS ET SPES») van
+convertidos a contornos con **Frank Ruhl Libre Black** (peso 900, licencia
+SIL OFL 1.1), elegida por el owner como la más parecida al sello original,
+cuya fuente no se conoce. Al ser contornos, el SVG no depende de que la
+fuente esté instalada; el diseñador la necesita solo para componer textos
+nuevos con el mismo estilo.
+
 ### Optimización
 
 - **Formato:** WebP con fallback JPEG/PNG cuando haga falta. SVG para logos, iconos.
