@@ -49,13 +49,14 @@ class JournalNameTest extends TestCase {
 
 	/**
 	 * Dado: el prototipo estático.
-	 * Entonces: ninguna página usa la mezcla LOGOS et Spes. El texto
-	 * corrido es Logos et Spes y la presentación es LOGOS ET SPES
-	 * (ADR 0023).
+	 * Entonces: ninguna página conserva el nombre anterior LOGO ET SPES
+	 * (sin distinguir mayúsculas) ni la mezcla LOGOS et Spes. El texto
+	 * corrido Logos et Spes y la presentación LOGOS ET SPES siguen
+	 * siendo válidos (ADR 0023).
 	 */
-	public function test_static_pages_do_not_mix_the_journal_name_case() {
+	public function test_static_pages_do_not_carry_a_stale_journal_name() {
 		$root  = dirname( __DIR__, 2 ) . '/static/';
-		$mixed = array();
+		$stale = array();
 
 		$files = new RecursiveIteratorIterator(
 			new RecursiveDirectoryIterator( $root, FilesystemIterator::SKIP_DOTS )
@@ -68,13 +69,18 @@ class JournalNameTest extends TestCase {
 				continue;
 			}
 
-			if ( str_contains( (string) file_get_contents( $path ), 'LOGOS et Spes' ) ) {
-				$mixed[] = substr( $path, strlen( dirname( $root ) ) + 1 );
+			$contents = (string) file_get_contents( $path );
+
+			if (
+				str_contains( $contents, 'LOGOS et Spes' )
+				|| preg_match( '/\blogo[ _]et[ _]spes\b/i', $contents )
+			) {
+				$stale[] = substr( $path, strlen( dirname( $root ) ) + 1 );
 			}
 		}
 
-		sort( $mixed );
-		$this->assertSame( array(), $mixed );
+		sort( $stale );
+		$this->assertSame( array(), $stale );
 	}
 
 	/**
