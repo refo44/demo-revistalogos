@@ -50,9 +50,10 @@ Ejemplo: `assets/img/logos/logo-revista.svg`, `assets/img/placeholders/article-p
 El sello «LOGOS ET SPES» (ADR 0023) vive en
 `wordpress/wp-content/themes/revistalogos/assets/img/`, junto al resto de
 imágenes del theme. El deploy FTPS sube el theme completo, así que quedan
-accesibles públicamente bajo la URL del theme. Las plantillas siguen usando
-`logo-revista.png`, `favicon.png` y `og-twitter-card.jpg` hasta que se
-reemplacen por el sello nuevo.
+accesibles públicamente bajo la URL del theme. `logo-revista.png` (cabecera,
+`og:image`, logo del JSON-LD) ya es el sello nuevo con fondo blanco, en PNG
+de 256 colores. `favicon.png` y `og-twitter-card.jpg` siguen con el sello
+anterior hasta que se reemplacen.
 
 | Archivo | Contenido |
 |---------|-----------|
