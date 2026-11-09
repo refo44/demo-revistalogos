@@ -101,7 +101,7 @@ function revistalogos_highwire_metadata() {
 
 	$tags = array(
 		'citation_title'         => get_the_title( $article_id ),
-		'citation_journal_title' => 'Revista de Filosofía LOGO ET SPES',
+		'citation_journal_title' => 'Revista de Filosofía LOGOS ET SPES',
 	);
 
 	$authors = revistalogos_article_authors( $article_id );
@@ -171,7 +171,7 @@ function revistalogos_schema_metadata() {
 			'@graph'   => array(
 				array(
 					'@type' => 'Periodical',
-					'name'  => 'Revista de Filosofía LOGO ET SPES',
+					'name'  => 'Revista de Filosofía LOGOS ET SPES',
 					'url'   => home_url( '/' ),
 					'image' => revistalogos_journal_logo_url(),
 					'inLanguage' => 'es',
@@ -194,7 +194,7 @@ function revistalogos_schema_metadata() {
 			'inLanguage' => 'es',
 			'isPartOf'   => array(
 				'@type' => 'Periodical',
-				'name'  => 'Revista de Filosofía LOGO ET SPES',
+				'name'  => 'Revista de Filosofía LOGOS ET SPES',
 				'url'   => home_url( '/' ),
 			),
 		);

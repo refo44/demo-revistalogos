@@ -673,6 +673,11 @@ Recuperación institucional **ya hecha** (Pages reales permanentes). Carga
 editorial real en proceso desde wp-admin (**no** completa). Docker local:
 `http://localhost:8080` (WordPress 7.1, PHP **8.3**).
 
+Renombrado a **LOGOS ET SPES** ([ADR 0023](adr/0023-nombre-de-la-revista-logos-et-spes.md),
+2026-11-08): hecho en código (theme **0.2.14**, plugin **0.2.26**), sin
+desplegar. Queda fuera de Git el cierre listado en `docs/adr/BACKLOG.md`. La migración
+de dominio y la reindexación son una fase posterior y aún no tienen plan.
+
 Siguiente acción priorizada — ítem 12 / [#67](https://github.com/refo44/demo-revistalogos/issues/67)
 **HECHO** en `main` (`v0.3.15`, [#70](https://github.com/refo44/demo-revistalogos/pull/70)).
 Plugin 0.2.20 / theme 0.2.12 entregó los campos. El puente Apply/Restore

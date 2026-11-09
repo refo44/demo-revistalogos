@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — Inventario de Fuentes de Contenido
+# Revista de Filosofía LOGOS ET SPES — Inventario de Fuentes de Contenido
 
 **Lista canónica de fuentes de contenido y estado editorial**
 
@@ -182,4 +182,4 @@ editorial; no equivalen a «migración terminada». Fixtures dummy: no importar.
 ---
 
 **Versión:** 1.1
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

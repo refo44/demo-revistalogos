@@ -45,7 +45,7 @@ class Llms_Txt {
 	/**
 	 * Public journal name (content-source / site chrome).
 	 */
-	const JOURNAL_NAME = 'Revista de Filosofía LOGO ET SPES';
+	const JOURNAL_NAME = 'Revista de Filosofía LOGOS ET SPES';
 
 	/**
 	 * Hero description — same wording as front-page.php.
@@ -179,12 +179,12 @@ class Llms_Txt {
 	}
 
 	/**
-	 * Settings → LOGO ET SPES — llms.txt. Same plugin prefix as the PDF page.
+	 * Settings → LOGOS ET SPES — llms.txt. Same plugin prefix as the PDF page.
 	 */
 	public static function register_page() {
 		add_options_page(
-			__( 'LOGO ET SPES — llms.txt', 'revistalogos-core' ),
-			__( 'LOGO ET SPES — llms.txt', 'revistalogos-core' ),
+			__( 'LOGOS ET SPES — llms.txt', 'revistalogos-core' ),
+			__( 'LOGOS ET SPES — llms.txt', 'revistalogos-core' ),
 			'manage_options',
 			self::PAGE_SLUG,
 			array( __CLASS__, 'render_settings_page' )
@@ -200,7 +200,7 @@ class Llms_Txt {
 		}
 
 		echo '<div class="wrap">';
-		echo '<h1>' . esc_html__( 'LOGO ET SPES', 'revistalogos-core' ) . ' — <code>' . esc_html__( 'llms.txt', 'revistalogos-core' ) . '</code></h1>';
+		echo '<h1>' . esc_html__( 'LOGOS ET SPES', 'revistalogos-core' ) . ' — <code>' . esc_html__( 'llms.txt', 'revistalogos-core' ) . '</code></h1>';
 		echo '<form action="options.php" method="post">';
 		settings_fields( self::SETTINGS_GROUP );
 		do_settings_sections( self::PAGE_SLUG );
@@ -267,7 +267,7 @@ class Llms_Txt {
 	}
 
 	/**
-	 * Settings → LOGO ET SPES — llms.txt refresh button.
+	 * Settings → LOGOS ET SPES — llms.txt refresh button.
 	 */
 	public static function handle_refresh() {
 		$nonce  = isset( $_REQUEST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- verified in refresh_if_authorized().
@@ -290,7 +290,7 @@ class Llms_Txt {
 	}
 
 	/**
-	 * Manual refresh panel on Settings → LOGO ET SPES — llms.txt.
+	 * Manual refresh panel on Settings → LOGOS ET SPES — llms.txt.
 	 */
 	public static function render_admin_panel() {
 		if ( ! current_user_can( 'manage_options' ) ) {

@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES
+# Revista de Filosofía LOGOS ET SPES
 
 **Versión:** 0.3.0 (canónica en `package.json`; ver `VERSION.md` y `CHANGELOG.md`)
 

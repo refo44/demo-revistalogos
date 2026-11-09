@@ -373,4 +373,4 @@ ADR 0017 work unit 1 ya tiene la política pura; no adelantar
 `PdfGenerator` ni librerías PDF hasta la unidad de renderer.
 
 **Versión:** 1.3
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

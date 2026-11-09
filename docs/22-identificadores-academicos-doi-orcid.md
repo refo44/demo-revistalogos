@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — Identificadores académicos: DOI y ORCID
+# Revista de Filosofía LOGOS ET SPES — Identificadores académicos: DOI y ORCID
 
 **Versión 1.0**
 
@@ -214,4 +214,4 @@ Dos preguntas frecuentes al implementar este documento, ya resueltas en ADR 0013
 ---
 
 **Versión:** 1.0
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

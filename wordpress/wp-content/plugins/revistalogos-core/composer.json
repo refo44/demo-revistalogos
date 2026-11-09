@@ -1,6 +1,6 @@
 {
   "name": "cenfiss/revistalogos-core",
-  "description": "Runtime Composer dependencies for the Revista LOGO ET SPES WordPress plugin. Not the repo-root test tooling.",
+  "description": "Runtime Composer dependencies for the Revista LOGOS ET SPES WordPress plugin. Not the repo-root test tooling.",
   "license": "GPL-2.0-or-later",
   "type": "wordpress-plugin",
   "require": {

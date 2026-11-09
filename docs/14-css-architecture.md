@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — Arquitectura CSS
+# Revista de Filosofía LOGOS ET SPES — Arquitectura CSS
 
 **Capas, tokens y criterios de implementación de estilos**
 
@@ -129,4 +129,4 @@ Los estilos deben priorizar lectura prolongada:
 ---
 
 **Versión:** 1.0  
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

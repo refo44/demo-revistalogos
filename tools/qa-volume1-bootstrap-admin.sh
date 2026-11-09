@@ -60,7 +60,7 @@ done
 cli core version >/dev/null || fail "WordPress core did not become ready"
 cli core install \
 	--url="$BASE_URL" \
-	--title="LOGO ET SPES bootstrap admin removed QA" \
+	--title="LOGOS ET SPES bootstrap admin removed QA" \
 	--admin_user="$ADMIN_USER" \
 	--admin_password="$ADMIN_PASSWORD" \
 	--admin_email="bootstrap-admin-removed@example.invalid" \

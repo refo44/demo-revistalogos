@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Settings API fields on Ajustes → LOGO ET SPES.
+ * Settings API fields on Ajustes → LOGOS ET SPES.
  */
 class Journal_Identifier_Settings {
 
@@ -98,7 +98,7 @@ class Journal_Identifier_Settings {
 	}
 
 	/**
-	 * Fields on the existing LOGO ET SPES settings page.
+	 * Fields on the existing LOGOS ET SPES settings page.
 	 */
 	public static function register_setting() {
 		foreach ( self::fields() as $option => $field ) {

@@ -1,13 +1,13 @@
 ---
 name: code-review
 description: >-
-  Reviews pull requests for Revista de Filosofía LOGO ET SPES using repository
+  Reviews pull requests for Revista de Filosofía LOGOS ET SPES using repository
   policy (Spanish Conventional Comments, ADR 0019). Use when Copilot code
   review runs, when reviewing a pull request or diff, or when the user asks
   for a code review.
 ---
 
-# Code review (LOGO ET SPES)
+# Code review (LOGOS ET SPES)
 
 Pointer only. Do not invent policy.
 

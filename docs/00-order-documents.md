@@ -107,7 +107,7 @@ Ver `16-content-source-inventory` para el mapeo completo.
 | Normas de Publicación, Ética, Políticas | 04, 07, 09 |
 | Formularios (Solicitud, Arbitraje) | 16, 17 |
 | Reseña curricular del autor (Código ORCID) | 03, 22 |
-| Origen del nombre Logo et Spes | 02, 04 |
+| Origen del nombre Logos et Spes | 02, 04 |
 | Simulación teórica del sitio | 04, 06, 11 |
 | Acceso abierto, arbitraje doble ciego | 01, 07 |
 
@@ -128,4 +128,4 @@ Estos principios aplican independientemente del tipo de sitio (comunidad, autor,
 ---
 
 **Versión:** 1.2  
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

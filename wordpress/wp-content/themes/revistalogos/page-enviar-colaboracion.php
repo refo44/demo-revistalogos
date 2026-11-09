@@ -19,7 +19,7 @@ while ( have_posts() ) :
 		'template-parts/content/content-institutional-page',
 		null,
 		array(
-			'description' => __( 'Instrucciones para enviar artículos, ensayos y reseñas a LOGO ET SPES.', 'revistalogos' ),
+			'description' => __( 'Instrucciones para enviar artículos, ensayos y reseñas a LOGOS ET SPES.', 'revistalogos' ),
 			'aside'       => static function () {
 				?>
 				<div class="card">

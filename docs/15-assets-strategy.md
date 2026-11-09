@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — Estrategia de Assets
+# Revista de Filosofía LOGOS ET SPES — Estrategia de Assets
 
 **Imágenes, fuentes, iconos y archivos estáticos**
 
@@ -52,7 +52,7 @@ Ejemplo: `assets/img/logos/logo-revista.svg`, `assets/img/placeholders/article-p
 - **Responsive:** `srcset` con 400w, 800w, 1200w para portadas de números y banners.
 - **Carga diferida:** Usar `loading="lazy"` en imágenes fuera del viewport inicial.
 - **Layout:** Usar `width` y `height` en etiquetas `<img>` para evitar CLS.
-- **Texto alt:** Siempre rellenar. Decorativas: `alt=""`. Portadas de números: alt descriptivo, ej. "Portada del volumen 12 número 2 de LOGO ET SPES (2025)". Ver `09-ui-copy-sheet`, `19-accessibility-standards`.
+- **Texto alt:** Siempre rellenar. Decorativas: `alt=""`. Portadas de números: alt descriptivo, ej. "Portada del volumen 12 número 2 de LOGOS ET SPES (2025)". Ver `09-ui-copy-sheet`, `19-accessibility-standards`.
 
 ### Nomenclatura
 
@@ -156,4 +156,4 @@ assets/
 ---
 
 **Versión:** 1.1  
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

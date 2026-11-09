@@ -18,7 +18,7 @@ while ( have_posts() ) :
 		'template-parts/content/content-institutional-page',
 		null,
 		array(
-			'description' => __( 'Recursos útiles para autores, investigadores y lectores de LOGO ET SPES. Encuentra aquí enlaces a normas de citación, herramientas académicas y marcos legales relevantes.', 'revistalogos' ),
+			'description' => __( 'Recursos útiles para autores, investigadores y lectores de LOGOS ET SPES. Encuentra aquí enlaces a normas de citación, herramientas académicas y marcos legales relevantes.', 'revistalogos' ),
 		)
 	);
 endwhile;

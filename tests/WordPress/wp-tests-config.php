@@ -21,7 +21,7 @@ $table_prefix = 'wptests_';
 
 define( 'WP_TESTS_DOMAIN', 'example.org' );
 define( 'WP_TESTS_EMAIL', 'admin@example.org' );
-define( 'WP_TESTS_TITLE', 'Revista de Filosofía LOGO ET SPES' );
+define( 'WP_TESTS_TITLE', 'Revista de Filosofía LOGOS ET SPES' );
 
 define( 'WP_PHP_BINARY', 'php' );
 define( 'WP_DEBUG', true );

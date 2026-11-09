@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — Estándares de Accesibilidad
+# Revista de Filosofía LOGOS ET SPES — Estándares de Accesibilidad
 
 **Documento único para estándares de accesibilidad**  
 **Versión 1.0**
@@ -155,5 +155,5 @@ Es una condición necesaria para el acceso abierto al conocimiento.
 ---
 
 **Versión:** 1.0  
-**Proyecto:** Revista de Filosofía LOGO ET SPES  
+**Proyecto:** Revista de Filosofía LOGOS ET SPES  
 **Estándar:** WCAG 2.1 / 2.2 (W3C)

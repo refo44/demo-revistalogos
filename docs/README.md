@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — Documentación
+# Revista de Filosofía LOGOS ET SPES — Documentación
 
 Documentación para el sitio web de la revista académica. CENFISS (Centro de Filosofía para la Investigación Stanislao Strba), Valencia, Venezuela.
 
@@ -77,4 +77,4 @@ Ningún documento puede depender de uno con número mayor. Ver `00-order-documen
 ---
 
 **Versión:** 1.6
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

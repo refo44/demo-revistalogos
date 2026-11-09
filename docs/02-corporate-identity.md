@@ -1,10 +1,11 @@
-# Revista de Filosofía LOGO ET SPES — Identidad Corporativa
+# Revista de Filosofía LOGOS ET SPES — Identidad Corporativa
 
 Versión: 1.5
 
 Este documento define el sistema de identidad visual y tipográfica del sitio. Sigue de forma estricta la fuente canónica y traduce al front-end solo los valores necesarios para una implementación web consistente y accesible.
 
 **Fuente canónica:** `content-source/PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md`  
+**Nombre:** `LOGOS ET SPES` en presentación, `Revista de Filosofía LOGOS ET SPES` como forma larga, `Logos et Spes` en texto corrido ([ADR 0023](adr/0023-nombre-de-la-revista-logos-et-spes.md)). `logo-et-spes` es solo el dominio.  
 **Referencia de implementación:** `assets/css/tokens.css`, `assets/img/logo-revista.png`
 
 ---
@@ -189,4 +190,4 @@ Todas las decisiones visuales deben derivar de este sistema. Si CENFISS adopta p
 
 **Versión:** 1.5  
 **Fuente:** PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md, tokens.css  
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

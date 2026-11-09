@@ -206,7 +206,7 @@ function revistalogos_citation_formats( $article_id ) {
 	$formats = array();
 
 	$formats['APA'] = sprintf(
-		'%s (%s). %s. LOGO ET SPES, %s%s. DOI: %s',
+		'%s (%s). %s. LOGOS ET SPES, %s%s. DOI: %s',
 		implode( ', & ', $apa_authors ),
 		$d['year'],
 		$d['title'],
@@ -231,7 +231,7 @@ function revistalogos_citation_formats( $article_id ) {
 			)
 		) . "},\n"
 		. '  title   = {' . $d['title'] . "},\n"
-		. "  journal = {LOGO ET SPES},\n"
+		. "  journal = {LOGOS ET SPES},\n"
 		. '  year    = {' . $d['year'] . "},\n"
 		. '  volume  = {' . $d['volume'] . "},\n"
 		. '  number  = {' . $d['number'] . "},\n"
@@ -240,7 +240,7 @@ function revistalogos_citation_formats( $article_id ) {
 		. '}';
 
 	$formats['Vancouver'] = sprintf(
-		'%s. %s. LOGO ET SPES. %s;%s:%s. DOI: %s',
+		'%s. %s. LOGOS ET SPES. %s;%s:%s. DOI: %s',
 		implode(
 			', ',
 			array_map(
@@ -258,7 +258,7 @@ function revistalogos_citation_formats( $article_id ) {
 	);
 
 	$formats['Chicago'] = sprintf(
-		'%s. "%s." LOGO ET SPES %s, no. %s (%s)%s. DOI: %s',
+		'%s. "%s." LOGOS ET SPES %s, no. %s (%s)%s. DOI: %s',
 		implode( ', and ', $full_names ),
 		$d['title'],
 		$d['volume'],
@@ -269,7 +269,7 @@ function revistalogos_citation_formats( $article_id ) {
 	);
 
 	$formats['MLA'] = sprintf(
-		'%s. "%s." LOGO ET SPES, vol. %s, no. %s, %s%s. DOI: %s',
+		'%s. "%s." LOGOS ET SPES, vol. %s, no. %s, %s%s. DOI: %s',
 		implode( ', and ', $mla_names ),
 		$d['title'],
 		$d['volume'],
@@ -280,7 +280,7 @@ function revistalogos_citation_formats( $article_id ) {
 	);
 
 	$formats['Harvard'] = sprintf(
-		"%s %s, '%s', LOGO ET SPES, vol. %s, no. %s%s. DOI: %s",
+		"%s %s, '%s', LOGOS ET SPES, vol. %s, no. %s%s. DOI: %s",
 		implode(
 			' & ',
 			array_map(
@@ -318,7 +318,7 @@ function revistalogos_citation_ris( $article_id ) {
 		$lines[] = 'AU  - ' . $a['surname'] . ', ' . $a['given'];
 	}
 
-	$lines[] = 'T2  - LOGO ET SPES';
+	$lines[] = 'T2  - LOGOS ET SPES';
 	$lines[] = 'PY  - ' . $d['year'];
 	$lines[] = 'VL  - ' . $d['volume'];
 	$lines[] = 'IS  - ' . $d['number'];

@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 class HomeHeroPresentationTest extends TestCase {
 
 	/**
-	 * Owner-directed copy: drop only "LOGO ET SPES" from the hero paragraph.
+	 * Owner-directed copy: drop only "LOGOS ET SPES" from the hero paragraph.
 	 *
 	 * @ticket 40
 	 */
@@ -22,14 +22,14 @@ class HomeHeroPresentationTest extends TestCase {
 		$front_page = $this->theme_file_contents( 'front-page.php' );
 		$copy_sheet = $this->repo_file_contents( 'docs/09-ui-copy-sheet.md' );
 
-		$this->assertStringContainsString( 'LOGO ET SPES', $front_page );
+		$this->assertStringContainsString( 'LOGOS ET SPES', $front_page );
 		$this->assertStringContainsString( 'Revista de Filosofía', $front_page );
 		$this->assertStringContainsString(
 			'La Revista de Filosofía adscrita, auspiciada y editada por el Centro de Filosofía para la Investigación <Stanislao Strba> - CENFISS, es una publicación digital venezolana enfocada en el pensamiento filosófico multidisciplinar. Es de acceso abierto; arbitrada bajo la modalidad <doble anónimo o doble ciego>; con periodicidad anual. Sus páginas están disponibles para difundir investigaciones originales -de autores nacionales e internacionales- que coadyuven a promover el desarrollo de todas las áreas de la Filosofía.',
 			$front_page
 		);
-		$this->assertStringNotContainsString( 'La Revista de Filosofía LOGO ET SPES', $front_page );
-		$this->assertStringNotContainsString( 'La Revista de Filosofía LOGO ET SPES', $copy_sheet );
+		$this->assertStringNotContainsString( 'La Revista de Filosofía LOGOS ET SPES', $front_page );
+		$this->assertStringNotContainsString( 'La Revista de Filosofía LOGOS ET SPES', $copy_sheet );
 		$this->assertStringContainsString(
 			'La Revista de Filosofía adscrita, auspiciada y editada',
 			$copy_sheet
