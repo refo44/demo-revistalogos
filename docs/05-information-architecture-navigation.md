@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — Arquitectura de Información y Navegación
+# Revista de Filosofía LOGOS ET SPES — Arquitectura de Información y Navegación
 
 **Mapa de navegación y enlaces activos**  
 **Versión 1.0**
@@ -137,4 +137,4 @@ Si un enlace no impulsa hacia:
 ---
 
 **Versión:** 1.0  
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

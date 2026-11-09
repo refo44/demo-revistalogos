@@ -225,7 +225,7 @@ function revistalogos_article_citation( $article_id ) {
 	}
 
 	$parts[] = '«' . $title . '».';
-	$parts[] = 'Revista de Filosofía LOGO ET SPES';
+	$parts[] = 'Revista de Filosofía LOGOS ET SPES';
 
 	if ( $issue ) {
 		$parts[] = revistalogos_issue_label( $issue->ID ) . '.';

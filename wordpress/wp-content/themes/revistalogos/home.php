@@ -18,7 +18,7 @@ get_header();
 		<header class="archive-header">
 			<h1 class="archive-header__title"><?php esc_html_e( 'Noticias', 'revistalogos' ); ?></h1>
 			<p class="archive-header__description">
-				<?php esc_html_e( 'Noticias, eventos y reflexiones sobre filosofía y la revista académica LOGO ET SPES.', 'revistalogos' ); ?>
+				<?php esc_html_e( 'Noticias, eventos y reflexiones sobre filosofía y la revista académica LOGOS ET SPES.', 'revistalogos' ); ?>
 			</p>
 		</header>
 

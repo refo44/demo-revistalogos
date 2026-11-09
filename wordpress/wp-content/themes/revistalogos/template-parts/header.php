@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="header__logo">
 					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/logo-revista.png' ); ?>" alt="" class="header__logo-img" width="1024" height="1024">
 					<span class="header__logo-text">
-						<span class="header__logo-title">LOGO ET SPES</span>
+						<span class="header__logo-title">LOGOS ET SPES</span>
 						<span class="header__logo-subtitle">Revista de Filosofía</span>
 					</span>
 				</a>

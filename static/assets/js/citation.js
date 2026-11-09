@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
 TI  - La naturaleza del ser en la filosofía contemporánea
 AU  - González, María
 AU  - Pérez, Juan
-T2  - LOGO ET SPES
+T2  - LOGOS ET SPES
 PY  - 2025
 VL  - 12
 IS  - 2

@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — CLAUDE.md
+# Revista de Filosofía LOGOS ET SPES — CLAUDE.md
 
 Monorepo: a static HTML prototype (`static/`, Fase 2 — done, base visual
 frozen) and WordPress (`wordpress/wp-content/{themes,plugins}/`, Fase 3 —
@@ -73,6 +73,11 @@ required, not shared via Git, not a substitute for the files above.
   Editor on `article`. Indexing must
   not open while public fixture records remain; prefer `_les_fixture=1`
   count 0.
+- **The journal is LOGOS ET SPES** (ADR 0023). `logo-et-spes` survives only as the
+  technical slug: domain, URLs, FTPS account. Do not rename it; that migration
+  and reindexing need their own later plan (`docs/adr/BACKLOG.md`).
+  `content-source/` and `content-payload.json` still carry the old name until the
+  owner authorizes the change; do not edit them or regenerate the payload to fix it.
 - **Plugin owns the domain, theme owns presentation only** (ADR 0005) — no
   CPT/taxonomy/role registration in the theme, ever.
 - **Two live deployments, deliberately asymmetric**:

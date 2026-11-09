@@ -91,7 +91,7 @@ class ArticlePdfEditorialSourceBuilderTest extends WP_UnitTestCase {
 		$offprint_html  = $source_builder->build( $article_id );
 
 		$this->assertIsString( $offprint_html );
-		$this->assertStringContainsString( 'Revista de Filosofía LOGO ET SPES', $offprint_html );
+		$this->assertStringContainsString( 'Revista de Filosofía LOGOS ET SPES', $offprint_html );
 		$this->assertStringContainsString( 'Vol. 3, N.º 2 (2027), pp. 15-34', $offprint_html );
 		$this->assertStringContainsString( 'ISSN ISSN-DE-PRUEBA', $offprint_html );
 		$this->assertStringContainsString( 'Sección: Artículos', $offprint_html );

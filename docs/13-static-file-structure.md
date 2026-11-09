@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — Estructura de Archivos Estáticos
+# Revista de Filosofía LOGOS ET SPES — Estructura de Archivos Estáticos
 
 **Geografía del proyecto**
 
@@ -185,4 +185,4 @@ Este repositorio contiene:
 ---
 
 **Versión:** 1.1  
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

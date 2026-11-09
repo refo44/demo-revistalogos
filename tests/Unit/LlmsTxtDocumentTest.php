@@ -21,7 +21,7 @@ class LlmsTxtDocumentTest extends TestCase {
 	public function test_document_lists_stable_archives_and_sitemap() {
 		$document = Llms_Txt::format_document( $this->empty_catalog() );
 
-		$this->assertStringContainsString( '# Revista de Filosofía LOGO ET SPES', $document );
+		$this->assertStringContainsString( '# Revista de Filosofía LOGOS ET SPES', $document );
 		$this->assertStringContainsString( 'https://example.org/revista/numeros/', $document );
 		$this->assertStringContainsString( 'https://example.org/revista/articulos/', $document );
 		$this->assertStringContainsString( 'https://example.org/revista/autores/', $document );
@@ -135,7 +135,7 @@ class LlmsTxtDocumentTest extends TestCase {
 	 */
 	private function empty_catalog() {
 		return array(
-			'name'          => 'Revista de Filosofía LOGO ET SPES',
+			'name'          => 'Revista de Filosofía LOGOS ET SPES',
 			'description'   => 'Publicación digital venezolana de acceso abierto.',
 			'home_url'      => 'https://example.org/',
 			'issues_url'    => 'https://example.org/revista/numeros/',

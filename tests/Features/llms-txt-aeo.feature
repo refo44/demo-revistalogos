@@ -9,7 +9,7 @@ Característica: /llms.txt para agentes de IA
   Escenario: El archivo apunta a los archivos vivos y al sitemap
     Dado el catálogo público de la revista
     Cuando se genera /llms.txt
-    Entonces nombra Revista de Filosofía LOGO ET SPES
+    Entonces nombra Revista de Filosofía LOGOS ET SPES
     Y enlaza números, artículos, autores y el sitemap nativo
     Y declara todos los derechos reservados para el contenido
     Y declara MIT para el código
@@ -23,7 +23,7 @@ Característica: /llms.txt para agentes de IA
 
   Escenario: Un administrador actualiza /llms.txt desde el plugin
     Dado un número publicado con artículos publicados
-    Cuando un administrador pulsa Actualizar llms.txt en Ajustes → LOGO ET SPES — llms.txt
+    Cuando un administrador pulsa Actualizar llms.txt en Ajustes → LOGOS ET SPES — llms.txt
     Entonces el archivo público refleja ese número
     Y la ruta /llms.txt queda registrada
 

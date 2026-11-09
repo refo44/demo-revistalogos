@@ -1,6 +1,6 @@
 {
   "name": "cenfiss/revistalogos",
-  "description": "Development/test tooling for Revista de Filosofía LOGO ET SPES. Not a runtime plugin dependency.",
+  "description": "Development/test tooling for Revista de Filosofía LOGOS ET SPES. Not a runtime plugin dependency.",
   "license": "MIT",
   "type": "project",
   "require": {},

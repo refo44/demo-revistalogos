@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — Wireframes
+# Revista de Filosofía LOGOS ET SPES — Wireframes
 
 **Versión 1.0**
 
@@ -262,4 +262,4 @@ Este flujo refleja cómo se navega una revista académica.
 ---
 
 **Versión:** 1.0  
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

@@ -17,7 +17,7 @@ while ( have_posts() ) :
 		'template-parts/content/content-institutional-page',
 		null,
 		array(
-			'description' => __( 'Conoce el Comité Editorial y el equipo técnico de LOGO ET SPES, conformado por especialistas en filosofía.', 'revistalogos' ),
+			'description' => __( 'Conoce el Comité Editorial y el equipo técnico de LOGOS ET SPES, conformado por especialistas en filosofía.', 'revistalogos' ),
 		)
 	);
 endwhile;

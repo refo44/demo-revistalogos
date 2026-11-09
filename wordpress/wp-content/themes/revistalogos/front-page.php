@@ -43,7 +43,7 @@ $revistalogos_article_archive = get_post_type_archive_link( 'article' );
 		<section class="front-page__hero">
 			<div class="hero">
 				<div class="hero__content">
-					<h1 class="hero__title">LOGO ET SPES</h1>
+					<h1 class="hero__title">LOGOS ET SPES</h1>
 					<p class="hero__subtitle"><?php esc_html_e( 'Revista de Filosofía', 'revistalogos' ); ?></p>
 					<p class="hero__description">
 						<?php esc_html_e( 'La Revista de Filosofía adscrita, auspiciada y editada por el Centro de Filosofía para la Investigación <Stanislao Strba> - CENFISS, es una publicación digital venezolana enfocada en el pensamiento filosófico multidisciplinar. Es de acceso abierto; arbitrada bajo la modalidad <doble anónimo o doble ciego>; con periodicidad anual. Sus páginas están disponibles para difundir investigaciones originales -de autores nacionales e internacionales- que coadyuven a promover el desarrollo de todas las áreas de la Filosofía.', 'revistalogos' ); ?>

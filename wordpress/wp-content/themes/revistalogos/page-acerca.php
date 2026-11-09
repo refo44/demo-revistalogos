@@ -18,7 +18,7 @@ while ( have_posts() ) :
 		'template-parts/content/content-institutional-page',
 		null,
 		array(
-			'description' => __( 'Conoce el enfoque, alcance y objetivos de LOGO ET SPES, revista de filosofía multidisciplinar del Centro de Filosofía para la Investigación Stanislao Strba (CENFISS).', 'revistalogos' ),
+			'description' => __( 'Conoce el enfoque, alcance y objetivos de LOGOS ET SPES, revista de filosofía multidisciplinar del Centro de Filosofía para la Investigación Stanislao Strba (CENFISS).', 'revistalogos' ),
 			'aside'       => static function () {
 				?>
 				<div class="card">

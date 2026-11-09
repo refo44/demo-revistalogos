@@ -33,7 +33,7 @@ $revistalogos_article_archive = get_post_type_archive_link( 'article' );
 
 		<header class="archive-header">
 			<h1 class="archive-header__title"><?php esc_html_e( 'Archivo de Autores', 'revistalogos' ); ?></h1>
-			<p class="archive-header__description"><?php esc_html_e( 'Autoras y autores que han publicado en LOGO ET SPES, con su afiliación y sus artículos.', 'revistalogos' ); ?></p>
+			<p class="archive-header__description"><?php esc_html_e( 'Autoras y autores que han publicado en LOGOS ET SPES, con su afiliación y sus artículos.', 'revistalogos' ); ?></p>
 		</header>
 
 		<?php if ( have_posts() ) : ?>

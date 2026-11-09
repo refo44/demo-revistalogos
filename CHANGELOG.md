@@ -8,6 +8,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Fixed
+- El nombre de la revista es **LOGOS ET SPES** en el theme, el plugin, las
+  citas, los metadatos académicos, `/llms.txt`, wp-admin, `static/` y la
+  documentación vigente ([ADR 0023](docs/adr/0023-nombre-de-la-revista-logos-et-spes.md)).
+  El dominio `logo-et-spes.cenfiss.net` no cambia. Theme 0.2.14, plugin 0.2.26
+  (0.2.25 lo usa la rama FSE).
+
 ### Changed
 - `docs/fase3-execution-state.md`: `v0.3.17` ya está live desde el
   2026-11-06 (theme 0.2.13, plugin 0.2.24); no despachar desde una

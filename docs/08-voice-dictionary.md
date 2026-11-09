@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — Diccionario de Voz
+# Revista de Filosofía LOGOS ET SPES — Diccionario de Voz
 
 **Léxico del sistema**
 
@@ -115,7 +115,7 @@ El sitio no persuade. No empuja. **Informa, guía y facilita**.
 
 Usar de forma consistente:
 
-- **rLES** — Abreviatura de Revista LOGO ET SPES (en normas, formularios, etiquetas)
+- **rLES** — Abreviatura de Revista LOGOS ET SPES (en normas, formularios, etiquetas)
 - **CENFISS** — Centro de Filosofía para la Investigación Stanislao Strba
 - **Comité Editorial** — Órgano editorial de la revista
 - **doble ciego / doble anónimo** — Arbitraje doble ciego
@@ -148,4 +148,4 @@ Si una palabra suena como si pudiera aparecer en una landing page, app, startup 
 
 **Referencia:** `09-ui-copy-sheet` (textos concretos por pantalla)  
 **Versión:** 1.0  
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

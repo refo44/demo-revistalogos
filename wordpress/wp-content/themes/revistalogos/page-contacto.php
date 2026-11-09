@@ -20,7 +20,7 @@ while ( have_posts() ) :
 		'template-parts/content/content-institutional-page',
 		null,
 		array(
-			'description'   => __( 'Información de contacto institucional de LOGO ET SPES y del CENFISS.', 'revistalogos' ),
+			'description'   => __( 'Información de contacto institucional de LOGOS ET SPES y del CENFISS.', 'revistalogos' ),
 			'after_content' => static function () {
 				?>
 				<section class="contact-section">

@@ -2,7 +2,7 @@
 Característica: Diseño editorial de la separata PDF del artículo
   Como revista académica arbitrada
   quiero que el PDF generado de un artículo sea una separata editorial
-  para que el archivo sea citable, imprimible y reconocible como LOGO ET SPES
+  para que el archivo sea citable, imprimible y reconocible como LOGOS ET SPES
   fuera del sitio web
 
   Antecedentes:

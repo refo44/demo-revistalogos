@@ -1,6 +1,6 @@
 <?php
 /**
- * Journal identifier options on Settings → LOGO ET SPES (issue #58).
+ * Journal identifier options on Settings → LOGOS ET SPES (issue #58).
  *
  * @package Revistalogos
  */
@@ -49,10 +49,10 @@ class JournalIdentifierSettingsTest extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Dado: Ajustes → LOGO ET SPES.
+	 * Dado: Ajustes → LOGOS ET SPES.
 	 * Entonces: la pantalla ofrece ISSN, depósito legal y prefijo DOI.
 	 */
-	public function test_logo_et_spes_settings_page_offers_identifier_fields() {
+	public function test_logos_et_spes_settings_page_offers_identifier_fields() {
 		Article_Pdf_Publication_Settings::register_setting();
 		Journal_Identifier_Settings::register_setting();
 

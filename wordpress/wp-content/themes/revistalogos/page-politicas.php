@@ -17,7 +17,7 @@ while ( have_posts() ) :
 		'template-parts/content/content-institutional-page',
 		null,
 		array(
-			'description' => __( 'Conoce las políticas que rigen la publicación en LOGO ET SPES, incluyendo garantías de autoría, acceso abierto, derechos de autor, antiplagio y más.', 'revistalogos' ),
+			'description' => __( 'Conoce las políticas que rigen la publicación en LOGOS ET SPES, incluyendo garantías de autoría, acceso abierto, derechos de autor, antiplagio y más.', 'revistalogos' ),
 		)
 	);
 endwhile;

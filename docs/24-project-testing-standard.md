@@ -1,6 +1,6 @@
 # Estándar de pruebas del proyecto
 
-Oficio para escribir tests en Revista de Filosofía LOGO ET SPES (PHP /
+Oficio para escribir tests en Revista de Filosofía LOGOS ET SPES (PHP /
 WordPress clásico). Complementa [23-testing-foundation](23-testing-foundation.md)
 (taxonomía, CI, comandos) y no reescribe [ADR 0018](adr/0018-testing-foundation.md).
 
@@ -731,4 +731,4 @@ puro**. `composer test:wp` comprueba **contratos WordPress in-process**.
 ---
 
 **Versión:** 1.2
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

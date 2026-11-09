@@ -19,7 +19,7 @@ while ( have_posts() ) :
 		'template-parts/content/content-institutional-page',
 		null,
 		array(
-			'description' => __( 'Principios éticos y responsabilidades que rigen la labor editorial, la autoría y la evaluación por pares en LOGO ET SPES.', 'revistalogos' ),
+			'description' => __( 'Principios éticos y responsabilidades que rigen la labor editorial, la autoría y la evaluación por pares en LOGOS ET SPES.', 'revistalogos' ),
 			'aside'       => static function () {
 				?>
 				<div class="card">

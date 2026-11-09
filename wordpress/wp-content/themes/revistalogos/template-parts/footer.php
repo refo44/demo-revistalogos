@@ -18,7 +18,7 @@ $revistalogos_article_archive = get_post_type_archive_link( 'article' );
 	<div class="container">
 		<div class="footer__inner">
 			<div class="footer__section">
-				<h3>LOGO ET SPES</h3>
+				<h3>LOGOS ET SPES</h3>
 				<p><?php esc_html_e( 'Revista de Filosofía adscrita, auspiciada y editada por el Centro de Filosofía para la Investigación <Stanislao Strba> - CENFISS.', 'revistalogos' ); ?></p>
 				<p><strong>ISSN:</strong> <?php echo esc_html( revistalogos_journal_identifier_text( 'issn' ) ); ?><br>
 				<strong><?php esc_html_e( 'Depósito Legal:', 'revistalogos' ); ?></strong> <?php echo esc_html( revistalogos_journal_identifier_text( 'legal_deposit' ) ); ?></p>

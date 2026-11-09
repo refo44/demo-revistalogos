@@ -32,7 +32,7 @@ class LlmsTxtCatalogTest extends WP_UnitTestCase {
 	public function test_render_without_published_issue_has_no_current_issue_heading() {
 		$document = Llms_Txt::render();
 
-		$this->assertStringContainsString( '# Revista de Filosofía LOGO ET SPES', $document );
+		$this->assertStringContainsString( '# Revista de Filosofía LOGOS ET SPES', $document );
 		$this->assertStringContainsString( 'Stanislao Strba', $document );
 		$this->assertStringContainsString( 'doble anónimo', $document );
 		$this->assertStringContainsString( '/wp-sitemap.xml', $document );
@@ -146,7 +146,7 @@ class LlmsTxtCatalogTest extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Dado: Ajustes → LOGO ET SPES — llms.txt.
+	 * Dado: Ajustes → LOGOS ET SPES — llms.txt.
 	 * Entonces: la pantalla nombra el plugin, el archivo técnico y
 	 * ofrece Actualizar llms.txt con nonce.
 	 */
@@ -157,7 +157,7 @@ class LlmsTxtCatalogTest extends WP_UnitTestCase {
 		Llms_Txt::render_settings_page();
 		$html = ob_get_clean();
 
-		$this->assertStringContainsString( 'LOGO ET SPES', $html );
+		$this->assertStringContainsString( 'LOGOS ET SPES', $html );
 		$this->assertStringContainsString( '<code>llms.txt</code>', $html );
 		$this->assertStringContainsString( '/llms.txt', $html );
 		$this->assertStringContainsString( 'Actualizar llms.txt', $html );
@@ -210,7 +210,7 @@ class LlmsTxtCatalogTest extends WP_UnitTestCase {
 
 	/**
 	 * Dado: el menú Ajustes.
-	 * Entonces: llms.txt cuelga del mismo prefijo que LOGO ET SPES.
+	 * Entonces: llms.txt cuelga del mismo prefijo que LOGOS ET SPES.
 	 */
 	public function test_settings_menu_has_a_separate_llms_txt_entry() {
 		Llms_Txt::register_page();
@@ -229,12 +229,12 @@ class LlmsTxtCatalogTest extends WP_UnitTestCase {
 		$this->assertContains( Llms_Txt::PAGE_SLUG, $slugs );
 		$this->assertContains( \Revistalogos_Core\Article_Pdf_Publication_Settings::PAGE_SLUG, $slugs );
 		$this->assertNotSame( Llms_Txt::PAGE_SLUG, \Revistalogos_Core\Article_Pdf_Publication_Settings::PAGE_SLUG );
-		$this->assertSame( 'LOGO ET SPES — llms.txt', $labels[ Llms_Txt::PAGE_SLUG ] );
-		$this->assertSame( 'LOGO ET SPES', $labels[ \Revistalogos_Core\Article_Pdf_Publication_Settings::PAGE_SLUG ] );
+		$this->assertSame( 'LOGOS ET SPES — llms.txt', $labels[ Llms_Txt::PAGE_SLUG ] );
+		$this->assertSame( 'LOGOS ET SPES', $labels[ \Revistalogos_Core\Article_Pdf_Publication_Settings::PAGE_SLUG ] );
 	}
 
 	/**
-	 * Dado: Ajustes → LOGO ET SPES (PDF).
+	 * Dado: Ajustes → LOGOS ET SPES (PDF).
 	 * Entonces: no incrusta el panel de llms.txt.
 	 */
 	public function test_pdf_settings_page_does_not_embed_llms_panel() {

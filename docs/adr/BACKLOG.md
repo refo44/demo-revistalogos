@@ -132,7 +132,7 @@ Estado en el repo: `.github/workflows/deploy.yml` («Deploy to Hostinger») **el
 
 ### Añadidas el 2026-08-31
 
-- **PDF de número (intención, no implementación):** el propietario quiere un PDF integral del número como objeto de revista (no una pila de separatas), a **color**, con identidad institucional (LOGO ET SPES + CENFISS), estructura de libro (preliminares, cuerpo interno, cierre) y controles en wp-admin (cubierta como archivo A4, generar explícito, no pisar el PDF de imprenta). La paleta oficial **aún no está entregada**: no tratar ningún hex de maqueta como marca; en código y docs, solo etiquetas (`primary`, `text`, `link`, `fondos`). FSE (ADR 0015) sigue siendo la vía para cambiar colores del **sitio** en Estilos. La separata de artículo permanece en escala de grises (ítem 3). Cubierta y contraportada pueden maquetarse fuera (InDesign, Publisher, Canva, Scribus) y subirse a Media Library. ADR propio; no mezclar con WU7. Alcance registrado en [ítem 5](#5-pdf-de-número--número-completo). → [ADR 0017](0017-generacion-automatica-pdf-articulo.md) §7.
+- **PDF de número (intención, no implementación):** el propietario quiere un PDF integral del número como objeto de revista (no una pila de separatas), a **color**, con identidad institucional (LOGOS ET SPES + CENFISS), estructura de libro (preliminares, cuerpo interno, cierre) y controles en wp-admin (cubierta como archivo A4, generar explícito, no pisar el PDF de imprenta). La paleta oficial **aún no está entregada**: no tratar ningún hex de maqueta como marca; en código y docs, solo etiquetas (`primary`, `text`, `link`, `fondos`). FSE (ADR 0015) sigue siendo la vía para cambiar colores del **sitio** en Estilos. La separata de artículo permanece en escala de grises (ítem 3). Cubierta y contraportada pueden maquetarse fuera (InDesign, Publisher, Canva, Scribus) y subirse a Media Library. ADR propio; no mezclar con WU7. Alcance registrado en [ítem 5](#5-pdf-de-número--número-completo). → [ADR 0017](0017-generacion-automatica-pdf-articulo.md) §7.
 
 ---
 
@@ -203,13 +203,13 @@ inertes, fechas en español; campos vacíos omitidos). TDD: unit +
 suite PHPUnit/WordPress (`tools/run-phpunit-wp.sh`, autorizada por el
 propietario) + re-run composición. WU7 (ítem 4) debe consumir esta plantilla.
 
-El PDF individual debe parecer un artículo de revista académica arbitrada: sobrio, imprimible, citable, autónomo fuera del sitio, reconocible como LOGO ET SPES. Coherente con la web, **no** un printout de la página.
+El PDF individual debe parecer un artículo de revista académica arbitrada: sobrio, imprimible, citable, autónomo fuera del sitio, reconocible como LOGOS ET SPES. Coherente con la web, **no** un printout de la página.
 
 Antes de implementar: mockup de referencia aprobado (primera página, interior, referencias). Ese mockup es la aceptación visual.
 
 Explorar/implementar en esa WU (ADR 0017 §5/§7 y diferidos de WU6A: número, DOI, páginas, taxonomías, resúmenes, imágenes remotas — no reabrir WU6A):
 
-- portada: identidad LOGO ET SPES, volumen, número, año, ISSN si hay, título, autores, afiliación/ORCID/DOI/fechas editoriales si hay, resumen/abstract, palabras clave;
+- portada: identidad LOGOS ET SPES, volumen, número, año, ISSN si hay, título, autores, afiliación/ORCID/DOI/fechas editoriales si hay, resumen/abstract, palabras clave;
 - cuerpo: tipografía académica, A4, márgenes, jerarquía, citas, imágenes, tablas, pies, bibliografía, saltos de página razonables;
 - marco: números de página; encabezado/pie si Dompdf lo sostiene; DOI/ORCID/URL clicables si es práctico.
 
@@ -288,13 +288,13 @@ Intención de propietario (2026-08-31). Criterio de aceptación visual: mockups 
 
 **Estructura (tres bloques).**
 
-Preliminares: cubierta; verso o página de respeto; portadilla (nombre canónico *Revista de Filosofía LOGO ET SPES*, Vol./N.º/año, CENFISS como editor); créditos legales (ISSN, depósito legal, copyright, todos los derechos reservados, contacto); sumario tipográfico (género + título + autores + páginas *de ese PDF*; el campo `pages` del artículo sigue siendo dato de papel).
+Preliminares: cubierta; verso o página de respeto; portadilla (nombre canónico *Revista de Filosofía LOGOS ET SPES*, Vol./N.º/año, CENFISS como editor); créditos legales (ISSN, depósito legal, copyright, todos los derechos reservados, contacto); sumario tipográfico (género + título + autores + páginas *de ese PDF*; el campo `pages` del artículo sigue siendo dato de papel).
 
 Cuerpo (páginas internas, no solo el índice): portadilla de género cuando exista contenido (EDITORIAL, ARTÍCULOS, ENSAYOS, RESEÑAS) — no inventar secciones vacías; editorial con maqueta propia (sin aparato de paper; aquí empieza la numeración árabe); cada artículo/ensayo/reseña en página nueva, **sin** el masthead completo de la separata (encabezado corriente mínimo); reseña abre con ficha de la obra, no con abstract de artículo; bibliografía dentro de cada pieza.
 
 Cierre: Sobre los autores (bios del número); consejo editorial breve; normas/ética **versión corta** (no volcar las páginas del sitio); licencia; colofón; contraportada.
 
-**Color e identidad.** El PDF del **número es a color**. La separata de artículo permanece en escala de grises (ítem 3). Ningún hex de maqueta es oficial; paleta solo por etiquetas (`primary`, `text`, `link`, `fondos`) hasta que el manual impreso / Estilos FSE existan. Cubierta y contraportada: color pleno (arte o, más adelante, `primary` de Estilos). Interior: `text` + acentos discretos de `primary`; no tokens de UI (`link`, `highlight` de botón). Dos marcas: sello LOGO ET SPES y sello CENFISS **oficiales** (no el placeholder web de CENFISS). Intensidad alta en cubierta/contraportada/portadilla; media en créditos; baja en el cuerpo (texto de encabezado, no logo repetido). Metadatos del archivo y nombre `logo-et-spes-volX-nY-año.pdf`. Identificadores ausentes: «en trámite», nunca un valor falso (ADR 0004).
+**Color e identidad.** El PDF del **número es a color**. La separata de artículo permanece en escala de grises (ítem 3). Ningún hex de maqueta es oficial; paleta solo por etiquetas (`primary`, `text`, `link`, `fondos`) hasta que el manual impreso / Estilos FSE existan. Cubierta y contraportada: color pleno (arte o, más adelante, `primary` de Estilos). Interior: `text` + acentos discretos de `primary`; no tokens de UI (`link`, `highlight` de botón). Dos marcas: sello LOGOS ET SPES y sello CENFISS **oficiales** (no el placeholder web de CENFISS). Intensidad alta en cubierta/contraportada/portadilla; media en créditos; baja en el cuerpo (texto de encabezado, no logo repetido). Metadatos del archivo y nombre `logo-et-spes-volX-nY-año.pdf`. Identificadores ausentes: «en trámite», nunca un valor falso (ADR 0004).
 
 **Admin (no un diseñador en el lienzo).** Cubierta (y contraportada) como adjunto A4 en Media Library, distinto o reutilizado respecto a la imagen destacada de la web; vista previa a proporción A4; aviso si la imagen no sirve para impresión. Acción explícita Generar / Regenerar en el issue; no al publicar; no pisar un `pdf_file` de imprenta válido sin confirmación. Ajustes de revista (una vez): sellos, nombre canónico, ISSN/depósito legal, colofón, textos breves de cierre. En el issue: título temático del número si existe; orden del sumario; casillas de qué bloques de cierre van en *este* PDF. El editor **no** elige fuente, márgenes ni paleta. Cuerpos y bios se leen de los CPT publicados.
 
@@ -335,6 +335,8 @@ Solo trabajo o proceso **ya decidido** y aún no cerrado. Las decisiones **abier
 | Activar exigencia PDF en producción | LATER (decisión del propietario; default OFF) | ADR 0017; no es auto-enable |
 | Indexación pública | Hecha en prod (robots + sitemap nativo, v0.3.3) | ADR 0004; `docs/operations/produccion-wordpress.md` |
 | `/llms.txt` para agentes de IA (AEO) | NEXT ([#47](https://github.com/refo44/demo-revistalogos/issues/47)) | Mapa dinámico en `revistalogos-core`; no `llms-full.txt` |
+| Cierre del renombrado a LOGOS ET SPES fuera de Git: sello, tarjeta social y favicon; páginas y editorial en wp-admin; PDF de medios; correos CF7; `citation_override_*`; `content-source/` y payload | NEXT (acción del propietario y del editor) | [ADR 0023](0023-nombre-de-la-revista-logos-et-spes.md) |
+| Plan de migración completa del nombre: dominio y URLs `logo-et-spes`, redirecciones 301, `siteurl`/`home` y URLs en la base, sitemap y canónicas, cambio de dirección en buscadores y reindexación, cuenta FTPS, enlaces desde `cenfiss.net`, ISSN/Crossref | LATER (fase posterior; falta el plan) | [ADR 0023](0023-nombre-de-la-revista-logos-et-spes.md) §6; ADR 0016 |
 | e-ISSN digital / ISSN «en trámite» | LATER (trámite editorial, no software) | ADR 0013; ADR 0004 |
 | Backlog **operativo** de producción (WP Statistics en el live, Softaculous, restos HTML, permalinks, SpeedyCache, secreto FTP legado, fuente de GitHub Pages). CF7 **hecho** 2026-09-17 ([#62](https://github.com/refo44/demo-revistalogos/issues/62)) | no duplicar aquí | `docs/operations/produccion-wordpress.md` § Pendientes inmediatos; `docs/fase3-execution-state.md` |
 
