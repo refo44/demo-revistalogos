@@ -1,6 +1,6 @@
 # Revista de Filosofía LOGOS ET SPES — Identidad Corporativa
 
-Versión: 1.5
+Versión: 1.6
 
 Este documento define el sistema de identidad visual y tipográfica del sitio. Sigue de forma estricta la fuente canónica y traduce al front-end solo los valores necesarios para una implementación web consistente y accesible.
 
@@ -73,6 +73,7 @@ Todas las combinaciones de color deben cumplir las ratios de contraste WCAG 2.1 
 
 | Familia | Uso |
 | --- | --- |
+| **Frank Ruhl Libre Black** | Tipografía de marca: sello de la revista y piezas de marca (ver §2.3) |
 | **Georgia** | Títulos, voz de marca, énfasis editorial |
 | **System UI** | Texto largo de cuerpo, navegación, UI (mejora legibilidad en pantalla) |
 
@@ -101,15 +102,49 @@ Usar Georgia para títulos y énfasis editorial. Usar System UI para texto largo
 
 Base: 1rem (16px). Line-height del cuerpo: 1.6.
 
+### 2.3 Tipografía de marca
+
+**Frank Ruhl Libre**, peso **Black (900)**, es la tipografía institucional de
+la marca LOGOS ET SPES. Es la letra de los textos del sello («REVISTA DE
+FILOSOFÍA» y «LOGOS ET SPES»), elegida por el owner como la más parecida al
+sello original, cuya fuente no se conoce.
+
+| Dato | Valor |
+| --- | --- |
+| Familia | Frank Ruhl Libre (serif) |
+| Peso de marca | Black (900); en el sello, en mayúsculas |
+| Licencia | SIL Open Font License 1.1 (uso libre, también comercial) |
+| Fuente | Google Fonts |
+
+**Dónde se usa:** el sello y cualquier pieza de marca que lleve el nombre de
+la revista compuesto como imagen: portadas de números, carteles, papelería,
+presentaciones, firmas de correo y redes sociales. Los textos nuevos de esas
+piezas que acompañen al sello (por ejemplo, el número de volumen en una
+portada) usan esta familia para que todo quede en el mismo estilo.
+
+**Dónde no se usa:** en el sitio web. La tipografía de la interfaz sigue
+siendo Georgia y System UI (§2, §2.1), sin archivos de fuentes ni peticiones
+externas (`15-assets-strategy` §2), y queda bloqueada en el theme (ADR 0015).
+En la web la tipografía de marca aparece solo dentro de las imágenes del
+sello, convertida a contornos. Llevarla a la interfaz es una decisión aparte.
+
 ---
 
 ## 3. Logo
 
-- **Revista:** `assets/img/logo-revista.png` — Header, materiales digitales
+- **Sello de la revista:** búho con lámpara dentro de dos anillos, con
+  «REVISTA DE FILOSOFÍA» arriba y «LOGOS ET SPES» abajo en Frank Ruhl Libre
+  Black (§2.3), en el azul `#072E58` del sello.
+- **Masters:** `assets/img/logo-logos-et-spes.svg` (transparente) y
+  `logo-logos-et-spes-fondo-blanco.svg`, con sus PNG de 1024 y 2048 px.
+  Inventario y derivados en `15-assets-strategy` § Masters de marca.
+- **Revista en el sitio:** `assets/img/logo-revista-cabecera.png` (header) y
+  `assets/img/logo-revista.png` (`og:image`, JSON-LD, materiales digitales)
 - **CENFISS:** `assets/img/logo-cenfiss.svg` — Referencia institucional
 - **Favicon:** `assets/img/favicon.png` — Derivado del logo
 
-**Reglas:** No alterar proporciones, color ni composición.
+**Reglas:** No alterar proporciones, color ni composición. No recomponer los
+textos del sello con otra tipografía.
 
 **Reglas de uso del logo:**
 
@@ -188,6 +223,6 @@ Todas las decisiones visuales deben derivar de este sistema. Si CENFISS adopta p
 
 ---
 
-**Versión:** 1.5  
+**Versión:** 1.6  
 **Fuente:** PROYECTO REVISTA DE FILOSOFIA LOGO ET SPES nov 2025.md, tokens.css  
 **Proyecto:** Revista de Filosofía LOGOS ET SPES
