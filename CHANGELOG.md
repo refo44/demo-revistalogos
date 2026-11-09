@@ -14,6 +14,11 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   documentación vigente ([ADR 0023](docs/adr/0023-nombre-de-la-revista-logos-et-spes.md)).
   El dominio `logo-et-spes.cenfiss.net` no cambia. Theme 0.2.14, plugin 0.2.26
   (0.2.25 lo usa la rama FSE).
+- La cabecera ya no solapa el logo con el menú ni desborda la página. En
+  producción el solape ocurría a cualquier ancho de escritorio y el desborde,
+  entre 769 y 1196 px. Si el menú no cabe junto al logo, baja a su propia fila; a
+  1024 px o menos se usa el menú desplegable, que hace scroll propio cuando no cabe
+  en la pantalla. Theme 0.2.15.
 
 ### Changed
 - `docs/fase3-execution-state.md`: `v0.3.17` ya está live desde el
