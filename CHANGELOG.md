@@ -8,6 +8,14 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+## [0.3.19] — 2026-11-09
+
+Release etiquetado para FTPS de producción (ADR 0020). Theme `revistalogos`
+**0.2.16**; el plugin `revistalogos-core` sigue en **0.2.26**, sin cambios desde
+`v0.3.18`. Línea live (ADR 0015, nota 2026-11-02); no incluye la major FSE de
+`feat/fse`. Sello, tarjeta social y favicon del renombrado quedan cerrados; el
+resto del cierre fuera de Git sigue pendiente ([ADR 0023](docs/adr/0023-nombre-de-la-revista-logos-et-spes.md)).
+
 ### Added
 - Sello de la revista con el nombre corregido **LOGOS ET SPES** en
   `assets/img/` del theme: SVG maestros (transparente y fondo blanco), PNG
@@ -775,7 +783,8 @@ con la infraestructura de gobierno del proyecto en su sitio.
 - El contenido editorial de la maqueta es demostrativo y **no** se publica en producción (ver `docs/17-implementation-order` §3.1).
 - `robots.txt` permanece en `Disallow: /` mientras el sitio es prototipo.
 
-[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.3.18...HEAD
+[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.3.19...HEAD
+[0.3.19]: https://github.com/refo44/demo-revistalogos/compare/v0.3.18...v0.3.19
 [0.3.18]: https://github.com/refo44/demo-revistalogos/compare/v0.3.17...v0.3.18
 [0.3.17]: https://github.com/refo44/demo-revistalogos/compare/v0.3.16...v0.3.17
 [0.3.16]: https://github.com/refo44/demo-revistalogos/compare/v0.3.15...v0.3.16
