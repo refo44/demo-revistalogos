@@ -139,7 +139,8 @@ sello, convertida a contornos. Llevarla a la interfaz es una decisión aparte.
   `logo-logos-et-spes-fondo-blanco.svg`, con sus PNG de 1024 y 2048 px.
   Inventario y derivados en `15-assets-strategy` § Masters de marca.
 - **Revista en el sitio:** `assets/img/logo-revista-cabecera.png` (header) y
-  `assets/img/logo-revista.png` (`og:image`, JSON-LD, materiales digitales)
+  `assets/img/logo-revista.png` (JSON-LD, materiales digitales); la vista
+  previa en redes (`og:image`) es `assets/img/og-twitter-card.jpg`
 - **CENFISS:** `assets/img/logo-cenfiss.svg` — Referencia institucional
 - **Favicon:** `assets/img/favicon.png` — Derivado del logo. En producción
   lo sustituye el Icono del sitio de WordPress, subido desde

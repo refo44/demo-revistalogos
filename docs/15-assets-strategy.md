@@ -58,8 +58,8 @@ pidan la imagen nueva cuando cambia el sello.
 | Derivado | Uso | Formato |
 |----------|-----|---------|
 | `logo-revista-cabecera.png` | Logo de la cabecera (se muestra a 52 px; 40 px en móvil) | PNG 156×156 (3×) |
-| `logo-revista.png` | `og:image` de la portada y `image` del JSON-LD | PNG 1024×1024, 256 colores (≈229 KB) |
-| `og-twitter-card.jpg` | `twitter:image` (`summary_large_image`) | JPEG 1200×630 |
+| `logo-revista.png` | `image` del JSON-LD de `Periodical` | PNG 1024×1024, 256 colores (≈229 KB) |
+| `og-twitter-card.jpg` | `og:image` y `twitter:image` (`summary_large_image`) de las páginas sin imagen destacada | JPEG 1200×630 (≈82 KB) |
 | `favicon.png`, `favicon.svg` | Favicon (copia de `favicon-32.png`) | PNG 32×32 |
 | `logo-revista.svg` | Sello con fondo blanco, sin uso en plantillas | SVG con el búho en PNG de 256 colores |
 
@@ -70,6 +70,14 @@ Con un Icono del sitio, `revistalogos_favicon()` no imprime `favicon.png`
 (`has_site_icon()`), así que no hay dos favicons. WordPress sirve el icono
 desde sus copias de 150 y 300 px. Sin Icono del sitio (Docker local, una
 instalación nueva) vuelve el `favicon.png` del theme.
+
+La vista previa en redes usa la tarjeta apaisada, no el logo cuadrado:
+Facebook, LinkedIn y Threads recortan `og:image` a ≈1,91:1, y con el logo
+cuadrado se perdían los textos del sello. En la tarjeta el sello entero
+queda centrado con margen, así que también cabe en el recorte cuadrado de
+la miniatura de WhatsApp. `og:image:alt` y `twitter:image:alt` describen el
+sello; con imagen destacada usan su texto alternativo de la Media Library,
+o no se emiten.
 
 `logo-revista.png` queda en 256 colores a propósito: en color verdadero pesa
 ≈626 KB, y WhatsApp deja de mostrar la vista previa de enlaces con imágenes
