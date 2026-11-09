@@ -63,6 +63,14 @@ pidan la imagen nueva cuando cambia el sello.
 | `favicon.png`, `favicon.svg` | Favicon (copia de `favicon-32.png`) | PNG 32×32 |
 | `logo-revista.svg` | Sello con fondo blanco, sin uso en plantillas | SVG con el búho en PNG de 256 colores |
 
+En producción el favicon lo pone WordPress: desde el 2026-11-09 hay un
+**Icono del sitio** (Personalizar → Identidad del sitio), subido desde
+`favicon-512.png` como `icono-sitio-logos-et-spes-512.png` (medio 209).
+Con un Icono del sitio, `revistalogos_favicon()` no imprime `favicon.png`
+(`has_site_icon()`), así que no hay dos favicons. WordPress sirve el icono
+desde sus copias de 150 y 300 px. Sin Icono del sitio (Docker local, una
+instalación nueva) vuelve el `favicon.png` del theme.
+
 `logo-revista.png` queda en 256 colores a propósito: en color verdadero pesa
 ≈626 KB, y WhatsApp deja de mostrar la vista previa de enlaces con imágenes
 de más de ≈300 KB. La maqueta `static/` usa la misma imagen en su cabecera
