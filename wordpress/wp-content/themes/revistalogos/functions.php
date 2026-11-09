@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'REVISTALOGOS_THEME_VERSION', '0.2.15' );
+define( 'REVISTALOGOS_THEME_VERSION', '0.2.16' );
 
 require_once get_template_directory() . '/inc/template-tags.php';
 require_once get_template_directory() . '/inc/class-nav-walker.php';

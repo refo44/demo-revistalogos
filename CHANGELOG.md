@@ -8,6 +8,14 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Added
+- Sello de la revista con el nombre corregido **LOGOS ET SPES** en
+  `assets/img/` del theme: SVG maestros (transparente y fondo blanco), PNG
+  de 1024 y 2048 y favicons. Theme 0.2.16. Ninguna plantilla los usa
+  todavía: la cabecera, el favicon y la tarjeta social siguen con el sello
+  anterior hasta su propio cambio
+  ([ADR 0023](docs/adr/0023-nombre-de-la-revista-logos-et-spes.md)).
+
 ### Changed
 - `docs/fase3-execution-state.md`: `v0.3.18` ya está live desde el
   2026-11-09 (theme 0.2.15, plugin 0.2.26); no despachar desde una

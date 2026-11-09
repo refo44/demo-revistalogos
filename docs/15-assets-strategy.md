@@ -45,6 +45,25 @@ Ejemplo: `assets/img/logos/logo-revista.svg`, `assets/img/placeholders/article-p
 | `placeholders/banner-main.jpg` | Hero/banner | Placeholder (maqueta) |
 | `banners/flyer.jpg` | Eventos CENFISS (carrusel) | CENFISS |
 
+### Masters de marca
+
+El sello «LOGOS ET SPES» (ADR 0023) vive en
+`wordpress/wp-content/themes/revistalogos/assets/img/`, junto al resto de
+imágenes del theme. El deploy FTPS sube el theme completo, así que quedan
+accesibles públicamente bajo la URL del theme. Las plantillas siguen usando
+`logo-revista.png`, `favicon.png` y `og-twitter-card.jpg` hasta que se
+reemplacen por el sello nuevo.
+
+| Archivo | Contenido |
+|---------|-----------|
+| `logo-logos-et-spes.svg`, `logo-logos-et-spes-fondo-blanco.svg` | Masters vectoriales, transparente y con fondo blanco |
+| `logo-logos-et-spes-{1024,2048}.png`, `logo-logos-et-spes-fondo-blanco-{1024,2048}.png` | Exportaciones PNG |
+| `favicon-32.png`, `favicon-512.png`, `apple-touch-icon-180.png` | Iconos del sitio |
+| `buho-y-lampara.png` | Búho y lámpara aislados |
+
+Estos archivos se guardan aunque el theme no los use: son el material de
+marca para el diseñador y para otros medios (documentos, correo, impresos).
+
 ### Optimización
 
 - **Formato:** WebP con fallback JPEG/PNG cuando haga falta. SVG para logos, iconos.
