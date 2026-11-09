@@ -12,7 +12,7 @@ Documentación para el sitio web de la revista académica. CENFISS (Centro de Fi
 |---|-----------|-----------|
 | 00 | order-documents | Orden de documentos y reglas de dependencia |
 | 01 | platform-plan | Plan maestro, capas, principios |
-| 02 | corporate-identity | Paleta, tipografía, logo, esencia de marca |
+| 02 | corporate-identity | Paleta, tipografía (web y de marca), logo, esencia de marca |
 | 03 | wordpress-content-model | Tipos de entrada, taxonomías, campos |
 | 04 | screen-map | Qué pantallas existen |
 | 05 | information-architecture-navigation | Enlaces por pantalla, estructura del menú |

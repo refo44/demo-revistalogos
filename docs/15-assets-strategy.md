@@ -89,7 +89,8 @@ vectorizado.
 Los textos del sello («REVISTA DE FILOSOFÍA» y «LOGOS ET SPES») van
 convertidos a contornos con **Frank Ruhl Libre Black** (peso 900, licencia
 SIL OFL 1.1), elegida por el owner como la más parecida al sello original,
-cuya fuente no se conoce. Al ser contornos, el SVG no depende de que la
+cuya fuente no se conoce. Es la tipografía institucional de la marca
+(`02-corporate-identity` §2.3). Al ser contornos, el SVG no depende de que la
 fuente esté instalada; el diseñador la necesita solo para componer textos
 nuevos con el mismo estilo.
 
@@ -118,10 +119,11 @@ nuevos con el mismo estilo.
 | Títulos | Georgia | Sistema |
 | Fallback títulos | Times New Roman | Sistema |
 | Cuerpo | System UI stack (-apple-system, Segoe UI, Roboto, Arial) | Sistema |
+| Sello y piezas de marca (fuera del sitio) | Frank Ruhl Libre Black (900) | Google Fonts, SIL OFL 1.1; tipografía de marca (`02-corporate-identity` §2.3) |
 
 ### Implementación
 
-- **Sin archivos de fuentes custom.** Usa fuentes del sistema. Sin carga externa de fuentes.
+- **Sin archivos de fuentes custom.** Usa fuentes del sistema. Sin carga externa de fuentes. La tipografía de marca no se carga en el sitio: solo aparece dentro de las imágenes del sello, convertida a contornos.
 - **Privacidad y rendimiento:** Sin CDN de fuentes ni peticiones externas.
 - **Fallback:** `serif` para títulos, `sans-serif` para cuerpo.
 - **Futuro:** Si se adoptan fuentes custom, auto-hospedar woff2, subset latino, `font-display: swap`.
@@ -203,5 +205,5 @@ assets/
 
 ---
 
-**Versión:** 1.1  
+**Versión:** 1.2  
 **Proyecto:** Revista de Filosofía LOGOS ET SPES

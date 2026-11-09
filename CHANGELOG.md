@@ -8,6 +8,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Changed
+- `docs/02-corporate-identity.md` (1.6): **Frank Ruhl Libre Black** (peso
+  900, SIL OFL 1.1), la letra de los textos del sello, pasa a ser la
+  tipografía institucional de la marca para el sello y las piezas de marca.
+  La tipografía del sitio web no cambia (Georgia y System UI). `docs/15` (1.2)
+  y `docs/README.md` remiten a esa sección.
+
 ## [0.3.19] — 2026-11-09
 
 Release etiquetado para FTPS de producción (ADR 0020). Theme `revistalogos`
