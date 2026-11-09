@@ -64,6 +64,13 @@ reemplacen por el sello nuevo.
 Estos archivos se guardan aunque el theme no los use: son el material de
 marca para el diseñador y para otros medios (documentos, correo, impresos).
 
+Los textos del sello («REVISTA DE FILOSOFÍA» y «LOGOS ET SPES») van
+convertidos a contornos con **Frank Ruhl Libre Black** (peso 900, licencia
+SIL OFL 1.1), elegida por el owner como la más parecida al sello original,
+cuya fuente no se conoce. Al ser contornos, el SVG no depende de que la
+fuente esté instalada; el diseñador la necesita solo para componer textos
+nuevos con el mismo estilo.
+
 ### Optimización
 
 - **Formato:** WebP con fallback JPEG/PNG cuando haga falta. SVG para logos, iconos.

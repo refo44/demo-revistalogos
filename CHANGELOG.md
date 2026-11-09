@@ -11,7 +11,8 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ### Added
 - Sello de la revista con el nombre corregido **LOGOS ET SPES** en
   `assets/img/` del theme: SVG maestros (transparente y fondo blanco), PNG
-  de 1024 y 2048 y favicons. Theme 0.2.16. Ninguna plantilla los usa
+  de 1024 y 2048 y favicons. Los textos son contornos de Frank Ruhl Libre
+  Black (OFL 1.1). Theme 0.2.16. Ninguna plantilla los usa
   todavía: la cabecera, el favicon y la tarjeta social siguen con el sello
   anterior hasta su propio cambio
   ([ADR 0023](docs/adr/0023-nombre-de-la-revista-logos-et-spes.md)).
