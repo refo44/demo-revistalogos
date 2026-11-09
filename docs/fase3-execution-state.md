@@ -678,6 +678,12 @@ Renombrado a **LOGOS ET SPES** ([ADR 0023](adr/0023-nombre-de-la-revista-logos-e
 desde `v0.3.18`. Queda fuera de Git el cierre listado en `docs/adr/BACKLOG.md`. La migración
 de dominio y la reindexación son una fase posterior y aún no tienen plan.
 
+Sello LOGOS ET SPES (2026-11-09, [#115](https://github.com/refo44/demo-revistalogos/pull/115),
+theme **0.2.16**, sin publicar): masters de marca, cabecera, `og:image`, logo
+del JSON-LD, favicon y tarjeta social ya muestran el sello nuevo. Las URLs del
+logo, la tarjeta y el favicon llevan `?ver=` con la versión del theme. Falta
+release y deploy.
+
 Cabecera (2026-11-09): solape logo/menú y desborde corregidos en código
 (theme **0.2.15**) y live desde `v0.3.18`. El menú de producción (9 entradas, 982 px)
 no cabe en una fila junto al logo dentro del contenedor de 1200 px, así que allí baja

@@ -8,6 +8,12 @@
 
 require_once dirname( __DIR__, 2 ) . '/wordpress/wp-content/themes/revistalogos/inc/metadata-output.php';
 
+// The suite loads theme includes without functions.php, so the theme
+// version constant the cache-busting query reads is defined here.
+if ( ! defined( 'REVISTALOGOS_THEME_VERSION' ) ) {
+	define( 'REVISTALOGOS_THEME_VERSION', '0.0.0-test' );
+}
+
 /**
  * Protects the discoverable preview image that Search Console reads
  * from the front page (og:image = journal logo). X uses a separate
@@ -99,10 +105,26 @@ class SitePreviewImageTest extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Dado: el theme declara su versión.
+	 * Entonces: la URL del logo lleva `ver`, para que redes, buscadores y
+	 * navegadores vuelvan a pedir la imagen cuando cambia el sello.
+	 */
+	public function test_journal_logo_url_carries_theme_version() {
+		$this->assertStringContainsString(
+			'ver=' . REVISTALOGOS_THEME_VERSION,
+			revistalogos_journal_logo_url()
+		);
+	}
+
+	/**
 	 * @return string Absolute theme-logo URL Search Console should fetch.
 	 */
 	private function journal_logo_url() {
-		return get_theme_root_uri() . '/revistalogos/assets/img/logo-revista.png';
+		return add_query_arg(
+			'ver',
+			REVISTALOGOS_THEME_VERSION,
+			get_theme_root_uri() . '/revistalogos/assets/img/logo-revista.png'
+		);
 	}
 
 	/**

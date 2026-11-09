@@ -104,7 +104,7 @@ function revistalogos_favicon() {
 
 	printf(
 		'<link rel="icon" type="image/png" href="%s">' . "\n",
-		esc_url( get_template_directory_uri() . '/assets/img/favicon.png' )
+		esc_url( revistalogos_theme_image_url( 'favicon.png' ) )
 	);
 }
 add_action( 'wp_head', 'revistalogos_favicon' );
