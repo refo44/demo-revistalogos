@@ -678,6 +678,12 @@ Renombrado a **LOGOS ET SPES** ([ADR 0023](adr/0023-nombre-de-la-revista-logos-e
 desplegar. Queda fuera de Git el cierre listado en `docs/adr/BACKLOG.md`. La migración
 de dominio y la reindexación son una fase posterior y aún no tienen plan.
 
+Cabecera (2026-11-09): solape logo/menú y desborde corregidos en código
+(theme **0.2.15**), sin desplegar. El menú de producción (9 entradas, 982 px)
+no cabe en una fila junto al logo dentro del contenedor de 1200 px, así que allí baja
+a su propia fila y la cabecera pasa de 93 a 145 px. El menú desplegable cubre hasta
+1024 px.
+
 Siguiente acción priorizada — ítem 12 / [#67](https://github.com/refo44/demo-revistalogos/issues/67)
 **HECHO** en `main` (`v0.3.15`, [#70](https://github.com/refo44/demo-revistalogos/pull/70)).
 Plugin 0.2.20 / theme 0.2.12 entregó los campos. El puente Apply/Restore
