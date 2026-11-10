@@ -8,6 +8,14 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+## [0.3.20] — 2026-11-10
+
+Release etiquetado para FTPS de producción (ADR 0020). Theme `revistalogos`
+**0.2.17**; el plugin `revistalogos-core` sigue en **0.2.26**, sin cambios desde
+`v0.3.18`. Línea live (ADR 0015, nota 2026-11-02); no incluye la major FSE de
+`feat/fse`. La vista previa en redes muestra el sello entero
+([#120](https://github.com/refo44/demo-revistalogos/pull/120)).
+
 ### Changed
 - `docs/02-corporate-identity.md` (1.6): **Frank Ruhl Libre Black** (peso
   900, SIL OFL 1.1), la letra de los textos del sello, pasa a ser la
@@ -805,7 +813,8 @@ con la infraestructura de gobierno del proyecto en su sitio.
 - El contenido editorial de la maqueta es demostrativo y **no** se publica en producción (ver `docs/17-implementation-order` §3.1).
 - `robots.txt` permanece en `Disallow: /` mientras el sitio es prototipo.
 
-[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.3.19...HEAD
+[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.3.20...HEAD
+[0.3.20]: https://github.com/refo44/demo-revistalogos/compare/v0.3.19...v0.3.20
 [0.3.19]: https://github.com/refo44/demo-revistalogos/compare/v0.3.18...v0.3.19
 [0.3.18]: https://github.com/refo44/demo-revistalogos/compare/v0.3.17...v0.3.18
 [0.3.17]: https://github.com/refo44/demo-revistalogos/compare/v0.3.16...v0.3.17
