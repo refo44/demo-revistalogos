@@ -686,6 +686,9 @@ En wp-admin (2026-11-09, fuera de Git): el Icono del sitio es el sello
 (medio 209, desde `favicon-512.png`) y sustituye al favicon del theme; la
 portada destacada de Vol. 1 Nº 1 pasa a `portada-revista-logos-et-spes.jpg`
 (medio 208), la misma imagen con el sello nuevo en lugar del antiguo.
+En código, sin publicar (theme **0.2.17**): `og:image` sin imagen destacada
+pasa a la tarjeta 1200×630, porque Facebook recortaba el logo cuadrado y
+perdía los textos del sello; se añaden `og:image:alt` y `twitter:image:alt`.
 
 Cabecera (2026-11-09): solape logo/menú y desborde corregidos en código
 (theme **0.2.15**) y live desde `v0.3.18`. El menú de producción (9 entradas, 982 px)

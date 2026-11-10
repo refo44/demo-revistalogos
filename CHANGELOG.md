@@ -22,6 +22,14 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   WordPress con el sello (desde `favicon-512.png`), que sustituye al favicon
   del theme; la portada de Vol. 1 Nº 1 ya lleva el sello nuevo.
 
+### Fixed
+- Theme `revistalogos` 0.2.17: sin imagen destacada, `og:image` es la
+  tarjeta 1200×630 (`og-twitter-card.jpg`), la misma que `twitter:image`.
+  Facebook recortaba el logo cuadrado a 1,91:1 y la vista previa perdía
+  «LOGOS ET SPES». Se añaden `og:image:alt` y `twitter:image:alt`: el sello
+  en la tarjeta, o el texto alternativo de la imagen destacada si lo tiene.
+  El JSON-LD de `Periodical` sigue con el logo cuadrado.
+
 ## [0.3.19] — 2026-11-09
 
 Release etiquetado para FTPS de producción (ADR 0020). Theme `revistalogos`

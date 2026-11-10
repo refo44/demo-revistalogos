@@ -15,18 +15,20 @@ if ( ! defined( 'REVISTALOGOS_THEME_VERSION' ) ) {
 }
 
 /**
- * Protects the discoverable preview image that Search Console reads
- * from the front page (og:image = journal logo). X uses a separate
- * 1200×630 card so summary_large_image can paint.
+ * Protects the preview image social networks and Search Console read from
+ * the front page. Facebook crops og:image to ~1.91:1, so the fallback is
+ * the 1200×630 card with the whole seal, not the square logo. The
+ * Periodical JSON-LD keeps the square logo.
  */
 class SitePreviewImageTest extends WP_UnitTestCase {
 
 	/**
 	 * Dado: la portada es una página sin imagen destacada.
 	 * Cuando: se emiten los metadatos del documento.
-	 * Entonces: og:image apunta al logo de la revista.
+	 * Entonces: og:image y twitter:image son la tarjeta apaisada 1200×630,
+	 * con su texto alternativo, y el logo cuadrado no aparece.
 	 */
-	public function test_front_page_without_featured_image_emits_journal_logo_as_og_image() {
+	public function test_front_page_without_featured_image_emits_landscape_card_as_og_image() {
 		$this->make_static_front_page();
 
 		$this->go_to( home_url( '/' ) );
@@ -35,18 +37,19 @@ class SitePreviewImageTest extends WP_UnitTestCase {
 		$this->assertFalse( has_post_thumbnail() );
 
 		$html = $this->render_head_metadata();
-		$logo = $this->journal_logo_url();
-		$card = $this->twitter_card_image_url();
+		$card = $this->social_card_image_url();
 
-		$this->assertStringContainsString( 'property="og:image"', $html );
-		$this->assertStringContainsString( $logo, $html );
+		$this->assertStringContainsString( '<meta property="og:image" content="' . esc_url( $card ) . '">', $html );
+		$this->assertStringContainsString( '<meta property="og:image:width" content="1200">', $html );
+		$this->assertStringContainsString( '<meta property="og:image:height" content="630">', $html );
+		$this->assertStringContainsString( '<meta property="og:image:alt" content="Sello de la Revista de Filosofía LOGOS ET SPES">', $html );
 		$this->assertStringContainsString( 'name="twitter:card"', $html );
 		$this->assertStringContainsString( 'content="summary_large_image"', $html );
-		$this->assertStringContainsString( 'name="twitter:image"', $html );
-		$this->assertStringContainsString( $card, $html );
+		$this->assertStringContainsString( '<meta name="twitter:image" content="' . esc_url( $card ) . '">', $html );
+		$this->assertStringContainsString( '<meta name="twitter:image:alt" content="Sello de la Revista de Filosofía LOGOS ET SPES">', $html );
 		$this->assertStringContainsString( 'name="twitter:title"', $html );
 		$this->assertStringContainsString( 'name="twitter:description" content="Revista de Filosofía"', $html );
-		$this->assertSame( 1, substr_count( $html, $logo ) );
+		$this->assertStringNotContainsString( $this->journal_logo_url(), $html );
 	}
 
 	/**
@@ -84,6 +87,43 @@ class SitePreviewImageTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'name="twitter:image"', $html );
 		$this->assertStringContainsString( $featured, $html );
 		$this->assertStringNotContainsString( $this->journal_logo_url(), $html );
+	}
+
+	/**
+	 * Dado: una imagen destacada con texto alternativo en la Media Library.
+	 * Entonces: og:image:alt y twitter:image:alt repiten ese texto.
+	 */
+	public function test_featured_image_alt_text_is_emitted() {
+		$page_id       = $this->make_published_page( 'acerca', 'Acerca' );
+		$attachment_id = $this->make_image_attachment( $page_id, 'portada-con-alt' );
+		update_post_meta( $attachment_id, '_wp_attachment_image_alt', 'Portada del volumen 1' );
+		set_post_thumbnail( $page_id, $attachment_id );
+
+		$this->go_to( get_permalink( $page_id ) );
+
+		$html = $this->render_head_metadata();
+
+		$this->assertStringContainsString( '<meta property="og:image:alt" content="Portada del volumen 1">', $html );
+		$this->assertStringContainsString( '<meta name="twitter:image:alt" content="Portada del volumen 1">', $html );
+		$this->assertStringNotContainsString( 'Sello de la Revista', $html );
+	}
+
+	/**
+	 * Dado: una imagen destacada sin texto alternativo.
+	 * Entonces: no se inventa uno; no hay og:image:alt.
+	 */
+	public function test_featured_image_without_alt_text_emits_no_alt() {
+		$page_id       = $this->make_published_page( 'etica', 'Ética' );
+		$attachment_id = $this->make_image_attachment( $page_id, 'portada-sin-alt' );
+		set_post_thumbnail( $page_id, $attachment_id );
+
+		$this->go_to( get_permalink( $page_id ) );
+
+		$html = $this->render_head_metadata();
+
+		$this->assertStringContainsString( 'property="og:image"', $html );
+		$this->assertStringNotContainsString( 'og:image:alt', $html );
+		$this->assertStringNotContainsString( 'twitter:image:alt', $html );
 	}
 
 	/**
@@ -128,10 +168,14 @@ class SitePreviewImageTest extends WP_UnitTestCase {
 	}
 
 	/**
-	 * @return string Absolute 1200×630 card URL that X can paint.
+	 * @return string Absolute 1200×630 card URL every network can paint.
 	 */
-	private function twitter_card_image_url() {
-		return get_theme_root_uri() . '/revistalogos/assets/img/og-twitter-card.jpg';
+	private function social_card_image_url() {
+		return add_query_arg(
+			'ver',
+			REVISTALOGOS_THEME_VERSION,
+			get_theme_root_uri() . '/revistalogos/assets/img/og-twitter-card.jpg'
+		);
 	}
 
 	/**
