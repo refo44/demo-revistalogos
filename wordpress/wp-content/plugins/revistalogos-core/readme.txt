@@ -1,13 +1,13 @@
-=== Revista LOGO ET SPES — Core ===
+=== Revista LOGOS ET SPES — Core ===
 Contributors: cenfiss
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.2.25
+Stable tag: 0.2.27
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Plugin propio (first-party) de la Revista de Filosofía LOGO ET SPES (CENFISS).
+Plugin propio (first-party) de la Revista de Filosofía LOGOS ET SPES (CENFISS).
 
 == Description ==
 
@@ -38,6 +38,14 @@ Fase 3: los campos `issn`, `doi` y `orcid` son almacenamiento base inerte;
 la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
 
 == Changelog ==
+
+= 0.2.27 =
+* FSE branch only: brings the live 0.2.26 (LOGOS ET SPES name) into the
+  block-theme line on top of 0.2.25. Live releases skip 0.2.27.
+
+= 0.2.26 =
+* The journal is named LOGOS ET SPES in the plugin name, `/llms.txt` and
+  wp-admin labels (ADR 0023). 0.2.25 is taken by the FSE branch.
 
 = 0.2.25 =
 * Article archive years: Queries::article_years() returns every year from
@@ -88,10 +96,10 @@ la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
   downloads (Ver and Descargar). Cards hide at 0.
 
 = 0.2.16 =
-* Settings → LOGO ET SPES identifier fields have no per-field captions.
+* Settings → LOGOS ET SPES identifier fields have no per-field captions.
 
 = 0.2.15 =
-* Settings → LOGO ET SPES stores digital ISSN, depósito legal and DOI
+* Settings → LOGOS ET SPES stores digital ISSN, depósito legal and DOI
   prefix (issue #58). Footer, Acerca and `/llms.txt` read those options.
   Empty stays «Próximamente» on the site and is omitted from `/llms.txt`.
 
@@ -108,7 +116,7 @@ la validación/visualización DOI-ORCID es Fase 4 (ADR 0013).
 * Serve `/llms.txt` for AI agents (issue #47): stable archive map plus
   the current published issue and its articles from `Queries`. An
   administrator can enable, disable or refresh it from Settings →
-  LOGO ET SPES — llms.txt (missing option = on). No
+  LOGOS ET SPES — llms.txt (missing option = on). No
   SiteSEO and no hardcoded catalog.
 
 = 0.2.11 =

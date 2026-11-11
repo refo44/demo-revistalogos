@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — Estrategia de Assets
+# Revista de Filosofía LOGOS ET SPES — Estrategia de Assets
 
 **Imágenes, fuentes, iconos y archivos estáticos**
 
@@ -45,6 +45,71 @@ Ejemplo: `assets/img/logos/logo-revista.svg`, `assets/img/placeholders/article-p
 | `placeholders/banner-main.jpg` | Hero/banner | Placeholder (maqueta) |
 | `banners/flyer.jpg` | Eventos CENFISS (carrusel) | CENFISS |
 
+### Masters de marca
+
+El sello «LOGOS ET SPES» (ADR 0023) vive en
+`wordpress/wp-content/themes/revistalogos/assets/img/`, junto al resto de
+imágenes del theme. El deploy FTPS sube el theme completo, así que quedan
+accesibles públicamente bajo la URL del theme. Ninguna página los carga:
+el sitio usa solo los derivados de la tabla siguiente, y sus URLs llevan
+`?ver=` con la versión del theme para que navegadores, redes y buscadores
+pidan la imagen nueva cuando cambia el sello.
+
+| Derivado | Uso | Formato |
+|----------|-----|---------|
+| `logo-revista-cabecera.png` | Logo de la cabecera (se muestra a 52 px; 40 px en móvil) | PNG 156×156 (3×) |
+| `logo-revista.png` | `image` del JSON-LD de `Periodical` | PNG 1024×1024, 256 colores (≈229 KB) |
+| `og-twitter-card.jpg` | `og:image` y `twitter:image` (`summary_large_image`) de las páginas sin imagen destacada | JPEG 1200×630 (≈82 KB) |
+| `favicon.png`, `favicon.svg` | Favicon (copia de `favicon-32.png`) | PNG 32×32 |
+| `logo-revista.svg` | Sello con fondo blanco, sin uso en plantillas | SVG con el búho en PNG de 256 colores |
+
+En producción el favicon lo pone WordPress: desde el 2026-11-09 hay un
+**Icono del sitio** (Personalizar → Identidad del sitio), subido desde
+`favicon-512.png` como `icono-sitio-logos-et-spes-512.png` (medio 209).
+Con un Icono del sitio, `revistalogos_favicon()` no imprime `favicon.png`
+(`has_site_icon()`), así que no hay dos favicons. WordPress sirve el icono
+desde sus copias de 150 y 300 px. Sin Icono del sitio (Docker local, una
+instalación nueva) vuelve el `favicon.png` del theme.
+
+La vista previa en redes usa la tarjeta apaisada, no el logo cuadrado:
+Facebook, LinkedIn y Threads recortan `og:image` a ≈1,91:1, y con el logo
+cuadrado se perdían los textos del sello. En la tarjeta el sello entero
+queda centrado con margen, así que también cabe en el recorte cuadrado de
+la miniatura de WhatsApp. `og:image:alt` y `twitter:image:alt` describen el
+sello; con imagen destacada usan su texto alternativo de la Media Library,
+o no se emiten.
+
+`logo-revista.png` queda en 256 colores a propósito: en color verdadero pesa
+≈626 KB, y WhatsApp deja de mostrar la vista previa de enlaces con imágenes
+de más de ≈300 KB. La maqueta `static/` usa la misma imagen en su cabecera
+y no se modifica.
+
+| Archivo | Contenido |
+|---------|-----------|
+| `logo-logos-et-spes.svg`, `logo-logos-et-spes-fondo-blanco.svg` | Masters vectoriales, transparente y con fondo blanco |
+| `logo-logos-et-spes-{1024,2048}.png`, `logo-logos-et-spes-fondo-blanco-{1024,2048}.png` | Exportaciones PNG |
+| `favicon-32.png`, `favicon-512.png`, `apple-touch-icon-180.png` | Iconos del sitio |
+| `buho-y-lampara.png` | Búho y lámpara aislados |
+
+Estos archivos se guardan aunque el theme no los use: son el material de
+marca para el diseñador y para otros medios (documentos, correo, impresos).
+No se recomprimen: la compresión sin pérdida disponible ahorra ≈2 % y cada
+reescritura suma otra copia completa al historial de Git.
+
+El búho y la lámpara son una imagen raster de 972×654 px dentro del lienzo
+de 1024. En los masters de 2048 px ese raster está ampliado al doble, así que
+solo los anillos y los textos ganan nitidez; el búho no tiene más detalle que
+en 1024. Para impresos grandes hace falta un búho de mayor resolución o
+vectorizado.
+
+Los textos del sello («REVISTA DE FILOSOFÍA» y «LOGOS ET SPES») van
+convertidos a contornos con **Frank Ruhl Libre Black** (peso 900, licencia
+SIL OFL 1.1), elegida por el owner como la más parecida al sello original,
+cuya fuente no se conoce. Es la tipografía institucional de la marca
+(`02-corporate-identity` §2.3). Al ser contornos, el SVG no depende de que la
+fuente esté instalada; el diseñador la necesita solo para componer textos
+nuevos con el mismo estilo.
+
 ### Optimización
 
 - **Formato:** WebP con fallback JPEG/PNG cuando haga falta. SVG para logos, iconos.
@@ -52,7 +117,7 @@ Ejemplo: `assets/img/logos/logo-revista.svg`, `assets/img/placeholders/article-p
 - **Responsive:** `srcset` con 400w, 800w, 1200w para portadas de números y banners.
 - **Carga diferida:** Usar `loading="lazy"` en imágenes fuera del viewport inicial.
 - **Layout:** Usar `width` y `height` en etiquetas `<img>` para evitar CLS.
-- **Texto alt:** Siempre rellenar. Decorativas: `alt=""`. Portadas de números: alt descriptivo, ej. "Portada del volumen 12 número 2 de LOGO ET SPES (2025)". Ver `09-ui-copy-sheet`, `19-accessibility-standards`.
+- **Texto alt:** Siempre rellenar. Decorativas: `alt=""`. Portadas de números: alt descriptivo, ej. "Portada del volumen 12 número 2 de LOGOS ET SPES (2025)". Ver `09-ui-copy-sheet`, `19-accessibility-standards`.
 
 ### Nomenclatura
 
@@ -70,10 +135,11 @@ Ejemplo: `assets/img/logos/logo-revista.svg`, `assets/img/placeholders/article-p
 | Títulos | Georgia | Sistema |
 | Fallback títulos | Times New Roman | Sistema |
 | Cuerpo | System UI stack (-apple-system, Segoe UI, Roboto, Arial) | Sistema |
+| Sello y piezas de marca (fuera del sitio) | Frank Ruhl Libre Black (900) | Google Fonts, SIL OFL 1.1; tipografía de marca (`02-corporate-identity` §2.3) |
 
 ### Implementación
 
-- **Sin archivos de fuentes custom.** Usa fuentes del sistema. Sin carga externa de fuentes.
+- **Sin archivos de fuentes custom.** Usa fuentes del sistema. Sin carga externa de fuentes. La tipografía de marca no se carga en el sitio: solo aparece dentro de las imágenes del sello, convertida a contornos.
 - **Privacidad y rendimiento:** Sin CDN de fuentes ni peticiones externas.
 - **Fallback:** `serif` para títulos, `sans-serif` para cuerpo.
 - **Futuro:** Si se adoptan fuentes custom, auto-hospedar woff2, subset latino, `font-display: swap`.
@@ -155,5 +221,5 @@ assets/
 
 ---
 
-**Versión:** 1.1  
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Versión:** 1.2  
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

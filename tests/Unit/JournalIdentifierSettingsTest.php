@@ -39,7 +39,7 @@ class JournalIdentifierSettingsTest extends TestCase {
 	}
 
 	/**
-	 * Dado: Ajustes → LOGO ET SPES.
+	 * Dado: Ajustes → LOGOS ET SPES.
 	 * Entonces: los campos no llevan pie de ayuda por superficie.
 	 */
 	public function test_settings_fields_have_no_surface_captions() {

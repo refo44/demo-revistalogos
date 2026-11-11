@@ -1,6 +1,6 @@
 # Architecture Decision Records (ADR)
 
-Registro de decisiones técnicas y estructurales del proyecto **Revista de Filosofía LOGO ET SPES** (CENFISS — Centro de Estudios Filosóficos y Sociales).
+Registro de decisiones técnicas y estructurales del proyecto **Revista de Filosofía LOGOS ET SPES** (CENFISS — Centro de Estudios Filosóficos y Sociales).
 
 Los ADR capturan el **contexto**, la **decisión** y las **consecuencias** de elecciones que podrían cuestionarse o revertirse meses después sin recordar por qué se tomaron. Los documentos numerados de `docs/` explican *cómo* se construye el sitio; los ADR explican *por qué* se decidió construirlo así.
 
@@ -71,6 +71,7 @@ Usar `TEMPLATE.md` como punto de partida. Estructura mínima: Estado · Fecha ·
 | [0020](0020-despliegue-produccion-desde-etiqueta.md) | Despliegue de producción solo desde versión etiquetada | Aceptada |
 | [0021](0021-apellido-bibliografico-y-override-como-citar.md) | Apellido bibliográfico y override opcional de Cómo Citar | Aceptada (§2 sustituida por 0022; WU #64 en `main`) |
 | [0022](0022-nombres-y-apellidos-de-autor.md) | Nombres y apellidos de autor como dos atributos almacenados | Aceptada (WU en `main`, [#67](https://github.com/refo44/demo-revistalogos/issues/67) cerrado) |
+| [0023](0023-nombre-de-la-revista-logos-et-spes.md) | Nombre de la revista: LOGOS ET SPES | Aceptada |
 
 > El backlog de decisiones a resolver, y el trabajo aceptado aún no hecho, se lleva en `docs/adr/BACKLOG.md`. Cada decisión resuelta añade su fila a esta tabla. El trabajo de implementación no retira la fila del ADR.
 
@@ -86,4 +87,4 @@ La implementación y la documentación general del proyecto deben mantenerse ali
 
 ---
 
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

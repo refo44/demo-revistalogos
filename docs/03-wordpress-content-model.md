@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — Modelo de Contenido WordPress
+# Revista de Filosofía LOGOS ET SPES — Modelo de Contenido WordPress
 
 **Versión 1.3**
 
@@ -61,7 +61,7 @@ El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, ISSN,
 
 ### acerca (página)
 
-- Título, contenido (enfoque, alcance, objetivos, origen del nombre Logo et Spes)
+- Título, contenido (enfoque, alcance, objetivos, origen del nombre Logos et Spes)
 - Opcional: Resumen del consejo editorial
 
 ### contacto (página)
@@ -123,7 +123,7 @@ El Vol. 12 Nº 2, los números históricos, artículos, autores, noticias, ISSN,
 
 **Número actual:** Es el `issue` publicado con `date_published` más reciente. No almacenar un segundo indicador mientras esta regla sea suficiente.
 
-**Identificadores de la revista (Ajustes → LOGO ET SPES):** `revistalogos_journal_issn`, `revistalogos_journal_legal_deposit`, `revistalogos_journal_doi_prefix`. Solo edición digital. Pie y Acerca: vacío = «Próximamente». `/llms.txt` omite la línea vacía. No son el `issn` del número. Issue #58.
+**Identificadores de la revista (Ajustes → LOGOS ET SPES):** `revistalogos_journal_issn`, `revistalogos_journal_legal_deposit`, `revistalogos_journal_doi_prefix`. Solo edición digital. Pie y Acerca: vacío = «Próximamente». `/llms.txt` omite la línea vacía. No son el `issn` del número. Issue #58.
 
 ### article
 
@@ -212,7 +212,7 @@ Para Google Scholar, Crossref, catálogos de bibliotecas. Añadir como meta tags
 | citation_title | Título del artículo |
 | citation_author | Autor(es) |
 | citation_publication_date | Fecha de publicación |
-| citation_journal_title | Revista de Filosofía LOGO ET SPES |
+| citation_journal_title | Revista de Filosofía LOGOS ET SPES |
 | citation_volume | Número de volumen |
 | citation_issue | Número de ejemplar |
 | citation_firstpage | Primera página |
@@ -345,4 +345,4 @@ El sistema prioriza la lectura, la citación y la divulgación académica sobre 
 ---
 
 **Versión:** 1.2
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

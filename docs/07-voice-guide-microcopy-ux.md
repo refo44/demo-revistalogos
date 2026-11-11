@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — Guía de Voz, Microcopy y UX Writing
+# Revista de Filosofía LOGOS ET SPES — Guía de Voz, Microcopy y UX Writing
 
 Define cómo habla el sitio. No el contenido del dominio; la voz del sistema que lo contiene.
 
@@ -159,4 +159,4 @@ Debe sonar como el sitio institucional de una revista académica: sereno, claro 
 ---
 
 **Versión:** 1.0  
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

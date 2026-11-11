@@ -20,7 +20,10 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: var(--space-8);
+  /* Si el menú no cabe junto al logo, baja a su propia fila: el ancho del menú
+     depende de wp-admin. */
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-8);
   padding: var(--space-5) 0;
 }
 
@@ -96,6 +99,8 @@
   display: flex;
   align-items: flex-end;
   margin-left: auto;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .nav__container {
@@ -110,6 +115,8 @@
   margin: 0;
   padding: 0;
   gap: var(--space-6);
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .nav__list--main {
@@ -386,7 +393,8 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+/* El menú horizontal no cabe junto al logo en tabletas. */
+@media (max-width: 1024px) {
   .header__inner {
     flex-direction: column;
     flex-wrap: wrap;
@@ -445,6 +453,11 @@
     opacity: 0;
     visibility: hidden;
     transition: all var(--transition-normal);
+    /* La cabecera es sticky: sin esto, lo que pase del viewport no se alcanza
+       con el scroll de la página. 9rem es el alto de la cabecera en esta vista. */
+    max-height: calc(100vh - 9rem);
+    max-height: calc(100dvh - 9rem);
+    overflow-y: auto;
   }
   
   .nav__list {
@@ -487,7 +500,9 @@
   .nav__link:last-child {
     border-bottom: none;
   }
-  
+}
+
+@media (max-width: 768px) {
   .main-grid--with-sidebar {
     grid-template-columns: 1fr;
   }

@@ -201,5 +201,5 @@ hosting de destino y renombrar `name:`.
 
 ---
 
-**Proyecto de origen:** Revista de Filosofía LOGO ET SPES (Fase 3, WordPress)
+**Proyecto de origen:** Revista de Filosofía LOGOS ET SPES (Fase 3, WordPress)
 **Fecha:** 2026-07-31 (gotcha §3.7 y tag 7.0.4: 2026-08-18)

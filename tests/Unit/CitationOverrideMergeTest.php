@@ -46,14 +46,14 @@ class CitationOverrideMergeTest extends TestCase {
 		$merged = revistalogos_merge_citation_overrides(
 			$generated,
 			array(
-				'MLA' => 'Pérez Gómez, Ana María. "Title." LOGO ET SPES, vol. 1.',
+				'MLA' => 'Pérez Gómez, Ana María. "Title." LOGOS ET SPES, vol. 1.',
 			)
 		);
 
 		$this->assertSame( $generated['APA'], $merged['APA'] );
 		$this->assertSame( $generated['RIS'], $merged['RIS'] );
 		$this->assertSame(
-			'Pérez Gómez, Ana María. "Title." LOGO ET SPES, vol. 1.',
+			'Pérez Gómez, Ana María. "Title." LOGOS ET SPES, vol. 1.',
 			$merged['MLA']
 		);
 	}

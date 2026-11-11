@@ -1,10 +1,10 @@
-# Revista de Filosofía LOGO ET SPES — Plan Maestro de Plataforma
+# Revista de Filosofía LOGOS ET SPES — Plan Maestro de Plataforma
 
 **Versión 1.0**
 
 La identidad corporativa definida en `02-corporate-identity` es la capa visual cerrada.
 
-Este documento define el sistema que permite que la Revista de Filosofía LOGO ET SPES exista, sea descubierta, navegada y sostenida en el tiempo.
+Este documento define el sistema que permite que la Revista de Filosofía LOGOS ET SPES exista, sea descubierta, navegada y sostenida en el tiempo.
 
 Este sitio no es un embudo comercial, una landing page ni una publicación orientada al marketing.  
 Es una plataforma de publicación digital académica para el pensamiento filosófico.
@@ -94,7 +94,7 @@ Define qué existe dentro del sistema.
 | Inicio | Home. Hero, número actual, acceso rápido al contenido principal. |
 | Revista | Número actual, archivo de números, vistas de artículos, vistas de autores. |
 | Normas | Normas de publicación, ética editorial, políticas, enviar colaboración. |
-| Acerca | Enfoque, alcance, objetivos, origen del nombre Logo et Spes. |
+| Acerca | Enfoque, alcance, objetivos, origen del nombre Logos et Spes. |
 | Contacto | Contacto institucional, consejo editorial, CENFISS. |
 | Noticias | CENFISS presente, eventos y misceláneas. |
 
@@ -314,4 +314,4 @@ En esa fase: publicación solo estática, sin CMS; WordPress no iniciado; 404 en
 
 **Versión:** 1.0  
 **Depende de:** content-source  
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

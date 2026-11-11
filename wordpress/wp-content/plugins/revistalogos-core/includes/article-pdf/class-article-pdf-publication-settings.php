@@ -53,12 +53,12 @@ class Article_Pdf_Publication_Settings {
 	}
 
 	/**
-	 * Settings → LOGO ET SPES.
+	 * Settings → LOGOS ET SPES.
 	 */
 	public static function register_page() {
 		add_options_page(
-			__( 'LOGO ET SPES', 'revistalogos-core' ),
-			__( 'LOGO ET SPES', 'revistalogos-core' ),
+			__( 'LOGOS ET SPES', 'revistalogos-core' ),
+			__( 'LOGOS ET SPES', 'revistalogos-core' ),
 			'manage_options',
 			self::PAGE_SLUG,
 			array( __CLASS__, 'render_page' )
@@ -105,7 +105,7 @@ class Article_Pdf_Publication_Settings {
 		}
 
 		echo '<div class="wrap">';
-		echo '<h1>' . esc_html__( 'LOGO ET SPES', 'revistalogos-core' ) . '</h1>';
+		echo '<h1>' . esc_html__( 'LOGOS ET SPES', 'revistalogos-core' ) . '</h1>';
 		echo '<form action="options.php" method="post">';
 		settings_fields( self::GROUP );
 		do_settings_sections( self::PAGE_SLUG );

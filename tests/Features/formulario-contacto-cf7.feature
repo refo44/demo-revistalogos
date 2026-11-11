@@ -1,6 +1,6 @@
 # language: es
 Característica: Formulario de contacto con Contact Form 7
-  Como visitante de LOGO ET SPES
+  Como visitante de LOGOS ET SPES
   quiero enviar un mensaje desde /contacto/
   para que llegue al buzón de la revista sin cookies ni almacenamiento
   # Issue #62. ADR 0010. Ejecutan: tests/Unit/ContactFormDefinitionTest

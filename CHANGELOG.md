@@ -89,10 +89,99 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   contexto `postId` y `postType`, para que la vista previa del editor en
   `single.html` reciba la entrada. No llega a producción hasta el corte.
 
+
+## [0.3.20] — 2026-11-10
+
+Release etiquetado para FTPS de producción (ADR 0020). Theme `revistalogos`
+**0.2.17**; el plugin `revistalogos-core` sigue en **0.2.26**, sin cambios desde
+`v0.3.18`. Línea live (ADR 0015, nota 2026-11-02); no incluye la major FSE de
+`feat/fse`. La vista previa en redes muestra el sello entero
+([#120](https://github.com/refo44/demo-revistalogos/pull/120)).
+
+### Changed
+- `docs/02-corporate-identity.md` (1.6): **Frank Ruhl Libre Black** (peso
+  900, SIL OFL 1.1), la letra de los textos del sello, pasa a ser la
+  tipografía institucional de la marca para el sello y las piezas de marca.
+  La tipografía del sitio web no cambia (Georgia y System UI). `docs/15` (1.2)
+  y `docs/README.md` remiten a esa sección.
+- `docs/fase3-execution-state.md`: `v0.3.19` ya está live desde el
+  2026-11-09 (theme 0.2.16, plugin 0.2.26) con el sello LOGOS ET SPES; no
+  despachar desde una etiqueta anterior.
+- `docs/15-assets-strategy.md`, `docs/02-corporate-identity.md` y
+  `docs/fase3-execution-state.md`: producción usa un Icono del sitio de
+  WordPress con el sello (desde `favicon-512.png`), que sustituye al favicon
+  del theme; la portada de Vol. 1 Nº 1 ya lleva el sello nuevo.
+
+### Fixed
+- Theme `revistalogos` 0.2.17: sin imagen destacada, `og:image` es la
+  tarjeta 1200×630 (`og-twitter-card.jpg`), la misma que `twitter:image`.
+  Facebook recortaba el logo cuadrado a 1,91:1 y la vista previa perdía
+  «LOGOS ET SPES». Se añaden `og:image:alt` y `twitter:image:alt`: el sello
+  en la tarjeta, o el texto alternativo de la imagen destacada si lo tiene.
+  El JSON-LD de `Periodical` sigue con el logo cuadrado.
+
+## [0.3.19] — 2026-11-09
+
+Release etiquetado para FTPS de producción (ADR 0020). Theme `revistalogos`
+**0.2.16**; el plugin `revistalogos-core` sigue en **0.2.26**, sin cambios desde
+`v0.3.18`. Línea live (ADR 0015, nota 2026-11-02); no incluye la major FSE de
+`feat/fse`. Sello, tarjeta social y favicon del renombrado quedan cerrados; el
+resto del cierre fuera de Git sigue pendiente ([ADR 0023](docs/adr/0023-nombre-de-la-revista-logos-et-spes.md)).
+
+### Added
+- Sello de la revista con el nombre corregido **LOGOS ET SPES** en
+  `assets/img/` del theme: SVG maestros (transparente y fondo blanco), PNG
+  de 1024 y 2048 y favicons. Los textos son contornos de Frank Ruhl Libre
+  Black (OFL 1.1). Theme 0.2.16
+  ([ADR 0023](docs/adr/0023-nombre-de-la-revista-logos-et-spes.md)).
+
+### Changed
+- `logo-revista.png` (theme y maqueta `static/`) pasa al sello nuevo: la
+  cabecera, la imagen de la revista en `og:image` y el logo del JSON-LD ya
+  dicen LOGOS ET SPES. Antes era un JPEG con extensión `.png`; ahora es un
+  PNG de 256 colores de 1024 px y peso similar.
+- El favicon (`favicon.png` y `favicon.svg`, también en `static/`), la
+  tarjeta social `og-twitter-card.jpg` y `logo-revista.svg` pasan al sello
+  nuevo.
+- La cabecera de WordPress carga `logo-revista-cabecera.png` (156 px, 32 KB)
+  en lugar del PNG de 1024 px (229 KB).
+- Las URLs del logo, la tarjeta social y el favicon llevan `?ver=` con la
+  versión del theme, para que navegadores, redes y buscadores no sigan
+  mostrando el sello anterior desde caché.
+- `docs/fase3-execution-state.md`: `v0.3.18` ya está live desde el
+  2026-11-09 (theme 0.2.15, plugin 0.2.26); no despachar desde una
+  etiqueta anterior.
+
+## [0.3.18] — 2026-11-09
+
+Release etiquetado para FTPS de producción (ADR 0020). Theme `revistalogos`
+**0.2.15** y plugin `revistalogos-core` **0.2.26**, de la línea live
+(ADR 0015, nota 2026-11-02). No incluye la major FSE de `feat/fse`. El cierre del
+renombrado fuera de Git sigue pendiente ([ADR 0023](docs/adr/0023-nombre-de-la-revista-logos-et-spes.md)).
+
+### Fixed
+- El nombre de la revista es **LOGOS ET SPES** en el theme, el plugin, las
+  citas, los metadatos académicos, `/llms.txt`, wp-admin, `static/` y la
+  documentación vigente ([ADR 0023](docs/adr/0023-nombre-de-la-revista-logos-et-spes.md)).
+  El dominio `logo-et-spes.cenfiss.net` no cambia. Theme 0.2.14, plugin 0.2.26
+  (0.2.25 lo usa la rama FSE).
+- La cabecera ya no solapa el logo con el menú ni desborda la página. En
+  producción el solape ocurría a cualquier ancho de escritorio y el desborde,
+  entre 769 y 1196 px. Si el menú no cabe junto al logo, baja a su propia fila; a
+  1024 px o menos se usa el menú desplegable, que hace scroll propio cuando no cabe
+  en la pantalla. Theme 0.2.15.
+
 ### Changed
 - `docs/fase3-execution-state.md`: `v0.3.17` ya está live desde el
   2026-11-06 (theme 0.2.13, plugin 0.2.24); no despachar desde una
   etiqueta anterior.
+- ADR 0015, nota 2026-11-07: la copia de producción en Docker y su
+  comparación ([#103](https://github.com/refo44/demo-revistalogos/issues/103))
+  van después de la sesión 9 y antes de fusionar `feat/fse` en `main`,
+  sobre el commit que se va a fusionar. Mientras quede una discrepancia
+  sin resolver no hay fusión ni switch. Recogido en `docs/adr/BACKLOG.md`,
+  `docs/fse-implementation-prompt.md`, `docs/fase3-execution-state.md` y
+  `CLAUDE.md`.
 
 ## [0.3.17] — 2026-11-04
 
@@ -806,7 +895,10 @@ con la infraestructura de gobierno del proyecto en su sitio.
 - El contenido editorial de la maqueta es demostrativo y **no** se publica en producción (ver `docs/17-implementation-order` §3.1).
 - `robots.txt` permanece en `Disallow: /` mientras el sitio es prototipo.
 
-[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.3.17...HEAD
+[Sin publicar]: https://github.com/refo44/demo-revistalogos/compare/v0.3.20...HEAD
+[0.3.20]: https://github.com/refo44/demo-revistalogos/compare/v0.3.19...v0.3.20
+[0.3.19]: https://github.com/refo44/demo-revistalogos/compare/v0.3.18...v0.3.19
+[0.3.18]: https://github.com/refo44/demo-revistalogos/compare/v0.3.17...v0.3.18
 [0.3.17]: https://github.com/refo44/demo-revistalogos/compare/v0.3.16...v0.3.17
 [0.3.16]: https://github.com/refo44/demo-revistalogos/compare/v0.3.15...v0.3.16
 [0.3.15]: https://github.com/refo44/demo-revistalogos/compare/v0.3.14...v0.3.15

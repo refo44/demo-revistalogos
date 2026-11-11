@@ -5,8 +5,8 @@ current_work_unit: ""
 current_branch: ""
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
-updated_at: "2026-11-06"
-next_action: "FSE sesión 7 (#81): plantilla del número en Docker, rama desde feat/fse, PR hacia feat/fse. La sesión 6 está fusionada en feat/fse (#106, 8c4c511; theme 0.3.4, plugin 0.2.25); la firma visual de las sesiones 5 y 6 queda pendiente. v0.3.17 ya está live; no despachar desde una etiqueta anterior."
+updated_at: "2026-11-09"
+next_action: "FSE sesión 7 (#81): plantilla del número en Docker, rama desde feat/fse, PR hacia feat/fse. La sesión 6 está fusionada en feat/fse (#106, 8c4c511; theme 0.3.4, plugin 0.2.25); la firma visual de las sesiones 5 y 6 queda pendiente. v0.3.19 ya está live; no despachar desde una etiqueta anterior."
 blocked: false
 ---
 
@@ -673,6 +673,29 @@ Recuperación institucional **ya hecha** (Pages reales permanentes). Carga
 editorial real en proceso desde wp-admin (**no** completa). Docker local:
 `http://localhost:8080` (WordPress 7.1, PHP **8.3**).
 
+Renombrado a **LOGOS ET SPES** ([ADR 0023](adr/0023-nombre-de-la-revista-logos-et-spes.md),
+2026-11-08): hecho en código (theme **0.2.14**, plugin **0.2.26**) y live
+desde `v0.3.18`. Queda fuera de Git el cierre listado en `docs/adr/BACKLOG.md`. La migración
+de dominio y la reindexación son una fase posterior y aún no tienen plan.
+
+Sello LOGOS ET SPES (2026-11-09, [#115](https://github.com/refo44/demo-revistalogos/pull/115),
+theme **0.2.16**, live desde `v0.3.19`): masters de marca, cabecera, `og:image`, logo
+del JSON-LD, favicon y tarjeta social muestran el sello nuevo. Las URLs del
+logo, la tarjeta y el favicon llevan `?ver=` con la versión del theme.
+En wp-admin (2026-11-09, fuera de Git): el Icono del sitio es el sello
+(medio 209, desde `favicon-512.png`) y sustituye al favicon del theme; la
+portada destacada de Vol. 1 Nº 1 pasa a `portada-revista-logos-et-spes.jpg`
+(medio 208), la misma imagen con el sello nuevo en lugar del antiguo.
+En código, sin publicar (theme **0.2.17**): `og:image` sin imagen destacada
+pasa a la tarjeta 1200×630, porque Facebook recortaba el logo cuadrado y
+perdía los textos del sello; se añaden `og:image:alt` y `twitter:image:alt`.
+
+Cabecera (2026-11-09): solape logo/menú y desborde corregidos en código
+(theme **0.2.15**) y live desde `v0.3.18`. El menú de producción (9 entradas, 982 px)
+no cabe en una fila junto al logo dentro del contenedor de 1200 px, así que allí baja
+a su propia fila y la cabecera pasa de 93 a 145 px. El menú desplegable cubre hasta
+1024 px.
+
 Siguiente acción priorizada — ítem 12 / [#67](https://github.com/refo44/demo-revistalogos/issues/67)
 **HECHO** en `main` (`v0.3.15`, [#70](https://github.com/refo44/demo-revistalogos/pull/70)).
 Plugin 0.2.20 / theme 0.2.12 entregó los campos. El puente Apply/Restore
@@ -682,7 +705,15 @@ desde el 2026-09-24 (`workflow_dispatch` desde `v0.3.16`, run
 [#105](https://github.com/refo44/demo-revistalogos/pull/105); plugin
 **0.2.24**, [#104](https://github.com/refo44/demo-revistalogos/pull/104))
 live desde el 2026-11-06 (`workflow_dispatch` desde `v0.3.17`, run
-`42224925587`, success). **No** despachar desde una etiqueta anterior.
+`42224925587`, success). Release de proyecto **0.3.18** (theme **0.2.15** y
+plugin **0.2.26**, [#111](https://github.com/refo44/demo-revistalogos/pull/111) y
+[#112](https://github.com/refo44/demo-revistalogos/pull/112)) live desde el
+2026-11-09 (`workflow_dispatch` desde `v0.3.18`, run `42657873756`, success).
+Release de proyecto **0.3.19** (theme **0.2.16**, plugin **0.2.26** sin
+cambios, [#115](https://github.com/refo44/demo-revistalogos/pull/115) y
+[#116](https://github.com/refo44/demo-revistalogos/pull/116)) live desde el
+2026-11-09 (`workflow_dispatch` desde `v0.3.19`, run `42687458236`, success).
+**No** despachar desde una etiqueta anterior.
 Siguiente: FSE sesión 7 ([#81](https://github.com/refo44/demo-revistalogos/issues/81)),
 plantilla del número, sobre `feat/fse`, en Docker (ver punto 6). La sesión 6
 está fusionada en `feat/fse` ([#106](https://github.com/refo44/demo-revistalogos/pull/106)).
@@ -691,7 +722,8 @@ La firma visual de las sesiones 5 y 6 queda pendiente. El switch
 la major del theme ni la del plugin. Espera
 [#103](https://github.com/refo44/demo-revistalogos/issues/103): una copia
 exacta de la base de producción en Docker local, comparada con la versión
-live. La línea live sigue habilitada y puede publicar minor y patch. Eso
+live. Desde el 2026-11-07 esa comparación va después de la sesión 9 y
+antes de fusionar `feat/fse` en `main` (ADR 0015, nota 2026-11-07). La línea live sigue habilitada y puede publicar minor y patch. Eso
 no adelanta ni retrasa las sesiones.
 Trabajo pendiente aceptado (no duplicar aquí):
 `docs/adr/BACKLOG.md` § Trabajo pendiente aceptado.

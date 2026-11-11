@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — Estructura de Archivos del Tema
+# Revista de Filosofía LOGOS ET SPES — Estructura de Archivos del Tema
 
 **Arquitectura de archivos del tema WordPress**
 
@@ -278,4 +278,4 @@ if ( post_password_required() ) {
 ---
 
 **Versión:** 1.0  
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

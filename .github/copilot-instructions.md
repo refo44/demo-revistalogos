@@ -1,4 +1,4 @@
-# Copilot code review — Revista LOGO ET SPES
+# Copilot code review — Revista LOGOS ET SPES
 
 Pointer only. Do not invent policy. Priority: `content-source/` > `docs/` > ADRs.
 Does not replace ADR 0005–0006, 0018, 0019, `docs/23`, `docs/24`, or `CLAUDE.md`.

@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — Árbol de URLs
+# Revista de Filosofía LOGOS ET SPES — Árbol de URLs
 
 **Estructura oficial de URLs**
 
@@ -148,4 +148,4 @@ Define las rutas canónicas del sitio. Fuente única para "qué URL lleva a dón
 ---
 
 **Versión:** 1.0  
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

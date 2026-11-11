@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — Principios de Maquetación
+# Revista de Filosofía LOGOS ET SPES — Principios de Maquetación
 
 Cierra el sistema visual: ancho de lectura, ritmo vertical, espacio en blanco, relación tipografía/imagen, grid y comportamiento responsive. Aplica a maqueta estática y WordPress.
 
@@ -115,4 +115,4 @@ El lector percibe claridad, no el sistema que la produce.
 ---
 
 **Versión:** 1.0  
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

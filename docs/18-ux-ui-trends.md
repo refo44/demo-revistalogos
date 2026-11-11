@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — Tendencias UX/UI y Sistema Editorial
+# Revista de Filosofía LOGOS ET SPES — Tendencias UX/UI y Sistema Editorial
 
 **Filtro estratégico para validación de diseño e implementación**
 
@@ -56,7 +56,7 @@ Qué adoptar y qué evitar: lectura, claridad, accesibilidad, rendimiento vs. pe
 
 ## 4. Opcional (evaluar por proyecto)
 
-| Opción | Decisión para LOGO ET SPES |
+| Opción | Decisión para LOGOS ET SPES |
 |--------|----------------------------|
 | Modo oscuro | Fuera de alcance. La identidad institucional es clara y el contenido principal es lectura académica. |
 | Formas orgánicas | Dosis mínimas solo; preferir geometría limpia. |
@@ -108,4 +108,4 @@ Antes de cerrar Fase 2 (o validar antes de WordPress):
 ---
 
 **Versión:** 1.0  
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

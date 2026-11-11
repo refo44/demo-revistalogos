@@ -196,7 +196,7 @@ class FrontAndInstitutionalTemplatesTest extends WP_UnitTestCase {
 		$html = do_blocks( '<!-- wp:revistalogos/front-hero /-->' );
 
 		$this->assertStringContainsString( '<section class="front-page__hero">', $html );
-		$this->assertStringContainsString( '<h1 class="hero__title">LOGO ET SPES</h1>', $html );
+		$this->assertStringContainsString( '<h1 class="hero__title">LOGOS ET SPES</h1>', $html );
 		$this->assertStringContainsString( 'class="btn btn--primary btn--large">Ver número actual</a>', $html );
 		$this->assertSame( $this->part( 'template-parts/front-hero' ), $html );
 	}
@@ -252,7 +252,7 @@ class FrontAndInstitutionalTemplatesTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( '<nav class="breadcrumbs" aria-label="Migas de pan">', $html );
 		$this->assertStringContainsString( '<span class="breadcrumbs__current">Acerca de la Revista</span>', $html );
 		$this->assertStringContainsString( '<h1 class="archive-header__title">Acerca de la Revista</h1>', $html );
-		$this->assertStringContainsString( '<p class="archive-header__description">Conoce el enfoque, alcance y objetivos de LOGO ET SPES', $html );
+		$this->assertStringContainsString( '<p class="archive-header__description">Conoce el enfoque, alcance y objetivos de LOGOS ET SPES', $html );
 		$this->assertSame(
 			$this->part(
 				'template-parts/page-header',

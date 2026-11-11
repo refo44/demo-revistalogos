@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — Hoja de Copy UI
+# Revista de Filosofía LOGOS ET SPES — Hoja de Copy UI
 
 **Fuente única de verdad para microcopy, navegación y sistema**
 
@@ -55,7 +55,7 @@ Botones, menús, mensajes, formularios y estados. Criterios de voz en `07-voice-
 
 ### Hero
 
-- **Título:** LOGO ET SPES
+- **Título:** LOGOS ET SPES
 - **Subtítulo:** Revista de Filosofía
 - **Descripción:** La Revista de Filosofía adscrita, auspiciada y editada por el Centro de Filosofía para la Investigación \<Stanislao Strba\> \- CENFISS, es una publicación digital venezolana enfocada en el pensamiento filosófico multidisciplinar. Es de acceso abierto; arbitrada bajo la modalidad \<doble anónimo o doble ciego\>; con periodicidad anual. Sus páginas están disponibles para difundir investigaciones originales \-de autores nacionales e internacionales- que coadyuven a promover el desarrollo de todas las áreas de la Filosofía.
 - **Botón:** Ver número actual
@@ -77,11 +77,11 @@ Botones, menús, mensajes, formularios y estados. Criterios de voz en `07-voice-
 
 | Página | Título | Descripción |
 |--------|--------|-------------|
-| Archivo de Números | Archivo de Números | Consulta los números publicados de la Revista de Filosofía LOGO ET SPES desde su primera edición. |
-| Archivo de Artículos | Archivo de Artículos | Consulta los artículos publicados en la Revista de Filosofía LOGO ET SPES, organizados por sección, autor y fecha. |
-| Enviar colaboración | Enviar colaboración | Instrucciones para enviar artículos, ensayos y reseñas a LOGO ET SPES. |
-| Acerca | Acerca de | Conoce el enfoque, alcance y objetivos de la Revista de Filosofía LOGO ET SPES, adscrita, auspiciada y editada por el Centro de Filosofía para la Investigación \<Stanislao Strba\> - CENFISS. |
-| Noticias | Noticias | Noticias, eventos y reflexiones sobre filosofía y la revista académica LOGO ET SPES. |
+| Archivo de Números | Archivo de Números | Consulta los números publicados de la Revista de Filosofía LOGOS ET SPES desde su primera edición. |
+| Archivo de Artículos | Archivo de Artículos | Consulta los artículos publicados en la Revista de Filosofía LOGOS ET SPES, organizados por sección, autor y fecha. |
+| Enviar colaboración | Enviar colaboración | Instrucciones para enviar artículos, ensayos y reseñas a LOGOS ET SPES. |
+| Acerca | Acerca de | Conoce el enfoque, alcance y objetivos de la Revista de Filosofía LOGOS ET SPES, adscrita, auspiciada y editada por el Centro de Filosofía para la Investigación \<Stanislao Strba\> - CENFISS. |
+| Noticias | Noticias | Noticias, eventos y reflexiones sobre filosofía y la revista académica LOGOS ET SPES. |
 
 ---
 
@@ -191,4 +191,4 @@ Criterios completos en `19-accessibility-standards`.
 ---
 
 **Versión:** 1.1
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

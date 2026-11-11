@@ -114,7 +114,7 @@ function revistalogos_core_missing_notice() {
 	}
 
 	echo '<div class="notice notice-warning"><p>';
-	esc_html_e( 'El theme Revista LOGO ET SPES necesita el plugin «Revista LOGO ET SPES — Core» para mostrar números, artículos y autores. Actívalo en Plugins.', 'revistalogos' );
+	esc_html_e( 'El theme Revista LOGOS ET SPES necesita el plugin «Revista LOGOS ET SPES — Core» para mostrar números, artículos y autores. Actívalo en Plugins.', 'revistalogos' );
 	echo '</p></div>';
 }
 add_action( 'admin_notices', 'revistalogos_core_missing_notice' );

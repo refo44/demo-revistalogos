@@ -71,7 +71,7 @@ done
 cli core version >/dev/null || fail "WordPress core did not become ready"
 cli core install \
 	--url="$BASE_URL" \
-	--title="LOGO ET SPES PDF composition QA" \
+	--title="LOGOS ET SPES PDF composition QA" \
 	--admin_user="$ADMIN_USER" \
 	--admin_password="$ADMIN_PASSWORD" \
 	--admin_email="pdf-composition@example.invalid" \

@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — Diagrama de Recorrido del Usuario
+# Revista de Filosofía LOGOS ET SPES — Diagrama de Recorrido del Usuario
 
 Diagrama Mermaid. Basado en `10-user-journey`. Puntuación 1–5: fluidez del flujo (5 = sin fricción). Actor: **Visitante**.
 
@@ -6,7 +6,7 @@ Diagrama Mermaid. Basado en `10-user-journey`. Puntuación 1–5: fluidez del fl
 
 ```mermaid
 journey
-    title Revista LOGO ET SPES — Recorridos del visitante
+    title Revista LOGOS ET SPES — Recorridos del visitante
     section Lee número actual
       Ve inicio (hero, mensaje): 5: Visitante
       Clic Ver número actual: 5: Visitante

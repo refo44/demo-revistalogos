@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — Documentación
+# Revista de Filosofía LOGOS ET SPES — Documentación
 
 Documentación para el sitio web de la revista académica. CENFISS (Centro de Filosofía para la Investigación Stanislao Strba), Valencia, Venezuela.
 
@@ -12,7 +12,7 @@ Documentación para el sitio web de la revista académica. CENFISS (Centro de Fi
 |---|-----------|-----------|
 | 00 | order-documents | Orden de documentos y reglas de dependencia |
 | 01 | platform-plan | Plan maestro, capas, principios |
-| 02 | corporate-identity | Paleta, tipografía, logo, esencia de marca |
+| 02 | corporate-identity | Paleta, tipografía (web y de marca), logo, esencia de marca |
 | 03 | wordpress-content-model | Tipos de entrada, taxonomías, campos |
 | 04 | screen-map | Qué pantallas existen |
 | 05 | information-architecture-navigation | Enlaces por pantalla, estructura del menú |
@@ -77,4 +77,4 @@ Ningún documento puede depender de uno con número mayor. Ver `00-order-documen
 ---
 
 **Versión:** 1.6
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

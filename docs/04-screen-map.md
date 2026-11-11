@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — Mapa de Pantallas
+# Revista de Filosofía LOGOS ET SPES — Mapa de Pantallas
 
 Lista de las pantallas que existen en el sitio. No describe diseño visual; solo define qué vistas deben construirse. Fuente única para determinar qué vistas existen en el sistema. El contenido de cada una está en 03; la estructura del tema en 12.
 
@@ -12,7 +12,7 @@ Lista de las pantallas que existen en el sitio. No describe diseño visual; solo
 | Página | Función |
 |--------|---------|
 | Inicio | Hero, número actual, CTA principal. Punto de entrada para leer y enviar. |
-| Acerca | Enfoque, alcance, objetivos, origen del nombre Logo et Spes. |
+| Acerca | Enfoque, alcance, objetivos, origen del nombre Logos et Spes. |
 | Contacto | Contacto institucional, consejo editorial, CENFISS, email. |
 | Normas | Normas de publicación, descargas PDF, enlaces a APA/Vancouver. |
 | Ética | Normas de ética editorial (alineación COPE). |
@@ -153,4 +153,4 @@ Presentes en todas las páginas.
 ---
 
 **Versión:** 1.0  
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

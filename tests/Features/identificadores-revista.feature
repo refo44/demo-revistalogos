@@ -1,6 +1,6 @@
 # language: es
 Característica: Identificadores digitales de la revista
-  Como administrador de LOGO ET SPES
+  Como administrador de LOGOS ET SPES
   quiero guardar ISSN, depósito legal y prefijo DOI en Ajustes
   para que el pie, Acerca y /llms.txt muestren los valores oficiales
   # Issue #58. Ejecutan: tests/Unit/JournalIdentifierSettingsTest,
@@ -15,7 +15,7 @@ Característica: Identificadores digitales de la revista
     Y /llms.txt omite esas líneas
 
   Escenario: Un administrador guarda los identificadores digitales
-    Dado Ajustes → LOGO ET SPES
+    Dado Ajustes → LOGOS ET SPES
     Cuando guarda un ISSN, un depósito legal y un prefijo DOI
     Entonces el pie muestra ese ISSN y ese depósito legal
     Y Acerca muestra esos tres valores

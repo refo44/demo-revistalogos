@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — Recorrido del Usuario
+# Revista de Filosofía LOGOS ET SPES — Recorrido del Usuario
 
 Describe cómo una persona real se mueve por el sitio. No es un flujo de conversión; es una serie de encuentros con **contenido filosófico y procesos editoriales**.
 
@@ -30,7 +30,7 @@ Valida: arquitectura de información, navegación, microcopy, jerarquía de pant
 
 ## 2. La persona explora para entender la revista
 
-**Objetivo:** Entender qué es LOGO ET SPES, su alcance y cómo participar.
+**Objetivo:** Entender qué es LOGOS ET SPES, su alcance y cómo participar.
 
 **Ruta:**
 
@@ -146,4 +146,4 @@ Criterios técnicos y editoriales en `19-accessibility-standards`.
 ---
 
 **Versión:** 1.0  
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

@@ -1,4 +1,4 @@
-# Revista de Filosofía LOGO ET SPES — Orden de Implementación
+# Revista de Filosofía LOGOS ET SPES — Orden de Implementación
 
 **Secuencia acordada para llevar el sitio a la web.** **No saltar etapas.**  
 **Versión 1.3**
@@ -217,4 +217,4 @@ No forma parte del cierre de Fase 3 ni de Fase 4. **Hoy** el PDF de artículo se
 ---
 
 **Versión:** 1.3
-**Proyecto:** Revista de Filosofía LOGO ET SPES
+**Proyecto:** Revista de Filosofía LOGOS ET SPES

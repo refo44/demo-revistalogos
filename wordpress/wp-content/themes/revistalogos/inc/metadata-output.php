@@ -68,15 +68,18 @@ function revistalogos_head_metadata() {
 			printf( '<meta property="og:image:width" content="%d">' . "\n", (int) $preview['width'] );
 			printf( '<meta property="og:image:height" content="%d">' . "\n", (int) $preview['height'] );
 		}
-	}
+		if ( '' !== $preview['alt'] ) {
+			printf( '<meta property="og:image:alt" content="%s">' . "\n", esc_attr( $preview['alt'] ) );
+		}
 
-	$twitter = revistalogos_twitter_preview_image();
-	if ( ! empty( $twitter['url'] ) ) {
 		printf(
 			'<meta name="twitter:card" content="%s">' . "\n",
-			esc_attr( revistalogos_twitter_card_type( $twitter['width'], $twitter['height'] ) )
+			esc_attr( revistalogos_twitter_card_type( $preview['width'], $preview['height'] ) )
 		);
-		printf( '<meta name="twitter:image" content="%s">' . "\n", esc_url( $twitter['url'] ) );
+		printf( '<meta name="twitter:image" content="%s">' . "\n", esc_url( $preview['url'] ) );
+		if ( '' !== $preview['alt'] ) {
+			printf( '<meta name="twitter:image:alt" content="%s">' . "\n", esc_attr( $preview['alt'] ) );
+		}
 	}
 
 	// Core emits rel=canonical for singular views only; cover the front
@@ -101,7 +104,7 @@ function revistalogos_highwire_metadata() {
 
 	$tags = array(
 		'citation_title'         => get_the_title( $article_id ),
-		'citation_journal_title' => 'Revista de Filosofía LOGO ET SPES',
+		'citation_journal_title' => 'Revista de Filosofía LOGOS ET SPES',
 	);
 
 	$authors = revistalogos_article_authors( $article_id );
@@ -171,7 +174,7 @@ function revistalogos_schema_metadata() {
 			'@graph'   => array(
 				array(
 					'@type' => 'Periodical',
-					'name'  => 'Revista de Filosofía LOGO ET SPES',
+					'name'  => 'Revista de Filosofía LOGOS ET SPES',
 					'url'   => home_url( '/' ),
 					'image' => revistalogos_journal_logo_url(),
 					'inLanguage' => 'es',
@@ -194,7 +197,7 @@ function revistalogos_schema_metadata() {
 			'inLanguage' => 'es',
 			'isPartOf'   => array(
 				'@type' => 'Periodical',
-				'name'  => 'Revista de Filosofía LOGO ET SPES',
+				'name'  => 'Revista de Filosofía LOGOS ET SPES',
 				'url'   => home_url( '/' ),
 			),
 		);
@@ -266,13 +269,33 @@ function revistalogos_schema_metadata() {
 add_action( 'wp_head', 'revistalogos_schema_metadata', 7 );
 
 /**
- * Absolute URL of the journal logo used as the site preview image.
+ * Absolute URL of an image in the theme's assets/img/, with the theme
+ * version as `ver`. Social networks, search engines and browsers cache
+ * images by URL; the query makes them fetch the file again when a
+ * release changes it under the same name.
+ *
+ * @param string $file File name inside assets/img/.
+ * @return string
+ */
+function revistalogos_theme_image_url( $file ) {
+	$url = get_theme_root_uri() . '/revistalogos/assets/img/' . $file;
+
+	if ( defined( 'REVISTALOGOS_THEME_VERSION' ) ) {
+		$url = add_query_arg( 'ver', REVISTALOGOS_THEME_VERSION, $url );
+	}
+
+	return $url;
+}
+
+/**
+ * Absolute URL of the square journal logo (Periodical JSON-LD `image`).
  * Replaces the retired static path /assets/img/logo-revista.png (404).
+ * Social previews use the landscape card instead.
  *
  * @return string
  */
 function revistalogos_journal_logo_url() {
-	return get_theme_root_uri() . '/revistalogos/assets/img/logo-revista.png';
+	return revistalogos_theme_image_url( 'logo-revista.png' );
 }
 
 /**
@@ -298,32 +321,30 @@ function revistalogos_twitter_card_type( $width, $height ) {
 }
 
 /**
- * Absolute URL of the 1200×630 card X can paint. Query `ver` forces a
- * recrawl after the previous square-logo scrape failed.
+ * Absolute URL of the 1200×630 social card: the whole seal centred on a
+ * landscape canvas. Facebook, LinkedIn and Threads crop og:image to
+ * ~1.91:1, which cut the square logo's text; X needs ~2:1 for
+ * summary_large_image. Query `ver` forces a recrawl when the seal changes.
  *
  * @return string
  */
-function revistalogos_twitter_card_image_url() {
-	$url = get_theme_root_uri() . '/revistalogos/assets/img/og-twitter-card.jpg';
-
-	if ( defined( 'REVISTALOGOS_THEME_VERSION' ) ) {
-		$url = add_query_arg( 'ver', REVISTALOGOS_THEME_VERSION, $url );
-	}
-
-	return $url;
+function revistalogos_social_card_image_url() {
+	return revistalogos_theme_image_url( 'og-twitter-card.jpg' );
 }
 
 /**
- * Featured image when the queried singular has one.
+ * Featured image when the queried singular has one. `alt` is the Media
+ * Library alternative text, or empty: none is invented.
  *
- * @return array{url: string, width: int, height: int}|null
+ * @return array{url: string, width: int, height: int, alt: string}|null
  */
 function revistalogos_featured_preview_image() {
 	if ( ! is_singular() || ! has_post_thumbnail() ) {
 		return null;
 	}
 
-	$src = wp_get_attachment_image_src( get_post_thumbnail_id(), 'full' );
+	$thumbnail_id = get_post_thumbnail_id();
+	$src          = wp_get_attachment_image_src( $thumbnail_id, 'full' );
 	if ( ! is_array( $src ) || empty( $src[0] ) ) {
 		return null;
 	}
@@ -332,14 +353,16 @@ function revistalogos_featured_preview_image() {
 		'url'    => $src[0],
 		'width'  => (int) $src[1],
 		'height' => (int) $src[2],
+		'alt'    => trim( wp_strip_all_tags( (string) get_post_meta( $thumbnail_id, '_wp_attachment_image_alt', true ) ) ),
 	);
 }
 
 /**
- * Preview image for Open Graph: featured image on singular views,
- * otherwise the journal logo. WhatsApp / Search Console read og:image.
+ * Preview image for Open Graph and X Cards: featured image on singular
+ * views, otherwise the 1200×630 social card. The square journal logo
+ * stays in the Periodical JSON-LD only.
  *
- * @return array{url: string, width: int, height: int}
+ * @return array{url: string, width: int, height: int, alt: string}
  */
 function revistalogos_preview_image() {
 	$featured = revistalogos_featured_preview_image();
@@ -348,28 +371,10 @@ function revistalogos_preview_image() {
 	}
 
 	return array(
-		'url'    => revistalogos_journal_logo_url(),
-		'width'  => 1024,
-		'height' => 1024,
-	);
-}
-
-/**
- * Preview image for X Cards: featured image on singular views,
- * otherwise the 1200×630 landscape card (summary_large_image).
- *
- * @return array{url: string, width: int, height: int}
- */
-function revistalogos_twitter_preview_image() {
-	$featured = revistalogos_featured_preview_image();
-	if ( null !== $featured ) {
-		return $featured;
-	}
-
-	return array(
-		'url'    => revistalogos_twitter_card_image_url(),
+		'url'    => revistalogos_social_card_image_url(),
 		'width'  => 1200,
 		'height' => 630,
+		'alt'    => 'Sello de la Revista de Filosofía LOGOS ET SPES',
 	);
 }
 

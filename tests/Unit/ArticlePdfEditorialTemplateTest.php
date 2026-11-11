@@ -19,7 +19,7 @@ class ArticlePdfEditorialTemplateTest extends TestCase {
 
 	private function make_full_editorial_fields() {
 		return array(
-			'journal_name'     => 'Revista de Filosofía LOGO ET SPES',
+			'journal_name'     => 'Revista de Filosofía LOGOS ET SPES',
 			'volume'           => 3,
 			'number'           => 2,
 			'year'             => 2027,
@@ -56,7 +56,7 @@ class ArticlePdfEditorialTemplateTest extends TestCase {
 
 		$offprint_html = $editorial_template->render( $this->make_full_editorial_fields() );
 
-		$this->assertStringContainsString( 'Revista de Filosofía LOGO ET SPES', $offprint_html );
+		$this->assertStringContainsString( 'Revista de Filosofía LOGOS ET SPES', $offprint_html );
 		$this->assertStringContainsString( 'Vol. 3, N.º 2 (2027), pp. 15-34', $offprint_html );
 		$this->assertStringContainsString( 'ISSN ISSN-DE-PRUEBA', $offprint_html );
 		$this->assertStringContainsString( 'Sección: Artículos', $offprint_html );

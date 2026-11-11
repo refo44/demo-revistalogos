@@ -74,7 +74,7 @@ done
 cli core version >/dev/null || fail "WordPress core did not become ready"
 cli core install \
 	--url="$BASE_URL" \
-	--title="LOGO ET SPES PDF enforcement QA" \
+	--title="LOGOS ET SPES PDF enforcement QA" \
 	--admin_user="$ADMIN_USER" \
 	--admin_password="$ADMIN_PASSWORD" \
 	--admin_email="pdf-enforcement@example.invalid" \
@@ -270,7 +270,7 @@ if ( isset( $submenu['options-general.php'] ) ) {
 		}
 	}
 }
-qa_ok( $found_page, 'Settings → LOGO ET SPES registered with manage_options' );
+qa_ok( $found_page, 'Settings → LOGOS ET SPES registered with manage_options' );
 
 $author_id = wp_insert_post(
 	array(
