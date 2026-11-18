@@ -8,6 +8,16 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Changed
+- FSE sesión 7 (ficha del número) registrada como hecha en `feat/fse`
+  ([#122](https://github.com/refo44/demo-revistalogos/pull/122),
+  [#81](https://github.com/refo44/demo-revistalogos/issues/81)) en
+  `docs/fase3-execution-state.md` y en el ítem 7 de `docs/adr/BACKLOG.md`;
+  la siguiente acción pasa a la sesión 8
+  ([#82](https://github.com/refo44/demo-revistalogos/issues/82)). El
+  estado de ejecución registra también la release 0.3.20 live. La paridad
+  visual queda a revisión del propietario.
+
 ## [0.3.20] — 2026-11-10
 
 Release etiquetado para FTPS de producción (ADR 0020). Theme `revistalogos`

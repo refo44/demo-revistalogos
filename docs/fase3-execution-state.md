@@ -5,8 +5,8 @@ current_work_unit: ""
 current_branch: ""
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
-updated_at: "2026-11-09"
-next_action: "FSE sesión 7 (#81): plantilla del número en Docker, rama desde feat/fse, PR hacia feat/fse. La sesión 6 está fusionada en feat/fse (#106, 8c4c511; theme 0.3.4, plugin 0.2.25); la firma visual de las sesiones 5 y 6 queda pendiente. v0.3.19 ya está live; no despachar desde una etiqueta anterior."
+updated_at: "2026-11-17"
+next_action: "FSE sesión 8 (#82): ficha del artículo en Docker, rama desde feat/fse, PR hacia feat/fse. La sesión 7 está fusionada en feat/fse (#122, 4fbc5fa; theme 0.3.5); feat/fse lleva main fusionado hasta v0.3.20 (plugin 0.2.27, número que la línea live salta). La firma visual de las sesiones 5 a 7 queda pendiente. v0.3.20 ya está live; no despachar desde una etiqueta anterior."
 blocked: false
 ---
 
@@ -713,11 +713,16 @@ Release de proyecto **0.3.19** (theme **0.2.16**, plugin **0.2.26** sin
 cambios, [#115](https://github.com/refo44/demo-revistalogos/pull/115) y
 [#116](https://github.com/refo44/demo-revistalogos/pull/116)) live desde el
 2026-11-09 (`workflow_dispatch` desde `v0.3.19`, run `42687458236`, success).
+Release de proyecto **0.3.20** (theme **0.2.17**, plugin **0.2.26** sin
+cambios, [#120](https://github.com/refo44/demo-revistalogos/pull/120) y
+[#121](https://github.com/refo44/demo-revistalogos/pull/121)) live desde el
+2026-11-10 (`workflow_dispatch` desde `v0.3.20`, run `42875067649`, success).
 **No** despachar desde una etiqueta anterior.
-Siguiente: FSE sesión 7 ([#81](https://github.com/refo44/demo-revistalogos/issues/81)),
-plantilla del número, sobre `feat/fse`, en Docker (ver punto 6). La sesión 6
-está fusionada en `feat/fse` ([#106](https://github.com/refo44/demo-revistalogos/pull/106)).
-La firma visual de las sesiones 5 y 6 queda pendiente. El switch
+Siguiente: FSE sesión 8 ([#82](https://github.com/refo44/demo-revistalogos/issues/82)),
+ficha del artículo, sobre `feat/fse`, en Docker (ver punto 6). La sesión 7
+está fusionada en `feat/fse` ([#122](https://github.com/refo44/demo-revistalogos/pull/122)). `feat/fse` lleva `main` fusionado hasta `v0.3.20`, con el plugin en
+**0.2.27** solo en esa rama: la línea live salta ese número.
+La firma visual de las sesiones 5 a 7 queda pendiente. El switch
 ([#84](https://github.com/refo44/demo-revistalogos/issues/84)) no habilita
 la major del theme ni la del plugin. Espera
 [#103](https://github.com/refo44/demo-revistalogos/issues/103): una copia
@@ -858,8 +863,29 @@ FSE remains deferred:
      `single-author` no entra. Gate en Docker: `composer test:unit` 65 OK,
      `composer test:wp` 150 OK. La paridad visual queda a revisión del
      propietario; **no** hay Pass visual. No llega a producción.
-   - Siguiente: sesión 7, plantilla del número
-     ([#81](https://github.com/refo44/demo-revistalogos/issues/81)), rama
+   - **Sesión 7 (ficha del número) HECHA en `feat/fse`**
+     (2026-11-17,
+     [#122](https://github.com/refo44/demo-revistalogos/pull/122);
+     [#81](https://github.com/refo44/demo-revistalogos/issues/81)).
+     Theme **0.3.5** y plugin **0.2.27** solo en `feat/fse` (`4fbc5fa`).
+     Antes, `main` se fusiona en `feat/fse` hasta `v0.3.20`: el cambio de
+     nombre a LOGOS ET SPES llega también a las cadenas que la sesión 5
+     movió a `inc/template-tags.php` y a las partes de vista, y el plugin
+     pasa a **0.2.27** solo en `feat/fse` (la línea live salta ese número).
+     Theme **0.3.5**: `templates/single-issue.html` compone
+     `revistalogos/view` con la vista `issue-single`; el cuerpo de
+     `single-issue.php` pasa a `template-parts/view/issue-single.php`, que
+     la vista PHP imprime dentro de su bucle y que devuelve vacío fuera de
+     la ficha de un número. Ningún PHP se borra. Gate en Docker:
+     `php-lint` 146 OK, `composer audit` sin avisos, `composer test:unit`
+     68 OK, `composer test:wp` 168 OK. En `localhost:8080`, dos números
+     responden 200 por la plantilla de bloques, sin avisos PHP del theme,
+     y su `<main>` coincide línea a línea con el de la vista clásica.
+     Capturas contra `static/single-issue.html` a 1280 y 320 px: mismas
+     posiciones y anchos de sección, sin desborde horizontal. No llega a
+     producción.
+   - Siguiente: sesión 8, ficha del artículo
+     ([#82](https://github.com/refo44/demo-revistalogos/issues/82)), rama
      desde `feat/fse`.
 
 D12b (checks CI de seguridad/stylelint ligados al deploy) sigue pendiente
