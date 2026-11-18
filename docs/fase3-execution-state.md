@@ -696,6 +696,11 @@ no cabe en una fila junto al logo dentro del contenedor de 1200 px, así que all
 a su propia fila y la cabecera pasa de 93 a 145 px. El menú desplegable cubre hasta
 1024 px.
 
+Cómo citar (2026-11-18): desborde a 320 px corregido en código (theme
+**0.2.18**), sin desplegar. En producción la cuadrícula de formatos (280 px en
+246) y la URL (261 px en 212) se salen del recuadro; en Docker, 12 artículos
+quedan en `scrollWidth` 320 y la sección no cambia a 1280 px.
+
 Siguiente acción priorizada — ítem 12 / [#67](https://github.com/refo44/demo-revistalogos/issues/67)
 **HECHO** en `main` (`v0.3.15`, [#70](https://github.com/refo44/demo-revistalogos/pull/70)).
 Plugin 0.2.20 / theme 0.2.12 entregó los campos. El puente Apply/Restore
