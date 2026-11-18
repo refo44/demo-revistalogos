@@ -100,6 +100,20 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   la vista clásica, y las capturas contra `static/single-issue.html` a
   1280 y 320 px no tienen desborde horizontal. `single-issue.php` se
   conserva hasta el corte. No llega a producción hasta el corte.
+- FSE Sesión 8, ficha del artículo (ADR 0015 §7, rama `feat/fse`,
+  [#82](https://github.com/refo44/demo-revistalogos/issues/82)): theme
+  **0.3.6** añade `templates/single-article.html`, que compone
+  `revistalogos/view` con la vista `article-single`. El cuerpo de
+  `single-article.php` (migas, cabecera con autores y fechas, caja de
+  metadatos, resúmenes, palabras clave, cuerpo, Cómo citar y botones del
+  PDF) pasa a `template-parts/view/article-single.php`, que la vista PHP
+  imprime dentro de su bucle. Fuera de la ficha de un artículo la vista
+  devuelve vacío. Highwire, JSON-LD, Open Graph y `citation.js` no
+  cambian. El `<main>` de la plantilla de bloques coincide con el de la
+  vista clásica una vez decodificado, y las capturas contra
+  `static/single-article.html` a 1280 y 320 px dan las mismas posiciones y
+  anchos de sección. `single-article.php` se conserva hasta el corte. No
+  llega a producción hasta el corte.
 
 ### Changed
 - FSE sesión 7 (ficha del número) registrada como hecha en `feat/fse`
