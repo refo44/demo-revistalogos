@@ -720,7 +720,8 @@ cambios, [#120](https://github.com/refo44/demo-revistalogos/pull/120) y
 **No** despachar desde una etiqueta anterior.
 Siguiente: FSE sesión 8 ([#82](https://github.com/refo44/demo-revistalogos/issues/82)),
 ficha del artículo, sobre `feat/fse`, en Docker (ver punto 6). La sesión 7
-está fusionada en `feat/fse` ([#122](https://github.com/refo44/demo-revistalogos/pull/122)). `feat/fse` lleva `main` fusionado hasta `v0.3.20`, con el plugin en
+está fusionada en `feat/fse` ([#122](https://github.com/refo44/demo-revistalogos/pull/122)).
+`feat/fse` lleva `main` fusionado hasta `v0.3.20`, con el plugin en
 **0.2.27** solo en esa rama: la línea live salta ese número.
 La firma visual de las sesiones 5 a 7 queda pendiente. El switch
 ([#84](https://github.com/refo44/demo-revistalogos/issues/84)) no habilita
