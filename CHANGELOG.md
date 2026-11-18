@@ -18,6 +18,15 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   estado de ejecución registra también la release 0.3.20 live. La paridad
   visual queda a revisión del propietario.
 
+### Fixed
+- Ficha del artículo a 320 px: «Cómo citar» ya no se sale de su recuadro
+  (theme **0.2.18**). La cuadrícula de formatos pedía columnas de al
+  menos 280 px en un hueco de 246, y la URL y el BibTeX no tenían por
+  dónde partirse. Las columnas bajan ahora hasta el ancho disponible y el
+  texto de la sección parte las palabras que no caben. En escritorio la
+  sección no cambia. La misma regla pasa a `static/`; se actualiza el
+  `?v=` de `pages/article.css`.
+
 ## [0.3.20] — 2026-11-10
 
 Release etiquetado para FTPS de producción (ADR 0020). Theme `revistalogos`
