@@ -5,8 +5,8 @@ current_work_unit: ""
 current_branch: ""
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
-updated_at: "2026-11-11"
-next_action: "FSE sesión 8 (#82): ficha del artículo en Docker, rama desde feat/fse, PR hacia feat/fse. La sesión 7 (#81, theme 0.3.5) está hecha en su rama; feat/fse lleva main fusionado hasta v0.3.20 (plugin 0.2.27, número que la línea live salta). La firma visual de las sesiones 5 a 7 queda pendiente. v0.3.20 ya está live; no despachar desde una etiqueta anterior."
+updated_at: "2026-11-17"
+next_action: "FSE sesión 8 (#82): ficha del artículo en Docker, rama desde feat/fse, PR hacia feat/fse. La sesión 7 está fusionada en feat/fse (#122, 4fbc5fa; theme 0.3.5); feat/fse lleva main fusionado hasta v0.3.20 (plugin 0.2.27, número que la línea live salta). La firma visual de las sesiones 5 a 7 queda pendiente. v0.3.20 ya está live; no despachar desde una etiqueta anterior."
 blocked: false
 ---
 
@@ -720,8 +720,8 @@ cambios, [#120](https://github.com/refo44/demo-revistalogos/pull/120) y
 **No** despachar desde una etiqueta anterior.
 Siguiente: FSE sesión 8 ([#82](https://github.com/refo44/demo-revistalogos/issues/82)),
 ficha del artículo, sobre `feat/fse`, en Docker (ver punto 6). La sesión 7
-([#81](https://github.com/refo44/demo-revistalogos/issues/81)) está hecha en
-su rama. `feat/fse` lleva `main` fusionado hasta `v0.3.20`, con el plugin en
+está fusionada en `feat/fse` ([#122](https://github.com/refo44/demo-revistalogos/pull/122)).
+`feat/fse` lleva `main` fusionado hasta `v0.3.20`, con el plugin en
 **0.2.27** solo en esa rama: la línea live salta ese número.
 La firma visual de las sesiones 5 a 7 queda pendiente. El switch
 ([#84](https://github.com/refo44/demo-revistalogos/issues/84)) no habilita
@@ -864,8 +864,11 @@ FSE remains deferred:
      `single-author` no entra. Gate en Docker: `composer test:unit` 65 OK,
      `composer test:wp` 150 OK. La paridad visual queda a revisión del
      propietario; **no** hay Pass visual. No llega a producción.
-   - **Sesión 7 (ficha del número) HECHA en su rama**
-     (2026-11-11, [#81](https://github.com/refo44/demo-revistalogos/issues/81)).
+   - **Sesión 7 (ficha del número) HECHA en `feat/fse`**
+     (2026-11-17,
+     [#122](https://github.com/refo44/demo-revistalogos/pull/122);
+     [#81](https://github.com/refo44/demo-revistalogos/issues/81)).
+     Theme **0.3.5** y plugin **0.2.27** solo en `feat/fse` (`4fbc5fa`).
      Antes, `main` se fusiona en `feat/fse` hasta `v0.3.20`: el cambio de
      nombre a LOGOS ET SPES llega también a las cadenas que la sesión 5
      movió a `inc/template-tags.php` y a las partes de vista, y el plugin
