@@ -26,11 +26,15 @@ Reanudación: `docs/fase3-execution-state.md`.
 | Administración | Existe un usuario administrador asignado a esa gestión editorial. Identidad, correo y credenciales **no** se documentan aquí. |
 
 FSE (ADR 0015) **sigue siendo la dirección futura** y **no bloqueó** este corte.
+**No sustituye** este sitio: desde el 2026-11-18 el FSE completo va a un
+subdominio propio, `https://logos-et-spes.cenfiss.net/` (ADR 0024), con su
+WordPress, su base, su cuenta FTP y su workflow, nunca `deploy-wordpress.yml`.
+Este sitio sigue en la línea live (theme 0.2.x, plugin 0.2.x) y no tiene switch.
 Orden operativo actual: WordPress clásico live; carga editorial real **en
 proceso** desde wp-admin → QA del theme → limpieza del estático residual →
 PHP 8.3 (revista, 2026-08-22) → plugins aprobados → indexación solo si el propietario lo
 decide (launch gate; 100 % de contenido no es prerequisito) → FSE
-incremental primero en Docker.
+incremental primero en Docker y después en `logos-et-spes.cenfiss.net`.
 
 ## Launch gate de indexación
 
@@ -500,7 +504,8 @@ Contact Form 7 **6.1.7** está instalado y activo en producción
 11. No importar el dataset demo de fixtures. Bootstrap editorial
     restringido: solo tras aprobación explícita; no ejecutado aquí.
 12. Revisar warnings Node.js 20→24 del workflow (no bloquean).
-13. FSE después, primero en Docker (ADR 0015).
+13. FSE después, primero en Docker (ADR 0015) y después en su subdominio
+    propio `logos-et-spes.cenfiss.net` (ADR 0024). Nunca en este sitio.
 14. Post-deploy funcional: portada, nav, CSS/JS, plantillas, caché (SpeedyCache).
 15. Borrar a mano en GitHub (Repository secrets) `FTP_HOST`, `FTP_USERNAME`,
     `FTP_PASSWORD`, `FTP_PORT`, `FTP_REMOTE_DIR` si ya no los usa ningún
@@ -564,7 +569,7 @@ Fixtures:
 no importados (no usar seed de Docker en prod)
 
 FSE:
-pendiente para fase posterior
+no se despliega aquí; va a logos-et-spes.cenfiss.net (ADR 0024)
 
 cenfiss.net:
 sin cambios y operativo

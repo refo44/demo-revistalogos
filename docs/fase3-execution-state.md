@@ -5,8 +5,8 @@ current_work_unit: ""
 current_branch: ""
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
-updated_at: "2026-11-17"
-next_action: "FSE sesión 8 (#82): ficha del artículo en Docker, rama desde feat/fse, PR hacia feat/fse. La sesión 7 está fusionada en feat/fse (#122, 4fbc5fa; theme 0.3.5); feat/fse lleva main fusionado hasta v0.3.20 (plugin 0.2.27, número que la línea live salta). La firma visual de las sesiones 5 a 7 queda pendiente. v0.3.20 ya está live; no despachar desde una etiqueta anterior."
+updated_at: "2026-11-18"
+next_action: "FSE sesión 8 (#82): ficha del artículo en Docker, rama desde feat/fse, PR hacia feat/fse. La sesión 7 está fusionada en feat/fse (#122, 4fbc5fa; theme 0.3.5); feat/fse lleva main fusionado hasta v0.3.20 (plugin 0.2.27, número que la línea live salta). La firma visual de las sesiones 5 a 7 queda pendiente. Desde el 2026-11-18 el FSE completo va al subdominio propio logos-et-spes.cenfiss.net (ADR 0024), no a producción: no hay switch in situ; el subdominio aún no existe en cPanel. v0.3.20 ya está live; no despachar desde una etiqueta anterior."
 blocked: false
 ---
 
@@ -728,14 +728,34 @@ ficha del artículo, sobre `feat/fse`, en Docker (ver punto 6). La sesión 7
 está fusionada en `feat/fse` ([#122](https://github.com/refo44/demo-revistalogos/pull/122)).
 `feat/fse` lleva `main` fusionado hasta `v0.3.20`, con el plugin en
 **0.2.27** solo en esa rama: la línea live salta ese número.
-La firma visual de las sesiones 5 a 7 queda pendiente. El switch
-([#84](https://github.com/refo44/demo-revistalogos/issues/84)) no habilita
-la major del theme ni la del plugin. Espera
-[#103](https://github.com/refo44/demo-revistalogos/issues/103): una copia
-exacta de la base de producción en Docker local, comparada con la versión
-live. Desde el 2026-11-07 esa comparación va después de la sesión 9 y
-antes de fusionar `feat/fse` en `main` (ADR 0015, nota 2026-11-07). La línea live sigue habilitada y puede publicar minor y patch. Eso
-no adelanta ni retrasa las sesiones.
+La firma visual de las sesiones 5 a 7 queda pendiente.
+
+**Subdominio FSE (2026-11-18, [ADR 0024](adr/0024-fse-en-subdominio-propio.md)).**
+La producción `logo-et-spes.cenfiss.net` no se sustituye y nunca recibe la
+major FSE: no hay switch in situ. El FSE completo se despliega en
+`logos-et-spes.cenfiss.net`, un WordPress aparte con su base, su cuenta FTP
+y su workflow:
+- Sustituye al host desechable de
+  [#73](https://github.com/refo44/demo-revistalogos/issues/73)–[#75](https://github.com/refo44/demo-revistalogos/issues/75).
+- [#84](https://github.com/refo44/demo-revistalogos/issues/84) pasa a ser
+  su primer despliegue.
+- Indexación cerrada allí.
+- El 2026-11-18 el nombre aún no resuelve en DNS. El alta en cPanel es del
+  propietario.
+
+[#103](https://github.com/refo44/demo-revistalogos/issues/103) sigue: una
+copia exacta de la base de producción en Docker local, comparada con la
+versión live. Va después de la sesión 9 y antes de fusionar `feat/fse` en
+`main` (ADR 0015, nota 2026-11-07).
+
+La línea live sigue habilitada en producción y puede publicar minor y
+patch. Nada de esto adelanta ni retrasa las sesiones.
+
+Puntos abiertos del propietario (ADR 0024):
+- el futuro del clásico;
+- dónde se edita;
+- la release del subdominio y qué pasa con `main` tras fusionar `feat/fse`;
+- indexación y canónicas.
 Trabajo pendiente aceptado (no duplicar aquí):
 `docs/adr/BACKLOG.md` § Trabajo pendiente aceptado.
 
@@ -780,7 +800,10 @@ FSE remains deferred:
    y `docs/fse-implementation-prompt.md`. La plantilla no crea contenido; el
    bloque devuelve cadena vacía si falta el dominio; la cabecera conserva el
    walker; la paridad es captura contra `static/`. El trabajo sigue en
-   [#12](https://github.com/refo44/demo-revistalogos/issues/12).
+   [#12](https://github.com/refo44/demo-revistalogos/issues/12). Desde el
+   2026-11-18 el destino en hosting es el subdominio propio
+   `logos-et-spes.cenfiss.net`, no la producción
+   ([ADR 0024](adr/0024-fse-en-subdominio-propio.md)).
    - **Sesión 2 (bootstrap) HECHA en `feat/fse`** (2026-10-28,
      [#92](https://github.com/refo44/demo-revistalogos/pull/92), squash
      `958c234`; [#76](https://github.com/refo44/demo-revistalogos/issues/76)).

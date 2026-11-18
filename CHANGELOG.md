@@ -9,6 +9,17 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Changed
+- El FSE completo ya no sustituye la producción: se despliega en un
+  subdominio propio, `logos-et-spes.cenfiss.net`
+  ([ADR 0024](docs/adr/0024-fse-en-subdominio-propio.md)).
+  `logo-et-spes.cenfiss.net` sigue en la línea live y no tiene switch. El
+  subdominio sustituye al host desechable de la beta, #84 pasa a ser su
+  primer despliegue y #103 sigue bloqueando la fusión de `feat/fse` en
+  `main`. Se actualizan las notas de ADR 0015, 0016, 0020 y 0023,
+  `docs/adr/BACKLOG.md`, `docs/fase3-execution-state.md`,
+  `docs/fse-implementation-prompt.md`,
+  `docs/operations/produccion-wordpress.md`, `docs/01-platform-plan.md` y
+  `CLAUDE.md`. El subdominio aún no existe en cPanel; nada se despliega.
 - FSE sesión 7 (ficha del número) registrada como hecha en `feat/fse`
   ([#122](https://github.com/refo44/demo-revistalogos/pull/122),
   [#81](https://github.com/refo44/demo-revistalogos/issues/81)) en
