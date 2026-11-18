@@ -4,7 +4,8 @@
  * and footer (§7.5) sit in parts/header.html and parts/footer.html; the
  * front-page and institutional-page blocks (Session 5) sit in
  * templates/front-page.html and page*.html; revistalogos/view (Session 6)
- * sits in the archive, search, news and 404 templates. Each block
+ * sits in the archive, search, news and 404 templates, and (Session 7)
+ * in single-issue.html. Each block
  * buffers the same template part the classic PHP view prints, so both
  * share one source and Revistalogos_Nav_Walker keeps emitting nav__*.
  * Presentation only: no domain data is registered here (ADR 0005).

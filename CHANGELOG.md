@@ -88,7 +88,18 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   plugin, el filtro queda sin años. `revistalogos/view` declara el
   contexto `postId` y `postType`, para que la vista previa del editor en
   `single.html` reciba la entrada. No llega a producción hasta el corte.
-
+- FSE Sesión 7, ficha del número (ADR 0015 §7, rama `feat/fse`,
+  [#81](https://github.com/refo44/demo-revistalogos/issues/81)): theme
+  **0.3.5** añade `templates/single-issue.html`, que compone
+  `revistalogos/view` con la vista `issue-single`. El cuerpo de
+  `single-issue.php` (migas, cabecera con portada, metadatos y botones del
+  PDF, tabla de contenidos, editorial en línea y estadísticas) pasa a
+  `template-parts/view/issue-single.php`, que la vista PHP imprime dentro
+  de su bucle. Fuera de la ficha de un número la vista devuelve vacío.
+  El `<main>` de la plantilla de bloques coincide línea a línea con el de
+  la vista clásica, y las capturas contra `static/single-issue.html` a
+  1280 y 320 px no tienen desborde horizontal. `single-issue.php` se
+  conserva hasta el corte. No llega a producción hasta el corte.
 
 ## [0.3.20] — 2026-11-10
 
