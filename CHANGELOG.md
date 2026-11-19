@@ -8,6 +8,20 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 
 ## [Sin publicar]
 
+### Added
+- Workflow manual `deploy-fse-subdomain.yml` para subir la major FSE
+  (theme y plugin) por FTPS a `logos-et-spes.cenfiss.net`
+  ([#75](https://github.com/refo44/demo-revistalogos/issues/75),
+  [ADR 0024](docs/adr/0024-fse-en-subdominio-propio.md) §4). Solo corre
+  desde `feat/fse` y usa su propio Environment, `wordpress-fse-subdomain`,
+  con secretos `FSE_*`. La puerta `tools/require-fse-subdomain-target.sh`
+  rechaza la cuenta FTP de producción y cualquier ruta fuera del theme y
+  el plugin. Su contrato, `tools/qa-require-fse-subdomain-target.sh`,
+  corre en CI junto al de producción (job `deploy-gates`). Un último job
+  de solo lectura falla si el subdominio dejó de estar en noindex. Runbook:
+  `docs/operations/fse-subdomain-deployment.md`. No se ha ejecutado: el
+  subdominio aún no existe (#74, #84).
+
 ### Changed
 - El FSE completo ya no sustituye la producción: se despliega en un
   subdominio propio, `logos-et-spes.cenfiss.net`
