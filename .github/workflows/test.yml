@@ -106,3 +106,21 @@ jobs:
 
       - name: Lint CSS
         run: npm run lint:css
+
+  deploy-gates:
+    name: Deploy gate contracts (no hosting)
+    runs-on: ubuntu-latest
+
+    # The two FTPS workflows refuse the wrong ref or target before any upload.
+    # Those refusals are only worth anything if they keep working, so their
+    # contracts run here on every PR. Pure bash and a throwaway git repo:
+    # no secrets, no network, no hosting, no Environment.
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Production deploy only from a vX.Y.Z tag (ADR 0020)
+        run: ./tools/qa-require-production-release-tag.sh
+
+      - name: FSE subdomain deploy only from feat/fse to its own jail (ADR 0024)
+        run: ./tools/qa-require-fse-subdomain-target.sh
