@@ -18,6 +18,7 @@ Snapshot factual del corte 2026-08-19:
 | **Local** | Docker, `http://localhost:8080` (ADR 0014) | Volúmenes locales; no es un deploy |
 | **Referencia estática** | `static/` en Git; espejo beta GitHub Pages | `pages.yml` (automático en `main`) |
 | **Producción WordPress** | `logo-et-spes.cenfiss.net` | Este runbook (`deploy-wordpress.yml`) |
+| **Subdominio FSE** | `logos-et-spes.cenfiss.net` (ADR 0024; aún no existe en cPanel) | [fse-subdomain-deployment.md](fse-subdomain-deployment.md) (`deploy-fse-subdomain.yml`, solo desde `feat/fse`, Environment `wordpress-fse-subdomain`) |
 | **Staging WordPress** | **No existe.** No hay subdominio de staging extra (ADR 0016). | — |
 | **Estático en cPanel** | Workflow `Deploy to Hostinger` (`deploy.yml`) | **Retirado** (2026-08-19). No recrear. No hay botón de Actions para volcar HTML sobre WP. |
 

@@ -745,6 +745,15 @@ y su workflow:
 - Indexación cerrada allí.
 - El 2026-11-18 el nombre aún no resuelve en DNS. El alta en cPanel es del
   propietario.
+- Workflow listo (2026-11-19, #75): `deploy-fse-subdomain.yml`, solo
+  `workflow_dispatch` desde `feat/fse`, Environment
+  `wordpress-fse-subdomain` y secretos `FSE_*`. Una puerta rechaza la
+  cuenta FTP de producción y cualquier ruta fuera del theme y el plugin.
+  Al final, un job de solo lectura comprueba el noindex. Vive en `main`
+  porque GitHub solo lista ahí los `workflow_dispatch`; luego se fusiona
+  `main` en `feat/fse`. No se ha ejecutado. Faltan el Environment y los
+  secretos (propietario), #74 y el primer run, #84. Runbook:
+  [operations/fse-subdomain-deployment.md](operations/fse-subdomain-deployment.md).
 
 [#103](https://github.com/refo44/demo-revistalogos/issues/103) sigue: una
 copia exacta de la base de producción en Docker local, comparada con la
