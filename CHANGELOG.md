@@ -135,6 +135,18 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   ([#82](https://github.com/refo44/demo-revistalogos/issues/82)). El
   estado de ejecución registra también la release 0.3.20 live. La paridad
   visual queda a revisión del propietario.
+- FSE sesión 8 (ficha del artículo) registrada como hecha en `feat/fse`
+  ([#125](https://github.com/refo44/demo-revistalogos/pull/125),
+  [#82](https://github.com/refo44/demo-revistalogos/issues/82)) en
+  `docs/fase3-execution-state.md` y en el ítem 7 de `docs/adr/BACKLOG.md`,
+  junto con el arreglo de la vista previa del Site Editor
+  ([#127](https://github.com/refo44/demo-revistalogos/pull/127)) y la
+  fusión de `main` en `feat/fse`
+  ([#128](https://github.com/refo44/demo-revistalogos/pull/128)). El
+  propietario dio la firma visual de las sesiones 5 a 8 en Docker, contra
+  `static/`, a escritorio y 320 px: `docs/fase3-validation-matrix.md` las
+  marca `Pass (local)`. La siguiente acción pasa a la sesión 9
+  ([#83](https://github.com/refo44/demo-revistalogos/issues/83)).
 
 ### Fixed
 - FSE, vista previa del Site Editor (rama `feat/fse`): en Estilos e

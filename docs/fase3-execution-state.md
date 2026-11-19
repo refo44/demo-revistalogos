@@ -6,7 +6,7 @@ current_branch: ""
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-11-19"
-next_action: "FSE sesión 9 (#83): puerta visual de las plantillas de bloques en Docker, rama desde feat/fse, PR hacia feat/fse. La sesión 8 (#82, ficha del artículo) está fusionada en feat/fse (#125, 3162c96; theme 0.3.6) y #127 (0ad963c; theme 0.3.7) arregla la vista previa del Site Editor. feat/fse lleva main fusionado hasta 8804383 (ADR 0024; plugin 0.2.27, número que la línea live salta). La firma visual de las sesiones 5 a 8 queda pendiente. Desde el 2026-11-18 el FSE completo va al subdominio propio logos-et-spes.cenfiss.net (ADR 0024), no a producción: no hay switch in situ; el subdominio aún no existe en cPanel. v0.3.20 ya está live; no despachar desde una etiqueta anterior."
+next_action: "FSE sesión 9 (#83): puerta visual de las plantillas de bloques en Docker, rama desde feat/fse, PR hacia feat/fse. La sesión 8 está fusionada en feat/fse (#125, 3162c96; theme 0.3.6) y #127 (theme 0.3.7) arregla la vista previa del Site Editor; feat/fse lleva main fusionado hasta 8804383 (#128). El propietario dio la firma visual de las sesiones 5 a 8 (2026-11-19, Pass (local) en la matriz). Desde el 2026-11-18 el FSE completo va al subdominio propio logos-et-spes.cenfiss.net (ADR 0024), no a producción: no hay switch in situ; el subdominio aún no existe en cPanel. v0.3.20 ya está live; no despachar desde una etiqueta anterior."
 blocked: false
 ---
 
@@ -724,13 +724,14 @@ cambios, [#120](https://github.com/refo44/demo-revistalogos/pull/120) y
 2026-11-10 (`workflow_dispatch` desde `v0.3.20`, run `42875067649`, success).
 **No** despachar desde una etiqueta anterior.
 Siguiente: FSE sesión 9 ([#83](https://github.com/refo44/demo-revistalogos/issues/83)),
-puerta visual, en Docker y en el host temporal (ver punto 6). La sesión 8
-([#82](https://github.com/refo44/demo-revistalogos/issues/82)) está hecha en
-su rama hacia `feat/fse`; la sesión 7 está fusionada en `feat/fse`
-([#122](https://github.com/refo44/demo-revistalogos/pull/122)).
-`feat/fse` lleva `main` fusionado hasta `v0.3.20`, con el plugin en
-**0.2.27** solo en esa rama: la línea live salta ese número.
-La firma visual de las sesiones 5 a 8 queda pendiente.
+puerta visual de las plantillas de bloques, sobre `feat/fse`, en Docker
+(ver punto 6). La sesión 8 está fusionada en `feat/fse`
+([#125](https://github.com/refo44/demo-revistalogos/pull/125)).
+`feat/fse` lleva `main` fusionado hasta `8804383`
+([#128](https://github.com/refo44/demo-revistalogos/pull/128)), con el
+plugin en **0.2.27** solo en esa rama: la línea live salta ese número.
+El propietario dio la firma visual de las sesiones 5 a 8 el 2026-11-19
+(`Pass (local)` en `docs/fase3-validation-matrix.md`).
 
 **Subdominio FSE (2026-11-18, [ADR 0024](adr/0024-fse-en-subdominio-propio.md)).**
 La producción `logo-et-spes.cenfiss.net` no se sustituye y nunca recibe la
@@ -915,35 +916,39 @@ FSE remains deferred:
      Capturas contra `static/single-issue.html` a 1280 y 320 px: mismas
      posiciones y anchos de sección, sin desborde horizontal. No llega a
      producción.
-   - **Sesión 8 (ficha del artículo) HECHA en su rama hacia `feat/fse`**
-     (2026-11-17,
+   - **Sesión 8 (ficha del artículo) HECHA en `feat/fse`**
+     (2026-11-19,
+     [#125](https://github.com/refo44/demo-revistalogos/pull/125);
      [#82](https://github.com/refo44/demo-revistalogos/issues/82)).
-     Theme **0.3.6** solo en `feat/fse`: `templates/single-article.html`
-     compone `revistalogos/view` con la vista `article-single`; el cuerpo
-     de `single-article.php` pasa a
+     Theme **0.3.6** solo en `feat/fse` (`3162c96`).
+     `templates/single-article.html` compone `revistalogos/view` con la
+     vista `article-single`; el cuerpo de `single-article.php` pasa a
      `template-parts/view/article-single.php`, que la vista PHP imprime
      dentro de su bucle y que devuelve vacío fuera de la ficha de un
-     artículo. Highwire, JSON-LD, Open Graph (`inc/metadata-output.php`) y
-     el encolado de `citation.js` no cambian. Ningún PHP se borra. ORCID
-     (Fase 4), plegar Cómo citar
-     ([#15](https://github.com/refo44/demo-revistalogos/issues/15)) y
-     Generar/Regenerar PDF
-     ([#11](https://github.com/refo44/demo-revistalogos/issues/11)) no
-     entran. Gate en Docker: `php-lint` 148 OK, `composer audit` sin
-     avisos, `composer test:unit` 68 OK, `composer test:wp` 175 OK. En
-     `localhost:8080`, cuatro artículos responden 200 por la plantilla de
-     bloques, sin avisos PHP del theme; su `<main>` decodificado coincide
-     con el de la vista clásica (en bruto solo cambian los `-` que el
-     escudo de `wptexturize()` escribe como `&#45;`), y los `citation_*`,
-     `og:*`, `twitter:*`, JSON-LD y canónica son idénticos. Capturas
-     contra `static/single-article.html` a 1280 y 320 px: mismas
-     posiciones y anchos de sección. A 320 px la URL de Cómo citar desborda
-     igual en la vista clásica (una URL larga sin puntos de corte); el
-     prototipo también desborda, por los formatos de cita. No es regresión de la
-     sesión. La paridad visual queda a revisión del propietario; **no** hay
-     Pass visual. No llega a producción.
+     artículo. Highwire, JSON-LD y Open Graph no cambian; `citation.js`
+     sigue encolado. Ningún PHP se borra. Gate en Docker: `php-lint` 148
+     OK, `composer audit` sin avisos, `composer test:unit` 68 OK,
+     `composer test:wp` 175 OK. En `localhost:8080`, cuatro artículos
+     responden 200 por la plantilla de bloques, sin avisos PHP del theme;
+     su `<main>` decodificado y sus metadatos coinciden con los de la
+     vista clásica. No llega a producción.
+   - **Vista previa del Site Editor** (2026-11-19,
+     [#127](https://github.com/refo44/demo-revistalogos/pull/127); theme
+     **0.3.7** solo en `feat/fse`, `0ad963c`): los archivos que importa
+     `main.css` son estilos de editor y las páginas se abren con su
+     plantilla, así que Estilos e Identidad muestran la portada con su
+     diseño y los cambios de paleta se ven en vivo. Después, `main` se
+     fusiona en `feat/fse` hasta `8804383`
+     ([#128](https://github.com/refo44/demo-revistalogos/pull/128)): entran
+     ADR 0024 y el arreglo de «Cómo citar» a 320 px (#124).
+   - **Firma visual de las sesiones 5 a 8** (2026-11-19): el propietario
+     revisó en Docker, contra `static/`, a escritorio y 320 px, y todo
+     pasa. Queda como `Pass (local)` en
+     `docs/fase3-validation-matrix.md`. La paridad completa (200 %,
+     teclado, foco) sigue `Unverified` hasta la sesión 9.
    - Siguiente: sesión 9, puerta visual
-     ([#83](https://github.com/refo44/demo-revistalogos/issues/83)).
+     ([#83](https://github.com/refo44/demo-revistalogos/issues/83)), rama
+     desde `feat/fse`.
 
 D12b (checks CI de seguridad/stylelint ligados al deploy) sigue pendiente
 de la auditoría (ADR 0012 §6). El workflow `test.yml` (PHPUnit unitario)
