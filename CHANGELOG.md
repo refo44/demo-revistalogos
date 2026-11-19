@@ -125,6 +125,20 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   estado de ejecución registra también la release 0.3.20 live. La paridad
   visual queda a revisión del propietario.
 
+### Fixed
+- FSE, vista previa del Site Editor (rama `feat/fse`): en Estilos e
+  Identidad el lienzo mostraba solo el título «Inicio» en negro sobre
+  blanco. Había dos causas. El theme no declaraba estilos de editor, así
+  que `main.css` no llegaba al iframe. Y las páginas se abrían en modo
+  «solo contenido», sin la plantilla alrededor. Theme **0.3.7** declara
+  como estilos de editor, uno a uno y en su orden, los archivos que
+  importa `main.css`, que sigue siendo la única lista. Si se cargara
+  `main.css` entero, sus `@import` relativos se resolverían contra
+  `/wp-admin/` y darían 404. Las páginas se abren ahora con la plantilla
+  (`default-mode` `template-locked`), y cada editor puede volver al
+  contenido solo. El chrome de wp-admin no recibe los estilos del front.
+  No llega a producción hasta el corte.
+
 ## [0.3.20] — 2026-11-10
 
 Release etiquetado para FTPS de producción (ADR 0020). Theme `revistalogos`
