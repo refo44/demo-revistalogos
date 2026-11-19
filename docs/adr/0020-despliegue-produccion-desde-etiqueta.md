@@ -122,3 +122,7 @@ pendiente de la auditoría.
 - `.github/workflows/deploy-wordpress.yml`
 - `tools/require-production-release-tag.sh`
 - `tools/qa-require-production-release-tag.sh`
+
+## Subdominio FSE (2026-11-18)
+
+Nota. Este ADR rige `logo-et-spes.cenfiss.net` y `deploy-wordpress.yml`, y no cambia. El subdominio FSE `logos-et-spes.cenfiss.net` ([ADR 0024](0024-fse-en-subdominio-propio.md)) tiene su propio workflow y su propio Environment. Mientras sea una beta sin indexar, se despacha desde `feat/fse` sin tag de producción. Su política de release, antes de abrirlo al público, es un punto abierto de ADR 0024. Nunca se despliega la major FSE con `deploy-wordpress.yml`.

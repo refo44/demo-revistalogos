@@ -185,3 +185,13 @@ Nota del propietario. Adelanta la copia de producción de la nota anterior: ya n
 1. **El orden.** Sesión 9 ([#83](https://github.com/refo44/demo-revistalogos/issues/83)), después la copia y la comparación de [#103](https://github.com/refo44/demo-revistalogos/issues/103), después la fusión de `feat/fse` → `main`, después el switch ([#84](https://github.com/refo44/demo-revistalogos/issues/84)).
 2. **Qué se compara.** El commit de `feat/fse` que se va a fusionar, sobre una copia de la base de producción y de sus `uploads/` exportada para esa comparación. El procedimiento es el de la nota anterior, puntos 1–3.
 3. **La fusión.** No se fusiona `feat/fse` en `main` mientras [#103](https://github.com/refo44/demo-revistalogos/issues/103) siga abierta o quede una discrepancia sin resolver. Las fusiones de `main` en `feat/fse` no esperan.
+
+## El FSE completo va a un subdominio propio (2026-11-18)
+
+Nota del propietario, registrada en [ADR 0024](0024-fse-en-subdominio-propio.md). No cambia §1–§6, el contrato de conversión, las dos líneas de versión ni las sesiones 2–9. Sustituye §7.4 y todo lo que las notas del 2026-11-02 y el 2026-11-07 dicen del switch en producción.
+
+1. **La producción no cambia de theme.** `logo-et-spes.cenfiss.net` sigue en la línea live y nunca recibe la major FSE. No hay switch en ese sitio.
+2. **El FSE completo va a `logos-et-spes.cenfiss.net`.** Es un WordPress propio, con su base y su cuenta FTP, que ejecuta la major del mismo theme y del mismo plugin. Sustituye al subdominio desechable de la beta.
+3. **[#84](https://github.com/refo44/demo-revistalogos/issues/84)** pasa a ser el primer despliegue de la major en ese subdominio.
+4. **[#103](https://github.com/refo44/demo-revistalogos/issues/103) sigue.** La comparación sobre la misma base va antes de fusionar `feat/fse` en `main`. El orden queda así: sesión 9, después #103, después la fusión. Qué pasa con `main` y con la línea live tras esa fusión es un punto abierto de ADR 0024.
+5. **Indexación cerrada en el subdominio nuevo** hasta que el propietario decida otra cosa.

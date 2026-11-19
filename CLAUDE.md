@@ -6,7 +6,8 @@ classic complete as of 0.2.0). WordPress clásico live en producción; carga
 de contenido editorial real iniciada y actualmente en proceso desde wp-admin
 (`https://logo-et-spes.cenfiss.net`, since 2026-08-19). FSE (ADR 0015) is
 still the destination but did **not** block the cutover; implement it later,
-Docker first. See
+Docker first. FSE does **not** replace that site: the full FSE ships to its
+own subdomain, `https://logos-et-spes.cenfiss.net/` (ADR 0024). See
 `docs/operations/produccion-wordpress.md`, `docs/17-implementation-order.md`,
 and `docs/fase3-execution-state.md` (durable resume state — read it before
 resuming Fase 3 work).
@@ -103,6 +104,29 @@ required, not shared via Git, not a substitute for the files above.
   opening, run the launch gate in `docs/operations/produccion-wordpress.md`.
   Do not open indexing in documentation or deploy work. Editorial content
   entry is in progress, not complete.
+- **A third, planned site: the FSE subdomain** `logos-et-spes.cenfiss.net`
+  (ADR 0024; mind the S, unlike the live `logo-et-spes`). Not created yet:
+  it did not resolve in DNS on 2026-11-18, and the cPanel setup is the
+  owner's. It is its own WordPress on `cenfiss2`:
+  - own document root, MySQL and FTP jail;
+  - PHP 8.3 per-domain;
+  - it runs the FSE major of the same `revistalogos` and
+    `revistalogos-core`.
+
+  It replaces the throwaway beta subdomain and is not deleted later. Rules:
+  - Deploy it only through its own workflow and Environment, never
+    `deploy-wordpress.yml`, `wordpress-production` or `PRODUCTION_*`.
+    While it is a noindex beta, it is dispatched from `feat/fse` without a
+    production tag.
+  - Content is a copy of the production DB and uploads, host rewritten in
+    that copy only. Never `fixtures seed`.
+  - Indexing stays closed there (Lectura noindex, `robots.txt`
+    `Disallow: /`, no links to it) until the owner decides.
+  - It is not the ADR 0023 domain migration: `logo-et-spes` is not
+    redirected.
+
+  Open owner decisions (ADR 0024): the classic site's future, where
+  editors edit, the subdomain's release policy, and indexing/canonicals.
 - **FSE is accepted** (ADR 0015): block theme + Site Editor + brand colors
   in Global Styles. The live theme is still classic; convert incrementally
   in Docker on `feat/fse` after production QA. Session prompt:
@@ -115,17 +139,22 @@ required, not shared via Git, not a substitute for the files above.
   custom color stay locked. `main.css` stays the layout authority. Do not
   convert to Next.js. ADR 0003 §1/§3 are superseded for `theme.json` / block
   CSS dequeue; keep BEM and `main.css`. The `global-styles` dequeue stays on
-  `main` until cutover. FSE is a new major of the same theme and the same
-  plugin; the live minor line (theme 0.2.x, plugin 0.2.x, including later
-  minors and patches) stays enabled and keeps shipping from `main`. The
-  switch does not enable the new theme version or the new plugin version
-  (ADR 0015, note 2026-11-02). No `revistalogos-classic` directory. The
-  switch waits until an exact production database copy, plus the uploads
-  that content references, has been loaded into local Docker and compared
-  with the live site; an unresolved discrepancy blocks it (issue #103).
-  It also blocks the final merge of `feat/fse` into `main`: Session 9,
-  then #103 on the commit to be merged, then the merge, then the switch
-  (ADR 0015, note 2026-11-07).
+  `main`. FSE is a new major of the same theme and the same plugin. The
+  live minor line (theme 0.2.x, plugin 0.2.x, including later minors and
+  patches) stays enabled on `logo-et-spes.cenfiss.net` and keeps shipping
+  from `main` (ADR 0015, note 2026-11-02). No `revistalogos-classic`
+  directory.
+
+  There is **no in-place switch** on production. The FSE major never
+  reaches `logo-et-spes`. Issue #84 is now the first deploy of the major
+  to `logos-et-spes.cenfiss.net` (ADR 0024).
+
+  Issue #103 still gates the final merge of `feat/fse` into `main`: an
+  exact production database copy, plus the uploads that content
+  references, is loaded into local Docker and compared with the live site.
+  The order is Session 9, then #103 on the commit to be merged, then the
+  merge (ADR 0015, notes 2026-11-07 and 2026-11-18). What `main` and the
+  live line do after that merge is an open owner decision (ADR 0024).
   Sessions 2–9 and live minors do not wait on that.
 - **Identifiers (DOI/ORCID/ISSN) are Fase 4, deliberately deferred** past
   the WordPress launch (ADR 0013). Fase 3 stores them as inert fields only —
