@@ -1,0 +1,178 @@
+# Manual FTPS of the FSE major to its own subdomain (ADR 0024 §4, #75).
+#
+#   https://logos-et-spes.cenfiss.net/   (mind the S; NOT the live logo-et-spes)
+#
+# Hard rules encoded here:
+# - workflow_dispatch ONLY: no push/pull_request/schedule/tag triggers.
+#   Creating or merging this workflow does not authorize running it; every
+#   run is an explicit owner decision. The first run is #84, and only once
+#   the owner has created the subdomain in cPanel (#74).
+# - Runs only from the feat/fse branch. While the subdomain is a noindex
+#   beta it ships without a production tag (ADR 0024 §4); ADR 0020 tags are
+#   production only. main and vX.Y.Z tags are refused.
+# - Its own Environment (wordpress-fse-subdomain) and its own FSE_* secrets.
+#   Never deploy-wordpress.yml, never wordpress-production, never
+#   PRODUCTION_*, never the production FTP account. The gate script
+#   (tools/require-fse-subdomain-target.sh) refuses an FTP account outside
+#   @logos-et-spes.cenfiss.net and any remote dir other than the theme and
+#   plugin directories, before a single byte is uploaded.
+# - Scope is exactly the first-party theme and plugin directories. It never
+#   touches wp-content/uploads/, wp-config.php, WordPress core, the database,
+#   third-party plugins or .htaccess. It never activates anything and never
+#   runs migrations or fixtures (never `fixtures seed`).
+# - FTPS with dangerous-clean-slate disabled; each artifact goes to its own
+#   bounded remote directory, never the WordPress root.
+# - Indexing stays closed there. The last job only READS robots.txt and the
+#   home page and fails the run if either stopped saying noindex. It does not
+#   change any setting; reopening is an owner decision (ADR 0024 point d).
+# - setup-php configures ONLY the Actions runner that builds vendor/. It does
+#   not change the PHP version of any site on cPanel.
+#
+# GitHub only lists a workflow_dispatch workflow that exists on the default
+# branch, so this file lives on main too. Run it with
+#   Actions → Deploy FSE subdomain → Run workflow → Use workflow from: feat/fse
+# Started from main it fails at the first job, by design.
+#
+# Environment wordpress-fse-subdomain, secrets (see
+# docs/operations/fse-subdomain-deployment.md):
+#   FSE_FTP_SERVER, FSE_FTP_USERNAME, FSE_FTP_PASSWORD,
+#   FSE_THEME_REMOTE_DIR, FSE_PLUGIN_REMOTE_DIR
+name: Deploy FSE subdomain (feat/fse → logos-et-spes)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-wordpress-fse-subdomain
+  cancel-in-progress: false
+
+env:
+  FSE_SITE_URL: https://logos-et-spes.cenfiss.net
+
+jobs:
+  require-feat-fse:
+    name: Require the feat/fse branch
+    runs-on: ubuntu-latest
+
+    # Fails before any Environment approval is requested.
+    steps:
+      - name: Refuse any ref other than feat/fse
+        if: github.ref != 'refs/heads/feat/fse'
+        run: |
+          echo "The FSE subdomain deploys only from feat/fse (ADR 0024 §4)." >&2
+          echo "This run used: ${GITHUB_REF} (${GITHUB_REF_TYPE})." >&2
+          echo "Actions → Run workflow → Use workflow from → Branch: feat/fse." >&2
+          exit 1
+
+      - name: Ref accepted
+        run: echo "Ref ${GITHUB_REF} accepted."
+
+  deploy-theme:
+    name: Upload theme via FTPS
+    runs-on: ubuntu-latest
+    environment: wordpress-fse-subdomain
+    needs: require-feat-fse
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Target must be the subdomain jail
+        env:
+          GITHUB_REF: ${{ github.ref }}
+          FSE_FTP_SERVER: ${{ secrets.FSE_FTP_SERVER }}
+          FSE_FTP_USERNAME: ${{ secrets.FSE_FTP_USERNAME }}
+          FSE_FTP_PASSWORD: ${{ secrets.FSE_FTP_PASSWORD }}
+          FSE_THEME_REMOTE_DIR: ${{ secrets.FSE_THEME_REMOTE_DIR }}
+          FSE_PLUGIN_REMOTE_DIR: ${{ secrets.FSE_PLUGIN_REMOTE_DIR }}
+        run: ./tools/require-fse-subdomain-target.sh
+
+      - name: Deploy theme directory
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ secrets.FSE_FTP_SERVER }}
+          username: ${{ secrets.FSE_FTP_USERNAME }}
+          password: ${{ secrets.FSE_FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: ./wordpress/wp-content/themes/revistalogos/
+          server-dir: ${{ secrets.FSE_THEME_REMOTE_DIR }}
+          dangerous-clean-slate: false
+          exclude: |
+            **/.DS_Store
+
+  deploy-plugin:
+    name: Upload plugin via FTPS
+    runs-on: ubuntu-latest
+    environment: wordpress-fse-subdomain
+    needs:
+      - require-feat-fse
+      - deploy-theme
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Target must be the subdomain jail
+        env:
+          GITHUB_REF: ${{ github.ref }}
+          FSE_FTP_SERVER: ${{ secrets.FSE_FTP_SERVER }}
+          FSE_FTP_USERNAME: ${{ secrets.FSE_FTP_USERNAME }}
+          FSE_FTP_PASSWORD: ${{ secrets.FSE_FTP_PASSWORD }}
+          FSE_THEME_REMOTE_DIR: ${{ secrets.FSE_THEME_REMOTE_DIR }}
+          FSE_PLUGIN_REMOTE_DIR: ${{ secrets.FSE_PLUGIN_REMOTE_DIR }}
+        run: ./tools/require-fse-subdomain-target.sh
+
+      # Runner-only: build vendor/ on Actions. Does not change hosting PHP.
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: mbstring, dom
+          coverage: none
+          tools: composer
+
+      - name: Install plugin runtime dependencies
+        run: composer --working-dir=wordpress/wp-content/plugins/revistalogos-core install --no-dev --no-interaction --prefer-dist --no-progress
+
+      - name: Deploy plugin directory
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ secrets.FSE_FTP_SERVER }}
+          username: ${{ secrets.FSE_FTP_USERNAME }}
+          password: ${{ secrets.FSE_FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: ./wordpress/wp-content/plugins/revistalogos-core/
+          server-dir: ${{ secrets.FSE_PLUGIN_REMOTE_DIR }}
+          dangerous-clean-slate: false
+          exclude: |
+            **/.DS_Store
+            **/.qa-*.php
+
+  verify-noindex:
+    name: Indexing still closed (read-only)
+    runs-on: ubuntu-latest
+    needs: deploy-plugin
+
+    # Read-only HTTP. Detects, never fixes: if this fails, the owner restores
+    # Settings → Reading → "Discourage search engines" on the subdomain.
+    steps:
+      - name: robots.txt disallows everything
+        run: |
+          robots="$(curl -fsSL --max-time 30 "${FSE_SITE_URL}/robots.txt")"
+          printf '%s\n' "$robots"
+          if ! printf '%s\n' "$robots" | tr -d '\r' | grep -qx 'Disallow: /'; then
+            echo "robots.txt on ${FSE_SITE_URL} no longer has 'Disallow: /'. Indexing must stay closed (ADR 0024)." >&2
+            exit 1
+          fi
+
+      - name: Home page carries a noindex robots meta
+        run: |
+          html="$(curl -fsSL --max-time 30 "${FSE_SITE_URL}/")"
+          if ! printf '%s' "$html" | grep -Eiq "<meta[^>]+name=['\"]robots['\"][^>]+noindex"; then
+            echo "The home page on ${FSE_SITE_URL} has no robots noindex meta. Indexing must stay closed (ADR 0024)." >&2
+            exit 1
+          fi
+          echo "noindex present on ${FSE_SITE_URL}/"

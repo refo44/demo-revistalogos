@@ -157,6 +157,7 @@ excepción conocida; no tomarlo como modelo para tests nuevos.
 | `tools/qa-author-permalinks.sh` | Integración: `journal_author`, permalinks | Volúmenes **primarios** |
 | `tools/qa-volume1-bootstrap-admin.sh` | Regresión de **ausencia**: UI `Bootstrap_Admin` retirada en 0.2.6 | No es pilar permanente; no ampliar |
 | `tools/qa-require-production-release-tag.sh` | Contrato: FTPS solo desde ref `refs/tags/vX.Y.Z` (ADR 0020) | Aislado, repo git efímero; sin Docker |
+| `tools/qa-require-fse-subdomain-target.sh` | Contrato: FTPS del subdominio FSE solo desde `feat/fse` y a su propia jaula (ADR 0024 §4) | Aislado; sin git, red ni Docker. Ambos contratos corren en CI (job `deploy-gates`) |
 
 `tools/qa-content-recovery-admin.sh` ya no existe (UI de recovery retirada).
 PHPUnit no replica estos flujos enteros.
@@ -283,6 +284,7 @@ composer test          # lint → audit --locked → units; not qa-*.sh
 ./tools/qa-volume1-bootstrap-admin.sh   # ausencia de UI temporal
 ./tools/qa-author-permalinks.sh         # excepción: volúmenes primarios
 ./tools/qa-require-production-release-tag.sh  # ADR 0020: refuse branch refs
+./tools/qa-require-fse-subdomain-target.sh    # ADR 0024: feat/fse → subdomain jail only
 ```
 
 `php -l` comprueba **sintaxis**. `composer audit --locked` comprueba
