@@ -52,3 +52,12 @@ Un payload regenerado o una instalación limpia mostrarán el nombre anterior en
 - [ADR 0015](0015-block-theme-fse-site-editor.md)
 - [ADR 0016](0016-topologia-hosting-cpanel.md)
 - `docs/adr/BACKLOG.md`
+
+## Subdominio `logos-et-spes` para el FSE (2026-11-18)
+
+Nota. El FSE completo se despliega en un subdominio nuevo, `logos-et-spes.cenfiss.net`, que ya lleva el nombre correcto ([ADR 0024](0024-fse-en-subdominio-propio.md)). Eso no ejecuta el §6:
+- `logo-et-spes.cenfiss.net` sigue siendo la producción y no se redirige;
+- las URLs y la cuenta FTPS de producción no cambian;
+- no hay reindexación.
+
+Que el subdominio nuevo llegue a ser la URL canónica de la revista entra en el plan de migración pendiente (`docs/adr/BACKLOG.md`).
