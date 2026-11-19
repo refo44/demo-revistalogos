@@ -134,3 +134,17 @@ ese host. `cenfiss.net` y `test.cenfiss.net` no se modificaron. MultiPHP
 Manager **no** fue el mecanismo. El §2 (no alinear PHP de los sitios
 ajenos) se respeta. `config.platform.php` permanece **8.2.0**.
 `Requires PHP: 7.4` no se redefinió. Esta nota no ejecuta el cambio.
+
+## Subdominio FSE `logos-et-spes.cenfiss.net` (2026-11-18)
+
+Nota del propietario, registrada en [ADR 0024](0024-fse-en-subdominio-propio.md). Abre una excepción a «no hay dominios ni subdominios nuevos». Los demás puntos se mantienen: §1 y §2, el §3 ejecutado y los §4–§7.
+
+- **Un cuarto sitio.** `logos-et-spes.cenfiss.net` aloja el WordPress FSE de la revista y aplica §2 igual que los otros tres:
+  - document root propio, que no es hijo de la carpeta de la revista;
+  - WordPress y base MySQL nuevos;
+  - cuenta FTP nueva enjaulada en esa raíz;
+  - PHP 8.3 solo para ese dominio;
+  - AutoSSL.
+- **La revista clásica.** `logo-et-spes.cenfiss.net` sigue igual. `deploy_revista@…` y los secretos `PRODUCTION_*` nunca apuntan al sitio nuevo.
+- **Alta pendiente.** El 2026-11-18 el nombre aún no resuelve en DNS. El alta en cPanel es una acción del propietario.
+- **La alternativa del subdominio de staging.** Queda descartada como staging desechable. El subdominio nuevo es permanente.

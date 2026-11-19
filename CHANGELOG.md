@@ -116,6 +116,17 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   llega a producción hasta el corte.
 
 ### Changed
+- El FSE completo ya no sustituye la producción: se despliega en un
+  subdominio propio, `logos-et-spes.cenfiss.net`
+  ([ADR 0024](docs/adr/0024-fse-en-subdominio-propio.md)).
+  `logo-et-spes.cenfiss.net` sigue en la línea live y no tiene switch. El
+  subdominio sustituye al host desechable de la beta, #84 pasa a ser su
+  primer despliegue y #103 sigue bloqueando la fusión de `feat/fse` en
+  `main`. Se actualizan las notas de ADR 0015, 0016, 0020 y 0023,
+  `docs/adr/BACKLOG.md`, `docs/fase3-execution-state.md`,
+  `docs/fse-implementation-prompt.md`,
+  `docs/operations/produccion-wordpress.md`, `docs/01-platform-plan.md` y
+  `CLAUDE.md`. El subdominio aún no existe en cPanel; nada se despliega.
 - FSE sesión 7 (ficha del número) registrada como hecha en `feat/fse`
   ([#122](https://github.com/refo44/demo-revistalogos/pull/122),
   [#81](https://github.com/refo44/demo-revistalogos/issues/81)) en
@@ -138,6 +149,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   (`default-mode` `template-locked`), y cada editor puede volver al
   contenido solo. El chrome de wp-admin no recibe los estilos del front.
   No llega a producción hasta el corte.
+- Ficha del artículo a 320 px: «Cómo citar» ya no se sale de su recuadro
+  (theme **0.2.18**). La cuadrícula de formatos pedía columnas de al
+  menos 280 px en un hueco de 246, y la URL y el BibTeX no tenían por
+  dónde partirse. Las columnas bajan ahora hasta el ancho disponible y el
+  texto de la sección parte las palabras que no caben. En escritorio la
+  sección no cambia. La misma regla pasa a `static/`; se actualiza el
+  `?v=` de `pages/article.css`.
 
 ## [0.3.20] — 2026-11-10
 

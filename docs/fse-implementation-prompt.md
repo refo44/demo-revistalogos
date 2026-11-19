@@ -5,8 +5,9 @@ execution-state diaries, and already-shipped plugin/theme features.
 
 You are implementing **ADR 0015** on the classic theme that is already live.
 Do **not** rebuild WordPress. Do **not** redesign. Convert presentation to a
-block theme **incrementally**: Docker (`http://localhost:8080`) first, then a
-throwaway noindex subdomain, then production cutover. Parent issue:
+block theme **incrementally**: Docker (`http://localhost:8080`) first, then
+its own noindex subdomain, `logos-et-spes.cenfiss.net` (ADR 0024). Production
+`logo-et-spes.cenfiss.net` is never switched to FSE. Parent issue:
 [#12](https://github.com/refo44/demo-revistalogos/issues/12).
 
 ## Binding sources (read these, nothing else for scope)
@@ -25,40 +26,40 @@ Do not revive FABLE 5. Do not install Playwright, Behat, or extra runners.
 ## Two tracks (production stays classic)
 
 `logo-et-spes.cenfiss.net` already runs the **classic** theme + plugin.
-Editorial support continues there. FSE beta is Docker **and** a throwaway
-noindex subdomain (ADR 0016 amendment: [#73](https://github.com/refo44/demo-revistalogos/issues/73),
-host: [#74](https://github.com/refo44/demo-revistalogos/issues/74)). GitHub Pages
+Editorial support continues there. FSE is Docker **and** its own noindex
+subdomain, `logos-et-spes.cenfiss.net` (ADR 0024; ADR 0016 note 2026-11-18;
+setup: [#74](https://github.com/refo44/demo-revistalogos/issues/74)). It is a
+separate WordPress, it is permanent, and it does not exist yet. GitHub Pages
 is the static mirror, not a WordPress FSE preview. Do not reuse
 `cenfiss.net`, `test.cenfiss.net`, or the production FTP jail.
 
 | Track | Where | Git | Deploy |
 | ----- | ----- | --- | ------ |
 | **Support** (bugs, editorial UX, plugin domain that production needs) | Production classic | Short `fix/` / `feat/` → PR → `main` → annotated tag → FTPS | Yes, when the owner tags (ADR 0020) |
-| **FSE beta** (Sessions 2–9) | Docker `localhost:8080`, then tmp host | Short `feat/fse-session-N-*` → PR into **`feat/fse`**, not into `main` | Tmp host only ([#75](https://github.com/refo44/demo-revistalogos/issues/75)). **Never** production FTPS from `feat/fse`. Never tag from it. |
+| **FSE** (Sessions 2–9) | Docker `localhost:8080`, then `logos-et-spes.cenfiss.net` | Short `feat/fse-session-N-*` → PR into **`feat/fse`**, not into `main` | FSE subdomain only ([#75](https://github.com/refo44/demo-revistalogos/issues/75)). **Never** production FTPS from `feat/fse`. Never tag from it. |
 
 `feat/fse` is a conversion branch for this work only. Rebase or merge `main`
 into it whenever a production hotfix lands, so beta does not drift. This is
-an exception to “every PR lands on `main`” (ADR 0019) until cutover. Do not
-invent `develop`. Do not create a second theme directory, in these sessions
-or at cutover: convert `revistalogos` on `feat/fse`. Production keeps the
+an exception to “every PR lands on `main`” (ADR 0019) until the final merge.
+Do not invent `develop`. Do not create a second theme directory, in these
+sessions or later: convert `revistalogos` on `feat/fse`. Production keeps the
 live minor of that same theme and of `revistalogos-core`, and can still
 ship later minors and patches of that line. The FSE line is a new major
-of both, with breaking presentation changes, and the switch does not
-enable that theme version or that plugin version (ADR 0015, note
-2026-11-02). There is no `revistalogos-classic`.
+of both, with breaking presentation changes. Production never runs that
+major: it goes to the FSE subdomain only (ADR 0015, note 2026-11-02;
+ADR 0024). There is no `revistalogos-classic`.
 
 **Plugin:** production and FSE share `revistalogos-core`. A plugin change that
 must go live (citation bug, PDF, authors) ships on `main` and is merged into
-`feat/fse`. Domain **blocks** may live on `feat/fse` until cutover. Do not
-enqueue FSE block assets on the classic front. Do not turn on
-`global-styles` / stop the dequeue on `main` until cutover — that would
-restyle the live site.
+`feat/fse`. Domain **blocks** may live on `feat/fse` until the final merge.
+Do not enqueue FSE block assets on the classic front. Do not turn on
+`global-styles` / stop the dequeue on `main` — that would restyle the live
+site.
 
 **Do not** deploy the FSE major over the live theme or the live plugin.
 **Do not** include FSE theme files in a minor or patch of the live line.
-The switch does not enable the new theme version or the new plugin
-version (ADR 0015, note 2026-11-02). Production keeps the versions already
-enabled. Theme and plugin each keep their directory and their name.
+There is no in-place switch (ADR 0024). Production keeps the versions
+already enabled. Theme and plugin each keep their directory and their name.
 
 ## Hard rules
 
@@ -78,11 +79,16 @@ enabled. Theme and plugin each keep their directory and their name.
 - Managing Editor does **not** get `edit_theme_options`.
 - `settings.color.custom` stays false. Do not unlock typography or spacing
   in Estilos.
-- Production FTPS is out of scope until cutover ([#84](https://github.com/refo44/demo-revistalogos/issues/84),
-  ADR 0020). This prompt never dispatches production deploy. Tmp-host FTPS
-  is a separate workflow, never `deploy-wordpress.yml`.
-- Tmp host: `robots.txt` `Disallow: /` (no `Sitemap:`), Lectura `noindex`,
-  not linked from production. Delete the subdomain after cutover ([#85](https://github.com/refo44/demo-revistalogos/issues/85)).
+- Production FTPS is out of scope: the FSE major never goes to
+  `logo-et-spes.cenfiss.net` (ADR 0020, ADR 0024). This prompt never
+  dispatches a production deploy. The FSE subdomain has its own workflow
+  and Environment, never `deploy-wordpress.yml`, `wordpress-production` or
+  `PRODUCTION_*`. Its first deploy is [#84](https://github.com/refo44/demo-revistalogos/issues/84).
+- FSE subdomain: `robots.txt` `Disallow: /` (no `Sitemap:`), Lectura
+  `noindex`, not linked from production, GitHub Pages or `/llms.txt`.
+  Its content is a copy of the production DB and uploads. Never
+  `fixtures seed`. It is permanent, so [#85](https://github.com/refo44/demo-revistalogos/issues/85)
+  no longer applies. Indexing stays closed until the owner decides.
 
 ## Conversion contract
 
@@ -109,7 +115,7 @@ session:
 - This conversion closes presentation and the behavior that template
   replaces. It does not reopen institutional content or the URL tree.
   Production Additional CSS ([#38](https://github.com/refo44/demo-revistalogos/issues/38))
-  blocks cutover ([#84](https://github.com/refo44/demo-revistalogos/issues/84))
+  blocks [#84](https://github.com/refo44/demo-revistalogos/issues/84)
   only. Docker session 2 can start without it.
 
 ## TDD
@@ -237,31 +243,32 @@ article PDF CTA. Keep `citation.js` enqueue. Highwire/JSON-LD/OG stay
 Visual vs `static/single-article.html` desktop + 320px. Owner gallery
 required.
 
-### Session 9 — Visual gate (Docker + tmp host), then stop
+### Session 9 — Visual gate (Docker + FSE subdomain), then stop
 
 Full pair list in `docs/fase3-validation-matrix.md` coverage table, but
 **only** the screens now served by HTML templates. Mark those rows with
 the method used (screenshots). Do not invent `Pass` without files. Repeat
-the same pass on the throwaway subdomain ([#83](https://github.com/refo44/demo-revistalogos/issues/83)).
+the same pass on `logos-et-spes.cenfiss.net` once it exists ([#83](https://github.com/refo44/demo-revistalogos/issues/83)).
 
-Production cutover is **not** this prompt. The switch
-([#84](https://github.com/refo44/demo-revistalogos/issues/84)) does not
-enable the new theme version or the new plugin version. Production keeps
-the live minor of `revistalogos` and `revistalogos-core` enabled, and
-further minors and patches of that line can still ship. There is no
-second theme directory (ADR 0015, note 2026-11-02).
+There is no production cutover (ADR 0024). Production
+`logo-et-spes.cenfiss.net` keeps the live minor of `revistalogos` and
+`revistalogos-core` enabled, and further minors and patches of that line
+keep shipping from `main`. The FSE major goes to
+`logos-et-spes.cenfiss.net` only; its first deploy is
+[#84](https://github.com/refo44/demo-revistalogos/issues/84), which does
+not wait on #103. There is no second theme directory (ADR 0015, note
+2026-11-02).
 
-The switch waits on [#103](https://github.com/refo44/demo-revistalogos/issues/103).
-Before it, an exact production database export plus the `uploads/` that
-content references is loaded into local Docker only (not committed). The
-same URLs are compared: live production against that local copy on the
-FSE major. Any unresolved discrepancy blocks the switch.
-
-It also blocks the final merge of `feat/fse` into `main` (ADR 0015, note
-2026-11-07). The order is Session 9, then #103 on the `feat/fse` commit
-that will be merged, then the merge, then the switch. When the switch
-happens, the live theme version and the live plugin version stay enabled.
-Sessions 2–9, and minors of the live line, do not wait on this.
+[#103](https://github.com/refo44/demo-revistalogos/issues/103) still
+blocks the final merge of `feat/fse` into `main` (ADR 0015, note
+2026-11-07; ADR 0024 §7). Before it, an exact production database export
+plus the `uploads/` that content references is loaded into local Docker
+only (not committed). The same URLs are compared: live production against
+that local copy on the FSE major. Any unresolved discrepancy blocks the
+merge. The order is Session 9, then #103 on the `feat/fse` commit that
+will be merged, then the merge. What `main` and the live line do after
+that merge is an open owner decision (ADR 0024, point c). Sessions 2–9,
+and minors of the live line, do not wait on this.
 
 ## Out of scope (never in these sessions)
 
@@ -279,7 +286,7 @@ Sessions 2–9, and minors of the live line, do not wait on this.
 ## Done checklist (every session)
 
 - [ ] Failing test existed before the production change
-- [ ] Gate above is green in Docker (and on the tmp host when that session is deployed there)
+- [ ] Gate above is green in Docker (and on `logos-et-spes.cenfiss.net` when that session is deployed there)
 - [ ] Visual screenshots for touched screens (desktop + 320px)
 - [ ] No PHP deleted while HTML is incomplete
 - [ ] Any screen whose template changed answers its canonical URL over HTTP
