@@ -39,12 +39,15 @@ seed_release_repo() {
 	git -C "$dest" tag -a v1.2.3 -m "v1.2.3"
 }
 
+# GitHub Actions sets GITHUB_REF on every runner (refs/pull/N/merge on a PR).
+# Drop it first, so "unset" really is unset and each case sees only the ref
+# it passes.
 run_gate() {
 	local dest="$1"
 	shift
 	(
 		cd "$dest"
-		env "$@" ./tools/require-production-release-tag.sh
+		env -u GITHUB_REF -u GITHUB_REF_TYPE "$@" ./tools/require-production-release-tag.sh
 	)
 }
 
