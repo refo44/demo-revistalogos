@@ -66,6 +66,9 @@ class Revistalogos_Nav_Walker extends Walker_Nav_Menu {
 
 		if ( $has_children && 0 === $depth ) {
 			$attributes .= ' aria-haspopup="true" aria-expanded="false"';
+		} elseif ( ! empty( $item->current ) ) {
+			// Static marks the screen's own link, never a submenu trigger.
+			$attributes .= ' aria-current="page"';
 		}
 
 		if ( $is_external ) {

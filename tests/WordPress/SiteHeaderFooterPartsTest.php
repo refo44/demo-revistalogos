@@ -122,6 +122,101 @@ class SiteHeaderFooterPartsTest extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Dado: un menú asignado a primary y la página Acerca abierta.
+	 * Entonces: solo el enlace de esa página lleva aria-current="page", como
+	 * en static/page-acerca.html; un padre con submenú nunca lo lleva.
+	 */
+	public function test_walker_marks_only_the_current_item_with_aria_current() {
+		$acerca  = self::factory()->post->create( array( 'post_type' => 'page', 'post_name' => 'acerca', 'post_title' => 'Acerca' ) );
+		$menu_id = wp_create_nav_menu( 'Principal' );
+		$this->add_menu_link( $menu_id, 'Inicio', home_url( '/' ) );
+		$this->add_menu_page( $menu_id, $acerca, 'Acerca' );
+		$parent = $this->add_menu_page( $menu_id, $acerca, 'Revista' );
+		$this->add_menu_page( $menu_id, $acerca, 'Acerca de la revista', $parent );
+		set_theme_mod( 'nav_menu_locations', array( 'primary' => $menu_id ) );
+
+		$this->go_to( get_permalink( $acerca ) );
+		$html = do_blocks( '<!-- wp:revistalogos/site-header /-->' );
+
+		$this->assertStringContainsString( 'class="nav__link" aria-current="page">Acerca</a>', $html );
+		$this->assertStringContainsString( 'aria-current="page">Acerca de la revista</a>', $html );
+		$this->assertStringContainsString( 'class="nav__link" aria-haspopup="true" aria-expanded="false">Revista</a>', $html );
+		$this->assertStringContainsString( 'class="nav__link">Inicio</a>', $html );
+		$this->assertSame( 2, substr_count( $html, 'aria-current="page"' ) );
+	}
+
+	/**
+	 * Dado: el menú migrado, cuyo «Número actual» es el marcador
+	 * #les-current-issue, y el número actual abierto.
+	 * Entonces: ese enlace lleva aria-current="page", como en
+	 * static/single-issue.html; en un número anterior no.
+	 */
+	public function test_walker_marks_current_issue_placeholder_on_the_current_issue() {
+		$current = $this->create_issue( 'actual', '2026-07-31' );
+		$older   = $this->create_issue( 'anterior', '2025-01-15' );
+		$menu_id = wp_create_nav_menu( 'Principal' );
+		$parent  = $this->add_menu_link( $menu_id, 'Revista', get_post_type_archive_link( 'issue' ) );
+		$this->add_menu_link( $menu_id, 'Número actual', '#les-current-issue', $parent );
+		set_theme_mod( 'nav_menu_locations', array( 'primary' => $menu_id ) );
+
+		$this->go_to( get_permalink( $current ) );
+		$html = do_blocks( '<!-- wp:revistalogos/site-header /-->' );
+
+		$this->assertStringContainsString( '<a href="' . esc_url( get_permalink( $current ) ) . '" aria-current="page">Número actual</a>', $html );
+		$this->assertSame( 1, substr_count( $html, 'aria-current="page"' ) );
+
+		$this->go_to( get_permalink( $older ) );
+		$html = do_blocks( '<!-- wp:revistalogos/site-header /-->' );
+
+		$this->assertStringNotContainsString( 'aria-current', $html );
+	}
+
+	/**
+	 * Dado: ningún menú en primary.
+	 * Entonces: el respaldo marca la pantalla actual como static: Inicio en la
+	 * portada, Acerca en su página y «Números publicados» (no «Revista») en el
+	 * archivo de números.
+	 *
+	 * @dataProvider fallback_current_screens
+	 *
+	 * @param string $screen Screen key.
+	 * @param string $label  Link label expected to carry aria-current.
+	 */
+	public function test_fallback_nav_marks_the_current_screen( $screen, $label ) {
+		$this->go_to( $this->screen_url( $screen ) );
+		$html = do_blocks( '<!-- wp:revistalogos/site-header /-->' );
+
+		$this->assertSame( 1, substr_count( $html, 'aria-current="page"' ), $screen );
+		$this->assertMatchesRegularExpression( '#aria-current="page">' . preg_quote( $label, '#' ) . '</a>#', $html );
+		$this->assertStringContainsString( 'aria-expanded="false">Revista</a>', $html );
+	}
+
+	/**
+	 * @return array<string, array{0: string, 1: string}>
+	 */
+	public function fallback_current_screens() {
+		return array(
+			'portada'            => array( 'front', 'Inicio' ),
+			'acerca'             => array( 'acerca', 'Acerca' ),
+			'archivo de números' => array( 'issues', 'Números publicados' ),
+			'archivo de autores' => array( 'authors', 'Autores' ),
+		);
+	}
+
+	/**
+	 * Dado: ningún menú en primary y una pantalla que no está en el menú.
+	 * Entonces: ningún enlace lleva aria-current.
+	 */
+	public function test_fallback_nav_marks_nothing_on_screens_outside_the_menu() {
+		$etica = self::factory()->post->create( array( 'post_type' => 'page', 'post_name' => 'etica', 'post_title' => 'Ética' ) );
+
+		$this->go_to( get_permalink( $etica ) );
+		$html = do_blocks( '<!-- wp:revistalogos/site-header /-->' );
+
+		$this->assertStringNotContainsString( 'aria-current', $html );
+	}
+
+	/**
 	 * Dado: footer-quick asignado y footer-norms sin menú.
 	 * Entonces: el pie usa el walker del footer en uno y el respaldo en el
 	 * otro, ambos con footer__list / footer__link.
@@ -179,6 +274,59 @@ class SiteHeaderFooterPartsTest extends WP_UnitTestCase {
 		$this->assertNotNull( $part );
 
 		return array_values( array_filter( wp_list_pluck( parse_blocks( $part->content ), 'blockName' ) ) );
+	}
+
+	/**
+	 * @param string $slug      Issue slug.
+	 * @param string $published date_published (Y-m-d).
+	 * @return int Issue ID.
+	 */
+	private function create_issue( $slug, $published ) {
+		$id = self::factory()->post->create( array( 'post_type' => 'issue', 'post_name' => $slug, 'post_title' => $slug ) );
+		update_post_meta( $id, 'date_published', $published );
+
+		return $id;
+	}
+
+	/**
+	 * @param string $screen Screen key from fallback_current_screens().
+	 * @return string URL that renders that screen.
+	 */
+	private function screen_url( $screen ) {
+		switch ( $screen ) {
+			case 'front':
+				return home_url( '/' );
+			case 'acerca':
+				return get_permalink( self::factory()->post->create( array( 'post_type' => 'page', 'post_name' => 'acerca', 'post_title' => 'Acerca' ) ) );
+			case 'issues':
+				return get_post_type_archive_link( 'issue' );
+			case 'authors':
+				return get_post_type_archive_link( 'author' );
+		}
+
+		$this->fail( 'Unknown screen ' . $screen );
+	}
+
+	/**
+	 * @param int    $menu_id   Menu term ID.
+	 * @param int    $page_id   Page ID.
+	 * @param string $title     Item title.
+	 * @param int    $parent_id Parent item ID.
+	 * @return int Menu item ID.
+	 */
+	private function add_menu_page( $menu_id, $page_id, $title, $parent_id = 0 ) {
+		return wp_update_nav_menu_item(
+			$menu_id,
+			0,
+			array(
+				'menu-item-title'     => $title,
+				'menu-item-object'    => 'page',
+				'menu-item-object-id' => $page_id,
+				'menu-item-type'      => 'post_type',
+				'menu-item-status'    => 'publish',
+				'menu-item-parent-id' => $parent_id,
+			)
+		);
 	}
 
 	/**

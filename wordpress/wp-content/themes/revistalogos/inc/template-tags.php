@@ -431,8 +431,26 @@ function revistalogos_current_issue_url() {
 }
 
 /**
+ * Whether the request shows the current issue (static marks "Número
+ * actual" with aria-current only there, not on older issues).
+ *
+ * @return bool
+ */
+function revistalogos_is_current_issue_screen() {
+	if ( ! is_singular( 'issue' ) ) {
+		return false;
+	}
+
+	$issue = revistalogos_current_issue();
+
+	return $issue && get_queried_object_id() === $issue->ID;
+}
+
+/**
  * Resolve the "#les-current-issue" placeholder used by migrated menu
- * items to the live current-issue URL at render time.
+ * items to the live current-issue URL at render time. Core decided
+ * `current` before this filter, against the placeholder, so it is set
+ * again here for the walker's aria-current.
  *
  * @param array $items Menu items.
  * @return array
@@ -440,13 +458,24 @@ function revistalogos_current_issue_url() {
 function revistalogos_resolve_menu_placeholders( $items ) {
 	foreach ( $items as $item ) {
 		if ( '#les-current-issue' === $item->url ) {
-			$item->url = revistalogos_current_issue_url();
+			$item->url     = revistalogos_current_issue_url();
+			$item->current = revistalogos_is_current_issue_screen();
 		}
 	}
 
 	return $items;
 }
 add_filter( 'wp_nav_menu_objects', 'revistalogos_resolve_menu_placeholders' );
+
+/**
+ * aria-current attribute for a fallback nav item.
+ *
+ * @param array $item Fallback item with an optional 'current' flag.
+ * @return string Attribute string with a leading space, or empty.
+ */
+function revistalogos_nav_current_attr( array $item ) {
+	return empty( $item['current'] ) ? '' : ' aria-current="page"';
+}
 
 /**
  * Fallback primary navigation used until a menu is assigned to the
@@ -459,23 +488,65 @@ function revistalogos_fallback_primary_nav() {
 	$article_archive = get_post_type_archive_link( 'article' );
 	$author_archive  = get_post_type_archive_link( 'author' );
 
+	// 'current' mirrors the static aria-current per screen; the Revista
+	// submenu trigger is never marked, its child is.
 	$items = array(
-		array( 'label' => __( 'Inicio', 'revistalogos' ), 'url' => home_url( '/' ) ),
+		array(
+			'label'   => __( 'Inicio', 'revistalogos' ),
+			'url'     => home_url( '/' ),
+			'current' => is_front_page(),
+		),
 		array(
 			'label'    => __( 'Revista', 'revistalogos' ),
 			'url'      => $issue_archive ? $issue_archive : home_url( '/' ),
 			'children' => array(
-				array( 'label' => __( 'Número actual', 'revistalogos' ), 'url' => revistalogos_current_issue_url() ),
-				array( 'label' => __( 'Números publicados', 'revistalogos' ), 'url' => $issue_archive ? $issue_archive : home_url( '/' ) ),
-				array( 'label' => __( 'Artículos', 'revistalogos' ), 'url' => $article_archive ? $article_archive : home_url( '/' ) ),
-				array( 'label' => __( 'Autores', 'revistalogos' ), 'url' => $author_archive ? $author_archive : home_url( '/' ) ),
+				array(
+					'label'   => __( 'Número actual', 'revistalogos' ),
+					'url'     => revistalogos_current_issue_url(),
+					'current' => revistalogos_is_current_issue_screen(),
+				),
+				array(
+					'label'   => __( 'Números publicados', 'revistalogos' ),
+					'url'     => $issue_archive ? $issue_archive : home_url( '/' ),
+					'current' => is_post_type_archive( 'issue' ),
+				),
+				array(
+					'label'   => __( 'Artículos', 'revistalogos' ),
+					'url'     => $article_archive ? $article_archive : home_url( '/' ),
+					'current' => is_post_type_archive( 'article' ),
+				),
+				array(
+					'label'   => __( 'Autores', 'revistalogos' ),
+					'url'     => $author_archive ? $author_archive : home_url( '/' ),
+					'current' => is_post_type_archive( 'author' ),
+				),
 			),
 		),
-		array( 'label' => __( 'Normas', 'revistalogos' ), 'url' => home_url( '/normas/' ) ),
-		array( 'label' => __( 'Enviar colaboración', 'revistalogos' ), 'url' => home_url( '/enviar-colaboracion/' ) ),
-		array( 'label' => __( 'Noticias', 'revistalogos' ), 'url' => home_url( '/noticias/' ) ),
-		array( 'label' => __( 'Acerca', 'revistalogos' ), 'url' => home_url( '/acerca/' ) ),
-		array( 'label' => __( 'Contacto', 'revistalogos' ), 'url' => home_url( '/contacto/' ) ),
+		array(
+			'label'   => __( 'Normas', 'revistalogos' ),
+			'url'     => home_url( '/normas/' ),
+			'current' => is_page( 'normas' ),
+		),
+		array(
+			'label'   => __( 'Enviar colaboración', 'revistalogos' ),
+			'url'     => home_url( '/enviar-colaboracion/' ),
+			'current' => is_page( 'enviar-colaboracion' ),
+		),
+		array(
+			'label'   => __( 'Noticias', 'revistalogos' ),
+			'url'     => home_url( '/noticias/' ),
+			'current' => is_home() && ! is_front_page(),
+		),
+		array(
+			'label'   => __( 'Acerca', 'revistalogos' ),
+			'url'     => home_url( '/acerca/' ),
+			'current' => is_page( 'acerca' ),
+		),
+		array(
+			'label'   => __( 'Contacto', 'revistalogos' ),
+			'url'     => home_url( '/contacto/' ),
+			'current' => is_page( 'contacto' ),
+		),
 	);
 
 	echo '<ul class="nav__list nav__list--main" id="main-nav">';
@@ -487,7 +558,7 @@ function revistalogos_fallback_primary_nav() {
 			'<li class="nav__item%s"><a href="%s" class="nav__link"%s>%s</a>',
 			$has_children ? ' nav__item--has-submenu' : '',
 			esc_url( $item['url'] ),
-			$has_children ? ' aria-haspopup="true" aria-expanded="false"' : '',
+			$has_children ? ' aria-haspopup="true" aria-expanded="false"' : revistalogos_nav_current_attr( $item ),
 			esc_html( $item['label'] )
 		);
 
@@ -496,8 +567,9 @@ function revistalogos_fallback_primary_nav() {
 
 			foreach ( $item['children'] as $child ) {
 				printf(
-					'<li><a href="%s">%s</a></li>',
+					'<li><a href="%s"%s>%s</a></li>',
 					esc_url( $child['url'] ),
+					revistalogos_nav_current_attr( $child ),
 					esc_html( $child['label'] )
 				);
 			}
