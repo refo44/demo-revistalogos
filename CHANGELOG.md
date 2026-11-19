@@ -147,6 +147,15 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   `static/`, a escritorio y 320 px: `docs/fase3-validation-matrix.md` las
   marca `Pass (local)`. La siguiente acción pasa a la sesión 9
   ([#83](https://github.com/refo44/demo-revistalogos/issues/83)).
+- FSE sesión 9, puerta visual
+  ([#83](https://github.com/refo44/demo-revistalogos/issues/83)):
+  ejecutada en Docker contra `static/` con Chrome sin interfaz. Cubre 20
+  pantallas a 1280 y 320 px, más 768 px, teclado y zoom al 200 %. No hay
+  regresiones de las plantillas de bloques. Quedan anotados hallazgos
+  heredados de antes de FSE, ajenos a la conversión.
+  `docs/fase3-validation-matrix.md` y `docs/fase3-execution-state.md` lo
+  registran. La pasada en el subdominio espera a que exista
+  `logos-et-spes.cenfiss.net`.
 
 ### Fixed
 - FSE, vista previa del Site Editor (rama `feat/fse`): en Estilos e
@@ -161,6 +170,17 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   (`default-mode` `template-locked`), y cada editor puede volver al
   contenido solo. El chrome de wp-admin no recibe los estilos del front.
   No llega a producción hasta el corte.
+- FSE sesión 9, navegación principal (rama `feat/fse`,
+  [#83](https://github.com/refo44/demo-revistalogos/issues/83)): el enlace
+  de la pantalla actual no llevaba `aria-current="page"`. Faltaba el
+  realce que `layout.css` ya define, y los lectores de pantalla no
+  anunciaban dónde se está. Theme **0.3.8** lo emite en el walker, a partir
+  del `current` de núcleo, y en el menú de reserva, por pantalla. El
+  marcador `#les-current-issue` del menú migrado recalcula `current` al
+  resolverse, porque núcleo lo decide antes contra el marcador. Como en
+  `static/`, solo se marca el número actual, no los anteriores, y nunca el
+  disparador «Revista» del submenú. Las 19 pantallas con equivalente en
+  `static/` coinciden en Docker. No llega a producción hasta el corte.
 - Ficha del artículo a 320 px: «Cómo citar» ya no se sale de su recuadro
   (theme **0.2.18**). La cuadrícula de formatos pedía columnas de al
   menos 280 px en un hueco de 246, y la URL y el BibTeX no tenían por

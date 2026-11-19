@@ -6,7 +6,7 @@ current_branch: ""
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-11-19"
-next_action: "FSE sesión 9 (#83): puerta visual de las plantillas de bloques en Docker, rama desde feat/fse, PR hacia feat/fse. La sesión 8 está fusionada en feat/fse (#125, 3162c96; theme 0.3.6) y #127 (theme 0.3.7) arregla la vista previa del Site Editor; feat/fse lleva main fusionado hasta 8804383 (#128). El propietario dio la firma visual de las sesiones 5 a 8 (2026-11-19, Pass (local) en la matriz). Desde el 2026-11-18 el FSE completo va al subdominio propio logos-et-spes.cenfiss.net (ADR 0024), no a producción: no hay switch in situ; el subdominio aún no existe en cPanel. v0.3.20 ya está live; no despachar desde una etiqueta anterior."
+next_action: "FSE sesión 9 (#83) cerrada en Docker en la rama feat/fse-session-9-visual-gate: sin regresiones de la conversión; aria-current del nav corregido en theme 0.3.8 (solo feat/fse; la línea clásica 0.2.x sigue sin él) y tabla de cobertura en Pass (local) salvo single-author. Siguiente: repetir la pasada en logos-et-spes.cenfiss.net cuando exista (ADR 0024) y #103 antes de fusionar feat/fse en main. v0.3.20 ya está live; no despachar desde una etiqueta anterior."
 blocked: false
 ---
 
@@ -946,9 +946,36 @@ FSE remains deferred:
      pasa. Queda como `Pass (local)` en
      `docs/fase3-validation-matrix.md`. La paridad completa (200 %,
      teclado, foco) sigue `Unverified` hasta la sesión 9.
-   - Siguiente: sesión 9, puerta visual
-     ([#83](https://github.com/refo44/demo-revistalogos/issues/83)), rama
-     desde `feat/fse`.
+   - **Sesión 9 (puerta visual) EJECUTADA en Docker** (2026-11-19,
+     [#83](https://github.com/refo44/demo-revistalogos/issues/83), rama
+     `feat/fse-session-9-visual-gate`, theme 0.3.7 sin cambios). Chrome
+     headless por CDP: 19 pantallas de `static/` contra su URL en
+     WordPress, más una taxonomía, a 1280, 768 y 320 px; teclado,
+     skip-link y 200 % en la cabecera y el CTA del artículo; rol
+     `managing_editor` sin `edit_theme_options`. Sin regresiones de la
+     conversión: mismas clases BEM y geometría, 0 px de desborde, mismo
+     orden de foco. Hallazgos anteriores al FSE, también en la línea
+     clásica: la navegación no marca la página actual
+     (`aria-current="page"`), los comentarios HTML del contenido de
+     cuatro páginas generan párrafos vacíos y, a 200 % con el menú
+     plegado, el submenú recibe foco oculto (igual en la maqueta). La
+     pasada en el subdominio (`logos-et-spes.cenfiss.net`, ADR 0024)
+     espera a que exista; `robots.txt` y Lectura `noindex` se comprueban
+     allí.
+   - **`aria-current` corregido en la sesión 9** (theme **0.3.8**, misma
+     rama). El walker lo emite a partir del `current` de núcleo, y el menú
+     de reserva por pantalla. El marcador `#les-current-issue` del menú
+     migrado recalcula `current` al resolverse. Nunca se marca el
+     disparador «Revista». Tests WP en `SiteHeaderFooterPartsTest`. Tras
+     el arreglo, Docker coincide con `static/` en las 19 pantallas, y el
+     `nav__link` tiene la misma geometría a 1280 px. La fila de paridad
+     y la tabla de cobertura pasan a `Pass (local)`, salvo
+     `single-author`, que sigue en PHP. Almacenamiento y copy ES quedan
+     en una fila propia, `Unverified`. Solo en `feat/fse`: la línea
+     clásica (0.2.x en `main` y producción) sigue sin `aria-current`, y
+     llevarlo allí es decisión del propietario.
+   - Siguiente: la pasada en el subdominio cuando exista; después, #103
+     antes de fusionar `feat/fse` en `main`.
 
 D12b (checks CI de seguridad/stylelint ligados al deploy) sigue pendiente
 de la auditoría (ADR 0012 §6). El workflow `test.yml` (PHPUnit unitario)
