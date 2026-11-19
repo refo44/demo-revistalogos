@@ -57,6 +57,49 @@ function revistalogos_register_site_blocks() {
 add_action( 'init', 'revistalogos_register_site_blocks' );
 
 /**
+ * The files main.css imports, in its order, as theme-relative paths
+ * without the cache-busting query. main.css stays the only list.
+ *
+ * @return string[]
+ */
+function revistalogos_editor_style_files() {
+	$main = (string) file_get_contents( get_template_directory() . '/assets/css/main.css' );
+
+	preg_match_all( "/@import\\s+url\\(\\s*['\"]?([^'\")?]+)/", $main, $matches );
+
+	return array_map(
+		static function ( $file ) {
+			return 'assets/css/' . $file;
+		},
+		$matches[1]
+	);
+}
+
+/**
+ * Editor canvas: the files main.css imports are the editor styles, so
+ * the Site Editor previews the templates with the same layout authority
+ * as the front instead of bare text on white. They go one by one because
+ * the editor inlines each file and a relative @import would resolve
+ * against /wp-admin/. Editor styles only reach the canvas iframe;
+ * wp-admin itself keeps its own styles.
+ */
+function revistalogos_add_editor_styles() {
+	add_editor_style( revistalogos_editor_style_files() );
+}
+add_action( 'after_setup_theme', 'revistalogos_add_editor_styles' );
+
+/**
+ * Pages open in the editor with their template around the content
+ * (template-locked), so the Site Editor previews of the static front
+ * page show the template and not only the page title. An editor can
+ * still switch to the content alone; that choice is stored per user.
+ */
+function revistalogos_page_editor_default_mode() {
+	add_post_type_support( 'page', 'editor', array( 'default-mode' => 'template-locked' ) );
+}
+add_action( 'init', 'revistalogos_page_editor_default_mode' );
+
+/**
  * Theme and plugin blocks print the classic template-parts, so their
  * text is shielded from the wptexturize() core runs over the template.
  *
