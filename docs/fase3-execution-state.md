@@ -6,7 +6,7 @@ current_branch: ""
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-11-17"
-next_action: "FSE sesión 8 (#82): ficha del artículo en Docker, rama desde feat/fse, PR hacia feat/fse. La sesión 7 está fusionada en feat/fse (#122, 4fbc5fa; theme 0.3.5); feat/fse lleva main fusionado hasta v0.3.20 (plugin 0.2.27, número que la línea live salta). La firma visual de las sesiones 5 a 7 queda pendiente. v0.3.20 ya está live; no despachar desde una etiqueta anterior."
+next_action: "FSE sesión 9 (#83): puerta visual de las plantillas de bloques, en Docker y en el host temporal. La sesión 8 (#82, ficha del artículo, theme 0.3.6) está hecha en su rama hacia feat/fse; feat/fse lleva main fusionado hasta v0.3.20 (plugin 0.2.27, número que la línea live salta). La firma visual de las sesiones 5 a 8 queda pendiente. v0.3.20 ya está live; no despachar desde una etiqueta anterior."
 blocked: false
 ---
 
@@ -718,12 +718,14 @@ cambios, [#120](https://github.com/refo44/demo-revistalogos/pull/120) y
 [#121](https://github.com/refo44/demo-revistalogos/pull/121)) live desde el
 2026-11-10 (`workflow_dispatch` desde `v0.3.20`, run `42875067649`, success).
 **No** despachar desde una etiqueta anterior.
-Siguiente: FSE sesión 8 ([#82](https://github.com/refo44/demo-revistalogos/issues/82)),
-ficha del artículo, sobre `feat/fse`, en Docker (ver punto 6). La sesión 7
-está fusionada en `feat/fse` ([#122](https://github.com/refo44/demo-revistalogos/pull/122)).
+Siguiente: FSE sesión 9 ([#83](https://github.com/refo44/demo-revistalogos/issues/83)),
+puerta visual, en Docker y en el host temporal (ver punto 6). La sesión 8
+([#82](https://github.com/refo44/demo-revistalogos/issues/82)) está hecha en
+su rama hacia `feat/fse`; la sesión 7 está fusionada en `feat/fse`
+([#122](https://github.com/refo44/demo-revistalogos/pull/122)).
 `feat/fse` lleva `main` fusionado hasta `v0.3.20`, con el plugin en
 **0.2.27** solo en esa rama: la línea live salta ese número.
-La firma visual de las sesiones 5 a 7 queda pendiente. El switch
+La firma visual de las sesiones 5 a 8 queda pendiente. El switch
 ([#84](https://github.com/refo44/demo-revistalogos/issues/84)) no habilita
 la major del theme ni la del plugin. Espera
 [#103](https://github.com/refo44/demo-revistalogos/issues/103): una copia
@@ -885,9 +887,35 @@ FSE remains deferred:
      Capturas contra `static/single-issue.html` a 1280 y 320 px: mismas
      posiciones y anchos de sección, sin desborde horizontal. No llega a
      producción.
-   - Siguiente: sesión 8, ficha del artículo
-     ([#82](https://github.com/refo44/demo-revistalogos/issues/82)), rama
-     desde `feat/fse`.
+   - **Sesión 8 (ficha del artículo) HECHA en su rama hacia `feat/fse`**
+     (2026-11-17,
+     [#82](https://github.com/refo44/demo-revistalogos/issues/82)).
+     Theme **0.3.6** solo en `feat/fse`: `templates/single-article.html`
+     compone `revistalogos/view` con la vista `article-single`; el cuerpo
+     de `single-article.php` pasa a
+     `template-parts/view/article-single.php`, que la vista PHP imprime
+     dentro de su bucle y que devuelve vacío fuera de la ficha de un
+     artículo. Highwire, JSON-LD, Open Graph (`inc/metadata-output.php`) y
+     el encolado de `citation.js` no cambian. Ningún PHP se borra. ORCID
+     (Fase 4), plegar Cómo citar
+     ([#15](https://github.com/refo44/demo-revistalogos/issues/15)) y
+     Generar/Regenerar PDF
+     ([#11](https://github.com/refo44/demo-revistalogos/issues/11)) no
+     entran. Gate en Docker: `php-lint` 148 OK, `composer audit` sin
+     avisos, `composer test:unit` 68 OK, `composer test:wp` 175 OK. En
+     `localhost:8080`, cuatro artículos responden 200 por la plantilla de
+     bloques, sin avisos PHP del theme; su `<main>` decodificado coincide
+     con el de la vista clásica (en bruto solo cambian los `-` que el
+     escudo de `wptexturize()` escribe como `&#45;`), y los `citation_*`,
+     `og:*`, `twitter:*`, JSON-LD y canónica son idénticos. Capturas
+     contra `static/single-article.html` a 1280 y 320 px: mismas
+     posiciones y anchos de sección. A 320 px la URL de Cómo citar desborda
+     igual en la vista clásica (una URL larga sin puntos de corte); el
+     prototipo también desborda, por los formatos de cita. No es regresión de la
+     sesión. La paridad visual queda a revisión del propietario; **no** hay
+     Pass visual. No llega a producción.
+   - Siguiente: sesión 9, puerta visual
+     ([#83](https://github.com/refo44/demo-revistalogos/issues/83)).
 
 D12b (checks CI de seguridad/stylelint ligados al deploy) sigue pendiente
 de la auditoría (ADR 0012 §6). El workflow `test.yml` (PHPUnit unitario)
