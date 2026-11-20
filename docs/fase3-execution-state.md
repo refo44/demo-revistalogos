@@ -764,7 +764,9 @@ La línea live sigue habilitada en producción y puede publicar minor y
 patch. Nada de esto adelanta ni retrasa las sesiones.
 
 Puntos abiertos del propietario (ADR 0024):
-- el futuro del clásico;
+- el futuro del clásico: no convive sin fecha, se retira o se redirige
+  pronto; falta cuál y cuándo. Hasta entonces `feat/fse` sigue aparte y
+  luego se fusiona en `main` con un solo theme (nota 2026-11-19);
 - dónde se edita;
 - la release del subdominio y qué pasa con `main` tras fusionar `feat/fse`;
 - indexación y canónicas.

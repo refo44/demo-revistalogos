@@ -103,6 +103,26 @@ GitHub solo lista un workflow `workflow_dispatch` si el archivo está en la
 rama por defecto, así que `deploy-fse-subdomain.yml` vive también en `main`.
 Lanzado desde `main` falla en el primer trabajo, como debe.
 
+## Cuando `feat/fse` se fusione en `main`
+
+`feat/fse` es temporal. Se fusiona en `main` cuando el clásico se retire o se
+redirija ([ADR 0024](../adr/0024-fse-en-subdominio-propio.md), nota
+2026-11-19), después de
+[#103](https://github.com/refo44/demo-revistalogos/issues/103). Tres sitios
+están atados a `feat/fse` y tienen que cambiar juntos, en el mismo PR o justo
+después:
+
+1. el `if` del job `require-feat-fse` en
+   `.github/workflows/deploy-fse-subdomain.yml`;
+2. `ALLOWED_REF` en `tools/require-fse-subdomain-target.sh` y los casos de
+   `tools/qa-require-fse-subdomain-target.sh` que lo usan;
+3. la regla *Deployment branches* del Environment `wordpress-fse-subdomain`
+   en GitHub. Está fuera del repo y la cambia el propietario.
+
+Si se cambia solo uno, los otros siguen exigiendo `feat/fse`: o el workflow
+rechaza todos los runs, o queda una protección menos. Qué los sustituye (rama, tag y
+política de release del subdominio) es el punto abierto c de ADR 0024.
+
 ## Rollback
 
 No hay rollback automático. Para volver atrás, se relanza el workflow desde

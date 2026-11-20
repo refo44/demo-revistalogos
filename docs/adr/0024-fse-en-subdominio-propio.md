@@ -90,7 +90,7 @@ Que `logos-et-spes.cenfiss.net` llegue a ser la URL canónica de la revista es u
 
 ### Puntos abiertos (decisión del propietario)
 
-a. **El sitio clásico.** Puede convivir sin fecha, redirigir con 301 al nuevo cuando el FSE sea el sitio público, o retirarse.
+a. **El sitio clásico.** Puede convivir sin fecha, redirigir con 301 al nuevo cuando el FSE sea el sitio público, o retirarse. Respondido en parte el 2026-11-19: no convive sin fecha (ver la nota «El clásico se retira o se redirige»). Falta elegir entre retirarlo y redirigirlo, y cuándo.
 
 b. **Dónde se edita.** Una vez exista el sitio nuevo, falta decidir si se hace una copia única, copias repetidas o edición en un solo sitio, y cuál. Dos bases editadas en paralelo divergen.
 
@@ -141,6 +141,28 @@ e. **Alta en cPanel.** DNS, document root, MySQL, cuenta FTP, PHP 8.3 y AutoSSL.
 | 0016 contexto y §3 | Contexto: «no hay dominios ni subdominios nuevos» admite esta excepción. §3: el corte de 2026-08-19 sigue siendo historia. |
 | 0020 | Sin cambios en producción. No se aplica al subdominio nuevo mientras sea una beta (punto 4). |
 | 0023 §6 | Sin cambios. El subdominio no es la migración del nombre (punto 8). |
+
+## El clásico se retira o se redirige (2026-11-19)
+
+Nota del propietario. Responde en parte el punto a. No cambia los puntos 1–8 ni los puntos abiertos b–e.
+
+El sitio clásico no va a convivir sin fecha: se retirará o se redirigirá con 301 a `logos-et-spes.cenfiss.net` pronto. Siguen abiertos cuál de las dos cosas y cuándo.
+
+Consecuencias:
+
+- `feat/fse` sigue siendo una rama aparte hasta entonces. Las correcciones de dominio siguen llegando desde `main` por la fusión de `main` de siempre.
+- Cuando el clásico se retire o se redirija, `feat/fse` se fusiona en `main` con un solo theme, en el directorio `revistalogos`. Antes sigue haciendo falta [#103](https://github.com/refo44/demo-revistalogos/issues/103) (ADR 0015, nota 2026-11-07).
+- No se crea un segundo directorio de theme en `main`.
+- El punto c sigue abierto: desde qué rama y con qué tag se despliega el subdominio después de la fusión.
+
+Alternativa descartada: fusionar ya `feat/fse` en `main` con dos themes, el clásico en `revistalogos` y el FSE en un directorio nuevo (por ejemplo `revistalogos-fse`). El plugin no es problema, porque en `feat/fse` solo añade los bloques de dominio y sirve a los dos sitios. El theme sí lo es:
+
+- Duplica el theme y sus pruebas.
+- Obliga a cambiar la puerta del subdominio, que exige `themes/revistalogos/`, y `tools/check-release-pending.sh`, que tendría que vigilar dos `Version:`.
+- Reabre la nota 2026-11-02 de ADR 0015 («Dos líneas de versión, sin renombrar») y la regla de CLAUDE.md que la recoge.
+- Choca con [#103](https://github.com/refo44/demo-revistalogos/issues/103), que bloquea la fusión.
+
+Ese coste solo compensa si los dos sitios conviven mucho tiempo, y no va a ser así.
 
 ## Referencias
 
