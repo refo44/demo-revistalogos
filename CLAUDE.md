@@ -125,8 +125,13 @@ required, not shared via Git, not a substitute for the files above.
   - It is not the ADR 0023 domain migration: `logo-et-spes` is not
     redirected.
 
-  Open owner decisions (ADR 0024): the classic site's future, where
-  editors edit, the subdomain's release policy, and indexing/canonicals.
+  Open owner decisions (ADR 0024): the classic site's future (partly
+  answered 2026-11-19: it will be retired or 301-redirected soon; which and
+  when are open), where editors edit, the subdomain's release policy, and
+  indexing/canonicals. Until the classic goes, `feat/fse` stays a separate
+  branch; then it merges into `main` with a single theme in `revistalogos`.
+  Do not propose a second theme directory in `main` (rejected, ADR 0024
+  note 2026-11-19).
 - **FSE is accepted** (ADR 0015): block theme + Site Editor + brand colors
   in Global Styles. The live theme is still classic; convert incrementally
   in Docker on `feat/fse` after production QA. Session prompt:

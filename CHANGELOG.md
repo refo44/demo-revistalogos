@@ -128,6 +128,12 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   subdominio aún no existe (#74, #84).
 
 ### Changed
+- ADR 0024 recoge la nota del propietario del 2026-11-19: el sitio
+  clásico se retirará o se redirigirá pronto, así que `feat/fse` sigue
+  aparte hasta entonces y después se fusiona en `main` con un solo theme.
+  Se descarta tener dos themes en `main`. El runbook del subdominio lista
+  los tres sitios atados a `feat/fse` que deben cambiar juntos al
+  fusionar.
 - El FSE completo ya no sustituye la producción: se despliega en un
   subdominio propio, `logos-et-spes.cenfiss.net`
   ([ADR 0024](docs/adr/0024-fse-en-subdominio-propio.md)).
