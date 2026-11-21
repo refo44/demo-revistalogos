@@ -128,6 +128,16 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   subdominio aún no existe (#74, #84).
 
 ### Changed
+- El subdominio FSE `logos-et-spes.cenfiss.net` existe desde el 2026-11-20
+  ([#74](https://github.com/refo44/demo-revistalogos/issues/74)): PHP 8.3
+  solo para ese dominio, cuenta FTP `deploy_fse@…` enjaulada, WordPress
+  vacío con Softaculous, `noindex` con `robots.txt` físico y HTTPS forzado.
+  ADR 0016, ADR 0024, `CLAUDE.md`, el backlog, el estado de Fase 3 y los
+  runbooks dejan de decir que no existe. El runbook del subdominio añade
+  «Estado del alta»: la carpeta que cPanel pone a la cuenta FTP, los
+  plugins de Softaculous que imponen `index`, por qué `robots.txt` es un
+  archivo físico y que la copia de producción desmarca Lectura. Faltan el
+  Environment, la copia de contenido y el primer run (#84).
 - ADR 0024 recoge la nota del propietario del 2026-11-19: el sitio
   clásico se retirará o se redirigirá pronto, así que `feat/fse` sigue
   aparte hasta entonces y después se fusiona en `main` con un solo theme.
