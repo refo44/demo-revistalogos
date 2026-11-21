@@ -6,7 +6,7 @@ current_branch: ""
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-11-19"
-next_action: "FSE sesión 9 (#83): puerta visual de las plantillas de bloques en Docker, rama desde feat/fse, PR hacia feat/fse. La sesión 8 está fusionada en feat/fse (#125, 3162c96; theme 0.3.6) y #127 (theme 0.3.7) arregla la vista previa del Site Editor; feat/fse lleva main fusionado hasta 8804383 (#128). El propietario dio la firma visual de las sesiones 5 a 8 (2026-11-19, Pass (local) en la matriz). Desde el 2026-11-18 el FSE completo va al subdominio propio logos-et-spes.cenfiss.net (ADR 0024), no a producción: no hay switch in situ; el subdominio aún no existe en cPanel. v0.3.20 ya está live; no despachar desde una etiqueta anterior."
+next_action: "FSE sesión 9 (#83): puerta visual de las plantillas de bloques en Docker, rama desde feat/fse, PR hacia feat/fse. La sesión 8 está fusionada en feat/fse (#125, 3162c96; theme 0.3.6) y #127 (theme 0.3.7) arregla la vista previa del Site Editor; feat/fse lleva main fusionado hasta 8804383 (#128). El propietario dio la firma visual de las sesiones 5 a 8 (2026-11-19, Pass (local) en la matriz). Desde el 2026-11-18 el FSE completo va al subdominio propio logos-et-spes.cenfiss.net (ADR 0024), no a producción: no hay switch in situ; el subdominio existe en cPanel desde el 2026-11-20 (#74), vacío y en noindex, sin Environment ni copia de contenido. v0.3.20 ya está live; no despachar desde una etiqueta anterior."
 blocked: false
 ---
 
@@ -743,8 +743,10 @@ y su workflow:
 - [#84](https://github.com/refo44/demo-revistalogos/issues/84) pasa a ser
   su primer despliegue.
 - Indexación cerrada allí.
-- El 2026-11-18 el nombre aún no resuelve en DNS. El alta en cPanel es del
-  propietario.
+- El 2026-11-18 el nombre aún no resuelve en DNS. El propietario lo dio de
+  alta en cPanel el 2026-11-20 (#74): PHP 8.3, cuenta FTP
+  `deploy_fse@…` enjaulada, WordPress vacío con Softaculous, noindex con
+  `robots.txt` físico y HTTPS forzado. Comprobado desde fuera.
 - Workflow listo (2026-11-19, #75): `deploy-fse-subdomain.yml`, solo
   `workflow_dispatch` desde `feat/fse`, Environment
   `wordpress-fse-subdomain` y secretos `FSE_*`. Una puerta rechaza la
@@ -752,7 +754,7 @@ y su workflow:
   Al final, un job de solo lectura comprueba el noindex. Vive en `main`
   porque GitHub solo lista ahí los `workflow_dispatch`; luego se fusiona
   `main` en `feat/fse`. No se ha ejecutado. Faltan el Environment y los
-  secretos (propietario), #74 y el primer run, #84. Runbook:
+  secretos y la copia de contenido (propietario, #74), y el primer run, #84. Runbook:
   [operations/fse-subdomain-deployment.md](operations/fse-subdomain-deployment.md).
 
 [#103](https://github.com/refo44/demo-revistalogos/issues/103) sigue: una
