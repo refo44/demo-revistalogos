@@ -104,10 +104,12 @@ required, not shared via Git, not a substitute for the files above.
   opening, run the launch gate in `docs/operations/produccion-wordpress.md`.
   Do not open indexing in documentation or deploy work. Editorial content
   entry is in progress, not complete.
-- **A third, planned site: the FSE subdomain** `logos-et-spes.cenfiss.net`
-  (ADR 0024; mind the S, unlike the live `logo-et-spes`). Not created yet:
-  it did not resolve in DNS on 2026-11-18, and the cPanel setup is the
-  owner's. It is its own WordPress on `cenfiss2`:
+- **A third site: the FSE subdomain** `logos-et-spes.cenfiss.net`
+  (ADR 0024; mind the S, unlike the live `logo-et-spes`). Created in cPanel
+  by the owner on 2026-11-20 (#74): an empty WordPress, closed to search
+  engines (Lectura noindex plus a physical `robots.txt`), HTTPS forced. No
+  content copy, no GitHub Environment and no deploy yet. It is its own
+  WordPress on `cenfiss2`:
   - own document root, MySQL and FTP jail;
   - PHP 8.3 per-domain;
   - it runs the FSE major of the same `revistalogos` and

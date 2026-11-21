@@ -6,7 +6,7 @@ current_branch: ""
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-11-19"
-next_action: "FSE sesión 9 (#83) cerrada en Docker en la rama feat/fse-session-9-visual-gate: sin regresiones de la conversión; aria-current del nav corregido en theme 0.3.8 (solo feat/fse; la línea clásica 0.2.x sigue sin él) y tabla de cobertura en Pass (local) salvo single-author. Siguiente: repetir la pasada en logos-et-spes.cenfiss.net cuando exista (ADR 0024) y #103 antes de fusionar feat/fse en main. v0.3.20 ya está live; no despachar desde una etiqueta anterior."
+next_action: "FSE sesión 9 (#83) cerrada en Docker en la rama feat/fse-session-9-visual-gate: sin regresiones de la conversión; aria-current del nav corregido en theme 0.3.8 (solo feat/fse; la línea clásica 0.2.x sigue sin él) y tabla de cobertura en Pass (local) salvo single-author. Siguiente: repetir la pasada en logos-et-spes.cenfiss.net (ADR 0024), que existe en cPanel desde el 2026-11-20 (#74), vacío y en noindex, a la espera del Environment, la copia de contenido y el primer run (#84), y #103 antes de fusionar feat/fse en main. v0.3.20 ya está live; no despachar desde una etiqueta anterior."
 blocked: false
 ---
 
@@ -743,8 +743,10 @@ y su workflow:
 - [#84](https://github.com/refo44/demo-revistalogos/issues/84) pasa a ser
   su primer despliegue.
 - Indexación cerrada allí.
-- El 2026-11-18 el nombre aún no resuelve en DNS. El alta en cPanel es del
-  propietario.
+- El 2026-11-18 el nombre aún no resuelve en DNS. El propietario lo dio de
+  alta en cPanel el 2026-11-20 (#74): PHP 8.3, cuenta FTP
+  `deploy_fse@…` enjaulada, WordPress vacío con Softaculous, noindex con
+  `robots.txt` físico y HTTPS forzado. Comprobado desde fuera.
 - Workflow listo (2026-11-19, #75): `deploy-fse-subdomain.yml`, solo
   `workflow_dispatch` desde `feat/fse`, Environment
   `wordpress-fse-subdomain` y secretos `FSE_*`. Una puerta rechaza la
@@ -752,7 +754,7 @@ y su workflow:
   Al final, un job de solo lectura comprueba el noindex. Vive en `main`
   porque GitHub solo lista ahí los `workflow_dispatch`; luego se fusiona
   `main` en `feat/fse`. No se ha ejecutado. Faltan el Environment y los
-  secretos (propietario), #74 y el primer run, #84. Runbook:
+  secretos y la copia de contenido (propietario, #74), y el primer run, #84. Runbook:
   [operations/fse-subdomain-deployment.md](operations/fse-subdomain-deployment.md).
 
 [#103](https://github.com/refo44/demo-revistalogos/issues/103) sigue: una
@@ -985,7 +987,8 @@ FSE remains deferred:
      en una fila propia, `Unverified`. Solo en `feat/fse`: la línea
      clásica (0.2.x en `main` y producción) sigue sin `aria-current`, y
      llevarlo allí es decisión del propietario.
-   - Siguiente: la pasada en el subdominio cuando exista; después, #103
+   - Siguiente: la pasada en el subdominio cuando tenga contenido y el
+     primer despliegue (#84; existe desde el 2026-11-20); después, #103
      antes de fusionar `feat/fse` en `main`.
 
 D12b (checks CI de seguridad/stylelint ligados al deploy) sigue pendiente
