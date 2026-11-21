@@ -13,8 +13,9 @@ run exige una decisión explícita del propietario. El primer run es
 [#84](https://github.com/refo44/demo-revistalogos/issues/84). El subdominio
 existe en cPanel desde el 2026-11-20
 ([#74](https://github.com/refo44/demo-revistalogos/issues/74)), con un
-WordPress vacío y cerrado a buscadores. Faltan el Environment con sus
-secretos y la copia de contenido de producción (ver «Estado del alta»).
+WordPress vacío y cerrado a buscadores. El Environment y sus secretos
+existen desde el 2026-11-21. Falta la copia de contenido de producción (ver
+«Estado del alta»).
 
 ## Qué hace y qué no
 
@@ -84,7 +85,7 @@ Nada de esto lo puede hacer un agente.
 
    | Secreto | Contenido |
    | --- | --- |
-   | `FSE_FTP_SERVER` | Host FTPS del cPanel |
+   | `FSE_FTP_SERVER` | Host FTPS cuyo certificado coincide con el nombre: `caroni.tepuyserver.net`, no el `ftp.cenfiss.net` que muestra cPanel (ver «FTP dedicado» en `produccion-wordpress.md`) |
    | `FSE_FTP_USERNAME` | `usuario@logos-et-spes.cenfiss.net` |
    | `FSE_FTP_PASSWORD` | Contraseña de esa cuenta |
    | `FSE_THEME_REMOTE_DIR` | Ruta, vista desde la jaula, que acaba en `wp-content/themes/revistalogos/` |
@@ -131,10 +132,20 @@ Lo que costó y conviene saber la próxima vez:
   plugins activos. Justo después de cargar la copia hay que volver a marcar
   Lectura y comprobar que la portada lleva `noindex`. El `robots.txt`
   físico no cambia con la copia.
+- **El servidor FTP no es el que muestra cPanel.** `ftp.cenfiss.net` lleva
+  a la misma máquina, pero su certificado FTPS es de
+  `caroni.tepuyserver.net`. `ftp.logos-et-spes.cenfiss.net` no existe en
+  DNS. `FSE_FTP_SERVER` usa el nombre del certificado, igual que
+  producción.
 
-Pendiente: el Environment `wordpress-fse-subdomain` con sus secretos, la
-copia de contenido (ADR 0024 §6) y el primer run (#84). La contraseña HTTP
-opcional de #74 no se puso.
+El 2026-11-21 el propietario creó el Environment `wordpress-fse-subdomain`
+en GitHub. Comprobado con `gh api`: una sola regla de *Deployment
+branches*, la rama `feat/fse`, y los cinco secretos `FSE_*`, sin variables.
+GitHub no deja leer los valores; la puerta del workflow los valida en el
+primer run.
+
+Pendiente: la copia de contenido (ADR 0024 §6) y el primer run (#84). La
+contraseña HTTP opcional de #74 no se puso.
 
 ## Ejecutar (cada vez, decisión del propietario)
 

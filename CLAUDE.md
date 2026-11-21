@@ -107,8 +107,9 @@ required, not shared via Git, not a substitute for the files above.
 - **A third site: the FSE subdomain** `logos-et-spes.cenfiss.net`
   (ADR 0024; mind the S, unlike the live `logo-et-spes`). Created in cPanel
   by the owner on 2026-11-20 (#74): an empty WordPress, closed to search
-  engines (Lectura noindex plus a physical `robots.txt`), HTTPS forced. No
-  content copy, no GitHub Environment and no deploy yet. It is its own
+  engines (Lectura noindex plus a physical `robots.txt`), HTTPS forced. Its
+  GitHub Environment `wordpress-fse-subdomain` exists since 2026-11-21
+  (`feat/fse` only, five `FSE_*` secrets). No content copy and no deploy yet. It is its own
   WordPress on `cenfiss2`:
   - own document root, MySQL and FTP jail;
   - PHP 8.3 per-domain;

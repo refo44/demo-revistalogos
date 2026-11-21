@@ -128,6 +128,12 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   subdominio aún no existe (#74, #84).
 
 ### Changed
+- El Environment `wordpress-fse-subdomain` existe en GitHub desde el
+  2026-11-21 ([#74](https://github.com/refo44/demo-revistalogos/issues/74)):
+  solo la rama `feat/fse` puede desplegar y tiene los cinco secretos
+  `FSE_*`. El runbook del subdominio explica por qué `FSE_FTP_SERVER` es el
+  nombre del certificado FTPS y no el que muestra cPanel. Faltan la copia
+  de contenido y el primer run (#84).
 - El subdominio FSE `logos-et-spes.cenfiss.net` existe desde el 2026-11-20
   ([#74](https://github.com/refo44/demo-revistalogos/issues/74)): PHP 8.3
   solo para ese dominio, cuenta FTP `deploy_fse@…` enjaulada, WordPress
