@@ -19,7 +19,7 @@ Hasta hoy el FSE ([ADR 0015](0015-block-theme-fse-site-editor.md)) llegaba al p�
 
 El 2026-11-18 el propietario cambió el plan. La producción actual, `logo-et-spes.cenfiss.net`, no se sustituye. Se crea un subdominio nuevo, `https://logos-et-spes.cenfiss.net/`, y el FSE completo se despliega allí. El nombre del subdominio ya es el correcto de la revista ([ADR 0023](0023-nombre-de-la-revista-logos-et-spes.md)).
 
-El mismo día, `logos-et-spes.cenfiss.net` aún no resuelve en DNS (NXDOMAIN). El subdominio está decidido, pero no existe todavía.
+El mismo día, `logos-et-spes.cenfiss.net` aún no resuelve en DNS (NXDOMAIN). El subdominio está decidido, pero no existe todavía. Se creó el 2026-11-20 (punto e).
 
 ## Decisión
 
@@ -98,7 +98,7 @@ c. **Release del subdominio cuando deje de ser beta.** Desde qué rama y con qu�
 
 d. **Indexación y canónicas** del subdominio nuevo.
 
-e. **Alta en cPanel.** DNS, document root, MySQL, cuenta FTP, PHP 8.3 y AutoSSL. Es una acción del propietario; el 2026-11-18 el nombre aún no resuelve.
+e. **Alta en cPanel.** DNS, document root, MySQL, cuenta FTP, PHP 8.3 y AutoSSL. Es una acción del propietario; el 2026-11-18 el nombre aún no resuelve. Hecha el 2026-11-20 ([#74](https://github.com/refo44/demo-revistalogos/issues/74)): WordPress vacío, cerrado a buscadores y con HTTPS forzado. Faltan el Environment y la copia de contenido. Detalle en `docs/operations/fse-subdomain-deployment.md`, «Estado del alta».
 
 ## Alternativas consideradas
 

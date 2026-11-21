@@ -10,10 +10,11 @@ nunca recibe la major FSE.
 
 Que el workflow exista, o que esté fusionado, **no autoriza ejecutarlo**. Cada
 run exige una decisión explícita del propietario. El primer run es
-[#84](https://github.com/refo44/demo-revistalogos/issues/84), y solo cuando el
-subdominio exista en cPanel
-([#74](https://github.com/refo44/demo-revistalogos/issues/74)). El
-2026-11-18 el nombre aún no resolvía en DNS.
+[#84](https://github.com/refo44/demo-revistalogos/issues/84). El subdominio
+existe en cPanel desde el 2026-11-20
+([#74](https://github.com/refo44/demo-revistalogos/issues/74)), con un
+WordPress vacío y cerrado a buscadores. Faltan el Environment con sus
+secretos y la copia de contenido de producción (ver «Estado del alta»).
 
 ## Qué hace y qué no
 
@@ -75,7 +76,8 @@ Nada de esto lo puede hacer un agente.
      `deploy_revista@logo-et-spes.cenfiss.net`.
 2. **WordPress en el subdominio.** Va con el contenido copiado de producción
    (ADR 0024 §3), con el host reescrito solo en la copia. Lectura queda en
-   noindex desde el primer momento.
+   noindex desde el primer momento. Tras cargar la copia, vuelve a marcar
+   Lectura: ver «Estado del alta».
 3. **GitHub → Settings → Environments → `wordpress-fse-subdomain`.**
    Conviene limitar *Deployment branches* a `feat/fse` y, si se quiere,
    pedir revisión manual. Los secretos:
@@ -87,6 +89,52 @@ Nada de esto lo puede hacer un agente.
    | `FSE_FTP_PASSWORD` | Contraseña de esa cuenta |
    | `FSE_THEME_REMOTE_DIR` | Ruta, vista desde la jaula, que acaba en `wp-content/themes/revistalogos/` |
    | `FSE_PLUGIN_REMOTE_DIR` | Ruta, vista desde la jaula, que acaba en `wp-content/plugins/revistalogos-core/` |
+
+### Estado del alta (2026-11-20)
+
+Hecho por el propietario y comprobado desde fuera el 2026-11-20 y el
+2026-11-21:
+
+- Docroot `public_html/logos-et-spes.cenfiss.net`, hermano de la carpeta de
+  la revista. DNS resuelve, AutoSSL emite el certificado y Force HTTPS está
+  activo: `http://` y `www.` redirigen con 301 a
+  `https://logos-et-spes.cenfiss.net/`.
+- PHP 8.3 solo para este dominio (`x-powered-by: PHP/8.3.37`).
+  `cenfiss.net` y `test.cenfiss.net` siguen en 8.0 y no se tocaron. El
+  aviso de PHP obsoleto que muestra el wp-admin de `cenfiss.net` no es de
+  este sitio.
+- Cuenta FTP `deploy_fse@logos-et-spes.cenfiss.net`, enjaulada en ese
+  docroot.
+- WordPress instalado limpio con Softaculous, sin contenido todavía. No se
+  usó «Clonar» desde producción: copia también los ajustes indexables.
+- Cerrado a buscadores: la portada lleva `noindex, nofollow` y
+  `robots.txt` responde `User-agent: *` / `Disallow: /`.
+
+Lo que costó y conviene saber la próxima vez:
+
+- **La carpeta de la cuenta FTP.** Al escribir el nombre de usuario, cPanel
+  lo añade al campo «Directorio» (`…/logos-et-spes.cenfiss.net/deploy_fse`).
+  Hay que rellenar el directorio al final y comprobar la ruta antes de
+  crear la cuenta; después no se puede editar.
+- **Los plugins de Softaculous.** La instalación trae unos 25 plugins
+  propios, con varios activos. SiteSEO impone `index, follow`, un
+  `sitemaps.xml` y su propio `robots.txt`, por encima de Lectura. Los que
+  tienen su versión Pro instalada no se desactivan en lote (la casilla sale
+  gris): hay que pulsar «Desactivar» en cada fila. Quedaron desactivados,
+  no borrados, por decisión del propietario.
+- **`robots.txt` es un archivo físico.** Desde WordPress 5.3, Lectura solo
+  pone la meta `noindex` y ya no escribe `Disallow: /`. Por eso hay un
+  `robots.txt` en el docroot. Está fuera de `wp-content`, así que el
+  workflow no lo toca, y `verify-noindex` lo exige.
+- **La copia de producción reabre la indexación.** Producción es
+  indexable, así que su base trae Lectura desmarcada y su propia lista de
+  plugins activos. Justo después de cargar la copia hay que volver a marcar
+  Lectura y comprobar que la portada lleva `noindex`. El `robots.txt`
+  físico no cambia con la copia.
+
+Pendiente: el Environment `wordpress-fse-subdomain` con sus secretos, la
+copia de contenido (ADR 0024 §6) y el primer run (#84). La contraseña HTTP
+opcional de #74 no se puso.
 
 ## Ejecutar (cada vez, decisión del propietario)
 

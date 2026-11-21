@@ -29,7 +29,8 @@ Do not revive FABLE 5. Do not install Playwright, Behat, or extra runners.
 Editorial support continues there. FSE is Docker **and** its own noindex
 subdomain, `logos-et-spes.cenfiss.net` (ADR 0024; ADR 0016 note 2026-11-18;
 setup: [#74](https://github.com/refo44/demo-revistalogos/issues/74)). It is a
-separate WordPress, it is permanent, and it does not exist yet. GitHub Pages
+separate WordPress, it is permanent, and it has existed since 2026-11-20
+(still empty and noindex). GitHub Pages
 is the static mirror, not a WordPress FSE preview. Do not reuse
 `cenfiss.net`, `test.cenfiss.net`, or the production FTP jail.
 

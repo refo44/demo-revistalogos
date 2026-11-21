@@ -146,5 +146,5 @@ Nota del propietario, registrada en [ADR 0024](0024-fse-en-subdominio-propio.md)
   - PHP 8.3 solo para ese dominio;
   - AutoSSL.
 - **La revista clásica.** `logo-et-spes.cenfiss.net` sigue igual. `deploy_revista@…` y los secretos `PRODUCTION_*` nunca apuntan al sitio nuevo.
-- **Alta pendiente.** El 2026-11-18 el nombre aún no resuelve en DNS. El alta en cPanel es una acción del propietario.
+- **Alta.** El 2026-11-18 el nombre aún no resuelve en DNS. El propietario lo dio de alta en cPanel el 2026-11-20 ([#74](https://github.com/refo44/demo-revistalogos/issues/74)): docroot hermano de la revista, PHP 8.3 solo para ese dominio, AutoSSL, cuenta FTP `deploy_fse@logos-et-spes.cenfiss.net` enjaulada allí y WordPress nuevo con Softaculous.
 - **La alternativa del subdominio de staging.** Queda descartada como staging desechable. El subdominio nuevo es permanente.
