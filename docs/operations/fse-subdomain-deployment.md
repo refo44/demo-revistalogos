@@ -13,9 +13,9 @@ run exige una decisión explícita del propietario. El primer run es
 [#84](https://github.com/refo44/demo-revistalogos/issues/84). El subdominio
 existe en cPanel desde el 2026-11-20
 ([#74](https://github.com/refo44/demo-revistalogos/issues/74)), con un
-WordPress vacío y cerrado a buscadores. El Environment y sus secretos
-existen desde el 2026-11-21. Falta la copia de contenido de producción (ver
-«Estado del alta»).
+WordPress cerrado a buscadores. El Environment y sus secretos existen
+desde el 2026-11-21, y desde el 2026-11-22 lleva una copia del contenido
+de producción (ver «Copia de contenido»). Falta el primer run.
 
 ## Qué hace y qué no
 
@@ -106,8 +106,8 @@ Hecho por el propietario y comprobado desde fuera el 2026-11-20 y el
   este sitio.
 - Cuenta FTP `deploy_fse@logos-et-spes.cenfiss.net`, enjaulada en ese
   docroot.
-- WordPress instalado limpio con Softaculous, sin contenido todavía. No se
-  usó «Clonar» desde producción: copia también los ajustes indexables.
+- WordPress instalado limpio con Softaculous, sin contenido hasta la
+  copia del 2026-11-22. No se usó «Clonar» desde producción: copia también los ajustes indexables.
 - Cerrado a buscadores: la portada lleva `noindex, nofollow` y
   `robots.txt` responde `User-agent: *` / `Disallow: /`.
 
@@ -130,7 +130,8 @@ Lo que costó y conviene saber la próxima vez:
 - **La copia de producción reabre la indexación.** Producción es
   indexable, así que su base trae Lectura desmarcada y su propia lista de
   plugins activos. Justo después de cargar la copia hay que volver a marcar
-  Lectura y comprobar que la portada lleva `noindex`. El `robots.txt`
+  Lectura y comprobar que la portada lleva `noindex`. En la copia del
+  2026-11-22 se puso `blog_public` a `0` por SQL antes de abrir el sitio. El `robots.txt`
   físico no cambia con la copia.
 - **El servidor FTP no es el que muestra cPanel.** `ftp.cenfiss.net` lleva
   a la misma máquina, pero su certificado FTPS es de
@@ -144,8 +145,71 @@ branches*, la rama `feat/fse`, y los cinco secretos `FSE_*`, sin variables.
 GitHub no deja leer los valores; la puerta del workflow los valida en el
 primer run.
 
-Pendiente: la copia de contenido (ADR 0024 §6) y el primer run (#84). La
-contraseña HTTP opcional de #74 no se puso.
+La contraseña HTTP opcional de #74 no se puso.
+
+### Copia de contenido (2026-11-22)
+
+El propietario copió la base y los `uploads/` de producción al subdominio
+(ADR 0024 §6), a mano desde cPanel y phpMyAdmin, porque el hosting no
+tiene SSH ni WP-CLI. Es una foto del 2026-11-22: lo que se cargue después
+en producción no llega solo (ADR 0024, punto abierto b). No se usó
+`fixtures seed`.
+
+Pasos, en este orden:
+
+1. **Exportar producción.** phpMyAdmin → base de producción → Exportar,
+   método Personalizado, compresión gzip, con `DROP TABLE` y sin
+   `CREATE DATABASE`/`USE`. Producción solo se lee. El volcado se guardó
+   fuera del repositorio y se borra después; nunca se sube a Git.
+2. **Importar** en la base del subdominio, que ya tenía las tablas de
+   Softaculous con otro prefijo. Ninguna choca: conviven.
+3. **Cambiar `$table_prefix`** en el `wp-config.php` del subdominio al
+   prefijo de producción. Solo esa línea, y después de importar: si va
+   antes, WordPress muestra la pantalla de instalación.
+4. **SQL antes de abrir el sitio**, en la base del subdominio: `siteurl` y
+   `home` a `https://logos-et-spes.cenfiss.net` y `blog_public` a `0`
+   (3 filas). Así la copia nunca sirve una página indexable, y Lectura
+   aparece ya marcada.
+5. **`uploads/`.** Administrador de archivos → comprimir
+   `wp-content/uploads` de producción en un zip fuera de `public_html`,
+   extraerlo en `wp-content/` del subdominio y borrar el zip.
+6. **Primer acceso a wp-admin** del subdominio, con la misma cuenta que en
+   producción (la base es una copia). Comprobar Lectura y los plugins.
+7. **Better Search Replace**, instalado solo en el subdominio: buscar
+   `//logo-et-spes.cenfiss.net`, reemplazar por
+   `//logos-et-spes.cenfiss.net`, todas las tablas, GUID sin marcar.
+   Primero en prueba (20 celdas: 11 en `posts`, 7 en `postmeta`, 1 en
+   `options` y 1 en `users`), luego en real (20 cambios), y se borra el
+   plugin. Un `REPLACE` en SQL rompería los datos serializados. Repetirlo
+   es inocuo: `logos-et-spes` no contiene `logo-et-spes`.
+
+Lo que hay que saber:
+
+- **Los plugins de producción llegan con sus ajustes.** Al primer acceso,
+  WordPress desactivó los que no existen en el subdominio:
+  `revistalogos-core`, Contact Form 7 y WP Statistics. Seguían activos
+  GoSMTP (con la cuenta SMTP de producción), Backuply (con su destino de
+  copias) y SpeedyCache. El propietario desactivó los 22 plugins; ninguno
+  se borró.
+- **La portada sale en blanco hasta #84.** La base dice que el theme
+  activo es `revistalogos`, que todavía no está en el subdominio, y
+  WordPress no tiene plantilla que servir. Por lo mismo, la API no muestra
+  los PDF que cuelgan de artículos: sus tipos los registra el plugin.
+- **Quedan las tablas de Softaculous** con su prefijo en la misma base. No
+  las usa nada; se pueden borrar más adelante.
+
+Comprobado desde fuera el 2026-11-22:
+
+- `wp-json` responde «LOGOS ET SPES» con `url` y `home` en el subdominio.
+- `robots.txt` sigue en `Disallow: /`.
+- Tres archivos de `uploads/` (una imagen y dos PDF) se sirven con los
+  mismos bytes que en producción.
+- En páginas y medios de la API, las únicas referencias a
+  `logo-et-spes` que quedan son los GUID, que se dejaron a propósito.
+- Producción no cambió: sus páginas solo enlazan a su propio dominio.
+
+Pendiente: el primer run (#84) y, después, activar el theme y el plugin a
+mano en el wp-admin del subdominio.
 
 ## Ejecutar (cada vez, decisión del propietario)
 
