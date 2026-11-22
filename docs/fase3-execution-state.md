@@ -6,7 +6,7 @@ current_branch: ""
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-11-19"
-next_action: "FSE sesión 9 (#83) cerrada en Docker en la rama feat/fse-session-9-visual-gate: sin regresiones de la conversión; aria-current del nav corregido en theme 0.3.8 (solo feat/fse; la línea clásica 0.2.x sigue sin él) y tabla de cobertura en Pass (local) salvo single-author. Siguiente: repetir la pasada en logos-et-spes.cenfiss.net (ADR 0024), que existe en cPanel desde el 2026-11-20 (#74), vacío y en noindex, con su Environment de GitHub desde el 2026-11-21, a la espera de la copia de contenido y el primer run (#84), y #103 antes de fusionar feat/fse en main. v0.3.20 ya está live; no despachar desde una etiqueta anterior."
+next_action: "FSE sesión 9 (#83) cerrada en Docker en la rama feat/fse-session-9-visual-gate: sin regresiones de la conversión; aria-current del nav corregido en theme 0.3.8 (solo feat/fse; la línea clásica 0.2.x sigue sin él) y tabla de cobertura en Pass (local) salvo single-author. Siguiente: repetir la pasada en logos-et-spes.cenfiss.net (ADR 0024), que existe en cPanel desde el 2026-11-20 (#74), en noindex, con su Environment de GitHub desde el 2026-11-21 y una copia del contenido de producción desde el 2026-11-22, a la espera del primer run (#84), y #103 antes de fusionar feat/fse en main. v0.3.20 ya está live; no despachar desde una etiqueta anterior."
 blocked: false
 ---
 
@@ -754,8 +754,10 @@ y su workflow:
   Al final, un job de solo lectura comprueba el noindex. Vive en `main`
   porque GitHub solo lista ahí los `workflow_dispatch`; luego se fusiona
   `main` en `feat/fse`. No se ha ejecutado. El Environment y sus secretos
-  existen desde el 2026-11-21. Faltan la copia de contenido (propietario,
-  #74) y el primer run, #84. Runbook:
+  existen desde el 2026-11-21. El 2026-11-22 el propietario copió la base
+  y los `uploads/` de producción, con el host reescrito solo en la copia
+  (ADR 0024 §6); la portada sale en blanco hasta que #84 suba el theme.
+  Falta el primer run, #84. Runbook:
   [operations/fse-subdomain-deployment.md](operations/fse-subdomain-deployment.md).
 
 [#103](https://github.com/refo44/demo-revistalogos/issues/103) sigue: una
