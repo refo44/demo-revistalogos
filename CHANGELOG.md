@@ -23,6 +23,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   subdominio aún no existe (#74, #84).
 
 ### Changed
+- El subdominio FSE tiene una copia del contenido de producción desde el
+  2026-11-22 ([#74](https://github.com/refo44/demo-revistalogos/issues/74),
+  ADR 0024 §6): base y `uploads/`, con el host reescrito solo en la copia y
+  Lectura en `noindex`. El runbook del subdominio añade «Copia de
+  contenido»: los pasos en phpMyAdmin y cPanel, el orden que evita servir
+  una página indexable y los plugins de producción que llegan con sus
+  ajustes. Falta el primer run (#84).
 - El Environment `wordpress-fse-subdomain` existe en GitHub desde el
   2026-11-21 ([#74](https://github.com/refo44/demo-revistalogos/issues/74)):
   solo la rama `feat/fse` puede desplegar y tiene los cinco secretos
