@@ -5,7 +5,7 @@ current_work_unit: ""
 current_branch: ""
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
-updated_at: "2026-11-19"
+updated_at: "2026-11-23"
 next_action: "FSE sesión 9 (#83): puerta visual de las plantillas de bloques en Docker, rama desde feat/fse, PR hacia feat/fse. La sesión 8 está fusionada en feat/fse (#125, 3162c96; theme 0.3.6) y #127 (theme 0.3.7) arregla la vista previa del Site Editor; feat/fse lleva main fusionado hasta 8804383 (#128). El propietario dio la firma visual de las sesiones 5 a 8 (2026-11-19, Pass (local) en la matriz). Desde el 2026-11-18 el FSE completo va al subdominio propio logos-et-spes.cenfiss.net (ADR 0024), no a producción: no hay switch in situ; el subdominio existe en cPanel desde el 2026-11-20 (#74), en noindex, con su Environment de GitHub desde el 2026-11-21 y una copia del contenido de producción y el primer despliegue del FSE (#84) desde el 2026-11-22. v0.3.20 ya está live; no despachar desde una etiqueta anterior."
 blocked: false
 ---
@@ -761,6 +761,19 @@ y su workflow:
   vacío que cortaba el FTPS. El propietario activó el plugin a mano; el
   sitio sigue en noindex. Runbook:
   [operations/fse-subdomain-deployment.md](operations/fse-subdomain-deployment.md).
+- Botones en la paleta (2026-11-23,
+  [#144](https://github.com/refo44/demo-revistalogos/issues/144) cerrado):
+  `.btn--primary` y `.btn--pdf` usan el slug `button` (`#037d85`) de
+  `theme.json`, editable desde Estilos → Colores (ADR 0015, nota
+  2026-11-22). Theme 0.3.9 (#146) y 0.3.10 (#147: `REVISTALOGOS_THEME_VERSION`
+  se había quedado en 0.3.8; un test unitario lo ata ahora a `style.css`).
+  Desplegado con el run `45116276879` desde `feat/fse`. El primer intento
+  (`45115547858`) falló en la comprobación de noindex porque SiteSEO estaba
+  activo en el subdominio; el propietario lo desactivó allí. Después quitó
+  la regla de los botones del CSS adicional, solo en el subdominio;
+  producción la conserva (#38). Comprobado en el subdominio: botones en
+  `rgb(3, 125, 133)` en portada, número y artículo, `noindex, nofollow` y
+  `robots.txt` con `Disallow: /`.
 
 [#103](https://github.com/refo44/demo-revistalogos/issues/103) sigue: una
 copia exacta de la base de producción en Docker local, comparada con la
