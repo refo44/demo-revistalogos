@@ -110,7 +110,8 @@ required, not shared via Git, not a substitute for the files above.
   engines (Lectura noindex plus a physical `robots.txt`), HTTPS forced. Its
   GitHub Environment `wordpress-fse-subdomain` exists since 2026-11-21
   (`feat/fse` only, five `FSE_*` secrets). It holds a copy of production
-  content since 2026-11-22; no deploy yet, so its front page is blank. It is its own
+  content since 2026-11-22. The first deploy (#84) ran the same day from
+  `feat/fse`; the owner activated the plugin by hand. It is its own
   WordPress on `cenfiss2`:
   - own document root, MySQL and FTP jail;
   - PHP 8.3 per-domain;
@@ -155,8 +156,8 @@ required, not shared via Git, not a substitute for the files above.
   directory.
 
   There is **no in-place switch** on production. The FSE major never
-  reaches `logo-et-spes`. Issue #84 is now the first deploy of the major
-  to `logos-et-spes.cenfiss.net` (ADR 0024).
+  reaches `logo-et-spes`. Issue #84 was the first deploy of the major
+  to `logos-et-spes.cenfiss.net` (ADR 0024), done 2026-11-22.
 
   Issue #103 still gates the final merge of `feat/fse` into `main`: an
   exact production database copy, plus the uploads that content
