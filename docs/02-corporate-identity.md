@@ -33,6 +33,8 @@ La única instrucción cromática explícita de la fuente canónica es: `Fondo: 
 
 **Nota de alcance:** Los colores de estado (`success`, `warning`, `error`) son tokens semánticos de interfaz. No forman parte de la paleta institucional.
 
+**Botón principal y PDF (2026-11-22):** el sitio los pinta en `#037d85`, no en el amarillo de énfasis; el texto blanco sobre ese fondo da 4.91:1 (AA). En el theme FSE es la entrada `button` de la paleta de `theme.json`, que se cambia desde Estilos → Colores ([#144](https://github.com/refo44/demo-revistalogos/issues/144)). En el clásico sigue en el CSS adicional ([#38](https://github.com/refo44/demo-revistalogos/issues/38)).
+
 ### 1.1 Tokens de marca y semánticos
 
 Separar tokens de marca de tokens semánticos para mantenibilidad.
@@ -57,6 +59,7 @@ Separar tokens de marca de tokens semánticos para mantenibilidad.
 --color-border: #d9d6d7;
 --color-link: #1abaf0;
 --color-link-hover: #18597c;
+--color-button: #037d85;
 ```
 
 **Mapeo legacy** (para compatibilidad con `tokens.css` existente): `--brand-1` = primary, `--brand-2` = secondary.
