@@ -15,7 +15,8 @@ existe en cPanel desde el 2026-11-20
 ([#74](https://github.com/refo44/demo-revistalogos/issues/74)), con un
 WordPress cerrado a buscadores. El Environment y sus secretos existen
 desde el 2026-11-21, y desde el 2026-11-22 lleva una copia del contenido
-de producción (ver «Copia de contenido»). Falta el primer run.
+de producción (ver «Copia de contenido»). El primer run se hizo el
+2026-11-22 (ver «Primer despliegue»).
 
 ## Qué hace y qué no
 
@@ -193,7 +194,7 @@ Lo que hay que saber:
   GoSMTP (con la cuenta SMTP de producción), Backuply (con su destino de
   copias) y SpeedyCache. El propietario desactivó los 22 plugins; ninguno
   se borró.
-- **La portada sale en blanco hasta #84.** La base dice que el theme
+- **La portada salía en blanco hasta #84.** La base dice que el theme
   activo es `revistalogos`, que todavía no está en el subdominio, y
   WordPress no tiene plantilla que servir. Por lo mismo, la API no muestra
   los PDF que cuelgan de artículos: sus tipos los registra el plugin.
@@ -210,8 +211,50 @@ Comprobado desde fuera el 2026-11-22:
   `logo-et-spes` que quedan son los GUID, que se dejaron a propósito.
 - Producción no cambió: sus páginas solo enlazan a su propio dominio.
 
-Pendiente: el primer run (#84) y, después, activar el theme y el plugin a
-mano en el wp-admin del subdominio.
+### Primer despliegue (2026-11-22, #84)
+
+Antes del run se probó en Docker el estado en que queda el subdominio justo
+después de subir: theme de `feat/fse` activo, plugin desactivado y
+`blog_public` a `0`. La portada respondió 200 con
+`<meta name='robots' content='noindex, nofollow'>` y sin errores de PHP, así
+que `verify-noindex` podía pasar antes de activar el plugin. Docker volvió
+después a su estado.
+
+1. **Run [45082919307](https://github.com/refo44/demo-revistalogos/actions/runs/45082919307)**
+   desde `feat/fse` (a923eff). Subió el theme. `deploy-plugin` falló dos
+   veces (el run y un reintento de los trabajos fallidos) con
+   `Server sent FIN packet unexpectedly`, siempre en
+   `vendor/thecodingmachine/safe/generated/Exceptions/.gitkeep`, el único
+   archivo vacío del build. El plugin quedó subido a medias pero inactivo,
+   así que el sitio siguió sirviendo el theme con noindex.
+2. **[#141](https://github.com/refo44/demo-revistalogos/pull/141)** excluye
+   `**/.gitkeep` de la subida del plugin (ver `deploy-plugin` arriba).
+3. **Run [45100104127](https://github.com/refo44/demo-revistalogos/actions/runs/45100104127)**
+   desde `feat/fse` (715bc45): los cuatro trabajos en verde. El plugin
+   completo, `vendor/` incluido, quedó en el subdominio.
+4. **Activación a mano.** El theme `revistalogos` ya estaba activo porque
+   lo dice la base copiada. El propietario activó `revistalogos-core` en el
+   wp-admin del subdominio. El workflow no activa nada.
+
+Comprobado desde fuera el 2026-11-22, con el plugin activo:
+
+- La API lista los mismos tipos que producción y las mismas cantidades:
+  11 artículos, 1 número y 10 autores.
+- 41 URLs públicas: la portada, los archivos de artículos, números y
+  autores, el número, los 11 artículos, los 10 autores, 13 páginas, una URL
+  inexistente y la búsqueda. Responden 200, salvo el 404 esperado y la
+  búsqueda, que redirige a `/buscar/?q=…` igual que producción. Todas
+  llevan `noindex, nofollow`, ninguna muestra errores de PHP y los enlaces
+  apuntan al subdominio. La única mención a `logo-et-spes` está en el
+  texto del aviso de privacidad, que nombra la dirección principal.
+- Las 11 hojas de estilo, scripts e imágenes que piden la portada, un
+  artículo y el número responden 200.
+- `robots.txt` sigue en `Disallow: /`.
+- Versiones servidas: el subdominio tiene theme 0.3.8 y plugin 0.2.27;
+  producción sigue en theme 0.2.17 y plugin 0.2.26, sin cambios.
+
+No comprobado: que `dom` y `mbstring` estén activas en el PHP del
+subdominio. Hace falta antes de generar allí un PDF de artículo.
 
 ## Ejecutar (cada vez, decisión del propietario)
 
