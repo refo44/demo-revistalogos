@@ -6,7 +6,7 @@ current_branch: ""
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-11-19"
-next_action: "FSE sesión 9 (#83): puerta visual de las plantillas de bloques en Docker, rama desde feat/fse, PR hacia feat/fse. La sesión 8 está fusionada en feat/fse (#125, 3162c96; theme 0.3.6) y #127 (theme 0.3.7) arregla la vista previa del Site Editor; feat/fse lleva main fusionado hasta 8804383 (#128). El propietario dio la firma visual de las sesiones 5 a 8 (2026-11-19, Pass (local) en la matriz). Desde el 2026-11-18 el FSE completo va al subdominio propio logos-et-spes.cenfiss.net (ADR 0024), no a producción: no hay switch in situ; el subdominio existe en cPanel desde el 2026-11-20 (#74), vacío y en noindex, con su Environment de GitHub desde el 2026-11-21 y una copia del contenido de producción desde el 2026-11-22. v0.3.20 ya está live; no despachar desde una etiqueta anterior."
+next_action: "FSE sesión 9 (#83): puerta visual de las plantillas de bloques en Docker, rama desde feat/fse, PR hacia feat/fse. La sesión 8 está fusionada en feat/fse (#125, 3162c96; theme 0.3.6) y #127 (theme 0.3.7) arregla la vista previa del Site Editor; feat/fse lleva main fusionado hasta 8804383 (#128). El propietario dio la firma visual de las sesiones 5 a 8 (2026-11-19, Pass (local) en la matriz). Desde el 2026-11-18 el FSE completo va al subdominio propio logos-et-spes.cenfiss.net (ADR 0024), no a producción: no hay switch in situ; el subdominio existe en cPanel desde el 2026-11-20 (#74), en noindex, con su Environment de GitHub desde el 2026-11-21 y una copia del contenido de producción y el primer despliegue del FSE (#84) desde el 2026-11-22. v0.3.20 ya está live; no despachar desde una etiqueta anterior."
 blocked: false
 ---
 
@@ -753,11 +753,13 @@ y su workflow:
   cuenta FTP de producción y cualquier ruta fuera del theme y el plugin.
   Al final, un job de solo lectura comprueba el noindex. Vive en `main`
   porque GitHub solo lista ahí los `workflow_dispatch`; luego se fusiona
-  `main` en `feat/fse`. No se ha ejecutado. El Environment y sus secretos
-  existen desde el 2026-11-21. El 2026-11-22 el propietario copió la base
-  y los `uploads/` de producción, con el host reescrito solo en la copia
-  (ADR 0024 §6); la portada sale en blanco hasta que #84 suba el theme.
-  Falta el primer run, #84. Runbook:
+  `main` en `feat/fse`. El Environment y sus secretos existen desde el
+  2026-11-21. El 2026-11-22 el propietario copió la base y los `uploads/`
+  de producción, con el host reescrito solo en la copia (ADR 0024 §6).
+  El mismo día se hizo el primer run, #84: theme 0.3.8 y plugin 0.2.27
+  desde `feat/fse` (715bc45), después de que #141 excluyera un `.gitkeep`
+  vacío que cortaba el FTPS. El propietario activó el plugin a mano; el
+  sitio sigue en noindex. Runbook:
   [operations/fse-subdomain-deployment.md](operations/fse-subdomain-deployment.md).
 
 [#103](https://github.com/refo44/demo-revistalogos/issues/103) sigue: una
