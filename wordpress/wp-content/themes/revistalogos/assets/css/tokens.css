@@ -36,6 +36,9 @@
   --color-link: var(--wp--preset--color--link, #0a7599);            /* Azul de acento para enlaces (oscurecido para cumplir contraste AA 4.5:1) */
   --color-link-hover: #18597c;      /* Estado hover de enlaces */
   --color-focus-ring: rgb(24 89 124 / 0.18);
+
+  /* Botón principal y PDF: el mismo color en todos los estados (#144) */
+  --color-button: var(--wp--preset--color--button, #037d85);  /* Botón principal (antes en el CSS adicional de wp-admin) */
   
   /* Tipografías del sistema */
   --font-family-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;

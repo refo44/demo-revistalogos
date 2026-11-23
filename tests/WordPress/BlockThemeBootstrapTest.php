@@ -85,6 +85,34 @@ class BlockThemeBootstrapTest extends WP_UnitTestCase {
 		}
 	}
 
+	/**
+	 * Dado: los botones primario y PDF (#144).
+	 * Entonces: la paleta declara `button` y todos sus estados, hover
+	 * incluido, pintan fondo y borde con --color-button, así que Estilos →
+	 * Colores los mueve sin CSS adicional.
+	 */
+	public function test_primary_and_pdf_buttons_use_the_button_palette_color() {
+		$palette = wp_get_global_settings( array( 'color', 'palette', 'theme' ) );
+		$slugs   = array_column( $palette, 'color', 'slug' );
+		$this->assertSame( '#037d85', $slugs['button'] ?? null );
+
+		$css = file_get_contents( get_template_directory() . '/assets/css/components.css' );
+		$css = preg_replace( '#/\*.*?\*/#s', '', $css );
+		preg_match_all( '/([^{}]*\.btn--(?:primary|pdf)\b[^{}]*)\{([^}]*)\}/', $css, $rules, PREG_SET_ORDER );
+
+		$this->assertGreaterThanOrEqual( 6, count( $rules ) );
+		foreach ( $rules as $rule ) {
+			$selector = trim( $rule[1] );
+			foreach ( array( 'background-color', 'border-color' ) as $property ) {
+				$this->assertMatchesRegularExpression(
+					'/' . $property . ':\s*var\(--color-button\);/',
+					$rule[2],
+					$selector . ' → ' . $property
+				);
+			}
+		}
+	}
+
 	private function global_styles_css() {
 		$inline = wp_styles()->get_data( 'global-styles', 'after' );
 
