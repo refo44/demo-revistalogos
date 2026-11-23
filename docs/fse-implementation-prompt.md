@@ -17,7 +17,9 @@ its own noindex subdomain, `logos-et-spes.cenfiss.net` (ADR 0024). Production
    `revistalogos-core`; theme only assembles.
 3. `docs/adr/0001-maqueta-estatica-como-base-definitiva.md` and
    `docs/adr/0002-wordpress-como-adaptacion-sin-rediseno.md` — no redesign.
-4. `static/` — visual oracle (HTML + CSS). Compare against this, not memory.
+4. `static/` — visual oracle (HTML + CSS) for Sessions 2–8. Compare against
+   this, not memory. Session 9 and #103 compare the FSE subdomain against
+   live production instead (ADR 0015, note 2026-11-23).
 5. `docs/23-testing-foundation.md`, `docs/24-project-testing-standard.md`,
    ADR 0018 — TDD is mandatory.
 
@@ -102,7 +104,8 @@ session:
 - Prove a converted view with an incoming HTTP request to the canonical URL
   (trailing slash, ADR 0008). `get_permalink()` is not the proof.
 - A green workflow or FTPS transfer proves the file copy. Visual parity is
-  screenshots of `static/` against the WordPress URL, desktop and 320px.
+  screenshots of `static/` against the WordPress URL, desktop and 320px
+  (Sessions 2–8; Session 9 and #103 use live production, see below).
 - One file per block family in `revistalogos-core`: `block.json` plus
   `render_callback`, loaded from `Plugin::load_modules`. The theme places
   the block and does not query CPTs. No data, or a missing domain helper:
@@ -244,12 +247,17 @@ article PDF CTA. Keep `citation.js` enqueue. Highwire/JSON-LD/OG stay
 Visual vs `static/single-article.html` desktop + 320px. Owner gallery
 required.
 
-### Session 9 — Visual gate (Docker + FSE subdomain), then stop
+### Session 9 — Visual gate (FSE subdomain vs production), then stop
 
-Full pair list in `docs/fase3-validation-matrix.md` coverage table, but
-**only** the screens now served by HTML templates. Mark those rows with
-the method used (screenshots). Do not invent `Pass` without files. Repeat
-the same pass on `logos-et-spes.cenfiss.net` once it exists ([#83](https://github.com/refo44/demo-revistalogos/issues/83)).
+The reference is live production, `logo-et-spes.cenfiss.net`, not
+`static/` and not Docker (ADR 0015, note 2026-11-23). Screenshot the same
+route on `logos-et-spes.cenfiss.net` and on production, desktop and
+320px, for every screen now served by an HTML template (route list in the
+`docs/fase3-validation-matrix.md` coverage table). List each difference.
+The host in links and canonicals, and the subdomain's `noindex`, are not
+differences; content added to production after the subdomain's copy is a
+data difference, not a theme one. Mark rows with the method used. Do not
+invent `Pass` without files ([#83](https://github.com/refo44/demo-revistalogos/issues/83)).
 
 There is no production cutover (ADR 0024). Production
 `logo-et-spes.cenfiss.net` keeps the live minor of `revistalogos` and
@@ -262,10 +270,11 @@ not wait on #103. There is no second theme directory (ADR 0015, note
 
 [#103](https://github.com/refo44/demo-revistalogos/issues/103) still
 blocks the final merge of `feat/fse` into `main` (ADR 0015, note
-2026-11-07; ADR 0024 §7). Before it, an exact production database export
-plus the `uploads/` that content references is loaded into local Docker
-only (not committed). The same URLs are compared: live production against
-that local copy on the FSE major. Any unresolved discrepancy blocks the
+2026-11-07; ADR 0024 §7). Before it, the FSE subdomain gets a fresh copy
+of the production database and the `uploads/` that content references
+(ADR 0024 §6), plus a deploy of the `feat/fse` commit that will be merged.
+Nothing is loaded into Docker (ADR 0015, note 2026-11-23). The same
+routes are compared: live production against the subdomain. Any unresolved discrepancy blocks the
 merge. The order is Session 9, then #103 on the `feat/fse` commit that
 will be merged, then the merge. What `main` and the live line do after
 that merge is an open owner decision (ADR 0024, point c). Sessions 2–9,

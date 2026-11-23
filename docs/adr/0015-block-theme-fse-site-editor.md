@@ -204,3 +204,14 @@ Nota del propietario. Aclara §6 y el punto de `theme.json` del contrato de conv
 2. **Cada slug nuevo lleva su alias** `--color-<slug>: var(--wp--preset--color--<slug>, <hex>)` en `tokens.css`, con el mismo hex de respaldo que `theme.json`.
 3. **Primer caso:** `button` («Botón principal», `#037d85`) para `.btn--primary` y `.btn--pdf` ([#144](https://github.com/refo44/demo-revistalogos/issues/144)).
 4. **Sigue cerrado** el color libre por bloque (`custom: false`), igual que tipografía y espaciado.
+
+## Las puertas de paridad comparan los dos sitios (2026-11-23)
+
+Nota del propietario. Sustituye, para la sesión 9 y para [#103](https://github.com/refo44/demo-revistalogos/issues/103), el punto 3 del contrato de conversión («captura de `static/` frente a la URL de WordPress»). También sustituye el procedimiento de las notas 2026-11-02 (puntos 1–3) y 2026-11-07 (punto 2). No cambia §1–§6, el resto del contrato, el orden sesión 9 → #103 → fusión ni el bloqueo de la fusión.
+
+**Motivo.** El subdominio FSE ya tiene una copia de la base y de los `uploads/` de producción ([ADR 0024](0024-fse-en-subdominio-propio.md) §6). La maqueta `static/` y el Docker local no dicen si el sitio nuevo se ve como el que está en línea. Comparar los dos sitios sí lo dice.
+
+1. **Sesión 9 ([#83](https://github.com/refo44/demo-revistalogos/issues/83)).** La referencia es la producción, `logo-et-spes.cenfiss.net`, y no `static/`. Se capturan las mismas rutas en `logos-et-spes.cenfiss.net` y en producción, a escritorio y a 320px, y se anota cada diferencia. Docker no forma parte de esta puerta. Las firmas de las sesiones 5 a 8 contra `static/` siguen valiendo.
+2. **#103.** La comparación sobre los mismos datos se hace en el subdominio, no en Docker. Primero se rehace allí la copia de la base y de los `uploads/` de producción (ADR 0024 §6), y se despliega el commit de `feat/fse` que se va a fusionar. Después se comparan las mismas rutas en los dos sitios: contenido, rutas y presentación. Cada discrepancia se anota en #103.
+3. **Lo que no es discrepancia.** El host en enlaces y canónicas, y el `noindex` del subdominio. En la sesión 9, el contenido cargado en producción después de la copia es una diferencia de datos, no del theme: se anota como tal o se rehace la copia.
+4. **Docker sigue** para desarrollar y para las pruebas (`composer test:wp`, `tools/qa-*.sh`). Solo deja de ser la referencia de estas dos puertas.
