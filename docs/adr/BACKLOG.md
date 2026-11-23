@@ -189,7 +189,7 @@ Ruleset `Protect main (trunk-based)` (`21337399`), activo, sin bypass. `main` ex
 
 **Estado:** NEXT (propietario, 2026-11-22). Issue: [#144](https://github.com/refo44/demo-revistalogos/issues/144). Rama desde `feat/fse`, PR hacia `feat/fse`; no toca la línea clásica.
 
-Hoy `.btn--primary` y `.btn--pdf` salen en `#037d85` por una regla del CSS adicional de wp-admin, que también viajó al subdominio con la copia de la base. El theme los pinta con `--color-primary` y `--color-link`. El color pasa a una entrada semántica de la paleta de `theme.json`, que se cambia desde Estilos → Colores ([ADR 0015](0015-block-theme-fse-site-editor.md) §6). Después se quita la regla del CSS adicional, solo en el subdominio. Hover: el de producción, es decir `#037d85` sin cambio (propietario, 2026-11-22). Pendiente del propietario: confirmar que añadir una entrada a la paleta es compatible con §6. La CSS adicional completa del clásico sigue en [#38](https://github.com/refo44/demo-revistalogos/issues/38).
+Hoy `.btn--primary` y `.btn--pdf` salen en `#037d85` por una regla del CSS adicional de wp-admin, que también viajó al subdominio con la copia de la base. El theme los pinta con `--color-primary` y `--color-link`. El color pasa a una entrada semántica de la paleta de `theme.json`, que se cambia desde Estilos → Colores ([ADR 0015](0015-block-theme-fse-site-editor.md) §6). Después se quita la regla del CSS adicional, solo en el subdominio. Hover: el de producción, es decir `#037d85` sin cambio (propietario, 2026-11-22). El propietario confirmó el 2026-11-22 que §6 admite el slug nuevo (nota en ADR 0015). La CSS adicional completa del clásico sigue en [#38](https://github.com/refo44/demo-revistalogos/issues/38).
 
 ### PLANNED
 

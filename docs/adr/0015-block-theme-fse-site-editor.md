@@ -195,3 +195,12 @@ Nota del propietario, registrada en [ADR 0024](0024-fse-en-subdominio-propio.md)
 3. **[#84](https://github.com/refo44/demo-revistalogos/issues/84)** pasa a ser el primer despliegue de la major en ese subdominio.
 4. **[#103](https://github.com/refo44/demo-revistalogos/issues/103) sigue.** La comparación sobre la misma base va antes de fusionar `feat/fse` en `main`. El orden queda así: sesión 9, después #103, después la fusión. Qué pasa con `main` y con la línea live tras esa fusión es un punto abierto de ADR 0024.
 5. **Indexación cerrada en el subdominio nuevo** hasta que el propietario decida otra cosa.
+
+## Paleta: se admiten slugs semánticos nuevos (2026-11-22)
+
+Nota del propietario. Aclara §6 y el punto de `theme.json` del contrato de conversión; no cambia nada más.
+
+1. **«Conserva la paleta» no la congela.** Ningún slug existente se quita ni cambia de nombre. Se puede añadir un slug semántico nuevo cuando un color que hoy vive en el CSS adicional de wp-admin tiene que poder cambiarse desde Estilos → Colores.
+2. **Cada slug nuevo lleva su alias** `--color-<slug>: var(--wp--preset--color--<slug>, <hex>)` en `tokens.css`, con el mismo hex de respaldo que `theme.json`.
+3. **Primer caso:** `button` («Botón principal», `#037d85`) para `.btn--primary` y `.btn--pdf` ([#144](https://github.com/refo44/demo-revistalogos/issues/144)).
+4. **Sigue cerrado** el color libre por bloque (`custom: false`), igual que tipografía y espaciado.
