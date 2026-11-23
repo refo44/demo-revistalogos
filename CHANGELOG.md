@@ -220,6 +220,12 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   `logos-et-spes.cenfiss.net`.
 
 ### Fixed
+- Theme **0.3.10** (rama `feat/fse`): `REVISTALOGOS_THEME_VERSION` en
+  `functions.php` se había quedado en 0.3.8 cuando `style.css` pasó a 0.3.9
+  ([#146](https://github.com/refo44/demo-revistalogos/pull/146)). `main.css`
+  y `main.js` salían con el `?ver=` viejo y un navegador podía conservar el
+  CSS anterior. Las dos versiones pasan a 0.3.10, y un test unitario exige
+  que coincidan.
 - FSE, vista previa del Site Editor (rama `feat/fse`): en Estilos e
   Identidad el lienzo mostraba solo el título «Inicio» en negro sobre
   blanco. Había dos causas. El theme no declaraba estilos de editor, así
