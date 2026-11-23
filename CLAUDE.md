@@ -227,8 +227,11 @@ required, not shared via Git, not a substitute for the files above.
   pending section, which nothing automates; (3) an entry under
   `## [Sin publicar]` in `CHANGELOG.md`; (4) if it touched
   `wordpress/wp-content/themes/` or `.../plugins/`, **bump the version that
-  component declares, in the same PR** — the theme only in `Version:` of
-  `style.css`; the plugin in three places that must stay identical: the
+  component declares, in the same PR** — the theme in two places that must
+  stay identical: `Version:` of `style.css` and `REVISTALOGOS_THEME_VERSION`
+  in `functions.php` (wp-admin shows the header; the constant is the `?ver=`
+  of `main.css`/`main.js`, so a stale one keeps browsers on the old CSS);
+  the plugin in three places that must stay identical: the
   `Version:` header and `REVISTALOGOS_CORE_VERSION` in
   `revistalogos-core.php`, plus `Stable tag:` in its `readme.txt`
   (`maybe_upgrade()` compares the constant, wp-admin shows the header, and

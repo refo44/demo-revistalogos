@@ -50,14 +50,18 @@ desde la etiqueta, no desde HEAD suelto de `main`.
    | Componente | Dónde | Quién la lee |
    |---|---|---|
    | Theme | `Version:` en `style.css` | wp-admin → Apariencia |
+   | Theme | `REVISTALOGOS_THEME_VERSION` en `functions.php` | `?ver=` de `main.css` y `main.js` |
    | Plugin | `Version:` en `revistalogos-core.php` | wp-admin → Plugins |
    | Plugin | `REVISTALOGOS_CORE_VERSION` en ese mismo archivo | `Plugin::maybe_upgrade()` |
    | Plugin | `Stable tag:` en `readme.txt` | metadatos del plugin |
 
    **Los tres del plugin deben quedar iguales.** `maybe_upgrade()` compara
    la constante y wp-admin muestra la cabecera: si divergen, el panel
-   informa de una versión que no es la que decide si el upgrade corre. El
-   theme no tiene `Stable tag:` ni `readme.txt`; no buscarlos.
+   informa de una versión que no es la que decide si el upgrade corre.
+   **Los dos del theme también deben quedar iguales:** si la constante se
+   queda atrás, el CSS nuevo sale con el `?ver=` viejo y los navegadores
+   conservan la copia anterior. El theme no tiene `Stable tag:` ni
+   `readme.txt`; no buscarlos.
 5. Commit por PR: `chore(release): vX.Y.Z` (ADR 0019: no pushear a `main`).
 6. Etiquetar **sobre el commit del release ya en `main`**, con las refs
    recién traídas:
