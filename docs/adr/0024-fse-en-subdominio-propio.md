@@ -164,6 +164,13 @@ Alternativa descartada: fusionar ya `feat/fse` en `main` con dos themes, el clá
 
 Ese coste solo compensa si los dos sitios conviven mucho tiempo, y no va a ser así.
 
+## Las comparaciones se hacen entre los dos sitios (2026-11-23)
+
+Nota del propietario, registrada en [ADR 0015](0015-block-theme-fse-site-editor.md) («Las puertas de paridad comparan los dos sitios»). Cambia cómo se hace §7, no su orden ni su bloqueo.
+
+- La sesión 9 ([#83](https://github.com/refo44/demo-revistalogos/issues/83)) compara `logos-et-spes.cenfiss.net` con `logo-et-spes.cenfiss.net`, ruta a ruta, a escritorio y a 320px. Ya no compara con `static/` ni con Docker.
+- [#103](https://github.com/refo44/demo-revistalogos/issues/103) se hace en el subdominio. Antes de compararlo, el subdominio recibe una copia nueva de la base y de los `uploads/` de producción (§6) y el commit de `feat/fse` que se va a fusionar. No se carga nada en Docker. Sigue bloqueando la fusión de `feat/fse` en `main`.
+
 ## Referencias
 
 - [ADR 0009](0009-mecanismo-y-alcance-del-despliegue.md), [0015](0015-block-theme-fse-site-editor.md), [0016](0016-topologia-hosting-cpanel.md), [0020](0020-despliegue-produccion-desde-etiqueta.md) y [0023](0023-nombre-de-la-revista-logos-et-spes.md)

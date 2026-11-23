@@ -144,7 +144,8 @@ required, not shared via Git, not a substitute for the files above.
   on ADR 0015): a template does not create content; a block returns an empty
   string when data or the domain helper is missing; the header keeps
   `Revistalogos_Nav_Walker`; visual parity is screenshots against `static/`
-  at desktop and 320px; delete a PHP view only after its HTML gate is green.
+  at desktop and 320px for Sessions 2–8, and against live production for
+  Session 9 and #103 (ADR 0015, note 2026-11-23); delete a PHP view only after its HTML gate is green.
   `theme.json` keeps the existing palette. Typography, spacing, and per-block
   custom color stay locked. `main.css` stays the layout authority. Do not
   convert to Next.js. ADR 0003 §1/§3 are superseded for `theme.json` / block
@@ -159,9 +160,11 @@ required, not shared via Git, not a substitute for the files above.
   reaches `logo-et-spes`. Issue #84 was the first deploy of the major
   to `logos-et-spes.cenfiss.net` (ADR 0024), done 2026-11-22.
 
-  Issue #103 still gates the final merge of `feat/fse` into `main`: an
-  exact production database copy, plus the uploads that content
-  references, is loaded into local Docker and compared with the live site.
+  Issue #103 still gates the final merge of `feat/fse` into `main`: the
+  FSE subdomain gets a fresh copy of the production database and the
+  uploads that content references, plus the `feat/fse` commit to be merged,
+  and is compared route by route with the live site. Nothing is loaded
+  into Docker for it (ADR 0015, note 2026-11-23).
   The order is Session 9, then #103 on the commit to be merged, then the
   merge (ADR 0015, notes 2026-11-07 and 2026-11-18). What `main` and the
   live line do after that merge is an open owner decision (ADR 0024).

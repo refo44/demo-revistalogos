@@ -6,7 +6,7 @@ current_branch: ""
 last_verified_commit: "8ebc8ee"
 last_checkpoint_commit: "8ebc8ee"
 updated_at: "2026-11-23"
-next_action: "FSE sesión 9 (#83): puerta visual de las plantillas de bloques en Docker, rama desde feat/fse, PR hacia feat/fse. La sesión 8 está fusionada en feat/fse (#125, 3162c96; theme 0.3.6) y #127 (theme 0.3.7) arregla la vista previa del Site Editor; feat/fse lleva main fusionado hasta 8804383 (#128). El propietario dio la firma visual de las sesiones 5 a 8 (2026-11-19, Pass (local) en la matriz). Desde el 2026-11-18 el FSE completo va al subdominio propio logos-et-spes.cenfiss.net (ADR 0024), no a producción: no hay switch in situ; el subdominio existe en cPanel desde el 2026-11-20 (#74), en noindex, con su Environment de GitHub desde el 2026-11-21 y una copia del contenido de producción y el primer despliegue del FSE (#84) desde el 2026-11-22. v0.3.20 ya está live; no despachar desde una etiqueta anterior."
+next_action: "FSE sesión 9 (#83): puerta visual, logos-et-spes.cenfiss.net frente a la producción logo-et-spes.cenfiss.net, ruta a ruta, escritorio y 320px (ADR 0015, nota 2026-11-23; ya no contra static/ ni en Docker); rama desde feat/fse, PR hacia feat/fse. La sesión 8 está fusionada en feat/fse (#125, 3162c96; theme 0.3.6) y #127 (theme 0.3.7) arregla la vista previa del Site Editor; feat/fse lleva main fusionado hasta 8804383 (#128). El propietario dio la firma visual de las sesiones 5 a 8 (2026-11-19, Pass (local) en la matriz). Desde el 2026-11-18 el FSE completo va al subdominio propio logos-et-spes.cenfiss.net (ADR 0024), no a producción: no hay switch in situ; el subdominio existe en cPanel desde el 2026-11-20 (#74), en noindex, con su Environment de GitHub desde el 2026-11-21 y una copia del contenido de producción y el primer despliegue del FSE (#84) desde el 2026-11-22. v0.3.20 ya está live; no despachar desde una etiqueta anterior."
 blocked: false
 ---
 
@@ -724,8 +724,8 @@ cambios, [#120](https://github.com/refo44/demo-revistalogos/pull/120) y
 2026-11-10 (`workflow_dispatch` desde `v0.3.20`, run `42875067649`, success).
 **No** despachar desde una etiqueta anterior.
 Siguiente: FSE sesión 9 ([#83](https://github.com/refo44/demo-revistalogos/issues/83)),
-puerta visual de las plantillas de bloques, sobre `feat/fse`, en Docker
-(ver punto 6). La sesión 8 está fusionada en `feat/fse`
+puerta visual: el subdominio FSE frente a la producción, ruta a ruta
+(ADR 0015, nota 2026-11-23; ver punto 6). La sesión 8 está fusionada en `feat/fse`
 ([#125](https://github.com/refo44/demo-revistalogos/pull/125)).
 `feat/fse` lleva `main` fusionado hasta `8804383`
 ([#128](https://github.com/refo44/demo-revistalogos/pull/128)), con el
@@ -775,9 +775,10 @@ y su workflow:
   `rgb(3, 125, 133)` en portada, número y artículo, `noindex, nofollow` y
   `robots.txt` con `Disallow: /`.
 
-[#103](https://github.com/refo44/demo-revistalogos/issues/103) sigue: una
-copia exacta de la base de producción en Docker local, comparada con la
-versión live. Va después de la sesión 9 y antes de fusionar `feat/fse` en
+[#103](https://github.com/refo44/demo-revistalogos/issues/103) sigue: el
+subdominio recibe una copia nueva de la base de producción y el commit de
+`feat/fse` que se va a fusionar, y se compara con la versión live. Ya no
+pasa por Docker (ADR 0015, nota 2026-11-23). Va después de la sesión 9 y antes de fusionar `feat/fse` en
 `main` (ADR 0015, nota 2026-11-07).
 
 La línea live sigue habilitada en producción y puede publicar minor y
