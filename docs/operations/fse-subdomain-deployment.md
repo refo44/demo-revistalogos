@@ -37,7 +37,9 @@ Los trabajos, en orden:
 2. **`deploy-theme`.** Primero corre `tools/require-fse-subdomain-target.sh`
    con los secretos; si pasa, sube el theme con `dangerous-clean-slate: false`.
 3. **`deploy-plugin`.** Repite la puerta, construye `vendor/` con
-   `composer install --no-dev` y sube el plugin. Excluye `.qa-*.php`.
+   `composer install --no-dev` y sube el plugin. Excluye `.qa-*.php` y
+   `.gitkeep`: el FTPS del subdominio corta la conexión al subir un archivo
+   vacío, y el único que hay es un `.gitkeep` de `vendor/` que nada carga.
 4. **`verify-noindex`.** Solo lectura: pide `robots.txt` y la portada, y
    falla si `robots.txt` ya no dice `Disallow: /` o la portada no lleva
    `<meta name="robots" … noindex>`. No arregla nada: avisa. Si falla, el
