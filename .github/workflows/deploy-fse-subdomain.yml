@@ -137,6 +137,11 @@ jobs:
       - name: Install plugin runtime dependencies
         run: composer --working-dir=wordpress/wp-content/plugins/revistalogos-core install --no-dev --no-interaction --prefer-dist --no-progress
 
+      # The subdomain's FTPS server drops the connection on a zero-byte
+      # upload ("Server sent FIN packet unexpectedly"; run 45082919307, twice
+      # on the same file). The only empty file in the build is a Composer
+      # placeholder, vendor/thecodingmachine/safe/generated/Exceptions/.gitkeep,
+      # which nothing loads, so .gitkeep files are not uploaded.
       - name: Deploy plugin directory
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
@@ -150,6 +155,7 @@ jobs:
           exclude: |
             **/.DS_Store
             **/.qa-*.php
+            **/.gitkeep
 
   verify-noindex:
     name: Indexing still closed (read-only)
