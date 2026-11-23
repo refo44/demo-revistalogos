@@ -98,7 +98,7 @@ c. **Release del subdominio cuando deje de ser beta.** Desde qué rama y con qu�
 
 d. **Indexación y canónicas** del subdominio nuevo.
 
-e. **Alta en cPanel.** DNS, document root, MySQL, cuenta FTP, PHP 8.3 y AutoSSL. Es una acción del propietario; el 2026-11-18 el nombre aún no resuelve. Hecha el 2026-11-20 ([#74](https://github.com/refo44/demo-revistalogos/issues/74)): WordPress vacío, cerrado a buscadores y con HTTPS forzado. El Environment de GitHub existe desde el 2026-11-21 y la copia de contenido del punto 6 se hizo el 2026-11-22. Detalle en `docs/operations/fse-subdomain-deployment.md`, «Estado del alta».
+e. **Alta en cPanel.** DNS, document root, MySQL, cuenta FTP, PHP 8.3 y AutoSSL. Es una acción del propietario; el 2026-11-18 el nombre aún no resuelve. Hecha el 2026-11-20 ([#74](https://github.com/refo44/demo-revistalogos/issues/74)): WordPress vacío, cerrado a buscadores y con HTTPS forzado. El Environment de GitHub existe desde el 2026-11-21 y la copia de contenido del punto 6 se hizo el 2026-11-22. El primer despliegue del punto 7 ([#84](https://github.com/refo44/demo-revistalogos/issues/84)) se hizo el mismo día. Detalle en `docs/operations/fse-subdomain-deployment.md`, «Estado del alta».
 
 ## Alternativas consideradas
 

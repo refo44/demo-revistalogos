@@ -9,6 +9,13 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
 ## [Sin publicar]
 
 ### Added
+- Primer despliegue de la major FSE en `logos-et-spes.cenfiss.net`
+  ([#84](https://github.com/refo44/demo-revistalogos/issues/84),
+  [ADR 0024](docs/adr/0024-fse-en-subdominio-propio.md) §7), el
+  2026-11-22: theme 0.3.8 y plugin 0.2.27 desde `feat/fse`, activados a
+  mano en el wp-admin del subdominio. Las páginas públicas responden y
+  siguen en `noindex`; producción no cambió. El runbook añade «Primer
+  despliegue».
 - Workflow manual `deploy-fse-subdomain.yml` para subir la major FSE
   (theme y plugin) por FTPS a `logos-et-spes.cenfiss.net`
   ([#75](https://github.com/refo44/demo-revistalogos/issues/75),
@@ -19,17 +26,21 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   el plugin. Su contrato, `tools/qa-require-fse-subdomain-target.sh`,
   corre en CI junto al de producción (job `deploy-gates`). Un último job
   de solo lectura falla si el subdominio dejó de estar en noindex. Runbook:
-  `docs/operations/fse-subdomain-deployment.md`. No se ha ejecutado: el
-  subdominio aún no existe (#74, #84).
+  `docs/operations/fse-subdomain-deployment.md`. Primer run el 2026-11-22
+  (#84).
 
 ### Changed
+- `deploy-fse-subdomain.yml` ya no sube archivos `.gitkeep`
+  ([#141](https://github.com/refo44/demo-revistalogos/pull/141)): el FTPS
+  del subdominio cortaba la conexión en el único archivo vacío del build,
+  un `.gitkeep` de `vendor/` que nada carga.
 - El subdominio FSE tiene una copia del contenido de producción desde el
   2026-11-22 ([#74](https://github.com/refo44/demo-revistalogos/issues/74),
   ADR 0024 §6): base y `uploads/`, con el host reescrito solo en la copia y
   Lectura en `noindex`. El runbook del subdominio añade «Copia de
   contenido»: los pasos en phpMyAdmin y cPanel, el orden que evita servir
   una página indexable y los plugins de producción que llegan con sus
-  ajustes. Falta el primer run (#84).
+  ajustes.
 - El Environment `wordpress-fse-subdomain` existe en GitHub desde el
   2026-11-21 ([#74](https://github.com/refo44/demo-revistalogos/issues/74)):
   solo la rama `feat/fse` puede desplegar y tiene los cinco secretos
