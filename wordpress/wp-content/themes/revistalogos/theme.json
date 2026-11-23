@@ -18,7 +18,8 @@
 				{ "slug": "surface", "name": "Superficie", "color": "#ffffff" },
 				{ "slug": "text-primary", "name": "Texto principal", "color": "#1e293b" },
 				{ "slug": "text-muted", "name": "Texto secundario", "color": "#64748b" },
-				{ "slug": "link", "name": "Enlace", "color": "#0a7599" }
+				{ "slug": "link", "name": "Enlace", "color": "#0a7599" },
+				{ "slug": "button", "name": "Botón principal", "color": "#037d85" }
 			]
 		},
 		"typography": {

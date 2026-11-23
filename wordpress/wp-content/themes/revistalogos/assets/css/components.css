@@ -31,24 +31,24 @@
 }
 
 .btn--primary {
-  background-color: var(--color-primary);
+  background-color: var(--color-button);
   color: var(--color-text-inverse);
-  border-color: var(--color-primary);
+  border-color: var(--color-button);
 }
 
 .btn--primary:link,
 .btn--primary:visited {
-  background-color: var(--color-primary);
+  background-color: var(--color-button);
   color: var(--color-text-inverse);
-  border-color: var(--color-primary);
+  border-color: var(--color-button);
 }
 
 .btn--primary:hover,
 .btn--primary:visited:hover,
 .btn--primary:active,
 .btn--primary:visited:active {
-  background-color: var(--color-primary-dark);
-  border-color: var(--color-primary-dark);
+  background-color: var(--color-button);
+  border-color: var(--color-button);
   color: var(--color-text-inverse);
   text-decoration: none;
 }
@@ -143,24 +143,24 @@
 }
 
 .btn--pdf {
-  background-color: var(--color-link);
+  background-color: var(--color-button);
   color: var(--color-text-inverse);
-  border-color: var(--color-link);
+  border-color: var(--color-button);
 }
 
 .btn--pdf:link,
 .btn--pdf:visited {
-  background-color: var(--color-link);
+  background-color: var(--color-button);
   color: var(--color-text-inverse);
-  border-color: var(--color-link);
+  border-color: var(--color-button);
 }
 
 .btn--pdf:hover,
 .btn--pdf:visited:hover,
 .btn--pdf:active,
 .btn--pdf:visited:active {
-  background-color: var(--color-link-hover);
-  border-color: var(--color-link-hover);
+  background-color: var(--color-button);
+  border-color: var(--color-button);
   color: var(--color-text-inverse);
   text-decoration: none;
 }

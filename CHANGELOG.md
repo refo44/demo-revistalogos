@@ -135,6 +135,16 @@ La versión vigente vive en `package.json` (fuente de verdad); ver `VERSION.md`.
   (#84).
 
 ### Changed
+- Color de los botones en la paleta FSE (rama `feat/fse`,
+  [#144](https://github.com/refo44/demo-revistalogos/issues/144)): theme
+  **0.3.9** añade a `theme.json` el slug `button` («Botón principal»,
+  `#037d85`), con alias `--color-button` en `tokens.css`. `.btn--primary`
+  y `.btn--pdf` pintan fondo y borde con él en todos sus estados, hover
+  incluido, como el CSS adicional de producción. Estilos → Colores los
+  mueve sin CSS adicional. Contraste del texto blanco: 4.91:1 (AA). El
+  propietario confirmó el 2026-11-22 que la paleta admite este slug nuevo
+  (ADR 0015 §6). Producción no cambia: su CSS adicional sigue igual
+  ([#38](https://github.com/refo44/demo-revistalogos/issues/38)).
 - `deploy-fse-subdomain.yml` ya no sube archivos `.gitkeep`
   ([#141](https://github.com/refo44/demo-revistalogos/pull/141)): el FTPS
   del subdominio cortaba la conexión en el único archivo vacío del build,
